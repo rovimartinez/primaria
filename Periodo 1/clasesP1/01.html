@@ -6,6 +6,7 @@
     <title>Preparación Examen Computación - 1°A</title>
     <script src="https://cdn.tailwindcss.com"></script>
     <script src="../../js/jandra.js"></script>
+    <script src="../../assets/quiz/p1Quiz01.js"></script>
     <link href="https://fonts.googleapis.com/css2?family=Fredoka+One&family=Quicksand:wght@400;700&display=swap" rel="stylesheet">
     <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css" rel="stylesheet">
     <style>
@@ -99,15 +100,19 @@
             overflow: hidden;
         }
         .option-btn {
-            display: block;
-            width: 100%;
-            text-align: left;
-            padding: 0.85rem 1.2rem;
-            margin-top: 0.6rem;
-            border-radius: 1rem;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            text-align: center;
+            padding: 1rem 0.5rem;
+            margin-top: 0;
+            border-radius: 1.5rem;
             border: 2px solid #f1f5f9;
             transition: all 0.2s;
-            font-weight: 600;
+            font-weight: 700;
+            gap: 0.5rem;
+            min-height: 120px;
         }
         .option-btn:hover:not(:disabled) {
             background-color: #f0f9ff;
@@ -502,18 +507,7 @@
             playSpaceDemo();
         }, 1000);
 
-        const questions = [
-            { q: "¿Cómo se llama la pantalla de la computadora?", a: ["Monitor", "Teclado", "Mouse"], c: 0, h: "Se parece a una televisión pequeña." },
-            { q: "¿Qué parte de la computadora es considerada el 'cerebro'?", a: ["Monitor", "Torre (CPU)", "Parlantes"], c: 1, h: "Es la caja grande donde se guarda todo." },
-            { q: "¿Para qué sirve el Mouse?", a: ["Para escribir letras", "Para ver películas", "Para mover el puntero"], c: 2, h: "Con él movemos la flechita blanca." },
-            { q: "¿Qué botón del mouse usamos para abrir cosas?", a: ["Botón Derecho", "Botón Izquierdo", "La Ruedita"], c: 1, h: "Es el botón que usamos con el dedo índice." },
-            { q: "¿Cómo se llama la flechita que movemos?", a: ["Puntero", "Lápiz", "Dedo"], c: 0, h: "También le decimos el cursor." },
-            { q: "¿Qué tecla sirve para saltar de renglón?", a: ["Barra Espaciadora", "Letra A", "Tecla ENTER"], c: 2, h: "Es la tecla gordita que tiene una flecha doblada." },
-            { q: "¿Para qué sirve la Barra Espaciadora?", a: ["Para separar palabras", "Para borrar", "Para apagar la PC"], c: 0, h: "Es la tecla más larga de todas." },
-            { q: "¿Qué parte usamos para escribir nuestro nombre?", a: ["Mouse", "Torre", "Teclado"], c: 2, h: "Tiene muchas letras y números." },
-            { q: "¿Para qué sirve la ruedita del mouse?", a: ["Para prender la luz", "Para subir y bajar", "Para escribir"], c: 1, h: "Sirve para ver lo que está más abajo en la hoja." },
-            { q: "¿En qué parte vemos los dibujos y videos?", a: ["Teclado", "Monitor", "Mouse"], c: 1, h: "¡En la pantalla! ¿Cómo se llamaba?" }
-        ];
+        // Las preguntas ahora se cargan desde p1Quiz01.js
 
         let score = 0;
         let currentQuestionIndex = 0;
@@ -537,12 +531,15 @@
                     <span class="bg-blue-100 text-blue-800 px-3 py-1 rounded-full text-sm font-bold">Pregunta ${currentQuestionIndex + 1} de ${questions.length}</span>
                     <span class="text-orange-600 font-bold">Puntos: ${score}</span>
                 </div>
-                <p class="text-2xl font-bold text-blue-800 mb-6">${question.q}</p>
-                <div class="grid grid-cols-1 gap-4">
+                <div class="text-center mb-6">
+                    <div class="text-7xl mb-4 p-6 bg-blue-50 rounded-full inline-block border-2 border-blue-100 shadow-inner">${question.icon}</div>
+                    <p class="text-2xl font-bold text-blue-800">${question.q}</p>
+                </div>
+                <div class="grid grid-cols-3 gap-3 md:gap-4">
                     ${question.a.map((opt, i) => `
-                        <button class="option-btn text-left p-4 flex items-center gap-3 transition-all duration-300" onclick="handleAnswer(this, ${currentQuestionIndex}, ${i})">
-                            <span class="w-8 h-8 rounded-full bg-orange-100 text-orange-600 flex items-center justify-center font-black">${letters[i]}</span>
-                            ${opt}
+                        <button class="option-btn transition-all duration-300 bg-white" onclick="handleAnswer(this, ${currentQuestionIndex}, ${i})">
+                            <div class="text-4xl mb-2">${question.ai[i]}</div>
+                            <span class="text-xs md:text-sm font-black uppercase tracking-tighter">${opt}</span>
                         </button>
                     `).join('')}
                 </div>

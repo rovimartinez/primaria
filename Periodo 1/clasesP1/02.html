@@ -6,6 +6,7 @@
     <title>Resumen: Explorando la Tecnología - 2° Grado</title>
     <script src="https://cdn.tailwindcss.com"></script>
     <script src="../../js/jandra.js"></script>
+    <script src="../../assets/quiz/p1Quiz02.js"></script>
     <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css" rel="stylesheet">
     <link href="https://fonts.googleapis.com/css2?family=Luckiest+Guy&family=Fredoka+One&family=Quicksand:wght@400;600;700&display=swap" rel="stylesheet">
     <style>
@@ -112,17 +113,22 @@
             overflow: hidden;
         }
         .option-btn {
-            display: block;
-            width: 100%;
-            text-align: left;
-            padding: 0.85rem 1.2rem;
-            margin-top: 0.6rem;
-            border-radius: 1rem;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            text-align: center;
+            padding: 1rem 0.5rem;
+            margin-top: 0;
+            border-radius: 1.5rem;
             border: 2px solid #f1f5f9;
             transition: all 0.2s;
-            font-weight: 600;
-        }
-        .option-btn:hover:not(:disabled) {
+            font-weight: 700;
+            gap: 0.5rem;
+            min-height: 120px;
+            background-color: white;
+            color: #334155;
+        }.option-btn:hover:not(:disabled) {
             background-color: #f0f9ff;
             border-color: #7dd3fc;
         }
@@ -249,7 +255,7 @@
                     <p class="text-sm text-gray-600 font-medium">Tiene dos botones y una rueda para navegar.</p>
                 </div>
 
-                <!-- Gabinete -->
+                <!-- CPU -->
                 <div class="card card-anim p-6 rounded-3xl text-center" style="animation-delay: 0.4s;">
                     <div class="svg-container mb-4">
                         <svg viewBox="0 0 100 100" class="w-full h-full">
@@ -262,7 +268,7 @@
                             <rect x="53" y="80" width="5" height="3" fill="#475569" />
                         </svg>
                     </div>
-                    <h3 class="font-bold text-xl mb-2 text-blue-600">Gabinete</h3>
+                    <h3 class="font-bold text-xl mb-2 text-blue-600">CPU</h3>
                     <p class="text-sm text-gray-600 font-medium">La caja fuerte que guarda todo lo importante.</p>
                 </div>
             </div>
@@ -715,18 +721,7 @@
         };
 
         // --- SISTEMA DE EVALUACIÓN (ESTILO 01.html) ---
-        const questions = [
-            { q: "¿Qué parte de la PC usamos para mover la flechita en la pantalla?", a: ["El Monitor.", "El Mouse.", "El Teclado."], c: 1, h: "Con él hacemos clic y deslizamos el puntero." },
-            { q: "¿Cómo se llama el 'cerebro' de la computadora que procesa las órdenes?", a: ["Memoria RAM.", "Disco Duro.", "CPU."], c: 2, h: "Son las siglas de Unidad Central de Procesamiento." },
-            { q: "¿Para qué sirve principalmente el Monitor?", a: ["Para escribir textos.", "Para ver dibujos, videos y fotos.", "Para hacer clic en los iconos."], c: 1, h: "Es como la pantalla de tu celular pero más grande." },
-            { q: "Si puedo TOCAR una pieza con mis manos (como el teclado), ¿qué es?", a: ["Hardware.", "Software.", "Internet."], c: 0, h: "Viene de 'Hard' que significa duro." },
-            { q: "Los juegos como Roblox, Minecraft o Paint son ejemplos de:", a: ["Hardware.", "Software.", "TICS."], c: 1, h: "Es la parte digital que no podemos tocar físicamente." },
-            { q: "¿Qué significan las siglas TICS?", a: ["Tecnologías de la Información y Comunicación.", "Trabajos de Internet y Computadoras.", "Tareas e Información con Celulares."], c: 0, h: "Sirven para informarnos y comunicarnos." },
-            { q: "¿Cuál de estos es un ejemplo de una TIC?", a: ["Un lápiz de madera.", "Una Tablet con internet.", "Un cuaderno de tareas."], c: 1, h: "Usa tecnología e internet para ayudarnos." },
-            { q: "¿Qué es la Inteligencia Artificial?", a: ["Una máquina que solo sabe sumar.", "Cuando una máquina aprende a hacer cosas como los humanos.", "Un robot que no necesita electricidad."], c: 1, h: "Son programas inteligentes que aprenden solos." },
-            { q: "¿Cómo aprende la IA?", a: ["Leyendo un solo libro.", "Viendo muchos ejemplos y aprendiendo de errores.", "No necesita aprender, ya sabe todo."], c: 1, h: "¡Entrenando con mucha información!" },
-            { q: "¿El teclado es Hardware o Software?", a: ["Es Hardware porque lo puedo tocar.", "Es Software porque tiene letras.", "Es una TIC de limpieza."], c: 0, h: "Si puedes presionar sus teclas, es..." }
-        ];
+        // Las preguntas ahora se cargan desde p1Quiz02.js
 
         let score = 0;
         let currentQuestionIndex = 0;
@@ -750,12 +745,15 @@
                     <span class="bg-blue-100 text-blue-800 px-3 py-1 rounded-full text-sm font-bold">Pregunta ${currentQuestionIndex + 1} de ${questions.length}</span>
                     <span class="text-orange-600 font-bold">Puntos: ${score}</span>
                 </div>
-                <p class="text-2xl font-bold text-blue-800 mb-6">${question.q}</p>
-                <div class="grid grid-cols-1 gap-4">
+                <div class="text-center mb-6">
+                    <div class="text-7xl mb-4 p-6 bg-blue-50 rounded-full inline-block border-2 border-blue-100 shadow-inner">${question.icon || '🤔'}</div>
+                    <p class="text-2xl font-bold text-blue-800">${question.q}</p>
+                </div>
+                <div class="grid grid-cols-3 gap-3 md:gap-4">
                     ${question.a.map((opt, i) => `
-                        <button class="option-btn text-left p-4 flex items-center gap-3 transition-all duration-300" onclick="handleQuizAnswer(this, ${currentQuestionIndex}, ${i})">
-                            <span class="w-8 h-8 rounded-full bg-orange-100 text-orange-600 flex items-center justify-center font-black">${letters[i]}</span>
-                            ${opt}
+                        <button class="option-btn transition-all duration-300 bg-white" onclick="handleQuizAnswer(this, ${currentQuestionIndex}, ${i})">
+                            <div class="text-4xl mb-2">${question.ai ? question.ai[i] : '🔹'}</div>
+                            <span class="text-xs md:text-sm font-black uppercase tracking-tighter">${opt}</span>
                         </button>
                     `).join('')}
                 </div>

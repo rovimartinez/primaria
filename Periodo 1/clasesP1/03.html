@@ -7,6 +7,7 @@
     <script src="https://cdn.tailwindcss.com"></script>
     <script src="https://cdn.jsdelivr.net/npm/canvas-confetti@1.6.0/dist/confetti.browser.min.js"></script>
     <script src="../../js/jandra.js"></script>
+    <script src="../../assets/quiz/p1Quiz03.js"></script>
     <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css" rel="stylesheet">
     <style>
         @import url('https://fonts.googleapis.com/css2?family=Fredoka+One&family=Quicksand:wght@400;600&display=swap');
@@ -340,23 +341,7 @@
             test: "¡Demuestra todo lo que sabes en el gran reto final! 🎓"
         };
 
-        const questions = [
-            { q: "¿Qué componente del internet es comparable con los estantes de una biblioteca?", a: ["Los Navegadores.", "Los Servidores.", "Las Direcciones IP."], c: 1, h: "Piensa donde se 'guardan' los archivos y páginas web para que otros los vean." },
-            { q: "¿Cuál de estos es el concepto correcto de Internet?", a: ["Una red mundial de computadoras para intercambiar información.", "Un programa para jugar sin conexión a internet.", "Una oficina donde se guardan libros y videos."], c: 0, h: "Es algo que nos conecta a todos de forma inalámbrica o por cables." },
-            { q: "¿Cuál es la función de una Dirección IP?", a: ["Permitirnos leer los sitios web.", "Identificar cada dispositivo con una dirección única.", "Guardar las fotos que subimos a internet."], c: 1, h: "Es como el número de tu casa, pero para tu computadora." },
-            { q: "¿Qué diferencia hay entre Chrome y Google?", a: ["Chrome es un motor de búsqueda y Google un navegador.", "Chrome es un navegador y Google un motor de búsqueda.", "No hay diferencia, ambos son servidores."], c: 1, h: "Chrome es el programa que abres, Google es donde buscas información." },
-            { q: "¿Cómo puedes reconocer que una página web es segura para navegar?", a: ["Porque tiene muchos juegos y colores.", "Porque empieza con https:// y tiene un candado.", "Porque carga muy rápido los videos."], c: 1, h: "Mira siempre la barra de arriba y busca un pequeño candado cerrado." },
-            { q: "Una contraseña segura debe tener al menos:", a: ["4 caracteres.", "8 caracteres.", "20 caracteres."], c: 1, h: "No puede ser muy cortita. ¡8 es el número mágico!" },
-            { q: "¿Qué mezcla debe tener una contraseña para ser variada?", a: ["Solo letras minúsculas y tu nombre.", "Letras (mayúsculas/minúsculas), números y símbolos.", "Solo números fáciles de recordar como tu fecha de nacimiento."], c: 1, h: "¡Entre más cosas diferentes tenga, más difícil será que la adivinen!" },
-            { q: "¿Qué es el Phishing?", a: ["Un juego para pescar en el navegador.", "Una técnica de engaño para robar tus datos personales.", "Un tipo de contraseña muy larga y segura."], c: 1, h: "Suena a 'pesca', pero es una trampa para robar información." },
-            { q: "¿Cuál de estos NO debes compartir nunca en internet?", a: ["Tu color favorito.", "Tu número de teléfono y tu escuela.", "Tu dibujo animado preferido."], c: 1, h: "Nunca digas dónde vives o cómo llamarte por fuera de internet." },
-            { q: "¿En qué consiste el Uso Responsable del internet?", a: ["En usar internet todo el día sin descansar.", "En ser respetuoso, amable y seguir reglas de seguridad.", "En aprender a programar sitios web."], c: 1, h: "Es como ser un buen ciudadano, pero en el mundo digital." },
-            { q: "¿Qué puedes hacer para ser respetuoso en línea?", a: ["Escribir mensajes con palabras feas si te molestan.", "Respetar la opinión de los demás y no molestar a otros.", "Compartir fotos de tus compañeros sin permiso."], c: 1, h: "Trata a los demás como te gustaría que te trataran a ti." },
-            { q: "¿Cuál es el tiempo máximo recomendado de pantalla al día?", a: ["1 a 2 horas.", "5 a 6 horas.", "Todo el tiempo que quieras."], c: 0, h: "¡Menos es más! Tus ojos necesitan descansar y jugar al aire libre." },
-            { q: "¿Cómo filtran las plataformas el contenido apropiado para tu edad?", a: ["A través de tu nombre de usuario.", "Usando tu año real de nacimiento al crear la cuenta.", "Adivinando qué juegos te gustan."], c: 1, h: "Las plataformas usan tu fecha de nacimiento para protegerte." },
-            { q: "¿Qué debes hacer si un video te parece violento o inapropiado?", a: ["Seguir viéndolo para entender por qué es así.", "No consumirlo y consultar a un adulto de confianza.", "Pasárselo a un amigo por mensaje."], c: 1, h: "¡Cierra el video y busca a un adulto rápido!" },
-            { q: "Si recibes un mensaje que te asusta o te presiona para dar datos:", a: ["Es Phishing y debes avisar a un adulto.", "Es un premio real y debes dar tus datos rápido.", "Es solo un error del navegador."], c: 0, h: "Si te presiona o te asusta, ¡es una trampa de datos!" }
-        ];
+        // Las preguntas ahora se cargan desde p1Quiz03.js
 
         let currentQ = 0;
         let scoreQuiz = 0;
@@ -497,8 +482,18 @@
             document.getElementById('question-counter').innerText = `Pregunta ${currentQ + 1} de ${questions.length}`;
             document.getElementById('questions-wrapper').innerHTML = `
                 <div class="relative p-6 bg-slate-50 rounded-3xl min-h-[300px]">
-                    <p class="text-xl font-bold mb-6">${qData.q}</p>
-                    <div class="space-y-3">${qData.a.map((opt, i) => `<button onclick="handleAnswer(${i}, ${qData.c}, this)" class="option-btn w-full p-4 bg-white rounded-xl shadow border border-slate-200 text-left hover:bg-slate-100 transition">${opt}</button>`).join('')}</div>
+                    <div class="text-center mb-6">
+                        <div class="text-7xl mb-4 p-6 bg-blue-50 rounded-full inline-block border-2 border-blue-100 shadow-inner">${qData.icon || '🤔'}</div>
+                        <p class="text-2xl font-bold text-blue-800">${qData.q}</p>
+                    </div>
+                    <div class="grid grid-cols-1 md:grid-cols-3 gap-3 md:gap-4">
+                        ${qData.a.map((opt, i) => `
+                            <button onclick="handleAnswer(${i}, ${qData.c}, this)" class="option-btn transition-all duration-300 bg-white border-2 border-slate-200 hover:bg-slate-50 rounded-2xl p-4 flex flex-col items-center justify-center text-center shadow-sm min-h-[120px]">
+                                <div class="text-4xl mb-2">${qData.ai ? qData.ai[i] : '🔹'}</div>
+                                <span class="text-xs md:text-sm font-black uppercase tracking-tighter text-slate-700">${opt}</span>
+                            </button>
+                        `).join('')}
+                    </div>
                 </div>`;
         }
         function handleAnswer(index, correctIndex, btn) {

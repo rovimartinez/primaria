@@ -128,7 +128,8 @@ const Jandra = {
             let cleanText = text.replace(/[✅❌💡]/g, '');
             cleanText = cleanText.replace(/pista:?/gi, '');
             
-            const msg = new SpeechSynthesisUtterance(cleanText);
+            this.currentMsg = new SpeechSynthesisUtterance(cleanText);
+            const msg = this.currentMsg;
             const voices = window.speechSynthesis.getVoices();
             
             const femaleVoices = voices.filter(v => v.lang.includes('es') && 
@@ -151,21 +152,27 @@ const Jandra = {
             msg.pitch = this.pitch; 
             msg.volume = 1.0;
 
-            msg.onstart = () => {
-                const bubble = document.getElementById('clippy-bubble');
-                if (bubble) bubble.classList.add('active', 'animate-jandra-pop');
-                this.startAnimation();
-            };
+            // Iniciar animación y mostrar burbuja INMEDIATAMENTE
+            const bubble = document.getElementById('clippy-bubble');
+            if (bubble) bubble.classList.add('active', 'animate-jandra-pop');
+            this.startAnimation();
 
-            msg.onend = () => {
+            const finish = () => {
+                if (this.fallbackTimeout) clearTimeout(this.fallbackTimeout);
                 this.hide();
                 if (onDone) onDone();
             };
 
-            msg.onerror = () => {
-                this.hide();
-                if (onDone) onDone();
-            };
+            msg.onend = finish;
+            msg.onerror = finish;
+
+            // Fallback: Si el navegador bloquea el audio (muy común online), 
+            // detenemos la animación calculando el tiempo de lectura.
+            const estimatedTime = Math.max(3000, cleanText.length * 90);
+            if (this.fallbackTimeout) clearTimeout(this.fallbackTimeout);
+            this.fallbackTimeout = setTimeout(() => {
+                if (this.interval) finish();
+            }, estimatedTime);
 
             window.speechSynthesis.speak(msg);
         }, 100);

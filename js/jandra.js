@@ -11,6 +11,15 @@ const Jandra = {
     isSpeaking: false,
     
     getAssetPath() {
+        try {
+            const scripts = document.getElementsByTagName('script');
+            for (let i = 0; i < scripts.length; i++) {
+                if (scripts[i].src && scripts[i].src.includes('jandra.js')) {
+                    return scripts[i].src.split('js/jandra.js')[0] + 'assets/jandra/';
+                }
+            }
+        } catch(e) {}
+        
         const path = window.location.href;
         if (path.includes('clasesP1')) return '../../assets/jandra/';
         if (path.includes('Periodo%201') || path.includes('Periodo 1')) return '../assets/jandra/';

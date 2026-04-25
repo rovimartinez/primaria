@@ -5,6 +5,7 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Preparación Examen Computación - 1°A</title>
     <script src="https://cdn.tailwindcss.com"></script>
+    <script src="../jandra.js"></script>
     <link href="https://fonts.googleapis.com/css2?family=Fredoka+One&family=Quicksand:wght@400;700&display=swap" rel="stylesheet">
     <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css" rel="stylesheet">
     <style>
@@ -385,14 +386,33 @@
         </section>
 
         <!-- SECCIÓN 4: EXAMEN INTERACTIVO -->
-        <section id="examen" class="bg-white p-6 md:p-10 rounded-3xl border-4 border-orange-400 shadow-xl">
-            <h2 class="text-3xl text-orange-600 mb-8 text-center font-luckiest drop-shadow-sm">📝 Pon a prueba lo que aprendiste</h2>
-            <div id="quiz-container">
-                <!-- Las preguntas se cargarán aquí -->
+        <section id="examen" class="bg-white p-6 md:p-10 rounded-3xl border-4 border-orange-400 shadow-xl overflow-hidden min-h-[400px]">
+            <h2 class="text-3xl text-orange-600 mb-8 text-center font-luckiest drop-shadow-sm">📝 Mi Pequeña Prueba</h2>
+            
+            <!-- Pantalla de Inicio del Test -->
+            <div id="quiz-intro" class="text-center py-10 animate-jandra-pop">
+                <div class="text-6xl mb-6">🚀</div>
+                <h3 class="text-2xl font-bold text-blue-800 mb-4">¿Estás listo para demostrar cuánto sabes?</h3>
+                <p class="text-slate-600 mb-8">Haz clic abajo para comenzar la aventura con Jandra.</p>
+                <button onclick="startQuiz()" class="bg-orange-500 hover:bg-orange-600 text-white text-2xl font-bold py-4 px-10 rounded-full shadow-lg transform transition hover:scale-110 active:scale-95 border-b-8 border-orange-700">
+                    🚀 ¡INICIAR PRUEBA!
+                </button>
             </div>
+
+            <!-- Contenedor del Test Activo -->
+            <div id="quiz-active" class="hidden">
+                <div id="quiz-container">
+                    <!-- Las preguntas se cargarán aquí -->
+                </div>
+            </div>
+
             <div id="result" class="hidden mt-10 p-8 rounded-3xl text-center border-4"></div>
         </section>
     </main>
+
+    <footer class="text-center py-10 text-slate-500 font-medium">
+        <p>Plataforma de resumenes | profesor: Ronny Martinez</p>
+    </footer>
 
     <script>
         // --- ANIMACIONES DE TECLAS ---
@@ -488,90 +508,92 @@
         }, 1000);
 
         const questions = [
-            { q: "¿Cómo se llama la pantalla de la computadora?", a: ["Monitor", "Teclado", "Mouse"], c: 0 },
-            { q: "¿Qué parte de la computadora es considerada el 'cerebro'?", a: ["Monitor", "Torre (CPU)", "Parlantes"], c: 1 },
-            { q: "¿Para qué sirve el Mouse?", a: ["Para escribir letras", "Para ver películas", "Para mover el puntero"], c: 2 },
-            { q: "¿Qué botón del mouse usamos para abrir cosas?", a: ["Botón Derecho", "Botón Izquierdo", "La Ruedita"], c: 1 },
-            { q: "¿Cómo se llama la flechita que movemos?", a: ["Puntero", "Lápiz", "Dedo"], c: 0 },
-            { q: "¿Qué tecla sirve para saltar de renglón?", a: ["Barra Espaciadora", "Letra A", "Tecla ENTER"], c: 2 },
-            { q: "¿Para qué sirve la Barra Espaciadora?", a: ["Para separar palabras", "Para borrar", "Para apagar la PC"], c: 0 },
-            { q: "¿Qué parte usamos para escribir nuestro nombre?", a: ["Mouse", "Torre", "Teclado"], c: 2 },
-            { q: "¿Para qué sirve la ruedita del mouse?", a: ["Para prender la luz", "Para subir y bajar", "Para escribir"], c: 1 },
-            { q: "¿En qué parte vemos los dibujos y videos?", a: ["Teclado", "Monitor", "Mouse"], c: 1 }
+            { q: "¿Cómo se llama la pantalla de la computadora?", a: ["Monitor", "Teclado", "Mouse"], c: 0, h: "Se parece a una televisión pequeña." },
+            { q: "¿Qué parte de la computadora es considerada el 'cerebro'?", a: ["Monitor", "Torre (CPU)", "Parlantes"], c: 1, h: "Es la caja grande donde se guarda todo." },
+            { q: "¿Para qué sirve el Mouse?", a: ["Para escribir letras", "Para ver películas", "Para mover el puntero"], c: 2, h: "Con él movemos la flechita blanca." },
+            { q: "¿Qué botón del mouse usamos para abrir cosas?", a: ["Botón Derecho", "Botón Izquierdo", "La Ruedita"], c: 1, h: "Es el botón que usamos con el dedo índice." },
+            { q: "¿Cómo se llama la flechita que movemos?", a: ["Puntero", "Lápiz", "Dedo"], c: 0, h: "También le decimos el cursor." },
+            { q: "¿Qué tecla sirve para saltar de renglón?", a: ["Barra Espaciadora", "Letra A", "Tecla ENTER"], c: 2, h: "Es la tecla gordita que tiene una flecha doblada." },
+            { q: "¿Para qué sirve la Barra Espaciadora?", a: ["Para separar palabras", "Para borrar", "Para apagar la PC"], c: 0, h: "Es la tecla más larga de todas." },
+            { q: "¿Qué parte usamos para escribir nuestro nombre?", a: ["Mouse", "Torre", "Teclado"], c: 2, h: "Tiene muchas letras y números." },
+            { q: "¿Para qué sirve la ruedita del mouse?", a: ["Para prender la luz", "Para subir y bajar", "Para escribir"], c: 1, h: "Sirve para ver lo que está más abajo en la hoja." },
+            { q: "¿En qué parte vemos los dibujos y videos?", a: ["Teclado", "Monitor", "Mouse"], c: 1, h: "¡En la pantalla! ¿Cómo se llamaba?" }
         ];
 
         let score = 0;
-        let questionsAnswered = 0;
+        let currentQuestionIndex = 0;
 
         function renderQuiz() {
             const container = document.getElementById('quiz-container');
             const letters = ["A)", "B)", "C)"];
-            
-            questions.forEach((question, index) => {
-                const qDiv = document.createElement('div');
-                qDiv.className = 'question-card';
-                qDiv.id = `q-card-${index}`;
-                qDiv.innerHTML = `
-                    <div id="overlay-${index}" class="feedback-overlay"></div>
-                    <p class="text-xl font-bold text-blue-800 mb-4">${index + 1}. ${question.q}</p>
-                    <div class="grid grid-cols-1 gap-3">
-                        ${question.a.map((opt, i) => `
-                            <button class="option-btn" id="btn-${index}-${i}" onclick="handleAnswer(this, ${index}, ${i})">
-                                <span class="text-orange-500 mr-2">${letters[i]}</span> ${opt}
-                            </button>
-                        `).join('')}
-                    </div>
-                `;
-                container.appendChild(qDiv);
-            });
+            container.innerHTML = ''; 
+
+            if (currentQuestionIndex >= questions.length) {
+                showFinalResult();
+                return;
+            }
+
+            const question = questions[currentQuestionIndex];
+            const qDiv = document.createElement('div');
+            qDiv.className = 'question-card animate-jandra-pop';
+            qDiv.id = `q-card-${currentQuestionIndex}`;
+            qDiv.innerHTML = `
+                <div class="flex justify-between items-center mb-4">
+                    <span class="bg-blue-100 text-blue-800 px-3 py-1 rounded-full text-sm font-bold">Pregunta ${currentQuestionIndex + 1} de ${questions.length}</span>
+                    <span class="text-orange-600 font-bold">Puntos: ${score}</span>
+                </div>
+                <p class="text-2xl font-bold text-blue-800 mb-6">${question.q}</p>
+                <div class="grid grid-cols-1 gap-4">
+                    ${question.a.map((opt, i) => `
+                        <button class="option-btn text-left p-4 flex items-center gap-3 transition-all duration-300" onclick="handleAnswer(this, ${currentQuestionIndex}, ${i})">
+                            <span class="w-8 h-8 rounded-full bg-orange-100 text-orange-600 flex items-center justify-center font-black">${letters[i]}</span>
+                            ${opt}
+                        </button>
+                    `).join('')}
+                </div>
+            `;
+            container.appendChild(qDiv);
         }
 
         window.handleAnswer = function(btn, qIndex, optIndex) {
-            const overlay = document.getElementById(`overlay-${qIndex}`);
             const isCorrect = optIndex === questions[qIndex].c;
+            const qData = questions[qIndex];
 
-            overlay.style.display = 'flex';
-            overlay.classList.remove('animate-out');
-            overlay.classList.add('animate-pop');
+            // Bloquear botones inmediatamente
+            const buttons = document.getElementById(`q-card-${qIndex}`).querySelectorAll('button');
+            buttons.forEach(b => b.disabled = true);
 
             if (isCorrect) {
-                btn.classList.add('correct-btn'); // Turn green immediately
-                overlay.innerHTML = `
-                    <span class="text-6xl mb-2 jump-animation">✅</span>
-                    <p class="text-2xl font-bold text-green-600">¡Excelente!<br>Respuesta correcta.</p>
-                `;
-                score++;
-                questionsAnswered++;
+                btn.classList.add('bg-green-500', 'text-white', 'border-green-700');
+                btn.classList.remove('bg-white', 'text-slate-700', 'border-slate-200');
                 
-                // Deshabilitar botones de esta pregunta
-                const buttons = document.getElementById(`q-card-${qIndex}`).querySelectorAll('button');
-                buttons.forEach(b => b.disabled = true);
-
-                // El mensaje dura 1 SEGUNDO y se quita dejando el botón verde
-                setTimeout(() => {
-                    overlay.classList.add('animate-out');
-                    setTimeout(() => {
-                        overlay.style.display = 'none';
-                    }, 400);
-                }, 1000);
-
+                // Jandra felicita y AL TERMINAR pasa a la siguiente
+                Jandra.show("¡Excelente! ¡Esa es la respuesta correcta!", () => {
+                    currentQuestionIndex++;
+                    renderQuiz();
+                });
+                score++;
             } else {
-                overlay.innerHTML = `
-                    <span class="text-6xl mb-2 animate-shake">❌</span>
-                    <p class="text-lg font-bold text-red-600">No es la respuesta correcta,<br>vuelve a intentar la próxima vez.</p>
-                `;
-                // Para el error se mantiene un poco más para que lea, pero igual desaparece para reelegir
-                setTimeout(() => {
-                    overlay.classList.add('animate-out');
-                    setTimeout(() => {
-                        overlay.style.display = 'none';
-                        overlay.classList.remove('animate-pop', 'animate-out');
-                    }, 400);
-                }, 1800);
+                btn.classList.add('bg-red-500', 'text-white', 'border-red-700', 'animate-shake');
+                
+                // Jandra da la pista y AL TERMINAR permite reintento
+                Jandra.show(`No es esa. Pista: ${qData.h}`, () => {
+                    // Reactivar botones para reintento, pero manteniendo el error visual
+                    buttons.forEach(b => {
+                        if (!b.classList.contains('bg-red-500')) {
+                            b.disabled = false;
+                        }
+                    });
+                });
             }
+        };
 
-            if (questionsAnswered === questions.length) {
-                setTimeout(showFinalResult, 1500);
+        window.onJandraClick = function() {
+            if (currentQuestionIndex < questions.length) {
+                const hint = questions[currentQuestionIndex].h;
+                Jandra.show(`💡 Pista: ${hint}`, 6000);
+            } else {
+                Jandra.show("¡Eres un genio, ya terminaste!", 4000);
             }
         };
 
@@ -588,7 +610,22 @@
             resDiv.scrollIntoView({ behavior: 'smooth' });
         }
 
-        window.onload = renderQuiz;
+        function startQuiz() {
+            document.getElementById('quiz-intro').classList.add('hidden');
+            document.getElementById('quiz-active').classList.remove('hidden');
+            
+            renderQuiz();
+            
+            // Jandra aparece solo al iniciar la prueba
+            Jandra.init();
+            setTimeout(() => {
+                Jandra.show("¡Hola amiguito! Soy Jandra. ¡Te ayudaré en tu prueba! ¡Vamos!", 4000);
+            }, 500);
+        }
+
+        window.onload = () => {
+            // No iniciamos Jandra ni el quiz hasta que den clic en el botón
+        };
     </script>
 </body>
 </html>

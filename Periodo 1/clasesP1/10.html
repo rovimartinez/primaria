@@ -1,0 +1,1237 @@
+<!DOCTYPE html>
+<html lang="es">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Clase 1.2 y 1.3: Estructura e Imágenes</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <script src="../../js/jandra.js"></script>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
+    <style>
+        /* Estilos de resaltado para la inspección visual */
+        .highlight-header {
+            outline: 3px solid #3b82f6;
+            background-color: rgba(59, 130, 246, 0.1);
+        }
+
+        .highlight-nav {
+            outline: 3px solid #10b981;
+            background-color: rgba(16, 185, 129, 0.1);
+        }
+
+        .highlight-aside {
+            outline: 3px solid #8b5cf6;
+            background-color: rgba(139, 92, 246, 0.1);
+        }
+
+        .highlight-section {
+            outline: 3px solid #f97316;
+            background-color: rgba(249, 115, 22, 0.1);
+        }
+
+        .highlight-article {
+            outline: 3px solid #06b6d4;
+            background-color: rgba(6, 182, 212, 0.1);
+        }
+
+        .highlight-aside {
+            outline: 3px solid #8b5cf6;
+            background-color: rgba(139, 92, 246, 0.1);
+        }
+
+        .highlight-footer {
+            outline: 3px solid #ef4444;
+            background-color: rgba(239, 68, 68, 0.1);
+        }
+
+        .highlight-main {
+            outline: 3px solid #eab308;
+            background-color: rgba(234, 179, 8, 0.1);
+        }
+
+        .highlight-img {
+            outline: 4px dashed #ec4899;
+            filter: saturate(1.2);
+            transform: scale(1.02);
+        }
+
+        /* Ocultar el triangulito naranja original de jandra.js */
+        .clippy-bubble-tail::after {
+            display: none !important;
+        }
+
+        /* Ocultar la burbuja azul por defecto hasta que Jandra hable */
+        #clippy-bubble {
+            display: none;
+        }
+        #clippy-bubble.active {
+            display: block;
+        }
+
+        /* Quitar el feo borde negro de enfoque nativo del navegador */
+        .dic-btn:focus, .lab-btn:focus, .dic-btn:focus-visible, .lab-btn:focus-visible {
+            outline: none !important;
+        }
+
+        /* --- EFECTOS DE TELETRANSPORTE --- */
+        @keyframes beam-in {
+            0% { opacity: 0; transform: translateY(-100px) scaleY(3) scaleX(0.1); filter: blur(10px) brightness(300%) drop-shadow(0 0 30px #06b6d4); }
+            60% { opacity: 1; transform: translateY(10px) scaleY(0.8) scaleX(1.2); filter: blur(2px) brightness(150%) drop-shadow(0 0 10px #06b6d4); }
+            100% { opacity: 1; transform: translateY(0) scale(1); filter: blur(0) brightness(100%) drop-shadow(0 0 0 transparent); }
+        }
+
+        @keyframes beam-out {
+            0% { opacity: 1; transform: translateY(0) scale(1); filter: blur(0) brightness(100%) drop-shadow(0 0 0 transparent); }
+            40% { opacity: 1; transform: translateY(-10px) scaleY(0.8) scaleX(1.2); filter: blur(2px) brightness(150%) drop-shadow(0 0 10px #06b6d4); }
+            100% { opacity: 0; transform: translateY(-100px) scaleY(3) scaleX(0.1); filter: blur(10px) brightness(300%) drop-shadow(0 0 30px #06b6d4); }
+        }
+
+        .teleport-in { animation: beam-in 0.8s cubic-bezier(0.175, 0.885, 0.32, 1.275) forwards; }
+        .teleport-out { animation: beam-out 0.6s cubic-bezier(0.6, -0.28, 0.735, 0.045) forwards; }
+
+        @keyframes bounce-slow {
+            0%, 100% { transform: translateY(0); }
+            50% { transform: translateY(-10px); }
+        }
+        .animate-bounce-slow {
+            animation: bounce-slow 3s ease-in-out infinite;
+        }
+
+        .lab-highlight {
+            outline: 3px solid #3b82f6 !important;
+            outline-offset: 4px;
+            box-shadow: 0 0 20px rgba(59, 130, 246, 0.5) !important;
+            transform: scale(1.02);
+            z-index: 10;
+        }
+
+        span#lab-target-br.lab-highlight {
+            display: inline-block;
+            background-color: rgba(59, 130, 246, 0.2);
+            border: 1px dashed #3b82f6;
+            padding: 2px;
+            border-radius: 4px;
+        }
+
+        .elevated-highlight {
+            position: relative !important;
+            z-index: 50 !important;
+        }
+
+        .tag-badge {
+            font-family: 'Courier New', Courier, monospace;
+            font-weight: bold;
+        }
+
+        .custom-scrollbar::-webkit-scrollbar {
+            width: 6px;
+        }
+
+        .custom-scrollbar::-webkit-scrollbar-thumb {
+            background: #cbd5e1;
+            border-radius: 10px;
+        }
+    </style>
+</head>
+
+<body class="bg-slate-50 text-slate-900 font-sans">
+
+    <!-- Header Principal del Recurso Educativo -->
+    <header class="bg-blue-600 text-white p-6 shadow-lg">
+        <div class="container mx-auto flex flex-col md:flex-row justify-between items-center">
+            <div>
+                <h1 class="text-3xl font-bold italic">Resumen del Módulo <span class="font-light text-blue-200">| HTML
+                        Básico</span></h1>
+                <p class="text-blue-100 mt-1">Repaso interactivo de estructura principal y contenido multimedia</p>
+            </div>
+            <div class="mt-4 md:mt-0">
+                <span class="bg-blue-800 px-4 py-2 rounded-full text-xs font-bold uppercase tracking-wider">Estructura e
+                    Imágenes</span>
+            </div>
+        </div>
+    </header>
+
+    <!-- Menú de Pestañas -->
+    <div class="container mx-auto px-4 mt-8 mb-4">
+        <div class="flex flex-wrap gap-3 justify-center bg-slate-200 p-2 rounded-2xl mx-auto shadow-inner w-fit">
+            <button id="btn-tab-fundamentos" onclick="showTab('tab-fundamentos')"
+                class="tab-btn w-40 text-center py-2 rounded-xl font-bold bg-blue-600 text-white transition-all shadow-md transform hover:scale-105 cursor-pointer">1.
+                Fundamentos</button>
+            <button id="btn-tab-herramientas" onclick="showTab('tab-herramientas')"
+                class="tab-btn w-40 text-center py-2 rounded-xl font-bold bg-white text-slate-600 transition-all shadow-sm hover:bg-slate-50 cursor-pointer">2.
+                Herramientas</button>
+            <button id="btn-tab-interactivo" onclick="showTab('tab-interactivo')"
+                class="tab-btn w-40 text-center py-2 rounded-xl font-bold bg-white text-slate-600 transition-all shadow-sm hover:bg-slate-50 cursor-pointer">3.
+                Diccionario</button>
+            <button id="btn-tab-laboratorio" onclick="showTab('tab-laboratorio')"
+                class="tab-btn w-40 text-center py-2 rounded-xl font-bold bg-white text-slate-600 transition-all shadow-sm hover:bg-slate-50 cursor-pointer">4.
+                Laboratorio</button>
+            <button id="btn-tab-practica" onclick="showTab('tab-practica')"
+                class="tab-btn w-40 text-center py-2 rounded-xl font-bold bg-white text-slate-600 transition-all shadow-sm hover:bg-slate-50 cursor-pointer">5.
+                Práctica</button>
+        </div>
+    </div>
+
+    <!-- PESTAÑA 1: FUNDAMENTOS -->
+    <div id="tab-fundamentos" class="tab-content container mx-auto px-4 py-8">
+        <h2 class="text-3xl font-black text-center text-slate-800 mb-12 uppercase tracking-wide">Los 3 Pilares de la Web
+        </h2>
+        <div class="grid grid-cols-1 md:grid-cols-3 gap-8 max-w-6xl mx-auto">
+            <div class="bg-white p-8 rounded-3xl shadow-lg border-t-8 border-orange-500 flex flex-col h-full">
+                <div class="text-6xl mb-6 text-orange-500 text-center"><i class="fa-brands fa-html5"></i></div>
+                <h3 class="text-2xl font-black mb-4 text-center text-slate-800">HTML5</h3>
+                <p class="text-slate-600 text-sm leading-relaxed mb-6">El <strong>"esqueleto"</strong>. Se encarga de la
+                    estructura y el contenido de la página usando etiquetas (tags). Es lo que le dice al navegador qué
+                    es un título, qué es una imagen y qué es un párrafo.</p>
+                <div class="mt-auto bg-slate-50 rounded-xl p-4 border border-slate-200">
+                    <span class="text-[10px] text-slate-500 font-bold uppercase tracking-wider mb-3 block">Ejemplo
+                        Visual (Solo Estructura):</span>
+                    <div class="border-2 border-dashed border-slate-400 p-3 bg-white text-center">
+                        <div class="text-4xl mb-3">😴</div>
+                        <button
+                            class="border border-black bg-slate-200 px-2 py-1 text-xs text-black w-full">¡Despiértalo!</button>
+                    </div>
+                </div>
+            </div>
+            <div class="bg-white p-8 rounded-3xl shadow-lg border-t-8 border-blue-500 flex flex-col h-full">
+                <div class="text-6xl mb-6 text-blue-500 text-center"><i class="fa-brands fa-css3-alt"></i></div>
+                <h3 class="text-2xl font-black mb-4 text-center text-slate-800">CSS3</h3>
+                <p class="text-slate-600 text-sm leading-relaxed mb-6">La <strong>"ropa y maquillaje"</strong>. Se
+                    encarga del diseño visual: colores, tamaños, posiciones y animaciones. Hace que la página pase de
+                    verse aburrida a espectacular.</p>
+                <div class="mt-auto bg-slate-50 rounded-xl p-4 border border-slate-200">
+                    <span class="text-[10px] text-slate-500 font-bold uppercase tracking-wider mb-3 block">Ejemplo
+                        Visual (Con Diseño):</span>
+                    <div
+                        class="p-4 bg-gradient-to-br from-yellow-400 to-orange-500 rounded-xl shadow-md text-white flex flex-col items-center justify-center border border-yellow-300">
+                        <div class="text-4xl mb-3">😴</div>
+                        <button
+                            class="bg-slate-900 text-yellow-400 px-6 py-2 rounded-lg text-sm font-black uppercase w-full">¡Despiértalo!</button>
+                    </div>
+                </div>
+            </div>
+            <div class="bg-white p-8 rounded-3xl shadow-lg border-t-8 border-yellow-400 flex flex-col h-full">
+                <div class="text-6xl mb-6 text-yellow-400 text-center"><i class="fa-brands fa-js"></i></div>
+                <h3 class="text-2xl font-black mb-4 text-center text-slate-800">JavaScript</h3>
+                <p class="text-slate-600 text-sm leading-relaxed mb-6">El <strong>"cerebro y músculos"</strong>. Añade
+                    interactividad y lógica. Permite que pasen cosas cuando haces clic, guardar datos o conectarse a
+                    servidores.</p>
+                <div class="mt-auto bg-slate-50 rounded-xl p-4 border border-slate-200">
+                    <span class="text-[10px] text-slate-500 font-bold uppercase tracking-wider mb-3 block">Ejemplo
+                        Visual (Interactividad):</span>
+                    <div
+                        class="p-4 bg-gradient-to-br from-yellow-400 to-orange-500 rounded-xl shadow-md text-white flex flex-col items-center justify-center border border-yellow-300">
+                        <div id="js-demo-emoji" class="text-4xl mb-3 transition-transform duration-300">😴</div>
+                        <button
+                            onclick="document.getElementById('js-demo-emoji').innerText='😎'; document.getElementById('js-demo-emoji').classList.add('scale-125'); setTimeout(()=>{document.getElementById('js-demo-emoji').innerText='😴'; document.getElementById('js-demo-emoji').classList.remove('scale-125');}, 1500)"
+                            class="bg-slate-900 text-yellow-400 px-6 py-2 rounded-lg text-sm font-black uppercase hover:bg-black transition-all active:scale-95 shadow-lg w-full cursor-pointer">¡Despiértalo!</button>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- Anatomía de un documento HTML -->
+        <div class="mt-16 max-w-6xl mx-auto">
+            <h3 class="text-2xl font-black text-center text-slate-800 mb-3 uppercase tracking-wide">🧬 Anatomía de un
+                documento HTML</h3>
+            <p class="text-center text-slate-500 text-sm mb-10">Así luce un archivo HTML completo por dentro. Haz clic
+                en cada parte para saber qué hace.</p>
+
+            <div class="grid grid-cols-1 lg:grid-cols-[1fr_1fr] gap-8 items-start">
+                <!-- Código visual -->
+                <div id="anatomy-code-container" class="bg-slate-900 rounded-2xl overflow-hidden font-mono text-sm shadow-2xl border border-slate-700 relative transition-all duration-500">
+                    <!-- Barra estilo Windows -->
+                    <div class="bg-slate-800 flex items-center justify-between px-4 py-2 border-b border-slate-700">
+                        <span class="text-slate-400 text-xs">index.html</span>
+                        <div class="flex items-center">
+                            <div
+                                class="px-3 py-1 hover:bg-slate-700 cursor-pointer text-slate-400 transition-colors text-[10px]">
+                                <i class="fa-solid fa-minus"></i></div>
+                            <div
+                                class="px-3 py-1 hover:bg-slate-700 cursor-pointer text-slate-400 transition-colors text-[10px]">
+                                <i class="fa-regular fa-square"></i></div>
+                            <div
+                                class="px-3 py-1 hover:bg-red-500 hover:text-white cursor-pointer text-slate-400 transition-colors text-[10px]">
+                                <i class="fa-solid fa-xmark"></i></div>
+                        </div>
+                    </div>
+                    <!-- Contenido del código -->
+                    <div class="p-6 space-y-1">
+                        <div onclick="showAnatomy('doctype')" class="cursor-pointer group">
+                            <span
+                                class="text-slate-400 group-hover:bg-slate-400/20 rounded px-1 transition-colors">&lt;!DOCTYPE
+                                html&gt;</span>
+                        </div>
+                        <div class="text-blue-400">&lt;html&gt;</div>
+
+                        <!-- HEAD -->
+                        <div onclick="showAnatomy('head')" class="cursor-pointer ml-4 group">
+                            <span
+                                class="text-orange-400 group-hover:bg-orange-400/20 rounded px-1 transition-colors">&lt;head&gt;</span>
+                            <div class="ml-4 my-1 space-y-1">
+                                <div onclick="event.stopPropagation(); showAnatomy('title')"
+                                    class="cursor-pointer group/inner">
+                                    <span
+                                        class="text-green-400 group-hover/inner:bg-green-400/20 rounded px-1 transition-colors">&lt;title&gt;</span>
+                                    <span class="text-white">Nombre de mi página</span>
+                                    <span class="text-green-400">&lt;/title&gt;</span>
+                                </div>
+                                <div onclick="event.stopPropagation(); showAnatomy('meta-charset')"
+                                    class="cursor-pointer group/inner">
+                                    <span
+                                        class="text-pink-400 group-hover/inner:bg-pink-400/20 rounded px-1 transition-colors">&lt;meta</span>
+                                    <span class="text-yellow-300"> charset=</span><span
+                                        class="text-green-300">"UTF-8"</span>
+                                    <span class="text-pink-400">&gt;</span>
+                                </div>
+                                <div onclick="event.stopPropagation(); showAnatomy('meta-viewport')"
+                                    class="cursor-pointer group/inner">
+                                    <span
+                                        class="text-pink-400 group-hover/inner:bg-pink-400/20 rounded px-1 transition-colors">&lt;meta</span>
+                                    <span class="text-yellow-300"> name=</span><span
+                                        class="text-green-300">"viewport"</span>
+                                    <span class="text-yellow-300"> content=</span><span
+                                        class="text-green-300">"width=device-width"</span>
+                                    <span class="text-pink-400">&gt;</span>
+                                </div>
+                                <div onclick="event.stopPropagation(); showAnatomy('meta-desc')"
+                                    class="cursor-pointer group/inner">
+                                    <span
+                                        class="text-pink-400 group-hover/inner:bg-pink-400/20 rounded px-1 transition-colors">&lt;meta</span>
+                                    <span class="text-yellow-300"> name=</span><span
+                                        class="text-green-300">"description"</span>
+                                    <span class="text-yellow-300"> content=</span><span class="text-green-300">"Mi sitio
+                                        web"</span>
+                                    <span class="text-pink-400">&gt;</span>
+                                </div>
+                            </div>
+                            <span class="text-orange-400">&lt;/head&gt;</span>
+                        </div>
+
+                        <!-- BODY -->
+                        <div onclick="showAnatomy('body')" class="cursor-pointer ml-4 group">
+                            <span
+                                class="text-blue-300 group-hover:bg-blue-400/20 rounded px-1 transition-colors">&lt;body&gt;</span>
+                            <div class="ml-4 my-1 text-slate-500 text-xs italic">... todo el contenido visible ...</div>
+                            <span class="text-blue-300">&lt;/body&gt;</span>
+                        </div>
+
+                        <div class="text-blue-400">&lt;/html&gt;</div>
+                    </div>
+                </div>
+
+                <!-- Panel explicativo (sticky) -->
+                <div id="anatomy-panel"
+                    class="sticky top-4 bg-white rounded-2xl p-8 border border-slate-200 shadow-sm min-h-[320px] flex flex-col justify-center">
+                    <div id="anatomy-default" class="text-center text-slate-400 cursor-pointer hover:text-blue-500 hover:scale-105 transition-all duration-300" onclick="llamarJandraFundamentos()">
+                        <div class="text-5xl mb-4 animate-bounce">👆</div>
+                        <p class="text-sm font-bold">Toca aquí para llamar a Jandra</p>
+                    </div>
+                    <div id="anatomy-doctype" class="hidden">
+                        <span class="text-xs font-bold text-slate-500 uppercase tracking-wider">&lt;!DOCTYPE
+                            html&gt;</span>
+                        <h4 class="text-xl font-black text-slate-800 mt-1 mb-3">La declaración inicial</h4>
+                        <p class="text-slate-600 text-sm leading-relaxed">No es una etiqueta HTML, es una
+                            <strong>instrucción especial</strong> para el navegador. Le indica que el documento está
+                            escrito en <strong>HTML5</strong>, la versión más moderna. Siempre debe ser la primera línea
+                            de todo archivo HTML, antes que cualquier otra cosa. Sin ella, el navegador podría
+                            interpretar el código de forma incorrecta.</p>
+                    </div>
+                    <div id="anatomy-head" class="hidden">
+                        <span class="text-xs font-bold text-orange-500 uppercase tracking-wider">Etiqueta
+                            &lt;head&gt;</span>
+                        <h4 class="text-xl font-black text-slate-800 mt-1 mb-3">La "cabeza" invisible</h4>
+                        <p class="text-slate-600 text-sm leading-relaxed">Contiene toda la <strong>información técnica y
+                                de configuración</strong> de la página, pero su contenido <strong>no es visible</strong>
+                            para el usuario. Es como los bastidores de un teatro: el público no los ve, pero son
+                            esenciales para que todo funcione.</p>
+                    </div>
+                    <div id="anatomy-title" class="hidden">
+                        <span class="text-xs font-bold text-green-600 uppercase tracking-wider">Etiqueta
+                            &lt;title&gt;</span>
+                        <h4 class="text-xl font-black text-slate-800 mt-1 mb-3">El nombre de la pestaña</h4>
+                        <p class="text-slate-600 text-sm leading-relaxed mb-4">Define el texto que aparece en la
+                            <strong>pestaña del navegador</strong> y en los resultados de búsqueda de Google. Es lo
+                            primero que el usuario ve antes de entrar a tu página.</p>
+                        <div class="bg-slate-200 rounded-xl overflow-hidden border border-slate-300 shadow-sm">
+                            <!-- Barra de pestañas estilo Windows/Edge -->
+                            <div class="bg-slate-300 flex items-end gap-1 px-2 pt-2">
+                                <div
+                                    class="bg-white border border-b-0 border-slate-300 rounded-t-md px-3 py-1 text-xs font-medium text-slate-700 flex items-center gap-2 shadow-sm">
+                                    <span>🌐</span> Nombre de mi página
+                                    <span class="text-slate-400 hover:text-slate-600 cursor-pointer ml-1">✕</span>
+                                </div>
+                                <div class="ml-auto flex items-center pb-1 gap-1 pr-1">
+                                    <div
+                                        class="w-6 h-5 flex items-center justify-center hover:bg-slate-400/50 rounded text-slate-500 text-[10px] cursor-pointer">
+                                        ─</div>
+                                    <div
+                                        class="w-6 h-5 flex items-center justify-center hover:bg-slate-400/50 rounded text-slate-500 text-[10px] cursor-pointer">
+                                        □</div>
+                                    <div
+                                        class="w-6 h-5 flex items-center justify-center hover:bg-red-500 hover:text-white rounded text-slate-500 text-[10px] cursor-pointer">
+                                        ✕</div>
+                                </div>
+                            </div>
+                            <div class="bg-white px-3 py-1.5 flex items-center gap-2 border-t border-slate-200">
+                                <span class="text-slate-400 text-[10px]">◀ ▶</span>
+                                <div
+                                    class="flex-1 bg-slate-100 rounded-full px-3 py-0.5 text-[10px] text-slate-400 border border-slate-200">
+                                    misitio.com</div>
+                            </div>
+                        </div>
+                    </div>
+                    <div id="anatomy-meta-charset" class="hidden">
+                        <span class="text-xs font-bold text-pink-500 uppercase tracking-wider">Meta: charset</span>
+                        <h4 class="text-xl font-black text-slate-800 mt-1 mb-3">Idioma del texto</h4>
+                        <p class="text-slate-600 text-sm leading-relaxed">Le dice al navegador qué <strong>sistema de
+                                caracteres</strong> usar. Con <code class="bg-slate-100 px-1 rounded">UTF-8</code> se
+                            pueden mostrar correctamente la <strong>ñ, tildes (á, é, í), emojis</strong> y caracteres de
+                            casi todos los idiomas del mundo. Sin esto, tu texto puede verse corrupto.</p>
+                    </div>
+                    <div id="anatomy-meta-viewport" class="hidden">
+                        <span class="text-xs font-bold text-pink-500 uppercase tracking-wider">Meta: viewport</span>
+                        <h4 class="text-xl font-black text-slate-800 mt-1 mb-3">Adaptación al móvil</h4>
+                        <p class="text-slate-600 text-sm leading-relaxed">Controla cómo se <strong>escala y
+                                ajusta</strong> la página en dispositivos móviles. Sin esta línea, tu sitio se vería
+                            minúsculo en un celular como si fuera una versión de escritorio comprimida. Es el primer
+                            paso del diseño <strong>responsive</strong>.</p>
+                    </div>
+                    <div id="anatomy-meta-desc" class="hidden">
+                        <span class="text-xs font-bold text-pink-500 uppercase tracking-wider">Meta: description</span>
+                        <h4 class="text-xl font-black text-slate-800 mt-1 mb-3">Descripción para Google</h4>
+                        <p class="text-slate-600 text-sm leading-relaxed mb-3">Es el texto descriptivo que aparece
+                            <strong>debajo del título en Google</strong>. No afecta directamente al diseño, pero es
+                            clave para el <strong>SEO</strong> (posicionamiento en buscadores).</p>
+                        <div class="bg-slate-50 rounded-xl p-3 border border-slate-200 text-xs">
+                            <p class="text-blue-600 font-medium">Mi sitio web — Aprende HTML</p>
+                            <p class="text-green-700 text-[10px]">www.misitio.com</p>
+                            <p class="text-slate-500">Mi sitio web — la descripción que escribiste aquí.</p>
+                        </div>
+                    </div>
+                    <div id="anatomy-body" class="hidden">
+                        <span class="text-xs font-bold text-blue-500 uppercase tracking-wider">Etiqueta
+                            &lt;body&gt;</span>
+                        <h4 class="text-xl font-black text-slate-800 mt-1 mb-3">Todo lo visible</h4>
+                        <p class="text-slate-600 text-sm leading-relaxed">Contiene <strong>absolutamente todo</strong>
+                            lo que el usuario puede ver en la pantalla: textos, imágenes, botones, menús, secciones...
+                            Si no está dentro del <code class="bg-slate-100 px-1 rounded">&lt;body&gt;</code>, no
+                            aparece en la página. Es el "escenario" donde ocurre todo.</p>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- Tip Teórico: Pares e Impares -->
+        <div
+            class="mt-12 max-w-4xl mx-auto bg-indigo-50 border border-indigo-200 rounded-2xl p-8 shadow-sm flex gap-6 items-start">
+            <div class="text-4xl">💡</div>
+            <div>
+                <h3 class="font-black text-indigo-900 text-lg mb-2">¿Cómo se clasifican las Etiquetas HTML?</h3>
+                <p class="text-indigo-800 text-sm leading-relaxed">Las <span
+                        class="font-bold bg-indigo-200 px-1 rounded">Etiquetas Pares</span> (ej. <code
+                        class="bg-white border border-indigo-200 px-1 rounded">&lt;header&gt;&lt;/header&gt;</code>)
+                    actúan como <strong>"cajas"</strong> que envuelven un contenido y siempre tienen una etiqueta de
+                    apertura y una de cierre. Las <span class="font-bold bg-pink-100 px-1 rounded">Etiquetas
+                        Simples</span> (ej. <code
+                        class="bg-white border border-pink-200 px-1 rounded">&lt;img&gt;</code>) son
+                    <strong>independientes</strong> y no necesitan etiqueta de cierre porque ellas mismas son el
+                    elemento a mostrar.</p>
+            </div>
+        </div>
+    </div>
+
+    <!-- PESTAÑA 2: HERRAMIENTAS -->
+    <div id="tab-herramientas" class="tab-content hidden container mx-auto px-4 py-8">
+        <h2 class="text-3xl font-black text-center text-slate-800 mb-12 uppercase tracking-wide">Nuestras Herramientas
+        </h2>
+        <div class="grid grid-cols-1 md:grid-cols-2 gap-8 max-w-5xl mx-auto">
+            <div class="bg-slate-900 text-white p-10 rounded-3xl shadow-2xl relative overflow-hidden group">
+                <div
+                    class="absolute -right-10 -bottom-10 text-[150px] text-blue-500/10 group-hover:scale-110 transition-transform duration-500">
+                    <i class="fa-solid fa-code"></i></div>
+                <h3 class="text-2xl font-black mb-6 flex items-center gap-3 relative z-10"><span
+                        class="text-blue-400 text-3xl"><i class="fa-solid fa-laptop-code"></i></span> Visual Studio Code
+                </h3>
+                <p class="text-slate-300 mb-6 relative z-10">Es el editor de código profesional que utilizamos. Nos
+                    permite escribir HTML, CSS y JS con ayuda de autocompletado, colores para identificar errores y
+                    extensiones que facilitan el trabajo.</p>
+                <ul class="list-none text-sm text-blue-200 space-y-3 relative z-10 font-medium">
+                    <li><i class="fa-solid fa-check text-blue-500 mr-2"></i> Gratuito y estándar en la industria</li>
+                    <li><i class="fa-solid fa-check text-blue-500 mr-2"></i> Extensiones útiles como Live Server</li>
+                    <li><i class="fa-solid fa-check text-blue-500 mr-2"></i> Ideal para organizar nuestros proyectos web
+                    </li>
+                </ul>
+            </div>
+
+            <div
+                class="bg-gradient-to-br from-indigo-900 via-purple-900 to-fuchsia-900 text-white p-10 rounded-3xl shadow-2xl relative overflow-hidden group">
+                <div
+                    class="absolute -right-10 -bottom-10 text-[150px] text-fuchsia-400/10 group-hover:scale-110 transition-transform duration-500">
+                    <i class="fa-solid fa-robot"></i></div>
+                <h3 class="text-2xl font-black mb-6 flex items-center gap-3 relative z-10"><span
+                        class="text-fuchsia-300 text-3xl">✨</span> Google Gemini</h3>
+                <p class="text-indigo-100 mb-6 relative z-10">Usamos la Inteligencia Artificial como nuestra asistente
+                    de programación. Nos ayuda a generar ideas, corregir errores (debug) y crear estructuras HTML más
+                    rápido.</p>
+                <ul class="list-none text-sm text-fuchsia-200 space-y-3 relative z-10 font-medium">
+                    <li><i class="fa-solid fa-star text-fuchsia-400 mr-2"></i> Genera código de ejemplo en segundos</li>
+                    <li><i class="fa-solid fa-star text-fuchsia-400 mr-2"></i> Explica conceptos difíciles de forma
+                        sencilla</li>
+                    <li><i class="fa-solid fa-star text-fuchsia-400 mr-2"></i> Revisa nuestro código buscando mejoras
+                    </li>
+                </ul>
+            </div>
+        </div>
+    </div>
+
+    <!-- PESTAÑA 3: INTERACTIVO (ACTUAL) -->
+    <div id="tab-interactivo" class="tab-content hidden container mx-auto px-4 py-8">
+        <main class="grid grid-cols-1 lg:grid-cols-12 gap-8">
+
+            <!-- Panel Izquierdo: Diccionario Unificado -->
+            <section class="lg:col-span-3 space-y-6">
+                <div class="bg-white p-6 rounded-2xl shadow-sm border border-slate-200">
+                    <h2 class="text-xl font-bold text-slate-800 mb-4 border-b-2 border-indigo-500 pb-2">📦 Etiquetas</h2>
+
+
+                    <div class="space-y-4 max-h-[700px] overflow-y-auto pr-2 custom-scrollbar">
+
+                        <!-- ESTRUCTURA (Clase 1.2) -->
+                        <div class="space-y-2">
+                            <p class="text-[9px] font-black text-slate-400 uppercase tracking-widest mb-2">Estructura del Sitio</p>
+
+                            <button onclick="updateDic('header', event)"
+                                class="dic-btn w-full p-3 text-left bg-blue-50 rounded-xl border border-blue-100 hover:shadow-md transition-all cursor-pointer">
+                                <h3 class="font-mono font-bold text-blue-600">&lt;header&gt;</h3>
+                            </button>
+
+                            <button onclick="updateDic('nav', event)"
+                                class="dic-btn w-full p-3 text-left bg-green-50 rounded-xl border border-green-100 hover:shadow-md transition-all cursor-pointer">
+                                <h3 class="font-mono font-bold text-green-600">&lt;nav&gt;</h3>
+                            </button>
+
+                            <button onclick="updateDic('main', event)"
+                                class="dic-btn w-full p-3 text-left bg-yellow-50 rounded-xl border border-yellow-100 hover:shadow-md transition-all cursor-pointer">
+                                <h3 class="font-mono font-bold text-yellow-600">&lt;main&gt;</h3>
+                            </button>
+
+                            <button onclick="updateDic('section', event)"
+                                class="dic-btn w-full p-3 text-left bg-orange-50 rounded-xl border border-orange-100 hover:shadow-md transition-all cursor-pointer">
+                                <h3 class="font-mono font-bold text-orange-600">&lt;section&gt;</h3>
+                            </button>
+
+                            <button onclick="updateDic('article', event)"
+                                class="dic-btn w-full p-3 text-left bg-cyan-50 rounded-xl border border-cyan-100 hover:shadow-md transition-all cursor-pointer">
+                                <h3 class="font-mono font-bold text-cyan-600">&lt;article&gt;</h3>
+                            </button>
+
+                            <button onclick="updateDic('aside', event)"
+                                class="dic-btn w-full p-3 text-left bg-purple-50 rounded-xl border border-purple-100 hover:shadow-md transition-all cursor-pointer">
+                                <h3 class="font-mono font-bold text-purple-600">&lt;aside&gt;</h3>
+                            </button>
+
+                            <button onclick="updateDic('img', event)"
+                                class="dic-btn w-full p-3 text-left bg-pink-50 rounded-xl border border-pink-100 hover:shadow-md transition-all cursor-pointer">
+                                <h3 class="font-mono font-bold text-pink-600">&lt;img&gt;</h3>
+                            </button>
+
+                            <button onclick="updateDic('footer', event)"
+                                class="dic-btn w-full p-3 text-left bg-red-50 rounded-xl border border-red-100 hover:shadow-md transition-all cursor-pointer">
+                                <h3 class="font-mono font-bold text-red-600">&lt;footer&gt;</h3>
+                            </button>
+                        </div>
+
+                    </div>
+                </div>
+            </section>
+
+            <!-- Panel Derecho: Visualización Unificada -->
+            <section class="lg:col-span-9">
+                <h2 class="text-2xl font-bold text-slate-800 mb-6 flex items-center gap-2">
+                    <i class="fa-solid fa-laptop-code text-indigo-500"></i> Esquema Visual
+                </h2>
+
+                <!-- Contenedor estilo Navegador Web -->
+                <div
+                    class="bg-slate-900 border border-slate-700 rounded-2xl overflow-hidden shadow-2xl relative mr-48 lg:mr-64 transition-all duration-500 flex flex-col">
+                    
+                    <!-- Barra estilo Windows (Idéntica a Fundamentos) -->
+                    <div class="bg-slate-800 flex items-center justify-between px-4 py-2 border-b border-slate-700 relative z-50">
+                        <span class="text-slate-400 text-xs font-mono">index.html</span>
+                        <div class="flex items-center -mr-2">
+                            <div class="px-3 py-1 hover:bg-slate-700 cursor-pointer text-slate-400 transition-colors text-[10px]">
+                                <i class="fa-solid fa-minus"></i></div>
+                            <div class="px-3 py-1 hover:bg-slate-700 cursor-pointer text-slate-400 transition-colors text-[10px]">
+                                <i class="fa-regular fa-square"></i></div>
+                            <div class="px-3 py-1 hover:bg-red-500 hover:text-white cursor-pointer text-slate-400 transition-colors text-[10px]">
+                                <i class="fa-solid fa-xmark"></i></div>
+                        </div>
+                    </div>
+
+                    <!-- Contenido de la Página Web -->
+                    <div class="bg-white relative flex-1">
+                        <div id="p-overlay"
+                            class="absolute inset-0 bg-slate-900/60 z-40 opacity-0 pointer-events-none transition-opacity duration-300">
+                        </div>
+
+                        <!-- CABECERA -->
+                    <header id="p-header"
+                        class="p-8 bg-sky-50 text-center border-b border-sky-100 transition-all duration-300">
+                        <div class="text-5xl mb-2">🤖</div>
+                        <h1 class="text-3xl font-black text-blue-900 uppercase tracking-tight">Robot STEAM</h1>
+                    </header>
+
+                    <!-- NAVEGACIÓN -->
+                    <nav id="p-nav"
+                        class="bg-blue-900 text-white flex justify-center py-3 gap-6 text-xs font-bold transition-all duration-300">
+                        <a href="#" class="hover:text-sky-300">INICIO</a>
+                        <a href="#" class="hover:text-sky-300">NOSOTROS</a>
+                        <a href="#" class="hover:text-sky-300">FOTOS</a>
+                        <a href="#" class="hover:text-sky-300">ENCUÉNTRANOS</a>
+                    </nav>
+
+                    <div class="flex flex-col md:flex-row min-h-[400px]">
+                        <!-- CONTENIDO PRINCIPAL -->
+                        <main id="p-main" class="flex-grow p-8 transition-all duration-300">
+
+                            <!-- SECCIÓN -->
+                            <section id="p-section"
+                                class="mb-8 p-4 border border-orange-200 bg-orange-50 rounded-lg relative transition-all duration-300">
+                                <h2 class="text-xl font-bold text-orange-950 italic">¡Construye el futuro!</h2>
+                                <p class="text-sm text-slate-700 mt-1">Aprende robótica, programación y tecnología de
+                                    forma
+                                    divertida.</p>
+                            </section>
+
+                            <!-- ARTÍCULO CON IMAGEN -->
+                            <div class="grid grid-cols-1 sm:grid-cols-2 gap-4">
+                                <article id="p-article"
+                                    class="border border-cyan-200 bg-white rounded-xl overflow-hidden shadow-sm relative transition-all duration-300">
+                                    <img id="p-img" src="https://i.postimg.cc/C5knqFmD/Ejemplo.png"
+                                        alt="Robot inteligente" class="w-full h-32 object-cover">
+                                    <div class="p-4">
+                                        <h3 class="font-bold text-cyan-900 text-sm">Cursos de Robótica</h3>
+                                        <p class="text-[11px] text-slate-500 mt-1 italic">Aprende a ensamblar tu propio
+                                            robot.</p>
+                                    </div>
+                                </article>
+
+                                <article class="border border-slate-100 bg-slate-50 rounded-xl overflow-hidden p-4">
+                                    <div class="flex justify-center text-blue-500 mb-2">
+                                        <svg xmlns="http://www.w3.org/2000/svg" width="32" height="32"
+                                            viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"
+                                            stroke-linecap="round" stroke-linejoin="round">
+                                            <path d="M18 11V6a2 2 0 0 0-2-2v0a2 2 0 0 0-2 2v5" />
+                                            <path d="M14 10V4a2 2 0 0 0-2-2v0a2 2 0 0 0-2 2v11" />
+                                            <path d="M10 10.5V6a2 2 0 0 0-2-2v0a2 2 0 0 0-2 2v8" />
+                                            <path
+                                                d="M18 8a2 2 0 1 1 4 0v6a8 8 0 0 1-8 8h-2c-2.8 0-4.5-.86-5.99-2.34l-3.6-3.6a2 2 0 0 1 2.83-2.82L7 15" />
+                                        </svg>
+                                    </div>
+                                    <h3 class="font-bold text-center text-xs">Talleres STEM</h3>
+                                    <p class="text-[10px] text-center mt-1">Uso de iconos SVG de alta calidad.</p>
+                                </article>
+                            </div>
+                        </main>
+
+                        <!-- BARRA LATERAL -->
+                        <aside id="p-aside"
+                            class="w-full md:w-56 bg-slate-50 p-6 border-l border-purple-100 transition-all duration-300">
+                            <div class="p-4 bg-white border border-purple-200 rounded-xl text-center shadow-sm">
+                                <p class="text-xs font-bold text-purple-800">Síguenos</p>
+                                <a href="https://www.instagram.com/robot.steam/" target="_blank"
+                                    class="block my-3 text-2xl text-pink-500 hover:text-pink-600 transition-colors">
+                                    <i class="fa-brands fa-instagram"></i>
+                                </a>
+                            </div>
+                        </aside>
+                    </div>
+
+                    <!-- PIE DE PÁGINA -->
+                    <footer id="p-footer" class="bg-slate-900 text-white p-8 text-center transition-all duration-300">
+                        <p class="text-sm italic">Contáctanos al: 123456789</p>
+                        <div class="mt-4 flex justify-center gap-4 text-slate-500">
+                            <i class="fa-brands fa-facebook"></i>
+                            <i class="fa-brands fa-twitter"></i>
+                        </div>
+                    </footer>
+                </div>
+            </section>
+        </main>
+    </div>
+
+    <!-- PESTAÑA 4: LABORATORIO INTERACTIVO (SIMPLIFICADO) -->
+    <div id="tab-laboratorio" class="tab-content hidden container mx-auto px-4 py-8">
+        <div class="grid grid-cols-1 lg:grid-cols-12 gap-8">
+            
+            <!-- Sidebar: Selector de Etiquetas + Estructura -->
+            <aside class="lg:col-span-3">
+                <div class="bg-white rounded-3xl shadow-sm border border-slate-200 overflow-hidden sticky top-8">
+                    <div class="bg-blue-600 p-4 text-white text-center">
+                        <p class="text-[10px] font-black uppercase tracking-widest opacity-80">Elige una etiqueta</p>
+                    </div>
+
+                    <!-- 1. Botones (Arriba) -->
+                    <div class="p-4 grid grid-cols-2 gap-2 max-h-[450px] overflow-y-auto custom-scrollbar">
+                        <button onclick="updateLab('h1', event)" class="lab-btn group text-left px-3 py-2 rounded-xl border border-slate-100 bg-slate-50 hover:bg-blue-50 hover:border-blue-200 transition-all cursor-pointer">
+                            <span class="block text-[10px] font-black text-slate-400 group-hover:text-blue-400 uppercase leading-none mb-1">Título 1</span>
+                            <span class="font-mono font-bold text-slate-700 text-sm">&lt;h1&gt;</span>
+                        </button>
+                        <button onclick="updateLab('h2', event)" class="lab-btn group text-left px-3 py-2 rounded-xl border border-slate-100 bg-slate-50 hover:bg-blue-50 hover:border-blue-200 transition-all cursor-pointer">
+                            <span class="block text-[10px] font-black text-slate-400 group-hover:text-blue-400 uppercase leading-none mb-1">Título 2</span>
+                            <span class="font-mono font-bold text-slate-700 text-sm">&lt;h2&gt;</span>
+                        </button>
+                        <button onclick="updateLab('h3', event)" class="lab-btn group text-left px-3 py-2 rounded-xl border border-slate-100 bg-slate-50 hover:bg-blue-50 hover:border-blue-200 transition-all cursor-pointer">
+                            <span class="block text-[10px] font-black text-slate-400 group-hover:text-blue-400 uppercase leading-none mb-1">Título 3</span>
+                            <span class="font-mono font-bold text-slate-700 text-sm">&lt;h3&gt;</span>
+                        </button>
+                        <button onclick="updateLab('h4', event)" class="lab-btn group text-left px-3 py-2 rounded-xl border border-slate-100 bg-slate-50 hover:bg-blue-50 hover:border-blue-200 transition-all cursor-pointer">
+                            <span class="block text-[10px] font-black text-slate-400 group-hover:text-blue-400 uppercase leading-none mb-1">Título 4</span>
+                            <span class="font-mono font-bold text-slate-700 text-sm">&lt;h4&gt;</span>
+                        </button>
+                        <button onclick="updateLab('h5', event)" class="lab-btn group text-left px-3 py-2 rounded-xl border border-slate-100 bg-slate-50 hover:bg-blue-50 hover:border-blue-200 transition-all cursor-pointer">
+                            <span class="block text-[10px] font-black text-slate-400 group-hover:text-blue-400 uppercase leading-none mb-1">Título 5</span>
+                            <span class="font-mono font-bold text-slate-700 text-sm">&lt;h5&gt;</span>
+                        </button>
+                        <button onclick="updateLab('h6', event)" class="lab-btn group text-left px-3 py-2 rounded-xl border border-slate-100 bg-slate-50 hover:bg-blue-50 hover:border-blue-200 transition-all cursor-pointer">
+                            <span class="block text-[10px] font-black text-slate-400 group-hover:text-blue-400 uppercase leading-none mb-1">Título 6</span>
+                            <span class="font-mono font-bold text-slate-700 text-sm">&lt;h6&gt;</span>
+                        </button>
+                        <button onclick="updateLab('p', event)" class="lab-btn group text-left px-3 py-2 rounded-xl border border-slate-100 bg-slate-50 hover:bg-blue-50 hover:border-blue-200 transition-all cursor-pointer">
+                            <span class="block text-[10px] font-black text-slate-400 group-hover:text-blue-400 uppercase leading-none mb-1">Párrafo</span>
+                            <span class="font-mono font-bold text-slate-700 text-sm">&lt;p&gt;</span>
+                        </button>
+                        <button onclick="updateLab('strong', event)" class="lab-btn group text-left px-3 py-2 rounded-xl border border-slate-100 bg-slate-50 hover:bg-blue-50 hover:border-blue-200 transition-all cursor-pointer">
+                            <span class="block text-[10px] font-black text-slate-400 group-hover:text-blue-400 uppercase leading-none mb-1">Negrita</span>
+                            <span class="font-mono font-bold text-slate-700 text-sm">&lt;strong&gt;</span>
+                        </button>
+                        <button onclick="updateLab('em', event)" class="lab-btn group text-left px-3 py-2 rounded-xl border border-slate-100 bg-slate-50 hover:bg-blue-50 hover:border-blue-200 transition-all cursor-pointer">
+                            <span class="block text-[10px] font-black text-slate-400 group-hover:text-blue-400 uppercase leading-none mb-1">Cursiva</span>
+                            <span class="font-mono font-bold text-slate-700 text-sm">&lt;em&gt;</span>
+                        </button>
+                        <button onclick="updateLab('u', event)" class="lab-btn group text-left px-3 py-2 rounded-xl border border-slate-100 bg-slate-50 hover:bg-blue-50 hover:border-blue-200 transition-all cursor-pointer">
+                            <span class="block text-[10px] font-black text-slate-400 group-hover:text-blue-400 uppercase leading-none mb-1">Subrayado</span>
+                            <span class="font-mono font-bold text-slate-700 text-sm">&lt;u&gt;</span>
+                        </button>
+                        <button onclick="updateLab('br', event)" class="lab-btn group text-left px-3 py-2 rounded-xl border border-slate-100 bg-slate-50 hover:bg-blue-50 hover:border-blue-200 transition-all cursor-pointer">
+                            <span class="block text-[10px] font-black text-slate-400 group-hover:text-blue-400 uppercase leading-none mb-1">Salto</span>
+                            <span class="font-mono font-bold text-slate-700 text-sm">&lt;br&gt;</span>
+                        </button>
+                        <button onclick="updateLab('hr', event)" class="lab-btn group text-left px-3 py-2 rounded-xl border border-slate-100 bg-slate-50 hover:bg-blue-50 hover:border-blue-200 transition-all cursor-pointer">
+                            <span class="block text-[10px] font-black text-slate-400 group-hover:text-blue-400 uppercase leading-none mb-1">Línea</span>
+                            <span class="font-mono font-bold text-slate-700 text-sm">&lt;hr&gt;</span>
+                        </button>
+                    </div>
+
+                    <!-- 2. Cuadro de Estructura -->
+                    <div class="bg-slate-900 p-4 border-t border-slate-800">
+                        <p class="text-[9px] font-black text-blue-400 uppercase tracking-widest mb-2">Estructura HTML</p>
+                        <div class="font-mono text-[11px] leading-tight">
+                            <span class="text-blue-300 opacity-20">&lt;body&gt;</span>
+                            <div id="lab-code" class="pl-4 py-1 text-blue-100 font-medium tracking-tight text-[13px]">
+                                <span class="text-slate-600 italic font-normal">&lt;h2&gt;Tema Importante&lt;/h2&gt;</span>
+                            </div>
+                            <span class="text-blue-300 opacity-20">&lt;/body&gt;</span>
+                        </div>
+                    </div>
+                </div>
+            </aside>
+            <!-- Área de Visualización (Layout Corregido) -->
+            <main class="lg:col-span-9 flex flex-col min-h-[600px]">
+                
+                <!-- 2. Ventana / Página (Compacta para dar espacio a Jandra) -->
+                <div class="bg-white rounded-3xl shadow-lg border-2 border-slate-100 overflow-hidden flex flex-col flex-grow max-w-3xl mr-48 lg:mr-64 transition-all">
+                    <div class="bg-slate-100 px-4 py-1.5 border-b border-slate-200 flex items-center justify-between select-none">
+                        <div class="flex items-center gap-2">
+                            <div class="w-3.5 h-3.5 bg-blue-600 rounded-sm flex items-center justify-center">
+                                <i class="fa-solid fa-earth-americas text-[8px] text-white"></i>
+                            </div>
+                            <p class="text-[9px] font-bold text-slate-500 uppercase tracking-widest">Navegador En Vivo</p>
+                        </div>
+                        
+                        <!-- Controles de Windows -->
+                        <div class="flex items-center -mr-4">
+                            <button class="w-10 h-7 flex items-center justify-center hover:bg-slate-200 transition-colors">
+                                <i class="fa-solid fa-minus text-[10px] text-slate-600"></i>
+                            </button>
+                            <button class="w-10 h-7 flex items-center justify-center hover:bg-slate-200 transition-colors">
+                                <i class="fa-regular fa-square text-[9px] text-slate-600"></i>
+                            </button>
+                            <button class="w-10 h-7 flex items-center justify-center hover:bg-red-500 hover:text-white transition-colors">
+                                <i class="fa-solid fa-xmark text-xs text-slate-600"></i>
+                            </button>
+                        </div>
+                    </div>
+                    
+                    <div id="lab-preview" class="bg-white relative overflow-y-auto max-h-[600px] flex-grow custom-scrollbar">
+                        <!-- Sitio unificado con el navegador (sin bordes internos) -->
+                        <div id="lab-site-container" class="w-full transition-all duration-500 origin-top">
+                            
+                            <!-- 1. Navegación -->
+                            <nav id="lab-target-nav" class="bg-blue-900 text-white flex justify-center py-2 gap-4 text-[8px] font-bold transition-all duration-300">
+                                <span>INICIO</span><span>CLASES</span><span>PROYECTOS</span>
+                            </nav>
+
+                            <!-- 2. Cabecera con el Título Principal debajo -->
+                            <header id="lab-target-header" class="p-6 bg-blue-50 text-center border-b border-blue-100 transition-all duration-300">
+                                <h1 id="lab-target-h1" class="text-2xl font-black text-blue-900 uppercase tracking-tighter transition-all duration-300">Título Principal</h1>
+                            </header>
+
+                            <div class="p-6 bg-white space-y-6">
+                                <!-- Ejemplo de Jerarquía Real -->
+                                <section id="lab-target-titles" class="p-4 border border-slate-50 rounded-lg transition-all duration-300">
+                                    <h2 id="lab-target-h2" class="text-lg font-bold text-slate-800 mb-1">Capítulo 1: Introducción a la Web</h2>
+                                    <h3 id="lab-target-h3" class="text-md font-bold text-slate-700 mb-1">1.1 ¿Qué es HTML?</h3>
+                                    <h4 id="lab-target-h4" class="text-sm font-bold text-slate-600 mb-1">Herramientas necesarias</h4>
+                                    <h5 id="lab-target-h5" class="text-xs font-bold text-slate-500 mb-1">Nota: Usa Google Chrome</h5>
+                                    <h6 id="lab-target-h6" class="text-[10px] font-bold text-slate-400">Escrito por: Ronny Martinez</h6>
+                                </section>
+
+                                <section id="lab-target-section" class="p-4 border border-slate-50 rounded-lg transition-all duration-300">
+                                    <p id="lab-target-p" class="text-sm text-slate-600 leading-relaxed">
+                                        Este texto demuestra cómo aplicar el <strong id="lab-target-strong" class="transition-all duration-300">formato</strong>, la <em id="lab-target-em" class="transition-all duration-300">cursiva</em> y el <u id="lab-target-u" class="transition-all duration-300">subrayado</u> a tus párrafos.
+                                    </p>
+                                    <hr id="lab-target-hr" class="my-4 border-slate-100">
+                                    <div class="text-[10px] text-slate-400 leading-tight">
+                                        Explora con el menú de la izquierda 
+                                        <span id="lab-target-br" class="inline-block transition-all duration-300"><br></span> 
+                                        para ver más efectos.
+                                    </div>
+                                </section>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </main>
+        </div>
+
+
+    </div>
+
+    <!-- PESTAÑA 5: PRACTICA -->
+    <div id="tab-practica" class="tab-content hidden container mx-auto px-4 py-8">
+        <h2 class="text-3xl font-black text-center text-slate-800 mb-2 uppercase tracking-wide">🧪 Pon a prueba tu
+            conocimiento</h2>
+        <p class="text-center text-slate-500 text-sm mb-10">Responde las preguntas sobre los temas vistos en clase.</p>
+
+        <!-- Pantalla de inicio -->
+        <div id="quiz-start"
+            class="max-w-lg mx-auto text-center bg-white rounded-3xl p-12 shadow-lg border border-slate-200">
+            <div class="text-7xl mb-6">🚀</div>
+            <h3 class="text-2xl font-black text-slate-800 mb-3">¿Listo para el reto?</h3>
+            <p class="text-slate-500 text-sm mb-8">Preguntas sobre HTML, etiquetas, meta tags y herramientas digitales.</p>
+            <button onclick="startQuiz(false)"
+                class="bg-blue-600 hover:bg-blue-700 text-white font-black px-10 py-4 rounded-2xl text-lg transition-all hover:shadow-xl active:scale-95 cursor-pointer">¡Comenzar!</button>
+        </div>
+
+        <!-- Pregunta activa -->
+        <div id="quiz-question" class="hidden max-w-2xl mx-auto">
+            <div class="flex justify-between items-center mb-6 text-sm text-slate-500">
+                <span id="quiz-counter" class="font-bold text-blue-600">Pregunta 1 de 13</span>
+                <span id="quiz-score-live" class="bg-green-100 text-green-700 font-bold px-3 py-1 rounded-full">✅ 0
+                    correctas</span>
+            </div>
+            <!-- Barra de progreso -->
+            <div class="w-full bg-slate-200 rounded-full h-2 mb-8">
+                <div id="quiz-progress" class="bg-blue-500 h-2 rounded-full transition-all duration-500"
+                    style="width:0%"></div>
+            </div>
+
+            <div class="bg-white rounded-3xl p-8 shadow-lg border border-slate-200 text-center">
+                <h3 id="quiz-q-text" class="text-xl font-black text-slate-800 mb-8 leading-relaxed"></h3>
+                <div id="quiz-options" class="grid grid-cols-1 sm:grid-cols-2 gap-3"></div>
+                <p id="quiz-hint"
+                    class="hidden mt-6 text-sm text-indigo-600 bg-indigo-50 border border-indigo-100 rounded-xl px-4 py-3 italic">
+                </p>
+            </div>
+        </div>
+
+        <!-- Resultados -->
+        <div id="quiz-results"
+            class="hidden max-w-lg mx-auto text-center bg-white rounded-3xl p-12 shadow-lg border border-slate-200">
+            <div id="quiz-result-emoji" class="text-7xl mb-4">🏆</div>
+            <h3 class="text-2xl font-black text-slate-800 mb-2">¡Resultado Final!</h3>
+            <p id="quiz-result-msg" class="text-slate-500 text-sm mb-6"></p>
+            <div class="text-5xl font-black text-blue-600 mb-8" id="quiz-final-score"></div>
+            <div class="flex flex-col gap-3">
+                <button onclick="startQuiz(false)"
+                    class="bg-slate-800 hover:bg-slate-900 text-white font-black px-10 py-4 rounded-2xl text-lg transition-all hover:shadow-xl active:scale-95 cursor-pointer">🔄 Intentar de nuevo</button>
+                <button id="btn-repeat-failed" onclick="startQuiz(true)"
+                    class="hidden bg-orange-500 hover:bg-orange-600 text-white font-black px-10 py-4 rounded-2xl text-lg transition-all hover:shadow-xl active:scale-95 cursor-pointer">⚠️ Repetir falladas</button>
+            </div>
+        </div>
+    </div>
+
+    </div>
+
+    <!-- Overlay global para efecto cinematográfico -->
+    <div id="focus-overlay" class="fixed inset-0 bg-slate-900/80 z-[50] opacity-0 pointer-events-none transition-opacity duration-500"></div>
+
+    <!-- Asistente Jandra (Contenedor Base) -->
+    <div id="jandra-container" class="fixed bottom-6 right-6 z-[1000] flex flex-col items-end pointer-events-none transition-all duration-500 hidden">
+        <div id="clippy-bubble" class="clippy-bubble-tail bg-blue-50 border-4 border-blue-500 p-5 rounded-3xl mb-4 shadow-2xl max-w-[280px] pointer-events-auto relative">
+            <p id="clippy-text" class="text-lg font-bold text-blue-900 leading-tight"></p>
+            <!-- Pico de la burbuja en Azul -->
+            <div class="absolute -bottom-[10px] right-12 w-4 h-4 bg-blue-50 border-r-4 border-b-4 border-blue-500 rotate-[45deg]"></div>
+        </div>
+        <div id="jandra-teleport-wrapper" class="pointer-events-auto cursor-help opacity-0" onclick="jandraHint()">
+            <img id="jandra-img" src="../../assets/jandra/J1.svg" class="w-32 h-32 md:w-40 md:h-40 object-contain drop-shadow-xl animate-bounce-slow hover:scale-110 transition-transform">
+        </div>
+    </div>
+
+    <!-- Scripts de Interacción -->
+    <script>
+        // Inicializar Jandra manualmente para evitar conflictos
+        window.addEventListener('DOMContentLoaded', () => {
+            if (typeof Jandra !== 'undefined') Jandra.init();
+        });
+
+        function showAnatomy(part) {
+            const ids = ['default', 'doctype', 'head', 'title', 'meta-charset', 'meta-viewport', 'meta-desc', 'body'];
+            ids.forEach(id => {
+                const el = document.getElementById('anatomy-' + id);
+                if (el) el.classList.add('hidden');
+            });
+            const target = document.getElementById('anatomy-' + part);
+            if (target) target.classList.remove('hidden');
+        }
+
+        function llamarJandraFundamentos() {
+            // Revelar el contenedor de Jandra en esta pestaña
+            const jContainer = document.getElementById('jandra-container');
+            if (jContainer) jContainer.classList.remove('hidden');
+            
+            // Encender Efecto Cinematográfico
+            const overlay = document.getElementById('focus-overlay');
+            const codeContainer = document.getElementById('anatomy-code-container');
+            const teleportWrapper = document.getElementById('jandra-teleport-wrapper');
+            
+            if (teleportWrapper) {
+                teleportWrapper.classList.remove('teleport-in', 'teleport-out', 'opacity-0');
+                void teleportWrapper.offsetWidth; // Forzar reinicio de animación
+                teleportWrapper.classList.add('teleport-in');
+            }
+
+            if (overlay && codeContainer) {
+                overlay.classList.remove('opacity-0', 'pointer-events-none');
+                overlay.classList.add('opacity-100', 'pointer-events-auto');
+                // Elevar el código por encima del overlay y darle un brillo
+                codeContainer.classList.add('z-[60]', 'ring-4', 'ring-blue-500', 'scale-[1.02]');
+            }
+
+            // Esperar 800ms a que termine el teletransporte antes de hablar
+            setTimeout(() => {
+                Jandra.show(
+                    "¡Hola! Soy Jandra. Haz clic en las etiquetas del código de la izquierda para que puedas ver para qué sirve cada una.",
+                    () => {
+                        // Apagar Efecto Cinematográfico cuando Jandra termina de hablar
+                        if (overlay && codeContainer) {
+                            overlay.classList.remove('opacity-100', 'pointer-events-auto');
+                            overlay.classList.add('opacity-0', 'pointer-events-none');
+                            codeContainer.classList.remove('z-[60]', 'ring-4', 'ring-blue-500', 'scale-[1.02]');
+                        }
+                        
+                        // Teletransportar a Jandra fuera medio segundo después
+                        setTimeout(() => {
+                            if (teleportWrapper) {
+                                teleportWrapper.classList.remove('teleport-in');
+                                teleportWrapper.classList.add('teleport-out');
+                            }
+                            
+                            // Ocultar el contenedor completamente al terminar la animación (600ms)
+                            setTimeout(() => {
+                                if (jContainer) jContainer.classList.add('hidden');
+                            }, 600);
+                        }, 500);
+                    }
+                );
+            }, 800);
+        }
+
+        function showTab(tabId) {
+            // Ocultar todas las pestañas
+            document.querySelectorAll('.tab-content').forEach(tab => tab.classList.add('hidden'));
+            document.querySelectorAll('.tab-btn').forEach(btn => {
+                btn.classList.remove('bg-blue-600', 'text-white', 'shadow-lg', 'scale-105');
+                btn.classList.add('bg-white', 'text-slate-600');
+            });
+
+            // Mostrar la pestaña seleccionada
+            const activeTab = document.getElementById(tabId);
+            if (activeTab) activeTab.classList.remove('hidden');
+
+            // Resaltar botón activo
+            const activeBtn = document.getElementById('btn-' + tabId);
+            if (activeBtn) {
+                activeBtn.classList.remove('bg-white', 'text-slate-600');
+                activeBtn.classList.add('bg-blue-600', 'text-white', 'shadow-lg', 'scale-105');
+            }
+
+            // Resetear Jandra al cambiar pestaña
+            const jContainer = document.getElementById('jandra-container');
+            
+            // Pestañas donde Jandra NO debe estar (1 y 2)
+            if (tabId === 'tab-fundamentos' || tabId === 'tab-herramientas') {
+                if (jContainer) jContainer.classList.add('hidden');
+                Jandra.hide();
+                window.speechSynthesis.cancel();
+            } else {
+                // Pestañas donde Jandra SI debe estar (3, 4 y 5)
+                if (jContainer) jContainer.classList.remove('hidden');
+                
+                // Efecto de llegada al entrar a la pestaña
+                const teleportWrapper = document.getElementById('jandra-teleport-wrapper');
+                if (teleportWrapper) {
+                    teleportWrapper.classList.remove('teleport-in', 'teleport-out', 'opacity-0');
+                    void teleportWrapper.offsetWidth; // Forzar reinicio
+                    teleportWrapper.classList.add('teleport-in');
+                }
+
+                // --- SALUDO DE JANDRA ---
+                // Esperar a que aterrice (800ms) para mostrar la burbuja
+                setTimeout(() => {
+                    let msg = "";
+                    if (tabId === 'tab-interactivo') {
+                        msg = "¡Bienvenido al Diccionario! Toca una etiqueta para ver dónde se usa en la página.";
+                    } else if (tabId === 'tab-laboratorio') {
+                        msg = "¡Bienvenido al Laboratorio! Selecciona una etiqueta a la izquierda y observa dónde se resalta.";
+                    } else if (tabId === 'tab-practica') {
+                        msg = "¡Hora de la práctica! Presiona el botón Comenzar, lee con cuidado y selecciona la respuesta correcta. Si necesitas ayuda extra, ¡haz clic sobre mí para darte una pista!";
+                    }
+                    if (msg) Jandra.show(msg);
+                }, 800);
+            }
+        }
+
+        function updateDic(tag, event) {
+            // Limpiar resaltados anteriores
+            clearHighlight();
+
+            const data = dictData[tag];
+            if (!data) return;
+
+            // Iluminar en el Robot
+            highlight(tag);
+
+            // Jandra se encarga de todo: mostrarse, poner el texto y hablar
+            Jandra.show(tag + ". " + data.d);
+
+            // Estilo de los botones (ring-inset para evitar que el contenedor los recorte)
+            document.querySelectorAll('.dic-btn').forEach(btn => {
+                btn.classList.remove('ring-2', 'ring-indigo-500', 'ring-inset', 'shadow-md');
+            });
+            event.currentTarget.classList.add('ring-2', 'ring-indigo-500', 'ring-inset', 'shadow-md');
+        }
+
+        // --- LÓGICA DEL LABORATORIO ---
+        const dictData = {
+            'h1': { t: 'Título Nivel 1', d: 'El título más grande e importante. Se usa para el tema principal de la página.', c: '<h1>Título Principal</h1>' },
+            'h2': { t: 'Título Nivel 2', d: 'Se usa para los temas principales dentro de la página. Es un poco más pequeño que el H1.', c: '<h2>Capítulo 1: Introducción a la Web</h2>' },
+            'h3': { t: 'Título Nivel 3', d: 'Se usa para subtemas. Es de tamaño mediano y ayuda a organizar el contenido.', c: '<h3>1.1 ¿Qué es HTML?</h3>' },
+            'h4': { t: 'Título Nivel 4', d: 'Para sub-secciones dentro de un tema. Su tamaño es casi como el texto normal pero en negrita.', c: '<h4>Herramientas necesarias</h4>' },
+            'h5': { t: 'Título Nivel 5', d: 'Un título pequeño para secciones muy específicas.', c: '<h5>Nota: Usa Google Chrome</h5>' },
+            'h6': { t: 'Título Nivel 6', d: 'El título más pequeño de todos. Se usa raramente para detalles mínimos.', c: '<h6>Escrito por: Ronny Martinez</h6>' },
+            'p': { t: 'Párrafo', d: 'Para bloques de texto normal. Automáticamente añade un espacio arriba y abajo.', c: '<p>Este es un texto normal.</p>' },
+            'strong': { t: 'Negrita', d: 'Resalta visualmente el texto. Es ideal para palabras clave importantes.', c: 'Normal y <strong>en negrita</strong>' },
+            'em': { t: 'Cursiva', d: 'Inclina el texto para dar énfasis o estilo.', c: 'Normal y <em>en cursiva</em>' },
+            'u': { t: 'Subrayado', d: 'Dibuja una línea debajo del texto seleccionado.', c: 'Texto <u>subrayado</u>' },
+            'br': { t: 'Salto de Línea', d: 'Etiqueta Simple. Funciona como un "Enter" para bajar al siguiente renglón.', c: 'Línea 1<br>Línea 2' },
+            'hr': { t: 'Línea Horizontal', d: 'Etiqueta Simple. Dibuja una línea para separar secciones visualmente.', c: 'Sección A<hr>Sección B' },
+            'header': { t: 'Cabecera', d: 'Contenedor para el logo y el título principal del sitio.', c: '<header>\n  <h1>Mi Logo</h1>\n</header>' },
+            'nav': { t: 'Navegación', d: 'Contenedor para el menú de enlaces o botones del sitio.', c: '<nav>\n  <a href="#">Inicio</a>\n  <a href="#">Fotos</a>\n</nav>' },
+            'main': { t: 'Contenido Principal', d: 'Contenedor donde va el corazón de tu página (el texto más importante).', c: '<main>\n  <p>Aquí va el contenido.</p>\n</main>' },
+            'section': { t: 'Sección', d: 'Sirve para agrupar temas relacionados dentro de tu página.', c: '<section>\n  <h2>Sobre Mí</h2>\n</section>' },
+            'article': { t: 'Artículo', d: 'Contenido que tiene sentido por sí solo, como una noticia o un post.', c: '<article>\n  <h3>Mi Noticia</h3>\n</article>' },
+            'aside': { t: 'Barra Lateral', d: 'Contenido extra o secundario (como publicidad o enlaces extra).', c: '<aside>\n  <p>Publicidad aquí</p>\n</aside>' },
+            'footer': { t: 'Pie de Página', d: 'La parte final de la web. Aquí pones el contacto o redes sociales.', c: '<footer>\n  <p>@robot.steam</p>\n</footer>' },
+            'img': { t: 'Imagen', d: 'Etiqueta Simple. Muestra una fotografía o gráfico. Usa el atributo "src".', c: '<img src="https://picsum.photos/200/100" alt="Ejemplo">' }
+        };
+
+        function updateLab(tag, event) {
+            const data = dictData[tag];
+            if (!data) return;
+
+            // Actualizar código en la cajita
+            document.getElementById('lab-code').textContent = data.c;
+
+            // Jandra se encarga de todo
+            Jandra.show(data.t + ". " + data.d);
+
+            // Quitar resaltados anteriores
+            document.querySelectorAll('[id^="lab-target-"]').forEach(el => el.classList.remove('lab-highlight'));
+
+            // Resaltar el nuevo objetivo dentro del ejemplo
+            const target = document.getElementById('lab-target-' + tag);
+            if (target) target.classList.add('lab-highlight');
+
+            // Estilo de los botones laterales
+            document.querySelectorAll('.lab-btn').forEach(btn => {
+                btn.classList.remove('bg-blue-100', 'border-blue-500', 'text-blue-700');
+                btn.classList.add('bg-slate-50', 'border-slate-200', 'text-slate-600');
+            });
+            event.currentTarget.classList.remove('bg-slate-50', 'border-slate-200', 'text-slate-600');
+            event.currentTarget.classList.add('bg-blue-100', 'border-blue-500', 'text-blue-700');
+        }
+
+        function toggleJandra() {
+            const bubble = document.getElementById('clippy-bubble');
+            const isVisible = bubble && bubble.classList.contains('active');
+            if (isVisible) {
+                Jandra.hide();
+                window.speechSynthesis.cancel();
+            } else {
+                Jandra.show("¡Hola! Soy Jandra. Toca una etiqueta y te explicaré cómo funciona.");
+            }
+        }
+
+        function highlight(type) {
+            const overlay = document.getElementById('p-overlay');
+            if (overlay) {
+                overlay.classList.remove('opacity-0');
+                overlay.classList.add('opacity-100');
+            }
+
+            const el = document.getElementById('p-' + type);
+            if (el) {
+                el.classList.add('highlight-' + type, 'elevated-highlight');
+                // Efecto extra para main
+                if (type === 'main') el.classList.add('bg-white/10', 'rounded-lg');
+            }
+        }
+
+        function clearHighlight() {
+            const overlay = document.getElementById('p-overlay');
+            if (overlay) {
+                overlay.classList.remove('opacity-100');
+                overlay.classList.add('opacity-0');
+            }
+
+            const ids = ['header', 'nav', 'main', 'section', 'article', 'aside', 'footer', 'img'];
+            ids.forEach(id => {
+                const el = document.getElementById('p-' + id);
+                if (el) {
+                    el.classList.remove('highlight-header', 'highlight-nav', 'highlight-main', 'highlight-section', 'highlight-article', 'highlight-aside', 'highlight-footer', 'highlight-img', 'elevated-highlight', 'bg-white/10', 'rounded-lg');
+                }
+            });
+        }
+    </script>
+
+    <!-- Quiz data y lógica -->
+    <script src="../../assets/quiz/p1Quiz09.js"></script>
+    <script>
+        let currentQ = 0, score = 0, answered = false;
+        let activeQuestions = [];
+        let failedQuestions = [];
+
+        function startQuiz(onlyFailed = false) {
+            currentQ = 0; 
+            score = 0;
+            if (onlyFailed && failedQuestions.length > 0) {
+                activeQuestions = [...failedQuestions];
+            } else {
+                activeQuestions = [...questions];
+            }
+            failedQuestions = [];
+
+            document.getElementById('quiz-start').classList.add('hidden');
+            document.getElementById('quiz-results').classList.add('hidden');
+            document.getElementById('quiz-question').classList.remove('hidden');
+            showQuestion();
+        }
+
+        function showQuestion() {
+            answered = false;
+            const q = activeQuestions[currentQ];
+            document.getElementById('quiz-q-text').textContent = q.q;
+            document.getElementById('quiz-counter').textContent = `Pregunta ${currentQ + 1} de ${activeQuestions.length}`;
+            document.getElementById('quiz-score-live').textContent = `✅ ${score} correctas`;
+            document.getElementById('quiz-progress').style.width = `${(currentQ / activeQuestions.length) * 100}%`;
+            document.getElementById('quiz-hint').classList.add('hidden');
+
+            const opts = document.getElementById('quiz-options');
+            opts.innerHTML = '';
+            q.a.forEach((opt, i) => {
+                const btn = document.createElement('button');
+                btn.className = 'w-full text-left px-5 py-4 rounded-2xl border-2 border-slate-200 bg-slate-50 hover:border-blue-400 hover:bg-blue-50 transition-all font-semibold text-slate-800 text-sm cursor-pointer';
+                btn.textContent = opt;
+                btn.onclick = () => selectAnswer(i, q.c, q.h);
+                opts.appendChild(btn);
+            });
+        }
+
+        function selectAnswer(selected, correct, hint) {
+            if (answered) return;
+            answered = true;
+            const btns = document.getElementById('quiz-options').querySelectorAll('button');
+            btns.forEach((btn, i) => {
+                btn.onclick = null;
+                if (i === correct) {
+                    btn.className = btn.className.replace('border-slate-200 bg-slate-50 hover:border-blue-400 hover:bg-blue-50', 'border-green-500 bg-green-50 text-green-800');
+                } else if (i === selected && selected !== correct) {
+                    btn.className = btn.className.replace('border-slate-200 bg-slate-50 hover:border-blue-400 hover:bg-blue-50', 'border-red-400 bg-red-50 text-red-700');
+                }
+            });
+            
+            if (selected === correct) {
+                score++;
+            } else {
+                failedQuestions.push(activeQuestions[currentQ]);
+            }
+            
+            document.getElementById('quiz-hint').textContent = `💡 ${hint}`;
+            document.getElementById('quiz-hint').classList.remove('hidden');
+
+            setTimeout(() => {
+                currentQ++;
+                if (currentQ < activeQuestions.length) {
+                    showQuestion();
+                } else {
+                    showResults();
+                }
+            }, 1800);
+        }
+
+        function showResults() {
+            document.getElementById('quiz-question').classList.add('hidden');
+            document.getElementById('quiz-results').classList.remove('hidden');
+            const pct = Math.round((score / activeQuestions.length) * 100);
+            document.getElementById('quiz-final-score').textContent = `${score} / ${activeQuestions.length} — ${pct}%`;
+            
+            let emoji = '😢', msg = 'Sigue practicando, ¡puedes lograrlo!';
+            if (pct >= 90) { emoji = '🏆'; msg = '¡Excelente! Dominaste el tema completamente.'; }
+            else if (pct >= 70) { emoji = '🎉'; msg = '¡Muy bien! Tienes un buen manejo del tema.'; }
+            else if (pct >= 50) { emoji = '💪'; msg = 'Vas por buen camino, repasa los temas y vuelve a intentarlo.'; }
+            
+            document.getElementById('quiz-result-emoji').textContent = emoji;
+            document.getElementById('quiz-result-msg').textContent = msg;
+
+            const btnRepeatFailed = document.getElementById('btn-repeat-failed');
+            if (failedQuestions.length > 0) {
+                btnRepeatFailed.classList.remove('hidden');
+                btnRepeatFailed.textContent = `⚠️ Repetir ${failedQuestions.length} falladas`;
+            } else {
+                btnRepeatFailed.classList.add('hidden');
+            }
+        }
+
+        function resetQuiz() {
+            document.getElementById('quiz-results').classList.add('hidden');
+            document.getElementById('quiz-start').classList.remove('hidden');
+        }
+
+        function jandraHint() {
+            if (document.getElementById('tab-practica').classList.contains('hidden')) return;
+            if (document.getElementById('quiz-question').classList.contains('hidden')) return;
+            if (answered) return;
+            
+            const q = activeQuestions[currentQ];
+            if (q && q.h) {
+                Jandra.show(`💡 Pista: ${q.h}`);
+            }
+        }
+    </script>
+</body>
+
+</html>

@@ -1,0 +1,28 @@
+/**
+ * Quiz Data - Periodo 1 - Clase 11 - Grado 9
+ * Preguntas sobre estructura HTML, etiquetas, meta tags y formato de texto.
+ * 4 opciones por pregunta.
+ */
+
+const questions = [
+    { q: "¿Qué declaración siempre debe ir en la primera línea de un archivo HTML?", a: ["<html>", "<head>", "<!DOCTYPE html>", "<body>"], c: 2, h: "Recuerda que esta instrucción le indica al navegador la versión exacta de HTML que vas a utilizar, y siempre va al principio.", icon: "📄" },
+    { q: "¿Qué etiqueta define el título que aparece en la pestaña del navegador?", a: ["<header>", "<title>", "<h1>", "<meta>"], c: 1, h: "Piensa en el texto que lees en la parte superior de la ventana de tu navegador. ¿Cómo se le llama a esa zona?", icon: "🌐" },
+    { q: "¿Qué contiene la etiqueta <head>?", a: ["Todo el contenido visible de la página", "El menú de navegación principal", "Configuración técnica que el usuario no ve", "Las imágenes de la página"], c: 2, h: "Piensa en las configuraciones técnicas, enlaces a estilos y datos que el navegador necesita pero que no se dibujan en la pantalla.", icon: "🧠" },
+    { q: "¿Qué etiqueta contiene absolutamente todo lo visible en pantalla?", a: ["<head>", "<html>", "<title>", "<body>"], c: 3, h: "Considera la parte del documento que actúa como el 'cuerpo' donde viven todos los textos, imágenes y botones.", icon: "🖥️" },
+    { q: "¿Para qué sirve <meta charset='UTF-8'>?", a: ["Para cambiar el fondo de la página", "Para mostrar correctamente ñ, tildes y emojis", "Para conectar la página con Google", "Para definir el tamaño de la fuente"], c: 1, h: "Piensa en cómo le indicamos al navegador el mapa de caracteres para que entienda nuestro idioma correctamente.", icon: "🔤" },
+    { q: "¿Cuál es la diferencia entre una Etiqueta Par y una Simple?", a: ["La par es más larga que la simple", "No hay diferencia, son lo mismo", "La par se abre y se cierra; la simple va sola sin cierre", "La simple siempre va dentro de la par"], c: 2, h: "Observa la estructura. Una necesita un compañero para terminar su bloque, mientras que la otra funciona de manera independiente.", icon: "📦" },
+    { q: "¿Qué etiqueta se usa para crear el título más importante (grande) de la página?", a: ["<h6>", "<h3>", "<h1>", "<p>"], c: 2, h: "La letra 'h' viene de 'heading' (encabezado), y el número indica su nivel de importancia jerárquica.", icon: "🔝" },
+    { q: "¿Cuál de estas etiquetas se usa para resaltar texto en NEGRITA?", a: ["<em>", "<u>", "<strong>", "<br>"], c: 2, h: "Busca la opción cuya traducción al inglés sugiera que el texto tiene mucha 'fuerza' o importancia.", icon: "💪" },
+    { q: "¿Para qué sirve la etiqueta simple <br>?", a: ["Para dibujar una línea", "Para insertar una imagen", "Para forzar un salto de línea (Enter)", "Para crear un párrafo"], c: 2, h: "Piensa en la abreviatura de la palabra en inglés 'break' (romper o salto).", icon: "⏎" },
+    { q: "¿Qué etiqueta dibuja una línea horizontal divisora?", a: ["<br>", "<hr>", "<line>", "<p>"], c: 1, h: "Sus iniciales provienen de 'Horizontal Rule' (regla horizontal).", icon: "➖" },
+    { q: "¿Qué lenguaje se encarga del diseño visual (colores, tamaños) de la web?", a: ["HTML", "JavaScript", "CSS", "Python"], c: 2, h: "Piensa en las siglas de Hojas de Estilo en Cascada. Es el lenguaje encargado del maquillaje de la página.", icon: "🎨" },
+    { q: "¿Qué lenguaje añade interactividad (clics, animaciones) a la página?", a: ["HTML", "CSS", "Python", "JavaScript"], c: 3, h: "Es el lenguaje de programación que permite crear lógicas complejas y dinamismo, no solo marcado o estilos.", icon: "⚡" },
+    { q: "¿Qué etiqueta usamos para crear un párrafo de texto normal?", a: ["<paragraph>", "<text>", "<p>", "<br>"], c: 2, h: "Es la primera letra de la palabra que usamos para referirnos a un bloque de texto (paragraph en inglés).", icon: "📝" },
+    { q: "¿Qué etiqueta se utiliza para darle formato en cursiva a un texto?", a: ["<italic>", "<em>", "<strong>", "<u>"], c: 1, h: "Se utiliza para dar un énfasis especial al texto, inclinándolo ligeramente.", icon: "📐" },
+    { q: "¿Para qué se utiliza la etiqueta <u>?", a: ["Para crear una lista", "Para subrayar texto", "Para subir un archivo", "Para centrar texto"], c: 1, h: "Su inicial proviene de la palabra 'Underline' en inglés.", icon: "🖊️" },
+    { q: "¿Qué atributo usamos en la etiqueta <html> para indicar que el idioma es español?", a: ["lang='es'", "language='spanish'", "idioma='es'", "src='es'"], c: 0, h: "Es un atributo de dos o tres letras que especifica el código universal del idioma.", icon: "🇪🇸" },
+    { q: "¿Cuál de estas NO es una etiqueta HTML válida?", a: ["<body>", "<head>", "<style>", "<color>"], c: 3, h: "Recuerda que HTML define la estructura, mientras que los colores y aspectos visuales los manejamos con un lenguaje distinto.", icon: "🚫" },
+    { q: "¿Qué elemento envuelve todo el contenido de una página web, incluyendo el <head> y el <body>?", a: ["<!DOCTYPE html>", "<html>", "<page>", "<main>"], c: 1, h: "Es la etiqueta principal que abraza absolutamente todo el código de tu documento.", icon: "🌍" },
+    { q: "¿Cuál es el propósito de la etiqueta <meta name='viewport' content='...'>?", a: ["Hacer que la página cargue más rápido", "Adaptar la página a las pantallas de los celulares", "Mostrar un video en la página", "Conectar la página a una base de datos"], c: 1, h: "Este meta tag controla cómo se escala y ajusta el área visible de la página en diferentes dispositivos.", icon: "📱" },
+    { q: "¿Quién en el salón ya domina las etiquetas HTML como toda una profesional?", a: ["El profesor", "Nadie todavía", "El monitor del salón", "Jandra"], c: 3, h: "Piensa en tu amigable asistente virtual que siempre te acompaña en la plataforma.", icon: "⭐" },
+];

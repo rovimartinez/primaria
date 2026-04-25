@@ -70,49 +70,139 @@ document.addEventListener('DOMContentLoaded', () => {
         dropZone.innerHTML = `<p style="color: #6366f1; font-weight: 700;">📄 ${file.name} seleccionado</p>`;
     }
 
-    // Mock Upload Logic
-    uploadForm.addEventListener('submit', (e) => {
-        e.preventDefault();
+    // --- LÓGICA DE SUPABASE ---
+
+    // 1. Función para cargar resúmenes desde la base de datos
+    async function loadSummaries() {
+        const { data, error } = await supabase
+            .from('resumenes')
+            .select('*')
+            .order('creado_en', { ascending: false });
+
+        if (error) {
+            console.error('Error cargando resúmenes:', error);
+            return;
+        }
+
+        // Limpiar contenedor (excepto los ejemplos estáticos si los quieres mantener)
+        // cardsContainer.innerHTML = ''; 
+
+        data.forEach(resumen => {
+            renderCard(resumen, false);
+        });
         
-        const title = document.getElementById('summaryTitle').value;
-        const subject = document.getElementById('summarySubject').value;
-        const fileName = fileInput.files[0] ? fileInput.files[0].name : "nuevo-resumen.html";
-        
-        const date = new Date().toLocaleDateString('es-ES', {
+        updateStats();
+    }
+
+    // 2. Función para renderizar una tarjeta en el DOM
+    function renderCard(resumen, isNew = false) {
+        const date = new Date(resumen.creado_en).toLocaleDateString('es-ES', {
             day: 'numeric',
             month: 'short',
             year: 'numeric'
         });
 
-        const newCard = document.createElement('div');
-        newCard.className = 'summary-card';
-        // En un entorno real, aquí subiríamos el archivo y usaríamos su URL
-        // Como es un mock, simplemente simulamos el enlace
-        newCard.onclick = () => alert(`Simulación: El archivo "${fileName}" se guardaría en la carpeta "clases/" y se abriría desde allí.`);
+        const card = document.createElement('div');
+        card.className = 'summary-card';
+        card.onclick = () => window.location.href = resumen.contenido_url;
         
-        newCard.innerHTML = `
+        card.innerHTML = `
             <div class="card-image bg-grad-new">
-                <span class="subject-tag">${subject}</span>
+                <span class="subject-tag">${resumen.asignatura}</span>
             </div>
             <div class="card-info">
-                <h3>${title}</h3>
-                <p>Resumen recién subido a la plataforma.</p>
+                <h3>${resumen.titulo}</h3>
+                <p>Resumen académico de la asignatura.</p>
                 <div class="card-footer">
                     <span class="date">${date}</span>
-                    <span class="status" style="color: #f59e0b;">Pendiente</span>
+                    <span class="status">Visto</span>
                 </div>
             </div>
         `;
 
-        cardsContainer.prepend(newCard);
-        
-        // Reset and close
-        uploadForm.reset();
-        dropZone.innerHTML = `<p>Arrastra tu archivo HTML aquí o haz clic</p>`;
-        uploadModal.classList.remove('active');
-        
-        // Update stats
+        if (isNew) {
+            cardsContainer.prepend(card);
+        } else {
+            cardsContainer.appendChild(card);
+        }
+    }
+
+    function updateStats() {
         const countSpan = document.querySelector('.stat-value');
-        countSpan.textContent = String(cardsContainer.children.length).padStart(2, '0');
+        if (countSpan) {
+            countSpan.textContent = String(cardsContainer.children.length).padStart(2, '0');
+        }
+    }
+
+    // 3. Lógica de Subida Real
+    uploadForm.addEventListener('submit', async (e) => {
+        e.preventDefault();
+        
+        const title = document.getElementById('summaryTitle').value;
+        const subject = document.getElementById('summarySubject').value;
+        const file = fileInput.files[0];
+
+        if (!file) {
+            alert('Por favor, selecciona un archivo HTML');
+            return;
+        }
+
+        const submitBtn = uploadForm.querySelector('.btn-submit');
+        const originalText = submitBtn.textContent;
+        submitBtn.textContent = "Subiendo...";
+        submitBtn.disabled = true;
+
+        try {
+            // A. Subir el archivo al Storage
+            const fileExt = file.name.split('.').pop();
+            const fileName = `${Math.random()}.${fileExt}`;
+            const filePath = `archivos/${fileName}`;
+
+            const { data: uploadData, error: uploadError } = await supabase.storage
+                .from('resumenes_archivos')
+                .upload(filePath, file);
+
+            if (uploadError) throw uploadError;
+
+            // B. Obtener la URL pública del archivo
+            const { data: { publicUrl } } = supabase.storage
+                .from('resumenes_archivos')
+                .getPublicUrl(filePath);
+
+            // C. Guardar metadatos en la tabla 'resumenes'
+            const { data: dbData, error: dbError } = await supabase
+                .from('resumenes')
+                .insert([
+                    { 
+                        titulo: title, 
+                        asignatura: subject, 
+                        contenido_url: publicUrl 
+                    }
+                ])
+                .select();
+
+            if (dbError) throw dbError;
+
+            // D. Actualizar UI
+            renderCard(dbData[0], true);
+            updateStats();
+            
+            // Reset y cerrar
+            uploadForm.reset();
+            dropZone.innerHTML = `<p>Arrastra tu archivo HTML aquí o haz clic</p>`;
+            uploadModal.classList.remove('active');
+            alert('¡Resumen publicado con éxito!');
+
+        } catch (error) {
+            console.error('Error en el proceso:', error);
+            alert('Hubo un error al subir: ' + error.message);
+        } finally {
+            submitBtn.textContent = originalText;
+            submitBtn.disabled = false;
+        }
     });
+
+    // Cargar datos al iniciar
+    loadSummaries();
 });
+

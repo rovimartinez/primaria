@@ -20,46 +20,109 @@
         .tab-content.active { display: block; animation: slideIn 0.3s ease-out; }
 
         @keyframes slideIn {
-            from { opacity: 0; transform: translateX(20px); }
-            to { opacity: 1; transform: translateX(0); }
+            from { opacity: 0; transform: translateY(10px); }
+            to { opacity: 1; transform: translateY(0); }
         }
 
-        .nav-btn.active { color: white; transform: scale(1.05); }
+        .nav-btn.active { 
+            color: white !important; 
+            transform: scale(1.05);
+            box-shadow: 0 10px 15px -3px rgba(0, 0, 0, 0.1);
+            border-color: transparent !important;
+        }
 
-        .quiz-option {
-            transition: all 0.2s;
-            cursor: pointer;
-            text-align: left;
+        /* Feedback Overlay (Estilo 1° y 2°) */
+        .feedback-overlay {
+            position: absolute;
+            inset: 0;
+            display: none;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            z-index: 50;
+            border-radius: 1.5rem;
+            text-align: center;
+            padding: 1rem;
+            backdrop-filter: blur(4px);
+        }
+        .correct-bg { background-color: rgba(220, 252, 231, 0.9); }
+        .incorrect-bg { background-color: rgba(254, 226, 226, 0.9); }
+
+        .animate-pop { animation: pop 0.4s cubic-bezier(0.175, 0.885, 0.32, 1.275); }
+        @keyframes pop {
+            0% { transform: scale(0.5); opacity: 0; }
+            100% { transform: scale(1); opacity: 1; }
+        }
+
+        .animate-shake { animation: shake 0.4s ease-in-out; }
+        @keyframes shake {
+            0%, 100% { transform: translateX(0); }
+            25% { transform: translateX(-10px); }
+            75% { transform: translateX(10px); }
+        }
+
+        /* Simulador de Contraseñas */
+        .pass-strength {
+            height: 8px;
+            border-radius: 4px;
+            transition: all 0.3s;
+            margin-top: 10px;
+        }
+
+        /* Mascot Styles */
+        .mascot-bubble {
+            position: relative;
+            background: white;
+            border: 3px solid #3b82f6;
+            border-radius: 20px;
+            padding: 15px;
+            margin-bottom: 20px;
+            box-shadow: 0 10px 20px rgba(0,0,0,0.05);
+        }
+        .clippy-bubble-tail {
+            position: relative;
+        }
+        .clippy-bubble-tail::after {
+            content: '';
+            position: absolute;
+            bottom: -22px;
+            right: 75px;
+            border-width: 22px 15px 0;
+            border-style: solid;
+            border-color: #3b82f6 transparent;
+            filter: drop-shadow(0 5px 5px rgba(0,0,0,0.1));
+            z-index: 100;
+        }
+
+        .option-btn {
             width: 100%;
-            border: 2px solid #e2e8f0;
-            margin-bottom: 0.5rem;
+            text-align: left;
             padding: 1rem;
             border-radius: 1rem;
+            border: 2px solid #e2e8f0;
             background: white;
+            transition: all 0.2s;
+            font-weight: 600;
+            margin-bottom: 0.75rem;
         }
-        
-        .quiz-option:hover:not(:disabled) {
-            border-color: #cbd5e1;
-            background-color: #f8fafc;
+        .option-btn:hover:not(:disabled) {
+            border-color: #3b82f6;
+            background: #eff6ff;
         }
-
-        .correct { background-color: #dcfce7 !important; border-color: #22c55e !important; color: #166534 !important; }
-        .incorrect { background-color: #fee2e2 !important; border-color: #ef4444 !important; color: #991b1b !important; }
-        
-        .review-card {
-            border-left: 4px solid #ef4444;
-            background-color: #fff1f2;
-        }
-
-        .tip-card {
-            transition: transform 0.2s;
-        }
-        .tip-card:hover {
-            transform: translateY(-5px);
+        .correct-option {
+            background-color: #dcfce7 !important;
+            border-color: #22c55e !important;
+            color: #166534 !important;
         }
     </style>
 </head>
 <body class="p-4 md:p-6">
+
+    <div class="max-w-4xl mx-auto mb-6">
+        <a href="../periodo1.html" class="inline-flex items-center gap-2 bg-white px-4 py-2 rounded-xl shadow-sm border border-slate-200 text-slate-600 hover:text-blue-600 hover:border-blue-300 transition-all font-semibold">
+            <i class="fas fa-arrow-left"></i> Volver al Periodo 1
+        </a>
+    </div>
 
     <header class="text-center mb-8">
         <div class="bg-blue-600 text-white inline-block px-6 py-1 rounded-full text-sm font-bold mb-4">REPASO DE TEMAS VISTOS</div>
@@ -67,40 +130,52 @@
         <p class="text-slate-600 mt-2">Todo lo que aprendimos en los Temas 1.1 a 1.4 de 3° Grado</p>
     </header>
 
-    <!-- Navegación -->
-    <nav class="flex flex-wrap justify-center gap-2 mb-10">
-        <button onclick="showTab('clase1')" id="btn-clase1" class="nav-btn active px-4 py-3 rounded-2xl border-2 border-blue-500 font-bold text-blue-600">Tema 1: Internet</button>
-        <button onclick="showTab('clase2')" id="btn-clase2" class="nav-btn px-4 py-3 rounded-2xl border-2 border-green-500 font-bold text-green-600">Tema 2: Navegación</button>
-        <button onclick="showTab('clase3')" id="btn-clase3" class="nav-btn px-4 py-3 rounded-2xl border-2 border-red-500 font-bold text-red-600">Tema 3: Seguridad</button>
-        <button onclick="showTab('clase4')" id="btn-clase4" class="nav-btn px-4 py-3 rounded-2xl border-2 border-purple-500 font-bold text-purple-600">Tema 4: Uso Responsable</button>
-        <button onclick="showTab('test')" id="btn-test" class="nav-btn px-4 py-3 rounded-2xl border-2 border-orange-500 font-bold text-orange-600">📝 Test de Repaso</button>
+    <!-- Navegación Corregida -->
+    <nav class="flex flex-wrap justify-center gap-3 mb-10 relative z-10">
+        <button onclick="showTab('clase1')" id="btn-clase1" class="nav-btn active px-5 py-3 rounded-2xl border-2 border-blue-500 font-bold text-blue-600 bg-white hover:bg-blue-50 transition-all">Tema 1: Internet</button>
+        <button onclick="showTab('clase2')" id="btn-clase2" class="nav-btn px-5 py-3 rounded-2xl border-2 border-green-500 font-bold text-green-600 bg-white hover:bg-green-50 transition-all">Tema 2: Navegación</button>
+        <button onclick="showTab('clase3')" id="btn-clase3" class="nav-btn px-5 py-3 rounded-2xl border-2 border-red-500 font-bold text-red-600 bg-white hover:bg-red-50 transition-all">Tema 3: Seguridad</button>
+        <button onclick="showTab('clase4')" id="btn-clase4" class="nav-btn px-5 py-3 rounded-2xl border-2 border-purple-500 font-bold text-purple-600 bg-white hover:bg-purple-50 transition-all">Tema 4: Uso Responsable</button>
+        <button onclick="showTab('test')" id="btn-test" class="nav-btn px-5 py-3 rounded-2xl border-2 border-orange-500 font-bold text-orange-600 bg-white hover:bg-orange-50 transition-all">📝 Test de Repaso</button>
     </nav>
 
+    <!-- Asistente Estrellita (Estilo Clippy) -->
+    <div class="fixed bottom-6 right-6 z-[1000] flex flex-col items-end pointer-events-none group">
+        <div id="clippy-bubble" class="clippy-bubble-tail bg-white border-4 border-blue-400 p-4 rounded-3xl mb-2 shadow-2xl max-w-[200px] pointer-events-auto opacity-0 transition-all duration-500 translate-y-4">
+            <p id="clippy-text" class="text-xs font-bold text-blue-800 leading-tight">¡Hola! Soy Estrellita Robot. ¿Listo para aprender?</p>
+        </div>
+        <div class="text-7xl pointer-events-auto cursor-help" onmouseover="showClippy()" onmouseout="hideClippy()">🤖</div>
+    </div>
+
     <main class="max-w-4xl mx-auto bg-white rounded-3xl shadow-2xl overflow-hidden border border-slate-200 mb-12">
-        
         <!-- TEMA 1: INTRODUCCIÓN -->
         <div id="clase1" class="tab-content active p-6 md:p-10">
             <h2 class="text-2xl text-blue-600 mb-4 flex items-center gap-2 border-b pb-2"><i class="fas fa-network-wired"></i> ¿Qué es el Internet?</h2>
-            <div class="bg-blue-50 p-4 rounded-2xl mb-6">
-                <p class="font-bold text-blue-800 italic">"Internet es como una gran red de información que conecta computadoras de todo el mundo y permite la comunicación y el intercambio de información."</p>
+            <div class="bg-blue-50 p-6 rounded-3xl mb-8 border-2 border-blue-100 shadow-inner">
+                <p class="text-xl text-blue-900 leading-relaxed font-semibold">"Internet es como una gran red de información que conecta computadoras de todo el mundo."</p>
             </div>
-            <h3 class="font-bold text-slate-800 mb-4 text-lg">La Metáfora de la Biblioteca:</h3>
-            <div class="grid grid-cols-1 md:grid-cols-2 gap-4 mb-6">
-                <div class="p-4 border rounded-xl flex gap-3">
-                    <span class="text-2xl">🏢</span>
-                    <div><b>Servidores:</b> Almacenan la información de los sitios web y la envían cuando se solicita. Son como los estantes.</div>
+
+            <h3 class="font-bold text-slate-800 mb-6 text-xl text-center">La Metáfora de la Biblioteca</h3>
+            <div class="grid grid-cols-1 md:grid-cols-2 gap-6 mb-10">
+                <div class="p-6 bg-white border-2 border-blue-100 rounded-3xl shadow-sm hover:shadow-md transition-shadow">
+                    <span class="text-4xl block mb-2">🏢</span>
+                    <b class="text-blue-700 text-lg">Servidores</b>
+                    <p class="text-sm text-slate-600 mt-2">Son los estantes gigantes que guardan toda la información de las páginas web.</p>
                 </div>
-                <div class="p-4 border rounded-xl flex gap-3">
-                    <span class="text-2xl">🧐</span>
-                    <div><b>Navegadores:</b> Permiten ver y utilizar los sitios web (Chrome, Firefox, Safari). Son como los lectores.</div>
+                <div class="p-6 bg-white border-2 border-green-100 rounded-3xl shadow-sm hover:shadow-md transition-shadow">
+                    <span class="text-4xl block mb-2">🧐</span>
+                    <b class="text-green-700 text-lg">Navegadores</b>
+                    <p class="text-sm text-slate-600 mt-2">Son los lectores (como tú) que usan Chrome o Firefox para ver los libros.</p>
                 </div>
-                <div class="p-4 border rounded-xl flex gap-3">
-                    <span class="text-2xl">📍</span>
-                    <div><b>Dirección IP:</b> Dirección única de cada dispositivo. ¡Es como la dirección de nuestras casas!</div>
+                <div class="p-6 bg-white border-2 border-orange-100 rounded-3xl shadow-sm hover:shadow-md transition-shadow">
+                    <span class="text-4xl block mb-2">📍</span>
+                    <b class="text-orange-700 text-lg">Dirección IP</b>
+                    <p class="text-sm text-slate-600 mt-2">Es el "número de casa" de tu computadora para que la información sepa a dónde ir.</p>
                 </div>
-                <div class="p-4 border rounded-xl flex gap-3">
-                    <span class="text-2xl">📖</span>
-                    <div><b>Sitio Web:</b> Conjunto de páginas que ofrecen información sobre un tema en particular.</div>
+                <div class="p-6 bg-white border-2 border-purple-100 rounded-3xl shadow-sm hover:shadow-md transition-shadow">
+                    <span class="text-4xl block mb-2">📖</span>
+                    <b class="text-purple-700 text-lg">Sitio Web</b>
+                    <p class="text-sm text-slate-600 mt-2">Es un libro completo con muchas páginas llenas de fotos, juegos y videos.</p>
                 </div>
             </div>
         </div>
@@ -139,6 +214,20 @@
             <h2 class="text-2xl text-red-600 mb-6 flex items-center gap-2 border-b pb-2"><i class="fas fa-shield-alt"></i> Seguridad en Línea</h2>
             
             <h3 class="font-bold text-red-800 mb-4">🔑 ¿Cómo crear Contraseñas Seguras?</h3>
+            <div class="bg-white p-6 rounded-3xl border-2 border-red-100 shadow-sm mb-8">
+                <p class="text-slate-600 mb-4 font-semibold">¡Prueba tu propia contraseña aquí abajo! (No uses una real)</p>
+                <input type="text" id="passInput" oninput="checkPassStrength()" placeholder="Escribe una palabra aquí..." class="w-full p-4 rounded-2xl border-2 border-slate-200 focus:border-red-400 outline-none transition-all font-mono text-lg">
+                <div class="pass-strength bg-slate-200" id="passBar"></div>
+                <p id="passText" class="mt-2 text-sm font-bold text-slate-500 text-center">Escribe para probar...</p>
+                
+                <div class="grid grid-cols-2 gap-4 mt-6">
+                    <div class="flex items-center gap-2 text-xs" id="rule-len"><i class="fas fa-circle text-slate-300"></i> 8 letras o más</div>
+                    <div class="flex items-center gap-2 text-xs" id="rule-num"><i class="fas fa-circle text-slate-300"></i> Tiene números</div>
+                    <div class="flex items-center gap-2 text-xs" id="rule-sym"><i class="fas fa-circle text-slate-300"></i> Tiene símbolos (!#$)</div>
+                    <div class="flex items-center gap-2 text-xs" id="rule-mix"><i class="fas fa-circle text-slate-300"></i> Mayúsculas y minúsculas</div>
+                </div>
+            </div>
+
             <div class="grid grid-cols-1 sm:grid-cols-2 gap-4 mb-8">
                 <div class="bg-red-50 p-4 rounded-xl border-l-4 border-red-400 tip-card">
                     <p class="font-bold text-red-700 text-sm mb-1">1. Longitud</p>
@@ -158,18 +247,24 @@
                 </div>
             </div>
 
-            <div class="bg-orange-100 p-5 rounded-2xl mb-8 border-2 border-orange-200">
-                <h3 class="font-bold text-orange-800 mb-2 flex items-center gap-2"><i class="fas fa-fish"></i> Cuidado con el Phishing</h3>
-                <p class="text-sm mb-4">Es una técnica de engaño donde mensajes falsos intentan robar tus contraseñas o datos.</p>
-                <div class="bg-white p-4 rounded-xl text-xs">
-                    <p class="font-bold mb-2">5 maneras de evitarlo:</p>
-                    <ul class="list-disc pl-5 space-y-1 text-slate-700">
-                        <li>No hagas clic en enlaces sospechosos.</li>
-                        <li>Verifica que el remitente sea conocido.</li>
-                        <li>No compartas datos bancarios o contraseñas por mensaje.</li>
-                        <li>Desconfía de premios que "ganaste" sin participar.</li>
-                        <li>Si el mensaje te presiona o te asusta, ¡es sospechoso!</li>
-                    </ul>
+            <div class="bg-orange-100 p-8 rounded-3xl mb-8 border-2 border-orange-200 relative overflow-hidden">
+                <h3 class="font-bold text-orange-800 mb-4 text-2xl flex items-center gap-2"><i class="fas fa-fish"></i> Detective de Phishing</h3>
+                <p class="text-slate-700 mb-6 font-semibold">¿Puedes descubrir si estos mensajes son verdaderos o una trampa?</p>
+                
+                <div id="phishing-game" class="bg-white p-6 rounded-2xl shadow-inner border border-orange-200 relative">
+                    <!-- Dinámico -->
+                    <div id="phishing-content">
+                        <div class="flex items-center gap-3 mb-4">
+                            <div class="w-10 h-10 bg-slate-200 rounded-full flex items-center justify-center text-xl">👤</div>
+                            <div class="font-bold text-sm">Desconocido</div>
+                        </div>
+                        <p class="bg-slate-100 p-4 rounded-xl text-sm mb-4">"¡FELICIDADES! Ganaste un iPhone 15. Haz clic aquí para reclamarlo: http://ganaste-ya.com"</p>
+                        <div class="flex gap-4">
+                            <button onclick="checkPhishing(true)" class="flex-1 bg-red-100 hover:bg-red-200 text-red-700 py-3 rounded-xl font-bold transition">ES TRAMPA 🚨</button>
+                            <button onclick="checkPhishing(false)" class="flex-1 bg-green-100 hover:bg-green-200 text-green-700 py-3 rounded-xl font-bold transition">ES SEGURO ✅</button>
+                        </div>
+                    </div>
+                    <div id="phishing-feedback" class="hidden absolute inset-0 bg-white/95 flex flex-col items-center justify-center rounded-2xl animate-pop"></div>
                 </div>
             </div>
 
@@ -268,6 +363,15 @@
     </footer>
 
     <script>
+        // --- VARIABLES GLOBALES Y CONFIGURACIÓN ---
+        const clippyMessages = {
+            clase1: "¡El Internet es como una red gigante que nos une a todos! 🌐",
+            clase2: "¡Navegar es como un viaje! No olvides tu brújula de seguridad. 🧭",
+            clase3: "¡Protege tu información como un tesoro con llaves secretas! 🔑",
+            clase4: "¡Sé amable en línea! Detrás de cada pantalla hay un corazón. ❤️",
+            test: "¡Demuestra todo lo que sabes en el gran reto final! 🎓"
+        };
+
         const questions = [
             { q: "¿Qué componente del internet es comparable con los estantes de una biblioteca?", a: ["Los Navegadores.", "Los Servidores.", "Las Direcciones IP."], c: 1 },
             { q: "¿Cuál de estos es el concepto correcto de Internet?", a: ["Una red mundial de computadoras para intercambiar información.", "Un programa para jugar sin conexión a internet.", "Una oficina donde se guardan libros y videos."], c: 0 },
@@ -287,120 +391,172 @@
         ];
 
         let currentQ = 0;
-        let score = 0;
+        let scoreQuiz = 0;
         let mistakes = [];
+        let currentPhish = 0;
 
+        // --- FUNCIONES DE NAVEGACIÓN ---
         function showTab(tabId) {
-            document.querySelectorAll('.tab-content').forEach(tab => tab.classList.remove('active'));
-            document.querySelectorAll('.nav-btn').forEach(btn => btn.classList.remove('active'));
-            document.querySelectorAll('.nav-btn').forEach(btn => { btn.style.backgroundColor = ''; btn.style.color = ''; });
-
-            const target = document.getElementById(tabId);
-            target.classList.add('active');
-            const btn = document.getElementById('btn-' + tabId);
-            btn.classList.add('active');
+            console.log("Cambiando a pestaña:", tabId);
             
+            // Ocultar todos los contenidos
+            document.querySelectorAll('.tab-content').forEach(tab => {
+                tab.style.display = 'none';
+                tab.classList.remove('active');
+            });
+
+            // Resetear todos los botones
             const colors = { clase1: '#3b82f6', clase2: '#22c55e', clase3: '#ef4444', clase4: '#a855f7', test: '#f97316' };
-            btn.style.backgroundColor = colors[tabId];
-            btn.style.color = 'white';
+            document.querySelectorAll('.nav-btn').forEach(btn => {
+                btn.classList.remove('active');
+                btn.style.backgroundColor = 'white';
+                btn.style.color = '';
+                // Recuperar color de borde original basado en su ID
+                const id = btn.id.replace('btn-', '');
+                btn.style.borderColor = colors[id];
+            });
+
+            // Mostrar el seleccionado
+            const target = document.getElementById(tabId);
+            if (target) {
+                target.style.display = 'block';
+                target.classList.add('active');
+            }
+
+            // Activar botón
+            const btn = document.getElementById('btn-' + tabId);
+            if (btn) {
+                btn.classList.add('active');
+                const activeColor = colors[tabId] || '#3b82f6';
+                btn.style.backgroundColor = activeColor;
+                btn.style.borderColor = activeColor;
+                btn.style.color = 'white';
+            }
+
+            // Mensaje de Estrellita
+            const clippyText = document.getElementById('clippy-text');
+            if (clippyText) {
+                clippyText.innerText = clippyMessages[tabId] || "¡Sigue adelante!";
+                showClippy();
+                setTimeout(hideClippy, 4000);
+            }
+
             window.scrollTo({ top: 0, behavior: 'smooth' });
         }
 
+        // --- FUNCIONES DE ESTRELLITA ---
+        function showClippy() {
+            const bubble = document.getElementById('clippy-bubble');
+            if (bubble) {
+                bubble.classList.remove('opacity-0', 'translate-y-4');
+                bubble.classList.add('opacity-100', 'translate-y-0');
+            }
+        }
+
+        function hideClippy() {
+            const bubble = document.getElementById('clippy-bubble');
+            if (bubble) {
+                bubble.classList.add('opacity-0', 'translate-y-4');
+                bubble.classList.remove('opacity-100', 'translate-y-0');
+            }
+        }
+
+        // --- SIMULADOR DE CONTRASEÑAS ---
+        function checkPassStrength() {
+            const pass = document.getElementById('passInput').value;
+            const bar = document.getElementById('passBar');
+            const text = document.getElementById('passText');
+            let pScore = 0;
+            const rules = [
+                { id: 'rule-len', check: pass.length >= 8 },
+                { id: 'rule-num', check: /[0-9]/.test(pass) },
+                { id: 'rule-sym', check: /[^A-Za-z0-9]/.test(pass) },
+                { id: 'rule-mix', check: /[A-Z]/.test(pass) && /[a-z]/.test(pass) }
+            ];
+            rules.forEach(r => {
+                const icon = document.getElementById(r.id).querySelector('i');
+                if (r.check) { pScore++; icon.className = "fas fa-check-circle text-green-500"; }
+                else { icon.className = "fas fa-circle text-slate-300"; }
+            });
+            const colors = ['#e2e8f0', '#ef4444', '#f97316', '#eab308', '#22c55e'];
+            const labels = ['Escribe algo...', 'Muy Débil 🛑', 'Débil ⚠️', 'Buena 👍', '¡Súper Segura! 🛡️'];
+            bar.style.width = (pScore * 25) + '%';
+            bar.style.backgroundColor = colors[pScore];
+            text.innerText = labels[pScore];
+            text.style.color = colors[pScore];
+        }
+
+        // --- DETECTIVE DE PHISHING ---
+        const phishingScenarios = [
+            { msg: "¡FELICIDADES! Ganaste un iPhone 15. Haz clic aquí para reclamarlo: http://ganaste-ya.com", isTrap: true, why: "Nadie regala iPhones por mensaje. ¡Es una trampa!" },
+            { msg: "Hola, soy tu profesor Ronny. Te envío la tarea de mañana: http://escuela.edu/tarea", isTrap: false, why: "Parece seguro, es un correo de tu escuela." },
+            { msg: "Tu cuenta de Roblox será borrada en 5 minutos. Danos tu clave para salvarla.", isTrap: true, why: "Las empresas nunca te piden tu clave por mensaje." }
+        ];
+        function checkPhishing(userSaysTrap) {
+            const scenario = phishingScenarios[currentPhish];
+            const feedback = document.getElementById('phishing-feedback');
+            feedback.classList.remove('hidden');
+            const isCorrect = userSaysTrap === scenario.isTrap;
+            feedback.innerHTML = `
+                <span class="text-6xl mb-4">${isCorrect ? '✅' : '❌'}</span>
+                <p class="text-xl font-bold ${isCorrect ? 'text-green-600' : 'text-red-600'} mb-2">${isCorrect ? '¡Excelente Detective!' : '¡Cuidado!'}</p>
+                <p class="text-sm text-slate-600 px-6">${scenario.why}</p>
+                <button onclick="nextPhish()" class="mt-6 bg-blue-600 text-white px-6 py-2 rounded-xl font-bold">Siguiente Caso</button>
+            `;
+        }
+        function nextPhish() {
+            currentPhish = (currentPhish + 1) % phishingScenarios.length;
+            document.getElementById('phishing-feedback').classList.add('hidden');
+            const scenario = phishingScenarios[currentPhish];
+            document.getElementById('phishing-content').querySelector('p').innerText = `"${scenario.msg}"`;
+        }
+
+        // --- LÓGICA DEL TEST ---
         function startQuiz() {
             document.getElementById('quiz-intro').classList.add('hidden');
             document.getElementById('quiz-active').classList.remove('hidden');
-            document.getElementById('quiz-result').classList.add('hidden');
-            currentQ = 0;
-            score = 0;
-            mistakes = [];
+            currentQ = 0; scoreQuiz = 0; mistakes = [];
             renderQuestion();
         }
-
         function renderQuestion() {
-            const wrapper = document.getElementById('questions-wrapper');
             const qData = questions[currentQ];
-            document.getElementById('question-counter').innerText = `Pregunta ${currentQ + 1} de 15`;
-            document.getElementById('score-counter').innerText = `Puntos: ${score}`;
-            document.getElementById('next-container').classList.add('hidden');
-
-            wrapper.innerHTML = `
-                <div class="animate-fadeIn">
-                    <p class="text-xl font-bold mb-6 text-slate-800">${qData.q}</p>
-                    <div class="space-y-3">
-                        ${qData.a.map((opt, i) => `
-                            <button onclick="handleAnswer(${i}, ${qData.c}, this)" class="quiz-option">
-                                ${opt}
-                            </button>
-                        `).join('')}
-                    </div>
-                </div>
-            `;
+            document.getElementById('question-counter').innerText = `Pregunta ${currentQ + 1} de ${questions.length}`;
+            document.getElementById('questions-wrapper').innerHTML = `
+                <div class="relative p-6 bg-slate-50 rounded-3xl min-h-[300px]">
+                    <div id="quiz-overlay" class="feedback-overlay" style="display:none"></div>
+                    <p class="text-xl font-bold mb-6">${qData.q}</p>
+                    <div class="space-y-3">${qData.a.map((opt, i) => `<button onclick="handleAnswer(${i}, ${qData.c}, this)" class="option-btn w-full p-4 bg-white rounded-xl shadow border border-slate-200 text-left hover:bg-slate-100 transition">${opt}</button>`).join('')}</div>
+                </div>`;
         }
-
         function handleAnswer(index, correctIndex, btn) {
-            const options = document.querySelectorAll('.quiz-option');
-            options.forEach(opt => opt.disabled = true);
-            const qData = questions[currentQ];
-
-            if (index === correctIndex) {
-                btn.classList.add('correct');
-                btn.innerHTML += ' <i class="fas fa-check-circle ml-2"></i>';
-                score++;
-            } else {
-                btn.classList.add('incorrect');
-                btn.innerHTML += ' <i class="fas fa-times-circle ml-2"></i>';
-                options[correctIndex].classList.add('correct');
-                mistakes.push({
-                    question: qData.q,
-                    yourAnswer: qData.a[index],
-                    correctAnswer: qData.a[correctIndex]
-                });
-            }
-
-            document.getElementById('score-counter').innerText = `Puntos: ${score}`;
-            document.getElementById('next-container').classList.remove('hidden');
-            if (currentQ === questions.length - 1) document.getElementById('next-btn').innerText = "Ver Resultados";
+            const overlay = document.getElementById('quiz-overlay');
+            const isCorrect = index === correctIndex;
+            document.querySelectorAll('.option-btn').forEach(b => b.disabled = true);
+            if (isCorrect) { scoreQuiz++; btn.style.backgroundColor = '#bbf7d0'; overlay.innerHTML = '<span class="text-9xl">✅</span>'; }
+            else { btn.style.backgroundColor = '#fecaca'; overlay.innerHTML = '<span class="text-9xl">❌</span>'; mistakes.push(questions[currentQ]); }
+            overlay.style.display = 'flex';
+            setTimeout(() => {
+                if (currentQ < questions.length - 1) { currentQ++; renderQuestion(); }
+                else { showFinalResult(); }
+            }, 1200);
         }
-
-        function nextQuestion() {
-            if (currentQ < questions.length - 1) {
-                currentQ++;
-                renderQuestion();
-            } else {
-                showResult();
-            }
-        }
-
-        function showResult() {
+        function showFinalResult() {
             document.getElementById('quiz-active').classList.add('hidden');
-            document.getElementById('quiz-result').classList.remove('hidden');
-            document.getElementById('final-score').innerText = `Puntuación: ${score} / 15`;
-            
-            const reviewSection = document.getElementById('review-section');
-            const errorsList = document.getElementById('errors-list');
-            
-            if (mistakes.length > 0) {
-                reviewSection.classList.remove('hidden');
-                errorsList.innerHTML = mistakes.map(m => `
-                    <div class="p-4 rounded-xl review-card shadow-sm">
-                        <p class="font-bold text-slate-800 mb-2">${m.question}</p>
-                        <p class="text-xs text-red-600">❌ Tu respuesta: ${m.yourAnswer}</p>
-                        <p class="text-xs text-green-700 font-semibold mt-1">✅ Respuesta correcta: ${m.correctAnswer}</p>
-                    </div>
-                `).join('');
-            } else {
-                errorsList.innerHTML = `<p class="text-green-600 font-bold">¡Increíble! Respondiste todo correctamente. No tienes errores que repasar.</p>`;
-                reviewSection.classList.remove('hidden');
-            }
+            const res = document.getElementById('quiz-result');
+            res.classList.remove('hidden');
+            document.getElementById('final-score').innerText = `Puntuación: ${scoreQuiz} / ${questions.length}`;
         }
+        function resetQuiz() { location.reload(); }
 
-        function resetQuiz() {
-            document.getElementById('quiz-result').classList.add('hidden');
-            document.getElementById('quiz-intro').classList.remove('hidden');
-            document.getElementById('next-btn').innerText = "Siguiente";
-        }
-
-        window.onload = () => showTab('clase1');
+        window.onload = () => {
+            showTab('clase1');
+            setTimeout(() => {
+                const text = document.getElementById('clippy-text');
+                if (text) text.innerText = "¡Bienvenido a 3° Grado! Soy Estrellita Robot, tu asistente. Haz clic en las pestañas para empezar.";
+                showClippy();
+                setTimeout(hideClippy, 5000);
+            }, 1000);
+        };
     </script>
 </body>
 </html>

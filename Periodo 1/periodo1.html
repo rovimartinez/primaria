@@ -7,7 +7,7 @@
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
     <link href="https://fonts.googleapis.com/css2?family=Outfit:wght@300;400;600;800&family=Plus+Jakarta+Sans:wght@400;500;700&display=swap" rel="stylesheet">
-    <link rel="stylesheet" href="style.css">
+    <link rel="stylesheet" href="../css/style.css">
     <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
 </head>
 <body>
@@ -20,10 +20,7 @@
     <div class="app-container">
         <header class="main-header">
             <div class="logo-area">
-                <a href="index.html" class="icon-box hover:scale-110 transition-transform">
-                    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
-                        <path d="M19 12H5M12 19l-7-7 7-7"/></svg>
-                </a>
+
                 <div class="title-text">
                     <h1>Periodo 1</h1>
                     <p>Resúmenes de Computación</p>
@@ -35,47 +32,38 @@
         <main class="content-grid">
             <div class="cards-container" id="cardsContainer">
                 <!-- Example Card 1 -->
-                <div class="summary-card" onclick="window.location.href='clases/01.html'">
+                <div class="summary-card" onclick="window.location.href='clasesP1/01.html'">
                     <div class="card-image bg-grad-1">
-                        <span class="subject-tag">Computación</span>
+                        <span class="subject-tag">Primaria</span>
+                        <div class="card-icon">🎓</div>
                     </div>
                     <div class="card-info">
-                        <h3>Resumen del periodo 1 de 1°</h3>
-                        <p>Preparación para el examen final de computación.</p>
-                        <div class="card-footer">
-                            <span class="date">24 Abr, 2026</span>
-                            <span class="status">Visto</span>
-                        </div>
+                        <h3>Grado 1°</h3>
+                        <p>¡Prepárate para tu gran aventura!</p>
                     </div>
                 </div>
 
                 <!-- Card 2° Grado -->
-                <div class="summary-card" onclick="window.location.href='clases/02.html'">
+                <div class="summary-card" onclick="window.location.href='clasesP1/02.html'">
                     <div class="card-image bg-grad-3">
-                        <span class="subject-tag">Computación</span>
+                        <span class="subject-tag">Primaria</span>
+                        <div class="card-icon">🖱️</div>
                     </div>
                     <div class="card-info">
-                        <h3>Resumen del periodo 1 de 2°</h3>
-                        <p>Explorando las partes de la computadora por dentro y por fuera.</p>
-                        <div class="card-footer">
-                            <span class="date">25 Abr, 2026</span>
-                            <span class="status">Nuevo</span>
-                        </div>
+                        <h3>Grado 2°</h3>
+                        <p>Descubre el mundo de las PCs.</p>
                     </div>
                 </div>
 
                 <!-- Example Card 2 -->
-                <div class="summary-card" onclick="window.location.href='clases/03.html'">
+                <div class="summary-card" onclick="window.location.href='clasesP1/03.html'">
                     <div class="card-image bg-grad-2">
-                        <span class="subject-tag">Computación</span>
+                        <span class="subject-tag">Primaria</span>
+                        <div class="card-icon">💻</div>
                     </div>
                     <div class="card-info">
-                        <h3>Resumen del periodo 1 de 3°</h3>
-                        <p>Resumen detallado de contenidos para tercer grado.</p>
-                        <div class="card-footer">
-                            <span class="date">24 Abr, 2026</span>
-                            <span class="status">Visto</span>
-                        </div>
+                        <h3>Grado 3°</h3>
+                        <p>¡Conviértete en un experto digital!</p>
                     </div>
                 </div>
             </div>
@@ -116,7 +104,7 @@
         </div>
     </div>
 
-    <script src="supabase-config.js"></script>
-    <script src="app.js"></script>
+    <script src="../js/supabase-config.js"></script>
+    <script src="../js/app.js"></script>
 </body>
 </html>

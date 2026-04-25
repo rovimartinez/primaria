@@ -10,6 +10,13 @@ const Jandra = {
     rate: 1.0,  
     isSpeaking: false,
     
+    getAssetPath() {
+        const path = window.location.pathname;
+        if (path.includes('clasesP1')) return '../../assets/jandra/';
+        if (path.includes('Periodo 1')) return '../assets/jandra/';
+        return 'assets/jandra/';
+    },
+    
     init() {
         if (document.getElementById('jandra-container')) return;
 
@@ -53,7 +60,7 @@ const Jandra = {
             <div id="clippy-bubble" class="clippy-bubble-tail bg-orange-50 border-4 border-orange-500 p-5 rounded-3xl mb-2 shadow-2xl max-w-[280px] pointer-events-auto">
                 <p id="clippy-text" class="text-lg font-bold text-orange-900 leading-tight"></p>
             </div>
-            <img id="jandra-img" src="../jandra/J1.svg" class="w-32 h-32 md:w-40 md:h-40 pointer-events-auto cursor-help object-contain drop-shadow-xl">
+            <img id="jandra-img" src="${this.getAssetPath()}J1.svg" class="w-32 h-32 md:w-40 md:h-40 pointer-events-auto cursor-help object-contain drop-shadow-xl">
         `;
         document.body.appendChild(container);
         
@@ -86,7 +93,7 @@ const Jandra = {
 
     updatePose(pose) {
         const img = document.getElementById('jandra-img');
-        if (img) img.src = `../jandra/J${pose}.svg`;
+        if (img) img.src = `${this.getAssetPath()}J${pose}.svg`;
     },
 
     startAnimation() {

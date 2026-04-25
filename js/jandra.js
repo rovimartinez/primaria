@@ -6,10 +6,10 @@
 const Jandra = {
     interval: null,
     lastPose: 2,
-    pitch: 1.5, 
-    rate: 1.0,  
+    pitch: 1.5,
+    rate: window.location.href.includes('09.html') ? 1.5 : 1.0,
     isSpeaking: false,
-    
+
     getAssetPath() {
         try {
             const scripts = document.getElementsByTagName('script');
@@ -18,14 +18,14 @@ const Jandra = {
                     return scripts[i].src.split('js/jandra.js')[0] + 'assets/jandra/';
                 }
             }
-        } catch(e) {}
-        
+        } catch (e) { }
+
         const path = window.location.href;
         if (path.includes('clasesP1')) return '../../assets/jandra/';
         if (path.includes('Periodo%201') || path.includes('Periodo 1')) return '../assets/jandra/';
         return 'assets/jandra/';
     },
-    
+
     init() {
         if (document.getElementById('jandra-container')) return;
 
@@ -72,7 +72,7 @@ const Jandra = {
             <img id="jandra-img" src="${this.getAssetPath()}J1.svg" class="w-32 h-32 md:w-40 md:h-40 pointer-events-auto cursor-help object-contain drop-shadow-xl">
         `;
         document.body.appendChild(container);
-        
+
         document.getElementById('jandra-img').onclick = () => {
             if (window.onJandraClick) window.onJandraClick();
         };
@@ -110,7 +110,7 @@ const Jandra = {
         this.interval = setInterval(() => {
             this.lastPose = this.lastPose === 2 ? 3 : 2;
             this.updatePose(this.lastPose);
-        }, 400);
+        }, 150); // Acelerado de 400ms a 150ms para un movimiento más natural
     },
 
     stopAnimation() {
@@ -123,39 +123,55 @@ const Jandra = {
 
     speak(text, onDone = null) {
         window.speechSynthesis.cancel();
-        
+
         setTimeout(() => {
             let cleanText = text.replace(/[✅❌💡]/g, '');
             cleanText = cleanText.replace(/pista:?/gi, '');
-            
+
             this.currentMsg = new SpeechSynthesisUtterance(cleanText);
             const msg = this.currentMsg;
             const voices = window.speechSynthesis.getVoices();
-            
-            const femaleVoices = voices.filter(v => v.lang.includes('es') && 
-                (v.name.toLowerCase().includes('monica') || 
-                 v.name.toLowerCase().includes('mónica') || 
-                 v.name.toLowerCase().includes('sabina') || 
-                 v.name.toLowerCase().includes('helena') || 
-                 v.name.toLowerCase().includes('laura') || 
-                 v.name.toLowerCase().includes('zira') ||
-                 v.name.toLowerCase().includes('google') ||
-                 v.name.toLowerCase().includes('female'))
+
+            const femaleVoices = voices.filter(v => v.lang.includes('es') &&
+                (v.name.toLowerCase().includes('monica') ||
+                    v.name.toLowerCase().includes('mónica') ||
+                    v.name.toLowerCase().includes('sabina') ||
+                    v.name.toLowerCase().includes('helena') ||
+                    v.name.toLowerCase().includes('laura') ||
+                    v.name.toLowerCase().includes('zira') ||
+                    v.name.toLowerCase().includes('google') ||
+                    v.name.toLowerCase().includes('female'))
             );
-            
+
             if (femaleVoices.length > 0) {
                 msg.voice = femaleVoices[0];
             }
-            
+
             msg.lang = 'es-MX';
-            msg.rate = this.rate; 
-            msg.pitch = this.pitch; 
+            msg.rate = this.rate;
+            msg.pitch = this.pitch;
             msg.volume = 1.0;
 
             // Iniciar animación y mostrar burbuja INMEDIATAMENTE
             const bubble = document.getElementById('clippy-bubble');
             if (bubble) bubble.classList.add('active', 'animate-jandra-pop');
             this.startAnimation();
+
+            // Sincronizar animación con signos de puntuación (pausas naturales)
+            msg.onboundary = (event) => {
+                if (event.name === 'word') {
+                    const snippet = cleanText.substring(Math.max(0, event.charIndex - 2), event.charIndex + 2);
+                    if (/[.,!?:;]/.test(snippet)) {
+                        this.stopAnimation();
+                        setTimeout(() => {
+                            // Reiniciar si sigue hablando
+                            if (window.speechSynthesis.speaking && !window.speechSynthesis.paused) {
+                                this.startAnimation();
+                            }
+                        }, 350); // Pausa visual de 350ms
+                    }
+                }
+            };
 
             const finish = () => {
                 if (this.fallbackTimeout) clearTimeout(this.fallbackTimeout);

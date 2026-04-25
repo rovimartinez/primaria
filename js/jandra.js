@@ -11,9 +11,9 @@ const Jandra = {
     isSpeaking: false,
     
     getAssetPath() {
-        const path = window.location.pathname;
+        const path = window.location.href;
         if (path.includes('clasesP1')) return '../../assets/jandra/';
-        if (path.includes('Periodo 1')) return '../assets/jandra/';
+        if (path.includes('Periodo%201') || path.includes('Periodo 1')) return '../assets/jandra/';
         return 'assets/jandra/';
     },
     

@@ -1,0 +1,406 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Resumen: Sistemas Computacionales</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css" rel="stylesheet">
+    <style>
+        @import url('https://fonts.googleapis.com/css2?family=Fredoka+One&family=Quicksand:wght@400;600&display=swap');
+        
+        body {
+            font-family: 'Quicksand', sans-serif;
+            background-color: #f0f4f8;
+        }
+        
+        h1, h2, h3 { font-family: 'Fredoka One', cursive; }
+
+        .tab-content { display: none; }
+        .tab-content.active { display: block; animation: slideIn 0.3s ease-out; }
+
+        @keyframes slideIn {
+            from { opacity: 0; transform: translateX(20px); }
+            to { opacity: 1; transform: translateX(0); }
+        }
+
+        .nav-btn.active { color: white; transform: scale(1.05); }
+
+        .quiz-option {
+            transition: all 0.2s;
+            cursor: pointer;
+            text-align: left;
+            width: 100%;
+            border: 2px solid #e2e8f0;
+            margin-bottom: 0.5rem;
+            padding: 1rem;
+            border-radius: 1rem;
+            background: white;
+        }
+        
+        .quiz-option:hover:not(:disabled) {
+            border-color: #cbd5e1;
+            background-color: #f8fafc;
+        }
+
+        .correct { background-color: #dcfce7 !important; border-color: #22c55e !important; color: #166534 !important; }
+        .incorrect { background-color: #fee2e2 !important; border-color: #ef4444 !important; color: #991b1b !important; }
+        
+        .review-card {
+            border-left: 4px solid #ef4444;
+            background-color: #fff1f2;
+        }
+
+        .tip-card {
+            transition: transform 0.2s;
+        }
+        .tip-card:hover {
+            transform: translateY(-5px);
+        }
+    </style>
+</head>
+<body class="p-4 md:p-6">
+
+    <header class="text-center mb-8">
+        <div class="bg-blue-600 text-white inline-block px-6 py-1 rounded-full text-sm font-bold mb-4">REPASO DE TEMAS VISTOS</div>
+        <h1 class="text-3xl md:text-5xl text-blue-800">Módulo de Sistemas Computacionales</h1>
+        <p class="text-slate-600 mt-2">Todo lo que aprendimos en los Temas 1.1 a 1.4 de 3° Grado</p>
+    </header>
+
+    <!-- Navegación -->
+    <nav class="flex flex-wrap justify-center gap-2 mb-10">
+        <button onclick="showTab('clase1')" id="btn-clase1" class="nav-btn active px-4 py-3 rounded-2xl border-2 border-blue-500 font-bold text-blue-600">Tema 1: Internet</button>
+        <button onclick="showTab('clase2')" id="btn-clase2" class="nav-btn px-4 py-3 rounded-2xl border-2 border-green-500 font-bold text-green-600">Tema 2: Navegación</button>
+        <button onclick="showTab('clase3')" id="btn-clase3" class="nav-btn px-4 py-3 rounded-2xl border-2 border-red-500 font-bold text-red-600">Tema 3: Seguridad</button>
+        <button onclick="showTab('clase4')" id="btn-clase4" class="nav-btn px-4 py-3 rounded-2xl border-2 border-purple-500 font-bold text-purple-600">Tema 4: Uso Responsable</button>
+        <button onclick="showTab('test')" id="btn-test" class="nav-btn px-4 py-3 rounded-2xl border-2 border-orange-500 font-bold text-orange-600">📝 Test de Repaso</button>
+    </nav>
+
+    <main class="max-w-4xl mx-auto bg-white rounded-3xl shadow-2xl overflow-hidden border border-slate-200 mb-12">
+        
+        <!-- TEMA 1: INTRODUCCIÓN -->
+        <div id="clase1" class="tab-content active p-6 md:p-10">
+            <h2 class="text-2xl text-blue-600 mb-4 flex items-center gap-2 border-b pb-2"><i class="fas fa-network-wired"></i> ¿Qué es el Internet?</h2>
+            <div class="bg-blue-50 p-4 rounded-2xl mb-6">
+                <p class="font-bold text-blue-800 italic">"Internet es como una gran red de información que conecta computadoras de todo el mundo y permite la comunicación y el intercambio de información."</p>
+            </div>
+            <h3 class="font-bold text-slate-800 mb-4 text-lg">La Metáfora de la Biblioteca:</h3>
+            <div class="grid grid-cols-1 md:grid-cols-2 gap-4 mb-6">
+                <div class="p-4 border rounded-xl flex gap-3">
+                    <span class="text-2xl">🏢</span>
+                    <div><b>Servidores:</b> Almacenan la información de los sitios web y la envían cuando se solicita. Son como los estantes.</div>
+                </div>
+                <div class="p-4 border rounded-xl flex gap-3">
+                    <span class="text-2xl">🧐</span>
+                    <div><b>Navegadores:</b> Permiten ver y utilizar los sitios web (Chrome, Firefox, Safari). Son como los lectores.</div>
+                </div>
+                <div class="p-4 border rounded-xl flex gap-3">
+                    <span class="text-2xl">📍</span>
+                    <div><b>Dirección IP:</b> Dirección única de cada dispositivo. ¡Es como la dirección de nuestras casas!</div>
+                </div>
+                <div class="p-4 border rounded-xl flex gap-3">
+                    <span class="text-2xl">📖</span>
+                    <div><b>Sitio Web:</b> Conjunto de páginas que ofrecen información sobre un tema en particular.</div>
+                </div>
+            </div>
+        </div>
+
+        <!-- TEMA 2: NAVEGANDO Y CUIDADOS -->
+        <div id="clase2" class="tab-content p-6 md:p-10">
+            <h2 class="text-2xl text-green-600 mb-6 flex items-center gap-2 border-b pb-2"><i class="fas fa-compass"></i> Navegando en la Web</h2>
+            <div class="grid md:grid-cols-2 gap-8 mb-8">
+                <div class="bg-green-50 p-5 rounded-2xl border-b-4 border-green-400 text-center">
+                    <h3 class="font-bold text-green-800 mb-4">Navegadores</h3>
+                    <div class="flex justify-center gap-4 mb-2">
+                        <img src="https://www.google.com/chrome/static/images/chrome-logo.svg" alt="Chrome" class="w-10 h-10">
+                        <img src="https://upload.wikimedia.org/wikipedia/commons/a/a0/Firefox_logo%2C_2019.svg" alt="Firefox" class="w-10 h-10">
+                    </div>
+                    <p class="text-xs">Sirven para entrar y usar los sitios web.</p>
+                </div>
+                <div class="bg-blue-50 p-5 rounded-2xl border-b-4 border-blue-400 text-center">
+                    <h3 class="font-bold text-blue-800 mb-4">Motores de Búsqueda</h3>
+                    <div class="flex justify-center gap-4 items-center mb-2">
+                        <img src="https://upload.wikimedia.org/wikipedia/commons/2/2f/Google_2015_logo.svg" alt="Google" class="h-5">
+                        <img src="https://upload.wikimedia.org/wikipedia/commons/f/f3/Bing_Logo.svg" alt="Bing" class="h-5">
+                    </div>
+                    <p class="text-xs">Sirven para encontrar información específica.</p>
+                </div>
+            </div>
+            <h3 class="font-bold text-slate-800 mb-4">Tips de Seguridad:</h3>
+            <ul class="space-y-3 text-sm">
+                <li class="flex items-center gap-3 bg-slate-50 p-3 rounded-lg border-l-4 border-green-500"><b>HTTPS y Candado:</b> Siempre verifica la barra de direcciones.</li>
+                <li class="flex items-center gap-3 bg-slate-50 p-3 rounded-lg border-l-4 border-red-500"><b>Descargas:</b> Nunca bajes nada sin permiso de un adulto.</li>
+                <li class="flex items-center gap-3 bg-slate-50 p-3 rounded-lg border-l-4 border-blue-500"><b>Privacidad:</b> No compartas nombre, teléfono o escuela.</li>
+            </ul>
+        </div>
+
+        <!-- TEMA 3: SEGURIDAD EN LÍNEA -->
+        <div id="clase3" class="tab-content p-6 md:p-10">
+            <h2 class="text-2xl text-red-600 mb-6 flex items-center gap-2 border-b pb-2"><i class="fas fa-shield-alt"></i> Seguridad en Línea</h2>
+            
+            <h3 class="font-bold text-red-800 mb-4">🔑 ¿Cómo crear Contraseñas Seguras?</h3>
+            <div class="grid grid-cols-1 sm:grid-cols-2 gap-4 mb-8">
+                <div class="bg-red-50 p-4 rounded-xl border-l-4 border-red-400 tip-card">
+                    <p class="font-bold text-red-700 text-sm mb-1">1. Longitud</p>
+                    <p class="text-xs">Debe tener al menos 8 caracteres (letras o números).</p>
+                </div>
+                <div class="bg-red-50 p-4 rounded-xl border-l-4 border-red-400 tip-card">
+                    <p class="font-bold text-red-700 text-sm mb-1">2. Variedad</p>
+                    <p class="text-xs">Mezcla Mayúsculas, minúsculas, números y símbolos (como #, $ o !).</p>
+                </div>
+                <div class="bg-red-50 p-4 rounded-xl border-l-4 border-red-400 tip-card">
+                    <p class="font-bold text-red-700 text-sm mb-1">3. Sin Info Personal</p>
+                    <p class="text-xs">No uses tu nombre, tu fecha de nacimiento o el de tu mascota.</p>
+                </div>
+                <div class="bg-red-50 p-4 rounded-xl border-l-4 border-red-400 tip-card">
+                    <p class="font-bold text-red-700 text-sm mb-1">4. Única y Original</p>
+                    <p class="text-xs">No uses "123456" o "contraseña". ¡Crea una llave secreta diferente para cada juego!</p>
+                </div>
+            </div>
+
+            <div class="bg-orange-100 p-5 rounded-2xl mb-8 border-2 border-orange-200">
+                <h3 class="font-bold text-orange-800 mb-2 flex items-center gap-2"><i class="fas fa-fish"></i> Cuidado con el Phishing</h3>
+                <p class="text-sm mb-4">Es una técnica de engaño donde mensajes falsos intentan robar tus contraseñas o datos.</p>
+                <div class="bg-white p-4 rounded-xl text-xs">
+                    <p class="font-bold mb-2">5 maneras de evitarlo:</p>
+                    <ul class="list-disc pl-5 space-y-1 text-slate-700">
+                        <li>No hagas clic en enlaces sospechosos.</li>
+                        <li>Verifica que el remitente sea conocido.</li>
+                        <li>No compartas datos bancarios o contraseñas por mensaje.</li>
+                        <li>Desconfía de premios que "ganaste" sin participar.</li>
+                        <li>Si el mensaje te presiona o te asusta, ¡es sospechoso!</li>
+                    </ul>
+                </div>
+            </div>
+
+            <div class="bg-slate-800 text-white p-6 rounded-2xl">
+                <h3 class="text-yellow-400 font-bold mb-4 flex items-center gap-2"><i class="fas fa-user-lock"></i> Datos Personales que debes proteger</h3>
+                <div class="grid grid-cols-2 md:grid-cols-3 gap-3 text-xs opacity-90">
+                    <div class="flex items-center gap-2"><i class="fas fa-check-circle text-green-400"></i> Nombre y apellido</div>
+                    <div class="flex items-center gap-2"><i class="fas fa-check-circle text-green-400"></i> Dirección</div>
+                    <div class="flex items-center gap-2"><i class="fas fa-check-circle text-green-400"></i> Teléfono</div>
+                    <div class="flex items-center gap-2"><i class="fas fa-check-circle text-green-400"></i> Correo electrónico</div>
+                    <div class="flex items-center gap-2"><i class="fas fa-check-circle text-green-400"></i> Tu Escuela</div>
+                    <div class="flex items-center gap-2"><i class="fas fa-check-circle text-green-400"></i> Tus fotos</div>
+                </div>
+            </div>
+        </div>
+
+        <!-- TEMA 4: USO RESPONSABLE -->
+        <div id="clase4" class="tab-content p-6 md:p-10">
+            <h2 class="text-2xl text-purple-600 mb-6 flex items-center gap-2 border-b pb-2"><i class="fas fa-hand-holding-heart"></i> Uso Responsable del Internet</h2>
+            
+            <div class="bg-purple-50 p-6 rounded-2xl mb-8 border border-purple-100 text-center">
+                <p class="font-bold text-purple-900 mb-4 italic">"Usar Internet de manera segura y respetuosa, siguiendo las reglas y siendo amable con los demás detrás de la pantalla."</p>
+                <div class="grid grid-cols-2 sm:grid-cols-4 gap-2 text-[10px] font-bold">
+                    <div class="bg-white p-2 rounded shadow-sm">✅ SER AMABLE</div>
+                    <div class="bg-white p-2 rounded shadow-sm">✅ RESPETAR OPINIONES</div>
+                    <div class="bg-white p-2 rounded shadow-sm">✅ NO USAR PALABRAS FEAS</div>
+                    <div class="bg-white p-2 rounded shadow-sm">✅ NO MOLESTAR</div>
+                </div>
+            </div>
+
+            <div class="space-y-6">
+                <div class="bg-blue-50 p-5 rounded-2xl border-l-8 border-blue-400 shadow-sm">
+                    <h3 class="font-bold text-blue-800 mb-2 flex items-center gap-2"><i class="fas fa-clock"></i> Tiempo de Uso</h3>
+                    <p class="text-sm">Es importante regular el tiempo que pasamos en tablets y celulares.</p>
+                    <ul class="text-xs mt-2 list-disc pl-5 space-y-1">
+                        <li>Recomendado: Máximo 1 a 2 horas al día.</li>
+                        <li>¡No olvides realizar actividades fuera de las pantallas! (Jugar, leer, dibujar).</li>
+                    </ul>
+                </div>
+
+                <div class="bg-green-50 p-5 rounded-2xl border-l-8 border-green-400 shadow-sm">
+                    <h3 class="font-bold text-green-800 mb-2 flex items-center gap-2"><i class="fas fa-child"></i> Contenido Apropiado</h3>
+                    <p class="text-sm">Información adecuada para tu edad (dibujos, juegos educativos).</p>
+                    <div class="bg-white p-3 rounded-xl mt-3 text-xs">
+                        <p class="font-bold text-green-700">💡 ¿Cómo asegurarnos?</p>
+                        <p class="mt-1">Usa tu <b>año real de nacimiento</b> al crear cuentas para que las plataformas filtren el contenido. Si ves algo que dice "no apto para niños" o que incluye violencia, ¡no lo consumas!</p>
+                    </div>
+                </div>
+
+                <div class="bg-amber-50 p-4 rounded-xl text-center border-2 border-dashed border-amber-300">
+                    <p class="text-sm font-bold text-amber-800 italic">"Si tienes dudas sobre un juego, video o mensaje... ¡consulta siempre a un adulto de confianza!"</p>
+                </div>
+            </div>
+        </div>
+
+        <!-- TEST DE REPASO -->
+        <div id="test" class="tab-content p-6 md:p-10">
+            <div id="quiz-intro" class="text-center mb-8">
+                <h2 class="text-3xl text-orange-600 mb-4">Test de Repaso Final</h2>
+                <p class="text-slate-500">Comprueba lo que has aprendido en todos los temas. Al final podrás revisar tus errores.</p>
+                <button onclick="startQuiz()" class="mt-6 bg-orange-500 text-white px-8 py-3 rounded-full font-bold shadow-lg hover:scale-105 transition">Comenzar ahora</button>
+            </div>
+            
+            <div id="quiz-active" class="hidden">
+                <div class="flex justify-between items-center mb-6">
+                    <span id="question-counter" class="bg-orange-100 text-orange-700 px-4 py-1 rounded-full font-bold">Pregunta 1 de 15</span>
+                    <span id="score-counter" class="text-slate-500 font-bold">Puntos: 0</span>
+                </div>
+                <div id="questions-wrapper"></div>
+                <div id="next-container" class="mt-6 text-right hidden">
+                    <button id="next-btn" onclick="nextQuestion()" class="bg-blue-600 text-white px-6 py-2 rounded-xl font-bold hover:bg-blue-700">Siguiente <i class="fas fa-arrow-right ml-2"></i></button>
+                </div>
+            </div>
+
+            <div id="quiz-result" class="hidden">
+                <div class="text-center p-8 bg-orange-50 rounded-3xl mb-8">
+                    <div class="text-6xl mb-4">🏆</div>
+                    <h2 class="text-3xl font-bold text-slate-800">¡Prueba Completada!</h2>
+                    <p id="final-score" class="text-2xl text-orange-600 font-bold my-4">Puntuación: 0 / 15</p>
+                    <button onclick="resetQuiz()" class="bg-slate-800 text-white px-8 py-3 rounded-full font-bold">Volver a intentar</button>
+                </div>
+                
+                <div id="review-section" class="hidden">
+                    <h3 class="text-xl font-bold text-red-600 mb-4 flex items-center gap-2">
+                        <i class="fas fa-exclamation-circle"></i> Repasemos lo que fallaste:
+                    </h3>
+                    <div id="errors-list" class="space-y-4"></div>
+                </div>
+            </div>
+        </div>
+    </main>
+
+    <footer class="text-center pb-8 opacity-70">
+        <p class="font-bold text-blue-800">Docente: Ronny Martinez</p>
+        <p class="text-sm italic">Ciencias de la Computación - Creativos Digitales</p>
+    </footer>
+
+    <script>
+        const questions = [
+            { q: "¿Qué componente del internet es comparable con los estantes de una biblioteca?", a: ["Los Navegadores.", "Los Servidores.", "Las Direcciones IP."], c: 1 },
+            { q: "¿Cuál de estos es el concepto correcto de Internet?", a: ["Una red mundial de computadoras para intercambiar información.", "Un programa para jugar sin conexión a internet.", "Una oficina donde se guardan libros y videos."], c: 0 },
+            { q: "¿Cuál es la función de una Dirección IP?", a: ["Permitirnos leer los sitios web.", "Identificar cada dispositivo con una dirección única.", "Guardar las fotos que subimos a internet."], c: 1 },
+            { q: "¿Qué diferencia hay entre Chrome y Google?", a: ["Chrome es un motor de búsqueda y Google un navegador.", "Chrome es un navegador y Google un motor de búsqueda.", "No hay diferencia, ambos son servidores."], c: 1 },
+            { q: "¿Cómo puedes reconocer que una página web es segura para navegar?", a: ["Porque tiene muchos juegos y colores.", "Porque empieza con https:// y tiene un candado.", "Porque carga muy rápido los videos."], c: 1 },
+            { q: "Una contraseña segura debe tener al menos:", a: ["4 caracteres.", "8 caracteres.", "20 caracteres."], c: 1 },
+            { q: "¿Qué mezcla debe tener una contraseña para ser variada?", a: ["Solo letras minúsculas y tu nombre.", "Letras (mayúsculas/minúsculas), números y símbolos.", "Solo números fáciles de recordar como tu fecha de nacimiento."], c: 1 },
+            { q: "¿Qué es el Phishing?", a: ["Un juego para pescar en el navegador.", "Una técnica de engaño para robar tus datos personales.", "Un tipo de contraseña muy larga y segura."], c: 1 },
+            { q: "¿Cuál de estos NO debes compartir nunca en internet?", a: ["Tu color favorito.", "Tu número de teléfono y tu escuela.", "Tu dibujo animado preferido."], c: 1 },
+            { q: "¿En qué consiste el Uso Responsable del internet?", a: ["En usar internet todo el día sin descansar.", "En ser respetuoso, amable y seguir reglas de seguridad.", "En aprender a programar sitios web."], c: 1 },
+            { q: "¿Qué puedes hacer para ser respetuoso en línea?", a: ["Escribir mensajes con palabras feas si te molestan.", "Respetar la opinión de los demás y no molestar a otros.", "Compartir fotos de tus compañeros sin permiso."], c: 1 },
+            { q: "¿Cuál es el tiempo máximo recomendado de pantalla al día?", a: ["1 a 2 horas.", "5 a 6 horas.", "Todo el tiempo que quieras."], c: 0 },
+            { q: "¿Cómo filtran las plataformas el contenido apropiado para tu edad?", a: ["A través de tu nombre de usuario.", "Usando tu año real de nacimiento al crear la cuenta.", "Adivinando qué juegos te gustan."], c: 1 },
+            { q: "¿Qué debes hacer si un video te parece violento o inapropiado?", a: ["Seguir viéndolo para entender por qué es así.", "No consumirlo y consultar a un adulto de confianza.", "Pasárselo a un amigo por mensaje."], c: 1 },
+            { q: "Si recibes un mensaje que te asusta o te presiona para dar datos:", a: ["Es Phishing y debes avisar a un adulto.", "Es un premio real y debes dar tus datos rápido.", "Es solo un error del navegador."], c: 0 }
+        ];
+
+        let currentQ = 0;
+        let score = 0;
+        let mistakes = [];
+
+        function showTab(tabId) {
+            document.querySelectorAll('.tab-content').forEach(tab => tab.classList.remove('active'));
+            document.querySelectorAll('.nav-btn').forEach(btn => btn.classList.remove('active'));
+            document.querySelectorAll('.nav-btn').forEach(btn => { btn.style.backgroundColor = ''; btn.style.color = ''; });
+
+            const target = document.getElementById(tabId);
+            target.classList.add('active');
+            const btn = document.getElementById('btn-' + tabId);
+            btn.classList.add('active');
+            
+            const colors = { clase1: '#3b82f6', clase2: '#22c55e', clase3: '#ef4444', clase4: '#a855f7', test: '#f97316' };
+            btn.style.backgroundColor = colors[tabId];
+            btn.style.color = 'white';
+            window.scrollTo({ top: 0, behavior: 'smooth' });
+        }
+
+        function startQuiz() {
+            document.getElementById('quiz-intro').classList.add('hidden');
+            document.getElementById('quiz-active').classList.remove('hidden');
+            document.getElementById('quiz-result').classList.add('hidden');
+            currentQ = 0;
+            score = 0;
+            mistakes = [];
+            renderQuestion();
+        }
+
+        function renderQuestion() {
+            const wrapper = document.getElementById('questions-wrapper');
+            const qData = questions[currentQ];
+            document.getElementById('question-counter').innerText = `Pregunta ${currentQ + 1} de 15`;
+            document.getElementById('score-counter').innerText = `Puntos: ${score}`;
+            document.getElementById('next-container').classList.add('hidden');
+
+            wrapper.innerHTML = `
+                <div class="animate-fadeIn">
+                    <p class="text-xl font-bold mb-6 text-slate-800">${qData.q}</p>
+                    <div class="space-y-3">
+                        ${qData.a.map((opt, i) => `
+                            <button onclick="handleAnswer(${i}, ${qData.c}, this)" class="quiz-option">
+                                ${opt}
+                            </button>
+                        `).join('')}
+                    </div>
+                </div>
+            `;
+        }
+
+        function handleAnswer(index, correctIndex, btn) {
+            const options = document.querySelectorAll('.quiz-option');
+            options.forEach(opt => opt.disabled = true);
+            const qData = questions[currentQ];
+
+            if (index === correctIndex) {
+                btn.classList.add('correct');
+                btn.innerHTML += ' <i class="fas fa-check-circle ml-2"></i>';
+                score++;
+            } else {
+                btn.classList.add('incorrect');
+                btn.innerHTML += ' <i class="fas fa-times-circle ml-2"></i>';
+                options[correctIndex].classList.add('correct');
+                mistakes.push({
+                    question: qData.q,
+                    yourAnswer: qData.a[index],
+                    correctAnswer: qData.a[correctIndex]
+                });
+            }
+
+            document.getElementById('score-counter').innerText = `Puntos: ${score}`;
+            document.getElementById('next-container').classList.remove('hidden');
+            if (currentQ === questions.length - 1) document.getElementById('next-btn').innerText = "Ver Resultados";
+        }
+
+        function nextQuestion() {
+            if (currentQ < questions.length - 1) {
+                currentQ++;
+                renderQuestion();
+            } else {
+                showResult();
+            }
+        }
+
+        function showResult() {
+            document.getElementById('quiz-active').classList.add('hidden');
+            document.getElementById('quiz-result').classList.remove('hidden');
+            document.getElementById('final-score').innerText = `Puntuación: ${score} / 15`;
+            
+            const reviewSection = document.getElementById('review-section');
+            const errorsList = document.getElementById('errors-list');
+            
+            if (mistakes.length > 0) {
+                reviewSection.classList.remove('hidden');
+                errorsList.innerHTML = mistakes.map(m => `
+                    <div class="p-4 rounded-xl review-card shadow-sm">
+                        <p class="font-bold text-slate-800 mb-2">${m.question}</p>
+                        <p class="text-xs text-red-600">❌ Tu respuesta: ${m.yourAnswer}</p>
+                        <p class="text-xs text-green-700 font-semibold mt-1">✅ Respuesta correcta: ${m.correctAnswer}</p>
+                    </div>
+                `).join('');
+            } else {
+                errorsList.innerHTML = `<p class="text-green-600 font-bold">¡Increíble! Respondiste todo correctamente. No tienes errores que repasar.</p>`;
+                reviewSection.classList.remove('hidden');
+            }
+        }
+
+        function resetQuiz() {
+            document.getElementById('quiz-result').classList.add('hidden');
+            document.getElementById('quiz-intro').classList.remove('hidden');
+            document.getElementById('next-btn').innerText = "Siguiente";
+        }
+
+        window.onload = () => showTab('clase1');
+    </script>
+</body>
+</html>

@@ -1,0 +1,404 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Preparación Examen Computación - 1°A</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link href="https://fonts.googleapis.com/css2?family=Fredoka+One&family=Quicksand:wght@400;700&display=swap" rel="stylesheet">
+    <style>
+        body {
+            font-family: 'Quicksand', sans-serif;
+            background-color: #ffefd5;
+        }
+        h1, h2 {
+            font-family: 'Fredoka One', cursive;
+        }
+        .card {
+            transition: transform 0.3s ease;
+        }
+        .card:hover {
+            transform: scale(1.02);
+        }
+        
+        /* Animaciones */
+        @keyframes pointerMove {
+            0% { transform: translate(0, 0); }
+            25% { transform: translate(20px, -10px); }
+            50% { transform: translate(-10px, 20px); }
+            75% { transform: translate(30px, 10px); }
+            100% { transform: translate(0, 0); }
+        }
+        .pointer-animation {
+            animation: pointerMove 4s infinite ease-in-out;
+        }
+        @keyframes bounce {
+            0%, 100% { transform: translateY(0); }
+            50% { transform: translateY(-10px); }
+        }
+        .jump-animation {
+            display: inline-block;
+            animation: bounce 0.6s infinite;
+        }
+        @keyframes shake {
+            0%, 100% { transform: translateX(0); }
+            25% { transform: translateX(-8px); }
+            75% { transform: translateX(8px); }
+        }
+        .animate-shake { animation: shake 0.4s ease-in-out; }
+        
+        @keyframes popIn {
+            0% { transform: scale(0.5); opacity: 0; }
+            100% { transform: scale(1); opacity: 1; }
+        }
+        .animate-pop { animation: popIn 0.3s cubic-bezier(0.175, 0.885, 0.32, 1.275) forwards; }
+
+        @keyframes fadeOut {
+            0% { opacity: 1; transform: scale(1); }
+            100% { opacity: 0; transform: scale(0.8); }
+        }
+        .animate-out { animation: fadeOut 0.4s forwards; }
+
+        /* Capa flotante de Feedback */
+        .feedback-overlay {
+            position: absolute;
+            top: 0;
+            left: 0;
+            right: 0;
+            bottom: 0;
+            background: rgba(255, 255, 255, 0.95);
+            display: none;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            z-index: 20;
+            border-radius: 1.5rem;
+            text-align: center;
+            padding: 1rem;
+        }
+
+        .question-card {
+            position: relative;
+            background: white;
+            padding: 1.5rem;
+            border-radius: 1.5rem;
+            margin-bottom: 1.5rem;
+            border: 2px solid #e2e8f0;
+            overflow: hidden;
+        }
+        .option-btn {
+            display: block;
+            width: 100%;
+            text-align: left;
+            padding: 0.85rem 1.2rem;
+            margin-top: 0.6rem;
+            border-radius: 1rem;
+            border: 2px solid #f1f5f9;
+            transition: all 0.2s;
+            font-weight: 600;
+        }
+        .option-btn:hover:not(:disabled) {
+            background-color: #f0f9ff;
+            border-color: #7dd3fc;
+        }
+        .correct-btn {
+            background-color: #dcfce7 !important;
+            border-color: #22c55e !important;
+            color: #166534 !important;
+        }
+    </style>
+</head>
+<body class="p-4 md:p-10">
+
+    <header class="text-center mb-10">
+        <h1 class="text-4xl md:text-5xl text-orange-500 drop-shadow-lg">Preparación para el Examen Final</h1>
+        <p class="text-xl text-blue-600 mt-2 font-bold">Periodo 1 - Grado 1°A 🎓</p>
+    </header>
+
+    <main class="max-w-6xl mx-auto space-y-12">
+        
+        <!-- SECCIÓN 1: PARTES PRINCIPALES -->
+        <section>
+            <h2 class="text-3xl text-blue-600 mb-6 text-center">🌟 Las Partes Principales</h2>
+            <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6">
+                <!-- Monitor -->
+                <div class="card bg-white p-6 rounded-3xl shadow-xl text-center border-t-8 border-blue-400">
+                    <div class="part-icon mb-4 flex justify-center">
+                        <svg width="80" height="80" viewBox="0 0 100 100">
+                            <rect x="10" y="10" width="80" height="50" rx="4" fill="#333" />
+                            <rect x="14" y="14" width="72" height="42" rx="2" fill="#5db7f5" />
+                            <rect x="45" y="60" width="10" height="10" fill="#bbb" />
+                            <rect x="15" y="76" width="70" height="18" rx="2" fill="#999" />
+                        </svg>
+                    </div>
+                    <h3 class="text-2xl font-bold text-blue-500">Monitor</h3>
+                    <p class="text-gray-600 text-sm">Es la pantalla donde vemos la información, dibujos y videos.</p>
+                </div>
+                <!-- CPU -->
+                <div class="card bg-white p-6 rounded-3xl shadow-xl text-center border-t-8 border-green-400">
+                    <div class="part-icon mb-4 flex justify-center">
+                        <svg width="60" height="80" viewBox="0 0 80 100">
+                            <rect x="10" y="5" width="60" height="90" rx="5" fill="#4a4a4a" />
+                            <circle cx="40" cy="70" r="8" fill="#333" />
+                            <circle cx="40" cy="70" r="3" fill="#00d4ff" />
+                        </svg>
+                    </div>
+                    <h3 class="text-2xl font-bold text-green-500">Torre (CPU)</h3>
+                    <p class="text-gray-600 text-sm">Es el cerebro que procesa toda la información.</p>
+                </div>
+                <!-- Teclado en partes -->
+                <div class="card bg-white p-6 rounded-3xl shadow-xl text-center border-t-8 border-purple-400">
+                    <div class="text-6xl mb-4 flex justify-center">
+                        <svg width="80" height="60" viewBox="0 0 100 60">
+                            <rect x="5" y="10" width="90" height="40" rx="5" fill="#444" />
+                            <g fill="#eee">
+                                <rect x="10" y="15" width="6" height="6" rx="1" />
+                                <rect x="18" y="15" width="6" height="6" rx="1" />
+                                <rect x="10" y="23" width="6" height="6" rx="1" />
+                                <rect x="30" y="31" width="40" height="6" rx="2" fill="#90caf9" />
+                            </g>
+                        </svg>
+                    </div>
+                    <h3 class="text-2xl font-bold text-purple-500">Teclado</h3>
+                    <p class="text-gray-600 text-sm">Dispositivo con botones para ingresar letras y números.</p>
+                </div>
+                <!-- Mouse -->
+                <div class="card bg-white p-6 rounded-3xl shadow-xl text-center border-t-8 border-yellow-400">
+                    <div class="text-6xl mb-4">🖱️</div>
+                    <h3 class="text-2xl font-bold text-yellow-500">Mouse</h3>
+                    <p class="text-gray-600 text-sm">Permite mover el puntero por toda la pantalla.</p>
+                </div>
+            </div>
+        </section>
+
+        <!-- SECCIÓN 2: EL MOUSE -->
+        <section class="bg-yellow-50 p-8 rounded-3xl border-4 border-yellow-400 shadow-inner">
+            <h2 class="text-3xl text-yellow-700 mb-2 text-center">🖱️ El Mouse y el Puntero</h2>
+            <div class="flex flex-col lg:flex-row items-center justify-around gap-8 mt-6">
+                <div class="relative w-64 h-48 bg-blue-900 rounded-xl border-8 border-gray-700 shadow-xl overflow-hidden">
+                    <div class="absolute top-1/2 left-1/2 pointer-animation">
+                        <svg width="30" height="30" viewBox="0 0 24 24" fill="white" stroke="black">
+                            <path d="M5.5 3.21V20.8c0 .45.54.67.85.35l4.83-4.83 2.3 5.17c.14.32.5.48.82.34l2.02-.9c.31-.14.46-.5.32-.82l-2.31-5.17h6.07c.45 0 .67-.54.35-.85L6.35 2.86c-.31-.32-.85-.1-.85.35z"/>
+                        </svg>
+                    </div>
+                </div>
+                <div class="bg-white p-6 rounded-[50px] shadow-lg border-2 border-gray-200">
+                    <svg width="150" height="200" viewBox="0 0 200 300">
+                        <rect x="20" y="20" width="160" height="260" rx="80" fill="#f8f8f8" stroke="#333" stroke-width="4"/>
+                        <path d="M100,20 L100,120 L20,120 A80,80 0 0,1 100,20" fill="#90caf9" stroke="#333" stroke-width="2"/>
+                        <path d="M100,20 A80,80 0 0,1 180,120 L100,120 L100,20" fill="#f48fb1" stroke="#333" stroke-width="2"/>
+                        <rect x="90" y="60" width="20" height="40" rx="10" fill="#424242" stroke="#333" stroke-width="2"/>
+                        <text x="50" y="220" font-size="12" font-weight="bold">Botón Izquierdo</text>
+                        <text x="105" y="240" font-size="12" font-weight="bold">Botón Derecho</text>
+                    </svg>
+                </div>
+                <div class="space-y-4 max-w-sm">
+                    <div class="bg-white p-4 rounded-xl shadow border-l-4 border-blue-400">
+                        <p class="text-sm font-bold">🔵 Botón Izquierdo: Hacer clic para elegir o abrir programas.</p>
+                    </div>
+                    <div class="bg-white p-4 rounded-xl shadow border-l-4 border-gray-600">
+                        <p class="text-sm font-bold">⚙️ Ruedita (Scroll): Para subir y bajar (como un ascensor) o acercar/alejar.</p>
+                    </div>
+                    <div class="bg-white p-4 rounded-xl shadow border-l-4 border-pink-400">
+                        <p class="text-sm font-bold">🔴 Botón Derecho: Para ver opciones extras.</p>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- SECCIÓN 3: EL TECLADO -->
+        <section class="bg-purple-50 p-8 rounded-3xl border-4 border-purple-200">
+            <h2 class="text-3xl text-purple-600 mb-8 text-center">⌨️ ¡Busca las Super Teclas!</h2>
+            
+            <div class="flex flex-col items-center gap-8">
+                <!-- DIBUJO SVG DEL TECLADO RESTAURADO -->
+                <div class="bg-gray-800 p-6 rounded-2xl shadow-2xl border-b-8 border-black w-full max-w-3xl overflow-x-auto">
+                    <svg width="650" height="250" viewBox="0 0 650 250" class="mx-auto" xmlns="http://www.w3.org/2000/svg">
+                        <rect x="5" y="5" width="640" height="240" rx="15" fill="#333" />
+                        <g fill="#555" stroke="#222" stroke-width="1">
+                            <!-- Teclas genéricas -->
+                            <rect x="25" y="25" width="40" height="40" rx="5" />
+                            <rect x="75" y="25" width="40" height="40" rx="5" />
+                            <rect x="125" y="25" width="40" height="40" rx="5" />
+                            <rect x="175" y="25" width="40" height="40" rx="5" />
+                            <rect x="225" y="25" width="40" height="40" rx="5" />
+                            <rect x="275" y="25" width="40" height="40" rx="5" />
+                            <rect x="325" y="25" width="40" height="40" rx="5" />
+                            <rect x="375" y="25" width="40" height="40" rx="5" />
+                            <rect x="425" y="25" width="40" height="40" rx="5" />
+                            <rect x="475" y="25" width="40" height="40" rx="5" />
+                            <rect x="525" y="25" width="90" height="40" rx="5" />
+
+                            <rect x="25" y="75" width="60" height="40" rx="5" />
+                            <rect x="95" y="75" width="40" height="40" rx="5" />
+                            <rect x="145" y="75" width="40" height="40" rx="5" />
+                            <rect x="195" y="75" width="40" height="40" rx="5" />
+                            <rect x="245" y="75" width="40" height="40" rx="5" />
+                            <rect x="295" y="75" width="40" height="40" rx="5" />
+                            <rect x="345" y="75" width="40" height="40" rx="5" />
+                            <rect x="395" y="75" width="40" height="40" rx="5" />
+                            <rect x="445" y="75" width="40" height="40" rx="5" />
+                            
+                            <!-- ENTER Rediseñado -->
+                            <path d="M500,75 L615,75 L615,175 L555,175 L555,125 L500,125 Z" fill="#f48fb1" stroke="#333" stroke-width="3" />
+                            <text x="525" y="105" font-family="Fredoka One" font-size="14" fill="#333">ENTER</text>
+
+                            <rect x="25" y="125" width="70" height="40" rx="5" />
+                            <rect x="105" y="125" width="40" height="40" rx="5" />
+                            <rect x="155" y="125" width="40" height="40" rx="5" />
+                            <rect x="205" y="125" width="40" height="40" rx="5" />
+                            <rect x="255" y="125" width="40" height="40" rx="5" />
+                            <rect x="305" y="125" width="40" height="40" rx="5" />
+                            <rect x="355" y="125" width="40" height="40" rx="5" />
+                            <rect x="405" y="125" width="40" height="40" rx="5" />
+
+                            <!-- ESPACIO -->
+                            <rect x="160" y="185" width="320" height="45" rx="10" fill="#90caf9" stroke="#333" stroke-width="3" />
+                            <text x="210" y="215" font-family="Fredoka One" font-size="16" fill="#333">BARRA ESPACIADORA</text>
+                            
+                            <rect x="25" y="185" width="55" height="45" rx="5" />
+                            <rect x="90" y="185" width="55" height="45" rx="5" />
+                            <rect x="495" y="185" width="55" height="45" rx="5" />
+                            <rect x="560" y="185" width="55" height="45" rx="5" />
+                        </g>
+                    </svg>
+                </div>
+
+                <!-- INFO TECLAS -->
+                <div class="grid grid-cols-1 md:grid-cols-2 gap-8 w-full">
+                    <div class="bg-white p-6 rounded-3xl shadow-lg border-b-8 border-pink-400">
+                        <h3 class="text-2xl font-bold text-pink-600 flex items-center gap-2">↩️ Tecla ENTER</h3>
+                        <p class="text-gray-700 mt-2">Sirve para <strong>dar una orden</strong> o para <strong>saltar de renglón</strong>.</p>
+                        <div class="bg-gray-100 p-3 mt-3 rounded-xl border-l-4 border-pink-500 font-mono text-sm">
+                            Línea 1 <br>
+                            <span class="text-pink-600 font-bold">[Presionas ENTER]</span> <br>
+                            Línea 2
+                        </div>
+                    </div>
+                    <div class="bg-white p-6 rounded-3xl shadow-lg border-b-8 border-blue-400">
+                        <h3 class="text-2xl font-bold text-blue-600 flex items-center gap-2">📏 Barra Espaciadora</h3>
+                        <p class="text-gray-700 mt-2">Es la más larga y sirve para <strong>separar palabras</strong>.</p>
+                        <div class="bg-gray-100 p-3 mt-3 rounded-xl border-l-4 border-blue-500 font-mono text-sm">
+                            Mi<span class="text-blue-600">_</span>amiga<span class="text-blue-600">_</span>la<span class="text-blue-600">_</span>computadora
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- SECCIÓN 4: EXAMEN INTERACTIVO -->
+        <section id="examen" class="bg-white p-6 md:p-10 rounded-3xl border-4 border-orange-400 shadow-xl">
+            <h2 class="text-3xl text-orange-600 mb-8 text-center">📝 Pon a prueba lo que aprendiste</h2>
+            <div id="quiz-container">
+                <!-- Las preguntas se cargarán aquí -->
+            </div>
+            <div id="result" class="hidden mt-10 p-8 rounded-3xl text-center border-4"></div>
+        </section>
+    </main>
+
+    <script>
+        const questions = [
+            { q: "¿Cómo se llama la pantalla de la computadora?", a: ["Monitor", "Teclado", "Mouse"], c: 0 },
+            { q: "¿Qué parte de la computadora es considerada el 'cerebro'?", a: ["Monitor", "Torre (CPU)", "Parlantes"], c: 1 },
+            { q: "¿Para qué sirve el Mouse?", a: ["Para escribir letras", "Para ver películas", "Para mover el puntero"], c: 2 },
+            { q: "¿Qué botón del mouse usamos para abrir cosas?", a: ["Botón Derecho", "Botón Izquierdo", "La Ruedita"], c: 1 },
+            { q: "¿Cómo se llama la flechita que movemos?", a: ["Puntero", "Lápiz", "Dedo"], c: 0 },
+            { q: "¿Qué tecla sirve para saltar de renglón?", a: ["Barra Espaciadora", "Letra A", "Tecla ENTER"], c: 2 },
+            { q: "¿Para qué sirve la Barra Espaciadora?", a: ["Para separar palabras", "Para borrar", "Para apagar la PC"], c: 0 },
+            { q: "¿Qué parte usamos para escribir nuestro nombre?", a: ["Mouse", "Torre", "Teclado"], c: 2 },
+            { q: "¿Para qué sirve la ruedita del mouse?", a: ["Para prender la luz", "Para subir y bajar", "Para escribir"], c: 1 },
+            { q: "¿En qué parte vemos los dibujos y videos?", a: ["Teclado", "Monitor", "Mouse"], c: 1 }
+        ];
+
+        let score = 0;
+        let questionsAnswered = 0;
+
+        function renderQuiz() {
+            const container = document.getElementById('quiz-container');
+            const letters = ["A)", "B)", "C)"];
+            
+            questions.forEach((question, index) => {
+                const qDiv = document.createElement('div');
+                qDiv.className = 'question-card';
+                qDiv.id = `q-card-${index}`;
+                qDiv.innerHTML = `
+                    <div id="overlay-${index}" class="feedback-overlay"></div>
+                    <p class="text-xl font-bold text-blue-800 mb-4">${index + 1}. ${question.q}</p>
+                    <div class="grid grid-cols-1 gap-3">
+                        ${question.a.map((opt, i) => `
+                            <button class="option-btn" id="btn-${index}-${i}" onclick="handleAnswer(this, ${index}, ${i})">
+                                <span class="text-orange-500 mr-2">${letters[i]}</span> ${opt}
+                            </button>
+                        `).join('')}
+                    </div>
+                `;
+                container.appendChild(qDiv);
+            });
+        }
+
+        window.handleAnswer = function(btn, qIndex, optIndex) {
+            const overlay = document.getElementById(`overlay-${qIndex}`);
+            const isCorrect = optIndex === questions[qIndex].c;
+
+            overlay.style.display = 'flex';
+            overlay.classList.remove('animate-out');
+            overlay.classList.add('animate-pop');
+
+            if (isCorrect) {
+                overlay.innerHTML = `
+                    <span class="text-6xl mb-2 jump-animation">✅</span>
+                    <p class="text-2xl font-bold text-green-600">¡Excelente!<br>Respuesta correcta.</p>
+                `;
+                score++;
+                questionsAnswered++;
+                
+                // Deshabilitar botones de esta pregunta
+                const buttons = document.getElementById(`q-card-${qIndex}`).querySelectorAll('button');
+                buttons.forEach(b => b.disabled = true);
+
+                // El mensaje dura 1 SEGUNDO y se quita dejando el botón verde
+                setTimeout(() => {
+                    overlay.classList.add('animate-out');
+                    setTimeout(() => {
+                        overlay.style.display = 'none';
+                        btn.classList.add('correct-btn'); // Queda en verde permanentemente
+                    }, 400);
+                }, 1000);
+
+            } else {
+                overlay.innerHTML = `
+                    <span class="text-6xl mb-2 animate-shake">❌</span>
+                    <p class="text-lg font-bold text-red-600">No es la respuesta correcta,<br>vuelve a intentar la próxima vez.</p>
+                `;
+                // Para el error se mantiene un poco más para que lea, pero igual desaparece para reelegir
+                setTimeout(() => {
+                    overlay.classList.add('animate-out');
+                    setTimeout(() => {
+                        overlay.style.display = 'none';
+                        overlay.classList.remove('animate-pop', 'animate-out');
+                    }, 400);
+                }, 1800);
+            }
+
+            if (questionsAnswered === questions.length) {
+                setTimeout(showFinalResult, 1500);
+            }
+        };
+
+        function showFinalResult() {
+            const resDiv = document.getElementById('result');
+            resDiv.classList.remove('hidden');
+            resDiv.className = `mt-10 p-10 rounded-3xl text-center border-4 animate-pop ${score >= 8 ? 'bg-green-50 border-green-400' : 'bg-orange-50 border-orange-400'}`;
+            resDiv.innerHTML = `
+                <h3 class="text-4xl mb-4 font-bold">¡Lo lograste! ⭐</h3>
+                <p class="text-3xl font-bold">Tu puntaje: ${score} de ${questions.length}</p>
+                <p class="text-xl mt-4">¡Eres un experto en computación!</p>
+                <button onclick="location.reload()" class="mt-6 bg-orange-500 text-white px-8 py-3 rounded-full text-xl shadow-lg hover:scale-105 transition-transform">Reiniciar Examen</button>
+            `;
+            resDiv.scrollIntoView({ behavior: 'smooth' });
+        }
+
+        window.onload = renderQuiz;
+    </script>
+</body>
+</html>

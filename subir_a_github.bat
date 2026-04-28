@@ -1,6 +1,6 @@
 @echo off
 setlocal enabledelayedexpansion
-title Sincronizador de GitHub - Plataforma Plus
+title Sincronizador de GitHub - Aula Plus
 
 echo ==========================================
 echo    SINCRONIZANDO CON GITHUB

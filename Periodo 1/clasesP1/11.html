@@ -1139,6 +1139,7 @@
             document.getElementById('quiz-start').classList.add('hidden');
             document.getElementById('quiz-results').classList.add('hidden');
             document.getElementById('quiz-question').classList.remove('hidden');
+            console.log('Quiz iniciado. Preguntas activas:', activeQuestions.length);
             showQuestion();
         }
 
@@ -1146,6 +1147,7 @@
             answered = false;
             const q = activeQuestions[currentQ];
             document.getElementById('quiz-q-text').textContent = q.q;
+            console.log(`Mostrando pregunta ${currentQ + 1}:`, q.q);
             document.getElementById('quiz-counter').textContent = `Pregunta ${currentQ + 1} de ${activeQuestions.length}`;
             document.getElementById('quiz-score-live').textContent = `✅ ${score} correctas`;
             document.getElementById('quiz-progress').style.width = `${(currentQ / activeQuestions.length) * 100}%`;
@@ -1156,6 +1158,7 @@
             q.a.forEach((opt, i) => {
                 const btn = document.createElement('button');
                 btn.className = 'w-full text-left px-5 py-4 rounded-2xl border-2 border-slate-200 bg-slate-50 hover:border-blue-400 hover:bg-blue-50 transition-all font-semibold text-slate-800 text-sm cursor-pointer';
+                btn.type = 'button'; // Evitar envíos accidentales
                 btn.textContent = opt;
                 btn.onclick = () => selectAnswer(i, q.c, q.h);
                 opts.appendChild(btn);
@@ -1164,8 +1167,10 @@
 
         function selectAnswer(selected, correct, hint) {
             if (answered) return;
+            const currentIdx = currentQ; // Bloqueamos el índice actual
             answered = true;
             const btns = document.getElementById('quiz-options').querySelectorAll('button');
+            console.log(`Respuesta seleccionada para pregunta ${currentQ + 1}:`, selected, 'Correcta:', correct);
             btns.forEach((btn, i) => {
                 btn.onclick = null;
                 if (i === correct) {
@@ -1178,6 +1183,7 @@
             if (selected === correct) {
                 score++;
             } else {
+                console.log(`Pregunta ${currentQ + 1} fallada:`, activeQuestions[currentQ].q);
                 failedQuestions.push(activeQuestions[currentQ]);
             }
             
@@ -1187,6 +1193,7 @@
             setTimeout(() => {
                 currentQ++;
                 if (currentQ < activeQuestions.length) {
+                    console.log('Pasando a la siguiente pregunta. currentQ ahora es:', currentQ);
                     showQuestion();
                 } else {
                     showResults();

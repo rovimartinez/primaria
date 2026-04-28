@@ -3,128 +3,306 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Plataforma Plus | Menú Principal</title>
+    <title>Aula Plus | Centro de Repasos</title>
     <link rel="icon" type="image/x-icon" href="assets/Icono.ico">
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-    <link href="https://fonts.googleapis.com/css2?family=Outfit:wght@300;400;600;800&family=Plus+Jakarta+Sans:wght@400;500;700&display=swap" rel="stylesheet">
-    <link rel="stylesheet" href="css/style.css">
+    <link href="https://fonts.googleapis.com/css2?family=Outfit:wght@400;600;800&family=Plus+Jakarta+Sans:wght@400;500;700&display=swap" rel="stylesheet">
+    
     <style>
-        .period-selector {
-            display: grid;
-            grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
-            gap: 2rem;
-            padding: 2rem 0;
+        :root {
+            --primary: #6366f1;
+            --primary-dark: #4f46e5;
+            --secondary: #f43f5e;
+            --accent: #10b981;
+            --warning: #f59e0b;
+            --slate-50: #f8fafc;
+            --slate-200: #e2e8f0;
+            --slate-400: #94a3b8;
+            --slate-800: #1e293b;
+            --slate-900: #0f172a;
+            --glass: rgba(255, 255, 255, 0.8);
+            --glass-border: rgba(255, 255, 255, 0.6);
         }
-        .period-card {
-            background: rgba(255, 255, 255, 0.7);
-            backdrop-filter: blur(10px);
-            border: 1px solid rgba(255, 255, 255, 0.3);
-            border-radius: 2rem;
-            padding: 2rem;
-            text-align: center;
-            transition: all 0.4s cubic-bezier(0.175, 0.885, 0.32, 1.275);
-            cursor: pointer;
-            position: relative;
-            overflow: hidden;
-            border-bottom: 8px solid transparent;
-        }
-        .period-card:hover {
-            transform: translateY(-15px);
-            background: white;
-            box-shadow: 0 20px 40px rgba(0,0,0,0.1);
-        }
-        .period-card.p1:hover { border-color: #3b82f6; }
-        .period-card.p2:hover { border-color: #f43f5e; }
-        .period-card.p3:hover { border-color: #10b981; }
 
-        .period-number {
-            font-size: 4rem;
-            font-weight: 800;
-            background: linear-gradient(135deg, #3b82f6, #8b5cf6);
-            -webkit-background-clip: text;
-            -webkit-text-fill-color: transparent;
-            margin-bottom: 1rem;
-            display: block;
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+            font-family: 'Plus Jakarta Sans', sans-serif;
         }
-        .p2 .period-number { background: linear-gradient(135deg, #f43f5e, #fb923c); }
-        .p3 .period-number { background: linear-gradient(135deg, #10b981, #3b82f6); }
 
-        .period-status {
-            display: inline-block;
-            padding: 0.5rem 1rem;
-            border-radius: 1rem;
-            font-size: 0.8rem;
-            font-weight: 700;
-            margin-top: 1rem;
+        body {
+            background-color: var(--slate-50);
+            color: var(--slate-800);
+            overflow-x: hidden;
+            min-height: 100vh;
+            display: flex;
+            flex-direction: column;
         }
-        .status-active { background: #dcfce7; color: #166534; }
-        .status-locked { background: #f1f5f9; color: #64748b; }
 
-        .lock-icon {
-            position: absolute;
-            top: 1rem;
-            right: 1.5rem;
-            font-size: 1.5rem;
-            opacity: 0.3;
-        }
-        /* Estilos para el Navbar Premium */
-        .top-navbar {
-            background: rgba(255, 255, 255, 0.7);
-            backdrop-filter: blur(15px);
-            border-bottom: 1px solid rgba(255, 255, 255, 0.3);
-            padding: 1rem 2rem;
-            position: sticky;
+        /* Fondo Animado */
+        .background-blobs {
+            position: fixed;
             top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            z-index: -1;
+        }
+
+        .blob {
+            position: absolute;
+            filter: blur(80px);
+            opacity: 0.4;
+            border-radius: 50%;
+            animation: move 20s infinite alternate ease-in-out;
+        }
+
+        .blob-1 { width: 400px; height: 400px; background: #c7d2fe; top: -100px; right: -50px; }
+        .blob-2 { width: 300px; height: 300px; background: #fecdd3; bottom: -50px; left: -50px; }
+        .blob-3 { width: 250px; height: 250px; background: #dcfce7; top: 40%; left: 30%; }
+
+        @keyframes move {
+            from { transform: translate(0, 0) scale(1); }
+            to { transform: translate(50px, 40px) scale(1.1); }
+        }
+
+        .app-container {
+            max-width: 1100px;
+            margin: 0 auto;
+            padding: 0 1rem;
+            flex: 1;
+            display: flex;
+            flex-direction: column;
+            width: 100%;
+        }
+
+        /* Navbar Compacto */
+        .top-navbar {
+            background: var(--glass);
+            backdrop-filter: blur(15px);
+            -webkit-backdrop-filter: blur(15px);
+            border-bottom: 1px solid var(--glass-border);
+            padding: 0.75rem 1.5rem;
+            position: sticky;
+            top: 10px;
             z-index: 1000;
             display: flex;
             justify-content: space-between;
             align-items: center;
-            margin: -2rem -2rem 2rem -2rem;
+            margin-top: 10px;
+            margin-bottom: 3rem;
+            border-radius: 1.25rem;
+            box-shadow: 0 4px 20px rgba(0, 0, 0, 0.05);
         }
-        .nav-links {
+
+        .logo-area {
             display: flex;
-            gap: 2rem;
             align-items: center;
+            gap: 0.75rem;
         }
-        .nav-item {
-            text-decoration: none;
-            color: #1e293b;
-            font-weight: 700;
-            font-size: 0.9rem;
-            transition: all 0.3s;
-            position: relative;
-            padding: 0.5rem 0;
+
+        .icon-box {
+            background: var(--primary);
+            color: white;
+            padding: 0.5rem;
+            border-radius: 8px;
+            display: flex;
+            width: 32px;
+            height: 32px;
+            align-items: center;
+            justify-content: center;
         }
-        .nav-item::after {
-            content: '';
-            position: absolute;
-            bottom: 0;
-            left: 0;
-            width: 0;
-            height: 2px;
-            background: #6366f1;
-            transition: width 0.3s;
+
+        .logo-text {
+            font-family: 'Outfit', sans-serif;
+            font-weight: 800;
+            font-size: 1.1rem;
+            color: var(--slate-900);
         }
-        .nav-item:hover { color: #6366f1; }
-        .nav-item:hover::after { width: 100%; }
 
         .btn-exams {
-            background: linear-gradient(135deg, #f59e0b, #ef4444);
+            background: var(--slate-900);
             color: white;
-            padding: 0.6rem 1.2rem;
-            border-radius: 12px;
-            font-weight: 800;
+            padding: 0.5rem 1.2rem;
+            border-radius: 0.75rem;
+            font-weight: 700;
+            font-size: 0.75rem;
+            transition: all 0.3s;
+            border: none;
+            cursor: pointer;
             text-transform: uppercase;
             letter-spacing: 0.05em;
-            font-size: 0.8rem;
-            box-shadow: 0 4px 15px rgba(239, 68, 68, 0.3);
-            transition: all 0.3s;
         }
+
         .btn-exams:hover {
-            transform: scale(1.05);
-            box-shadow: 0 6px 20px rgba(239, 68, 68, 0.4);
+            background: var(--primary);
+            transform: translateY(-2px);
+            box-shadow: 0 5px 15px rgba(99, 102, 241, 0.4);
         }
+
+        /* Grid */
+        .period-selector {
+            display: grid;
+            grid-template-columns: repeat(3, 1fr);
+            gap: 1.5rem;
+            padding-bottom: 4rem;
+        }
+
+        @media (max-width: 768px) {
+            .period-selector {
+                grid-template-columns: 1fr;
+            }
+        }
+
+        .period-card {
+            background: white;
+            border: 1px solid var(--slate-200);
+            border-radius: 1.5rem;
+            padding: 2.5rem 1.5rem;
+            text-align: center;
+            transition: all 0.4s cubic-bezier(0.165, 0.84, 0.44, 1);
+            cursor: pointer;
+            position: relative;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            box-shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.05);
+        }
+
+        .period-card:hover {
+            transform: translateY(-8px);
+            border-color: var(--primary);
+            box-shadow: 0 20px 25px -5px rgba(0, 0, 0, 0.1);
+        }
+
+        .category-tag {
+            font-size: 0.6rem;
+            font-weight: 800;
+            text-transform: uppercase;
+            color: var(--primary);
+            background: rgba(99, 102, 241, 0.1);
+            padding: 0.2rem 0.6rem;
+            border-radius: 6px;
+            margin-bottom: 1rem;
+        }
+
+        .period-number {
+            font-size: 3.5rem;
+            font-weight: 800;
+            font-family: 'Outfit', sans-serif;
+            line-height: 1;
+            margin-bottom: 0.75rem;
+        }
+
+        .p1 .period-number { color: var(--primary); }
+        .p2 .period-number { color: var(--secondary); }
+        .p3 .period-number { color: var(--accent); }
+
+        .period-card h3 {
+            font-size: 1.3rem;
+            font-weight: 800;
+            margin-bottom: 0.5rem;
+            color: var(--slate-900);
+        }
+
+        .period-card p {
+            color: var(--slate-400);
+            font-size: 0.85rem;
+            margin-bottom: 1.5rem;
+            line-height: 1.4;
+        }
+
+        .period-status {
+            padding: 0.4rem 1rem;
+            border-radius: 0.75rem;
+            font-size: 0.7rem;
+            font-weight: 700;
+            display: flex;
+            align-items: center;
+            gap: 0.4rem;
+        }
+
+        .status-active { background: #f0fdf4; color: #166534; }
+        .status-locked { background: #f8fafc; color: #64748b; }
+
+        .lock-badge {
+            position: absolute;
+            top: 1rem;
+            right: 1rem;
+            background: var(--slate-50);
+            width: 28px;
+            height: 28px;
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 0.8rem;
+            border: 1px solid var(--slate-200);
+            color: var(--slate-400);
+        }
+
+        /* Footer */
+        .main-footer {
+            text-align: center;
+            padding: 3rem 0;
+            border-top: 1px solid var(--slate-200);
+            width: 100%;
+            background-color: var(--slate-50);
+            margin-top: auto;
+        }
+
+        .footer-copy {
+            font-weight: 700;
+            color: var(--slate-900);
+            font-size: 0.9rem;
+            margin-bottom: 0.25rem;
+        }
+
+        .footer-sub {
+            font-size: 0.8rem;
+            color: var(--slate-400);
+            font-weight: 500;
+        }
+
+        /* Modal */
+        #custom-alert {
+            display: none;
+            position: fixed;
+            inset: 0;
+            background: rgba(15, 23, 42, 0.5);
+            backdrop-filter: blur(4px);
+            z-index: 2000;
+            align-items: center;
+            justify-content: center;
+            padding: 1rem;
+        }
+
+        .modal-content {
+            background: white;
+            padding: 2rem;
+            border-radius: 1.5rem;
+            max-width: 350px;
+            width: 100%;
+            text-align: center;
+            box-shadow: 0 25px 50px -12px rgba(0, 0, 0, 0.25);
+        }
+
+        .modal-btn {
+            margin-top: 1.5rem;
+            background: var(--slate-900);
+            color: white;
+            border: none;
+            padding: 0.75rem 1.5rem;
+            border-radius: 0.75rem;
+            font-weight: 700;
+            cursor: pointer;
+            width: 100%;
+            transition: all 0.2s;
+        }
+        
+        .modal-btn:hover { background: var(--primary); }
     </style>
 </head>
 <body>
@@ -134,78 +312,81 @@
         <div class="blob blob-3"></div>
     </div>
 
+    <div id="custom-alert">
+        <div class="modal-content">
+            <h2 style="margin-bottom: 0.5rem; font-family: 'Outfit'; color: var(--slate-900);">Próximamente</h2>
+            <p id="alert-message" style="color: var(--slate-400); font-size: 0.9rem;"></p>
+            <button class="modal-btn" onclick="closeAlert()">Cerrar</button>
+        </div>
+    </div>
+
     <div class="app-container">
         <nav class="top-navbar">
-            <div class="logo-area" style="margin-bottom: 0;">
-                <div class="icon-box" style="width: 35px; height: 35px;">
-                    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" style="width: 20px; height: 20px;">
-                        <rect x="3" y="3" width="18" height="18" rx="2" ry="2"></rect>
-                        <line x1="3" y1="9" x2="21" y2="9"></line>
-                        <line x1="9" y1="21" x2="9" y2="9"></line>
-                    </svg>
-                </div>
-                <span class="font-bold text-slate-800 tracking-tight">Plataforma Plus</span>
-            </div>
-            <div class="nav-links">
-                <a href="#" class="nav-item">Inicio</a>
-                <a href="#" class="nav-item">Periodos</a>
-                <a href="#" class="btn-exams" onclick="alert('¡Próximamente los exámenes estarán disponibles!')">Exámenes</a>
-            </div>
-        </nav>
-
-        <header class="main-header">
             <div class="logo-area">
                 <div class="icon-box">
-                    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
-                        <rect x="3" y="3" width="18" height="18" rx="2" ry="2"></rect>
-                        <line x1="3" y1="9" x2="21" y2="9"></line>
-                        <line x1="9" y1="21" x2="9" y2="9"></line>
+                    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3">
+                        <path d="M2 3h6a4 4 0 0 1 4 4v14a3 3 0 0 0-3-3H2z"></path>
+                        <path d="M22 3h-6a4 4 0 0 0-4 4v14a3 3 0 0 1 3-3h7z"></path>
                     </svg>
                 </div>
-                <div class="title-text">
-                    <h1>Plataforma Plus</h1>
-                    <p>Elige tu periodo académico</p>
-                </div>
+                <span class="logo-text">Aula Plus</span>
             </div>
-        </header>
+            <button class="btn-exams" onclick="window.location.href='Periodo 1/examenesP1.html'">
+                Exámenes
+            </button>
+        </nav>
 
         <main class="period-selector">
             <!-- Periodo 1 -->
             <div class="period-card p1" onclick="window.location.href='Periodo 1/periodo1.html'">
-                <span class="period-number">01</span>
+                <span class="category-tag">Activo</span>
+                <span class="period-number">1</span>
                 <h3>Periodo 1</h3>
-                <p>Resúmenes de temas iniciales y preparación para el primer examen.</p>
-                <span class="period-status status-active">Activo</span>
+                <p>Repaso de conceptos fundamentales, estructuras y multimedia.</p>
+                <div class="period-status status-active">Habilitado</div>
             </div>
 
             <!-- Periodo 2 -->
-            <div class="period-card p2" style="opacity: 0.7; cursor: not-allowed;">
-                <span class="lock-icon">🔒</span>
-                <span class="period-number">02</span>
+            <div class="period-card p2" onclick="customAlert('Contenido bloqueado hasta el inicio del segundo corte.')">
+                <div class="lock-badge">🔒</div>
+                <span class="category-tag">Bloqueado</span>
+                <span class="period-number">2</span>
                 <h3>Periodo 2</h3>
-                <p>Próximamente disponible con nuevos contenidos divertidos.</p>
-                <span class="period-status status-locked">Bloqueado</span>
+                <p>Profundización en lógica y nuevos desafíos digitales.</p>
+                <div class="period-status status-locked">Pendiente</div>
             </div>
 
             <!-- Periodo 3 -->
-            <div class="period-card p3" style="opacity: 0.7; cursor: not-allowed;">
-                <span class="lock-icon">🔒</span>
-                <span class="period-number">03</span>
+            <div class="period-card p3" onclick="customAlert('Módulo disponible para el cierre de año.')">
+                <div class="lock-badge">🔒</div>
+                <span class="category-tag">Bloqueado</span>
+                <span class="period-number">3</span>
                 <h3>Periodo 3</h3>
-                <p>Materiales finales para el cierre del año escolar.</p>
-                <span class="period-status status-locked">Bloqueado</span>
+                <p>Proyecto final y preparación para la evaluación global.</p>
+                <div class="period-status status-locked">Pendiente</div>
             </div>
         </main>
-
-        <footer class="main-footer" style="border-top: 1px solid rgba(0,0,0,0.05); padding-top: 3rem;">
-            <div style="margin-bottom: 1.5rem; display: flex; justify-content: center; gap: 2rem;">
-                <a href="#" class="nav-item" style="font-size: 0.8rem; opacity: 0.7;">Términos</a>
-                <a href="#" class="nav-item" style="font-size: 0.8rem; opacity: 0.7;">Privacidad</a>
-                <a href="#" class="nav-item" style="font-size: 0.8rem; opacity: 0.7;">Contacto</a>
-            </div>
-            <p style="font-weight: 600; color: #94a3b8;">&copy; 2026 Plataforma Plus | Educando para el futuro</p>
-            <p style="font-size: 0.75rem; margin-top: 0.5rem; opacity: 0.6;">Profesor: Ronny Martinez | Computación Creativa</p>
-        </footer>
     </div>
+
+    <footer class="main-footer">
+        <p class="footer-copy">&copy; 2026 Aula Plus</p>
+        <p class="footer-sub">Prof. Ronny Martinez &bull; Tecnología e Informática</p>
+    </footer>
+
+    <script>
+        function customAlert(message) {
+            document.getElementById('alert-message').textContent = message;
+            document.getElementById('custom-alert').style.display = 'flex';
+        }
+
+        function closeAlert() {
+            document.getElementById('custom-alert').style.display = 'none';
+        }
+
+        window.onclick = function(event) {
+            const modal = document.getElementById('custom-alert');
+            if (event.target == modal) closeAlert();
+        }
+    </script>
 </body>
 </html>

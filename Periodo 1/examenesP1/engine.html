@@ -1,0 +1,663 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Aula Plus | Sala de Espera</title>
+    <link rel="icon" type="image/x-icon" href="../../assets/Icono.ico">
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Outfit:wght@400;600;800&family=Plus+Jakarta+Sans:wght@400;500;700&display=swap" rel="stylesheet">
+
+    <style>
+        :root {
+            --primary: #6366f1;
+            --primary-dark: #4f46e5;
+            --slate-50: #f8fafc;
+            --slate-100: #f1f5f9;
+            --slate-200: #e2e8f0;
+            --slate-400: #94a3b8;
+            --slate-600: #475569;
+            --slate-800: #1e293b;
+            --slate-900: #0f172a;
+            --danger: #ef4444;
+            --success: #22c55e;
+        }
+
+        * { margin: 0; padding: 0; box-sizing: border-box; font-family: 'Plus Jakarta Sans', sans-serif; }
+
+        body {
+            background: linear-gradient(135deg, var(--primary) 0%, var(--primary-dark) 100%);
+            min-height: 100vh;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            padding: 1.5rem;
+        }
+
+        /* ── CARD PRINCIPAL ── */
+        .join-card {
+            background: white;
+            padding: 3rem 2.5rem;
+            border-radius: 28px;
+            box-shadow: 0 40px 100px -20px rgba(0, 0, 0, 0.3);
+            width: 100%;
+            max-width: 480px;
+            text-align: center;
+            animation: cardAppear 0.6s cubic-bezier(0.16, 1, 0.3, 1);
+        }
+
+        @keyframes cardAppear {
+            from { transform: translateY(10px); opacity: 0; }
+            to { transform: translateY(0); opacity: 1; }
+        }
+
+        .logo-text {
+            font-family: 'Outfit', sans-serif;
+            font-weight: 800;
+            font-size: 2.2rem;
+            color: var(--slate-900);
+            margin-bottom: 0.4rem;
+        }
+
+        /* ── INPUTS ── */
+        .input-group { margin-bottom: 1.25rem; text-align: left; }
+        label { display: block; font-size: 0.7rem; font-weight: 800; color: var(--slate-600); text-transform: uppercase; margin: 0 0 0.6rem 0; text-align: center; }
+        input { width: 100%; padding: 1rem 1.5rem; border-radius: 14px; border: 2px solid var(--slate-100); font-size: 1.05rem; font-weight: 700; transition: 0.3s; outline: none; background: var(--slate-50); text-align: center; }
+        input:focus { border-color: var(--primary); background: white; box-shadow: 0 0 0 4px rgba(99, 102, 241, 0.1); }
+        #game-code { text-align: center; letter-spacing: 0.3em; font-family: 'Outfit', sans-serif; font-size: 1.5rem; }
+
+        .btn-join {
+            width: 100%; background: linear-gradient(135deg, var(--primary), var(--primary-dark));
+            color: white; padding: 1.1rem; border-radius: 14px; font-size: 1.1rem; font-weight: 800;
+            border: none; cursor: pointer; transition: 0.3s;
+            box-shadow: 0 10px 25px -5px rgba(99, 102, 241, 0.4); margin-top: 1rem;
+        }
+        .btn-join:hover { transform: translateY(-2px); }
+
+        #error-msg { background: #fff1f2; color: var(--danger); font-size: 0.85rem; font-weight: 700; padding: 0.8rem; border-radius: 10px; margin-top: 1rem; display: none; }
+
+        /* ── LOBBY STATE ── */
+        #lobby-state { display: none; }
+
+        /* ── TYPEWRITER (espera del alumno) ── */
+        .typewriter-wrap {
+            margin-bottom: 0;
+            min-height: 1.5rem;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            gap: 1px;
+        }
+
+        .tw-char {
+            font-family: 'Outfit', sans-serif;
+            font-size: 1rem;
+            font-weight: 700;
+            color: var(--primary);
+            opacity: 0;
+            display: inline-block;
+            animation: charFadeIn 0.15s forwards;
+        }
+
+        @keyframes charFadeIn {
+            from { opacity: 0; transform: translateY(4px); }
+            to   { opacity: 1; transform: translateY(0); }
+        }
+
+        /* Avatar en el lobby */
+        .lobby-avatar-wrap {
+            position: relative;
+            display: inline-block;
+            margin-bottom: 1.2rem;
+        }
+
+        #lobby-avatar-img {
+            width: 100px;
+            height: 100px;
+            border-radius: 50%;
+            border: 4px solid var(--primary);
+            background: var(--slate-100);
+            object-fit: cover;
+            display: block;
+        }
+
+        .btn-change-avatar {
+            position: absolute;
+            bottom: 0; right: 0;
+            background: var(--primary);
+            color: white;
+            border: 3px solid white;
+            border-radius: 50%;
+            width: 32px; height: 32px;
+            font-size: 0.9rem;
+            cursor: pointer;
+            display: flex; align-items: center; justify-content: center;
+            transition: 0.2s;
+            box-shadow: 0 2px 8px rgba(99,102,241,0.4);
+        }
+        .btn-change-avatar:hover { transform: scale(1.15); }
+
+        /* ── MODAL DE AVATARES ── */
+        #avatar-modal {
+            display: none;
+            position: fixed;
+            inset: 0;
+            background: rgba(15, 23, 42, 0.7);
+            backdrop-filter: blur(8px);
+            z-index: 9999;
+            align-items: flex-end;
+            justify-content: center;
+            padding: 1rem;
+        }
+
+        .avatar-modal-card {
+            background: white;
+            border-radius: 20px 20px 16px 16px;
+            width: 100%;
+            max-width: 500px;
+            max-height: 85vh;
+            display: flex;
+            flex-direction: column;
+            overflow: hidden;
+            animation: slideUp 0.4s cubic-bezier(0.16, 1, 0.3, 1);
+        }
+
+        @keyframes slideUp {
+            from { transform: translateY(100%); opacity: 0; }
+            to { transform: translateY(0); opacity: 1; }
+        }
+
+        .avatar-modal-header {
+            padding: 1.5rem 2rem 1rem;
+            border-bottom: 1px solid var(--slate-100);
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            flex-shrink: 0;
+        }
+
+        .avatar-modal-header h3 {
+            font-family: 'Outfit';
+            font-size: 1.3rem;
+            color: var(--slate-900);
+        }
+
+        .btn-close-modal {
+            background: var(--slate-100); border: none; border-radius: 50%;
+            width: 36px; height: 36px; font-size: 1rem; cursor: pointer;
+            display: flex; align-items: center; justify-content: center;
+            color: var(--slate-600); transition: 0.2s;
+        }
+        .btn-close-modal:hover { background: var(--slate-200); }
+
+        .avatar-styles-tabs {
+            display: flex; gap: 0.5rem; padding: 1rem 2rem;
+            overflow-x: auto; flex-shrink: 0; scrollbar-width: none;
+        }
+        .avatar-styles-tabs::-webkit-scrollbar { display: none; }
+
+        .style-tab {
+            padding: 0.4rem 1rem; border-radius: 10px;
+            border: 2px solid var(--slate-200); font-size: 0.8rem; font-weight: 700;
+            cursor: pointer; white-space: nowrap; transition: 0.2s;
+            background: white; color: var(--slate-600);
+        }
+        .style-tab.active { background: var(--primary); border-color: var(--primary); color: white; }
+
+        .avatar-grid-modal {
+            display: grid; grid-template-columns: repeat(4, 1fr);
+            gap: 12px; padding: 1rem 2rem 2rem; overflow-y: auto;
+        }
+
+        .avatar-item {
+            background: var(--slate-50); border-radius: 12px; padding: 12px;
+            cursor: pointer; border: 3px solid transparent; transition: 0.2s;
+            display: flex; flex-direction: column; align-items: center; gap: 6px;
+        }
+        .avatar-item:hover { background: var(--slate-100); transform: scale(1.05); }
+        .avatar-item.selected { border-color: var(--primary); background: rgba(99,102,241,0.08); transform: scale(1.05); }
+        .avatar-item img { width: 60px; height: 60px; border-radius: 50%; }
+        .avatar-item span { font-size: 0.65rem; font-weight: 700; color: var(--slate-400); text-transform: capitalize; }
+
+        .btn-confirm-avatar {
+            margin: 0 2rem 2rem; padding: 1rem;
+            background: linear-gradient(135deg, var(--primary), var(--primary-dark));
+            color: white; border: none; border-radius: 12px;
+            font-weight: 800; font-size: 1rem; cursor: pointer; transition: 0.3s; flex-shrink: 0;
+        }
+        .btn-confirm-avatar:hover { transform: translateY(-2px); }
+    </style>
+
+    <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
+    <script src="../../js/supabase-config.js"></script>
+</head>
+<body>
+
+    <!-- CARD PRINCIPAL -->
+    <div class="join-card" id="main-card">
+
+        <!-- ESTADO 1: INGRESO (solo nombre y código) -->
+        <div id="join-state">
+            <h1 class="logo-text">Aula Plus</h1>
+            <p style="color: var(--slate-400); font-weight: 600; margin-bottom: 2rem;">Únete a la sesión de hoy</p>
+
+            <div class="input-group" style="display: grid; grid-template-columns: 1fr 1fr; gap: 10px;">
+                <div>
+                    <label>Nombre</label>
+                    <input type="text" id="student-firstname" placeholder="" autocomplete="off">
+                </div>
+                <div>
+                    <label>Apellido</label>
+                    <input type="text" id="student-lastname" placeholder="" autocomplete="off">
+                </div>
+            </div>
+
+            <div class="input-group">
+                <label>Código de Clase</label>
+                <input type="text" id="game-code" placeholder="000000" maxlength="6" autocomplete="off">
+            </div>
+
+            <button id="start-btn" class="btn-join" onclick="validateAndJoin()">UNIRSE AL JUEGO</button>
+            <p id="error-msg"></p>
+        </div>
+
+        <!-- ESTADO 2: SALA DE ESPERA (con opción de cambiar avatar) -->
+        <div id="lobby-state">
+            <!-- Avatar con botón de editar -->
+            <div class="lobby-avatar-wrap">
+                <img id="lobby-avatar-img" src="" alt="Avatar">
+                <button class="btn-change-avatar" onclick="openAvatarModal()" title="Cambiar personaje">✏️</button>
+            </div>
+
+            <h2 id="welcome-name" style="font-family: 'Outfit'; margin-bottom: 0.75rem;">¡Hola!</h2>
+
+            <!-- Typewriter debajo del nombre -->
+            <div class="typewriter-wrap" id="typewriter-el"></div>
+        </div>
+    </div>
+
+    <!-- MODAL DE SELECCIÓN DE AVATARES -->
+    <div id="avatar-modal">
+        <div class="avatar-modal-card">
+            <div class="avatar-modal-header">
+                <h3>🎨 Elige tu personaje</h3>
+                <button class="btn-close-modal" onclick="closeAvatarModal()">✕</button>
+            </div>
+
+            <div class="avatar-styles-tabs" id="style-tabs">
+                <button class="style-tab active" onclick="loadStyle('fun-emoji', this)">Divertidos</button>
+                <button class="style-tab" onclick="loadStyle('adventurer', this)">Aventureros</button>
+                <button class="style-tab" onclick="loadStyle('pixel-art', this)">Pixel Art</button>
+                <button class="style-tab" onclick="loadStyle('lorelei', this)">Ilustrados</button>
+            </div>
+
+            <div class="avatar-grid-modal" id="avatar-grid-modal"></div>
+
+            <button class="btn-confirm-avatar" onclick="confirmAvatar()">✓ USAR ESTE PERSONAJE</button>
+        </div>
+    </div>
+
+    <script>
+        // ── CONFIGURACIÓN DE AVATARES ──
+        const SEEDS = [
+            'Felix','Lily','Max','Zoe','Leo','Mia','Kai','Ava',
+            'Liam','Luna','Noah','Cleo','Finn','Ruby','Axel','Iris',
+            'Jake','Nova','Beau','Aria','Cole','Maya','Drew','Elsa',
+            'Rey','Theo','Jade','Cruz'
+        ];
+
+        // Avatar predeterminado aleatorio al cargar
+        const DEFAULT_SEED = SEEDS[Math.floor(Math.random() * SEEDS.length)];
+        const DEFAULT_STYLE = 'fun-emoji';
+
+        let currentStyle = DEFAULT_STYLE;
+        let selectedAvatarUrl = avatarUrl(DEFAULT_STYLE, DEFAULT_SEED);
+        let selectedAvatarSeed = DEFAULT_SEED;
+        let tempSelectedUrl = selectedAvatarUrl;
+        let tempSelectedSeed = selectedAvatarSeed;
+
+        let pollingInterval = null;
+        let sessionReadFailures = 0;
+        let currentLobbyId = null;  // ID del registro en lobby_estudiantes para actualizarlo
+
+        // ── RECUPERAR SESIÓN AL RECARGAR ──
+        window.addEventListener('load', async () => {
+            const savedName   = localStorage.getItem('studentName');
+            const savedCode   = localStorage.getItem('currentCode');
+            const savedGrade  = localStorage.getItem('currentGrade');
+            const savedAvatar = localStorage.getItem('studentAvatar');
+
+            if (savedAvatar) selectedAvatarUrl = savedAvatar;
+
+            if (savedName && savedGrade) {
+                const restored = await restoreStudentSession(savedName, savedGrade, savedCode);
+                if (restored) return;
+            }
+
+            prefillSavedIdentity(savedName);
+        });
+
+        async function restoreStudentSession(savedName, savedGrade, savedCode) {
+            if (!savedCode) return false;
+
+            try {
+                // Solo restaurar la sesión si el código guardado coincide con una sesión activa
+                const { data: session, error } = await supabase
+                    .from('sesiones_examen')
+                    .select('grado, codigo_acceso, esta_activo, examen_comenzado, session_id')
+                    .eq('codigo_acceso', savedCode)
+                    .eq('esta_activo', true)
+                    .maybeSingle();
+
+                if (error) {
+                    console.error('No se pudo restaurar la sesión del estudiante:', error);
+                    localStorage.clear();
+                    return false;
+                }
+
+                if (!session || !session.esta_activo) {
+                    localStorage.clear();
+                    return false;
+                }
+
+                localStorage.setItem('currentGrade', session.grado);
+                localStorage.setItem('currentCode', session.codigo_acceso);
+
+                const lobbyRow = await ensureLobbyPresence(session, savedName);
+                if (lobbyRow) currentLobbyId = lobbyRow.id;
+
+                if (session.examen_comenzado) {
+                    goToExam();
+                } else {
+                    showLobby(savedName, session.grado);
+                    startPolling();
+                }
+
+                return true;
+            } catch (restoreError) {
+                console.error('Error restaurando sesión del estudiante:', restoreError);
+                return false;
+            }
+        }
+
+        async function ensureLobbyPresence(session, fullName) {
+            const { data: lobbyRow, error } = await supabase
+                .from('lobby_estudiantes')
+                .upsert({
+                    grado: session.grado,
+                    session_id: session.session_id,
+                    nombre_estudiante: fullName,
+                    avatar: selectedAvatarUrl,
+                    presente: true
+                }, { onConflict: 'grado,nombre_estudiante' })
+                .select('id')
+                .single();
+
+            if (error) {
+                console.error('No se pudo registrar al estudiante en el lobby:', error);
+                return null;
+            }
+
+            return lobbyRow;
+        }
+
+        function prefillSavedIdentity(savedName) {
+            if (!savedName) return;
+            const parts = savedName.trim().split(/\s+/);
+            if (parts.length >= 2) {
+                document.getElementById('student-lastname').value = parts[0];
+                document.getElementById('student-firstname').value = parts.slice(1).join(' ');
+            }
+        }
+
+        function avatarUrl(style, seed) {
+            return `https://api.dicebear.com/9.x/${style}/svg?seed=${seed}&radius=50`;
+        }
+
+        // ── MODAL ──
+        function loadStyle(style, tabEl) {
+            currentStyle = style;
+            document.querySelectorAll('.style-tab').forEach(t => t.classList.remove('active'));
+            tabEl.classList.add('active');
+
+            const grid = document.getElementById('avatar-grid-modal');
+            grid.innerHTML = '';
+            SEEDS.forEach(seed => {
+                const url = avatarUrl(style, seed);
+                const item = document.createElement('div');
+                item.className = 'avatar-item';
+                if (seed === tempSelectedSeed) item.classList.add('selected');
+                item.innerHTML = `<img src="${url}" alt="${seed}"><span>${seed}</span>`;
+                item.onclick = () => {
+                    document.querySelectorAll('.avatar-item').forEach(i => i.classList.remove('selected'));
+                    item.classList.add('selected');
+                    tempSelectedUrl = url;
+                    tempSelectedSeed = seed;
+                };
+                grid.appendChild(item);
+            });
+        }
+
+        function openAvatarModal() {
+            tempSelectedUrl = selectedAvatarUrl;
+            tempSelectedSeed = selectedAvatarSeed;
+            document.getElementById('avatar-modal').style.display = 'flex';
+            loadStyle(currentStyle, document.querySelector('.style-tab.active'));
+        }
+
+        function closeAvatarModal() {
+            document.getElementById('avatar-modal').style.display = 'none';
+        }
+
+        async function confirmAvatar() {
+            selectedAvatarUrl = tempSelectedUrl;
+            selectedAvatarSeed = tempSelectedSeed;
+
+            // Actualizar imagen en el lobby
+            document.getElementById('lobby-avatar-img').src = selectedAvatarUrl;
+
+            // Actualizar en Supabase si ya está en el lobby
+            if (currentLobbyId) {
+                await supabase
+                    .from('lobby_estudiantes')
+                    .update({ avatar: selectedAvatarUrl })
+                    .eq('id', currentLobbyId);
+            }
+
+            localStorage.setItem('studentAvatar', selectedAvatarUrl);
+            closeAvatarModal();
+        }
+
+        document.getElementById('avatar-modal').addEventListener('click', function(e) {
+            if (e.target === this) closeAvatarModal();
+        });
+
+        // ── INGRESO ──
+        async function validateAndJoin() {
+            const fName = document.getElementById('student-firstname').value.trim();
+            const lName = document.getElementById('student-lastname').value.trim();
+            const code = document.getElementById('game-code').value.trim();
+            const btn = document.getElementById('start-btn');
+
+            if (!fName || !lName || !code) { showError("Completa tus nombres, apellidos y el código."); return; }
+            
+            function toTitleCase(str) {
+                return str.toLowerCase().replace(/\b\w/g, s => s.toUpperCase());
+            }
+            
+            const fullName = `${toTitleCase(lName)} ${toTitleCase(fName)}`;
+            
+            btn.disabled = true;
+            btn.innerText = "BUSCANDO SALA...";
+
+            try {
+                const { data } = await supabase
+                    .from('sesiones_examen')
+                    .select('grado, esta_activo, session_id')
+                    .eq('codigo_acceso', code)
+                    .eq('esta_activo', true)
+                    .single();
+
+                if (data) {
+                    // Registrar en el lobby con avatar predeterminado
+                    const lobbyRow = await ensureLobbyPresence(data, fullName);
+
+                    if (lobbyRow) currentLobbyId = lobbyRow.id;
+
+                    localStorage.setItem('studentName', fullName);
+                    localStorage.setItem('studentAvatar', selectedAvatarUrl);
+                    localStorage.setItem('currentGrade', data.grado);
+                    localStorage.setItem('currentCode', code);
+                    localStorage.removeItem(`exam_session_token_${data.grado}`);
+
+                    showLobby(fullName, data.grado);
+                    startPolling();
+                } else {
+                    showError("El código no es válido o la sala está cerrada.");
+                    btn.disabled = false;
+                    btn.innerText = "UNIRSE AL JUEGO";
+                }
+            } catch (err) {
+                showError("Error de conexión. Intenta de nuevo.");
+                btn.disabled = false;
+                btn.innerText = "UNIRSE AL JUEGO";
+            }
+        }
+
+        function showLobby(name, grade) {
+            document.getElementById('join-state').style.display = 'none';
+            document.getElementById('lobby-state').style.display = 'block';
+            document.getElementById('lobby-avatar-img').src = selectedAvatarUrl;
+            document.getElementById('welcome-name').innerText = `¡Hola, ${name}!`;
+            startTypewriter();
+        }
+
+        function startTypewriter() {
+            const text = 'Esperando al profesor...';
+            const el = document.getElementById('typewriter-el');
+            const CHAR_DELAY  = 80;   // ms entre letras
+            const PAUSE_AFTER = 1200; // ms de pausa antes de borrar
+            const ERASE_DELAY = 40;   // ms entre borrados
+            const PAUSE_BEFORE = 400; // ms antes de volver a escribir
+
+            function write(i) {
+                if (i >= text.length) {
+                    setTimeout(erase, PAUSE_AFTER);
+                    return;
+                }
+                const span = document.createElement('span');
+                span.className = 'tw-char';
+                span.textContent = text[i] === ' ' ? '\u00A0' : text[i];
+                span.style.animationDelay = '0ms';
+                el.appendChild(span);
+                setTimeout(() => write(i + 1), CHAR_DELAY);
+            }
+
+            function erase() {
+                if (!el.lastChild) {
+                    setTimeout(() => { write(0); }, PAUSE_BEFORE);
+                    return;
+                }
+                el.removeChild(el.lastChild);
+                setTimeout(erase, ERASE_DELAY);
+            }
+
+            el.innerHTML = '';
+            write(0);
+        }
+
+        // ── POLLING ──
+        function startPolling() {
+            if (pollingInterval) {
+                clearInterval(pollingInterval);
+            }
+            const code  = localStorage.getItem('currentCode');
+            const name  = localStorage.getItem('studentName');
+
+            pollingInterval = setInterval(async () => {
+                const { data: session, error: sessionError } = await supabase
+                    .from('sesiones_examen')
+                    .select('examen_comenzado, esta_activo, session_id')
+                    .eq('codigo_acceso', code)
+                    .single();
+
+                if (sessionError) {
+                    // Si no se encuentra la fila (ej. sesión eliminada), PGRST116 significa "0 rows"
+                    if (sessionError.code === 'PGRST116') {
+                        clearInterval(pollingInterval);
+                        showKicked('La sesión ha sido eliminada o ya no existe.');
+                        return;
+                    }
+                    sessionReadFailures++;
+                    if (sessionReadFailures > 5) {
+                        clearInterval(pollingInterval);
+                        showKicked('Error de conexión con la sala. Verifica tu internet.');
+                    }
+                    console.error('Error consultando la sesión activa:', sessionError);
+                    return;
+                }
+
+                sessionReadFailures = 0;
+
+                if (!session) {
+                    return;
+                }
+
+                if (!session.esta_activo) {
+                    clearInterval(pollingInterval);
+                    showKicked('El profesor ha cerrado la sala.');
+                } else if (session.examen_comenzado) {
+                    clearInterval(pollingInterval);
+                    goToExam();
+                } else {
+                    // Verificar si el docente removió al alumno del lobby
+                    const { data: inLobby, error: lobbyError } = await supabase
+                        .from('lobby_estudiantes')
+                        .select('id')
+                        .eq('nombre_estudiante', name)
+                        .eq('grado', localStorage.getItem('currentGrade'))
+                        .single();
+
+                    if (lobbyError) {
+                        console.error('Error verificando el lobby del estudiante:', lobbyError);
+                        return;
+                    }
+
+                    if (!inLobby) {
+                        clearInterval(pollingInterval);
+                        localStorage.clear();
+                        showKicked('El profesor te ha removido de la sala.');
+                    }
+                }
+            }, 2000);
+        }
+
+        function showKicked(msg) {
+            localStorage.clear();
+            document.getElementById('lobby-state').innerHTML = `
+                <p style="font-size:2rem; margin-bottom:1rem;">🚫</p>
+                <h2 style="font-family:'Outfit'; color:var(--danger); margin-bottom:0.5rem;">Removido</h2>
+                <p style="color:var(--slate-600); font-weight:600;">${msg}</p>
+            `;
+        }
+
+        function goToExam() {
+            const grade = localStorage.getItem('currentGrade');
+            const gradeNumber = grade.replace(/\D/g, '');
+            const examFile = gradeNumber.padStart(2, '0') + '.html';
+            document.getElementById('lobby-state').innerHTML = `
+                <h2 style="color: var(--success); font-family: 'Outfit';">¡EMPEZAMOS!</h2>
+                <p style="margin-top:0.5rem;">Cargando examen...</p>
+            `;
+            setTimeout(() => { window.location.href = examFile; }, 1000);
+        }
+
+        function showError(text) {
+            const el = document.getElementById('error-msg');
+            el.innerText = text;
+            el.style.display = 'block';
+        }
+    </script>
+</body>
+</html>

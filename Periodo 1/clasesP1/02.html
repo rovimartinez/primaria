@@ -566,6 +566,7 @@
         </div>
 
         <div id="test" class="tab-content p-6 md:p-10">
+            <div id="examen" class="absolute -top-40"></div>
             <h2 class="text-4xl text-orange-600 mb-6 text-center font-luckiest drop-shadow-sm">🏆 Gran Desafío Final 🏆</h2>
             <p class="text-slate-600 text-center mb-10 text-xl">¡Demuestra que eres un experto en tecnología! <br> Selecciona la respuesta correcta para cada pregunta.</p>
             
@@ -581,7 +582,7 @@
     </main>
 
     <footer class="text-center py-10 text-slate-500 font-medium">
-        <p>Plataforma de resumenes | profesor: Ronny Martinez</p>
+        <p>Aula Plus | profesor: Ronny Martinez</p>
     </footer>
 
     <script>
@@ -717,7 +718,11 @@
         }
 
         window.onload = () => {
-            showTab('tema1');
+            if (window.location.hash === '#examen') {
+                showTab('test');
+            } else {
+                showTab('tema1');
+            }
             renderQuiz();
         };
 
@@ -762,30 +767,39 @@
             container.appendChild(qDiv);
         }
 
+        let isTransitioning = false;
         function handleQuizAnswer(btn, qIndex, optIndex) {
+            const card = document.getElementById(`q-card-${qIndex}`);
+            if (isTransitioning || btn.disabled || card.dataset.answered === "true") return;
+            card.dataset.answered = "true";
+
             const isCorrect = optIndex === questions[qIndex].c;
             
-            const buttons = document.getElementById(`q-card-${qIndex}`).querySelectorAll('button');
+            const buttons = card.querySelectorAll('button');
             buttons.forEach(b => b.disabled = true);
 
             if (isCorrect) {
+                isTransitioning = true;
                 btn.classList.add('bg-green-500', 'text-white', 'border-green-700');
                 btn.classList.remove('bg-white', 'text-slate-700', 'border-slate-200');
                 
                 Jandra.show("¡Excelente! ¡Esa es la respuesta correcta!", () => {
                     currentQuestionIndex++;
                     renderQuiz();
+                    setTimeout(() => { isTransitioning = false; }, 400);
                 });
                 score++;
             } else {
                 btn.classList.add('bg-red-500', 'text-white', 'border-red-700', 'animate-shake');
                 
                 Jandra.show(`No es esa. Pista: ${questions[qIndex].h}`, () => {
+                    card.dataset.answered = "false";
                     buttons.forEach(b => {
                         if (!b.classList.contains('bg-red-500')) {
                             b.disabled = false;
                         }
                     });
+                    isTransitioning = false;
                 });
             }
         }

@@ -1,0 +1,996 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Aula Plus | Monitor de Examen</title>
+    <link rel="icon" type="image/x-icon" href="../../assets/Icono.ico">
+    <link href="https://fonts.googleapis.com/css2?family=Outfit:wght@400;600;800&family=Plus+Jakarta+Sans:wght@400;500;700&display=swap" rel="stylesheet">
+    <style>
+        :root {
+            --primary: #4f46e5;
+            --primary-light: #eef2ff;
+            --success: #10b981;
+            --success-light: #d1fae5;
+            --warning: #f59e0b;
+            --danger: #f43f5e;
+            --bg-body: #f8fafc;
+            --card-bg: #ffffff;
+            --text-main: #1e293b;
+            --text-muted: #64748b;
+            --border: #e2e8f0;
+        }
+
+        * { margin: 0; padding: 0; box-sizing: border-box; font-family: 'Plus Jakarta Sans', sans-serif; }
+
+        body {
+            background: var(--bg-body);
+            background-image:
+                radial-gradient(at 0% 0%, rgba(79,70,229,0.03) 0px, transparent 50%),
+                radial-gradient(at 100% 100%, rgba(16,185,129,0.03) 0px, transparent 50%);
+            min-height: 100vh;
+            color: var(--text-main);
+            display: flex;
+            flex-direction: column;
+        }
+
+        /* TOP BAR */
+        .top-bar {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            padding: 1rem 2rem;
+            background: white;
+            border-bottom: 1px solid var(--border);
+            box-shadow: 0 1px 8px rgba(0,0,0,0.03);
+        }
+
+        .brand { display: flex; align-items: center; gap: 0.75rem; }
+        .brand-icon {
+            width: 36px; height: 36px; background: var(--primary); color: white;
+            border-radius: 8px; display: flex; align-items: center; justify-content: center;
+            font-weight: 900; font-size: 1rem;
+        }
+        .brand-name { font-family: 'Outfit'; font-weight: 800; color: var(--text-main); }
+        .brand-name span { color: var(--primary); font-weight: 400; }
+
+        .top-info { display: flex; align-items: center; gap: 1rem; }
+
+        .timer-badge {
+            background: #fef3c7;
+            border: 1px solid #fde68a;
+            color: #d97706;
+            padding: 0.35rem 1rem;
+            border-radius: 10px;
+            font-family: 'Outfit';
+            font-weight: 800;
+            font-size: 0.95rem;
+        }
+
+        .grade-pill {
+            background: var(--primary-light);
+            border: 1px solid #c7d2fe;
+            color: var(--primary);
+            padding: 0.35rem 1.25rem;
+            border-radius: 50px;
+            font-family: 'Outfit';
+            font-weight: 800;
+        }
+
+        /* STATS BAR */
+        .stats-bar {
+            display: grid;
+            grid-template-columns: repeat(4, 1fr);
+            gap: 1rem;
+            padding: 0.75rem 2rem;
+            background: #ffffff;
+            border-bottom: 1px solid var(--border);
+        }
+        .stat-card {
+            background: #f8fafc;
+            border: 1px solid var(--border);
+            border-radius: 12px;
+            padding: 0 1.25rem;
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            height: 56px;
+            transition: all 0.3s ease;
+            position: relative;
+            overflow: hidden;
+        }
+        .stat-card:hover { 
+            background: #ffffff;
+            border-color: var(--primary);
+            box-shadow: 0 10px 15px -3px rgba(0,0,0,0.05);
+        }
+        
+        .stat-info { display: flex; align-items: baseline; gap: 8px; z-index: 2; }
+        .stat-value { 
+            font-family: 'Outfit'; 
+            font-size: 1.8rem; 
+            font-weight: 900; 
+            line-height: 1;
+            color: #1e293b;
+        }
+        .stat-label { 
+            font-size: 0.65rem; 
+            font-weight: 800; 
+            text-transform: uppercase; 
+            letter-spacing: 0.05em;
+            color: #94a3b8;
+        }
+
+        .stat-icon-bg {
+            position: absolute;
+            right: -8px;
+            top: 50%;
+            transform: translateY(-50%) rotate(15deg);
+            font-size: 3.5rem;
+            opacity: 0.15;
+            z-index: 1;
+            pointer-events: none;
+        }
+
+        /* Colores sutiles y Fondos Degradados */
+        .stat-blue { background: linear-gradient(135deg, #eff6ff 0%, #ffffff 100%); }
+        .stat-blue .stat-value { color: #4f46e5; }
+        
+        .stat-violet { background: linear-gradient(135deg, #f5f3ff 0%, #ffffff 100%); }
+        .stat-violet .stat-value { color: #7c3aed; }
+        
+        .stat-green { background: linear-gradient(135deg, #f0fdf4 0%, #ffffff 100%); }
+        .stat-green .stat-value { color: #10b981; }
+        
+        .stat-amber { background: linear-gradient(135deg, #fffbeb 0%, #ffffff 100%); }
+        .stat-amber .stat-value { color: #f59e0b; }
+
+        /* STUDENT GRID */
+        .main-content { flex: 1; padding: 1.5rem 2rem; overflow-y: auto; }
+
+        .section-title {
+            font-size: 0.75rem;
+            font-weight: 800;
+            text-transform: uppercase;
+            letter-spacing: 0.15em;
+            color: var(--text-muted);
+            margin-bottom: 1rem;
+        }
+
+        .students-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fill, minmax(240px, 1fr));
+            gap: 14px;
+        }
+
+        .student-card {
+            background: white;
+            border: 1px solid var(--border);
+            border-radius: 12px;
+            padding: 8px 12px;
+            position: relative;
+            overflow: hidden;
+            transition: 0.3s;
+        }
+
+        /* Semáforo de notas en la barra de progreso y borde */
+        .student-card.score-low { border-color: #fecaca !important; }
+        .student-card.score-low .card-progress-bg { background: #fee2e2 !important; }
+        .student-card.score-low .score-status { color: #dc2626 !important; }
+        
+        .student-card.score-mid { border-color: #ffedd5 !important; }
+        .student-card.score-mid .card-progress-bg { background: #ffedd5 !important; }
+        .student-card.score-mid .score-status { color: #ea580c !important; }
+        
+        .student-card.score-high { border-color: #dcfce7 !important; }
+        .student-card.score-high .card-progress-bg { background: #dcfce7 !important; }
+        .student-card.score-high .score-status { color: #16a34a !important; }
+
+        .card-progress-bg {
+            position: absolute;
+            top: 0;
+            left: 0;
+            height: 100%;
+            background: var(--primary-light);
+            transition: width 0.5s ease-in-out;
+            z-index: 0;
+        }
+
+        .card-content {
+            position: relative;
+            z-index: 1;
+            display: flex;
+            align-items: center;
+            gap: 10px;
+            width: 100%;
+        }
+
+        .student-card.finished {
+            border-color: #6ee7b7;
+        }
+
+        .student-card.finished .card-progress-bg {
+            background: var(--success-light);
+            width: 100% !important;
+        }
+
+        .student-card img {
+            width: 40px;
+            height: 40px;
+            border-radius: 50%;
+            border: 2px solid var(--border);
+        }
+
+        .student-info {
+            display: flex;
+            flex-direction: column;
+            gap: 0;
+            flex: 1;
+        }
+
+        .student-name {
+            font-size: 0.78rem;
+            font-weight: 800;
+            line-height: 1.2;
+            color: var(--text-main);
+            text-align: left;
+        }
+
+        .student-status {
+            font-size: 0.7rem;
+            font-weight: 800;
+            text-transform: uppercase;
+            letter-spacing: 0.05em;
+            color: var(--text-muted);
+            text-align: left;
+        }
+
+        .score-display {
+            font-family: 'Outfit';
+            font-size: 0.9rem;
+            font-weight: 900;
+            color: var(--primary);
+            margin-left: auto;
+            padding-left: 0.4rem;
+        }
+        
+        .student-card.finished .score-display {
+            color: var(--success);
+        }
+
+        /* BOTTOM BAR */
+        .bottom-bar {
+            padding: 1rem 2rem;
+            background: white;
+            border-top: 1px solid var(--border);
+            display: flex;
+            justify-content: flex-end;
+            gap: 1rem;
+        }
+
+        /* BOTONES PREMIUM */
+        .btn-secondary, .btn-warning, .btn-danger {
+            font-family: 'Outfit';
+            font-size: 0.85rem;
+            font-weight: 800;
+            padding: 0.75rem 1.75rem;
+            border-radius: 14px;
+            cursor: pointer;
+            transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+            border: none;
+            display: flex;
+            align-items: center;
+            gap: 10px;
+            box-shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.1);
+        }
+
+        .btn-secondary {
+            background: #f1f5f9;
+            color: #64748b;
+        }
+        .btn-secondary:hover {
+            background: #e2e8f0;
+            transform: translateY(-2px);
+            box-shadow: 0 10px 15px -3px rgba(0,0,0,0.1);
+        }
+
+        .btn-warning {
+            background: linear-gradient(135deg, #f59e0b 0%, #d97706 100%);
+            color: white;
+            box-shadow: 0 4px 14px 0 rgba(245, 158, 11, 0.39);
+        }
+        .btn-warning:hover {
+            filter: brightness(1.1);
+            transform: translateY(-2px);
+            box-shadow: 0 10px 20px -5px rgba(245, 158, 11, 0.5);
+        }
+
+        .btn-danger {
+            background: linear-gradient(135deg, #ef4444 0%, #dc2626 100%);
+            color: white;
+            box-shadow: 0 4px 14px 0 rgba(239, 68, 68, 0.39);
+        }
+        .btn-danger:hover {
+            filter: brightness(1.1);
+            transform: translateY(-2px);
+            box-shadow: 0 10px 20px -5px rgba(239, 68, 68, 0.5);
+        }
+
+        .btn-secondary:active, .btn-warning:active, .btn-danger:active {
+            transform: translateY(0);
+        }
+
+        /* ── MODALES PREMIUM ── */
+        #titleModal, #genericConfirmModal {
+            position: fixed; inset: 0; background: rgba(15, 23, 42, 0.6);
+            backdrop-filter: blur(8px); display: none; align-items: center; justify-content: center;
+            z-index: 10000; padding: 1.5rem;
+        }
+        #titleModal.flex, #genericConfirmModal.flex { display: flex; }
+        
+        .title-card, .confirm-card {
+            background: white; width: 100%; max-width: 450px;
+            padding: 2.5rem; border-radius: 28px; text-align: center;
+            box-shadow: 0 25px 50px -12px rgba(0, 0, 0, 0.25);
+            animation: modalPop 0.4s cubic-bezier(0.175, 0.885, 0.32, 1.275);
+        }
+        @keyframes modalPop {
+            from { transform: scale(0.8); opacity: 0; }
+            to { transform: scale(1); opacity: 1; }
+        }
+        .title-card h3, .confirm-card h3 { font-family: 'Outfit'; font-size: 1.5rem; font-weight: 800; color: #1e293b; margin-bottom: 0.5rem; }
+        .title-card p, .confirm-card p { color: #64748b; font-size: 0.95rem; margin-bottom: 1.5rem; line-height: 1.5; }
+        
+        .title-input-wrap { text-align: left; margin-bottom: 1.5rem; }
+        .title-input-wrap label { display: block; font-size: 0.65rem; font-weight: 800; color: #94a3b8; text-transform: uppercase; margin: 0 0 0.5rem 0.5rem; letter-spacing: 1px; }
+        .title-input-wrap input { width: 100%; padding: 1rem 1.25rem; border-radius: 16px; border: 2px solid #f1f5f9; font-size: 1rem; font-weight: 700; background: #f8fafc; outline: none; transition: 0.2s; }
+        .title-input-wrap input:focus { border-color: var(--primary); background: white; box-shadow: 0 0 0 4px rgba(99, 102, 241, 0.1); }
+        
+        .btn-title-confirm, .btn-confirm-yes { width: 100%; padding: 1rem; border-radius: 14px; border: none; background: var(--primary); color: white; font-weight: 800; cursor: pointer; transition: 0.2s; box-shadow: 0 10px 15px -3px rgba(99, 102, 241, 0.3); }
+        .btn-confirm-yes.danger { background: #ef4444; }
+        .btn-title-confirm:hover, .btn-confirm-yes:hover { transform: translateY(-2px); filter: brightness(1.1); }
+        
+        .confirm-actions { display: grid; grid-template-columns: 1fr 1fr; gap: 1rem; }
+        .btn-confirm-no { width: 100%; padding: 1rem; border-radius: 14px; border: 1px solid #e2e8f0; background: white; color: #94a3b8; font-weight: 700; cursor: pointer; transition: 0.2s; }
+        .btn-confirm-no:hover { background: #f8fafc; color: #64748b; }
+    </style>
+    <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
+    <script src="../../js/supabase-config.js"></script>
+</head>
+    <!-- MODAL PENDIENTES -->
+    <div id="pendientesModal" style="display: none; position: fixed; inset: 0; background: rgba(15,23,42,0.8); z-index: 1000; align-items: center; justify-content: center; backdrop-filter: blur(4px);">
+        <div style="background: white; border-radius: 16px; padding: 2rem; width: 90%; max-width: 400px; box-shadow: 0 25px 50px -12px rgba(0,0,0,0.5);">
+            <div style="display:flex; justify-content:space-between; align-items:center; margin-bottom: 1.5rem;">
+                <h3 style="margin: 0; font-family:'Outfit'; font-size:1.3rem; font-weight:800; color:var(--text-main);">Alumnos Pendientes</h3>
+                <span id="pendientesCount" style="background: var(--primary-light); color: var(--primary); padding: 4px 10px; border-radius: 20px; font-weight: 800; font-size:0.8rem;">0</span>
+            </div>
+            <ul id="pendientesList" style="list-style: none; padding: 0; margin: 0; max-height: 400px; overflow-y: auto;">
+            </ul>
+            <button onclick="document.getElementById('pendientesModal').style.display='none'" class="btn-secondary" style="width: 100%; margin-top: 1.5rem; text-align: center; justify-content: center;">Cerrar Lista</button>
+        </div>
+    </div>
+
+    <!-- MODAL OTRA OPORTUNIDAD -->
+    <div id="modalOportunidad" style="display: none; position: fixed; inset: 0; background: rgba(15,23,42,0.8); z-index: 1000; align-items: center; justify-content: center; backdrop-filter: blur(4px);">
+        <div style="background: white; border-radius: 24px; padding: 2.5rem; width: 90%; max-width: 450px; box-shadow: 0 25px 50px -12px rgba(0,0,0,0.5); text-align: center;">
+            <div style="font-size: 4rem; margin-bottom: 1rem;">🔄</div>
+            <h3 style="margin: 0 0 1rem 0; font-family:'Outfit'; font-size:1.8rem; font-weight:900; color:#1e293b;">¡Otra Oportunidad!</h3>
+            <p style="color: #64748b; font-size: 0.95rem; line-height: 1.5; margin-bottom: 2rem;">
+                Esto permitirá que los estudiantes inicien un nuevo intento. 
+                <br><b>Sus notas anteriores se conservarán.</b>
+                <br><br>Para confirmar, escribe <b>REPETIR</b> abajo:
+            </p>
+            <input type="text" id="inputRepetir" 
+                style="width: 100%; padding: 1rem; border: 2px solid #e2e8f0; border-radius: 12px; text-align: center; font-family: 'Outfit'; font-weight: 800; font-size: 1.1rem; margin-bottom: 1.5rem; outline: none; transition: 0.3s;">
+            
+            <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 12px;">
+                <button onclick="document.getElementById('modalOportunidad').style.display='none'" class="btn-secondary" style="justify-content: center;">Cancelar</button>
+                <button onclick="confirmarRepetir()" class="btn-warning" style="justify-content: center;">Confirmar</button>
+            </div>
+        </div>
+    </div>
+
+    <!-- MODAL FIN DE SESIÓN -->
+    <div id="modalFinSesion" style="display: none; position: fixed; inset: 0; background: rgba(15,23,42,0.85); z-index: 2000; align-items: center; justify-content: center; backdrop-filter: blur(8px);">
+        <div style="background: white; border-radius: 30px; padding: 3rem; width: 90%; max-width: 500px; box-shadow: 0 25px 50px -12px rgba(0,0,0,0.5); text-align: center; position: relative; overflow: hidden;">
+            <div style="position: absolute; top: 0; left: 0; width: 100%; height: 8px; background: linear-gradient(90deg, #10b981, #34d399, #10b981);"></div>
+            <div style="font-size: 5rem; margin-bottom: 1.5rem; animation: bounce 2s infinite;">🎉</div>
+            <h2 style="margin: 0 0 1rem 0; font-family:'Outfit'; font-size:2.2rem; font-weight:900; color:#1e293b;">¡Examen Completado!</h2>
+            <p style="color: #64748b; font-size: 1.1rem; line-height: 1.6; margin-bottom: 2.5rem;">
+                Todos los estudiantes en sala han finalizado sus pruebas. <br>
+                <b>¡Excelente jornada!</b>
+            </p>
+            <div style="display: flex; justify-content: center;">
+                <button onclick="document.getElementById('modalFinSesion').style.display='none'" class="btn-secondary" style="justify-content: center; padding: 0.75rem 2rem; width: 100%;">Entendido</button>
+            </div>
+        </div>
+    </div>
+
+    <!-- MODAL TÍTULO -->
+    <div id="titleModal">
+        <div class="title-card">
+            <div style="font-size: 2.5rem; margin-bottom: 1rem;">📝</div>
+            <h3 id="titleModalGrade">Título del Examen</h3>
+            <p>Define un nombre para esta sesión de evaluación.</p>
+            <div class="title-input-wrap">
+                <label>Título de la sesión</label>
+                <input type="text" id="sessionTitleInput" placeholder="Ej: Examen de Hardware">
+            </div>
+            <button class="btn-title-confirm" id="btn-title-save" onclick="confirmSessionTitle()">Guardar y Continuar</button>
+        </div>
+    </div>
+
+    <!-- MODAL CONFIRMACIÓN GENÉRICO -->
+    <div id="genericConfirmModal">
+        <div class="confirm-card">
+            <div id="confirm-icon" style="font-size: 3rem; margin-bottom: 1rem;">❓</div>
+            <h3 id="confirm-title">¿Estás seguro?</h3>
+            <p id="confirm-desc">Esta acción no se puede deshacer.</p>
+            <div class="confirm-actions">
+                <button class="btn-confirm-no" onclick="closeConfirmModal()">Cancelar</button>
+                <button class="btn-confirm-yes" id="confirm-yes-btn">Confirmar</button>
+            </div>
+        </div>
+    </div>
+
+    <div class="top-bar">
+        <div class="brand">
+            <div class="brand-icon">S</div>
+            <span class="brand-name">Aula Plus <span>Monitor</span></span>
+        </div>
+        <div class="top-info">
+            <input type="text" id="exam-title" placeholder="Título del Examen..." 
+                style="padding: 0.5rem 1rem; font-size: 0.85rem; border-radius: 12px; border: 1px solid var(--border); font-family: 'Outfit'; font-weight: 700; width: 250px; outline: none; transition: 0.3s;"
+                onchange="updateExamTitle(this.value)">
+            <button onclick="window.location.href='reportes.html'" class="btn-secondary" style="padding: 0.5rem 1rem; font-size: 0.75rem; border-radius: 10px; box-shadow: none; border: 1px solid var(--border); background: white;">📊 Ver Reportes</button>
+            <div class="timer-badge">⏱ <span id="timer">00:00</span></div>
+            <div id="grade-pill" class="grade-pill">---</div>
+        </div>
+    </div>
+
+    <!-- STATS -->
+    <div class="stats-bar">
+        <div class="stat-card stat-blue">
+            <div class="stat-info">
+                <div class="stat-value" id="stat-total">0</div>
+                <div class="stat-label">En Sala</div>
+            </div>
+            <div class="stat-icon-bg">⚡</div>
+        </div>
+        <div class="stat-card stat-violet" onclick="showPendientesModal()" style="cursor: pointer;">
+            <div class="stat-info">
+                <div class="stat-value" id="stat-pending">0</div>
+                <div class="stat-label">Pendientes</div>
+            </div>
+            <div class="stat-icon-bg">⏳</div>
+        </div>
+        <div class="stat-card stat-green">
+            <div class="stat-info">
+                <div class="stat-value" id="stat-done">0</div>
+                <div class="stat-label">Terminaron</div>
+            </div>
+            <div class="stat-icon-bg">✨</div>
+        </div>
+        <div class="stat-card stat-amber">
+            <div class="stat-info">
+                <div class="stat-value" id="stat-avg">—</div>
+                <div class="stat-label">Promedio</div>
+            </div>
+            <div class="stat-icon-bg">🏆</div>
+        </div>
+    </div>
+
+    <!-- STUDENT CARDS -->
+    <div class="main-content">
+        <p class="section-title">Seguimiento por estudiante</p>
+        <div id="students-grid" class="students-grid">
+            <!-- Se genera dinámicamente -->
+        </div>
+    </div>
+
+    <div class="bottom-bar">
+        <button class="btn-secondary" onclick="window.location.href='../examenesP1.html'">← Volver</button>
+        <button class="btn-warning" onclick="repeatExam()">🔄 Otra Oportunidad</button>
+        <button class="btn-danger" onclick="closeAll()">🔒 Finalizar Examen</button>
+    </div>
+
+    <!-- Modal Pendientes -->
+    <div id="pendientesModal" style="display: none; position: fixed; inset: 0; background: rgba(15,23,42,0.8); z-index: 1000; align-items: center; justify-content: center; backdrop-filter: blur(4px);">
+        <div style="background: white; border-radius: 16px; padding: 2rem; width: 90%; max-width: 400px; box-shadow: 0 25px 50px -12px rgba(0,0,0,0.5);">
+            <div style="display:flex; justify-content:space-between; align-items:center; margin-bottom: 1.5rem;">
+                <h3 style="margin: 0; font-family:'Outfit'; font-size:1.3rem; font-weight:800; color:var(--text-main);">Alumnos Pendientes</h3>
+                <span id="pendientesCount" style="background: var(--primary-light); color: var(--primary); padding: 4px 10px; border-radius: 20px; font-weight: 800; font-size:0.8rem;">0</span>
+            </div>
+            <ul id="pendientesList" style="list-style: none; padding: 0; margin: 0; max-height: 400px; overflow-y: auto;">
+            </ul>
+            <button onclick="document.getElementById('pendientesModal').style.display='none'" class="btn-secondary" style="width: 100%; margin-top: 1.5rem; text-align: center; justify-content: center;">Cerrar Lista</button>
+        </div>
+    </div>
+
+    <!-- Modal Otra Oportunidad -->
+    <div id="modalOportunidad" style="display: none; position: fixed; inset: 0; background: rgba(15,23,42,0.8); z-index: 1000; align-items: center; justify-content: center; backdrop-filter: blur(4px);">
+        <div style="background: white; border-radius: 24px; padding: 2.5rem; width: 90%; max-width: 450px; box-shadow: 0 25px 50px -12px rgba(0,0,0,0.5); text-align: center;">
+            <div style="font-size: 4rem; margin-bottom: 1rem;">🔄</div>
+            <h3 style="margin: 0 0 1rem 0; font-family:'Outfit'; font-size:1.8rem; font-weight:900; color:#1e293b;">¡Otra Oportunidad!</h3>
+            <p style="color: #64748b; font-size: 0.95rem; line-height: 1.5; margin-bottom: 2rem;">
+                Esto permitirá que los estudiantes inicien un nuevo intento. 
+                <br><b>Sus notas anteriores se conservarán.</b>
+                <br><br>Para confirmar, escribe <b>REPETIR</b> abajo:
+            </p>
+            <input type="text" id="inputRepetir" 
+                style="width: 100%; padding: 1rem; border: 2px solid #e2e8f0; border-radius: 12px; text-align: center; font-family: 'Outfit'; font-weight: 800; font-size: 1.1rem; margin-bottom: 1.5rem; outline: none; transition: 0.3s;">
+            
+            <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 12px;">
+                <button onclick="document.getElementById('modalOportunidad').style.display='none'" class="btn-secondary" style="justify-content: center;">Cancelar</button>
+                <button onclick="confirmarRepetir()" class="btn-warning" style="justify-content: center;">Confirmar</button>
+            </div>
+        </div>
+    </div>
+
+    <!-- Modal Fin de Sesión -->
+    <div id="modalFinSesion" style="display: none; position: fixed; inset: 0; background: rgba(15,23,42,0.85); z-index: 2000; align-items: center; justify-content: center; backdrop-filter: blur(8px);">
+        <div style="background: white; border-radius: 30px; padding: 3rem; width: 90%; max-width: 500px; box-shadow: 0 25px 50px -12px rgba(0,0,0,0.5); text-align: center; position: relative; overflow: hidden;">
+            <div style="position: absolute; top: 0; left: 0; width: 100%; height: 8px; background: linear-gradient(90deg, #10b981, #34d399, #10b981);"></div>
+            <div style="font-size: 5rem; margin-bottom: 1.5rem; animation: bounce 2s infinite;">🎉</div>
+            <h2 style="margin: 0 0 1rem 0; font-family:'Outfit'; font-size:2.2rem; font-weight:900; color:#1e293b;">¡Examen Completado!</h2>
+            <p style="color: #64748b; font-size: 1.1rem; line-height: 1.6; margin-bottom: 2.5rem;">
+                Todos los estudiantes en sala han finalizado sus pruebas. <br>
+                <b>¡Excelente jornada!</b>
+            </p>
+            <div style="display: flex; justify-content: center;">
+                <button onclick="document.getElementById('modalFinSesion').style.display='none'" class="btn-secondary" style="justify-content: center; padding: 0.75rem 2rem; width: 100%;">Entendido</button>
+            </div>
+        </div>
+    </div>
+
+    <script>
+        let sessionFinishedAlertShown = false;
+
+        const activeGrade = window.location.hash.substring(1);
+        if (!activeGrade) {
+            window.location.href = '../examenesP1.html';
+        }
+
+        document.getElementById('grade-pill').innerText = activeGrade;
+
+        async function updateExamTitle(newTitle) {
+            // Asegurar el prefijo del grado si no lo tiene
+            let finalTitle = newTitle;
+            const prefix = `${activeGrade} - `;
+            if (!newTitle.startsWith(prefix)) {
+                finalTitle = prefix + newTitle;
+            }
+            
+            localStorage.setItem(`exam_title_${activeGrade}`, finalTitle);
+            document.getElementById('exam-title').value = finalTitle;
+        }
+
+        // Cargar título inicial
+        async function loadInitialTitle() {
+            const savedTitle = localStorage.getItem(`exam_title_${activeGrade}`);
+            
+            if (savedTitle) {
+                document.getElementById('exam-title').value = savedTitle;
+            } else {
+                // Pedir título obligatoriamente
+                pedirTitulo();
+            }
+        }
+
+        function pedirTitulo() {
+            const modal = document.getElementById('titleModal');
+            const input = document.getElementById('sessionTitleInput');
+            document.getElementById('titleModalGrade').innerText = `Examen de ${activeGrade}`;
+            
+            // Valor por defecto con el grado
+            input.value = `${activeGrade} - `;
+            modal.classList.add('flex');
+            input.focus();
+            
+            // Mover cursor al final
+            setTimeout(() => {
+                const val = input.value;
+                input.value = '';
+                input.value = val;
+            }, 10);
+        }
+
+        async function confirmSessionTitle() {
+            const input = document.getElementById('sessionTitleInput');
+            let title = input.value.trim();
+            
+            if (!title || title === `${activeGrade} - `) {
+                input.style.borderColor = '#f43f5e';
+                input.style.boxShadow = '0 0 0 4px rgba(244, 63, 94, 0.1)';
+                return;
+            }
+
+            // Asegurar que el grado esté delante
+            if (!title.startsWith(`${activeGrade} - `)) {
+                title = `${activeGrade} - ${title}`;
+            }
+
+            document.getElementById('titleModal').classList.remove('flex');
+            updateExamTitle(title);
+        }
+        loadInitialTitle();
+
+        // ── TIMER (sincronizado con Supabase) ──
+        let startTime = Date.now();
+        let activeSessionId = "default";
+
+        function normalizeSessionId(value) {
+            if (!value) return '';
+            const parsed = new Date(value).getTime();
+            return Number.isNaN(parsed) ? String(value) : String(parsed);
+        }
+
+        function normalizeStudentName(name) {
+            return (name || "").trim().toLowerCase();
+        }
+
+        function getDefaultTotalQuestions() {
+            const totalsByGrade = {
+                '1A': 10,
+                '2A': 10,
+                '3A': 10
+            };
+
+            return totalsByGrade[activeGrade] || 0;
+        }
+
+        function getAnsweredQuestionKeys(result) {
+            const details = result && result.respuestas_detalladas ? result.respuestas_detalladas : {};
+            return Object.keys(details).filter(key => /^q\d+$/.test(key) && details[key] && typeof details[key] === 'object');
+        }
+
+        function getResultPriority(result) {
+            const answeredKeys = getAnsweredQuestionKeys(result);
+            return {
+                isDone: Boolean(
+                    result && (
+                        result.finalizado ||
+                        (result.respuestas_detalladas && result.respuestas_detalladas.finished)
+                    )
+                ),
+                answeredCount: answeredKeys.length,
+                score: Number(result && result.puntaje ? result.puntaje : 0),
+                stamp: Date.parse(
+                    result && (
+                        result.actualizado_en ||
+                        result.updated_at ||
+                        result.created_at ||
+                        result.creado_en
+                    )
+                ) || 0
+            };
+        }
+
+        function shouldReplaceResult(current, candidate) {
+            const currentInfo = getResultPriority(current);
+            const candidateInfo = getResultPriority(candidate);
+
+            if (candidateInfo.isDone !== currentInfo.isDone) {
+                return candidateInfo.isDone;
+            }
+            if (candidateInfo.answeredCount !== currentInfo.answeredCount) {
+                return candidateInfo.answeredCount > currentInfo.answeredCount;
+            }
+            if (candidateInfo.score !== currentInfo.score) {
+                return candidateInfo.score > currentInfo.score;
+            }
+            return candidateInfo.stamp >= currentInfo.stamp;
+        }
+
+        async function refreshActiveSessionId() {
+            const { data } = await supabase
+                .from('sesiones_examen')
+                .select('session_id, actualizado_en')
+                .eq('grado', activeGrade)
+                .single();
+
+            if (data && data.session_id) {
+                activeSessionId = normalizeSessionId(data.session_id);
+            }
+        }
+
+        async function initTimer() {
+            const { data } = await supabase
+                .from('sesiones_examen')
+                .select('session_id, actualizado_en')
+                .eq('grado', activeGrade)
+                .single();
+
+            if (data && data.actualizado_en) {
+                startTime = new Date(data.actualizado_en).getTime();
+            }
+
+            if (data && data.session_id) {
+                activeSessionId = normalizeSessionId(data.session_id);
+            }
+
+            setInterval(() => {
+                const elapsed = Math.max(0, Math.floor((Date.now() - startTime) / 1000));
+                const m = String(Math.floor(elapsed / 60)).padStart(2, '0');
+                const s = String(elapsed % 60).padStart(2, '0');
+                document.getElementById('timer').innerText = `${m}:${s}`;
+            }, 1000);
+        }
+        
+        initTimer();
+
+        // ── MONITOR DE PROGRESO ──
+        let lobbyStudents = {};  // { id: { nombre, avatar } }
+
+        async function loadLobbyStudents() {
+            await refreshActiveSessionId();
+
+            const { data } = await supabase
+                .from('lobby_estudiantes')
+                .select('id, nombre_estudiante, avatar')
+                .eq('grado', activeGrade);
+
+            lobbyStudents = {};
+            if (data) {
+                data.forEach(s => {
+                    lobbyStudents[s.id] = { nombre: s.nombre_estudiante, avatar: s.avatar };
+                });
+            }
+            renderAll();
+        }
+
+        async function loadResults() {
+            await refreshActiveSessionId();
+
+            const { data } = await supabase
+                .from('intentos_examen')
+                .select('*')
+                .eq('grado', activeGrade)
+                .eq('session_id', activeSessionId);
+
+            const latestResultsByStudent = new Map();
+
+            (data || []).forEach(result => {
+                const resultSessionId = normalizeSessionId(
+                    result &&
+                    result.respuestas_detalladas &&
+                    result.respuestas_detalladas.session_id
+                );
+
+                if (activeSessionId && resultSessionId !== activeSessionId) {
+                    return;
+                }
+
+                const studentKey = normalizeStudentName(result.nombre_estudiante);
+                const current = latestResultsByStudent.get(studentKey);
+
+                if (!current || shouldReplaceResult(current, result)) {
+                    latestResultsByStudent.set(studentKey, result);
+                }
+            });
+
+            return Array.from(latestResultsByStudent.values());
+        }
+
+        async function renderAll() {
+            const results = await loadResults();
+            const resultsMap = {};
+            results.forEach(r => { resultsMap[normalizeStudentName(r.nombre_estudiante)] = r; });
+
+            const grid = document.getElementById('students-grid');
+            grid.innerHTML = '';
+
+            const students = Object.values(lobbyStudents);
+            let doneCount = 0;
+            let totalScore = 0;
+            
+            // Array global temporal para la lista
+            window.currentPendientes = [];
+
+            students.forEach(st => {
+                const result = resultsMap[normalizeStudentName(st.nombre)];
+                
+                // Determinar estado: terminado o en progreso
+                const isDone = result && (result.finalizado || (result.respuestas_detalladas && result.respuestas_detalladas.finished));
+                
+                const total = (result && result.total_preguntas) ? result.total_preguntas : getDefaultTotalQuestions();
+                let answered = 0;
+                let correctCount = 0;
+                let incorrectCount = 0;
+                
+                if (result && result.respuestas_detalladas) {
+                    const keys = getAnsweredQuestionKeys(result);
+                    answered = keys.length;
+                    keys.forEach(k => {
+                        if (result.respuestas_detalladas[k].isCorrect) {
+                            correctCount++;
+                        } else {
+                            incorrectCount++;
+                        }
+                    });
+                }
+
+                if (isDone) {
+                    doneCount++;
+                    
+                    // Lógica de mejor nota (comparar con historial si existe)
+                    let bestScore = (result.puntaje / total) * 100;
+                    if (result.respuestas_detalladas && result.respuestas_detalladas.history) {
+                        result.respuestas_detalladas.history.forEach(h => {
+                            const hScore = (h.puntaje / total) * 100;
+                            if (hScore > bestScore) bestScore = hScore;
+                        });
+                    }
+                    totalScore += bestScore;
+                    result.bestScoreValue = bestScore; // Guardar para el renderizado
+                }
+
+                const avatarSrc = st.avatar && st.avatar.startsWith('http')
+                    ? st.avatar
+                    : `https://api.dicebear.com/9.x/fun-emoji/svg?seed=${st.nombre}&radius=50`;
+
+                if (!isDone) {
+                    window.currentPendientes.push({
+                        nombre: st.nombre,
+                        avatar: avatarSrc,
+                        progress: `${answered}/${total}`
+                    });
+                }
+
+                let scoreClass = '';
+                if (isDone) {
+                    if (correctCount < 6) scoreClass = 'score-low';
+                    else if (correctCount >= 6 && correctCount <= 8) scoreClass = 'score-mid';
+                    else if (correctCount >= 9) scoreClass = 'score-high';
+                }
+
+                const card = document.createElement('div');
+                card.className = `student-card ${isDone ? 'finished' : 'in-exam'} ${scoreClass}`;
+
+                const percent = total > 0 ? (answered / total) * 100 : 0;
+
+                card.innerHTML = `
+                    <div class="card-progress-bg" style="width: ${isDone ? 100 : percent}%;"></div>
+                    <div class="card-content">
+                        <img src="${avatarSrc}" alt="">
+                        <div class="student-info" style="min-width:0; overflow:hidden;">
+                            <div class="student-name" style="white-space:nowrap; text-overflow:ellipsis; overflow:hidden;">${st.nombre}</div>
+                            ${isDone
+                                ? `<div class="score-status" style="font-size: 0.65rem; font-weight: 800; text-transform: uppercase;">✓ Finalizado</div>`
+                                : `<div class="student-status">${answered}/${total} respondidas</div>`}
+                        </div>
+                        <div class="score-display" style="font-size: ${isDone ? '0.9rem' : '0.75rem'}; display: flex; flex-direction: column; align-items: flex-end;">
+                            ${isDone 
+                                ? `<span style="font-weight:900;">${result.puntaje}/${total}</span>
+                                   ${result.bestScoreValue > (result.puntaje/total*100) ? `<span style="font-size:0.6rem; color:#6d28d9;">Mejor: ${Math.round(result.bestScoreValue)}%</span>` : ''}`
+                                : (answered > 0 
+                                    ? `<div style="display:flex; gap:6px;"><span style="color: #059669;">✓ ${correctCount}</span><span style="color: #f43f5e;">✕ ${incorrectCount}</span></div>` 
+                                    : `<span style="color: var(--text-muted);">${answered}/${total}</span>`)
+                            }
+                        </div>
+                    </div>
+                `;
+                grid.appendChild(card);
+            });
+
+            // Actualizar stats
+            document.getElementById('stat-total').innerText = students.length;
+            document.getElementById('stat-done').innerText = doneCount;
+            document.getElementById('stat-pending').innerText = students.length - doneCount;
+            document.getElementById('stat-avg').innerText = doneCount > 0
+                ? Math.round(totalScore / doneCount) + '%'
+                : '—';
+
+            // Alerta de fin de sesión
+            if (students.length > 0 && doneCount === students.length && !sessionFinishedAlertShown) {
+                document.getElementById('modalFinSesion').style.display = 'flex';
+                sessionFinishedAlertShown = true;
+            }
+        }
+
+        function showInfoModal(msg) {
+            document.getElementById('infoMsg').innerText = msg;
+            document.getElementById('infoModal').classList.remove('hidden');
+            document.getElementById('infoModal').classList.add('flex');
+        }
+
+        function closeInfoModal() {
+            document.getElementById('infoModal').classList.add('hidden');
+            document.getElementById('infoModal').classList.remove('flex');
+        }
+
+        function openConfirmModal(title, desc, onConfirm, isDanger = false, icon = "❓") {
+            document.getElementById('confirm-title').innerText = title;
+            document.getElementById('confirm-desc').innerText = desc;
+            document.getElementById('confirm-icon').innerText = icon;
+            const yesBtn = document.getElementById('confirm-yes-btn');
+            
+            if (isDanger) yesBtn.classList.add('danger');
+            else yesBtn.classList.remove('danger');
+            
+            yesBtn.onclick = () => {
+                closeConfirmModal();
+                onConfirm();
+            };
+            document.getElementById('genericConfirmModal').classList.add('flex');
+        }
+
+        function closeConfirmModal() {
+            document.getElementById('genericConfirmModal').classList.remove('flex');
+        }
+
+        async function closeAll() {
+            openConfirmModal(
+                "Finalizar Examen",
+                "¿Deseas finalizar el examen para todos los estudiantes? Esta acción cerrará la sala.",
+                async () => {
+                    await supabase.from('sesiones_examen')
+                        .update({ esta_activo: false, examen_comenzado: false })
+                        .eq('grado', activeGrade);
+                    await supabase.from('lobby_estudiantes').delete().eq('grado', activeGrade);
+                    window.location.href = '../examenesP1.html';
+                },
+                true,
+                "⚠️"
+            );
+        }
+
+        function repeatExam() {
+            document.getElementById('modalFinSesion').style.display = 'none';
+            document.getElementById('modalOportunidad').style.display = 'flex';
+            document.getElementById('inputRepetir').value = '';
+            document.getElementById('inputRepetir').focus();
+            document.getElementById('inputRepetir').style.borderColor = '#e2e8f0';
+        }
+
+        async function confirmarRepetir() {
+            const input = document.getElementById('inputRepetir');
+            const val = input.value.trim().toUpperCase();
+            if (val !== 'REPETIR') {
+                input.style.borderColor = '#ef4444';
+                input.style.boxShadow = '0 0 0 4px rgba(239, 68, 68, 0.1)';
+                return;
+            }
+
+            const newSessionId = String(Date.now());
+            const { error } = await supabase.from('sesiones_examen')
+                .update({ session_id: newSessionId, examen_comenzado: true })
+                .eq('grado', activeGrade);
+            
+            if (error) {
+                alert("Error actualizando sesión: " + error.message);
+                return;
+            }
+
+            document.getElementById('modalOportunidad').style.display = 'none';
+            sessionFinishedAlertShown = false; 
+            activeSessionId = newSessionId;
+            location.reload();
+        }
+
+        loadLobbyStudents();
+        // Refrescar resultados cada 5 segundos
+        setInterval(renderAll, 5000);
+
+        function showPendientesModal() {
+            const list = document.getElementById('pendientesList');
+            document.getElementById('pendientesCount').innerText = window.currentPendientes ? window.currentPendientes.length : 0;
+            
+            if (!window.currentPendientes || window.currentPendientes.length === 0) {
+                list.innerHTML = '<li style="text-align:center; color:var(--text-muted); padding: 2rem 0; font-weight:600;">Todos han finalizado 🎉</li>';
+            } else {
+                list.innerHTML = window.currentPendientes.map(st => `
+                    <li style="padding: 12px; border-bottom: 1px solid var(--border); display:flex; align-items:center; gap: 12px;">
+                        <img src="${st.avatar}" style="width:32px; height:32px; border-radius:50%; border:1px solid var(--border);">
+                        <div style="flex: 1;">
+                            <div style="font-weight: 700; font-size:0.9rem;">${st.nombre}</div>
+                            <div style="font-size:0.7rem; color:var(--text-muted);">${st.progress} respondidas</div>
+                        </div>
+                    </li>
+                `).join('');
+            }
+            document.getElementById('pendientesModal').style.display = 'flex';
+        }
+    </script>
+</body>
+</html>

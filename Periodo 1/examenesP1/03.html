@@ -1,0 +1,781 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Examen Oficial | Grado 3° Periodo 1</title>
+    <link rel="icon" type="image/x-icon" href="../../assets/Icono.ico">
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;600;800&family=Outfit:wght@700;900&display=swap" rel="stylesheet">
+    <script src="https://cdn.tailwindcss.com"></script>
+    <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
+    <script src="../../js/supabase-config.js"></script>
+    <style>
+        body {
+            font-family: 'Inter', sans-serif;
+            background: #f8fafc;
+            color: #1e293b;
+        }
+        .header-title {
+            font-family: 'Outfit', sans-serif;
+            background: linear-gradient(135deg, #1e293b 0%, #334155 100%);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+        }
+        .exam-card {
+            background: white;
+            border-radius: 1.5rem;
+            box-shadow: 0 10px 25px -5px rgba(0, 0, 0, 0.1), 0 8px 10px -6px rgba(0, 0, 0, 0.1);
+        }
+        .question-box {
+            border-left: 4px solid #6366f1;
+            transition: all 0.3s;
+            display: none;
+            animation: fadeIn 0.4s ease-out;
+        }
+        .question-box.active {
+            display: block;
+        }
+        @keyframes fadeIn {
+            from { opacity: 0; transform: translateX(20px); }
+            to { opacity: 1; transform: translateX(0); }
+        }
+        .option-label {
+            cursor: pointer;
+            transition: all 0.2s;
+            border: 2px solid transparent;
+            color: #475569;
+        }
+
+        .timer-badge {
+            background: #fee2e2;
+            color: #b91c1c;
+            font-weight: 700;
+        }
+        .session-chip {
+            background: linear-gradient(135deg, #eef2ff 0%, #ffffff 100%);
+            border: 1px solid #c7d2fe;
+        }
+    </style>
+</head>
+<body class="min-h-screen py-10 px-4">
+    <div class="max-w-3xl mx-auto">
+        <!-- Top Bar Compacta: Header + Datos -->
+        <div class="exam-card p-6 mb-8 flex flex-col md:flex-row justify-between items-center gap-6">
+            <div class="text-center md:text-left w-full">
+                <h1 class="header-title text-2xl font-black mb-1">Examen Oficial Periodo 1</h1>
+                <p class="text-slate-500 font-semibold tracking-wide uppercase text-xs">Inst. Educativa Aula Plus</p>
+                <div class="mt-3 flex flex-col sm:flex-row gap-2 text-left">
+                    <div id="examTitleBadge" class="session-chip rounded-2xl px-4 py-2 text-sm font-bold text-slate-700">
+                        Examen actual: Cargando...
+                    </div>
+                    <div id="attemptBadge" class="session-chip rounded-2xl px-4 py-2 text-sm font-bold text-indigo-700">
+                        Oportunidad 1
+                    </div>
+                </div>
+            </div>
+            <div class="flex flex-col sm:flex-row items-center gap-3 w-full md:w-auto">
+                <!-- Visualización del Nombre (Solo lectura) -->
+                <div id="studentBadge" class="hidden items-center gap-2 bg-white/80 backdrop-blur-sm border-2 border-indigo-100 rounded-2xl px-5 py-2 shadow-sm">
+                    <span class="text-lg">👤</span>
+                    <span id="displayName" class="font-bold text-indigo-900 text-sm"></span>
+                </div>
+                <!-- Burbujita Grado -->
+                <div class="w-full sm:w-auto">
+                    <div id="gradeDisplay" class="w-full bg-indigo-500 border-2 border-indigo-400 rounded-2xl px-6 py-2 font-black text-white text-sm text-center whitespace-nowrap shadow-md shadow-indigo-100">
+                        3A
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- Roadmap (Mapa de Progreso) -->
+        <div class="mb-8 exam-card p-6 flex justify-between items-center relative overflow-hidden">
+            <div class="absolute left-[3rem] right-[3rem] sm:left-[3.25rem] sm:right-[3.25rem] h-1.5 bg-slate-100 top-1/2 -translate-y-1/2 z-0 rounded-full overflow-hidden">
+                <div id="roadmapLine" class="h-full bg-indigo-500 transition-all duration-700 ease-out" style="width: 0%;"></div>
+            </div>
+            
+            <div id="roadmapDots" class="relative z-10 w-full flex justify-between px-2">
+                <!-- Se llenan con JS -->
+            </div>
+        </div>
+
+        <!-- Contenedor de Preguntas -->
+        <div id="questionsContainer" class="space-y-6">
+            <!-- Las preguntas se renderizan dinámicamente aquí -->
+        </div>
+
+
+    </div>
+
+    <!-- Modal de Ingreso de Nombre -->
+    <div id="nameEntryModal" class="fixed inset-0 bg-slate-900/60 backdrop-blur-md flex items-center justify-center p-4 z-[60] transition-all duration-500">
+        <div class="bg-white rounded-[2.5rem] p-10 max-w-md w-full text-center shadow-2xl transform transition-all">
+            <div class="w-20 h-20 bg-indigo-100 rounded-3xl flex items-center justify-center mx-auto mb-6">
+                <span class="text-4xl">📝</span>
+            </div>
+            <h2 class="text-3xl font-black text-slate-800 mb-2">¡Hola!</h2>
+            <p class="text-slate-500 font-medium mb-8">Por favor, identifícate para comenzar tu evaluación.</p>
+            
+            <div class="space-y-4 mb-8">
+                <div class="text-left">
+                    <label class="block text-[0.65rem] font-extrabold text-slate-400 uppercase tracking-widest ml-4 mb-1">Tu Nombre</label>
+                    <input type="text" id="modalFirstName" class="w-full bg-slate-50 border-2 border-slate-100 rounded-2xl px-6 py-4 font-bold text-slate-700 focus:border-indigo-500 focus:bg-white outline-none transition-all text-center" placeholder="Escribe tu nombre">
+                </div>
+                <div class="text-left">
+                    <label class="block text-[0.65rem] font-extrabold text-slate-400 uppercase tracking-widest ml-4 mb-1">Tu Apellido</label>
+                    <input type="text" id="modalLastName" class="w-full bg-slate-50 border-2 border-slate-100 rounded-2xl px-6 py-4 font-bold text-slate-700 focus:border-indigo-500 focus:bg-white outline-none transition-all text-center" placeholder="Escribe tu apellido">
+                </div>
+            </div>
+
+            <button onclick="saveNameAndStart()" class="w-full bg-indigo-600 hover:bg-indigo-700 text-white font-black py-5 rounded-2xl shadow-xl shadow-indigo-200 transition-all transform hover:-translate-y-1 active:scale-95 text-lg">
+                COMENZAR EXAMEN
+            </button>
+        </div>
+    </div>
+
+    <!-- Modal de Resultados -->
+    <div id="resultModal" class="fixed inset-0 bg-slate-900/60 backdrop-blur-sm hidden items-center justify-center p-4 z-50">
+        <div class="bg-white rounded-[2rem] p-10 max-w-md w-full text-center shadow-2xl">
+            <div id="resultIcon" class="text-6xl mb-4">⭐</div>
+            <h2 class="text-3xl font-black mb-2" id="resultTitle">¡Examen Entregado!</h2>
+            <p class="text-slate-500 font-medium mb-6" id="resultStudentName"></p>
+            <div class="bg-slate-50 rounded-2xl p-6 mb-8">
+                <span class="text-sm font-bold text-slate-400 uppercase block mb-1">Calificación</span>
+                <span class="text-5xl font-black text-indigo-600" id="resultScore">0/10</span>
+            </div>
+            <div class="mt-4 text-slate-400 font-medium mb-6">
+                Por favor, siéntate y espera en silencio las instrucciones de tu profesor.
+            </div>
+
+        </div>
+    </div>
+
+    <script src="../../assets/quiz/p1Quiz03.js"></script>
+    <script>
+        const questionsData = questions; // Puente de compatibilidad
+        const totalQuestions = questionsData.length;
+        let examProgress = {};
+        let studentName = localStorage.getItem('studentName') || '';
+        let currentGrade = localStorage.getItem('currentGrade') || '3A';
+        let currentQuestionIndex = 0;
+        let questionStartTime = Date.now();
+        let examTitle = "";
+        let currentAttemptNumber = 1;
+        let currentRecordId = null; // ID del registro en Supabase
+        let isInitializing = true; // Bloquea el polling durante la carga inicial
+        const sessionTokenKey = `exam_session_token_${currentGrade}`;
+        const localProgressKey = `exam_progress_${currentGrade}`;
+
+        function normalizeSessionId(value) {
+            if (!value) return '';
+            const parsed = new Date(value).getTime();
+            return Number.isNaN(parsed) ? String(value) : String(parsed);
+        }
+
+        function updateSessionBadges() {
+            document.getElementById('examTitleBadge').innerText = `Examen actual: ${examTitle || `Examen ${currentGrade}`}`;
+            document.getElementById('attemptBadge').innerText = `Oportunidad ${currentAttemptNumber}`;
+        }
+
+        function readLocalProgressBackup() {
+            try {
+                const raw = localStorage.getItem(localProgressKey);
+                return raw ? JSON.parse(raw) : null;
+            } catch (error) {
+                console.error("No se pudo leer el respaldo local del examen:", error);
+                return null;
+            }
+        }
+
+        function writeLocalProgressBackup(extra = {}) {
+            try {
+                const backup = {
+                    grado: currentGrade,
+                    studentName,
+                    session_id: examProgress.session_id || localStorage.getItem(sessionTokenKey) || "default",
+                    titulo: examTitle || `Examen ${currentGrade}`,
+                    attempt_number: currentAttemptNumber,
+                    currentQuestionIndex,
+                    currentRecordId,
+                    examProgress,
+                    saved_at: new Date().toISOString(),
+                    ...extra
+                };
+                localStorage.setItem(localProgressKey, JSON.stringify(backup));
+            } catch (error) {
+                console.error("No se pudo guardar el respaldo local del examen:", error);
+            }
+        }
+
+        function clearLocalProgressBackup() {
+            localStorage.removeItem(localProgressKey);
+        }
+
+        // 1. Renderizar preguntas
+        const container = document.getElementById('questionsContainer');
+        questionsData.forEach((item, index) => {
+            const qNum = index + 1;
+            const qHTML = `
+            <div class="exam-card p-8 question-box" id="qb-${index}">
+                <div class="flex items-center gap-4 mb-6">
+                    <div class="w-16 h-16 bg-indigo-50 rounded-2xl flex items-center justify-center text-4xl shadow-sm border border-indigo-100">
+                        ${item.icon || '❓'}
+                    </div>
+                    <div>
+                        <div class="text-sm font-bold text-indigo-500 uppercase tracking-widest">Pregunta ${qNum} de ${totalQuestions}</div>
+                        <p class="text-xl font-black text-slate-800">${item.q}</p>
+                    </div>
+                </div>
+                
+                <div class="grid grid-cols-1 sm:grid-cols-3 gap-4">
+                    ${item.a.map((opt, i) => `
+                    <label class="relative group">
+                        <input type="radio" name="q${qNum}" value="${i}" class="option-input hidden">
+                        <div class="option-label p-6 rounded-2xl border-2 border-slate-100 bg-white hover:border-indigo-200 transition-all cursor-pointer text-center h-full flex flex-col items-center justify-center gap-3">
+                            <div class="text-4xl mb-1 group-hover:scale-110 transition-transform">${item.ai ? item.ai[i] : '🔹'}</div>
+                            <span class="font-bold text-sm leading-tight">${opt}</span>
+                        </div>
+                    </label>
+                    `).join('')}
+                </div>
+            </div>`;
+            container.innerHTML += qHTML;
+        });
+
+        function updateRoadmap() {
+            const container = document.getElementById('roadmapDots');
+            container.innerHTML = '';
+            
+            // Dibujar bolitas
+            for(let i = 0; i < totalQuestions; i++) {
+                const answerData = examProgress[`q${i+1}`];
+                const isAnswered = !!answerData;
+                const isCurrent = currentQuestionIndex === i;
+                
+                let dotClass = "w-8 h-8 sm:w-10 sm:h-10 rounded-full flex items-center justify-center font-bold text-xs sm:text-sm transition-all duration-500 border-[3px] ";
+                
+                if (isAnswered) {
+                    if (answerData.isCorrect) {
+                        dotClass += "bg-green-500 border-green-500 text-white shadow-lg shadow-green-200 transform scale-100";
+                    } else {
+                        dotClass += "bg-red-500 border-red-500 text-white shadow-lg shadow-red-200 transform scale-100";
+                    }
+                } else if (isCurrent) {
+                    dotClass += "bg-white border-indigo-500 text-indigo-600 shadow-xl shadow-indigo-100 transform scale-125 z-20";
+                } else {
+                    dotClass += "bg-white border-slate-200 text-slate-400 transform scale-90";
+                }
+                
+                container.innerHTML += `<div class="${dotClass}">${i+1}</div>`;
+            }
+            
+            // Actualizar línea de progreso
+            const progressPercent = totalQuestions > 1 ? (currentQuestionIndex / (totalQuestions - 1)) * 100 : 0;
+            document.getElementById('roadmapLine').style.width = `${progressPercent}%`;
+        }
+
+        function showQuestion(index) {
+            currentQuestionIndex = index;
+            questionStartTime = Date.now(); // Iniciar cronómetro de la pregunta
+            document.querySelectorAll('.question-box').forEach(box => box.classList.remove('active'));
+            document.getElementById(`qb-${index}`).classList.add('active');
+            updateRoadmap();
+        }
+        
+        // 2. Configurar UI inicial
+        const nameEntryModal = document.getElementById('nameEntryModal');
+        document.getElementById('gradeDisplay').innerText = currentGrade;
+
+        if (studentName) {
+            nameEntryModal.classList.add('hidden');
+            document.getElementById('studentBadge').classList.remove('hidden');
+            document.getElementById('studentBadge').classList.add('flex');
+            document.getElementById('displayName').innerText = studentName;
+            initExamRecord();
+        } else {
+            nameEntryModal.classList.remove('hidden');
+        }
+
+        async function saveNameAndStart() {
+            const fName = document.getElementById('modalFirstName').value.trim();
+            const lName = document.getElementById('modalLastName').value.trim();
+            
+            if (!fName || !lName) {
+                alert('¡Por favor, escribe tu nombre y apellido!');
+                return;
+            }
+
+            const toTitleCase = (str) => str.toLowerCase().replace(/\b\w/g, s => s.toUpperCase());
+            studentName = `${toTitleCase(lName)} ${toTitleCase(fName)}`;
+            localStorage.setItem('studentName', studentName);
+
+            document.getElementById('displayName').innerText = studentName;
+            document.getElementById('studentBadge').classList.remove('hidden');
+            document.getElementById('studentBadge').classList.add('flex');
+            
+            nameEntryModal.style.opacity = '0';
+            nameEntryModal.style.transform = 'scale(0.9)';
+            setTimeout(() => {
+                nameEntryModal.classList.add('hidden');
+                initExamRecord();
+                showQuestion(0);
+            }, 500);
+        }
+
+        async function initExamRecord() {
+            if (!studentName) return;
+            
+            try {
+                const [resData, sessionData] = await Promise.all([
+                    supabase.from('intentos_examen')
+                        .select('*')
+                        .eq('nombre_estudiante', studentName)
+                        .eq('grado', currentGrade),
+                    supabase.from('sesiones_examen')
+                        .select('session_id, titulo')
+                        .eq('grado', currentGrade)
+                        .single()
+                ]);
+
+                if (resData.error) {
+                    console.error("Error consultando intentos previos:", resData.error);
+                }
+
+                const sortedRecords = (resData.data || []).sort((a, b) => {
+                    const aStamp = new Date(a.actualizado_en || a.creado_en || 0).getTime();
+                    const bStamp = new Date(b.actualizado_en || b.creado_en || 0).getTime();
+                    return bStamp - aStamp;
+                });
+
+                const lastRecord = sortedRecords.length > 0 ? sortedRecords[0] : null;
+                const localBackup = readLocalProgressBackup();
+                const session = sessionData.data;
+                const dbSessionId = session && session.session_id
+                    ? normalizeSessionId(session.session_id)
+                    : "default";
+                const savedSessionId = localStorage.getItem(sessionTokenKey);
+                const currentSessionId = savedSessionId || dbSessionId;
+                examTitle = session && session.titulo ? session.titulo : "";
+                const uniqueAttemptSessions = [];
+
+                sortedRecords
+                    .slice()
+                    .reverse()
+                    .forEach(record => {
+                        const sessionId = normalizeSessionId(
+                            record && record.respuestas_detalladas ? record.respuestas_detalladas.session_id : null
+                        );
+
+                        if (sessionId && !uniqueAttemptSessions.includes(sessionId)) {
+                            uniqueAttemptSessions.push(sessionId);
+                        }
+                    });
+
+                const existingAttemptIndex = uniqueAttemptSessions.indexOf(currentSessionId);
+                currentAttemptNumber = existingAttemptIndex >= 0
+                    ? existingAttemptIndex + 1
+                    : uniqueAttemptSessions.length + 1;
+                updateSessionBadges();
+
+                if (!savedSessionId && dbSessionId) {
+                    localStorage.setItem(sessionTokenKey, dbSessionId);
+                }
+
+                // Determinar si debemos crear un registro nuevo o usar el último
+                let shouldCreateNew = false;
+                if (!lastRecord) {
+                    shouldCreateNew = true;
+                } else {
+                    const lastSessionId = lastRecord.respuestas_detalladas ? lastRecord.respuestas_detalladas.session_id : null;
+                    // Si el ID de sesión cambió, es una nueva oportunidad -> Registro Nuevo
+                    if (lastSessionId !== currentSessionId) {
+                        shouldCreateNew = true;
+                    }
+                }
+
+                if (shouldCreateNew) {
+                    examProgress = {
+                        session_id: currentSessionId,
+                        titulo: examTitle,
+                        attempt_number: currentAttemptNumber,
+                        finished: false
+                    };
+
+                    const { data: newRec, error: insError } = await supabase.from('intentos_examen').insert({
+                        grado: currentGrade,
+                        session_id: currentSessionId,
+                        titulo: examTitle || `Examen ${currentGrade}`,
+                        nombre_estudiante: studentName,
+                        attempt_number: currentAttemptNumber,
+                        puntaje: 0,
+                        total_preguntas: totalQuestions,
+                        finalizado: false,
+                        ultima_pregunta: 0,
+                        respuestas_detalladas: examProgress
+                    }).select('id').single();
+
+                    if (newRec) currentRecordId = newRec.id;
+                    if (insError) console.error("Error creando nuevo intento:", insError);
+                    
+                    currentQuestionIndex = 0;
+                    isInitializing = false;
+                    writeLocalProgressBackup();
+                    showQuestion(0);
+                } else {
+                    currentRecordId = lastRecord.id;
+                    examProgress = lastRecord.respuestas_detalladas || {};
+                    examProgress.session_id = currentSessionId;
+                    examProgress.titulo = examTitle;
+                    examProgress.attempt_number = currentAttemptNumber;
+                    examProgress.finished = Boolean(lastRecord.finalizado || examProgress.finished);
+
+                    const localSessionId = localBackup && localBackup.session_id ? normalizeSessionId(localBackup.session_id) : "";
+                    const localStamp = localBackup && localBackup.saved_at ? new Date(localBackup.saved_at).getTime() : 0;
+                    const dbStamp = new Date(lastRecord.actualizado_en || lastRecord.creado_en || 0).getTime();
+                    if (localBackup && localBackup.studentName === studentName && localSessionId === currentSessionId && localStamp > dbStamp && localBackup.examProgress) {
+                        examProgress = localBackup.examProgress;
+                        currentRecordId = localBackup.currentRecordId || currentRecordId;
+                        currentQuestionIndex = Number.isInteger(localBackup.currentQuestionIndex) ? localBackup.currentQuestionIndex : currentQuestionIndex;
+                    }
+                    
+                    isInitializing = false;
+                    writeLocalProgressBackup();
+                    restoreProgressUI();
+                    if (examProgress.finished) {
+                        submitExam(); 
+                    }
+                }
+            } catch (err) {
+                console.error("Error en initExamRecord:", err);
+                const localBackup = readLocalProgressBackup();
+                if (localBackup && localBackup.studentName === studentName && localBackup.examProgress) {
+                    examProgress = localBackup.examProgress;
+                    currentRecordId = localBackup.currentRecordId || null;
+                    currentQuestionIndex = Number.isInteger(localBackup.currentQuestionIndex) ? localBackup.currentQuestionIndex : 0;
+                    currentAttemptNumber = localBackup.attempt_number || currentAttemptNumber;
+                    examTitle = localBackup.titulo || examTitle;
+                    updateSessionBadges();
+                    restoreProgressUI();
+                }
+                isInitializing = false;
+                if (!localBackup || !localBackup.examProgress) showQuestion(0);
+            }
+        }
+
+        async function saveProgressRecord(score, finished = false) {
+            if (!studentName) return;
+
+            if (finished) {
+                examProgress.finished = true;
+            }
+
+            const payload = {
+                grado: currentGrade,
+                session_id: examProgress.session_id || localStorage.getItem(sessionTokenKey) || "default",
+                titulo: examTitle || `Examen ${currentGrade}`,
+                nombre_estudiante: studentName,
+                attempt_number: currentAttemptNumber,
+                puntaje: score,
+                total_preguntas: totalQuestions,
+                finalizado: Boolean(finished),
+                ultima_pregunta: currentQuestionIndex + 1,
+                respuestas_detalladas: examProgress
+            };
+
+            if (currentRecordId) {
+                const { error } = await supabase.from('intentos_examen')
+                    .update(payload)
+                    .eq('id', currentRecordId);
+
+                if (error) {
+                    console.error("Error actualizando progreso:", error);
+                }
+                writeLocalProgressBackup();
+                return;
+            }
+
+            const { data, error } = await supabase.from('intentos_examen')
+                .insert(payload)
+                .select('id')
+                .single();
+
+            if (error) {
+                console.error("Error guardando progreso:", error);
+                writeLocalProgressBackup();
+                return;
+            }
+
+            if (data) currentRecordId = data.id;
+            writeLocalProgressBackup();
+        }
+
+        function restoreProgressUI() {
+            let lastAnsweredIndex = -1;
+            for (let i = 0; i < totalQuestions; i++) {
+                const qNumStr = `q${i + 1}`;
+                if (examProgress[qNumStr]) {
+                    lastAnsweredIndex = i;
+                    const ans = examProgress[qNumStr];
+                    const radio = document.querySelector(`input[name="${qNumStr}"][value="${ans.answer}"]`);
+                    
+                    if (radio) {
+                        radio.checked = true;
+                        const optionLabel = radio.nextElementSibling;
+                        if (ans.isCorrect) {
+                            optionLabel.classList.remove('bg-white', 'border-slate-100');
+                            optionLabel.classList.add('bg-green-100', 'border-green-300', 'text-green-800');
+                        } else {
+                            optionLabel.classList.remove('bg-white', 'border-slate-100');
+                            optionLabel.classList.add('bg-red-100', 'border-red-300', 'text-red-800');
+                            
+                            const correctValue = questionsData[i].c;
+                            const correctInput = document.querySelector(`input[name="${qNumStr}"][value="${correctValue}"]`);
+                            if(correctInput) {
+                                const correctLabel = correctInput.nextElementSibling;
+                                correctLabel.classList.remove('bg-white', 'border-slate-100');
+                                correctLabel.classList.add('bg-green-100', 'border-green-300', 'text-green-800');
+                            }
+                        }
+                    }
+                    document.querySelectorAll(`input[name="${qNumStr}"]`).forEach(r => r.disabled = true);
+                }
+            }
+
+            if (lastAnsweredIndex >= 0) {
+                if (lastAnsweredIndex < totalQuestions - 1) {
+                    currentQuestionIndex = lastAnsweredIndex + 1;
+                    showQuestion(currentQuestionIndex);
+                } else {
+                    currentQuestionIndex = totalQuestions - 1;
+                    showQuestion(currentQuestionIndex);
+                    
+                    // Si ya respondió la última pero no se marcó como finalizado (por un refresh), finalizar ahora
+                    if (!examProgress.finished) {
+                        setTimeout(submitExam, 1500);
+                    }
+                }
+            } else {
+                showQuestion(currentQuestionIndex);
+            }
+
+            if (examProgress.finished) {
+                let score = 0;
+                for (let key in examProgress) {
+                    if (examProgress[key].isCorrect) score++;
+                }
+                
+                document.getElementById('resultStudentName').textContent = studentName;
+                document.getElementById('resultScore').textContent = `${score} / ${totalQuestions}`;
+                
+                if (score === totalQuestions) {
+                    document.getElementById('resultIcon').textContent = "🏆";
+                    document.getElementById('resultTitle').textContent = "¡Excelente Trabajo!";
+                } else if (score >= totalQuestions / 2) {
+                    document.getElementById('resultIcon').textContent = "👍";
+                    document.getElementById('resultTitle').textContent = "¡Buen Intento!";
+                } else {
+                    document.getElementById('resultIcon').textContent = "📚";
+                    document.getElementById('resultTitle').textContent = "¡Sigue Estudiando!";
+                }
+
+                document.getElementById('resultModal').classList.remove('hidden');
+                document.getElementById('resultModal').classList.add('flex');
+            }
+        }
+
+        document.querySelectorAll('input[type="radio"]').forEach(radio => {
+            radio.addEventListener('change', async (e) => {
+                const qNumStr = e.target.name; 
+                
+                // PREVENCIÓN DE BUGS: Evitar doble click o bugs de navegador que disparan multiples eventos y saltan preguntas
+                if (examProgress[qNumStr]) return;
+
+                const qIndex = parseInt(qNumStr.replace('q', '')) - 1;
+                const value = parseInt(e.target.value);
+                const isCorrect = questionsData[qIndex].c === value;
+                const duration = Math.round((Date.now() - questionStartTime) / 1000);
+
+                examProgress[qNumStr] = {
+                    answer: value,
+                    answerText: questionsData[qIndex].a[value],
+                    question: questionsData[qIndex].q,
+                    isCorrect: isCorrect,
+                    duration: duration
+                };
+                writeLocalProgressBackup({ currentQuestionIndex: qIndex });
+
+                const optionLabel = e.target.nextElementSibling;
+                if (isCorrect) {
+                    optionLabel.classList.remove('bg-white', 'border-slate-100');
+                    optionLabel.classList.add('bg-green-100', 'border-green-300', 'text-green-800');
+                } else {
+                    optionLabel.classList.remove('bg-white', 'border-slate-100');
+                    optionLabel.classList.add('bg-red-100', 'border-red-300', 'text-red-800');
+                    const correctValue = questionsData[qIndex].c;
+                    const correctInput = document.querySelector(`input[name="${qNumStr}"][value="${correctValue}"]`);
+                    if(correctInput) {
+                        const correctLabel = correctInput.nextElementSibling;
+                        correctLabel.classList.remove('bg-white', 'border-slate-100');
+                        correctLabel.classList.add('bg-green-100', 'border-green-300', 'text-green-800');
+                    }
+                }
+
+                document.querySelectorAll(`input[name="${qNumStr}"]`).forEach(r => r.disabled = true);
+                updateRoadmap();
+
+                let currentScore = 0;
+                for (let i = 0; i < totalQuestions; i++) {
+                    const qKey = `q${i+1}`;
+                    if (examProgress[qKey] && examProgress[qKey].isCorrect) {
+                        currentScore++;
+                    }
+                }
+
+                await saveProgressRecord(currentScore);
+
+                setTimeout(() => {
+                    if (currentQuestionIndex < totalQuestions - 1) {
+                        currentQuestionIndex++;
+                        showQuestion(currentQuestionIndex);
+                    } else {
+                        submitExam();
+                    }
+                }, 1500);
+            });
+        });
+
+        async function submitExam() {
+            if (!studentName) {
+                showInfoModal("Por favor, identifícate antes de entregar el examen.");
+                return;
+            }
+
+            let score = 0;
+            for (let i = 0; i < totalQuestions; i++) {
+                const qKey = `q${i+1}`;
+                if (examProgress[qKey] && examProgress[qKey].isCorrect) {
+                    score++;
+                }
+            }
+
+            await saveProgressRecord(score, true);
+
+            document.getElementById('resultStudentName').textContent = studentName;
+            document.getElementById('resultScore').textContent = `${score} / ${totalQuestions}`;
+            
+            if (score === totalQuestions) {
+                document.getElementById('resultIcon').textContent = "🏆";
+                document.getElementById('resultTitle').textContent = "¡Excelente Trabajo!";
+            } else if (score >= totalQuestions / 2) {
+                document.getElementById('resultIcon').textContent = "👍";
+                document.getElementById('resultTitle').textContent = "¡Buen Intento!";
+            } else {
+                document.getElementById('resultIcon').textContent = "📚";
+                document.getElementById('resultTitle').textContent = "¡Sigue Estudiando!";
+            }
+
+            document.getElementById('resultModal').classList.remove('hidden');
+            document.getElementById('resultModal').classList.add('flex');
+        }
+
+        setInterval(async () => {
+            const currentCode = localStorage.getItem('currentCode');
+            if (!currentCode) return;
+            const { data, error } = await supabase
+                .from('sesiones_examen')
+                .select('esta_activo, examen_comenzado, session_id')
+                .eq('codigo_acceso', currentCode)
+                .single();
+            
+            if (error) {
+                if (error.code === 'PGRST116') {
+                    // La sesión fue eliminada de la base de datos
+                    logoutAndFreePC();
+                } else {
+                    console.error("Error consultando el estado del examen:", error);
+                }
+                return;
+            }
+
+            if (!data) {
+                return;
+            }
+
+            if (!data.esta_activo || !data.examen_comenzado) {
+                logoutAndFreePC();
+                return;
+            }
+
+            // Si el profesor dio "Otra Oportunidad" (el ID de sesión cambió)
+            const latestSessionId = normalizeSessionId(data.session_id);
+            const savedSessionId = localStorage.getItem(sessionTokenKey);
+
+            if (!savedSessionId && latestSessionId) {
+                localStorage.setItem(sessionTokenKey, latestSessionId);
+                return;
+            }
+
+            if (!isInitializing && latestSessionId && savedSessionId !== latestSessionId) {
+                localStorage.setItem(sessionTokenKey, latestSessionId);
+                resetExamUI();
+                await initExamRecord();
+            }
+        }, 5000);
+
+        function logoutAndFreePC() {
+            clearLocalProgressBackup();
+            localStorage.clear();
+            window.location.href = 'engine.html';
+        }
+
+        function resetExamUI() {
+            isInitializing = true;
+            examProgress = {};
+            currentRecordId = null;
+            currentQuestionIndex = 0;
+            clearLocalProgressBackup();
+
+            document.querySelectorAll('input[type="radio"]').forEach(r => {
+                r.checked = false;
+                r.disabled = false;
+            });
+            document.querySelectorAll('.option-label').forEach(label => {
+                label.classList.remove('bg-green-100', 'border-green-300', 'text-green-800',
+                                       'bg-red-100', 'border-red-300', 'text-red-800');
+                label.classList.add('bg-white', 'border-slate-100');
+            });
+
+            const resultModal = document.getElementById('resultModal');
+            resultModal.classList.add('hidden');
+            resultModal.classList.remove('flex');
+
+            document.querySelectorAll('.question-box').forEach(box => box.classList.remove('active'));
+            document.getElementById('roadmapLine').style.width = '0%';
+            document.getElementById('roadmapDots').innerHTML = '';
+        }
+
+        function showInfoModal(msg) {
+            document.getElementById('infoMsg').innerText = msg;
+            document.getElementById('infoModal').classList.remove('hidden');
+            document.getElementById('infoModal').classList.add('flex');
+        }
+
+        function closeInfoModal() {
+            document.getElementById('infoModal').classList.add('hidden');
+            document.getElementById('infoModal').classList.remove('flex');
+        }
+
+        updateSessionBadges();
+    </script>
+
+    <!-- MODAL INFORMACION -->
+    <div id="infoModal" class="fixed inset-0 bg-slate-900/60 backdrop-blur-sm z-[10000] hidden items-center justify-center p-4">
+        <div class="bg-white w-full max-w-sm rounded-3xl p-8 text-center shadow-2xl animate-in zoom-in duration-300">
+            <div class="text-5xl mb-4">⚠️</div>
+            <h3 class="text-xl font-black text-slate-900 mb-2">¡Atención!</h3>
+            <p id="infoMsg" class="text-slate-500 font-semibold mb-6"></p>
+            <button onclick="closeInfoModal()" class="w-full py-4 bg-indigo-600 hover:bg-indigo-700 text-white font-black rounded-2xl transition-all shadow-lg shadow-indigo-200 active:scale-95">ENTENDIDO</button>
+        </div>
+    </div>
+</body>
+</html>

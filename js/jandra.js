@@ -173,21 +173,22 @@ const Jandra = {
                 }
             };
 
+            let finished = false;
             const finish = () => {
-                if (this.fallbackTimeout) clearTimeout(this.fallbackTimeout);
+                if (finished) return;
+                finished = true;
+                
+                if (timeoutId) clearTimeout(timeoutId);
                 this.hide();
-                if (onDone) onDone();
+                if (typeof onDone === 'function') onDone();
             };
 
             msg.onend = finish;
             msg.onerror = finish;
 
-            // Fallback: Si el navegador bloquea el audio (muy común online), 
-            // detenemos la animación calculando el tiempo de lectura.
             const estimatedTime = Math.max(3000, cleanText.length * 90);
-            if (this.fallbackTimeout) clearTimeout(this.fallbackTimeout);
-            this.fallbackTimeout = setTimeout(() => {
-                if (this.interval) finish();
+            const timeoutId = setTimeout(() => {
+                finish();
             }, estimatedTime);
 
             window.speechSynthesis.speak(msg);

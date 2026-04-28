@@ -498,6 +498,9 @@
                 </div>`;
         }
         function handleAnswer(index, correctIndex, btn) {
+            if (btn.disabled || btn.dataset.answered === "true") return;
+            btn.dataset.answered = "true";
+
             const isCorrect = index === correctIndex;
             const qData = questions[currentQ];
             const clippyText = document.getElementById('clippy-text');

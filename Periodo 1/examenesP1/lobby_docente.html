@@ -1,0 +1,914 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Aula Plus | Lobby Docente</title>
+    <link rel="icon" type="image/x-icon" href="../../assets/Icono.ico">
+    <link href="https://fonts.googleapis.com/css2?family=Outfit:wght@400;600;800&family=Plus+Jakarta+Sans:wght@400;500;700&display=swap" rel="stylesheet">
+    <style>
+        :root {
+            --primary: #4f46e5;
+            --primary-dark: #3730a3;
+            --bg-body: #f8fafc;
+            --card-bg: #ffffff;
+            --text-main: #1e293b;
+            --text-muted: #64748b;
+            --success: #10b981;
+            --danger: #f43f5e;
+            --border: #e2e8f0;
+        }
+
+        * { margin: 0; padding: 0; box-sizing: border-box; font-family: 'Plus Jakarta Sans', sans-serif; }
+
+        body {
+            background-color: var(--bg-body);
+            background-image: 
+                radial-gradient(at 0% 0%, rgba(79, 70, 229, 0.03) 0px, transparent 50%),
+                radial-gradient(at 100% 100%, rgba(129, 140, 248, 0.03) 0px, transparent 50%);
+            height: 100vh;
+            color: var(--text-main);
+            overflow: hidden; 
+        }
+
+        .layout {
+            display: grid;
+            grid-template-columns: 380px 1fr;
+            height: 100vh;
+            width: 100%;
+        }
+
+        /* ── SIDEBAR (CONTROLES E INFO) ── */
+        .sidebar {
+            background: white;
+            border-right: 1px solid var(--border);
+            padding: 2rem;
+            display: flex;
+            flex-direction: column;
+            justify-content: space-between;
+            z-index: 10;
+            box-shadow: 4px 0 24px rgba(0,0,0,0.02);
+        }
+
+        .sidebar-content {
+            display: flex;
+            flex-direction: column;
+            gap: 2rem;
+        }
+
+        .brand { display: flex; align-items: center; gap: 0.75rem; }
+        .brand-icon {
+            width: 38px; height: 38px; background: var(--primary); color: white;
+            border-radius: 10px; display: flex; align-items: center; justify-content: center;
+            font-weight: 900; font-size: 1.1rem;
+        }
+        .brand-name { font-family: 'Outfit'; font-weight: 800; font-size: 1.3rem; color: var(--text-main); }
+        .brand-name span { color: var(--primary); font-weight: 400; }
+
+        .session-card {
+            background: #f1f5f9;
+            border-radius: 24px;
+            padding: 1.5rem;
+            text-align: center;
+        }
+
+        .grade-badge {
+            background: white;
+            color: var(--primary);
+            padding: 0.4rem 1rem;
+            border-radius: 10px;
+            font-weight: 800;
+            font-size: 0.85rem;
+            border: 1px solid var(--border);
+            margin: 0 auto 1.5rem auto;
+            width: fit-content;
+        }
+
+        .code-label {
+            font-size: 0.7rem;
+            font-weight: 800;
+            text-transform: uppercase;
+            letter-spacing: 0.15em;
+            color: var(--text-muted);
+            margin-bottom: 0.2rem;
+        }
+
+        .code-value {
+            font-family: 'Outfit';
+            font-size: 4.8rem;
+            font-weight: 900;
+            color: var(--text-main);
+            letter-spacing: -2px;
+            line-height: 1;
+            margin-bottom: 0.5rem;
+            cursor: pointer;
+            transition: transform 0.2s;
+        }
+        .code-value:hover { transform: scale(1.05); color: var(--primary); }
+
+        .connection-status {
+            background: white;
+            border: 1px solid var(--border);
+            border-radius: 20px;
+            padding: 1.25rem;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            gap: 0.5rem;
+        }
+
+        .status-title {
+            font-size: 0.75rem;
+            font-weight: 800;
+            color: var(--text-muted);
+            text-transform: uppercase;
+        }
+
+        .counter-group {
+            display: flex;
+            align-items: center;
+            gap: 0.75rem;
+        }
+
+        .count-number {
+            font-family: 'Outfit';
+            font-size: 2.5rem;
+            font-weight: 800;
+            color: var(--primary);
+            line-height: 1;
+        }
+
+        .waiting-tag {
+            background: #eef2ff;
+            color: var(--primary);
+            font-size: 0.65rem;
+            font-weight: 800;
+            padding: 0.25rem 0.6rem;
+            border-radius: 6px;
+        }
+
+        .sidebar-actions {
+            display: flex;
+            flex-direction: column;
+            gap: 0.75rem;
+        }
+
+        .btn-start {
+            background: var(--primary);
+            color: white;
+            padding: 1.1rem;
+            border-radius: 16px;
+            font-size: 1.05rem;
+            font-weight: 800;
+            border: none;
+            cursor: pointer;
+            transition: all 0.3s;
+            box-shadow: 0 8px 20px -6px rgba(79, 70, 229, 0.4);
+            display: none; 
+        }
+        .btn-start:hover { transform: translateY(-2px); background: var(--primary-dark); }
+
+        .btn-back {
+            background: white;
+            border: 1px solid var(--border);
+            color: var(--text-muted);
+            padding: 0.9rem;
+            border-radius: 12px;
+            font-weight: 700;
+            font-size: 0.85rem;
+            cursor: pointer;
+            transition: 0.2s;
+        }
+        .btn-back:hover { background: #f8fafc; color: var(--text-main); }
+
+        .btn-cancel {
+            background: transparent;
+            color: var(--danger);
+            padding: 0.7rem;
+            font-weight: 700;
+            font-size: 0.8rem;
+            cursor: pointer;
+            border: 1px solid rgba(244,63,94,0.2);
+            border-radius: 10px;
+            transition: 0.2s;
+        }
+        .btn-cancel:hover { background: rgba(244,63,94,0.05); }
+
+        /* ── MAIN CONTENT (GRILLA) ── */
+        .main-content {
+            padding: 1.5rem 2rem;
+            overflow-y: auto;
+            display: flex;
+            flex-direction: column;
+            height: 100%;
+        }
+
+        .main-header {
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            margin-bottom: 1.5rem;
+        }
+
+        .main-header h2 {
+            font-family: 'Outfit';
+            font-size: 1.3rem;
+            font-weight: 800;
+            color: var(--text-main);
+        }
+
+        .student-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fill, minmax(200px, 1fr));
+            grid-auto-rows: min-content; /* Evita que las filas se estiren */
+            gap: 20px;
+            flex: 1;
+            position: relative; /* Para el posicionamiento del radar */
+        }
+
+        .student-card {
+            background: white;
+            border: 1px solid var(--border);
+            border-radius: 16px;
+            padding: 12px 14px;
+            display: flex;
+            flex-direction: row;
+            align-items: center;
+            gap: 14px;
+            transition: all 0.3s cubic-bezier(0.175, 0.885, 0.32, 1.275);
+            animation: slideUp 0.5s ease-out;
+            position: relative;
+        }
+        .student-card:hover { box-shadow: 0 6px 20px rgba(0,0,0,0.06); border-color: #c7d2fe; }
+        .student-card:hover .btn-kick { opacity: 1; }
+
+        .btn-kick {
+            position: absolute;
+            top: -7px; right: -7px;
+            width: 22px; height: 22px;
+            background: var(--danger);
+            color: white;
+            border: 2px solid white;
+            border-radius: 50%;
+            font-size: 0.65rem;
+            font-weight: 900;
+            cursor: pointer;
+            display: flex; align-items: center; justify-content: center;
+            opacity: 0;
+            transition: 0.2s;
+            line-height: 1;
+        }
+        .btn-kick:hover { transform: scale(1.15); }
+
+        .student-card img {
+            width: 46px;
+            height: 46px;
+            border-radius: 12px;
+            background: #f1f5f9;
+            flex-shrink: 0;
+        }
+
+        .student-card span {
+            font-size: 0.88rem;
+            font-weight: 700;
+            color: var(--text-main);
+            text-align: left;
+            line-height: 1.3;
+        }
+
+        @keyframes slideUp {
+            from { transform: translateY(20px); opacity: 0; }
+            to { transform: translateY(0); opacity: 1; }
+        }
+
+        /* ── RADAR SCANNER (estado de espera) ── */
+        .waiting-wrap {
+            position: absolute;
+            inset: 0;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            gap: 2.5rem;
+            z-index: 1;
+        }
+
+        .radar-container {
+            position: relative;
+            width: 80px;
+            height: 80px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+        }
+
+        .radar-icon {
+            position: relative;
+            z-index: 10;
+            background: white;
+            width: 80px;
+            height: 80px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            border-radius: 50%;
+            box-shadow: 0 10px 25px rgba(79, 70, 229, 0.15);
+            color: var(--primary);
+        }
+
+        .radar-ring {
+            position: absolute;
+            width: 100%;
+            height: 100%;
+            border-radius: 50%;
+            border: 2px solid var(--primary);
+            opacity: 0;
+            animation: radarPulse 2.5s cubic-bezier(0.215, 0.61, 0.355, 1) infinite;
+        }
+
+        .radar-ring:nth-child(2) { animation-delay: 0.8s; }
+        .radar-ring:nth-child(3) { animation-delay: 1.6s; }
+
+        @keyframes radarPulse {
+            0% { transform: scale(0.8); opacity: 0.8; border-width: 3px; }
+            100% { transform: scale(3.5); opacity: 0; border-width: 1px; }
+        }
+
+        .waiting-label {
+            font-size: 1rem;
+            font-weight: 800;
+            color: var(--text-muted);
+            letter-spacing: 0.05em;
+            text-transform: uppercase;
+            animation: pulseText 2s ease-in-out infinite;
+        }
+
+        @keyframes pulseText {
+            0%, 100% { opacity: 0.6; }
+            50% { opacity: 1; }
+        }
+
+        /* Scrollbar */
+        .main-content::-webkit-scrollbar { width: 6px; }
+        .main-content::-webkit-scrollbar-thumb { background: #e2e8f0; border-radius: 10px; }
+
+        /* ── MODAL DE CONFIRMACIÓN ── */
+        #kick-modal {
+            display: none;
+            position: fixed;
+            inset: 0;
+            background: rgba(15,23,42,0.5);
+            backdrop-filter: blur(6px);
+            z-index: 9999;
+            align-items: center;
+            justify-content: center;
+        }
+        #kick-modal.open { display: flex; }
+
+        .kick-card {
+            background: white;
+            border-radius: 24px;
+            padding: 2rem;
+            width: 100%;
+            max-width: 340px;
+            text-align: center;
+            box-shadow: 0 25px 60px -10px rgba(0,0,0,0.2);
+            animation: kickPop 0.3s cubic-bezier(0.175, 0.885, 0.32, 1.275);
+        }
+        @keyframes kickPop {
+            from { transform: scale(0.85); opacity: 0; }
+            to   { transform: scale(1);    opacity: 1; }
+        }
+
+        .kick-avatar {
+            width: 72px; height: 72px;
+            border-radius: 50%;
+            margin: 0 auto 1rem;
+            display: block;
+            border: 3px solid #fee2e2;
+        }
+
+        .kick-icon {
+            font-size: 2.5rem;
+            margin-bottom: 0.5rem;
+            display: block;
+        }
+
+        .kick-title {
+            font-family: 'Outfit';
+            font-size: 1.2rem;
+            font-weight: 800;
+            color: var(--text-main);
+            margin-bottom: 0.4rem;
+        }
+
+        .kick-desc {
+            font-size: 0.85rem;
+            color: var(--text-muted);
+            font-weight: 600;
+            margin-bottom: 1.75rem;
+            line-height: 1.5;
+        }
+
+        .kick-actions {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 0.75rem;
+        }
+
+        .btn-kick-cancel {
+            padding: 0.85rem;
+            border-radius: 12px;
+            border: 1px solid var(--border);
+            background: white;
+            color: var(--text-muted);
+            font-weight: 700;
+            font-size: 0.9rem;
+            cursor: pointer;
+            transition: 0.2s;
+        }
+        .btn-kick-cancel:hover { background: #f8fafc; }
+
+        .btn-kick-confirm {
+            padding: 0.85rem;
+            border-radius: 12px;
+            border: none;
+            background: var(--danger);
+            color: white;
+            font-weight: 800;
+            font-size: 0.9rem;
+            cursor: pointer;
+            transition: 0.2s;
+            box-shadow: 0 6px 16px -4px rgba(244,63,94,0.4);
+        }
+        .btn-kick-confirm:hover { background: #e11d48; transform: translateY(-1px); }
+
+        /* Botones de Copiado */
+        .btn-copy-small {
+            position: absolute;
+            top: 0; right: -30px;
+            background: white; border: 1px solid var(--border);
+            border-radius: 8px; width: 28px; height: 28px;
+            display: flex; align-items: center; justify-content: center;
+            cursor: pointer; font-size: 0.8rem; transition: 0.2s;
+        }
+        .btn-copy-small:hover { background: var(--primary); color: white; border-color: var(--primary); }
+
+        .btn-copy-large {
+            background: var(--primary); color: white;
+            padding: 0.8rem 1.5rem; border: none; border-radius: 12px;
+            font-weight: 800; font-size: 1rem; cursor: pointer;
+            transition: 0.3s; box-shadow: 0 8px 20px -5px rgba(79, 70, 229, 0.3);
+        }
+        .btn-copy-large:hover { transform: translateY(-2px); background: var(--primary-dark); }
+
+        /* ── MODAL CONFIRMACIÓN GENÉRICO ── */
+        #genericConfirmModal {
+            position: fixed; inset: 0; background: rgba(15, 23, 42, 0.6);
+            backdrop-filter: blur(8px); display: none; align-items: center; justify-content: center;
+            z-index: 10002; padding: 1.5rem;
+        }
+        #genericConfirmModal.flex { display: flex; }
+        .confirm-card {
+            background: white; width: 100%; max-width: 400px;
+            padding: 2rem; border-radius: 28px; text-align: center;
+            box-shadow: 0 25px 50px -12px rgba(0, 0, 0, 0.25);
+            animation: modalPop 0.4s cubic-bezier(0.175, 0.885, 0.32, 1.275);
+        }
+        .confirm-card h3 { font-family: 'Outfit'; font-size: 1.3rem; font-weight: 800; color: #1e293b; margin-bottom: 0.5rem; }
+        .confirm-card p { color: #64748b; font-size: 0.9rem; margin-bottom: 2rem; line-height: 1.5; }
+        .confirm-actions { display: grid; grid-template-columns: 1fr 1fr; gap: 1rem; }
+        .btn-confirm-no { padding: 0.8rem; border-radius: 14px; border: none; background: #f1f5f9; color: #64748b; font-weight: 700; cursor: pointer; transition: 0.2s; }
+        .btn-confirm-yes { padding: 0.8rem; border-radius: 14px; border: none; background: var(--primary); color: white; font-weight: 800; cursor: pointer; transition: 0.2s; }
+        .btn-confirm-yes.danger { background: var(--danger); }
+        .btn-confirm-yes:hover { transform: translateY(-2px); filter: brightness(1.1); }
+
+        /* Toast de Notificación */
+        #toast {
+            position: fixed; bottom: 2rem; left: 50%; transform: translateX(-50%) translateY(100px);
+            background: var(--slate-900); color: white; padding: 1rem 2rem;
+            border-radius: 100px; font-weight: 700; font-size: 0.9rem;
+            z-index: 10001; transition: 0.4s cubic-bezier(0.175, 0.885, 0.32, 1.275);
+            box-shadow: 0 10px 30px rgba(0,0,0,0.2);
+            display: flex; align-items: center; gap: 0.75rem;
+        }
+        #toast.show { transform: translateX(-50%) translateY(0); }
+
+        /* ── MODAL CÓDIGO GIGANTE ── */
+        #code-modal {
+            display: none;
+            position: fixed;
+            inset: 0;
+            background: rgba(255, 255, 255, 0.8);
+            backdrop-filter: blur(20px);
+            z-index: 10000;
+            align-items: center;
+            justify-content: center;
+            cursor: pointer;
+        }
+        #code-modal.open { display: flex; }
+        .big-code-card {
+            text-align: center;
+            animation: zoomIn 0.4s cubic-bezier(0.175, 0.885, 0.32, 1.275);
+        }
+        .big-code-label {
+            font-size: 1.2rem;
+            font-weight: 800;
+            color: var(--text-muted);
+            text-transform: uppercase;
+            letter-spacing: 0.3em;
+            margin-bottom: 1rem;
+        }
+        .big-code-value {
+            font-family: 'Outfit';
+            font-size: 15rem;
+            font-weight: 900;
+            color: var(--text-main);
+            letter-spacing: -5px;
+            line-height: 1;
+            text-shadow: 0 20px 40px rgba(0,0,0,0.05);
+        }
+        @keyframes zoomIn {
+            from { transform: scale(0.5); opacity: 0; }
+            to { transform: scale(1); opacity: 1; }
+        }
+    </style>
+    <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
+    <script src="../../js/supabase-config.js"></script>
+</head>
+<body>
+
+    <div class="layout">
+        <!-- SIDEBAR -->
+        <aside class="sidebar">
+            <div class="sidebar-content">
+                <div class="brand">
+                    <div class="brand-icon">S</div>
+                    <span class="brand-name">Aula Plus <span>Lobby</span></span>
+                </div>
+
+                <div class="session-card">
+                    <div id="grade-pill" class="grade-badge">---</div>
+                    <p class="code-label">Código de Acceso</p>
+                    <div style="position: relative; display: inline-block;">
+                        <div class="code-value" id="code-display" onclick="openCodeModal()">------</div>
+                        <button onclick="copyCode()" class="btn-copy-small" title="Copiar código">📋</button>
+                    </div>
+                    <p style="font-size: 0.6rem; color: var(--text-muted); font-weight: 700; margin-top: 5px;">(Clic para ampliar)</p>
+                </div>
+            </div>
+
+            <div class="sidebar-actions">
+                <button id="btn-play" class="btn-start" onclick="startExam()">▶ EMPEZAR AHORA</button>
+                <button class="btn-back" onclick="confirmBack()">Volver al Panel</button>
+                <button class="btn-cancel" onclick="endSession()">🔒 Finalizar y cerrar sala</button>
+            </div>
+        </aside>
+
+        <!-- MODAL REMOVER ESTUDIANTE -->
+        <div id="kick-modal">
+            <div class="kick-card">
+                <img id="kick-avatar" class="kick-avatar" src="" alt="">
+                <p class="kick-title" id="kick-name">Estudiante</p>
+                <p class="kick-desc">¿Deseas remover a este estudiante<br>de la sala de espera?</p>
+                <div class="kick-actions">
+                    <button class="btn-kick-cancel" onclick="closeKickModal()">Cancelar</button>
+                    <button class="btn-kick-confirm" id="kick-confirm-btn">Sí, remover</button>
+                </div>
+            </div>
+        </div>
+
+        <!-- MODAL CÓDIGO GIGANTE -->
+        <div id="code-modal" onclick="closeCodeModal()">
+            <div class="big-code-card">
+                <p class="big-code-label">Código de Acceso</p>
+                <div class="big-code-value" id="big-code-display">000000</div>
+                <div style="display: flex; gap: 1rem; justify-content: center; align-items: center; margin-top: 2rem;">
+                    <button onclick="copyCode(); event.stopPropagation();" class="btn-copy-large">Copiar Código</button>
+                    <p style="color: var(--text-muted); font-weight: 700;">(Clic fuera para cerrar)</p>
+                </div>
+            </div>
+        </div>
+
+        <div id="toast">
+            <span style="background: var(--success); width: 24px; height: 24px; border-radius: 50%; display: flex; align-items: center; justify-content: center; font-size: 0.7rem;">✓</span>
+            Código copiado al portapapeles
+        </div>
+
+        <!-- MODAL CONFIRMACIÓN GENÉRICO -->
+        <div id="genericConfirmModal">
+            <div class="confirm-card">
+                <div id="confirm-icon" style="font-size: 2.5rem; margin-bottom: 1rem;">❓</div>
+                <h3 id="confirm-title">¿Estás seguro?</h3>
+                <p id="confirm-desc">Esta acción no se puede deshacer.</p>
+                <div class="confirm-actions">
+                    <button class="btn-confirm-no" onclick="closeConfirmModal()">Cancelar</button>
+                    <button class="btn-confirm-yes" id="confirm-yes-btn">Confirmar</button>
+                </div>
+            </div>
+        </div>
+
+        <!-- MAIN CONTENT -->
+        <main class="main-content">
+            <div class="main-header">
+                <h2>Estudiantes en la sala <span id="count-badge" style="font-family:'Outfit'; color:var(--primary); font-weight:900;">(<span id="count-num">0</span>)</span></h2>
+            </div>
+            <div id="student-grid" class="student-grid"></div>
+        </main>
+    </div>
+
+    <script>
+        const activeGrade = window.location.hash.substring(1);
+
+        function renderWaitingAnimation() {
+            const grid = document.getElementById('student-grid');
+            grid.innerHTML = `
+                <div class="waiting-wrap">
+                    <div class="radar-container">
+                        <div class="radar-ring"></div>
+                        <div class="radar-ring"></div>
+                        <div class="radar-ring"></div>
+                        <div class="radar-icon">
+                            <svg width="34" height="34" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round">
+                                <circle cx="11" cy="11" r="8"></circle>
+                                <line x1="21" y1="21" x2="16.65" y2="16.65"></line>
+                            </svg>
+                        </div>
+                    </div>
+                    <p class="waiting-label">Escaneando sala...</p>
+                </div>`;
+        }
+
+        if (!activeGrade) {
+            alert("Error: No se ha especificado un grado.");
+            window.location.href = '../examenesP1.html';
+        } else {
+            document.getElementById('grade-pill').innerText = activeGrade;
+            renderWaitingAnimation();
+            init();
+        }
+
+        async function init() {
+            // Capturar título temporal si existe
+            const tempTitle = sessionStorage.getItem('temp_exam_title');
+            if (tempTitle) {
+                sessionStorage.removeItem('temp_exam_title');
+            }
+
+            // Primero verificar si ya hay una sesión activa para este grado
+            try {
+                const { data: existing, error } = await supabase
+                    .from('sesiones_examen')
+                    .select('codigo_acceso, esta_activo, examen_comenzado, titulo, session_id')
+                    .eq('grado', activeGrade)
+                    .maybeSingle(); // maybeSingle es más seguro que single si no existe
+
+                if (existing && existing.esta_activo) {
+                    // Si hay un nuevo título, actualizarlo localmente
+                    if (tempTitle) {
+                        localStorage.setItem(`exam_title_${activeGrade}`, tempTitle);
+                    }
+
+                    document.getElementById('code-display').innerText = existing.codigo_acceso;
+                    document.getElementById('btn-play').style.display = 'block';
+
+                    if (existing.examen_comenzado) {
+                        window.location.href = `monitor_docente.html#${activeGrade}`;
+                        return;
+                    }
+                } else {
+                    // No hay sesión activa — generar una nueva
+                    await generateSession(tempTitle);
+                }
+            } catch (err) {
+                console.error("Error en init:", err);
+                // Si falla la verificación, intentamos generar una de todos modos
+                await generateSession(tempTitle);
+            }
+
+            startMonitoring();
+        }
+
+        async function generateSession(title) {
+            const newCode = Math.floor(100000 + Math.random() * 900000).toString();
+            const newSessionId = String(Date.now());
+            document.getElementById('code-display').innerText = "••• •••";
+            
+            await supabase.from('lobby_estudiantes').delete().eq('grado', activeGrade);
+
+            const { error } = await supabase
+                .from('sesiones_examen')
+                .upsert({
+                    grado: activeGrade,
+                    titulo: title || localStorage.getItem(`exam_title_${activeGrade}`) || `Examen ${activeGrade}`,
+                    codigo_acceso: newCode,
+                    session_id: newSessionId,
+                    esta_activo: true,
+                    examen_comenzado: false
+                }, { onConflict: 'grado' });
+
+            if (!error) {
+                if (title) localStorage.setItem(`exam_title_${activeGrade}`, title);
+                document.getElementById('code-display').innerText = newCode;
+                document.getElementById('btn-play').style.display = 'block';
+            } else {
+                console.error("Error generating session:", error);
+                document.getElementById('code-display').innerText = "ERROR";
+                alert("No se pudo generar el código: " + error.message);
+            }
+        }
+
+        async function startExam() {
+            const btn = document.getElementById('btn-play');
+            btn.disabled = true;
+            btn.innerText = 'Iniciando...';
+
+            const { error } = await supabase
+                .from('sesiones_examen')
+                .update({ 
+                    examen_comenzado: true
+                })
+                .eq('grado', activeGrade);
+
+            if (!error) {
+                window.location.href = `monitor_docente.html#${activeGrade}`;
+            } else {
+                btn.disabled = false;
+                btn.innerText = '▶ EMPEZAR AHORA';
+            }
+        }
+
+        function openConfirmModal(title, desc, onConfirm, isDanger = false, icon = "❓") {
+            document.getElementById('confirm-title').innerText = title;
+            document.getElementById('confirm-desc').innerText = desc;
+            document.getElementById('confirm-icon').innerText = icon;
+            const yesBtn = document.getElementById('confirm-yes-btn');
+            
+            if (isDanger) yesBtn.classList.add('danger');
+            else yesBtn.classList.remove('danger');
+            
+            yesBtn.onclick = () => {
+                closeConfirmModal();
+                onConfirm();
+            };
+            document.getElementById('genericConfirmModal').classList.add('flex');
+        }
+
+        function closeConfirmModal() {
+            document.getElementById('genericConfirmModal').classList.remove('flex');
+        }
+
+        async function endSession() {
+            openConfirmModal(
+                "Finalizar Sala",
+                "¿Deseas finalizar y cerrar la sala? Los estudiantes ya no podrán ingresar.",
+                async () => {
+                    await supabase.from('sesiones_examen')
+                        .update({ esta_activo: false, examen_comenzado: false })
+                        .eq('grado', activeGrade);
+                    await supabase.from('lobby_estudiantes').delete().eq('grado', activeGrade);
+                    window.location.href = '../examenesP1.html';
+                },
+                true,
+                "🔒"
+            );
+        }
+
+        function confirmBack() {
+            openConfirmModal(
+                "Volver al Panel",
+                "¿Deseas volver al panel? La sala seguirá activa para los estudiantes.",
+                () => {
+                    window.location.href = '../examenesP1.html';
+                },
+                false,
+                "🏠"
+            );
+        }
+
+        let knownStudents = new Map(); // id → avatarSrc
+
+        function startMonitoring() {
+            setInterval(async () => {
+                const { data } = await supabase
+                    .from('lobby_estudiantes')
+                    .select('id, nombre_estudiante, avatar')
+                    .eq('grado', activeGrade)
+                    .order('creado_en', { ascending: true });
+
+                if (!data) return;
+
+                document.getElementById('count-num').innerText = data.length;
+                const grid = document.getElementById('student-grid');
+
+                if (data.length === 0) {
+                    if (knownStudents.size > 0) {
+                        knownStudents.clear();
+                        renderWaitingAnimation();
+                    }
+                    return;
+                }
+
+                // Si había animación de espera, limpiar el grid primero
+                if (grid.querySelector('.waiting-wrap')) grid.innerHTML = '';
+
+                const currentIds = new Set(data.map(d => d.id));
+
+                // 1. Agregar tarjetas nuevas
+                data.forEach(est => {
+                    const avatarSrc = est.avatar && est.avatar.startsWith('http')
+                        ? est.avatar
+                        : `https://api.dicebear.com/9.x/fun-emoji/svg?seed=${encodeURIComponent(est.nombre_estudiante)}&radius=50`;
+
+                    const existing = document.querySelector(`[data-student-id="${est.id}"]`);
+
+                    if (!existing) {
+                        // Nueva tarjeta
+                        const card = document.createElement('div');
+                        card.className = 'student-card';
+                        card.dataset.studentId = est.id;
+                        card.innerHTML = `
+                            <button class="btn-kick" onclick="removeStudent('${est.id}', '${est.nombre_estudiante.replace(/'/g, "&#39;")}', '${avatarSrc}')" title="Remover">✕</button>
+                            <img src="${avatarSrc}" alt="${est.nombre_estudiante}">
+                            <span>${est.nombre_estudiante}</span>
+                        `;
+                        grid.appendChild(card);
+                        knownStudents.set(est.id, avatarSrc);
+                    } else if (knownStudents.get(est.id) !== avatarSrc) {
+                        // Solo actualizó el avatar — swap quirúrgico del img
+                        const img = existing.querySelector('img');
+                        img.style.transition = 'opacity 0.3s';
+                        img.style.opacity = '0';
+                        setTimeout(() => {
+                            img.src = avatarSrc;
+                            img.style.opacity = '1';
+                        }, 150);
+                        // Actualizar botón de kick con nuevo avatar
+                        const kickBtn = existing.querySelector('.btn-kick');
+                        kickBtn.onclick = () => removeStudent(est.id, est.nombre_estudiante, avatarSrc);
+                        knownStudents.set(est.id, avatarSrc);
+                    }
+                });
+
+                // 2. Eliminar tarjetas de estudiantes que ya no están
+                knownStudents.forEach((_, id) => {
+                    if (!currentIds.has(id)) {
+                        const card = document.querySelector(`[data-student-id="${id}"]`);
+                        if (card) card.remove();
+                        knownStudents.delete(id);
+                    }
+                });
+
+            }, 2000);
+        }
+
+        let kickTargetId = null;
+
+        function removeStudent(id, nombre, avatarSrc) {
+            kickTargetId = id;
+            document.getElementById('kick-name').innerText = nombre;
+            document.getElementById('kick-avatar').src = avatarSrc;
+            document.getElementById('kick-modal').classList.add('open');
+            document.getElementById('kick-confirm-btn').onclick = async () => {
+                await supabase.from('lobby_estudiantes').delete().eq('id', kickTargetId);
+                closeKickModal();
+            };
+        }
+
+        function closeKickModal() {
+            document.getElementById('kick-modal').classList.remove('open');
+        }
+
+        async function copyCode() {
+            const code = document.getElementById('code-display').innerText;
+            try {
+                await navigator.clipboard.writeText(code);
+                showToast();
+            } catch (err) {
+                console.error('Error al copiar:', err);
+            }
+        }
+
+        function showToast() {
+            const toast = document.getElementById('toast');
+            toast.classList.add('show');
+            setTimeout(() => toast.classList.remove('show'), 3000);
+        }
+
+        function openCodeModal() {
+            const code = document.getElementById('code-display').innerText;
+            document.getElementById('big-code-display').innerText = code;
+            document.getElementById('code-modal').classList.add('open');
+        }
+
+        function closeCodeModal() {
+            document.getElementById('code-modal').classList.remove('open');
+        }
+
+        // Cerrar al tocar el fondo
+        document.getElementById('kick-modal').addEventListener('click', function(e) {
+            if (e.target === this) closeKickModal();
+        });
+    </script>
+</body>
+</html>

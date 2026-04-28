@@ -1,0 +1,772 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Aula Plus | Administración de Exámenes</title>
+    <link rel="icon" type="image/x-icon" href="../../assets/Icono.ico">
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Outfit:wght@400;600;800&family=Plus+Jakarta+Sans:wght@400;500;700&display=swap" rel="stylesheet">
+    
+    <style>
+        :root {
+            --primary: #6366f1;
+            --primary-dark: #4f46e5;
+            --slate-50: #f8fafc;
+            --slate-100: #f1f5f9;
+            --slate-200: #e2e8f0;
+            --slate-400: #94a3b8;
+            --slate-600: #475569;
+            --slate-800: #1e293b;
+            --slate-900: #0f172a;
+            --success: #22c55e;
+            --danger: #ef4444;
+            --glass: rgba(255, 255, 255, 0.75);
+        }
+
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+            font-family: 'Plus Jakarta Sans', sans-serif;
+        }
+
+        body {
+            background-color: var(--slate-50);
+            color: var(--slate-800);
+            min-height: 100vh;
+            display: flex;
+            flex-direction: column;
+            overflow-x: hidden;
+        }
+
+        /* Fondos Animados */
+        .background-blobs {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            z-index: -1;
+            overflow: hidden;
+        }
+
+        .blob {
+            position: absolute;
+            filter: blur(80px);
+            opacity: 0.4;
+            border-radius: 50%;
+            animation: float 15s infinite alternate ease-in-out;
+        }
+
+        .blob-1 { width: 450px; height: 450px; background: #c7d2fe; top: -150px; right: -100px; }
+        .blob-2 { width: 350px; height: 350px; background: #fecdd3; bottom: -100px; left: -100px; animation-delay: -5s; }
+
+        @keyframes float {
+            from { transform: translate(0, 0) rotate(0deg); }
+            to { transform: translate(40px, 40px) rotate(15deg); }
+        }
+
+        /* Contenedor Principal */
+        .app-container {
+            max-width: 1150px;
+            margin: 0 auto;
+            padding: 0 1.5rem;
+            flex: 1;
+            width: 100%;
+        }
+
+        /* Barra de Navegación */
+        .top-navbar {
+            background: var(--glass);
+            backdrop-filter: blur(16px);
+            -webkit-backdrop-filter: blur(16px);
+            border-bottom: 1px solid rgba(255, 255, 255, 0.5);
+            padding: 0.85rem 2rem;
+            position: sticky;
+            top: 10px;
+            z-index: 1000;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            box-shadow: 0 10px 25px -5px rgba(0, 0, 0, 0.05);
+            margin-bottom: 3rem;
+            margin-top: 10px;
+            border-radius: 18px;
+        }
+
+        .logo-area {
+            display: flex;
+            align-items: center;
+            gap: 12px;
+            cursor: pointer;
+            transition: 0.2s;
+        }
+
+        .logo-area:hover { opacity: 0.8; }
+
+        .logo-area .icon-box {
+            background: var(--slate-900);
+            color: white;
+            width: 38px;
+            height: 38px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            border-radius: 10px;
+        }
+
+        .logo-text {
+            font-family: 'Outfit', sans-serif;
+            font-weight: 800;
+            font-size: 1.2rem;
+            letter-spacing: -0.02em;
+            color: var(--slate-900);
+        }
+
+        .user-controls {
+            display: flex;
+            gap: 0.75rem;
+            align-items: center;
+        }
+
+        .btn-premium {
+            background: linear-gradient(135deg, var(--primary), var(--primary-dark));
+            color: white;
+            padding: 0.65rem 1.25rem;
+            border-radius: 12px;
+            font-weight: 700;
+            font-size: 0.85rem;
+            border: none;
+            cursor: pointer;
+            transition: all 0.3s;
+            box-shadow: 0 4px 12px rgba(99, 102, 241, 0.3);
+            display: flex;
+            align-items: center;
+            gap: 8px;
+        }
+
+        .btn-premium:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 6px 18px rgba(99, 102, 241, 0.4);
+        }
+
+        .btn-logout-minimal {
+            background: white;
+            color: var(--slate-600);
+            padding: 0.65rem 1rem;
+            border-radius: 12px;
+            font-weight: 600;
+            font-size: 0.85rem;
+            border: 1px solid var(--slate-200);
+            cursor: pointer;
+            transition: all 0.3s;
+        }
+
+        .btn-logout-minimal:hover {
+            background: var(--slate-100);
+            border-color: var(--slate-400);
+        }
+
+        /* Títulos de Sección */
+        .section-header {
+            margin-bottom: 2.5rem;
+        }
+
+        .section-header h2 {
+            font-family: 'Outfit', sans-serif;
+            font-size: 2.2rem;
+            color: var(--slate-900);
+            font-weight: 800;
+            letter-spacing: -0.03em;
+        }
+
+        .section-header p {
+            color: var(--slate-400);
+            font-size: 1rem;
+        }
+
+        .group-title {
+            font-family: 'Outfit', sans-serif;
+            font-size: 1.1rem;
+            color: var(--primary);
+            text-transform: uppercase;
+            letter-spacing: 0.1em;
+            margin-bottom: 1.5rem;
+            font-weight: 800;
+        }
+
+        /* Cuadrícula de Exámenes */
+        .exam-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fill, minmax(210px, 1fr));
+            gap: 1.5rem;
+            margin-bottom: 4rem;
+        }
+
+        .exam-card {
+            background: white;
+            border: 1px solid var(--slate-200);
+            border-radius: 20px;
+            padding: 1.5rem;
+            text-align: center;
+            transition: all 0.4s cubic-bezier(0.175, 0.885, 0.32, 1.275);
+            cursor: pointer;
+            box-shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.05);
+            position: relative;
+            overflow: hidden;
+        }
+
+        .exam-card:hover {
+            transform: translateY(-8px);
+            border-color: var(--primary);
+            box-shadow: 0 20px 25px -5px rgba(0, 0, 0, 0.1);
+        }
+
+        /* Indicador de Estado Activo */
+        .status-badge {
+            position: absolute;
+            top: 15px;
+            right: 15px;
+            width: 10px;
+            height: 10px;
+            border-radius: 50%;
+            background: var(--slate-200);
+            transition: 0.3s;
+        }
+
+        .exam-card.is-active .status-badge {
+            background: var(--success);
+            box-shadow: 0 0 12px var(--success);
+        }
+
+        .grade-badge {
+            font-size: 1.5rem;
+            font-weight: 800;
+            font-family: 'Outfit', sans-serif;
+            color: var(--slate-900);
+            margin-bottom: 0.25rem;
+            display: block;
+        }
+
+        .category-label {
+            font-size: 0.65rem;
+            font-weight: 800;
+            text-transform: uppercase;
+            letter-spacing: 0.05em;
+            color: var(--slate-400);
+            margin-bottom: 1.5rem;
+            display: block;
+        }
+
+        /* Controles de Administrador */
+        .admin-controls {
+            display: none;
+            margin-top: 1.25rem;
+            padding-top: 1.25rem;
+            border-top: 1px solid var(--slate-100);
+            animation: slideUp 0.3s ease-out;
+        }
+
+        @keyframes slideUp {
+            from { opacity: 0; transform: translateY(10px); }
+            to { opacity: 1; transform: translateY(0); }
+        }
+
+        .code-label {
+            font-size: 0.6rem;
+            font-weight: 800;
+            color: var(--slate-400);
+            text-transform: uppercase;
+            margin-bottom: 0.25rem;
+        }
+
+        .code-display {
+            font-family: 'Outfit', sans-serif;
+            font-size: 1.75rem;
+            font-weight: 900;
+            color: var(--slate-900);
+            letter-spacing: 0.1em;
+            margin-bottom: 1.25rem;
+        }
+
+        .btn-action-group {
+            display: flex;
+            flex-direction: column;
+            gap: 0.5rem;
+        }
+
+        .btn-action {
+            width: 100%;
+            padding: 0.7rem;
+            border-radius: 12px;
+            font-size: 0.75rem;
+            font-weight: 800;
+            border: none;
+            cursor: pointer;
+            transition: all 0.2s;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            gap: 8px;
+        }
+
+        .btn-start {
+            background: var(--slate-900);
+            color: white;
+        }
+
+        .btn-start:hover { background: var(--primary); }
+
+        .btn-close {
+            background: var(--slate-100);
+            color: var(--slate-600);
+        }
+
+        .btn-close:hover { background: var(--danger); color: white; }
+
+        .btn-manage-toggle {
+            background: transparent;
+            color: var(--slate-400);
+            border: 1px solid var(--slate-200);
+            padding: 0.5rem 1rem;
+            border-radius: 10px;
+            font-weight: 700;
+            font-size: 0.7rem;
+            margin-top: 0.5rem;
+            width: 100%;
+            transition: all 0.3s;
+        }
+
+        .btn-manage-toggle:hover {
+            color: var(--primary);
+            border-color: var(--primary);
+            background: var(--slate-50);
+        }
+
+        /* Overlay de Login Moderno */
+        #login-overlay {
+            position: fixed;
+            inset: 0;
+            background: rgba(255, 255, 255, 0.8);
+            backdrop-filter: blur(12px);
+            z-index: 9999;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+        }
+
+        .login-card {
+            background: white;
+            padding: 3rem 2rem;
+            border-radius: 30px;
+            box-shadow: 0 25px 50px -12px rgba(0, 0, 0, 0.1);
+            text-align: center;
+            border: 1px solid var(--slate-200);
+            max-width: 400px;
+            width: 90%;
+        }
+
+        /* Modal de Panel de Control */
+        #control-modal {
+            display: none;
+            position: fixed;
+            inset: 0;
+            background: rgba(15, 23, 42, 0.8);
+            backdrop-filter: blur(10px);
+            z-index: 2000;
+            align-items: center;
+            justify-content: center;
+            padding: 1.5rem;
+        }
+
+        .modal-card {
+            background: white;
+            width: 100%;
+            max-width: 600px;
+            border-radius: 32px;
+            overflow: hidden;
+            box-shadow: 0 25px 50px -12px rgba(0, 0, 0, 0.5);
+            animation: zoomIn 0.3s cubic-bezier(0.16, 1, 0.3, 1);
+        }
+
+        .modal-header {
+            background: var(--slate-900);
+            color: white;
+            padding: 2rem;
+            text-align: center;
+        }
+
+        .modal-body {
+            padding: 2rem;
+        }
+
+        .student-list-container {
+            background: var(--slate-50);
+            border-radius: 20px;
+            padding: 1.5rem;
+            margin: 1.5rem 0;
+            min-height: 150px;
+            max-height: 250px;
+            overflow-y: auto;
+        }
+
+        .student-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fill, minmax(120px, 1fr));
+            gap: 10px;
+        }
+
+        .student-tag {
+            background: white;
+            border: 1px solid var(--slate-200);
+            padding: 8px 12px;
+            border-radius: 10px;
+            font-size: 0.8rem;
+            font-weight: 700;
+            text-align: center;
+            animation: popIn 0.3s ease;
+        }
+
+        @keyframes popIn {
+            from { transform: scale(0.8); opacity: 0; }
+            to { transform: scale(1); opacity: 1; }
+        }
+
+        .modal-footer {
+            padding: 1.5rem 2rem;
+            border-top: 1px solid var(--slate-100);
+            display: flex;
+            gap: 1rem;
+        }
+
+        .main-footer {
+            text-align: center;
+            padding: 4rem 0;
+            background-color: transparent;
+            margin-top: auto;
+        }
+
+        .footer-copy { font-weight: 800; color: var(--slate-900); font-size: 0.95rem; }
+        .footer-sub { font-size: 0.8rem; color: var(--slate-400); margin-top: 0.25rem; }
+
+        /* ── MODAL TÍTULO EXAMEN ── */
+        #titleModal {
+            position: fixed; inset: 0; background: rgba(15, 23, 42, 0.6);
+            backdrop-filter: blur(8px); display: none; align-items: center; justify-content: center;
+            z-index: 10000; padding: 1.5rem;
+        }
+        #titleModal.flex { display: flex; }
+        .title-card {
+            background: white; width: 100%; max-width: 450px;
+            padding: 2.5rem; border-radius: 28px; text-align: center;
+            box-shadow: 0 25px 50px -12px rgba(0, 0, 0, 0.25);
+            animation: modalPop 0.4s cubic-bezier(0.175, 0.885, 0.32, 1.275);
+        }
+        @keyframes modalPop {
+            from { transform: scale(0.8); opacity: 0; }
+            to { transform: scale(1); opacity: 1; }
+        }
+        .title-card h3 { font-family: 'Outfit'; font-size: 1.5rem; font-weight: 800; color: var(--slate-900); margin-bottom: 0.5rem; }
+        .title-card p { color: var(--slate-400); font-size: 0.9rem; margin-bottom: 1.5rem; }
+        .title-input-wrap { text-align: left; margin-bottom: 1.5rem; }
+        .title-input-wrap label { display: block; font-size: 0.65rem; font-weight: 800; color: var(--slate-400); text-transform: uppercase; margin: 0 0 0.5rem 0.5rem; letter-spacing: 1px; }
+        .title-input-wrap input { width: 100%; padding: 1rem 1.25rem; border-radius: 16px; border: 2px solid var(--slate-100); font-size: 1rem; font-weight: 700; background: var(--slate-50); outline: none; transition: 0.2s; }
+        .title-input-wrap input:focus { border-color: var(--primary); background: white; box-shadow: 0 0 0 4px rgba(99, 102, 241, 0.1); }
+        .btn-title-confirm { width: 100%; padding: 1rem; border-radius: 14px; border: none; background: var(--primary); color: white; font-weight: 800; cursor: pointer; transition: 0.2s; box-shadow: 0 10px 15px -3px rgba(99, 102, 241, 0.3); margin-bottom: 0.75rem; }
+        .btn-title-confirm:hover { background: var(--primary-dark); transform: translateY(-2px); }
+        .btn-title-cancel { width: 100%; padding: 0.85rem; border-radius: 14px; border: 1px solid var(--slate-200); background: white; color: var(--slate-400); font-weight: 700; cursor: pointer; transition: 0.2s; font-size: 0.85rem; }
+        .btn-title-cancel:hover { background: var(--slate-50); color: var(--slate-600); border-color: var(--slate-400); }
+
+        /* ── ALERTA PERSONALIZADA ── */
+        #custom-alert {
+            position: fixed; inset: 0; background: rgba(15, 23, 42, 0.6);
+            backdrop-filter: blur(8px); display: none; align-items: center; justify-content: center;
+            z-index: 10001; padding: 1.5rem;
+        }
+        .modal-content {
+            background: white; width: 100%; max-width: 400px;
+            padding: 2.5rem; border-radius: 28px; text-align: center;
+            box-shadow: 0 25px 50px -12px rgba(0, 0, 0, 0.25);
+            animation: modalPop 0.4s cubic-bezier(0.175, 0.885, 0.32, 1.275);
+        }
+        .modal-content h2 { font-family: 'Outfit'; font-size: 1.5rem; font-weight: 800; color: var(--slate-900); margin-bottom: 0.5rem; }
+        .modal-content p { color: var(--slate-600); font-size: 0.95rem; line-height: 1.5; margin-bottom: 1.5rem; }
+    </style>
+    <!-- Configuración Supabase -->
+    <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
+    <script src="../js/supabase-config.js"></script>
+</head>
+<body>
+
+    <!-- Pantalla de Autenticación -->
+    <div id="login-overlay">
+        <div class="login-card">
+            <div style="background: var(--slate-100); width: 60px; height: 60px; border-radius: 15px; display: flex; align-items: center; justify-content: center; margin: 0 auto 1.5rem;">
+                <svg viewBox="0 0 24 24" width="30" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><rect x="3" y="11" width="18" height="11" rx="2" ry="2"></rect><path d="M7 11V7a5 5 0 0 1 10 0v4"></path></svg>
+            </div>
+            <h2 class="outfit" style="font-size: 1.5rem; font-weight: 800; margin-bottom: 0.5rem;">Panel Administrativo</h2>
+            <p id="auth-status" style="color: var(--slate-400); margin-bottom: 2rem; font-size: 0.9rem;">Verificación de identidad requerida.</p>
+            <button id="google-btn" onclick="loginWithGoogle()" class="btn-action btn-start" style="padding: 1rem 1.5rem; width: auto; margin: 0 auto;">
+                <img src="https://www.google.com/favicon.ico" style="width: 18px;">
+                Continuar con Google
+            </button>
+        </div>
+    </div>
+
+    <div class="background-blobs">
+        <div class="blob blob-1"></div>
+        <div class="blob blob-2"></div>
+    </div>
+
+    <div class="app-container">
+        <!-- Navegación Superior -->
+        <nav class="top-navbar">
+            <div class="logo-area" onclick="window.location.href='../../index.html'">
+                <div class="icon-box">
+                    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3" style="width: 20px;">
+                        <path d="M2 3h6a4 4 0 0 1 4 4v14a3 3 0 0 0-3-3H2z"></path>
+                        <path d="M22 3h-6a4 4 0 0 0-4 4v14a3 3 0 0 1 3-3h7z"></path>
+                    </svg>
+                </div>
+                <span class="logo-text">Aula Plus Admin</span>
+            </div>
+            
+            <div class="user-controls">
+                <button onclick="window.location.href='examenesP1/reportes.html'" class="btn-premium">
+                    <span>📊</span> Reportes
+                </button>
+                <button onclick="logout()" class="btn-logout-minimal">
+                    Cerrar Sesión
+                </button>
+            </div>
+        </nav>
+
+        <!-- Encabezado de Página -->
+        <header class="section-header">
+            <h2>Control de Sesiones</h2>
+            <p>Monitoreo y gestión de exámenes oficiales en tiempo real.</p>
+        </header>
+
+        <!-- Sección Primaria -->
+        <h3 class="group-title">Nivel Primaria</h3>
+        <div class="exam-grid">
+            <!-- 1° A -->
+            <div class="exam-card" id="card-1A" onclick="goToLobby('1A')">
+                <div class="status-badge" id="status-1A"></div>
+                <span class="grade-badge">1° A</span>
+            </div>
+
+            <!-- 2° A -->
+            <div class="exam-card" id="card-2A" onclick="goToLobby('2A')">
+                <div class="status-badge" id="status-2A"></div>
+                <span class="grade-badge">2° A</span>
+            </div>
+
+            <!-- 3° A -->
+            <div class="exam-card" id="card-3A" onclick="goToLobby('3A')">
+                <div class="status-badge" id="status-3A"></div>
+                <span class="grade-badge">3° A</span>
+            </div>
+        </div>
+
+        <!-- Sección Secundaria -->
+        <h3 class="group-title">Nivel Secundaria</h3>
+        <div class="exam-grid">
+            <div class="exam-card" onclick="showSoonAlert('6° A')">
+                <span class="grade-badge">6° A</span>
+                <span class="category-label">Pendiente</span>
+            </div>
+            <div class="exam-card" onclick="showSoonAlert('7° A')">
+                <span class="grade-badge">7° A</span>
+                <span class="category-label">Pendiente</span>
+            </div>
+            <div class="exam-card" onclick="showSoonAlert('8° A')">
+                <span class="grade-badge">8° A</span>
+                <span class="category-label">Pendiente</span>
+            </div>
+            <div class="exam-card" onclick="window.location.href='examenesP1/09.html'">
+                <span class="grade-badge">9° A</span>
+                <span class="category-label">Acceso Directo</span>
+            </div>
+            <div class="exam-card" onclick="window.location.href='examenesP1/10.html'">
+                <span class="grade-badge">10° A</span>
+                <span class="category-label">Acceso Directo</span>
+            </div>
+            <div class="exam-card" onclick="window.location.href='examenesP1/11.html'">
+                <span class="grade-badge">11° A</span>
+                <span class="category-label">Acceso Directo</span>
+            </div>
+        </div>
+    </div>
+
+    <!-- Modal Alertas -->
+    <div id="custom-alert">
+        <div class="modal-content">
+            <h2 style="margin-bottom: 0.75rem; font-family: 'Outfit'; color: var(--slate-900);">Información</h2>
+            <p id="alert-message" style="color: var(--slate-600); font-size: 0.95rem; line-height: 1.5; margin-bottom: 1.5rem;"></p>
+            <button class="btn-action btn-start" onclick="closeAlert()">ENTENDIDO</button>
+        </div>
+    </div>
+
+    <!-- Footer -->
+    <footer class="main-footer">
+        <p class="footer-copy">Aula Plus &copy; 2026</p>
+        <p class="footer-sub">Prof. Ronny Martinez &bull; Gestión Educativa</p>
+    </footer>
+
+    <!-- MODAL TÍTULO -->
+    <div id="titleModal" onclick="if(event.target == this) closeTitleModal()">
+        <div class="title-card">
+            <div style="font-size: 2.5rem; margin-bottom: 1rem;">📝</div>
+            <h3 id="titleModalGrade">Título del Examen</h3>
+            <p>Define un nombre para esta sesión de evaluación.</p>
+            <div class="title-input-wrap">
+                <label>Título de la sesión</label>
+                <input type="text" id="sessionTitleInput" placeholder="Ej: Examen de Hardware">
+            </div>
+            <button class="btn-title-confirm" onclick="confirmTitle()">Entrar al Lobby</button>
+            <button class="btn-title-cancel" onclick="closeTitleModal()">Cancelar</button>
+        </div>
+    </div>
+
+    <script>
+        // --- LOGICA DE SUPABASE ---
+        
+        async function checkAuth() {
+            const statusText = document.getElementById('auth-status');
+            const { data: { session }, error: sessionError } = await supabase.auth.getSession();
+            
+            if (session) {
+                statusText.innerText = "Comprobando credenciales para: " + session.user.email;
+                
+                const { data, error } = await supabase
+                    .from('usuarios_autorizados')
+                    .select('email')
+                    .eq('email', session.user.email)
+                    .single();
+
+                if (data && !error) {
+                    document.getElementById('login-overlay').style.display = 'none';
+                    // Al entrar, cargar estados de primaria
+                    ['1A', '2A', '3A'].forEach(loadCurrentCode);
+                } else {
+                    statusText.innerText = "ACCESO DENEGADO. Usuario no autorizado.";
+                    statusText.style.color = "var(--danger)";
+                    await supabase.auth.signOut();
+                }
+            }
+        }
+
+        async function loginWithGoogle() {
+            const { error } = await supabase.auth.signInWithOAuth({
+                provider: 'google',
+                options: { 
+                    redirectTo: 'http://localhost:9005/Periodo%201/examenesP1.html' 
+                }
+            });
+            if (error) console.error("Error OAuth: " + error.message);
+        }
+
+        async function logout() {
+            await supabase.auth.signOut();
+            window.location.reload();
+        }
+
+        // --- GESTIÓN DE SESIONES ---
+
+        function toggleAdmin(grade) {
+            const panel = document.getElementById(`admin-${grade}`);
+            const isVisible = panel.style.display === 'block';
+            panel.style.display = isVisible ? 'none' : 'block';
+            if (!isVisible) loadCurrentCode(grade);
+        }
+
+        async function loadCurrentCode(grade) {
+            const { data, error } = await supabase
+                .from('sesiones_activas')
+                .select('codigo_acceso, esta_activo')
+                .eq('grado', grade);
+            
+            if (error) {
+                console.error("Error cargando grado " + grade + ":", error);
+                return;
+            }
+
+            const card = document.getElementById(`card-${grade}`);
+            const codeDisplay = document.getElementById(`code-${grade}`);
+            const row = data && data.length > 0 ? data[0] : null;
+
+            if (row && row.esta_activo) {
+                card.classList.add('is-active');
+            } else {
+                card.classList.remove('is-active');
+            }
+        }
+
+        // --- UI HELPERS ---
+
+        function customModalAlert(title, message) {
+            const modal = document.getElementById('custom-alert');
+            modal.querySelector('h2').textContent = title;
+            document.getElementById('alert-message').innerText = message;
+            modal.style.display = 'flex';
+        }
+
+        function showSoonAlert(grade) {
+            customModalAlert("Próximamente", `El simulacro interactivo para ${grade} se habilitará según el calendario escolar.`);
+        }
+
+        function closeAlert() {
+            document.getElementById('custom-alert').style.display = 'none';
+        }
+
+        // --- NAVEGACIÓN ---
+        let selectedGrade = '';
+        function goToLobby(grade) {
+            selectedGrade = grade;
+            const modal = document.getElementById('titleModal');
+            const input = document.getElementById('sessionTitleInput');
+            document.getElementById('titleModalGrade').innerText = `Examen de ${grade}`;
+            
+            // Valor por defecto: "1A - "
+            input.value = `${grade} - `;
+            modal.classList.add('flex');
+            input.focus();
+            
+            // Mover cursor al final
+            setTimeout(() => {
+                const val = input.value;
+                input.value = '';
+                input.value = val;
+            }, 10);
+        }
+
+        function closeTitleModal() {
+            document.getElementById('titleModal').classList.remove('flex');
+        }
+
+        function confirmTitle() {
+            const input = document.getElementById('sessionTitleInput');
+            let title = input.value.trim();
+            
+            if (!title || title === `${selectedGrade} - `) {
+                alert("Por favor, introduce un título para el examen.");
+                return;
+            }
+
+            // Guardar título en sessionStorage para que el lobby lo use
+            sessionStorage.setItem('temp_exam_title', title);
+            window.location.href = `./examenesP1/lobby_docente.html#${selectedGrade}`;
+        }
+
+        window.onload = checkAuth;
+
+        window.onclick = function(event) {
+            const modal = document.getElementById('custom-alert');
+            if (event.target == modal) closeAlert();
+        }
+    </script>
+</body>
+</html>

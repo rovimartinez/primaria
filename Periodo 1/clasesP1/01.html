@@ -412,7 +412,7 @@
     </main>
 
     <footer class="text-center py-10 text-slate-500 font-medium">
-        <p>Plataforma de resumenes | profesor: Ronny Martinez</p>
+        <p>Aula Plus | profesor: Ronny Martinez</p>
     </footer>
 
     <script>
@@ -548,15 +548,21 @@
             container.appendChild(qDiv);
         }
 
+        let isTransitioning = false;
         window.handleAnswer = function(btn, qIndex, optIndex) {
+            const card = document.getElementById(`q-card-${qIndex}`);
+            if (isTransitioning || btn.disabled || card.dataset.answered === "true") return;
+            card.dataset.answered = "true";
+
             const isCorrect = optIndex === questions[qIndex].c;
             const qData = questions[qIndex];
 
             // Bloquear botones inmediatamente
-            const buttons = document.getElementById(`q-card-${qIndex}`).querySelectorAll('button');
+            const buttons = card.querySelectorAll('button');
             buttons.forEach(b => b.disabled = true);
 
             if (isCorrect) {
+                isTransitioning = true;
                 btn.classList.add('bg-green-500', 'text-white', 'border-green-700');
                 btn.classList.remove('bg-white', 'text-slate-700', 'border-slate-200');
                 
@@ -564,6 +570,8 @@
                 Jandra.show("¡Excelente! ¡Esa es la respuesta correcta!", () => {
                     currentQuestionIndex++;
                     renderQuiz();
+                    // Pequeño delay antes de permitir clics de nuevo para evitar rebotes
+                    setTimeout(() => { isTransitioning = false; }, 400);
                 });
                 score++;
             } else {
@@ -572,11 +580,13 @@
                 // Jandra da la pista y AL TERMINAR permite reintento
                 Jandra.show(`No es esa. Pista: ${qData.h}`, () => {
                     // Reactivar botones para reintento, pero manteniendo el error visual
+                    card.dataset.answered = "false";
                     buttons.forEach(b => {
                         if (!b.classList.contains('bg-red-500')) {
                             b.disabled = false;
                         }
                     });
+                    isTransitioning = false;
                 });
             }
         };

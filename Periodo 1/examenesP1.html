@@ -4,7 +4,7 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Aula Plus | Administración de Exámenes</title>
-    <link rel="icon" type="image/x-icon" href="../../assets/Icono.ico">
+    <link rel="icon" type="image/x-icon" href="../assets/Icono.ico">
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
     <link href="https://fonts.googleapis.com/css2?family=Outfit:wght@400;600;800&family=Plus+Jakarta+Sans:wght@400;500;700&display=swap" rel="stylesheet">
@@ -632,41 +632,87 @@
     </div>
 
     <script>
-        // --- LOGICA DE SUPABASE ---
+        // --- LÓGICA DE SUPABASE ---
         
-        async function checkAuth() {
+        async function handleAuthChange(event, session) {
             const statusText = document.getElementById('auth-status');
-            const { data: { session }, error: sessionError } = await supabase.auth.getSession();
-            
-            if (session) {
-                statusText.innerText = "Comprobando credenciales para: " + session.user.email;
-                
-                const { data, error } = await supabase
-                    .from('usuarios_autorizados')
-                    .select('email')
-                    .eq('email', session.user.email)
-                    .single();
+            const loginOverlay = document.getElementById('login-overlay');
+            const googleBtn = document.getElementById('google-btn');
 
-                if (data && !error) {
-                    document.getElementById('login-overlay').style.display = 'none';
-                    // Al entrar, cargar estados de primaria
-                    ['1A', '2A', '3A'].forEach(loadCurrentCode);
-                } else {
-                    statusText.innerText = "ACCESO DENEGADO. Usuario no autorizado.";
-                    statusText.style.color = "var(--danger)";
-                    await supabase.auth.signOut();
+            console.log("Evento de Auth:", event, session ? "Sesión activa" : "Sin sesión");
+
+            if (session) {
+                // Si hay sesión, verificamos en la base de datos
+                statusText.innerText = "Verificando permisos para: " + session.user.email;
+                googleBtn.style.display = 'none'; // Ocultar botón mientras verifica
+                
+                try {
+                    const { data, error: dbError } = await supabase
+                        .from('usuarios_autorizados')
+                        .select('email')
+                        .eq('email', session.user.email)
+                        .maybeSingle();
+
+                    if (dbError) {
+                        statusText.innerHTML = `<span style="color: var(--danger)">Error de base de datos: ${dbError.message}</span>`;
+                        googleBtn.style.display = 'flex';
+                        return;
+                    }
+
+                    if (data) {
+                        // TODO OK: Entrar a la plataforma
+                        loginOverlay.style.display = 'none';
+                        ['1A', '2A', '3A'].forEach(loadCurrentCode);
+                    } else {
+                        // SESIÓN ACTIVA PERO CORREO NO AUTORIZADO
+                        statusText.innerHTML = `
+                            <div style="color: var(--danger); margin-bottom: 1rem;">
+                                ⚠️ ACCESO DENEGADO
+                            </div>
+                            <div style="font-size: 0.85rem; color: var(--text-muted); line-height: 1.4;">
+                                El correo <b>${session.user.email}</b> no tiene permisos.<br>
+                                Contacta al administrador para ser agregado.
+                            </div>
+                        `;
+                        googleBtn.style.display = 'flex';
+                        googleBtn.innerText = "Probar con otra cuenta";
+                        googleBtn.onclick = async () => {
+                            await supabase.auth.signOut();
+                            window.location.reload();
+                        };
+                    }
+                } catch (err) {
+                    statusText.innerText = "Error de conexión inesperado.";
+                    googleBtn.style.display = 'flex';
                 }
+            } else {
+                // No hay sesión
+                statusText.innerText = "Identifícate para gestionar los exámenes.";
+                googleBtn.style.display = 'flex';
             }
         }
 
+        // Suscribirse a cambios de autenticación (esto maneja el regreso de Google automáticamente)
+        supabase.auth.onAuthStateChange((event, session) => {
+            handleAuthChange(event, session);
+        });
+
         async function loginWithGoogle() {
+            const statusText = document.getElementById('auth-status');
+            statusText.innerText = "Abriendo ventana de Google...";
+            
+            const redirectURL = window.location.origin + window.location.pathname;
+
             const { error } = await supabase.auth.signInWithOAuth({
                 provider: 'google',
                 options: { 
-                    redirectTo: 'http://localhost:9005/Periodo%201/examenesP1.html' 
+                    redirectTo: redirectURL
                 }
             });
-            if (error) console.error("Error OAuth: " + error.message);
+
+            if (error) {
+                statusText.innerText = "Error: " + error.message;
+            }
         }
 
         async function logout() {

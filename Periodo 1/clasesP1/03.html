@@ -489,7 +489,7 @@
                     </div>
                     <div class="grid grid-cols-1 md:grid-cols-3 gap-3 md:gap-4">
                         ${qData.a.map((opt, i) => `
-                            <button onclick="handleAnswer(${i}, ${qData.c}, this)" class="option-btn transition-all duration-300 bg-white border-2 border-slate-200 hover:bg-slate-50 rounded-2xl p-4 flex flex-col items-center justify-center text-center shadow-sm min-h-[120px]">
+                            <button onclick="handleAnswer(${i}, ${qData.c}, this, ${currentQ})" class="option-btn transition-all duration-300 bg-white border-2 border-slate-200 hover:bg-slate-50 rounded-2xl p-4 flex flex-col items-center justify-center text-center shadow-sm min-h-[120px]">
                                 <div class="text-4xl mb-2">${qData.ai ? qData.ai[i] : '🔹'}</div>
                                 <span class="text-xs md:text-sm font-black uppercase tracking-tighter text-slate-700">${opt}</span>
                             </button>
@@ -497,8 +497,8 @@
                     </div>
                 </div>`;
         }
-        function handleAnswer(index, correctIndex, btn) {
-            if (btn.disabled || btn.dataset.answered === "true") return;
+        function handleAnswer(index, correctIndex, btn, qIndex) {
+            if (isTransitioning || btn.disabled || btn.dataset.answered === "true" || qIndex !== currentQ) return;
             btn.dataset.answered = "true";
 
             const isCorrect = index === correctIndex;
@@ -508,6 +508,7 @@
             document.querySelectorAll('.option-btn').forEach(b => b.disabled = true);
             
             if (isCorrect) { 
+                isTransitioning = true;
                 scoreQuiz++; 
                 btn.style.backgroundColor = '#bbf7d0'; 
                 btn.style.borderColor = '#22c55e';
@@ -519,12 +520,15 @@
                     if (currentQ < questions.length - 1) { 
                         currentQ++; 
                         renderQuestion(); 
+                        setTimeout(() => { isTransitioning = false; }, 400);
                     } else { 
                         showFinalResult(); 
+                        isTransitioning = false;
                     }
                 }, 3500); 
 
             } else { 
+                isTransitioning = true;
                 btn.style.backgroundColor = '#fecaca'; 
                 btn.style.borderColor = '#ef4444';
                 mistakes.push(qData);
@@ -535,6 +539,7 @@
                     Jandra.hide();
                     // Re-renderizar la misma pregunta para que intente de nuevo
                     renderQuestion();
+                    setTimeout(() => { isTransitioning = false; }, 400);
                 }, 3500);
             }
         }

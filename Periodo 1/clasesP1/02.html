@@ -770,7 +770,7 @@
         let isTransitioning = false;
         function handleQuizAnswer(btn, qIndex, optIndex) {
             const card = document.getElementById(`q-card-${qIndex}`);
-            if (isTransitioning || btn.disabled || card.dataset.answered === "true") return;
+            if (isTransitioning || qIndex !== currentQuestionIndex || btn.disabled || card.dataset.answered === "true") return;
             card.dataset.answered = "true";
 
             const isCorrect = optIndex === questions[qIndex].c;

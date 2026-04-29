@@ -158,36 +158,52 @@
         let examReports = [];
 
         async function checkAuth() {
-            const { data: { session }, error: sessionError } = await supabase.auth.getSession();
-            if (session) {
-                const { data, error } = await supabase
-                    .from('usuarios_autorizados')
-                    .select('email')
-                    .eq('email', session.user.email)
-                    .single();
-
-                if (data && !error) {
-                    document.getElementById('login-overlay').style.display = 'none';
-                    loadResults();
-                } else {
-                    alert("No tienes permiso para ver estos reportes. Correo: " + session.user.email);
-                    await supabase.auth.signOut();
-                    window.location.reload();
+            try {
+                const { data: { session }, error: sessionError } = await supabase.auth.getSession();
+                
+                if (sessionError) {
+                    console.error("Session error:", sessionError);
+                    return;
                 }
-            } else {
-                if (sessionError) console.error("Session error:", sessionError);
-                document.getElementById('login-overlay').style.display = 'flex';
+
+                if (session) {
+                    const { data, error: dbError } = await supabase
+                        .from('usuarios_autorizados')
+                        .select('email')
+                        .eq('email', session.user.email)
+                        .maybeSingle();
+
+                    if (data && !dbError) {
+                        document.getElementById('login-overlay').style.display = 'none';
+                        loadResults();
+                    } else {
+                        const msg = dbError 
+                            ? "Error de base de datos: " + dbError.message 
+                            : "No tienes permiso para ver estos reportes. Correo: " + session.user.email;
+                        alert(msg);
+                        await supabase.auth.signOut();
+                        window.location.reload();
+                    }
+                } else {
+                    document.getElementById('login-overlay').style.display = 'flex';
+                }
+            } catch (err) {
+                console.error("Auth error:", err);
             }
         }
 
         async function loginWithGoogle() {
+            const redirectURL = window.location.origin + window.location.pathname;
             const { error } = await supabase.auth.signInWithOAuth({
                 provider: 'google',
                 options: {
-                    redirectTo: 'http://127.0.0.1:9005/Periodo%201/examenesP1/reportes.html'
+                    redirectTo: redirectURL
                 }
             });
-            if (error) console.error("Error OAuth:", error);
+            if (error) {
+                console.error("Error OAuth:", error);
+                alert("Error al conectar con Google: " + error.message);
+            }
         }
 
         function getAttemptNumber(attempt) {

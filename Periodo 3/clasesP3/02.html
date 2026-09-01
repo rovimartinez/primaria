@@ -433,64 +433,66 @@
       
       <div class="bg-white rounded-3xl p-6 sm:p-8 border-4 border-sky-600 shadow-xl retro-card">
         
-        <!-- Encabezado del Test -->
-        <div class="border-b-4 border-orange-500 pb-4 mb-6">
-          <div class="flex flex-col sm:flex-row items-center justify-between gap-4">
+        <!-- Encabezado del Test Compacto -->
+        <div class="border-b-2 border-orange-400 pb-2.5 mb-4">
+          <div class="flex items-center justify-between gap-3">
             <div>
-              <span class="bg-purple-100 text-purple-700 font-bold px-3 py-1 rounded-full text-xs uppercase tracking-wider">Desafío Oficial</span>
-              <h2 class="text-2xl sm:text-3xl font-display font-black text-sky-900 mt-1">📝 Súper Test de Patrones</h2>
-              <p class="text-slate-600 text-sm mt-1">10 preguntas divertidas. ¡Elige tu respuesta y sabrás de inmediato si acertaste!</p>
+              <div class="flex items-center gap-2">
+                <span class="bg-purple-100 text-purple-700 font-bold px-2.5 py-0.5 rounded-full text-[10px] uppercase tracking-wider">Desafío Oficial</span>
+                <h2 class="text-lg sm:text-xl font-display font-black text-sky-900 inline-block">📝 Súper Test de Patrones</h2>
+              </div>
             </div>
             
             <!-- Contador de pregunta actual -->
-            <div class="bg-sky-50 border-2 border-sky-300 px-4 py-2 rounded-2xl text-center">
-              <span class="text-xs uppercase font-bold text-sky-600 block">Progreso</span>
-              <span id="quiz-progress-text" class="font-display font-bold text-sky-950 text-lg sm:text-xl">Pregunta 1 de 10</span>
+            <div class="bg-sky-50 border border-sky-300 px-3 py-1 rounded-xl text-center flex-shrink-0">
+              <span id="quiz-progress-text" class="font-display font-bold text-sky-950 text-xs sm:text-sm">Pregunta 1 de 10</span>
             </div>
           </div>
 
-          <!-- Barra de progreso visual -->
-          <div class="w-full bg-slate-200 h-3 rounded-full overflow-hidden mt-4">
+          <!-- Barra de progreso visual compacta -->
+          <div class="w-full bg-slate-200 h-2 rounded-full overflow-hidden mt-2">
             <div id="quiz-progress-bar" class="bg-emerald-500 h-full w-[10%] transition-all duration-300"></div>
           </div>
         </div>
 
         <!-- CONTENEDOR DE LA PREGUNTA (Se muestra 1 a 1) -->
-        <div id="quiz-card" class="space-y-6">
+        <div id="quiz-card" class="space-y-4">
           
-          <!-- Enunciado e ilustración -->
-          <div class="bg-slate-50 border-2 border-slate-200 rounded-2xl p-6 text-center space-y-4">
-            <div id="quiz-badge" class="inline-block bg-sky-100 text-sky-800 font-bold text-xs uppercase px-3 py-1 rounded-full">
-              Pregunta #1
+          <!-- Enunciado e ilustración compactos -->
+          <div class="bg-slate-50 border-2 border-slate-200 rounded-2xl p-3 sm:p-4 text-center space-y-2">
+            <div class="flex items-center justify-center gap-2">
+              <span id="quiz-badge" class="inline-block bg-sky-100 text-sky-800 font-bold text-[10px] uppercase px-2.5 py-0.5 rounded-full">
+                Pregunta #1
+              </span>
+              <h3 id="quiz-question-text" class="text-base sm:text-lg font-display font-bold text-sky-950">
+                ¿Qué figura sigue en esta secuencia?
+              </h3>
             </div>
-            <h3 id="quiz-question-text" class="text-xl sm:text-2xl font-display font-bold text-sky-950">
-              ¿Qué figura sigue en esta secuencia?
-            </h3>
 
             <!-- Tira visual de la secuencia de la pregunta -->
-            <div id="quiz-visual-strip" class="bg-white p-4 sm:p-6 rounded-2xl border-2 border-sky-200 flex flex-wrap items-center justify-center gap-3 shadow-inner min-h-[90px]">
+            <div id="quiz-visual-strip" class="bg-white p-2.5 sm:p-3 rounded-xl border border-sky-200 flex flex-wrap items-center justify-center gap-2 shadow-inner min-h-[60px]">
               <!-- Se inyecta la secuencia visual -->
             </div>
           </div>
 
           <!-- Opciones de Respuesta en 3 columnas (misma fila en escritorio y tablet) -->
-          <div id="quiz-options-container" class="grid grid-cols-1 md:grid-cols-3 gap-3 sm:gap-4">
+          <div id="quiz-options-container" class="grid grid-cols-1 md:grid-cols-3 gap-2.5 sm:gap-3">
             <!-- Botones de opciones inyectados con JavaScript -->
           </div>
 
-          <!-- Panel de Retroalimentación Inmediata -->
-          <div id="quiz-feedback-panel" class="hidden p-5 rounded-2xl border-2 space-y-3 animate-fadeIn">
-            <div class="flex items-center gap-3">
-              <span id="quiz-feedback-icon" class="text-3xl">🎉</span>
-              <div id="quiz-feedback-title" class="font-display font-bold text-lg sm:text-xl">¡Correcto!</div>
+          <!-- Panel de Retroalimentación Inmediata Compacto (Misma Fila con el botón Siguiente) -->
+          <div id="quiz-feedback-panel" class="hidden p-3 sm:p-3.5 rounded-2xl border-2 flex flex-col sm:flex-row items-center justify-between gap-3 animate-fadeIn shadow-sm">
+            <div class="flex items-center gap-2.5 flex-1 text-left w-full sm:w-auto">
+              <span id="quiz-feedback-icon" class="text-2xl sm:text-3xl flex-shrink-0">🎉</span>
+              <div>
+                <div id="quiz-feedback-title" class="font-display font-black text-sm sm:text-base leading-tight">¡Correcto!</div>
+                <p id="quiz-feedback-explanation" class="text-xs sm:text-sm font-medium leading-snug mt-0.5 text-slate-700"></p>
+              </div>
             </div>
-            <p id="quiz-feedback-explanation" class="text-sm sm:text-base font-medium leading-relaxed"></p>
             
-            <div class="pt-2 text-right">
-              <button id="quiz-next-btn" onclick="nextQuizQuestion()" class="bg-sky-600 hover:bg-sky-700 text-white font-extrabold px-6 py-3 rounded-xl transition shadow flex items-center gap-2 ml-auto">
-                <span>Siguiente Reto</span> ➜
-              </button>
-            </div>
+            <button id="quiz-next-btn" onclick="nextQuizQuestion()" class="flex-shrink-0 w-full sm:w-auto bg-sky-600 hover:bg-sky-700 text-white font-black px-5 py-2.5 rounded-xl transition shadow flex items-center justify-center gap-1.5 text-xs sm:text-sm active:scale-95 animate-pulse">
+              <span>Siguiente</span> ➜
+            </button>
           </div>
 
         </div>
@@ -1275,7 +1277,7 @@
         btnElement.classList.replace('bg-white', 'bg-emerald-50');
         btnElement.querySelector('.opt-indicator').innerHTML = "🟢";
 
-        feedbackPanel.className = "p-5 rounded-2xl border-2 border-emerald-400 bg-emerald-50 text-emerald-950 space-y-3 block animate-fadeIn";
+        feedbackPanel.className = "p-3 sm:p-3.5 rounded-2xl border-2 border-emerald-400 bg-emerald-50 text-emerald-950 flex flex-col sm:flex-row items-center justify-between gap-3 animate-fadeIn shadow-sm";
         feedbackIcon.textContent = "🎉";
         feedbackTitle.textContent = "¡EXCELENTE DETECTIVE!";
       } else {
@@ -1294,9 +1296,9 @@
           }
         });
 
-        feedbackPanel.className = "p-5 rounded-2xl border-2 border-amber-400 bg-amber-50 text-amber-950 space-y-3 block animate-fadeIn";
+        feedbackPanel.className = "p-3 sm:p-3.5 rounded-2xl border-2 border-amber-400 bg-amber-50 text-amber-950 flex flex-col sm:flex-row items-center justify-between gap-3 animate-fadeIn shadow-sm";
         feedbackIcon.textContent = "💡";
-        feedbackTitle.textContent = "¡Casi lo logras! Mira la explicación:";
+        feedbackTitle.textContent = "¡Casi lo logras! Mira:";
       }
 
       feedbackExp.innerHTML = q.explanation;

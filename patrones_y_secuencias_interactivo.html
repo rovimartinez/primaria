@@ -1,0 +1,1301 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Aprende Patrones y Secuencias</title>
+  <!-- Tailwind CSS CDN -->
+  <script src="https://cdn.tailwindcss.com"></script>
+  <!-- Google Fonts: Fredoka & Outfit for playful friendly UI -->
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Fredoka:wght@400;600;700&family=Outfit:wght@400;600;700;800;900&family=Press+Start+2P&display=swap" rel="stylesheet">
+  
+  <script>
+    tailwind.config = {
+      theme: {
+        extend: {
+          fontFamily: {
+            sans: ['Outfit', 'sans-serif'],
+            display: ['Fredoka', 'sans-serif'],
+            pixel: ['"Press Start 2P"', 'monospace']
+          },
+          colors: {
+            brand: {
+              cyan: '#0284c7',
+              darkCyan: '#0369a1',
+              orange: '#f97316',
+              yellow: '#eab308',
+              bgLight: '#e0f2fe'
+            }
+          }
+        }
+      }
+    }
+  </script>
+
+  <style>
+    /* Estilos personalizados para animaciones y estética retro-educativa */
+    .pixel-border {
+      box-shadow: 
+        0 -4px 0 0 #0369a1,
+        0 4px 0 0 #0369a1,
+        -4px 0 0 0 #0369a1,
+        4px 0 0 0 #0369a1;
+    }
+    
+    .pixel-badge {
+      box-shadow: 
+        inset -3px -3px 0px 0px rgba(0,0,0,0.25),
+        inset 3px 3px 0px 0px rgba(255,255,255,0.4);
+    }
+
+    .retro-card {
+      box-shadow: 0 10px 0 0 rgba(14, 116, 144, 0.2);
+    }
+
+    .bounce-hover:hover {
+      transform: translateY(-4px);
+    }
+
+    /* Animación del pulso para luces */
+    @keyframes glow {
+      0%, 100% { filter: drop-shadow(0 0 10px currentColor); }
+      50% { filter: drop-shadow(0 0 25px currentColor); }
+    }
+    .active-glow {
+      animation: glow 1.2s infinite;
+    }
+
+    /* Ocultar elementos para imprimir */
+    @media print {
+      .no-print {
+        display: none !important;
+      }
+      .print-only {
+        display: block !important;
+      }
+      body {
+        background: white !important;
+        color: black !important;
+      }
+      .printable-page {
+        page-break-after: always;
+        box-shadow: none !important;
+        border: 2px solid #333 !important;
+      }
+    }
+    .print-only {
+      display: none;
+    }
+  </style>
+</head>
+<body class="bg-sky-100 text-slate-800 font-sans min-h-screen flex flex-col selection:bg-orange-200">
+
+  <!-- Header con estética visual de las diapositivas -->
+  <header class="bg-gradient-to-r from-sky-600 via-cyan-600 to-sky-700 text-white shadow-lg border-b-4 border-orange-500 no-print sticky top-0 z-40">
+    <div class="max-w-6xl mx-auto px-4 py-3 flex flex-wrap items-center justify-between gap-4">
+      
+      <!-- Título principal -->
+      <div class="flex items-center space-x-3">
+        <div class="bg-cyan-900 border-2 border-white px-3 py-1.5 rounded-lg shadow-inner flex items-center">
+          <span class="font-pixel text-xs sm:text-sm tracking-wider text-cyan-200 uppercase">PATRONES</span>
+        </div>
+        <div>
+          <h1 class="font-display font-bold text-xl sm:text-2xl text-white tracking-wide flex items-center gap-2">
+            <span>Exploradores de Secuencias</span>
+            <span class="text-yellow-300 text-sm hidden md:inline-block">✦ Pensamiento Lógico</span>
+          </h1>
+        </div>
+      </div>
+
+      <!-- Barra de herramientas (Sonido, Puntuación, Pantalla completa) -->
+      <div class="flex items-center space-x-3">
+        <!-- Marcador de estrellas acumuladas -->
+        <div class="bg-white/10 backdrop-blur-sm border border-white/20 px-3 py-1.5 rounded-full flex items-center gap-2 text-yellow-300 font-bold text-sm">
+          <svg class="w-5 h-5 fill-yellow-400 animate-pulse" viewBox="0 0 24 24"><path d="M12 17.27L18.18 21l-1.64-7.03L22 9.24l-7.19-.61L12 2 9.19 8.63 2 9.24l5.46 4.73L5.82 21z"/></svg>
+          <span id="starScore">0</span> <span class="text-white font-normal text-xs">Puntos</span>
+        </div>
+
+        <!-- Botón Audio -->
+        <button id="soundToggleBtn" onclick="toggleAudio()" class="bg-sky-800 hover:bg-sky-900 border border-white/30 text-white p-2 rounded-xl transition shadow" title="Activar/Desactivar Sonidos">
+          <span id="soundIcon">🔊</span>
+        </button>
+      </div>
+
+    </div>
+
+    <!-- Menú de Pestañas de Navegación -->
+    <nav class="max-w-6xl mx-auto px-4 mt-1 flex space-x-2 overflow-x-auto pb-2 scrollbar-none">
+      <button onclick="switchTab('tab-teoria')" id="btn-tab-teoria" class="tab-btn active px-4 py-2 rounded-t-xl font-display font-semibold text-sm transition whitespace-nowrap bg-white text-sky-800 shadow-md">
+        💡 1. Aprender Conceptos
+      </button>
+      <button onclick="switchTab('tab-identificar')" id="btn-tab-identificar" class="tab-btn px-4 py-2 rounded-t-xl font-display font-semibold text-sm transition whitespace-nowrap bg-sky-800/60 hover:bg-sky-800 text-white">
+        🔍 2. Identificar el Patrón
+      </button>
+      <button onclick="switchTab('tab-completar')" id="btn-tab-completar" class="tab-btn px-4 py-2 rounded-t-xl font-display font-semibold text-sm transition whitespace-nowrap bg-sky-800/60 hover:bg-sky-800 text-white">
+        🧩 3. Completar Secuencia
+      </button>
+      <button onclick="switchTab('tab-predecir')" id="btn-tab-predecir" class="tab-btn px-4 py-2 rounded-t-xl font-display font-semibold text-sm transition whitespace-nowrap bg-sky-800/60 hover:bg-sky-800 text-white">
+        🔮 4. Misión Predicción
+      </button>
+      <button onclick="switchTab('tab-laboratorio')" id="btn-tab-laboratorio" class="tab-btn px-4 py-2 rounded-t-xl font-display font-semibold text-sm transition whitespace-nowrap bg-sky-800/60 hover:bg-sky-800 text-white">
+        🎨 5. Taller Libre
+      </button>
+      <button onclick="switchTab('tab-imprimir')" id="btn-tab-imprimir" class="tab-btn px-4 py-2 rounded-t-xl font-display font-semibold text-sm transition whitespace-nowrap bg-sky-800/60 hover:bg-sky-800 text-white">
+        🖨️ Fichas para Imprimir
+      </button>
+    </nav>
+  </header>
+
+  <!-- Contenedor Principal -->
+  <main class="max-w-6xl w-full mx-auto p-4 sm:p-6 flex-1">
+
+    <!-- ================================================================= -->
+    <!-- PESTAÑA 1: APRENDER CONCEPTOS (TEORÍA INTERACTIVA)                 -->
+    <!-- ================================================================= -->
+    <section id="tab-teoria" class="tab-content block space-y-8 animate-fadeIn">
+      
+      <!-- Banner introductorio -->
+      <div class="text-center max-w-3xl mx-auto mb-6">
+        <span class="bg-orange-100 text-orange-700 font-bold px-3 py-1 rounded-full text-xs uppercase tracking-wider border border-orange-300">Guía Didáctica Interactiva</span>
+        <h2 class="text-3xl sm:text-4xl font-display font-extrabold text-sky-950 mt-2">¿Qué son los Patrones y las Secuencias?</h2>
+        <p class="text-slate-600 mt-2 text-base sm:text-lg">Descubre la regla secreta que tienen las cosas que se repiten a nuestro alrededor.</p>
+      </div>
+
+      <!-- Tarjeta 1: PATRONES (Inspirada en Imagen 1) -->
+      <div class="bg-white rounded-3xl p-6 sm:p-8 border-4 border-sky-600 shadow-xl relative overflow-hidden retro-card">
+        <div class="flex items-center gap-3 border-b-4 border-orange-500 pb-4 mb-6">
+          <div class="bg-sky-700 text-white font-pixel text-xs sm:text-sm px-3 py-2 rounded-md shadow">
+            PATRONES
+          </div>
+          <h3 class="text-xl sm:text-2xl font-bold font-display text-sky-900">
+            La Regla o Molde Base
+          </h3>
+        </div>
+
+        <div class="bg-sky-50 border-l-8 border-orange-500 p-4 rounded-r-2xl mb-6 text-slate-800 text-base sm:text-lg font-medium leading-relaxed">
+          Los patrones son una <span class="bg-orange-500 text-white px-2 py-0.5 rounded font-bold">SERIE DE PASOS O ELEMENTOS</span> que se <span class="bg-orange-500 text-white px-2 py-0.5 rounded font-bold">REPITEN DE FORMA ORDENADA</span>.
+        </div>
+
+        <!-- Ejemplo interactivo del semáforo -->
+        <div class="bg-slate-50 border-2 border-slate-200 rounded-2xl p-6">
+          <div class="text-center font-semibold text-slate-700 mb-4 text-base sm:text-lg">
+            POR EJEMPLO, VEAMOS ESTA SECUENCIA: <span class="text-red-500 font-bold">ROJO</span>, <span class="text-amber-500 font-bold">AMARILLO</span> Y <span class="text-emerald-600 font-bold">VERDE</span>
+          </div>
+
+          <!-- Semáforo Interactivo con animación -->
+          <div class="flex flex-col md:flex-row items-center justify-around gap-6 py-4">
+            
+            <!-- Semáforo gráfico -->
+            <div class="bg-slate-900 p-4 rounded-3xl shadow-2xl border-4 border-slate-700 flex flex-col items-center space-y-4 w-32">
+              <div id="light-red" class="w-16 h-16 rounded-full bg-red-950 border-2 border-red-800 flex items-center justify-center transition-all duration-300">
+                <span class="text-white text-xs font-bold font-pixel hidden" id="text-red">STOP</span>
+              </div>
+              <div id="light-yellow" class="w-16 h-16 rounded-full bg-amber-950 border-2 border-amber-800 flex items-center justify-center transition-all duration-300">
+                <span class="text-slate-900 text-xs font-bold font-pixel hidden" id="text-yellow">!</span>
+              </div>
+              <div id="light-green" class="w-16 h-16 rounded-full bg-emerald-950 border-2 border-emerald-800 flex items-center justify-center transition-all duration-300">
+                <span class="text-white text-xs font-bold font-pixel hidden" id="text-green">GO</span>
+              </div>
+            </div>
+
+            <!-- Explicación del estado actual -->
+            <div class="flex-1 max-w-md bg-white p-5 rounded-2xl border-2 border-sky-200 shadow-sm space-y-3 text-center md:text-left">
+              <div class="text-xs uppercase font-bold text-sky-600 tracking-wider">Estado en el ciclo del patrón:</div>
+              <div id="traffic-state-text" class="text-2xl font-bold font-display text-sky-950">Paso 1: Rojo (Detenerse)</div>
+              <p id="traffic-state-desc" class="text-slate-600 text-sm">El semáforo siempre sigue el mismo orden exacto para que todos los conductores sepan qué hacer.</p>
+              
+              <div class="flex flex-wrap gap-2 pt-2 justify-center md:justify-start">
+                <button onclick="advanceTrafficLight()" class="bg-orange-500 hover:bg-orange-600 text-white font-bold px-4 py-2 rounded-xl text-sm transition shadow flex items-center gap-2">
+                  <span>Siguiente Paso</span> ➜
+                </button>
+                <button id="traffic-auto-btn" onclick="toggleAutoTraffic()" class="bg-sky-600 hover:bg-sky-700 text-white font-bold px-4 py-2 rounded-xl text-sm transition shadow flex items-center gap-2">
+                  <span>▶ Modo Automático</span>
+                </button>
+              </div>
+            </div>
+
+            <!-- Ciclo visual circular con flechas -->
+            <div class="flex items-center gap-3 bg-white p-4 rounded-2xl border border-slate-200">
+              <div class="text-center font-bold">
+                <div class="w-10 h-10 rounded-full bg-red-500 text-white flex items-center justify-center text-xs font-pixel mx-auto mb-1">1</div>
+                <span class="text-xs text-slate-600">Rojo</span>
+              </div>
+              <span class="text-orange-500 font-bold text-xl">➔</span>
+              <div class="text-center font-bold">
+                <div class="w-10 h-10 rounded-full bg-amber-400 text-slate-900 flex items-center justify-center text-xs font-pixel mx-auto mb-1">2</div>
+                <span class="text-xs text-slate-600">Amarillo</span>
+              </div>
+              <span class="text-orange-500 font-bold text-xl">➔</span>
+              <div class="text-center font-bold">
+                <div class="w-10 h-10 rounded-full bg-emerald-500 text-white flex items-center justify-center text-xs font-pixel mx-auto mb-1">3</div>
+                <span class="text-xs text-slate-600">Verde</span>
+              </div>
+              <span class="text-orange-500 font-bold text-xl">↻</span>
+            </div>
+
+          </div>
+        </div>
+      </div>
+
+      <!-- Tarjeta 2: SECUENCIAS (Inspirada en Imagen 2) -->
+      <div class="bg-white rounded-3xl p-6 sm:p-8 border-4 border-sky-600 shadow-xl relative overflow-hidden retro-card">
+        <div class="flex items-center gap-3 border-b-4 border-orange-500 pb-4 mb-6">
+          <div class="bg-sky-700 text-white font-pixel text-xs sm:text-sm px-3 py-2 rounded-md shadow">
+            SECUENCIAS
+          </div>
+          <h3 class="text-xl sm:text-2xl font-bold font-display text-sky-900">
+            La Cadena que se Repite
+          </h3>
+        </div>
+
+        <div class="bg-sky-50 border-l-8 border-orange-500 p-4 rounded-r-2xl mb-6 text-slate-800 text-base sm:text-lg font-medium leading-relaxed">
+          Una secuencia es la <span class="bg-orange-500 text-white px-2 py-0.5 rounded font-bold">REPETICIÓN DE UN PATRÓN</span>. Esto nos permite <span class="bg-orange-500 text-white px-2 py-0.5 rounded font-bold">PREDECIR</span> con total seguridad lo que va a ocurrir a continuación.
+        </div>
+
+        <!-- Demostrador visual interactivo de secuencia con cajas -->
+        <div class="bg-slate-50 border-2 border-slate-200 rounded-2xl p-6 space-y-6">
+          <div class="text-center font-bold text-slate-700 text-lg">
+            VEAMOS UN EJEMPLO GEOMÉTRICO
+          </div>
+
+          <!-- Contenedor exterior de la SECUENCIA -->
+          <div class="border-4 border-sky-600 bg-sky-50/50 p-4 rounded-2xl relative shadow-inner">
+            
+            <div class="grid grid-cols-1 md:grid-cols-3 gap-4">
+              <!-- Repetición 1 (El PATRÓN BASE) -->
+              <div class="bg-white border-4 border-yellow-400 p-4 rounded-xl flex items-center justify-around shadow-sm relative group hover:border-yellow-500 transition">
+                <span class="absolute -top-3 left-3 bg-yellow-400 text-slate-900 text-[10px] font-bold px-2 py-0.5 rounded-full uppercase">1ra Repetición</span>
+                <!-- Círculo rojo -->
+                <div class="w-14 h-14 sm:w-16 sm:h-16 rounded-full bg-rose-500 shadow-md transform group-hover:scale-105 transition"></div>
+                <!-- Triángulo morado -->
+                <div class="w-0 h-0 border-l-[28px] border-l-transparent border-r-[28px] border-r-transparent border-b-[52px] border-b-purple-600 shadow-md transform group-hover:scale-105 transition"></div>
+              </div>
+
+              <!-- Repetición 2 -->
+              <div class="bg-white border-2 border-slate-300 p-4 rounded-xl flex items-center justify-around shadow-sm relative">
+                <span class="absolute -top-3 left-3 bg-slate-200 text-slate-700 text-[10px] font-bold px-2 py-0.5 rounded-full uppercase">2da Repetición</span>
+                <div class="w-14 h-14 sm:w-16 sm:h-16 rounded-full bg-rose-500 shadow-md"></div>
+                <div class="w-0 h-0 border-l-[28px] border-l-transparent border-r-[28px] border-r-transparent border-b-[52px] border-b-purple-600 shadow-md"></div>
+              </div>
+
+              <!-- Repetición 3 -->
+              <div class="bg-white border-2 border-slate-300 p-4 rounded-xl flex items-center justify-around shadow-sm relative">
+                <span class="absolute -top-3 left-3 bg-slate-200 text-slate-700 text-[10px] font-bold px-2 py-0.5 rounded-full uppercase">3ra Repetición</span>
+                <div class="w-14 h-14 sm:w-16 sm:h-16 rounded-full bg-rose-500 shadow-md"></div>
+                <div class="w-0 h-0 border-l-[28px] border-l-transparent border-r-[28px] border-r-transparent border-b-[52px] border-b-purple-600 shadow-md"></div>
+              </div>
+            </div>
+
+            <!-- Etiquetas inferiores señalando Patrón vs Secuencia -->
+            <div class="flex justify-between items-center mt-6 pt-4 border-t border-sky-200 text-xs sm:text-sm font-bold">
+              <div class="bg-yellow-400 text-slate-900 px-4 py-1.5 rounded-lg shadow uppercase flex items-center gap-1">
+                <span>⬆ PATRÓN (Unidad mínima que se copia)</span>
+              </div>
+              <div class="bg-sky-700 text-white px-4 py-1.5 rounded-lg shadow uppercase flex items-center gap-1">
+                <span>SECUENCIA COMPLETA ➜</span>
+              </div>
+            </div>
+          </div>
+
+          <!-- Mini interactivo de predicción -->
+          <div class="bg-white p-4 rounded-xl border border-slate-200 flex flex-col sm:flex-row items-center justify-between gap-4">
+            <div class="text-sm text-slate-700 font-medium text-center sm:text-left">
+              🤔 <strong>Pregunta al estudiante:</strong> Si agregamos una 4ta repetición, ¿cuál figura irá primero?
+            </div>
+            <div class="flex gap-2">
+              <button onclick="checkTheoryAnswer(true)" class="bg-rose-100 hover:bg-rose-200 border-2 border-rose-400 text-rose-800 font-bold px-4 py-2 rounded-xl text-sm transition">
+                🔴 Círculo Rojo
+              </button>
+              <button onclick="checkTheoryAnswer(false)" class="bg-purple-100 hover:bg-purple-200 border-2 border-purple-400 text-purple-800 font-bold px-4 py-2 rounded-xl text-sm transition">
+                🔺 Triángulo Morado
+              </button>
+            </div>
+          </div>
+
+        </div>
+      </div>
+
+      <!-- Resumen en 3 pasos -->
+      <div class="grid grid-cols-1 md:grid-cols-3 gap-6">
+        <div class="bg-white p-6 rounded-2xl border-2 border-sky-300 text-center shadow-sm">
+          <div class="w-12 h-12 bg-sky-100 text-sky-700 rounded-full flex items-center justify-center font-bold font-display text-xl mx-auto mb-3">1</div>
+          <h4 class="font-bold text-sky-900 text-lg mb-1">Observa</h4>
+          <p class="text-slate-600 text-sm">Mira las figuras o elementos con atención de izquierda a derecha.</p>
+        </div>
+        <div class="bg-white p-6 rounded-2xl border-2 border-orange-300 text-center shadow-sm">
+          <div class="w-12 h-12 bg-orange-100 text-orange-700 rounded-full flex items-center justify-center font-bold font-display text-xl mx-auto mb-3">2</div>
+          <h4 class="font-bold text-orange-900 text-lg mb-1">Encuentra el Patrón</h4>
+          <p class="text-slate-600 text-sm">Descubre dónde termina la primera parte antes de que empiece a repetirse.</p>
+        </div>
+        <div class="bg-white p-6 rounded-2xl border-2 border-emerald-300 text-center shadow-sm">
+          <div class="w-12 h-12 bg-emerald-100 text-emerald-700 rounded-full flex items-center justify-center font-bold font-display text-xl mx-auto mb-3">3</div>
+          <h4 class="font-bold text-emerald-900 text-lg mb-1">Predice</h4>
+          <p class="text-slate-600 text-sm">Usa el patrón para adivinar qué elemento seguirá sin equivocarte.</p>
+        </div>
+      </div>
+
+    </section>
+
+    <!-- ================================================================= -->
+    <!-- PESTAÑA 2: IDENTIFICAR EL PATRÓN (EJERCICIO ESTILO DIAPOSITIVA 3) -->
+    <!-- ================================================================= -->
+    <section id="tab-identificar" class="tab-content hidden space-y-6">
+      
+      <div class="bg-white rounded-3xl p-6 sm:p-8 border-4 border-sky-600 shadow-xl retro-card">
+        
+        <!-- Encabezado del ejercicio -->
+        <div class="text-center border-b-4 border-orange-500 pb-4 mb-6">
+          <h2 class="text-3xl font-display font-extrabold text-sky-900">EJERCITAMOS: DESCUBRE EL PATRÓN</h2>
+          <p class="text-slate-600 mt-2 text-base">Identifica el bloque base (patrón) de cada secuencia. Presiona el botón para comprobar o ver la respuesta interactiva.</p>
+        </div>
+
+        <!-- Lista de Desafíos de Identificación -->
+        <div class="space-y-8" id="identify-exercise-container">
+          <!-- Desafío 1: Cuadrado Rojo, Cuadrado Rojo, Círculo Azul (AAB) -->
+          <div class="bg-slate-50 border-2 border-slate-200 rounded-2xl p-5 hover:border-sky-400 transition">
+            <div class="flex items-center justify-between mb-3">
+              <span class="bg-sky-600 text-white text-xs font-bold px-3 py-1 rounded-full uppercase">Secuencia 1</span>
+              <span class="text-xs text-slate-500 font-medium">Patrón tipo A-A-B</span>
+            </div>
+
+            <!-- Tira de la secuencia -->
+            <div class="bg-sky-200/60 p-4 rounded-xl flex items-center justify-start sm:justify-center gap-3 overflow-x-auto shadow-inner py-6">
+              <!-- Cuadrado rojo -->
+              <div class="w-12 h-12 bg-red-600 rounded-md shadow flex-shrink-0"></div>
+              <!-- Cuadrado rojo -->
+              <div class="w-12 h-12 bg-red-600 rounded-md shadow flex-shrink-0"></div>
+              <!-- Círculo azul -->
+              <div class="w-12 h-12 bg-sky-500 rounded-full shadow flex-shrink-0"></div>
+              <!-- Divisor sutil -->
+              <div class="h-10 w-0.5 bg-sky-300"></div>
+              <!-- Cuadrado rojo -->
+              <div class="w-12 h-12 bg-red-600 rounded-md shadow flex-shrink-0"></div>
+              <!-- Cuadrado rojo -->
+              <div class="w-12 h-12 bg-red-600 rounded-md shadow flex-shrink-0"></div>
+              <!-- Círculo azul -->
+              <div class="w-12 h-12 bg-sky-500 rounded-full shadow flex-shrink-0"></div>
+            </div>
+
+            <!-- Botón y panel de respuesta oculta -->
+            <div class="mt-4 flex flex-col sm:flex-row items-center justify-between gap-4">
+              <div class="text-sm font-semibold text-slate-700">
+                ¿Cuál es el patrón que se repite?
+              </div>
+              <button onclick="toggleAnswer('ans-1')" class="bg-yellow-400 hover:bg-yellow-500 text-slate-900 font-bold px-6 py-2.5 rounded-xl text-sm transition shadow flex items-center gap-2">
+                <span>👁 VER RESPUESTA</span>
+              </button>
+            </div>
+
+            <!-- Respuesta desplegable -->
+            <div id="ans-1" class="hidden mt-4 p-4 bg-yellow-50 border-2 border-yellow-300 rounded-xl animate-fadeIn">
+              <div class="flex flex-col md:flex-row items-center justify-between gap-4">
+                <div class="font-bold text-slate-800 text-sm text-center md:text-left">
+                  <div class="text-xs uppercase text-orange-600 mb-1">Patrón identificado:</div>
+                  CUADRADO ROJO, CUADRADO ROJO, CÍRCULO AZUL
+                </div>
+                <div class="flex items-center gap-2 bg-white px-4 py-2 rounded-lg border border-yellow-200 shadow-sm">
+                  <div class="w-8 h-8 bg-red-600 rounded-sm"></div>
+                  <div class="w-8 h-8 bg-red-600 rounded-sm"></div>
+                  <div class="w-8 h-8 bg-sky-500 rounded-full"></div>
+                </div>
+              </div>
+            </div>
+          </div>
+
+          <!-- Desafío 2: Círculo azul, Círculo verde, Círculo naranja (ABC) -->
+          <div class="bg-slate-50 border-2 border-slate-200 rounded-2xl p-5 hover:border-sky-400 transition">
+            <div class="flex items-center justify-between mb-3">
+              <span class="bg-emerald-600 text-white text-xs font-bold px-3 py-1 rounded-full uppercase">Secuencia 2</span>
+              <span class="text-xs text-slate-500 font-medium">Patrón tipo A-B-C</span>
+            </div>
+
+            <div class="bg-emerald-100 p-4 rounded-xl flex items-center justify-start sm:justify-center gap-3 overflow-x-auto shadow-inner py-6">
+              <!-- Círculo azul -->
+              <div class="w-12 h-12 bg-sky-500 rounded-full shadow flex-shrink-0"></div>
+              <!-- Círculo verde -->
+              <div class="w-12 h-12 bg-lime-500 rounded-full shadow flex-shrink-0"></div>
+              <!-- Círculo naranja -->
+              <div class="w-12 h-12 bg-orange-500 rounded-full shadow flex-shrink-0"></div>
+              <!-- Divisor -->
+              <div class="h-10 w-0.5 bg-emerald-300"></div>
+              <!-- Círculo azul -->
+              <div class="w-12 h-12 bg-sky-500 rounded-full shadow flex-shrink-0"></div>
+              <!-- Círculo verde -->
+              <div class="w-12 h-12 bg-lime-500 rounded-full shadow flex-shrink-0"></div>
+              <!-- Círculo naranja -->
+              <div class="w-12 h-12 bg-orange-500 rounded-full shadow flex-shrink-0"></div>
+            </div>
+
+            <div class="mt-4 flex flex-col sm:flex-row items-center justify-between gap-4">
+              <div class="text-sm font-semibold text-slate-700">
+                ¿Cuál es el patrón que se repite?
+              </div>
+              <button onclick="toggleAnswer('ans-2')" class="bg-yellow-400 hover:bg-yellow-500 text-slate-900 font-bold px-6 py-2.5 rounded-xl text-sm transition shadow flex items-center gap-2">
+                <span>👁 VER RESPUESTA</span>
+              </button>
+            </div>
+
+            <div id="ans-2" class="hidden mt-4 p-4 bg-yellow-50 border-2 border-yellow-300 rounded-xl animate-fadeIn">
+              <div class="flex flex-col md:flex-row items-center justify-between gap-4">
+                <div class="font-bold text-slate-800 text-sm text-center md:text-left">
+                  <div class="text-xs uppercase text-orange-600 mb-1">Patrón identificado:</div>
+                  CÍRCULO AZUL, CÍRCULO VERDE, CÍRCULO NARANJA
+                </div>
+                <div class="flex items-center gap-2 bg-white px-4 py-2 rounded-lg border border-yellow-200 shadow-sm">
+                  <div class="w-8 h-8 bg-sky-500 rounded-full"></div>
+                  <div class="w-8 h-8 bg-lime-500 rounded-full"></div>
+                  <div class="w-8 h-8 bg-orange-500 rounded-full"></div>
+                </div>
+              </div>
+            </div>
+          </div>
+
+          <!-- Desafío 3: Triángulo amarillo, Círculo naranja, Cuadrado rojo (Imagen 3 Fila 3) -->
+          <div class="bg-slate-50 border-2 border-slate-200 rounded-2xl p-5 hover:border-sky-400 transition">
+            <div class="flex items-center justify-between mb-3">
+              <span class="bg-amber-600 text-white text-xs font-bold px-3 py-1 rounded-full uppercase">Secuencia 3</span>
+              <span class="text-xs text-slate-500 font-medium">Patrón tipo A-B-C</span>
+            </div>
+
+            <div class="bg-amber-100 p-4 rounded-xl flex items-center justify-start sm:justify-center gap-4 overflow-x-auto shadow-inner py-6">
+              <!-- Triángulo amarillo -->
+              <div class="w-0 h-0 border-l-[24px] border-l-transparent border-r-[24px] border-r-transparent border-b-[44px] border-b-amber-500 flex-shrink-0"></div>
+              <!-- Círculo naranja -->
+              <div class="w-11 h-11 bg-orange-500 rounded-full shadow flex-shrink-0"></div>
+              <!-- Cuadrado rojo -->
+              <div class="w-11 h-11 bg-red-600 rounded-sm shadow flex-shrink-0"></div>
+              <!-- Divisor -->
+              <div class="h-10 w-0.5 bg-amber-300"></div>
+              <!-- Triángulo amarillo -->
+              <div class="w-0 h-0 border-l-[24px] border-l-transparent border-r-[24px] border-r-transparent border-b-[44px] border-b-amber-500 flex-shrink-0"></div>
+              <!-- Círculo naranja -->
+              <div class="w-11 h-11 bg-orange-500 rounded-full shadow flex-shrink-0"></div>
+              <!-- Cuadrado rojo -->
+              <div class="w-11 h-11 bg-red-600 rounded-sm shadow flex-shrink-0"></div>
+            </div>
+
+            <div class="mt-4 flex flex-col sm:flex-row items-center justify-between gap-4">
+              <div class="text-sm font-semibold text-slate-700">
+                ¿Cuál es el patrón que se repite?
+              </div>
+              <button onclick="toggleAnswer('ans-3')" class="bg-yellow-400 hover:bg-yellow-500 text-slate-900 font-bold px-6 py-2.5 rounded-xl text-sm transition shadow flex items-center gap-2">
+                <span>👁 VER RESPUESTA</span>
+              </button>
+            </div>
+
+            <div id="ans-3" class="hidden mt-4 p-4 bg-yellow-50 border-2 border-yellow-300 rounded-xl animate-fadeIn">
+              <div class="flex flex-col md:flex-row items-center justify-between gap-4">
+                <div class="font-bold text-slate-800 text-sm text-center md:text-left">
+                  <div class="text-xs uppercase text-orange-600 mb-1">Patrón identificado:</div>
+                  TRIÁNGULO AMARILLO, CÍRCULO NARANJA, CUADRADO ROJO
+                </div>
+                <div class="flex items-center gap-3 bg-white px-4 py-2 rounded-lg border border-yellow-200 shadow-sm">
+                  <div class="w-0 h-0 border-l-[14px] border-l-transparent border-r-[14px] border-r-transparent border-b-[26px] border-b-amber-500"></div>
+                  <div class="w-7 h-7 bg-orange-500 rounded-full"></div>
+                  <div class="w-7 h-7 bg-red-600 rounded-sm"></div>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+
+      </div>
+
+    </section>
+
+    <!-- ================================================================= -->
+    <!-- PESTAÑA 3: COMPLETAR LA SECUENCIA (INTERACTIVO ESTILO DIAPOSITIVA 4)-->
+    <!-- ================================================================= -->
+    <section id="tab-completar" class="tab-content hidden space-y-6">
+      
+      <div class="bg-white rounded-3xl p-6 sm:p-8 border-4 border-sky-600 shadow-xl retro-card">
+        
+        <div class="text-center border-b-4 border-orange-500 pb-4 mb-6">
+          <h2 class="text-3xl font-display font-extrabold text-sky-900">EJERCITAMOS: COMPLETA LA SECUENCIA</h2>
+          <p class="text-slate-600 mt-2 text-base">Arrastra las formas o <strong>haz clic en una figura y luego en el hueco vacío</strong> para completar la serie. ¡Luego presiona "VERIFICAR"!</p>
+        </div>
+
+        <!-- Selector de Nivel -->
+        <div class="flex justify-center gap-2 mb-6">
+          <button onclick="loadCompletionLevel(1)" id="lvl-btn-1" class="lvl-btn bg-sky-700 text-white font-bold px-4 py-2 rounded-xl text-sm shadow">
+            Nivel 1 (Diapositiva Original)
+          </button>
+          <button onclick="loadCompletionLevel(2)" id="lvl-btn-2" class="lvl-btn bg-slate-200 hover:bg-slate-300 text-slate-700 font-bold px-4 py-2 rounded-xl text-sm transition">
+            Nivel 2 (Frutas y Emojis)
+          </button>
+          <button onclick="loadCompletionLevel(3)" id="lvl-btn-3" class="lvl-btn bg-slate-200 hover:bg-slate-300 text-slate-700 font-bold px-4 py-2 rounded-xl text-sm transition">
+            Nivel 3 (Colores Dobles AABB)
+          </button>
+        </div>
+
+        <!-- BANDEJA DE FIGURAS DISPONIBLES (PALETTE) -->
+        <div class="bg-sky-50 border-2 border-dashed border-sky-300 rounded-2xl p-5 mb-8 text-center">
+          <div class="text-xs uppercase font-bold text-sky-800 tracking-wider mb-3">
+            🎨 Banco de Figuras (Toca o arrastra para colocar)
+          </div>
+          <div id="pieces-bank" class="flex flex-wrap items-center justify-center gap-4 sm:gap-6 min-h-[80px]">
+            <!-- Se llena dinámicamente según el nivel -->
+          </div>
+        </div>
+
+        <!-- CONTENEDOR DE LA SECUENCIA CON ESPACIOS VACÍOS -->
+        <div class="bg-white border-4 border-sky-600 p-6 rounded-2xl shadow-lg mb-8">
+          <div id="sequence-slots" class="flex flex-wrap items-center justify-center gap-3 sm:gap-4 py-4 min-h-[110px]">
+            <!-- Slots generados por JavaScript -->
+          </div>
+        </div>
+
+        <!-- BOTONES DE ACCIÓN: VERIFICAR Y REINICIAR -->
+        <div class="flex flex-wrap items-center justify-center gap-4">
+          <button onclick="checkSequenceCompletion()" class="bg-emerald-500 hover:bg-emerald-600 text-white font-extrabold px-8 py-3.5 rounded-2xl text-lg shadow-lg hover:shadow-xl transition transform active:scale-95 flex items-center gap-2">
+            <span>✓ VERIFICAR RESPUESTA</span>
+          </button>
+          <button onclick="resetCurrentLevel()" class="bg-slate-200 hover:bg-slate-300 text-slate-700 font-bold px-6 py-3.5 rounded-2xl text-sm transition">
+            🔄 Limpiar Espacios
+          </button>
+        </div>
+
+        <!-- FEEDBACK MESSAGE -->
+        <div id="completion-feedback" class="mt-6 hidden p-4 rounded-2xl text-center font-bold text-base transition"></div>
+
+      </div>
+
+    </section>
+
+    <!-- ================================================================= -->
+    <!-- PESTAÑA 4: MISIÓN PREDICCIÓN (PENSAMIENTO COMPUTACIONAL)          -->
+    <!-- ================================================================= -->
+    <section id="tab-predecir" class="tab-content hidden space-y-6">
+      <div class="bg-white rounded-3xl p-6 sm:p-8 border-4 border-sky-600 shadow-xl retro-card">
+        
+        <div class="text-center border-b-4 border-orange-500 pb-4 mb-6">
+          <span class="bg-purple-100 text-purple-700 font-bold px-3 py-1 rounded-full text-xs uppercase tracking-wider">Desafío Detective de Patrones</span>
+          <h2 class="text-3xl font-display font-extrabold text-sky-900 mt-2">Misión: Adivina el Futuro de la Secuencia</h2>
+          <p class="text-slate-600 mt-2 text-base">Un patrón nos permite saber qué elemento estará en una posición lejana sin tener que dibujarlo todo.</p>
+        </div>
+
+        <!-- Tarjeta del Desafío de Predicción -->
+        <div class="max-w-2xl mx-auto bg-slate-50 border-2 border-slate-200 rounded-2xl p-6 space-y-6 text-center">
+          
+          <div class="text-sm font-bold text-sky-800 uppercase">
+            Mira la siguiente secuencia de 3 elementos repetitivos:
+          </div>
+
+          <!-- Secuencia con números de posición -->
+          <div class="bg-white p-4 rounded-xl border border-slate-300 flex items-center justify-center gap-3 overflow-x-auto shadow-sm">
+            <div class="text-center">
+              <div class="w-12 h-12 bg-red-500 rounded-full flex items-center justify-center text-white text-xl shadow">🔴</div>
+              <span class="text-[11px] font-bold text-slate-400">#1</span>
+            </div>
+            <div class="text-center">
+              <div class="w-12 h-12 bg-blue-500 rounded-md flex items-center justify-center text-white text-xl shadow">🟦</div>
+              <span class="text-[11px] font-bold text-slate-400">#2</span>
+            </div>
+            <div class="text-center">
+              <div class="w-12 h-12 bg-yellow-400 rounded-full flex items-center justify-center text-white text-xl shadow">⭐</div>
+              <span class="text-[11px] font-bold text-slate-400">#3</span>
+            </div>
+            <span class="text-slate-300 font-bold">|</span>
+            <div class="text-center">
+              <div class="w-12 h-12 bg-red-500 rounded-full flex items-center justify-center text-white text-xl shadow">🔴</div>
+              <span class="text-[11px] font-bold text-slate-400">#4</span>
+            </div>
+            <div class="text-center">
+              <div class="w-12 h-12 bg-blue-500 rounded-md flex items-center justify-center text-white text-xl shadow">🟦</div>
+              <span class="text-[11px] font-bold text-slate-400">#5</span>
+            </div>
+            <div class="text-center">
+              <div class="w-12 h-12 bg-yellow-400 rounded-full flex items-center justify-center text-white text-xl shadow">⭐</div>
+              <span class="text-[11px] font-bold text-slate-400">#6</span>
+            </div>
+            <div class="text-slate-400 font-bold text-lg">...</div>
+          </div>
+
+          <div class="bg-purple-50 border border-purple-200 p-4 rounded-xl text-purple-900 font-bold text-lg">
+            🔍 Pregunta: ¿Qué figura estará en la posición <span class="bg-purple-600 text-white px-2 py-0.5 rounded">#10</span>?
+          </div>
+
+          <!-- Opciones de respuesta -->
+          <div class="grid grid-cols-3 gap-4 pt-2">
+            <button onclick="checkPredictionAnswer('red')" class="p-4 bg-white hover:bg-rose-50 border-2 border-slate-300 hover:border-red-500 rounded-2xl transition flex flex-col items-center gap-2 shadow-sm">
+              <span class="text-3xl">🔴</span>
+              <span class="font-bold text-slate-800 text-sm">Círculo Rojo</span>
+            </button>
+            <button onclick="checkPredictionAnswer('blue')" class="p-4 bg-white hover:bg-blue-50 border-2 border-slate-300 hover:border-blue-500 rounded-2xl transition flex flex-col items-center gap-2 shadow-sm">
+              <span class="text-3xl">🟦</span>
+              <span class="font-bold text-slate-800 text-sm">Cuadrado Azul</span>
+            </button>
+            <button onclick="checkPredictionAnswer('star')" class="p-4 bg-white hover:bg-amber-50 border-2 border-slate-300 hover:border-amber-500 rounded-2xl transition flex flex-col items-center gap-2 shadow-sm">
+              <span class="text-3xl">⭐</span>
+              <span class="font-bold text-slate-800 text-sm">Estrella</span>
+            </button>
+          </div>
+
+          <div id="prediction-feedback" class="hidden p-4 rounded-xl text-sm font-medium text-left"></div>
+
+          <!-- Truco Matemático Explicativo -->
+          <div class="bg-sky-50 p-4 rounded-xl border border-sky-200 text-left text-xs sm:text-sm text-sky-950 space-y-1">
+            <div class="font-bold flex items-center gap-1 text-sky-800">
+              💡 <span>El truco del Pensamiento Computacional:</span>
+            </div>
+            <p>El patrón tiene <strong>3 pasos</strong>. Para saber la posición 10, podemos contar de 3 en 3: (3, 6, 9 son estrellas ⭐). ¡Por lo tanto, la posición 10 recomienza el ciclo con el <strong>Círculo Rojo 🔴</strong>!</p>
+          </div>
+
+        </div>
+      </div>
+    </section>
+
+    <!-- ================================================================= -->
+    <!-- PESTAÑA 5: TALLER LIBRE / LABORATORIO DE PATRONES                -->
+    <!-- ================================================================= -->
+    <section id="tab-laboratorio" class="tab-content hidden space-y-6">
+      <div class="bg-white rounded-3xl p-6 sm:p-8 border-4 border-sky-600 shadow-xl retro-card">
+        
+        <div class="text-center border-b-4 border-orange-500 pb-4 mb-6">
+          <span class="bg-emerald-100 text-emerald-800 font-bold px-3 py-1 rounded-full text-xs uppercase tracking-wider">Modo Creativo</span>
+          <h2 class="text-3xl font-display font-extrabold text-sky-900 mt-2">Laboratorio: Diseña tu Propio Patrón</h2>
+          <p class="text-slate-600 mt-2 text-base">Crea una regla de 2 a 4 figuras y observa cómo la máquina de secuencias la expande al infinito.</p>
+        </div>
+
+        <!-- Paleta de emojis y formas para construir -->
+        <div class="bg-slate-50 p-5 rounded-2xl border-2 border-slate-200 mb-6">
+          <div class="text-xs uppercase font-bold text-slate-600 text-center mb-3">Toca los elementos para añadirlos a tu patrón base (máximo 4):</div>
+          <div class="flex flex-wrap justify-center gap-3">
+            <button onclick="addCustomItem('🚀', 'Cohete')" class="p-3 bg-white border-2 border-slate-300 hover:border-sky-500 rounded-xl text-2xl shadow-sm transition hover:scale-110">🚀</button>
+            <button onclick="addCustomItem('⭐', 'Estrella')" class="p-3 bg-white border-2 border-slate-300 hover:border-sky-500 rounded-xl text-2xl shadow-sm transition hover:scale-110">⭐</button>
+            <button onclick="addCustomItem('🐱', 'Gato')" class="p-3 bg-white border-2 border-slate-300 hover:border-sky-500 rounded-xl text-2xl shadow-sm transition hover:scale-110">🐱</button>
+            <button onclick="addCustomItem('🍎', 'Manzana')" class="p-3 bg-white border-2 border-slate-300 hover:border-sky-500 rounded-xl text-2xl shadow-sm transition hover:scale-110">🍎</button>
+            <button onclick="addCustomItem('🔷', 'Rombo Azul')" class="p-3 bg-white border-2 border-slate-300 hover:border-sky-500 rounded-xl text-2xl shadow-sm transition hover:scale-110">🔷</button>
+            <button onclick="addCustomItem('🔺', 'Triángulo')" class="p-3 bg-white border-2 border-slate-300 hover:border-sky-500 rounded-xl text-2xl shadow-sm transition hover:scale-110">🔺</button>
+            <button onclick="addCustomItem('🟢', 'Círculo Verde')" class="p-3 bg-white border-2 border-slate-300 hover:border-sky-500 rounded-xl text-2xl shadow-sm transition hover:scale-110">🟢</button>
+            <button onclick="addCustomItem('💛', 'Corazón')" class="p-3 bg-white border-2 border-slate-300 hover:border-sky-500 rounded-xl text-2xl shadow-sm transition hover:scale-110">💛</button>
+          </div>
+        </div>
+
+        <!-- TU PATRÓN BASE -->
+        <div class="border-2 border-yellow-400 bg-yellow-50/60 p-6 rounded-2xl mb-6">
+          <div class="flex items-center justify-between mb-4">
+            <div class="font-bold text-slate-800 text-sm uppercase flex items-center gap-2">
+              <span class="bg-yellow-400 text-slate-900 px-2 py-0.5 rounded text-xs">Tu Patrón</span>
+              <span>(Unidad que se va a clonar)</span>
+            </div>
+            <button onclick="clearCustomPattern()" class="text-xs bg-red-100 hover:bg-red-200 text-red-700 font-bold px-3 py-1 rounded-lg transition">
+              Borrar Todo
+            </button>
+          </div>
+
+          <div id="custom-pattern-display" class="flex items-center justify-center gap-4 min-h-[70px] bg-white rounded-xl border-2 border-dashed border-yellow-300 p-3">
+            <span class="text-slate-400 text-sm font-medium">Toca los elementos de arriba para armar tu patrón...</span>
+          </div>
+        </div>
+
+        <!-- SECUENCIA GENERADA AUTOMÁTICAMENTE -->
+        <div class="border-4 border-sky-600 bg-sky-50/50 p-6 rounded-2xl">
+          <div class="font-bold text-sky-900 text-sm uppercase mb-4 flex items-center gap-2">
+            <span class="bg-sky-600 text-white px-2 py-0.5 rounded text-xs">Secuencia Resultante</span>
+            <span>(La máquina la repite 4 veces seguidas)</span>
+          </div>
+
+          <div id="custom-sequence-generated" class="flex flex-wrap items-center justify-center gap-2 sm:gap-3 min-h-[90px] bg-white rounded-xl border border-sky-200 p-4">
+            <span class="text-slate-400 text-sm italic">Crea al menos 2 elementos en tu patrón para ver la magia...</span>
+          </div>
+        </div>
+
+      </div>
+    </section>
+
+    <!-- ================================================================= -->
+    <!-- PESTAÑA 6: FICHAS PARA IMPRIMIR (MATERIAL PARA EL AULA)           -->
+    <!-- ================================================================= -->
+    <section id="tab-imprimir" class="tab-content hidden space-y-6">
+      
+      <div class="bg-white rounded-3xl p-6 sm:p-8 border-4 border-sky-600 shadow-xl no-print retro-card">
+        <div class="flex flex-col sm:flex-row items-center justify-between gap-4 border-b-4 border-orange-500 pb-4 mb-6">
+          <div>
+            <h2 class="text-2xl sm:text-3xl font-display font-extrabold text-sky-900">Ficha de Trabajo para Imprimir</h2>
+            <p class="text-slate-600 text-sm mt-1">Genera una guía física en PDF para tus alumnos con ejercicios de patrones.</p>
+          </div>
+          <button onclick="window.print()" class="bg-orange-500 hover:bg-orange-600 text-white font-bold px-6 py-3 rounded-2xl shadow-lg transition flex items-center gap-2">
+            <span>🖨️ IMPRIMIR GUÍA (PDF)</span>
+          </button>
+        </div>
+      </div>
+
+      <!-- VISTA IMPRIMIBLE -->
+      <div class="printable-page bg-white p-8 rounded-2xl border border-slate-300 text-slate-800">
+        <!-- Encabezado escolar -->
+        <div class="border-b-2 border-slate-800 pb-4 mb-6 flex justify-between items-end">
+          <div>
+            <h1 class="text-2xl font-bold uppercase tracking-wide">Taller Práctico: Patrones y Secuencias</h1>
+            <p class="text-xs text-slate-600">Pensamiento Computacional y Lógico - Primaria</p>
+          </div>
+          <div class="text-right text-xs space-y-1">
+            <div><strong>Nombre:</strong> ____________________________________</div>
+            <div><strong>Fecha:</strong> _______________ <strong>Curso:</strong> _________</div>
+          </div>
+        </div>
+
+        <!-- Instrucción 1 -->
+        <div class="mb-8">
+          <h3 class="font-bold text-sm bg-slate-100 p-2 rounded border-l-4 border-slate-800 mb-3">
+            1. Encierra en un círculo el PATRÓN (la parte que se repite) en cada secuencia:
+          </h3>
+          <div class="space-y-4 text-xs font-mono">
+            <div class="p-3 border rounded-lg flex items-center justify-between">
+              <span>a) 🔴 🔵 🔴 🔵 🔴 🔵 🔴 🔵</span>
+              <span class="text-slate-400">Patrón: [ _______ ]</span>
+            </div>
+            <div class="p-3 border rounded-lg flex items-center justify-between">
+              <span>b) 🔺 🔺 🟩 🔺 🔺 🟩 🔺 🔺 🟩</span>
+              <span class="text-slate-400">Patrón: [ _______ ]</span>
+            </div>
+            <div class="p-3 border rounded-lg flex items-center justify-between">
+              <span>c) ⭐ 🌙 ☀️ ⭐ 🌙 ☀️ ⭐ 🌙 ☀️</span>
+              <span class="text-slate-400">Patrón: [ _______ ]</span>
+            </div>
+          </div>
+        </div>
+
+        <!-- Instrucción 2 -->
+        <div class="mb-8">
+          <h3 class="font-bold text-sm bg-slate-100 p-2 rounded border-l-4 border-slate-800 mb-3">
+            2. Dibuja las figuras faltantes sobre las líneas para completar la secuencia:
+          </h3>
+          <div class="space-y-4 text-sm">
+            <div class="p-3 border rounded-lg flex items-center gap-3">
+              <span>a) 🟥 🟦 🟨 &nbsp;&nbsp;|&nbsp;&nbsp; 🟥 ____ 🟨 &nbsp;&nbsp;|&nbsp;&nbsp; ____ 🟦 🟨</span>
+            </div>
+            <div class="p-3 border rounded-lg flex items-center gap-3">
+              <span>b) ⚪ ⚪ ⚫ &nbsp;&nbsp;|&nbsp;&nbsp; ⚪ ⚪ ____ &nbsp;&nbsp;|&nbsp;&nbsp; ____ ⚪ ⚫</span>
+            </div>
+            <div class="p-3 border rounded-lg flex items-center gap-3">
+              <span>c) 🔷 🔶 🔷 &nbsp;&nbsp;|&nbsp;&nbsp; 🔶 ____ 🔶 &nbsp;&nbsp;|&nbsp;&nbsp; ____ 🔶 🔷</span>
+            </div>
+          </div>
+        </div>
+
+        <!-- Instrucción 3: Pregunta de predicción -->
+        <div>
+          <h3 class="font-bold text-sm bg-slate-100 p-2 rounded border-l-4 border-slate-800 mb-3">
+            3. Desafío de Pensamiento: Si el patrón es [ 🐶 , 🐱 ], ¿qué animal estará en la posición número 7?
+          </h3>
+          <div class="p-4 border rounded-lg text-xs space-y-2">
+            <div>Dibuja o escribe tu respuesta: ________________________________________________</div>
+            <div>¿Cómo lo descubriste sin dibujar todas las figuras?: ______________________________</div>
+          </div>
+        </div>
+
+      </div>
+
+    </section>
+
+  </main>
+
+  <!-- Footer con créditos didácticos -->
+  <footer class="bg-sky-900 text-sky-200 text-xs py-4 text-center border-t-2 border-sky-800 no-print mt-8">
+    <p>Material Pedagógico Interactivo de <strong>Patrones y Secuencias</strong> • Diseñado para el aula y aprendizaje activo.</p>
+  </footer>
+
+  <!-- ================================================================= -->
+  <!-- JAVASCRIPT: LÓGICA INTERACTIVA, AUDIO WEB Y SISTEMA DE JUEGO       -->
+  <!-- ================================================================= -->
+  <script>
+    // --- GESTIÓN DE AUDIO CON WEB AUDIO API (Sintetizador sin dependencias externas) ---
+    let audioCtx = null;
+    let soundEnabled = true;
+
+    function initAudio() {
+      if (!audioCtx) {
+        audioCtx = new (window.AudioContext || window.webkitAudioContext)();
+      }
+    }
+
+    function playTone(freq, type = 'sine', duration = 0.15) {
+      if (!soundEnabled) return;
+      try {
+        initAudio();
+        const osc = audioCtx.createOscillator();
+        const gain = audioCtx.createGain();
+        osc.type = type;
+        osc.frequency.setValueAtTime(freq, audioCtx.currentTime);
+        gain.gain.setValueAtTime(0.1, audioCtx.currentTime);
+        gain.gain.exponentialRampToValueAtTime(0.001, audioCtx.currentTime + duration);
+        osc.connect(gain);
+        gain.connect(audioCtx.destination);
+        osc.start();
+        osc.stop(audioCtx.currentTime + duration);
+      } catch(e){}
+    }
+
+    function playSuccessSound() {
+      if (!soundEnabled) return;
+      playTone(523.25, 'triangle', 0.1);
+      setTimeout(() => playTone(659.25, 'triangle', 0.1), 100);
+      setTimeout(() => playTone(783.99, 'triangle', 0.25), 200);
+    }
+
+    function playErrorSound() {
+      if (!soundEnabled) return;
+      playTone(220, 'sawtooth', 0.15);
+      setTimeout(() => playTone(180, 'sawtooth', 0.2), 120);
+    }
+
+    function playPopSound() {
+      if (!soundEnabled) return;
+      playTone(440, 'sine', 0.08);
+    }
+
+    function toggleAudio() {
+      soundEnabled = !soundEnabled;
+      const icon = document.getElementById('soundIcon');
+      icon.textContent = soundEnabled ? '🔊' : '🔇';
+    }
+
+    // --- PUNTUACIÓN GLOBAL ---
+    let totalScore = 0;
+    function addPoints(pts) {
+      totalScore += pts;
+      document.getElementById('starScore').textContent = totalScore;
+    }
+
+    // --- NAVEGACIÓN ENTRE PESTAÑAS ---
+    function switchTab(tabId) {
+      playPopSound();
+      document.querySelectorAll('.tab-content').forEach(el => el.classList.add('hidden'));
+      document.querySelectorAll('.tab-btn').forEach(el => {
+        el.classList.remove('active', 'bg-white', 'text-sky-800', 'shadow-md');
+        el.classList.add('bg-sky-800/60', 'text-white');
+      });
+
+      const selectedContent = document.getElementById(tabId);
+      if (selectedContent) selectedContent.classList.remove('hidden');
+
+      const activeBtn = document.getElementById(`btn-${tabId}`);
+      if (activeBtn) {
+        activeBtn.classList.add('active', 'bg-white', 'text-sky-800', 'shadow-md');
+        activeBtn.classList.remove('bg-sky-800/60', 'text-white');
+      }
+    }
+
+    // --- LÓGICA DEL SEMÁFORO INTERACTIVO (PESTAÑA 1) ---
+    let trafficStep = 0; // 0 = Rojo, 1 = Amarillo, 2 = Verde
+    let autoTrafficInterval = null;
+
+    const trafficStates = [
+      {
+        name: "Paso 1: Rojo (Detenerse)",
+        desc: "El semáforo se enciende en ROJO. Los autos se detienen y los peatones cruzan con seguridad.",
+        active: "red",
+        btnColor: "bg-red-500"
+      },
+      {
+        name: "Paso 2: Amarillo (Precaución)",
+        desc: "El semáforo cambia a AMARILLO. Nos avisa con anticipación que el color va a cambiar pronto.",
+        active: "yellow",
+        btnColor: "bg-amber-400"
+      },
+      {
+        name: "Paso 3: Verde (Avanzar)",
+        desc: "El semáforo cambia a VERDE. Los autos avanzan ordenadamente.",
+        active: "green",
+        btnColor: "bg-emerald-500"
+      }
+    ];
+
+    function updateTrafficDisplay() {
+      const red = document.getElementById('light-red');
+      const yellow = document.getElementById('light-yellow');
+      const green = document.getElementById('light-green');
+      const tRed = document.getElementById('text-red');
+      const tYellow = document.getElementById('text-yellow');
+      const tGreen = document.getElementById('text-green');
+
+      // Reset
+      red.className = "w-16 h-16 rounded-full bg-red-950 border-2 border-red-800 flex items-center justify-center transition-all duration-300";
+      yellow.className = "w-16 h-16 rounded-full bg-amber-950 border-2 border-amber-800 flex items-center justify-center transition-all duration-300";
+      green.className = "w-16 h-16 rounded-full bg-emerald-950 border-2 border-emerald-800 flex items-center justify-center transition-all duration-300";
+      tRed.classList.add('hidden');
+      tYellow.classList.add('hidden');
+      tGreen.classList.add('hidden');
+
+      const current = trafficStates[trafficStep];
+      if (current.active === 'red') {
+        red.className = "w-16 h-16 rounded-full bg-red-500 border-2 border-white flex items-center justify-center shadow-lg active-glow transition-all duration-300";
+        tRed.classList.remove('hidden');
+      } else if (current.active === 'yellow') {
+        yellow.className = "w-16 h-16 rounded-full bg-amber-400 border-2 border-white flex items-center justify-center shadow-lg active-glow transition-all duration-300";
+        tYellow.classList.remove('hidden');
+      } else if (current.active === 'green') {
+        green.className = "w-16 h-16 rounded-full bg-emerald-500 border-2 border-white flex items-center justify-center shadow-lg active-glow transition-all duration-300";
+        tGreen.classList.remove('hidden');
+      }
+
+      document.getElementById('traffic-state-text').textContent = current.name;
+      document.getElementById('traffic-state-desc').textContent = current.desc;
+    }
+
+    function advanceTrafficLight() {
+      playPopSound();
+      trafficStep = (trafficStep + 1) % 3;
+      updateTrafficDisplay();
+    }
+
+    function toggleAutoTraffic() {
+      const btn = document.getElementById('traffic-auto-btn');
+      if (autoTrafficInterval) {
+        clearInterval(autoTrafficInterval);
+        autoTrafficInterval = null;
+        btn.textContent = "▶ Modo Automático";
+        btn.classList.remove('bg-red-600');
+        btn.classList.add('bg-sky-600');
+      } else {
+        advanceTrafficLight();
+        autoTrafficInterval = setInterval(advanceTrafficLight, 1800);
+        btn.textContent = "⏸ Pausar Ciclo";
+        btn.classList.remove('bg-sky-600');
+        btn.classList.add('bg-red-600');
+      }
+    }
+
+    function checkTheoryAnswer(isCorrect) {
+      if (isCorrect) {
+        playSuccessSound();
+        addPoints(5);
+        showCustomAlert("¡Excelente razonamiento!", "Como el patrón es [Círculo, Triángulo], la 4ta repetición siempre empieza con el Círculo Rojo.", "success");
+      } else {
+        playErrorSound();
+        showCustomAlert("¡Casi!", "Recuerda que cada grupo nuevo debe comenzar con la primera figura del patrón: el Círculo Rojo.", "info");
+      }
+    }
+
+    // --- REVELAR RESPUESTAS EN PESTAÑA 2 ---
+    function toggleAnswer(id) {
+      playPopSound();
+      const el = document.getElementById(id);
+      if (el) {
+        el.classList.toggle('hidden');
+      }
+    }
+
+    // --- LÓGICA DE COMPLETAR SECUENCIA (PESTAÑA 3 - ESTILO DIAPOSITIVA 4) ---
+    // Niveles configurados con formas SVG/CSS exactas
+    const completionLevels = {
+      1: {
+        // Estilo exacto Diapositiva 4: Triángulo, Estrella, Rombo (con distractores Cuadrado y Círculo)
+        patternName: "Triángulo, Estrella, Rombo",
+        bankItems: [
+          { id: 'tri', name: 'Triángulo', type: 'svg-tri', color: 'text-slate-600' },
+          { id: 'star', name: 'Estrella', type: 'svg-star', color: 'text-slate-600' },
+          { id: 'diamond', name: 'Rombo', type: 'svg-diamond', color: 'text-slate-600' },
+          { id: 'square', name: 'Cuadrado', type: 'svg-square', color: 'text-slate-600' },
+          { id: 'circle', name: 'Círculo', type: 'svg-circle', color: 'text-slate-600' }
+        ],
+        sequence: [
+          { id: 'tri', correct: true, locked: true },
+          { id: 'star', correct: true, locked: true },
+          { id: 'diamond', correct: true, locked: true },
+          { id: 'tri', correct: false, locked: false, expected: 'tri' },     // Espacio vacío 1
+          { id: 'star', correct: true, locked: true },
+          { id: 'diamond', correct: true, locked: true },
+          { id: 'tri', correct: true, locked: true },
+          { id: 'star', correct: true, locked: true },
+          { id: 'diamond', correct: false, locked: false, expected: 'diamond' } // Espacio vacío 2
+        ]
+      },
+      2: {
+        // Frutas
+        patternName: "Manzana, Plátano, Uva",
+        bankItems: [
+          { id: 'apple', name: 'Manzana', emoji: '🍎' },
+          { id: 'banana', name: 'Plátano', emoji: '🍌' },
+          { id: 'grape', name: 'Uva', emoji: '🍇' },
+          { id: 'orange', name: 'Naranja', emoji: '🍊' }
+        ],
+        sequence: [
+          { id: 'apple', emoji: '🍎', locked: true },
+          { id: 'banana', emoji: '🍌', locked: true },
+          { id: 'grape', emoji: '🍇', locked: true },
+          { id: 'apple', locked: false, expected: 'apple' },
+          { id: 'banana', emoji: '🍌', locked: true },
+          { id: 'grape', locked: false, expected: 'grape' },
+          { id: 'apple', emoji: '🍎', locked: true },
+          { id: 'banana', emoji: '🍌', locked: true },
+          { id: 'grape', emoji: '🍇', locked: true }
+        ]
+      },
+      3: {
+        // Dobles AABB: Azul, Azul, Rojo, Rojo
+        patternName: "Azul, Azul, Rojo, Rojo",
+        bankItems: [
+          { id: 'blue-sq', name: 'Azul', emoji: '🟦' },
+          { id: 'red-sq', name: 'Rojo', emoji: '🟥' },
+          { id: 'yellow-sq', name: 'Amarillo', emoji: '🟨' }
+        ],
+        sequence: [
+          { id: 'blue-sq', emoji: '🟦', locked: true },
+          { id: 'blue-sq', emoji: '🟦', locked: true },
+          { id: 'red-sq', emoji: '🟥', locked: true },
+          { id: 'red-sq', emoji: '🟥', locked: true },
+          { id: 'blue-sq', locked: false, expected: 'blue-sq' },
+          { id: 'blue-sq', emoji: '🟦', locked: true },
+          { id: 'red-sq', emoji: '🟥', locked: true },
+          { id: 'red-sq', locked: false, expected: 'red-sq' }
+        ]
+      }
+    };
+
+    let currentLevelNum = 1;
+    let selectedBankItem = null;
+    let slotPlacements = {};
+
+    function renderShapeSVG(type) {
+      if (type === 'svg-tri') {
+        return `<svg class="w-10 h-10 fill-slate-700 pointer-events-none" viewBox="0 0 24 24"><path d="M12 2L1 21h22L12 2z"/></svg>`;
+      }
+      if (type === 'svg-star') {
+        return `<svg class="w-10 h-10 fill-slate-700 pointer-events-none" viewBox="0 0 24 24"><path d="M12 17.27L18.18 21l-1.64-7.03L22 9.24l-7.19-.61L12 2 9.19 8.63 2 9.24l5.46 4.73L5.82 21z"/></svg>`;
+      }
+      if (type === 'svg-diamond') {
+        return `<svg class="w-10 h-10 fill-slate-700 pointer-events-none" viewBox="0 0 24 24"><path d="M12 2L2 12l10 10 10-10L12 2z"/></svg>`;
+      }
+      if (type === 'svg-square') {
+        return `<svg class="w-10 h-10 fill-slate-700 pointer-events-none" viewBox="0 0 24 24"><rect x="3" y="3" width="18" height="18" rx="2"/></svg>`;
+      }
+      if (type === 'svg-circle') {
+        return `<svg class="w-10 h-10 fill-slate-700 pointer-events-none" viewBox="0 0 24 24"><circle cx="12" cy="12" r="10"/></svg>`;
+      }
+      return '';
+    }
+
+    function loadCompletionLevel(levelNum) {
+      currentLevelNum = levelNum;
+      selectedBankItem = null;
+      slotPlacements = {};
+
+      // Actualizar estilo botones nivel
+      document.querySelectorAll('.lvl-btn').forEach((btn, idx) => {
+        if (idx + 1 === levelNum) {
+          btn.className = "lvl-btn bg-sky-700 text-white font-bold px-4 py-2 rounded-xl text-sm shadow";
+        } else {
+          btn.className = "lvl-btn bg-slate-200 hover:bg-slate-300 text-slate-700 font-bold px-4 py-2 rounded-xl text-sm transition";
+        }
+      });
+
+      const config = completionLevels[levelNum];
+      const bankContainer = document.getElementById('pieces-bank');
+      const slotsContainer = document.getElementById('sequence-slots');
+      const feedback = document.getElementById('completion-feedback');
+      feedback.className = "mt-6 hidden p-4 rounded-2xl text-center font-bold text-base transition";
+
+      // 1. Renderizar Banco de Fichas
+      bankContainer.innerHTML = '';
+      config.bankItems.forEach(item => {
+        const itemBtn = document.createElement('div');
+        itemBtn.className = "cursor-pointer p-3 bg-white border-2 border-slate-300 hover:border-orange-500 rounded-2xl shadow hover:shadow-md transition transform hover:-translate-y-1 flex items-center justify-center min-w-[64px] min-h-[64px] active:scale-95";
+        itemBtn.setAttribute('data-id', item.id);
+        
+        if (item.type) {
+          itemBtn.innerHTML = renderShapeSVG(item.type);
+        } else {
+          itemBtn.innerHTML = `<span class="text-3xl pointer-events-none">${item.emoji}</span>`;
+        }
+
+        itemBtn.onclick = () => selectPaletteItem(item, itemBtn);
+        bankContainer.appendChild(itemBtn);
+      });
+
+      // 2. Renderizar Slots de la Secuencia
+      slotsContainer.innerHTML = '';
+      config.sequence.forEach((slot, index) => {
+        const slotEl = document.createElement('div');
+        
+        if (slot.locked) {
+          // Elemento fijo ya puesto
+          slotEl.className = "w-14 h-14 sm:w-16 sm:h-16 bg-slate-100 border-2 border-slate-300 rounded-2xl flex items-center justify-center shadow-inner";
+          if (slot.type) {
+            slotEl.innerHTML = renderShapeSVG(slot.type);
+          } else if (slot.id && config.bankItems.find(b => b.id === slot.id)?.type) {
+            slotEl.innerHTML = renderShapeSVG(config.bankItems.find(b => b.id === slot.id).type);
+          } else {
+            slotEl.innerHTML = `<span class="text-3xl">${slot.emoji}</span>`;
+          }
+        } else {
+          // Espacio vacío para rellenar
+          slotEl.className = "w-14 h-14 sm:w-16 sm:h-16 bg-yellow-50 border-2 border-dashed border-orange-400 rounded-2xl flex items-center justify-center cursor-pointer hover:bg-orange-100 transition shadow-inner relative";
+          slotEl.id = `slot-${index}`;
+          slotEl.innerHTML = `<span class="text-slate-400 font-bold text-xs tracking-widest uppercase">¿ ?</span>`;
+          slotEl.onclick = () => placeItemInSlot(index, slotEl);
+        }
+
+        slotsContainer.appendChild(slotEl);
+      });
+    }
+
+    function selectPaletteItem(item, element) {
+      playPopSound();
+      selectedBankItem = item;
+      document.querySelectorAll('#pieces-bank > div').forEach(el => {
+        el.classList.remove('ring-4', 'ring-orange-500', 'bg-orange-50');
+      });
+      element.classList.add('ring-4', 'ring-orange-500', 'bg-orange-50');
+    }
+
+    function placeItemInSlot(slotIndex, slotElement) {
+      if (!selectedBankItem) {
+        showCustomAlert("Selecciona una figura primero", "Haz clic en una de las figuras del Banco arriba y luego toca este espacio.", "info");
+        return;
+      }
+      playPopSound();
+      slotPlacements[slotIndex] = selectedBankItem.id;
+
+      if (selectedBankItem.type) {
+        slotElement.innerHTML = renderShapeSVG(selectedBankItem.type);
+      } else {
+        slotElement.innerHTML = `<span class="text-3xl">${selectedBankItem.emoji}</span>`;
+      }
+      slotElement.classList.remove('bg-yellow-50', 'border-dashed');
+      slotElement.classList.add('bg-white', 'border-solid', 'border-sky-500');
+    }
+
+    function checkSequenceCompletion() {
+      const config = completionLevels[currentLevelNum];
+      const feedback = document.getElementById('completion-feedback');
+      let allCorrect = true;
+      let emptyFound = false;
+
+      config.sequence.forEach((slot, index) => {
+        if (!slot.locked) {
+          const placed = slotPlacements[index];
+          if (!placed) {
+            emptyFound = true;
+          } else if (placed !== slot.expected) {
+            allCorrect = false;
+          }
+        }
+      });
+
+      if (emptyFound) {
+        playErrorSound();
+        feedback.className = "mt-6 p-4 rounded-2xl text-center font-bold text-base bg-amber-100 text-amber-900 border-2 border-amber-300 block";
+        feedback.innerHTML = "⚠️ ¡Aún te faltan espacios por completar! Llena todos los huecos antes de verificar.";
+        return;
+      }
+
+      if (allCorrect) {
+        playSuccessSound();
+        addPoints(15);
+        feedback.className = "mt-6 p-4 rounded-2xl text-center font-bold text-base bg-emerald-100 text-emerald-900 border-2 border-emerald-400 block animate-bounce";
+        feedback.innerHTML = `🎉 ¡EXCELENTE! Has identificado correctamente el patrón [<strong>${config.patternName}</strong>] y completado la serie.`;
+      } else {
+        playErrorSound();
+        feedback.className = "mt-6 p-4 rounded-2xl text-center font-bold text-base bg-rose-100 text-rose-900 border-2 border-rose-300 block";
+        feedback.innerHTML = "❌ Algunas figuras no coinciden con el orden del patrón. Revisa dónde empieza a repetirse la secuencia e inténtalo de nuevo.";
+      }
+    }
+
+    function resetCurrentLevel() {
+      playPopSound();
+      loadCompletionLevel(currentLevelNum);
+    }
+
+    // --- PREDICCIÓN (PESTAÑA 4) ---
+    function checkPredictionAnswer(ans) {
+      const fb = document.getElementById('prediction-feedback');
+      fb.classList.remove('hidden');
+
+      if (ans === 'red') {
+        playSuccessSound();
+        addPoints(20);
+        fb.className = "p-4 rounded-xl text-sm font-medium bg-emerald-100 text-emerald-900 border border-emerald-300 block";
+        fb.innerHTML = "🎉 <strong>¡Correcto!</strong> En la posición 10 estará el <strong>Círculo Rojo 🔴</strong>. Como el ciclo es de 3 figuras, los múltiplos de 3 (3, 6, 9) son Estrellas, por lo que el siguiente (10) reinicia con el Círculo.";
+      } else {
+        playErrorSound();
+        fb.className = "p-4 rounded-xl text-sm font-medium bg-rose-100 text-rose-900 border border-rose-300 block";
+        fb.innerHTML = "❌ No es esa figura. Pista: Cuenta el patrón de 3 en 3: 1, 2, 3 | 4, 5, 6 | 7, 8, 9... ¿Cuál le toca al número 10?";
+      }
+    }
+
+    // --- LABORATORIO LIBRE (PESTAÑA 5) ---
+    let customPattern = [];
+
+    function addCustomItem(emoji, name) {
+      if (customPattern.length >= 4) {
+        showCustomAlert("Patrón Completo", "Un patrón de 2, 3 o 4 elementos es ideal para aprender.", "info");
+        return;
+      }
+      playPopSound();
+      customPattern.push(emoji);
+      renderCustomLab();
+    }
+
+    function clearCustomPattern() {
+      playPopSound();
+      customPattern = [];
+      renderCustomLab();
+    }
+
+    function renderCustomLab() {
+      const patternBox = document.getElementById('custom-pattern-display');
+      const sequenceBox = document.getElementById('custom-sequence-generated');
+
+      if (customPattern.length === 0) {
+        patternBox.innerHTML = `<span class="text-slate-400 text-sm font-medium">Toca los elementos de arriba para armar tu patrón...</span>`;
+        sequenceBox.innerHTML = `<span class="text-slate-400 text-sm italic">Crea al menos 2 elementos en tu patrón para ver la magia...</span>`;
+        return;
+      }
+
+      // Render Patrón Base
+      patternBox.innerHTML = customPattern.map((item, idx) => `
+        <div class="flex flex-col items-center bg-yellow-100 border border-yellow-400 p-2 rounded-xl">
+          <span class="text-2xl">${item}</span>
+          <span class="text-[9px] font-bold text-yellow-800">Paso ${idx + 1}</span>
+        </div>
+      `).join('<span class="text-orange-400 font-bold text-lg">➔</span>');
+
+      // Render Secuencia Repetida 4 Veces
+      let fullSeqHTML = '';
+      for (let rep = 1; rep <= 4; rep++) {
+        fullSeqHTML += `
+          <div class="border-2 border-sky-400 bg-sky-100/60 p-2 rounded-xl flex items-center gap-1.5 shadow-sm">
+            ${customPattern.map(item => `<span class="text-2xl">${item}</span>`).join('')}
+          </div>
+        `;
+      }
+      sequenceBox.innerHTML = fullSeqHTML;
+    }
+
+    // --- MODAL / ALERTA CUSTOM (Sin usar alert() nativo) ---
+    function showCustomAlert(title, message, type = 'info') {
+      const existing = document.getElementById('custom-modal');
+      if (existing) existing.remove();
+
+      const modal = document.createElement('div');
+      modal.id = 'custom-modal';
+      modal.className = "fixed inset-0 bg-slate-900/60 backdrop-blur-sm z-50 flex items-center justify-center p-4 animate-fadeIn";
+      
+      const borderColor = type === 'success' ? 'border-emerald-500' : 'border-sky-500';
+      const icon = type === 'success' ? '🌟' : '💡';
+
+      modal.innerHTML = `
+        <div class="bg-white rounded-3xl border-4 ${borderColor} max-w-md w-full p-6 shadow-2xl text-center space-y-4 transform scale-100 transition">
+          <div class="text-4xl">${icon}</div>
+          <h3 class="text-2xl font-display font-bold text-sky-950">${title}</h3>
+          <p class="text-slate-600 text-sm sm:text-base leading-relaxed">${message}</p>
+          <button onclick="document.getElementById('custom-modal').remove()" class="w-full bg-sky-600 hover:bg-sky-700 text-white font-bold py-3 rounded-xl transition shadow">
+            ¡Entendido!
+          </button>
+        </div>
+      `;
+      document.body.appendChild(modal);
+    }
+
+    // --- INICIALIZACIÓN AL CARGAR LA PÁGINA ---
+    window.addEventListener('DOMContentLoaded', () => {
+      updateTrafficDisplay();
+      loadCompletionLevel(1);
+    });
+  </script>
+</body>
+</html>

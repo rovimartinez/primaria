@@ -250,28 +250,58 @@
             🚂 Ejemplo: El Patrón Base es [ Círculo Rojo 🔴 + Triángulo Morado 🔺 ]
           </div>
 
-          <div class="bg-white p-4 sm:p-6 rounded-2xl border-2 border-sky-300 flex flex-wrap items-center justify-center gap-3 shadow-inner">
+          <div class="bg-white p-4 sm:p-6 rounded-2xl border-2 border-sky-300 flex flex-wrap items-center justify-center gap-3 sm:gap-4 shadow-inner">
             <!-- Bloque 1 (Patrón) -->
-            <div class="border-4 border-yellow-400 bg-yellow-50 p-3 rounded-2xl flex items-center gap-3 relative shadow">
+            <div class="border-4 border-yellow-400 bg-yellow-50 p-3 sm:p-4 rounded-2xl flex items-center gap-4 relative shadow">
               <span class="absolute -top-3 left-2 bg-yellow-400 text-slate-900 text-[10px] font-bold px-2 py-0.5 rounded-full uppercase">¡Este es el Patrón!</span>
-              <div class="w-12 h-12 rounded-full bg-rose-500 shadow flex items-center justify-center text-white text-xl font-bold">🔴</div>
-              <div class="w-12 h-12 flex items-center justify-center text-3xl">🔺</div>
+              <div class="flex flex-col items-center">
+                <svg class="w-12 h-12 drop-shadow-sm" viewBox="0 0 50 50">
+                  <circle cx="25" cy="25" r="21" fill="#ef4444" stroke="#b91c1c" stroke-width="2.5" />
+                </svg>
+                <span class="text-[10px] font-bold text-slate-600 mt-0.5">Círculo</span>
+              </div>
+              <div class="flex flex-col items-center">
+                <svg class="w-12 h-12 drop-shadow-sm" viewBox="0 0 50 50">
+                  <polygon points="25,5 45,43 5,43" fill="#a855f7" stroke="#7e22ce" stroke-width="2.5" stroke-linejoin="round" />
+                </svg>
+                <span class="text-[10px] font-bold text-slate-600 mt-0.5">Triángulo</span>
+              </div>
             </div>
 
             <span class="text-2xl font-bold text-sky-400">➜</span>
 
             <!-- Bloque 2 -->
-            <div class="border-2 border-slate-300 bg-slate-50 p-3 rounded-2xl flex items-center gap-3 shadow-sm">
-              <div class="w-12 h-12 rounded-full bg-rose-500 shadow flex items-center justify-center text-white text-xl font-bold">🔴</div>
-              <div class="w-12 h-12 flex items-center justify-center text-3xl">🔺</div>
+            <div class="border-2 border-slate-300 bg-slate-50 p-3 sm:p-4 rounded-2xl flex items-center gap-4 shadow-sm">
+              <div class="flex flex-col items-center">
+                <svg class="w-12 h-12 drop-shadow-sm" viewBox="0 0 50 50">
+                  <circle cx="25" cy="25" r="21" fill="#ef4444" stroke="#b91c1c" stroke-width="2.5" />
+                </svg>
+                <span class="text-[10px] font-bold text-slate-600 mt-0.5">Círculo</span>
+              </div>
+              <div class="flex flex-col items-center">
+                <svg class="w-12 h-12 drop-shadow-sm" viewBox="0 0 50 50">
+                  <polygon points="25,5 45,43 5,43" fill="#a855f7" stroke="#7e22ce" stroke-width="2.5" stroke-linejoin="round" />
+                </svg>
+                <span class="text-[10px] font-bold text-slate-600 mt-0.5">Triángulo</span>
+              </div>
             </div>
 
             <span class="text-2xl font-bold text-sky-400">➜</span>
 
             <!-- Bloque 3 -->
-            <div class="border-2 border-slate-300 bg-slate-50 p-3 rounded-2xl flex items-center gap-3 shadow-sm">
-              <div class="w-12 h-12 rounded-full bg-rose-500 shadow flex items-center justify-center text-white text-xl font-bold">🔴</div>
-              <div class="w-12 h-12 flex items-center justify-center text-3xl">🔺</div>
+            <div class="border-2 border-slate-300 bg-slate-50 p-3 sm:p-4 rounded-2xl flex items-center gap-4 shadow-sm">
+              <div class="flex flex-col items-center">
+                <svg class="w-12 h-12 drop-shadow-sm" viewBox="0 0 50 50">
+                  <circle cx="25" cy="25" r="21" fill="#ef4444" stroke="#b91c1c" stroke-width="2.5" />
+                </svg>
+                <span class="text-[10px] font-bold text-slate-600 mt-0.5">Círculo</span>
+              </div>
+              <div class="flex flex-col items-center">
+                <svg class="w-12 h-12 drop-shadow-sm" viewBox="0 0 50 50">
+                  <polygon points="25,5 45,43 5,43" fill="#a855f7" stroke="#7e22ce" stroke-width="2.5" stroke-linejoin="round" />
+                </svg>
+                <span class="text-[10px] font-bold text-slate-600 mt-0.5">Triángulo</span>
+              </div>
             </div>
           </div>
 
@@ -434,8 +464,8 @@
             </div>
           </div>
 
-          <!-- Opciones de Respuesta -->
-          <div id="quiz-options-container" class="grid grid-cols-1 sm:grid-cols-2 gap-3 sm:gap-4">
+          <!-- Opciones de Respuesta en 3 columnas (misma fila en escritorio y tablet) -->
+          <div id="quiz-options-container" class="grid grid-cols-1 md:grid-cols-3 gap-3 sm:gap-4">
             <!-- Botones de opciones inyectados con JavaScript -->
           </div>
 
@@ -1116,10 +1146,10 @@
 
       q.options.forEach((opt, idx) => {
         const btn = document.createElement('button');
-        btn.className = "quiz-opt-btn p-4 rounded-2xl border-2 border-slate-200 bg-white hover:border-sky-400 hover:bg-sky-50 text-left font-display font-bold text-base sm:text-lg text-slate-800 transition flex items-center justify-between shadow-sm active:scale-98";
+        btn.className = "quiz-opt-btn p-3.5 sm:p-4 rounded-2xl border-2 border-slate-200 bg-white hover:border-sky-400 hover:bg-sky-50 text-left font-display font-bold text-sm sm:text-base text-slate-800 transition flex items-center justify-between shadow-sm active:scale-98";
         btn.innerHTML = `
           <span>${opt.text}</span>
-          <span class="opt-indicator text-slate-300">⚪</span>
+          <span class="opt-indicator text-slate-300 ml-2 text-xs sm:text-sm">⚪</span>
         `;
 
         btn.onclick = () => selectQuizOption(opt, btn);

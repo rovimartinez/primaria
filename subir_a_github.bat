@@ -43,10 +43,10 @@ git branch -M main
 
 :: Configurar el remoto
 echo [5/6] Conectando con el repositorio remoto...
-git remote add origin https://github.com/rovimartinez/plataformaplus.git 2>nul
+git remote add origin https://github.com/rovimartinez/primaria.git 2>nul
 if %errorlevel% neq 0 (
     echo (El remoto ya existia, actualizando URL...)
-    git remote set-url origin https://github.com/rovimartinez/plataformaplus.git
+    git remote set-url origin https://github.com/rovimartinez/primaria.git
 )
 
 :: Subir a GitHub

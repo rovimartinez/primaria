@@ -2,6 +2,9 @@
 setlocal enabledelayedexpansion
 title Sincronizador de GitHub - Aula Plus
 
+:: Ir al directorio exacto del proyecto primaria
+cd /d "C:\Users\Elizabeth\Desktop\primaria"
+
 echo ==========================================
 echo    SINCRONIZANDO CON GITHUB
 echo ==========================================

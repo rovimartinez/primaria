@@ -2,8 +2,8 @@
 title Aula Plus - Servidor Local
 color 0a
 
-:: Ir al directorio exacto donde esta este script
-cd /d "%~dp0"
+:: Ir al directorio exacto del proyecto primaria
+cd /d "C:\Users\Elizabeth\Desktop\primaria"
 
 echo ==========================================
 echo    INICIANDO PLATAFORMA PLUS (LOCALHOST)

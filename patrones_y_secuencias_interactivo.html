@@ -923,7 +923,11 @@
         bankContainer.appendChild(el);
       });
 
-      // 2. Renderizar Locomotora (Delante a la izquierda, tal como el boceto)
+      // 2. Renderizar Locomotora y Vagones (Delante a la izquierda, tal como el boceto)
+      const slotsContainer = document.getElementById('train-slots-container');
+      if (!slotsContainer) return;
+      slotsContainer.innerHTML = '';
+
       const locomotive = document.createElement('div');
       locomotive.className = "flex-shrink-0 flex items-center justify-center";
       locomotive.innerHTML = `

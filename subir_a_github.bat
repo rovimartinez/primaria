@@ -1,6 +1,6 @@
 @echo off
 setlocal enabledelayedexpansion
-title Sincronizador de GitHub - Aula Plus
+title Sincronizador de GitHub - Mundo Toby
 
 :: Ir al directorio exacto del proyecto primaria
 cd /d "C:\Users\Elizabeth\Desktop\primaria"

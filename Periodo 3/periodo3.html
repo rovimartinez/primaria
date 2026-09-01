@@ -1,0 +1,269 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Resúmenes y Actividades | Periodo 3</title>
+    <link rel="icon" type="image/x-icon" href="../assets/Icono.ico">
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Outfit:wght@300;400;600;800&family=Plus+Jakarta+Sans:wght@400;500;700&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="../css/style.css">
+    <style>
+        .back-nav-btn {
+            display: inline-flex;
+            align-items: center;
+            gap: 0.5rem;
+            padding: 0.6rem 1.2rem;
+            border-radius: 12px;
+            background: rgba(255, 255, 255, 0.85);
+            backdrop-filter: blur(8px);
+            border: 1px solid rgba(226, 232, 240, 0.8);
+            color: #0f172a;
+            font-weight: 700;
+            font-size: 0.9rem;
+            text-decoration: none;
+            transition: all 0.2s ease;
+            box-shadow: 0 2px 4px rgba(0, 0, 0, 0.04);
+            margin-bottom: 1.5rem;
+        }
+        .back-nav-btn:hover {
+            background: #ffffff;
+            color: #10b981;
+            transform: translateX(-4px);
+            box-shadow: 0 4px 12px rgba(16, 185, 129, 0.15);
+        }
+        .bg-grad-p3 {
+            background: linear-gradient(135deg, #059669 0%, #10b981 50%, #06b6d4 100%);
+        }
+        .bg-grad-locked {
+            background: linear-gradient(135deg, #94a3b8 0%, #cbd5e1 100%);
+        }
+        .card-active-p3 {
+            border: 2px solid #10b981 !important;
+            box-shadow: 0 10px 25px -5px rgba(16, 185, 129, 0.25) !important;
+            position: relative;
+        }
+        .pulse-badge {
+            display: inline-block;
+            animation: pulseGlow 2s infinite;
+        }
+        @keyframes pulseGlow {
+            0%, 100% { transform: scale(1); }
+            50% { transform: scale(1.05); }
+        }
+        .action-chip {
+            margin-top: 0.8rem;
+            display: inline-block;
+            background: #ecfdf5;
+            color: #047857;
+            font-weight: 700;
+            font-size: 0.75rem;
+            padding: 0.35rem 0.8rem;
+            border-radius: 9999px;
+            border: 1px solid #a7f3d0;
+        }
+        #custom-alert {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: rgba(15, 23, 42, 0.6);
+            backdrop-filter: blur(4px);
+            display: none;
+            align-items: center;
+            justify-content: center;
+            z-index: 1000;
+        }
+        #custom-alert .modal-content {
+            background: white;
+            border-radius: 1.5rem;
+            padding: 2rem;
+            max-width: 400px;
+            text-align: center;
+            box-shadow: 0 20px 25px -5px rgba(0, 0, 0, 0.2);
+            animation: popIn 0.3s cubic-bezier(0.175, 0.885, 0.32, 1.275);
+        }
+        @keyframes popIn {
+            0% { transform: scale(0.9); opacity: 0; }
+            100% { transform: scale(1); opacity: 1; }
+        }
+        .modal-btn {
+            background: #10b981;
+            color: white;
+            border: none;
+            padding: 0.6rem 1.5rem;
+            border-radius: 0.75rem;
+            font-weight: 700;
+            cursor: pointer;
+            margin-top: 1.2rem;
+            width: 100%;
+            transition: all 0.2s;
+        }
+        .modal-btn:hover {
+            background: #059669;
+        }
+    </style>
+</head>
+<body>
+    <div class="background-blobs">
+        <div class="blob blob-1" style="background: #a7f3d0;"></div>
+        <div class="blob blob-2" style="background: #bae6fd;"></div>
+        <div class="blob blob-3" style="background: #fed7aa;"></div>
+    </div>
+
+    <!-- Modal de Alerta -->
+    <div id="custom-alert">
+        <div class="modal-content">
+            <h2 style="margin-bottom: 0.5rem; font-family: 'Outfit'; color: #0f172a;">Próximamente</h2>
+            <p id="alert-message" style="color: #64748b; font-size: 0.9rem;"></p>
+            <button class="modal-btn" onclick="closeAlert()">Entendido</button>
+        </div>
+    </div>
+
+    <div class="app-container">
+        <header class="main-header">
+            <div>
+                <a href="../index.html" class="back-nav-btn">
+                    <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round">
+                        <line x1="19" y1="12" x2="5" y2="12"></line>
+                        <polyline points="12 19 5 12 12 5"></polyline>
+                    </svg>
+                    Volver a Periodos
+                </a>
+                <div class="title-text">
+                    <h1 style="color: #065f46;">Periodo 3</h1>
+                    <p>Resúmenes y Actividades de Computación</p>
+                </div>
+            </div>
+            
+            <div class="search-box">
+                <input type="text" placeholder="Buscar por grado o tema..." id="searchInput">
+            </div>
+        </header>
+
+        <main class="content-grid" style="margin-top: 2rem;">
+            <div class="cards-container" id="cardsContainer">
+                
+                <!-- Grado 2° - DESTACADO CON PATRONES Y SECUENCIAS -->
+                <div class="summary-card card-active-p3" onclick="window.location.href='clasesP3/02.html'">
+                    <div class="card-image bg-grad-p3">
+                        <span class="subject-tag pulse-badge" style="background: #ecfdf5; color: #065f46; font-weight: 800;">
+                            ✨ Habilitado
+                        </span>
+                        <div class="card-icon">🧩</div>
+                    </div>
+                    <div class="card-info">
+                        <h3 style="color: #065f46;">Grado 2°</h3>
+                        <p><strong>Patrones y Secuencias</strong>: Aprende pensamiento lógico, algoritmos, completa secuencias y retos interactivos.</p>
+                        <div class="action-chip">🚀 Entrar a la actividad</div>
+                    </div>
+                </div>
+
+                <!-- Grado 1° -->
+                <div class="summary-card" style="opacity: 0.85;" onclick="customAlert('El contenido para Grado 1° en el Periodo 3 se publicará próximamente.')">
+                    <div class="card-image bg-grad-locked">
+                        <span class="subject-tag">Primaria</span>
+                        <div class="card-icon">🎓</div>
+                    </div>
+                    <div class="card-info">
+                        <h3>Grado 1°</h3>
+                        <p>Próximamente actividades interactivas para Grado 1°.</p>
+                        <div class="action-chip" style="background: #f1f5f9; color: #64748b; border-color: #e2e8f0;">🔒 Próximamente</div>
+                    </div>
+                </div>
+
+                <!-- Grado 3° -->
+                <div class="summary-card" style="opacity: 0.85;" onclick="customAlert('El contenido para Grado 3° en el Periodo 3 se publicará próximamente.')">
+                    <div class="card-image bg-grad-locked">
+                        <span class="subject-tag">Primaria</span>
+                        <div class="card-icon">💻</div>
+                    </div>
+                    <div class="card-info">
+                        <h3>Grado 3°</h3>
+                        <p>Próximamente actividades interactivas para Grado 3°.</p>
+                        <div class="action-chip" style="background: #f1f5f9; color: #64748b; border-color: #e2e8f0;">🔒 Próximamente</div>
+                    </div>
+                </div>
+
+                <!-- Grado 9° -->
+                <div class="summary-card" style="opacity: 0.85;" onclick="customAlert('El contenido para Grado 9° en el Periodo 3 se publicará próximamente.')">
+                    <div class="card-image bg-grad-locked">
+                        <span class="subject-tag">Media</span>
+                        <div class="card-icon">💻</div>
+                    </div>
+                    <div class="card-info">
+                        <h3>Grado 9°</h3>
+                        <p>Próximamente proyectos y talleres para Grado 9°.</p>
+                        <div class="action-chip" style="background: #f1f5f9; color: #64748b; border-color: #e2e8f0;">🔒 Próximamente</div>
+                    </div>
+                </div>
+
+                <!-- Grado 10° -->
+                <div class="summary-card" style="opacity: 0.85;" onclick="customAlert('El contenido para Grado 10° en el Periodo 3 se publicará próximamente.')">
+                    <div class="card-image bg-grad-locked">
+                        <span class="subject-tag">Media</span>
+                        <div class="card-icon">💻</div>
+                    </div>
+                    <div class="card-info">
+                        <h3>Grado 10°</h3>
+                        <p>Próximamente proyectos y talleres para Grado 10°.</p>
+                        <div class="action-chip" style="background: #f1f5f9; color: #64748b; border-color: #e2e8f0;">🔒 Próximamente</div>
+                    </div>
+                </div>
+
+                <!-- Grado 11° -->
+                <div class="summary-card" style="opacity: 0.85;" onclick="customAlert('El contenido para Grado 11° en el Periodo 3 se publicará próximamente.')">
+                    <div class="card-image bg-grad-locked">
+                        <span class="subject-tag">Media</span>
+                        <div class="card-icon">💻</div>
+                    </div>
+                    <div class="card-info">
+                        <h3>Grado 11°</h3>
+                        <p>Próximamente proyectos y talleres para Grado 11°.</p>
+                        <div class="action-chip" style="background: #f1f5f9; color: #64748b; border-color: #e2e8f0;">🔒 Próximamente</div>
+                    </div>
+                </div>
+
+            </div>
+        </main>
+
+        <footer class="main-footer">
+            <p>Aula Plus | profesor: Ronny Martinez</p>
+        </footer>
+    </div>
+
+    <script>
+        function customAlert(message) {
+            document.getElementById('alert-message').textContent = message;
+            document.getElementById('custom-alert').style.display = 'flex';
+        }
+
+        function closeAlert() {
+            document.getElementById('custom-alert').style.display = 'none';
+        }
+
+        window.onclick = function(event) {
+            const modal = document.getElementById('custom-alert');
+            if (event.target == modal) closeAlert();
+        }
+
+        // Búsqueda en tarjetas
+        const searchInput = document.getElementById('searchInput');
+        searchInput.addEventListener('input', (e) => {
+            const term = e.target.value.toLowerCase();
+            const cards = document.querySelectorAll('.summary-card');
+            cards.forEach(card => {
+                const title = card.querySelector('h3').textContent.toLowerCase();
+                const desc = card.querySelector('p').textContent.toLowerCase();
+                if (title.includes(term) || desc.includes(term)) {
+                    card.style.display = 'block';
+                } else {
+                    card.style.display = 'none';
+                }
+            });
+        });
+    </script>
+</body>
+</html>

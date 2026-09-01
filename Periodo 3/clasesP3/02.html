@@ -366,17 +366,26 @@
           </p>
         </div>
 
-        <!-- Selector de Nivel de Dificultad -->
-        <div class="flex flex-wrap justify-center gap-2 mb-6">
-          <button onclick="loadTrainLevel(1)" id="train-lvl-1" class="train-lvl-btn bg-sky-700 text-white font-bold px-4 py-2 rounded-xl text-sm shadow">
-            Nivel 1: Frutas Felices (A-B)
-          </button>
-          <button onclick="loadTrainLevel(2)" id="train-lvl-2" class="train-lvl-btn bg-slate-200 hover:bg-slate-300 text-slate-700 font-bold px-4 py-2 rounded-xl text-sm transition">
-            Nivel 2: Figuras y Colores (A-B-C)
-          </button>
-          <button onclick="loadTrainLevel(3)" id="train-lvl-3" class="train-lvl-btn bg-slate-200 hover:bg-slate-300 text-slate-700 font-bold px-4 py-2 rounded-xl text-sm transition">
-            Nivel 3: El Espacio Exterior (A-A-B)
-          </button>
+        <!-- Selector de Estaciones con botones de Avanzar y Retroceder -->
+        <div class="max-w-2xl mx-auto mb-6">
+          <div class="flex items-center justify-between gap-3 bg-sky-100/90 p-2 sm:p-3 rounded-2xl border-2 border-sky-300 shadow-sm mb-3">
+            <button id="btn-prev-train" onclick="prevTrainLevel()" class="bg-white hover:bg-sky-50 text-sky-900 font-bold px-4 py-2 rounded-xl text-xs sm:text-sm shadow transition flex items-center gap-1.5 disabled:opacity-40 disabled:cursor-not-allowed border border-sky-200">
+              <span>◀</span> <span>Anterior</span>
+            </button>
+            
+            <div class="text-center font-display font-black text-sky-950 text-sm sm:text-lg flex items-center gap-2">
+              <span>🚂 Estación <span id="train-current-number" class="text-orange-600">1</span> de <span id="train-total-number">5</span></span>
+            </div>
+
+            <button id="btn-next-train" onclick="nextTrainLevel()" class="bg-white hover:bg-sky-50 text-sky-900 font-bold px-4 py-2 rounded-xl text-xs sm:text-sm shadow transition flex items-center gap-1.5 disabled:opacity-40 disabled:cursor-not-allowed border border-sky-200">
+              <span>Siguiente</span> <span>▶</span>
+            </button>
+          </div>
+
+          <!-- Píldoras de las Estaciones -->
+          <div id="train-pills-container" class="flex flex-wrap justify-center gap-2">
+            <!-- Inyectadas dinámicamente con JS -->
+          </div>
         </div>
 
         <!-- CAJA DE PIEZAS PARA ARRASTRAR (BANCO) -->
@@ -743,7 +752,8 @@
 
     const trainLevels = {
       1: {
-        title: "Nivel 1: Fiesta de Frutas (Patrón A-B)",
+        shortName: "1. Frutas (A-B)",
+        title: "Estación 1: Fiesta de Frutas (Patrón A-B)",
         bank: [
           { id: "apple", emoji: "🍎", name: "Manzana" },
           { id: "banana", emoji: "🍌", name: "Plátano" }
@@ -758,7 +768,8 @@
         ]
       },
       2: {
-        title: "Nivel 2: Figuras y Colores (Patrón A-B-C)",
+        shortName: "2. Formas (A-B-C)",
+        title: "Estación 2: Figuras y Colores (Patrón A-B-C)",
         bank: [
           { id: "square", emoji: "🟦", name: "Cuadrado Azul" },
           { id: "circle", emoji: "🔴", name: "Círculo Rojo" },
@@ -774,7 +785,8 @@
         ]
       },
       3: {
-        title: "Nivel 3: El Espacio Exterior (Patrón Doble A-A-B)",
+        shortName: "3. Espacio (A-A-B)",
+        title: "Estación 3: El Espacio Exterior (Patrón Doble A-A-B)",
         bank: [
           { id: "rocket", emoji: "🚀", name: "Cohete" },
           { id: "planet", emoji: "🪐", name: "Planeta" }
@@ -787,23 +799,88 @@
           { locked: false, expected: "rocket" },
           { locked: false, expected: "planet" }
         ]
+      },
+      4: {
+        shortName: "4. Dulces (A-B-B)",
+        title: "Estación 4: Fábrica de Dulces (Patrón A-B-B)",
+        bank: [
+          { id: "cupcake", emoji: "🧁", name: "Pastelito" },
+          { id: "candy", emoji: "🍭", name: "Paleta" }
+        ],
+        slots: [
+          { locked: true, id: "cupcake", emoji: "🧁" },
+          { locked: true, id: "candy", emoji: "🍭" },
+          { locked: true, id: "candy", emoji: "🍭" },
+          { locked: true, id: "cupcake", emoji: "🧁" },
+          { locked: false, expected: "candy" },
+          { locked: false, expected: "candy" }
+        ]
+      },
+      5: {
+        shortName: "5. Safari (A-A-B-B)",
+        title: "Estación 5: Safari de Animales (Patrón A-A-B-B)",
+        bank: [
+          { id: "lion", emoji: "🦁", name: "Leoncito" },
+          { id: "monkey", emoji: "🐵", name: "Monito" }
+        ],
+        slots: [
+          { locked: true, id: "lion", emoji: "🦁" },
+          { locked: true, id: "lion", emoji: "🦁" },
+          { locked: true, id: "monkey", emoji: "🐵" },
+          { locked: true, id: "monkey", emoji: "🐵" },
+          { locked: false, expected: "lion" },
+          { locked: false, expected: "lion" },
+          { locked: false, expected: "monkey" }
+        ]
       }
     };
+
+    function prevTrainLevel() {
+      if (currentTrainLvl > 1) {
+        playPopSound();
+        loadTrainLevel(currentTrainLvl - 1);
+      }
+    }
+
+    function nextTrainLevel() {
+      const totalLevels = Object.keys(trainLevels).length;
+      if (currentTrainLvl < totalLevels) {
+        playPopSound();
+        loadTrainLevel(currentTrainLvl + 1);
+      }
+    }
 
     function loadTrainLevel(lvl) {
       currentTrainLvl = lvl;
       placedSlots = {};
+      const totalLevels = Object.keys(trainLevels).length;
 
-      [1, 2, 3].forEach(n => {
-        const btn = document.getElementById(`train-lvl-${n}`);
-        if (btn) {
-          if (n === lvl) {
-            btn.className = "train-lvl-btn bg-sky-700 text-white font-bold px-4 py-2 rounded-xl text-sm shadow";
-          } else {
-            btn.className = "train-lvl-btn bg-slate-200 hover:bg-slate-300 text-slate-700 font-bold px-4 py-2 rounded-xl text-sm transition";
-          }
+      // Actualizar contador y botones de navegación
+      const currNumEl = document.getElementById('train-current-number');
+      const totNumEl = document.getElementById('train-total-number');
+      if (currNumEl) currNumEl.textContent = lvl;
+      if (totNumEl) totNumEl.textContent = totalLevels;
+
+      const prevBtn = document.getElementById('btn-prev-train');
+      const nextBtn = document.getElementById('btn-next-train');
+      if (prevBtn) prevBtn.disabled = (lvl <= 1);
+      if (nextBtn) nextBtn.disabled = (lvl >= totalLevels);
+
+      // Renderizar píldoras de las estaciones
+      const pillsContainer = document.getElementById('train-pills-container');
+      if (pillsContainer) {
+        pillsContainer.innerHTML = '';
+        for (let i = 1; i <= totalLevels; i++) {
+          const pill = document.createElement('button');
+          const isActive = (i === lvl);
+          pill.className = isActive
+            ? "bg-sky-700 text-white font-bold px-3 py-1.5 rounded-xl text-xs shadow-md border-2 border-sky-800"
+            : "bg-white hover:bg-sky-50 text-slate-700 font-medium px-3 py-1.5 rounded-xl text-xs border border-slate-200 shadow-sm transition";
+          pill.textContent = trainLevels[i].shortName || `Estación ${i}`;
+          pill.onclick = () => { playPopSound(); loadTrainLevel(i); };
+          pillsContainer.appendChild(pill);
         }
-      });
+      }
 
       const config = trainLevels[lvl];
       document.getElementById('train-level-title').textContent = config.title;
@@ -998,8 +1075,23 @@
         playTrainWhistle();
         playSuccessSound();
         addPoints(15);
-        feedback.className = "mt-6 p-4 rounded-2xl text-center font-bold text-sm sm:text-base bg-emerald-100 text-emerald-900 border-2 border-emerald-400 block animate-bounce";
-        feedback.innerHTML = "🎉 ¡PIII-PIII! 🚂 ¡EXCELENTE TRABAJO! Completaste la secuencia correctamente y el tren ya viaja seguro.";
+        const totalLevels = Object.keys(trainLevels).length;
+        const hasNext = currentTrainLvl < totalLevels;
+
+        feedback.className = "mt-6 p-5 rounded-2xl text-center font-bold text-sm sm:text-base bg-emerald-100 text-emerald-950 border-2 border-emerald-400 block animate-fadeIn";
+        feedback.innerHTML = `
+          <div class="text-2xl sm:text-3xl mb-1">🎉 ¡PIII-PIII! 🚂 ¡EXCELENTE!</div>
+          <p class="mb-3 text-emerald-900 font-medium">Completaste la secuencia correctamente y el tren ya puede avanzar a toda máquina.</p>
+          ${hasNext ? `
+            <button onclick="nextTrainLevel()" class="mt-2 bg-emerald-600 hover:bg-emerald-700 text-white font-black text-sm sm:text-base px-6 py-3 rounded-2xl shadow-lg transition transform hover:scale-105 inline-flex items-center gap-2 animate-bounce">
+              <span>¡Avanzar a la Estación ${currentTrainLvl + 1}!</span> ➜ 🚂
+            </button>
+          ` : `
+            <div class="text-amber-900 font-black text-base mt-2 bg-amber-50 p-3 rounded-xl border border-amber-300 inline-block">
+              🌟 ¡INCREÍBLE! Has completado todas las estaciones del tren. ¡Ahora puedes probar tus poderes en el Súper Test! 📝
+            </div>
+          `}
+        `;
       } else {
         playErrorSound();
         feedback.className = "mt-6 p-4 rounded-2xl text-center font-bold text-sm sm:text-base bg-rose-100 text-rose-900 border-2 border-rose-300 block animate-fadeIn";

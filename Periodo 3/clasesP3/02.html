@@ -85,8 +85,26 @@
         border: 2px solid #333 !important;
       }
     }
-    .print-only {
+    /* Ocultar barra de desplazamiento nativa */
+    .no-scrollbar::-webkit-scrollbar {
       display: none;
+      width: 0;
+      height: 0;
+    }
+    .no-scrollbar {
+      -ms-overflow-style: none;
+      scrollbar-width: none;
+    }
+    .tab-btn {
+      transition: all 0.2s cubic-bezier(0.4, 0, 0.2, 1);
+    }
+    .tab-btn:hover:not(.active) {
+      transform: translateY(-2px);
+      background-color: rgba(8, 47, 73, 0.75);
+    }
+    .tab-btn.active {
+      transform: translateY(-1px);
+      box-shadow: 0 4px 14px -2px rgba(0, 0, 0, 0.25);
     }
   </style>
 </head>
@@ -129,26 +147,28 @@
     </div>
 
     <!-- Menú de Pestañas de Navegación -->
-    <nav class="max-w-6xl mx-auto px-4 mt-1 flex space-x-2 overflow-x-auto pb-2 scrollbar-none">
-      <button onclick="switchTab('tab-teoria')" id="btn-tab-teoria" class="tab-btn active px-4 py-2 rounded-t-xl font-display font-semibold text-sm transition whitespace-nowrap bg-white text-sky-800 shadow-md">
-        💡 1. Aprender Conceptos
-      </button>
-      <button onclick="switchTab('tab-identificar')" id="btn-tab-identificar" class="tab-btn px-4 py-2 rounded-t-xl font-display font-semibold text-sm transition whitespace-nowrap bg-sky-800/60 hover:bg-sky-800 text-white">
-        🔍 2. Identificar el Patrón
-      </button>
-      <button onclick="switchTab('tab-completar')" id="btn-tab-completar" class="tab-btn px-4 py-2 rounded-t-xl font-display font-semibold text-sm transition whitespace-nowrap bg-sky-800/60 hover:bg-sky-800 text-white">
-        🧩 3. Completar Secuencia
-      </button>
-      <button onclick="switchTab('tab-predecir')" id="btn-tab-predecir" class="tab-btn px-4 py-2 rounded-t-xl font-display font-semibold text-sm transition whitespace-nowrap bg-sky-800/60 hover:bg-sky-800 text-white">
-        🔮 4. Misión Predicción
-      </button>
-      <button onclick="switchTab('tab-laboratorio')" id="btn-tab-laboratorio" class="tab-btn px-4 py-2 rounded-t-xl font-display font-semibold text-sm transition whitespace-nowrap bg-sky-800/60 hover:bg-sky-800 text-white">
-        🎨 5. Taller Libre
-      </button>
-      <button onclick="switchTab('tab-imprimir')" id="btn-tab-imprimir" class="tab-btn px-4 py-2 rounded-t-xl font-display font-semibold text-sm transition whitespace-nowrap bg-sky-800/60 hover:bg-sky-800 text-white">
-        🖨️ Fichas para Imprimir
-      </button>
-    </nav>
+    <div class="bg-sky-950/40 backdrop-blur-md border-t border-white/10 px-3 py-2.5">
+      <nav class="max-w-6xl mx-auto flex flex-wrap items-center justify-center gap-2 no-scrollbar">
+        <button onclick="switchTab('tab-teoria')" id="btn-tab-teoria" class="tab-btn active flex items-center gap-1.5 px-3.5 sm:px-4 py-2 rounded-xl font-display font-bold text-xs sm:text-sm whitespace-nowrap bg-white text-sky-900 shadow-md">
+          <span>💡</span> <span>1. Conceptos</span>
+        </button>
+        <button onclick="switchTab('tab-identificar')" id="btn-tab-identificar" class="tab-btn flex items-center gap-1.5 px-3.5 sm:px-4 py-2 rounded-xl font-display font-medium text-xs sm:text-sm whitespace-nowrap bg-sky-950/50 hover:bg-sky-900/80 text-white border border-white/15">
+          <span>🔍</span> <span>2. Identificar</span>
+        </button>
+        <button onclick="switchTab('tab-completar')" id="btn-tab-completar" class="tab-btn flex items-center gap-1.5 px-3.5 sm:px-4 py-2 rounded-xl font-display font-medium text-xs sm:text-sm whitespace-nowrap bg-sky-950/50 hover:bg-sky-900/80 text-white border border-white/15">
+          <span>🧩</span> <span>3. Completar</span>
+        </button>
+        <button onclick="switchTab('tab-predecir')" id="btn-tab-predecir" class="tab-btn flex items-center gap-1.5 px-3.5 sm:px-4 py-2 rounded-xl font-display font-medium text-xs sm:text-sm whitespace-nowrap bg-sky-950/50 hover:bg-sky-900/80 text-white border border-white/15">
+          <span>🔮</span> <span>4. Misión</span>
+        </button>
+        <button onclick="switchTab('tab-laboratorio')" id="btn-tab-laboratorio" class="tab-btn flex items-center gap-1.5 px-3.5 sm:px-4 py-2 rounded-xl font-display font-medium text-xs sm:text-sm whitespace-nowrap bg-sky-950/50 hover:bg-sky-900/80 text-white border border-white/15">
+          <span>🎨</span> <span>5. Taller Libre</span>
+        </button>
+        <button onclick="switchTab('tab-imprimir')" id="btn-tab-imprimir" class="tab-btn flex items-center gap-1.5 px-3.5 sm:px-4 py-2 rounded-xl font-display font-medium text-xs sm:text-sm whitespace-nowrap bg-sky-950/50 hover:bg-sky-900/80 text-white border border-white/15">
+          <span>🖨️</span> <span>Fichas Imprimir</span>
+        </button>
+      </nav>
+    </div>
   </header>
 
   <!-- Contenedor Principal -->
@@ -868,8 +888,8 @@
       playPopSound();
       document.querySelectorAll('.tab-content').forEach(el => el.classList.add('hidden'));
       document.querySelectorAll('.tab-btn').forEach(el => {
-        el.classList.remove('active', 'bg-white', 'text-sky-800', 'shadow-md');
-        el.classList.add('bg-sky-800/60', 'text-white');
+        el.classList.remove('active', 'bg-white', 'text-sky-900', 'shadow-md', 'font-bold');
+        el.classList.add('bg-sky-950/50', 'text-white', 'font-medium', 'border-white/15');
       });
 
       const selectedContent = document.getElementById(tabId);
@@ -877,8 +897,8 @@
 
       const activeBtn = document.getElementById(`btn-${tabId}`);
       if (activeBtn) {
-        activeBtn.classList.add('active', 'bg-white', 'text-sky-800', 'shadow-md');
-        activeBtn.classList.remove('bg-sky-800/60', 'text-white');
+        activeBtn.classList.add('active', 'bg-white', 'text-sky-900', 'shadow-md', 'font-bold');
+        activeBtn.classList.remove('bg-sky-950/50', 'text-white', 'font-medium', 'border-white/15');
       }
     }
 

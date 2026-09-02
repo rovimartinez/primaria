@@ -144,10 +144,25 @@
         </header>
 
         <main class="content-grid" style="margin-top: 2.5rem;">
-            <div class="cards-container" id="cardsContainer" style="display: flex; justify-content: center;">
+            <div class="cards-container" id="cardsContainer" style="display: grid; grid-template-columns: repeat(auto-fit, minmax(320px, 1fr)); max-width: 880px; margin: 0 auto; gap: 1.5rem; width: 100%;">
                 
-                <!-- Grado 2° - ÚNICO GRADO ACTIVO EN PERIODO 3 -->
-                <div class="summary-card card-active-p3" style="max-width: 420px; width: 100%;" onclick="window.location.href='clasesP3/02.html'">
+                <!-- Grado 1° - HABILITADO EN PERIODO 3: MÓDULOS BLOQUES DE DIRECCIÓN Y PATRONES -->
+                <div class="summary-card card-active-p3" onclick="window.location.href='clasesP3/01.html'">
+                    <div class="card-image bg-grad-p3">
+                        <span class="subject-tag pulse-badge" style="background: #ecfdf5; color: #065f46; font-weight: 800;">
+                            ✨ Habilitado
+                        </span>
+                        <div class="card-icon">🦙</div>
+                    </div>
+                    <div class="card-info">
+                        <h3 style="color: #065f46;">Grado 1°</h3>
+                        <p><strong>Módulo 1</strong>: Bloques de Dirección (Clases 1 a 4) &bull; <strong>Módulo 2</strong>: Patrones (Clases 1 a 3).</p>
+                        <div class="action-chip">🚀 Entrar a los módulos</div>
+                    </div>
+                </div>
+
+                <!-- Grado 2° - HABILITADO EN PERIODO 3 -->
+                <div class="summary-card card-active-p3" onclick="window.location.href='clasesP3/02.html'">
                     <div class="card-image bg-grad-p3">
                         <span class="subject-tag pulse-badge" style="background: #ecfdf5; color: #065f46; font-weight: 800;">
                             ✨ Habilitado

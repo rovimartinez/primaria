@@ -1,0 +1,1068 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Mundo Toby | 1° Grado - Periodo 3</title>
+  <link rel="icon" type="image/x-icon" href="../../assets/Icono.ico">
+  <!-- Tailwind CSS CDN -->
+  <script src="https://cdn.tailwindcss.com"></script>
+  <!-- Google Fonts: Fredoka, Outfit & Patrick Hand -->
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Fredoka:wght@400;600;700&family=Outfit:wght@400;600;700;800;900&family=Patrick+Hand&display=swap" rel="stylesheet">
+
+  <style>
+    /* Cuadrícula de libreta escolar exactamente como el boceto */
+    .notebook-grid {
+      background-color: #f8fafc;
+      background-image:
+        linear-gradient(rgba(226, 232, 240, 0.8) 1px, transparent 1px),
+        linear-gradient(90deg, rgba(226, 232, 240, 0.8) 1px, transparent 1px);
+      background-size: 26px 26px;
+    }
+
+    /* Fuente manuscrita para el título EJERCICIOS */
+    .title-ejercicios {
+      font-family: 'Patrick Hand', 'Fredoka', cursive;
+      color: #f87171;
+      letter-spacing: 0.04em;
+    }
+
+    /* Tarjetas de desafío */
+    .challenge-card {
+      transition: all 0.25s cubic-bezier(0.34, 1.56, 0.64, 1);
+      box-shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.08), 0 2px 4px -2px rgba(0, 0, 0, 0.06);
+    }
+    .challenge-card:hover {
+      transform: translateY(-8px) scale(1.02);
+      box-shadow: 0 20px 25px -5px rgba(234, 88, 12, 0.25), 0 8px 10px -6px rgba(234, 88, 12, 0.2);
+    }
+
+    /* Tarjetas de Módulo */
+    .module-card {
+      transition: all 0.25s cubic-bezier(0.34, 1.56, 0.64, 1);
+    }
+    .module-card:hover {
+      transform: translateY(-6px) scale(1.02);
+    }
+
+    /* Tarjetas de Clase */
+    .class-card {
+      transition: all 0.2s ease;
+    }
+    .class-card.active-class {
+      border-color: #10b981 !important;
+      background-color: #ecfdf5 !important;
+      box-shadow: 0 10px 15px -3px rgba(16, 185, 129, 0.2);
+      transform: translateY(-2px);
+    }
+
+    /* Número grande con sombra */
+    .number-shadow {
+      filter: drop-shadow(0 4px 0 #b45309) drop-shadow(0 0 10px rgba(0,0,0,0.25));
+    }
+
+    /* Animaciones suaves */
+    @keyframes popIn {
+      0% { transform: scale(0.92); opacity: 0; }
+      100% { transform: scale(1); opacity: 1; }
+    }
+    .animate-pop {
+      animation: popIn 0.25s cubic-bezier(0.175, 0.885, 0.32, 1.275) forwards;
+    }
+  </style>
+</head>
+<body class="notebook-grid min-h-screen text-slate-800 font-sans flex flex-col selection:bg-orange-200">
+
+  <!-- ========================================================================= -->
+  <!-- BARRA SUPERIOR                                                            -->
+  <!-- ========================================================================= -->
+  <header class="bg-gradient-to-r from-emerald-600 via-teal-600 to-sky-700 text-white shadow-md border-b-4 border-amber-400 sticky top-0 z-40">
+    <div class="max-w-6xl mx-auto px-4 py-2.5 flex flex-wrap items-center justify-between gap-3">
+      
+      <!-- Volver y Grado -->
+      <div class="flex items-center space-x-3">
+        <a href="../periodo3.html" class="inline-flex items-center gap-1.5 bg-emerald-950/80 hover:bg-emerald-950 border-2 border-white/40 text-white text-xs sm:text-sm font-black px-3.5 py-1.5 rounded-2xl transition shadow transform active:scale-95" title="Volver al menú de Periodo 3">
+          <span>🏠</span> <span>← Volver al Periodo 3</span>
+        </a>
+        <div class="bg-amber-400 text-slate-900 border-2 border-white px-3 py-0.5 rounded-xl shadow-inner flex items-center font-black">
+          <span class="text-[11px] sm:text-xs uppercase tracking-wider">1° GRADO &bull; P3</span>
+        </div>
+        <div>
+          <h1 class="font-display font-extrabold text-base sm:text-xl text-white tracking-wide flex items-center gap-1.5">
+            <span>Mundo Toby</span>
+          </h1>
+        </div>
+      </div>
+
+      <!-- Barra de Estado, Estrellas y Sonido -->
+      <div class="flex items-center space-x-2 sm:space-x-3">
+        <!-- Contador de Estrellas -->
+        <div class="bg-white/20 backdrop-blur-sm border border-white/30 px-3 py-1 rounded-xl flex items-center gap-1.5 text-xs sm:text-sm font-black text-amber-300 shadow-inner">
+          <span>⭐</span>
+          <span id="starScore" class="text-white font-bold">0</span>
+          <span class="text-[10px] text-amber-200 hidden sm:inline font-bold">puntos</span>
+        </div>
+
+        <!-- Botón de Sonido -->
+        <button id="soundToggleBtn" onclick="toggleAudio()" class="bg-white/20 hover:bg-white/30 border border-white/30 text-white p-2 rounded-xl text-base transition flex items-center justify-center shadow" title="Activar/Desactivar Sonido">
+          <span id="soundIcon">🔊</span>
+        </button>
+      </div>
+
+    </div>
+  </header>
+
+  <!-- ========================================================================= -->
+  <!-- CONTENEDOR DE VISTAS                                                      -->
+  <!-- ========================================================================= -->
+  <main class="flex-1 w-full max-w-5xl mx-auto py-8 px-4 flex flex-col items-center">
+
+    <!-- ======================================================================= -->
+    <!-- VISTA 1: PANTALLA PRINCIPAL DE 1° GRADO (LOS 2 MÓDULOS)                   -->
+    <!-- ======================================================================= -->
+    <div id="view-modules" class="w-full flex flex-col items-center animate-pop">
+      
+      <!-- Título de Bienvenida -->
+      <div class="text-center mb-8">
+        <div class="inline-flex items-center gap-2 bg-emerald-100 text-emerald-800 font-black text-xs uppercase px-3.5 py-1 rounded-full border border-emerald-300 mb-2 shadow-sm">
+          <span>🎒</span> <span>TERCER PERIODO &bull; 1° GRADO</span>
+        </div>
+        <h2 class="text-3xl sm:text-4xl font-display font-black text-slate-800 tracking-wide">
+          Elige un Módulo de Aprendizaje
+        </h2>
+        <p class="text-slate-600 font-display font-semibold text-sm sm:text-base max-w-lg mx-auto mt-1">
+          Selecciona el módulo en el que vas a trabajar hoy:
+        </p>
+      </div>
+
+      <!-- LAS 2 GRANDES TARJETAS DE MÓDULOS -->
+      <div class="grid grid-cols-1 md:grid-cols-2 gap-6 w-full max-w-3xl">
+
+        <!-- TARJETA MÓDULO 1: BLOQUES DE DIRECCIÓN -->
+        <div onclick="openModule(1)" class="module-card cursor-pointer bg-white rounded-3xl p-6 sm:p-8 border-4 border-emerald-500 shadow-xl flex flex-col justify-between relative overflow-hidden group">
+          <div class="absolute top-4 right-4 bg-emerald-100 text-emerald-800 font-black text-xs px-3 py-1 rounded-full border border-emerald-300">
+            ✨ Habilitado &bull; 4 Clases
+          </div>
+          
+          <div>
+            <div class="w-20 h-20 bg-emerald-100 rounded-3xl flex items-center justify-center text-5xl mb-4 group-hover:scale-110 transition border-2 border-emerald-300 shadow-inner">
+              🧭
+            </div>
+            <span class="text-xs font-black uppercase text-emerald-600 tracking-wider">MÓDULO 1</span>
+            <h3 class="font-display font-black text-2xl sm:text-3xl text-slate-800 mt-1">
+              Bloques de Dirección
+            </h3>
+            <p class="text-slate-600 text-xs sm:text-sm mt-2 leading-relaxed">
+              Aprende a programar los pasos de los animales con flechas: <strong>Coty la Llama</strong>, <strong>Duba el Puma</strong>, <strong>Lita la Mulita</strong> y resolución de problemas.
+            </p>
+          </div>
+
+          <div class="mt-6 pt-4 border-t border-emerald-100 flex items-center justify-between">
+            <span class="text-xs font-bold text-emerald-800 flex items-center gap-1.5">
+              <span>🦙</span> <span>Clase activa: Coty la Llama</span>
+            </span>
+            <span class="bg-emerald-600 group-hover:bg-emerald-700 text-white font-display font-black text-xs px-4 py-2 rounded-xl shadow transition inline-flex items-center gap-1">
+              <span>Entrar</span> ➜
+            </span>
+          </div>
+        </div>
+
+        <!-- TARJETA MÓDULO 2: PATRONES -->
+        <div onclick="openModule(2)" class="module-card cursor-pointer bg-white rounded-3xl p-6 sm:p-8 border-4 border-amber-400 shadow-xl flex flex-col justify-between relative overflow-hidden group">
+          <div class="absolute top-4 right-4 bg-amber-100 text-amber-900 font-black text-xs px-3 py-1 rounded-full border border-amber-300">
+            🔒 3 Clases
+          </div>
+          
+          <div>
+            <div class="w-20 h-20 bg-amber-100 rounded-3xl flex items-center justify-center text-5xl mb-4 group-hover:scale-110 transition border-2 border-amber-300 shadow-inner">
+              🧩
+            </div>
+            <span class="text-xs font-black uppercase text-amber-700 tracking-wider">MÓDULO 2</span>
+            <h3 class="font-display font-black text-2xl sm:text-3xl text-slate-800 mt-1">
+              Patrones
+            </h3>
+            <p class="text-slate-600 text-xs sm:text-sm mt-2 leading-relaxed">
+              Descubre qué figura o color sigue en una secuencia lógica: <strong>Patrones</strong>, <strong>Mensajes Secretos</strong> y el <strong>Código Murciélago</strong>.
+            </p>
+          </div>
+
+          <div class="mt-6 pt-4 border-t border-amber-100 flex items-center justify-between">
+            <span class="text-xs font-bold text-amber-800 flex items-center gap-1.5">
+              <span>🔍</span> <span>3 Clases preparadas</span>
+            </span>
+            <span class="bg-amber-500 group-hover:bg-amber-600 text-white font-display font-black text-xs px-4 py-2 rounded-xl shadow transition inline-flex items-center gap-1">
+              <span>Entrar</span> ➜
+            </span>
+          </div>
+        </div>
+
+      </div>
+
+    </div>
+
+    <!-- ======================================================================= -->
+    <!-- VISTA 2: DENTRO DE MÓDULO 1: BLOQUES DE DIRECCIÓN (4 CLASES)             -->
+    <!-- ======================================================================= -->
+    <div id="view-module-1" class="w-full hidden flex-col items-center animate-pop">
+      
+      <!-- Barra de Navegación del Módulo 1 -->
+      <div class="w-full max-w-4xl flex items-center justify-between gap-3 mb-6 bg-white/90 p-3 rounded-2xl border-2 border-emerald-300 shadow-sm">
+        <button onclick="backToModules()" class="bg-emerald-100 hover:bg-emerald-200 text-emerald-950 font-display font-black text-xs sm:text-sm px-4 py-2 rounded-xl transition flex items-center gap-1.5 shadow-sm">
+          <span>← Volver a los Módulos</span>
+        </button>
+        <div class="font-display font-black text-xs sm:text-sm text-emerald-900 flex items-center gap-1.5">
+          <span>🧭 MÓDULO 1:</span> <span class="text-slate-700">BLOQUES DE DIRECCIÓN</span>
+        </div>
+      </div>
+
+      <!-- Selector de las 4 Clases de Módulo 1 -->
+      <div class="w-full max-w-4xl mb-6">
+        <div class="text-xs uppercase font-extrabold text-slate-500 tracking-wider mb-2 flex items-center justify-between">
+          <span class="flex items-center gap-1.5"><span>📚</span> <span>Selecciona una Clase:</span></span>
+          <span class="text-emerald-700 font-bold">4 Clases</span>
+        </div>
+
+        <div class="grid grid-cols-2 sm:grid-cols-4 gap-2.5 sm:gap-3">
+          
+          <!-- Botón Clase 1: Coty -->
+          <button id="btn-m1-class-coty" onclick="switchM1Class('coty')" class="class-card active-class bg-white border-2 border-emerald-500 text-emerald-950 p-3 rounded-2xl shadow-md transition flex flex-col items-center text-center">
+            <span class="text-2xl mb-1">🦙</span>
+            <span class="font-display font-black text-xs">CLASE 1</span>
+            <span class="text-[11px] text-slate-800 font-bold">Coty, la Llama</span>
+            <span class="mt-1 bg-emerald-100 text-emerald-800 text-[9px] font-black px-2 py-0.5 rounded-full">✨ Habilitada</span>
+          </button>
+
+          <!-- Botón Clase 2: Duba -->
+          <button id="btn-m1-class-duba" onclick="switchM1Class('duba')" class="class-card bg-white/80 border-2 border-slate-200 text-slate-700 p-3 rounded-2xl shadow-sm hover:border-amber-400 hover:bg-white transition flex flex-col items-center text-center">
+            <span class="text-2xl mb-1">🐆</span>
+            <span class="font-display font-black text-xs">CLASE 2</span>
+            <span class="text-[11px] text-slate-700 font-bold">Duba, el Puma</span>
+            <span class="mt-1 bg-slate-100 text-slate-500 text-[9px] font-bold px-2 py-0.5 rounded-full">🔒 Próximamente</span>
+          </button>
+
+          <!-- Botón Clase 3: Lita -->
+          <button id="btn-m1-class-lita" onclick="switchM1Class('lita')" class="class-card bg-white/80 border-2 border-slate-200 text-slate-700 p-3 rounded-2xl shadow-sm hover:border-teal-400 hover:bg-white transition flex flex-col items-center text-center">
+            <span class="text-2xl mb-1">🦔</span>
+            <span class="font-display font-black text-xs">CLASE 3</span>
+            <span class="text-[11px] text-slate-700 font-bold">Lita, la Mulita</span>
+            <span class="mt-1 bg-slate-100 text-slate-500 text-[9px] font-bold px-2 py-0.5 rounded-full">🔒 Próximamente</span>
+          </button>
+
+          <!-- Botón Clase 4: Problemas -->
+          <button id="btn-m1-class-problemas" onclick="switchM1Class('problemas')" class="class-card bg-white/80 border-2 border-slate-200 text-slate-700 p-3 rounded-2xl shadow-sm hover:border-indigo-400 hover:bg-white transition flex flex-col items-center text-center">
+            <span class="text-2xl mb-1">🧩</span>
+            <span class="font-display font-black text-xs">CLASE 4</span>
+            <span class="text-[11px] text-slate-700 font-bold">Problemas</span>
+            <span class="mt-1 bg-slate-100 text-slate-500 text-[9px] font-bold px-2 py-0.5 rounded-full">🔒 Próximamente</span>
+          </button>
+
+        </div>
+      </div>
+
+      <!-- CONTENIDO DE LAS CLASES DE MÓDULO 1 -->
+      <div class="w-full max-w-4xl">
+
+        <!-- =================================================================== -->
+        <!-- CONTENIDO CLASE 1: COTY, LA LLAMA (LOS 7 EJERCICIOS)                -->
+        <!-- =================================================================== -->
+        <div id="m1-content-coty" class="m1-content-view block w-full">
+          
+          <div class="bg-white/95 rounded-3xl p-5 sm:p-8 border-4 border-emerald-400 shadow-xl">
+            
+            <div class="text-center mb-6">
+              <div class="inline-flex items-center gap-2 bg-emerald-100 text-emerald-800 font-black text-xs uppercase px-3.5 py-1 rounded-full border border-emerald-300 mb-2">
+                <span>🦙 CLASE 1</span> &bull; <span>PILAS BLOQUES</span>
+              </div>
+              <h2 class="title-ejercicios text-5xl sm:text-7xl font-bold tracking-wider mb-2">
+                EJERCICIOS:
+              </h2>
+              <p class="text-slate-600 font-display font-semibold text-sm sm:text-base max-w-lg mx-auto">
+                Ayuda a <strong>Coty la llama</strong> a pintar y resolver cada uno de sus 7 retos con bloques de dirección en Pilas Bloques.
+              </p>
+            </div>
+
+            <!-- TABLERO CON 3 ARRIBA Y 4 ABAJO -->
+            <div class="w-full max-w-3xl mx-auto space-y-4 sm:space-y-6">
+
+              <!-- Fila superior: Desafíos 1, 2, 3 -->
+              <div class="grid grid-cols-1 sm:grid-cols-3 gap-4 sm:gap-6 justify-center">
+                
+                <!-- Desafío 1 -->
+                <div class="challenge-card bg-white p-2.5 rounded-2xl border-4 border-amber-300/80 cursor-pointer relative group" onclick="openChallenge(1)">
+                  <div id="badge-completed-1" class="hidden absolute top-3 right-3 z-20 bg-emerald-500 text-white text-[10px] font-black px-2.5 py-0.5 rounded-full shadow-md flex items-center gap-1">
+                    ✓ ¡LISTO!
+                  </div>
+                  <div class="relative w-full h-44 sm:h-48 rounded-xl overflow-hidden bg-gradient-to-b from-[#e8bb72] via-[#e2aa58] to-[#c78b39] flex items-center justify-center border border-amber-300/40">
+                    <svg class="absolute inset-0 w-full h-full pointer-events-none" viewBox="0 0 200 160" preserveAspectRatio="none">
+                      <ellipse cx="160" cy="30" rx="40" ry="12" fill="#fff" opacity="0.3" />
+                      <polygon points="0,100 60,60 140,110" fill="#d99b43" opacity="0.6" />
+                      <polygon points="80,110 150,55 200,105" fill="#cf8e36" opacity="0.6" />
+                      <path d="M0,120 Q60,95 120,115 T200,105 L200,160 L0,160 Z" fill="#b97c2a" />
+                      <rect x="10" y="105" width="45" height="15" fill="#a16223" rx="2" />
+                      <rect x="15" y="90" width="35" height="15" fill="#b26f29" rx="2" />
+                      <g transform="translate(15, 30)">
+                        <path d="M20,50 Q10,25 0,35" stroke="#4ade80" stroke-width="4" fill="none" stroke-linecap="round" />
+                        <path d="M20,50 Q20,15 15,20" stroke="#22c55e" stroke-width="4" fill="none" stroke-linecap="round" />
+                        <path d="M20,50 Q30,15 35,25" stroke="#16a34a" stroke-width="4" fill="none" stroke-linecap="round" />
+                      </g>
+                    </svg>
+                    <div class="relative z-10 flex items-center justify-center w-full h-full">
+                      <div class="absolute left-6 bottom-3 transform scale-90 sm:scale-100">
+                        <span class="text-5xl drop-shadow-md select-none">🦙</span>
+                        <span class="absolute -top-1 -right-2 text-2xl select-none">🖌️</span>
+                      </div>
+                      <span class="font-display font-black text-white text-8xl sm:text-9xl number-shadow select-none ml-8">
+                        1
+                      </span>
+                    </div>
+                  </div>
+                  <div class="bg-slate-100/90 text-slate-700 font-display font-black text-xs sm:text-sm py-2 rounded-lg text-center mt-2 group-hover:bg-amber-100 group-hover:text-amber-900 transition flex items-center justify-center gap-1.5">
+                    <span>🎨 DESAFÍO 1</span>
+                  </div>
+                </div>
+
+                <!-- Desafío 2 -->
+                <div class="challenge-card bg-white p-2.5 rounded-2xl border-4 border-amber-300/80 cursor-pointer relative group" onclick="openChallenge(2)">
+                  <div id="badge-completed-2" class="hidden absolute top-3 right-3 z-20 bg-emerald-500 text-white text-[10px] font-black px-2.5 py-0.5 rounded-full shadow-md flex items-center gap-1">
+                    ✓ ¡LISTO!
+                  </div>
+                  <div class="relative w-full h-44 sm:h-48 rounded-xl overflow-hidden bg-gradient-to-b from-[#e8bb72] via-[#e2aa58] to-[#c78b39] flex items-center justify-center border border-amber-300/40">
+                    <svg class="absolute inset-0 w-full h-full pointer-events-none" viewBox="0 0 200 160" preserveAspectRatio="none">
+                      <ellipse cx="40" cy="25" rx="35" ry="10" fill="#fff" opacity="0.3" />
+                      <polygon points="10,110 70,70 150,115" fill="#d99b43" opacity="0.6" />
+                      <polygon points="90,105 160,60 200,100" fill="#cf8e36" opacity="0.6" />
+                      <path d="M0,125 Q80,100 140,120 T200,110 L200,160 L0,160 Z" fill="#b97c2a" />
+                      <rect x="25" y="100" width="40" height="18" fill="#a16223" rx="2" />
+                      <g transform="translate(140, 45)">
+                        <path d="M20,50 Q10,25 0,35" stroke="#4ade80" stroke-width="4" fill="none" stroke-linecap="round" />
+                        <path d="M20,50 Q20,15 15,20" stroke="#22c55e" stroke-width="4" fill="none" stroke-linecap="round" />
+                        <path d="M20,50 Q30,15 35,25" stroke="#16a34a" stroke-width="4" fill="none" stroke-linecap="round" />
+                      </g>
+                    </svg>
+                    <div class="relative z-10 flex items-center justify-center w-full h-full">
+                      <div class="absolute left-6 bottom-3 transform scale-90 sm:scale-100">
+                        <span class="text-5xl drop-shadow-md select-none">🦙</span>
+                        <span class="absolute -top-1 -right-2 text-2xl select-none">🎨</span>
+                      </div>
+                      <span class="font-display font-black text-white text-8xl sm:text-9xl number-shadow select-none ml-8">
+                        2
+                      </span>
+                    </div>
+                  </div>
+                  <div class="bg-slate-100/90 text-slate-700 font-display font-black text-xs sm:text-sm py-2 rounded-lg text-center mt-2 group-hover:bg-amber-100 group-hover:text-amber-900 transition flex items-center justify-center gap-1.5">
+                    <span>🎨 DESAFÍO 2</span>
+                  </div>
+                </div>
+
+                <!-- Desafío 3 -->
+                <div class="challenge-card bg-white p-2.5 rounded-2xl border-4 border-amber-300/80 cursor-pointer relative group" onclick="openChallenge(3)">
+                  <div id="badge-completed-3" class="hidden absolute top-3 right-3 z-20 bg-emerald-500 text-white text-[10px] font-black px-2.5 py-0.5 rounded-full shadow-md flex items-center gap-1">
+                    ✓ ¡LISTO!
+                  </div>
+                  <div class="relative w-full h-44 sm:h-48 rounded-xl overflow-hidden bg-gradient-to-b from-[#e8bb72] via-[#e2aa58] to-[#c78b39] flex items-center justify-center border border-amber-300/40">
+                    <svg class="absolute inset-0 w-full h-full pointer-events-none" viewBox="0 0 200 160" preserveAspectRatio="none">
+                      <ellipse cx="100" cy="20" rx="50" ry="14" fill="#fff" opacity="0.35" />
+                      <polygon points="0,95 80,50 160,105" fill="#d99b43" opacity="0.6" />
+                      <path d="M0,115 Q70,90 130,110 T200,100 L200,160 L0,160 Z" fill="#b97c2a" />
+                      <rect x="15" y="95" width="50" height="20" fill="#a16223" rx="2" />
+                      <g transform="translate(145, 35)">
+                        <path d="M20,50 Q10,25 0,35" stroke="#4ade80" stroke-width="4" fill="none" stroke-linecap="round" />
+                        <path d="M20,50 Q20,15 15,20" stroke="#22c55e" stroke-width="4" fill="none" stroke-linecap="round" />
+                        <path d="M20,50 Q30,15 35,25" stroke="#16a34a" stroke-width="4" fill="none" stroke-linecap="round" />
+                      </g>
+                    </svg>
+                    <div class="relative z-10 flex items-center justify-center w-full h-full">
+                      <div class="absolute left-6 bottom-3 transform scale-90 sm:scale-100">
+                        <span class="text-5xl drop-shadow-md select-none">🦙</span>
+                        <span class="absolute -top-1 -right-2 text-2xl select-none">✨</span>
+                      </div>
+                      <span class="font-display font-black text-white text-8xl sm:text-9xl number-shadow select-none ml-8">
+                        3
+                      </span>
+                    </div>
+                  </div>
+                  <div class="bg-slate-100/90 text-slate-700 font-display font-black text-xs sm:text-sm py-2 rounded-lg text-center mt-2 group-hover:bg-amber-100 group-hover:text-amber-900 transition flex items-center justify-center gap-1.5">
+                    <span>🎨 DESAFÍO 3</span>
+                  </div>
+                </div>
+
+              </div>
+
+              <!-- Fila inferior: Desafíos 4, 5, 6, 7 -->
+              <div class="grid grid-cols-2 sm:grid-cols-4 gap-3 sm:gap-4 justify-center">
+                
+                <!-- Desafío 4 -->
+                <div class="challenge-card bg-white p-2 rounded-2xl border-4 border-amber-300/80 cursor-pointer relative group" onclick="openChallenge(4)">
+                  <div id="badge-completed-4" class="hidden absolute top-2 right-2 z-20 bg-emerald-500 text-white text-[9px] font-black px-2 py-0.5 rounded-full shadow-md flex items-center gap-1">
+                    ✓ LISTO
+                  </div>
+                  <div class="relative w-full h-36 sm:h-40 rounded-xl overflow-hidden bg-gradient-to-b from-[#e8bb72] via-[#e2aa58] to-[#c78b39] flex items-center justify-center border border-amber-300/40">
+                    <div class="relative z-10 flex items-center justify-center w-full h-full">
+                      <div class="absolute left-3 bottom-2 transform scale-75 sm:scale-90">
+                        <span class="text-4xl drop-shadow select-none">🦙</span>
+                        <span class="absolute -top-1 -right-2 text-xl select-none">🖌️</span>
+                      </div>
+                      <span class="font-display font-black text-white text-7xl sm:text-8xl number-shadow select-none ml-8">
+                        4
+                      </span>
+                    </div>
+                  </div>
+                  <div class="bg-slate-100/90 text-slate-700 font-display font-black text-xs py-1.5 rounded-lg text-center mt-1.5 group-hover:bg-amber-100 group-hover:text-amber-900 transition flex items-center justify-center gap-1">
+                    <span>🎨 DESAFÍO 4</span>
+                  </div>
+                </div>
+
+                <!-- Desafío 5 -->
+                <div class="challenge-card bg-white p-2 rounded-2xl border-4 border-amber-300/80 cursor-pointer relative group" onclick="openChallenge(5)">
+                  <div id="badge-completed-5" class="hidden absolute top-2 right-2 z-20 bg-emerald-500 text-white text-[9px] font-black px-2 py-0.5 rounded-full shadow-md flex items-center gap-1">
+                    ✓ LISTO
+                  </div>
+                  <div class="relative w-full h-36 sm:h-40 rounded-xl overflow-hidden bg-gradient-to-b from-[#e8bb72] via-[#e2aa58] to-[#c78b39] flex items-center justify-center border border-amber-300/40">
+                    <div class="relative z-10 flex items-center justify-center w-full h-full">
+                      <div class="absolute left-3 bottom-2 transform scale-75 sm:scale-90">
+                        <span class="text-4xl drop-shadow select-none">🦙</span>
+                        <span class="absolute -top-1 -right-2 text-xl select-none">🎨</span>
+                      </div>
+                      <span class="font-display font-black text-white text-7xl sm:text-8xl number-shadow select-none ml-8">
+                        5
+                      </span>
+                    </div>
+                  </div>
+                  <div class="bg-slate-100/90 text-slate-700 font-display font-black text-xs py-1.5 rounded-lg text-center mt-1.5 group-hover:bg-amber-100 group-hover:text-amber-900 transition flex items-center justify-center gap-1">
+                    <span>🎨 DESAFÍO 5</span>
+                  </div>
+                </div>
+
+                <!-- Desafío 6 -->
+                <div class="challenge-card bg-white p-2 rounded-2xl border-4 border-amber-300/80 cursor-pointer relative group" onclick="openChallenge(6)">
+                  <div id="badge-completed-6" class="hidden absolute top-2 right-2 z-20 bg-emerald-500 text-white text-[9px] font-black px-2 py-0.5 rounded-full shadow-md flex items-center gap-1">
+                    ✓ LISTO
+                  </div>
+                  <div class="relative w-full h-36 sm:h-40 rounded-xl overflow-hidden bg-gradient-to-b from-[#e8bb72] via-[#e2aa58] to-[#c78b39] flex items-center justify-center border border-amber-300/40">
+                    <div class="relative z-10 flex items-center justify-center w-full h-full">
+                      <div class="absolute left-3 bottom-2 transform scale-75 sm:scale-90">
+                        <span class="text-4xl drop-shadow select-none">🦙</span>
+                        <span class="absolute -top-1 -right-2 text-xl select-none">⭐</span>
+                      </div>
+                      <span class="font-display font-black text-white text-7xl sm:text-8xl number-shadow select-none ml-8">
+                        6
+                      </span>
+                    </div>
+                  </div>
+                  <div class="bg-slate-100/90 text-slate-700 font-display font-black text-xs py-1.5 rounded-lg text-center mt-1.5 group-hover:bg-amber-100 group-hover:text-amber-900 transition flex items-center justify-center gap-1">
+                    <span>🎨 DESAFÍO 6</span>
+                  </div>
+                </div>
+
+                <!-- Desafío 7 -->
+                <div class="challenge-card bg-white p-2 rounded-2xl border-4 border-amber-300/80 cursor-pointer relative group" onclick="openChallenge(7)">
+                  <div id="badge-completed-7" class="hidden absolute top-2 right-2 z-20 bg-emerald-500 text-white text-[9px] font-black px-2 py-0.5 rounded-full shadow-md flex items-center gap-1">
+                    ✓ LISTO
+                  </div>
+                  <div class="relative w-full h-36 sm:h-40 rounded-xl overflow-hidden bg-gradient-to-b from-[#e8bb72] via-[#e2aa58] to-[#c78b39] flex items-center justify-center border border-amber-300/40">
+                    <div class="relative z-10 flex items-center justify-center w-full h-full">
+                      <div class="absolute left-3 bottom-2 transform scale-75 sm:scale-90">
+                        <span class="text-4xl drop-shadow select-none">🦙</span>
+                        <span class="absolute -top-1 -right-2 text-xl select-none">🏆</span>
+                      </div>
+                      <span class="font-display font-black text-white text-7xl sm:text-8xl number-shadow select-none ml-8">
+                        7
+                      </span>
+                    </div>
+                  </div>
+                  <div class="bg-slate-100/90 text-slate-700 font-display font-black text-xs py-1.5 rounded-lg text-center mt-1.5 group-hover:bg-amber-100 group-hover:text-amber-900 transition flex items-center justify-center gap-1">
+                    <span>🎨 DESAFÍO 7</span>
+                  </div>
+                </div>
+
+              </div>
+
+            </div>
+
+            <!-- Guía rápida de flechas -->
+            <div class="w-full max-w-3xl mx-auto mt-8 bg-emerald-50 border-2 border-emerald-300 rounded-2xl p-4 sm:p-5 shadow-sm">
+              <div class="flex flex-col sm:flex-row items-center gap-3 text-center sm:text-left">
+                <div class="text-3xl">🧭</div>
+                <div class="flex-1">
+                  <h4 class="font-display font-black text-emerald-950 text-sm sm:text-base">
+                    ¿Qué bloques usarás con Coty la Llama?
+                  </h4>
+                  <p class="text-xs text-slate-700 mt-0.5">
+                    Las flechas <strong>Mover Arriba ⬆️</strong>, <strong>Abajo ⬇️</strong>, <strong>Derecha ➡️</strong>, <strong>Izquierda ⬅️</strong> y el bloque <strong>Pintar 🎨</strong>. Luego presiona <strong>"Ejecutar"</strong>.
+                  </p>
+                </div>
+                <button onclick="openChallenge(1)" class="bg-emerald-600 hover:bg-emerald-700 text-white font-display font-black text-xs px-4 py-2.5 rounded-xl shadow transition whitespace-nowrap inline-flex items-center gap-1">
+                  <span>Comenzar Reto 1</span> ➜
+                </button>
+              </div>
+            </div>
+
+          </div>
+
+        </div>
+
+        <!-- =================================================================== -->
+        <!-- CONTENIDO CLASE 2: DUBA, EL PUMA (PRÓXIMAMENTE)                     -->
+        <!-- =================================================================== -->
+        <div id="m1-content-duba" class="m1-content-view hidden w-full">
+          <div class="bg-white rounded-3xl p-8 sm:p-10 border-4 border-amber-400 shadow-xl text-center space-y-4">
+            <div class="w-24 h-24 bg-amber-100 rounded-3xl flex items-center justify-center text-5xl mx-auto shadow-inner border-2 border-amber-300">
+              🐆
+            </div>
+            <div>
+              <span class="bg-amber-100 text-amber-900 text-xs font-black uppercase px-3.5 py-1 rounded-full border border-amber-300">
+                Módulo 1 &bull; Clase 2
+              </span>
+              <h3 class="font-display font-black text-2xl sm:text-3xl text-slate-800 mt-2">
+                CLASE 2 - DUBA, EL PUMA
+              </h3>
+              <p class="text-slate-600 text-sm sm:text-base max-w-md mx-auto mt-2">
+                En esta clase guiaremos a <strong>Duba el puma</strong> por el laberinto utilizando secuencias de bloques de dirección para buscar sus alimentos en Pilas Bloques.
+              </p>
+            </div>
+            <div class="p-4 bg-amber-50 rounded-2xl border-2 border-dashed border-amber-300 max-w-md mx-auto">
+              <span class="text-amber-800 font-extrabold text-sm block">🔒 Próxima Sesión</span>
+              <span class="text-xs text-slate-500">Los desafíos interactivos de Duba se publicarán en esta sección para la siguiente clase.</span>
+            </div>
+            <button onclick="switchM1Class('coty')" class="bg-emerald-600 hover:bg-emerald-700 text-white font-display font-bold text-xs sm:text-sm px-6 py-2.5 rounded-xl shadow transition inline-flex items-center gap-2">
+              <span>← Ir a Clase 1: Coty, la Llama</span>
+            </button>
+          </div>
+        </div>
+
+        <!-- =================================================================== -->
+        <!-- CONTENIDO CLASE 3: LITA, LA MULITA (PRÓXIMAMENTE)                   -->
+        <!-- =================================================================== -->
+        <div id="m1-content-lita" class="m1-content-view hidden w-full">
+          <div class="bg-white rounded-3xl p-8 sm:p-10 border-4 border-teal-400 shadow-xl text-center space-y-4">
+            <div class="w-24 h-24 bg-teal-100 rounded-3xl flex items-center justify-center text-5xl mx-auto shadow-inner border-2 border-teal-300">
+              🦔
+            </div>
+            <div>
+              <span class="bg-teal-100 text-teal-900 text-xs font-black uppercase px-3.5 py-1 rounded-full border border-teal-300">
+                Módulo 1 &bull; Clase 3
+              </span>
+              <h3 class="font-display font-black text-2xl sm:text-3xl text-slate-800 mt-2">
+                CLASE 3 - LITA, LA MULITA
+              </h3>
+              <p class="text-slate-600 text-sm sm:text-base max-w-md mx-auto mt-2">
+                ¡Lita la mulita necesita recolectar comida! Programaremos paso a paso sus movimientos para esquivar obstáculos con los bloques de dirección.
+              </p>
+            </div>
+            <div class="p-4 bg-teal-50 rounded-2xl border-2 border-dashed border-teal-300 max-w-md mx-auto">
+              <span class="text-teal-800 font-extrabold text-sm block">🔒 Próxima Sesión</span>
+              <span class="text-xs text-slate-500">Los desafíos de Lita la mulita se habilitarán en la siguiente sesión programada.</span>
+            </div>
+            <button onclick="switchM1Class('coty')" class="bg-emerald-600 hover:bg-emerald-700 text-white font-display font-bold text-xs sm:text-sm px-6 py-2.5 rounded-xl shadow transition inline-flex items-center gap-2">
+              <span>← Ir a Clase 1: Coty, la Llama</span>
+            </button>
+          </div>
+        </div>
+
+        <!-- =================================================================== -->
+        <!-- CONTENIDO CLASE 4: PROBLEMAS (PRÓXIMAMENTE)                         -->
+        <!-- =================================================================== -->
+        <div id="m1-content-problemas" class="m1-content-view hidden w-full">
+          <div class="bg-white rounded-3xl p-8 sm:p-10 border-4 border-indigo-400 shadow-xl text-center space-y-4">
+            <div class="w-24 h-24 bg-indigo-100 rounded-3xl flex items-center justify-center text-5xl mx-auto shadow-inner border-2 border-indigo-300">
+              🧩
+            </div>
+            <div>
+              <span class="bg-indigo-100 text-indigo-900 text-xs font-black uppercase px-3.5 py-1 rounded-full border border-indigo-300">
+                Módulo 1 &bull; Clase 4
+              </span>
+              <h3 class="font-display font-black text-2xl sm:text-3xl text-slate-800 mt-2">
+                CLASE 4 - PROBLEMAS
+              </h3>
+              <p class="text-slate-600 text-sm sm:text-base max-w-md mx-auto mt-2">
+                ¡El gran reto del módulo! Desafíos integrales y resolución de problemas algorítmicos combinando todas las direcciones y acciones aprendidas.
+              </p>
+            </div>
+            <div class="p-4 bg-indigo-50 rounded-2xl border-2 border-dashed border-indigo-300 max-w-md mx-auto">
+              <span class="text-indigo-800 font-extrabold text-sm block">🔒 Próxima Sesión</span>
+              <span class="text-xs text-slate-500">Los problemas y acertijos de integración estarán disponibles al finalizar las clases anteriores.</span>
+            </div>
+            <button onclick="switchM1Class('coty')" class="bg-emerald-600 hover:bg-emerald-700 text-white font-display font-bold text-xs sm:text-sm px-6 py-2.5 rounded-xl shadow transition inline-flex items-center gap-2">
+              <span>← Ir a Clase 1: Coty, la Llama</span>
+            </button>
+          </div>
+        </div>
+
+      </div>
+
+    </div>
+
+    <!-- ======================================================================= -->
+    <!-- VISTA 3: DENTRO DE MÓDULO 2: PATRONES (3 CLASES)                        -->
+    <!-- ======================================================================= -->
+    <div id="view-module-2" class="w-full hidden flex-col items-center animate-pop">
+      
+      <!-- Barra de Navegación del Módulo 2 -->
+      <div class="w-full max-w-4xl flex items-center justify-between gap-3 mb-6 bg-white/90 p-3 rounded-2xl border-2 border-amber-300 shadow-sm">
+        <button onclick="backToModules()" class="bg-amber-100 hover:bg-amber-200 text-amber-950 font-display font-black text-xs sm:text-sm px-4 py-2 rounded-xl transition flex items-center gap-1.5 shadow-sm">
+          <span>← Volver a los Módulos</span>
+        </button>
+        <div class="font-display font-black text-xs sm:text-sm text-amber-900 flex items-center gap-1.5">
+          <span>🧩 MÓDULO 2:</span> <span class="text-slate-700">PATRONES</span>
+        </div>
+      </div>
+
+      <!-- Selector de las 3 Clases de Módulo 2 -->
+      <div class="w-full max-w-4xl mb-6">
+        <div class="text-xs uppercase font-extrabold text-slate-500 tracking-wider mb-2 flex items-center justify-between">
+          <span class="flex items-center gap-1.5"><span>📚</span> <span>Selecciona una Clase:</span></span>
+          <span class="text-amber-800 font-bold">3 Clases</span>
+        </div>
+
+        <div class="grid grid-cols-1 sm:grid-cols-3 gap-3">
+          
+          <!-- Botón Clase 1: Patrones -->
+          <button id="btn-m2-class-patrones" onclick="switchM2Class('patrones')" class="class-card active-class bg-white border-2 border-amber-500 text-amber-950 p-4 rounded-2xl shadow-md transition flex flex-col items-center text-center">
+            <span class="text-3xl mb-1">🧩</span>
+            <span class="font-display font-black text-xs">CLASE 1</span>
+            <span class="text-xs text-slate-800 font-bold">Patrones</span>
+            <span class="mt-1 bg-amber-100 text-amber-900 text-[9px] font-black px-2 py-0.5 rounded-full">🔒 Próximamente</span>
+          </button>
+
+          <!-- Botón Clase 2: Mensajes Secretos -->
+          <button id="btn-m2-class-mensajes" onclick="switchM2Class('mensajes')" class="class-card bg-white/80 border-2 border-slate-200 text-slate-700 p-4 rounded-2xl shadow-sm hover:border-sky-400 hover:bg-white transition flex flex-col items-center text-center">
+            <span class="text-3xl mb-1">🔍</span>
+            <span class="font-display font-black text-xs">CLASE 2</span>
+            <span class="text-xs text-slate-800 font-bold">Mensajes Secretos</span>
+            <span class="mt-1 bg-slate-100 text-slate-500 text-[9px] font-bold px-2 py-0.5 rounded-full">🔒 Próximamente</span>
+          </button>
+
+          <!-- Botón Clase 3: Código Murciélago -->
+          <button id="btn-m2-class-murcielago" onclick="switchM2Class('murcielago')" class="class-card bg-white/80 border-2 border-slate-200 text-slate-700 p-4 rounded-2xl shadow-sm hover:border-purple-400 hover:bg-white transition flex flex-col items-center text-center">
+            <span class="text-3xl mb-1">🦇</span>
+            <span class="font-display font-black text-xs">CLASE 3</span>
+            <span class="text-xs text-slate-800 font-bold">Código Murciélago</span>
+            <span class="mt-1 bg-slate-100 text-slate-500 text-[9px] font-bold px-2 py-0.5 rounded-full">🔒 Próximamente</span>
+          </button>
+
+        </div>
+      </div>
+
+      <!-- CONTENIDO DE LAS CLASES DE MÓDULO 2 -->
+      <div class="w-full max-w-4xl">
+
+        <!-- =================================================================== -->
+        <!-- CONTENIDO CLASE 1: PATRONES                                         -->
+        <!-- =================================================================== -->
+        <div id="m2-content-patrones" class="m2-content-view block w-full">
+          <div class="bg-white rounded-3xl p-8 sm:p-10 border-4 border-amber-400 shadow-xl text-center space-y-4">
+            <div class="w-24 h-24 bg-amber-100 rounded-3xl flex items-center justify-center text-5xl mx-auto shadow-inner border-2 border-amber-300">
+              🧩
+            </div>
+            <div>
+              <span class="bg-amber-100 text-amber-900 text-xs font-black uppercase px-3.5 py-1 rounded-full border border-amber-300">
+                Módulo 2 &bull; Clase 1
+              </span>
+              <h3 class="font-display font-black text-2xl sm:text-3xl text-slate-800 mt-2">
+                CLASE 1 - PATRONES
+              </h3>
+              <p class="text-slate-600 text-sm sm:text-base max-w-md mx-auto mt-2">
+                Aprenderemos a descubrir y crear secuencias lógicas y patrones visuales con colores, formas y figuras divertidas adaptadas a 1° grado.
+              </p>
+            </div>
+            <div class="p-4 bg-amber-50 rounded-2xl border-2 border-dashed border-amber-300 max-w-md mx-auto">
+              <span class="text-amber-800 font-extrabold text-sm block">🔒 Próxima Sesión</span>
+              <span class="text-xs text-slate-500">El contenido y las actividades interactivas de esta clase se publicarán próximamente.</span>
+            </div>
+            <button onclick="backToModules()" class="bg-emerald-600 hover:bg-emerald-700 text-white font-display font-bold text-xs sm:text-sm px-6 py-2.5 rounded-xl shadow transition inline-flex items-center gap-2">
+              <span>← Volver a los Módulos</span>
+            </button>
+          </div>
+        </div>
+
+        <!-- =================================================================== -->
+        <!-- CONTENIDO CLASE 2: MENSAJES SECRETOS                                -->
+        <!-- =================================================================== -->
+        <div id="m2-content-mensajes" class="m2-content-view hidden w-full">
+          <div class="bg-white rounded-3xl p-8 sm:p-10 border-4 border-sky-400 shadow-xl text-center space-y-4">
+            <div class="w-24 h-24 bg-sky-100 rounded-3xl flex items-center justify-center text-5xl mx-auto shadow-inner border-2 border-sky-300">
+              🔍
+            </div>
+            <div>
+              <span class="bg-sky-100 text-sky-900 text-xs font-black uppercase px-3.5 py-1 rounded-full border border-sky-300">
+                Módulo 2 &bull; Clase 2
+              </span>
+              <h3 class="font-display font-black text-2xl sm:text-3xl text-slate-800 mt-2">
+                CLASE 2 - MENSAJES SECRETOS
+              </h3>
+              <p class="text-slate-600 text-sm sm:text-base max-w-md mx-auto mt-2">
+                ¡Conviértete en detective! Aprenderemos a descifrar pistas, códigos ocultos y mensajes secretos siguiendo patrones lógicos.
+              </p>
+            </div>
+            <div class="p-4 bg-sky-50 rounded-2xl border-2 border-dashed border-sky-300 max-w-md mx-auto">
+              <span class="text-sky-800 font-extrabold text-sm block">🔒 Próxima Sesión</span>
+              <span class="text-xs text-slate-500">Los retos de detectives y pistas secretas se publicarán para esta clase.</span>
+            </div>
+            <button onclick="backToModules()" class="bg-emerald-600 hover:bg-emerald-700 text-white font-display font-bold text-xs sm:text-sm px-6 py-2.5 rounded-xl shadow transition inline-flex items-center gap-2">
+              <span>← Volver a los Módulos</span>
+            </button>
+          </div>
+        </div>
+
+        <!-- =================================================================== -->
+        <!-- CONTENIDO CLASE 3: CÓDIGO MURCIÉLAGO                                -->
+        <!-- =================================================================== -->
+        <div id="m2-content-murcielago" class="m2-content-view hidden w-full">
+          <div class="bg-white rounded-3xl p-8 sm:p-10 border-4 border-purple-400 shadow-xl text-center space-y-4">
+            <div class="w-24 h-24 bg-purple-100 rounded-3xl flex items-center justify-center text-5xl mx-auto shadow-inner border-2 border-purple-300">
+              🦇
+            </div>
+            <div>
+              <span class="bg-purple-100 text-purple-900 text-xs font-black uppercase px-3.5 py-1 rounded-full border border-purple-300">
+                Módulo 2 &bull; Clase 3
+              </span>
+              <h3 class="font-display font-black text-2xl sm:text-3xl text-slate-800 mt-2">
+                CLASE 3 - CÓDIGO MURCIÉLAGO
+              </h3>
+              <p class="text-slate-600 text-sm sm:text-base max-w-md mx-auto mt-2">
+                ¡El legendario código murciélago! Aprenderemos cómo reemplazar letras por números usando la palabra clave <strong>M-U-R-C-I-E-L-A-G-O</strong> para escribir mensajes cifrados.
+              </p>
+            </div>
+            <div class="p-4 bg-purple-50 rounded-2xl border-2 border-dashed border-purple-300 max-w-md mx-auto">
+              <span class="text-purple-800 font-extrabold text-sm block">🔒 Próxima Sesión</span>
+              <span class="text-xs text-slate-500">El codificador del murciélago y las actividades se publicarán para esta clase.</span>
+            </div>
+            <button onclick="backToModules()" class="bg-emerald-600 hover:bg-emerald-700 text-white font-display font-bold text-xs sm:text-sm px-6 py-2.5 rounded-xl shadow transition inline-flex items-center gap-2">
+              <span>← Volver a los Módulos</span>
+            </button>
+          </div>
+        </div>
+
+      </div>
+
+    </div>
+
+  </main>
+
+  <!-- ========================================================================= -->
+  <!-- MODAL VISOR INTERACTIVO DE PILAS BLOQUES                                  -->
+  <!-- ========================================================================= -->
+  <div id="player-modal" class="fixed inset-0 z-50 bg-slate-950/75 hidden items-center justify-center p-2 sm:p-4 backdrop-blur-sm">
+    <div class="bg-white rounded-3xl shadow-2xl border-4 border-amber-400 w-full max-w-5xl h-[92vh] flex flex-col overflow-hidden animate-pop">
+      
+      <!-- Barra superior del Modal -->
+      <div class="bg-gradient-to-r from-emerald-700 via-teal-700 to-sky-800 text-white px-4 py-3 flex items-center justify-between gap-2">
+        <div class="flex items-center gap-2">
+          <span class="text-2xl">🦙</span>
+          <div>
+            <h3 id="modal-challenge-title" class="font-display font-extrabold text-sm sm:text-base leading-tight">
+              Desafío 1: Coty la Llama
+            </h3>
+            <span class="text-[11px] text-yellow-300 font-medium hidden sm:inline">Pilas Bloques &bull; 1° Grado Primaria</span>
+          </div>
+        </div>
+
+        <div class="flex items-center gap-2">
+          <button id="modal-btn-complete" onclick="toggleCurrentChallengeComplete()" class="bg-emerald-500 hover:bg-emerald-600 text-white font-bold text-xs px-3 py-1.5 rounded-xl shadow transition flex items-center gap-1">
+            <span id="complete-icon">⭐</span> <span id="complete-text">Marcar Hecho</span>
+          </button>
+
+          <a id="modal-btn-open-tab" href="#" target="_blank" rel="noopener" class="bg-white/20 hover:bg-white/30 text-white font-bold text-xs px-3 py-1.5 rounded-xl transition flex items-center gap-1" title="Abrir en pantalla completa en una nueva ventana">
+            <span>🔗</span> <span class="hidden sm:inline">Nueva Pestaña</span>
+          </a>
+
+          <button onclick="closeModal()" class="bg-rose-500 hover:bg-rose-600 text-white font-black text-sm w-8 h-8 rounded-xl transition flex items-center justify-center shadow" title="Cerrar ventana">
+            ✕
+          </button>
+        </div>
+      </div>
+
+      <!-- Contenedor del IFRAME del desafío de Pilas Bloques -->
+      <div class="flex-1 bg-slate-100 relative">
+        <iframe id="challenge-iframe" src="" class="w-full h-full border-none" allow="autoplay; fullscreen" title="Desafío Pilas Bloques"></iframe>
+        
+        <div id="iframe-loader" class="absolute inset-0 bg-slate-50 flex flex-col items-center justify-center gap-3 z-10">
+          <span class="text-5xl animate-bounce">🦙</span>
+          <p class="font-display font-bold text-slate-700 text-sm">Cargando desafío de Coty en Pilas Bloques...</p>
+          <a id="fallback-link" href="#" target="_blank" rel="noopener" class="text-xs text-sky-600 underline font-semibold mt-2">
+            ¿No carga? Haz clic aquí para abrirlo directamente
+          </a>
+        </div>
+      </div>
+
+      <div class="bg-slate-50 border-t border-slate-200 px-4 py-2 flex items-center justify-between text-xs text-slate-600">
+        <button id="btn-prev-challenge" onclick="navChallenge(-1)" class="font-bold text-slate-700 hover:text-emerald-700 disabled:opacity-40 disabled:pointer-events-none flex items-center gap-1">
+          ◀ Desafío Anterior
+        </button>
+        <span id="modal-footer-info" class="font-bold text-emerald-800">
+          Desafío 1 de 7
+        </span>
+        <button id="btn-next-challenge" onclick="navChallenge(1)" class="font-bold text-slate-700 hover:text-emerald-700 disabled:opacity-40 disabled:pointer-events-none flex items-center gap-1">
+          Siguiente Desafío ▶
+        </button>
+      </div>
+
+    </div>
+  </div>
+
+  <!-- Footer -->
+  <footer class="bg-white/90 border-t border-slate-200 py-3 text-center text-xs text-slate-500 mt-auto">
+    <p>Mundo Toby &bull; 1° Grado de Primaria &bull; Profesor: Ronny Martinez</p>
+  </footer>
+
+  <!-- SCRIPT DE INTERACTIVIDAD GLOBAL -->
+  <script>
+    // --- GESTIÓN DE AUDIO CON WEB AUDIO API ---
+    let audioCtx = null;
+    let soundEnabled = true;
+
+    function initAudio() {
+      if (!audioCtx) {
+        audioCtx = new (window.AudioContext || window.webkitAudioContext)();
+      }
+    }
+
+    function playTone(freq, type = 'sine', duration = 0.15) {
+      if (!soundEnabled) return;
+      try {
+        initAudio();
+        const osc = audioCtx.createOscillator();
+        const gain = audioCtx.createGain();
+        osc.type = type;
+        osc.frequency.setValueAtTime(freq, audioCtx.currentTime);
+        gain.gain.setValueAtTime(0.12, audioCtx.currentTime);
+        gain.gain.exponentialRampToValueAtTime(0.001, audioCtx.currentTime + duration);
+        osc.connect(gain);
+        gain.connect(audioCtx.destination);
+        osc.start();
+        osc.stop(audioCtx.currentTime + duration);
+      } catch (e) {}
+    }
+
+    function playPopSound() { playTone(520, 'sine', 0.1); }
+    function playSuccessSound() {
+      if (!soundEnabled) return;
+      playTone(523.25, 'triangle', 0.1);
+      setTimeout(() => playTone(659.25, 'triangle', 0.1), 100);
+      setTimeout(() => playTone(783.99, 'triangle', 0.12), 200);
+      setTimeout(() => playTone(1046.50, 'triangle', 0.25), 300);
+    }
+    function toggleAudio() {
+      soundEnabled = !soundEnabled;
+      document.getElementById('soundIcon').textContent = soundEnabled ? '🔊' : '🔇';
+    }
+
+    let totalScore = 0;
+    function addPoints(pts) {
+      totalScore += pts;
+      document.getElementById('starScore').textContent = totalScore;
+    }
+
+    // --- NAVEGACIÓN ENTRE MÓDULOS (NIVEL 1) ---
+    function openModule(num) {
+      playPopSound();
+      document.getElementById('view-modules').classList.add('hidden');
+      document.getElementById('view-module-1').classList.add('hidden');
+      document.getElementById('view-module-2').classList.add('hidden');
+
+      if (num === 1) {
+        document.getElementById('view-module-1').classList.remove('hidden');
+        switchM1Class('coty');
+      } else if (num === 2) {
+        document.getElementById('view-module-2').classList.remove('hidden');
+        switchM2Class('patrones');
+      }
+      window.scrollTo({ top: 0, behavior: 'smooth' });
+    }
+
+    function backToModules() {
+      playPopSound();
+      document.getElementById('view-module-1').classList.add('hidden');
+      document.getElementById('view-module-2').classList.add('hidden');
+      document.getElementById('view-modules').classList.remove('hidden');
+      window.scrollTo({ top: 0, behavior: 'smooth' });
+    }
+
+    // --- NAVEGACIÓN DE CLASES EN MÓDULO 1 ---
+    function switchM1Class(key) {
+      playPopSound();
+      document.querySelectorAll('.m1-content-view').forEach(el => el.classList.add('hidden'));
+      const buttons = ['coty', 'duba', 'lita', 'problemas'];
+      buttons.forEach(b => {
+        const btn = document.getElementById(`btn-m1-class-${b}`);
+        if (btn) {
+          btn.classList.remove('active-class', 'border-emerald-500', 'bg-white');
+          btn.classList.add('bg-white/80', 'border-slate-200');
+        }
+      });
+
+      const selectedView = document.getElementById(`m1-content-${key}`);
+      if (selectedView) selectedView.classList.remove('hidden');
+
+      const activeBtn = document.getElementById(`btn-m1-class-${key}`);
+      if (activeBtn) {
+        activeBtn.classList.add('active-class', 'border-emerald-500', 'bg-white');
+        activeBtn.classList.remove('bg-white/80', 'border-slate-200');
+      }
+    }
+
+    // --- NAVEGACIÓN DE CLASES EN MÓDULO 2 ---
+    function switchM2Class(key) {
+      playPopSound();
+      document.querySelectorAll('.m2-content-view').forEach(el => el.classList.add('hidden'));
+      const buttons = ['patrones', 'mensajes', 'murcielago'];
+      buttons.forEach(b => {
+        const btn = document.getElementById(`btn-m2-class-${b}`);
+        if (btn) {
+          btn.classList.remove('active-class', 'border-amber-500', 'bg-white');
+          btn.classList.add('bg-white/80', 'border-slate-200');
+        }
+      });
+
+      const selectedView = document.getElementById(`m2-content-${key}`);
+      if (selectedView) selectedView.classList.remove('hidden');
+
+      const activeBtn = document.getElementById(`btn-m2-class-${key}`);
+      if (activeBtn) {
+        activeBtn.classList.add('active-class', 'border-amber-500', 'bg-white');
+        activeBtn.classList.remove('bg-white/80', 'border-slate-200');
+      }
+    }
+
+    // --- LÓGICA DE PILAS BLOQUES (MÓDULO 1) ---
+    const CHALLENGE_URLS = {
+      1: "https://pilasbloques.program.ar/online/#/desafio/207?no_redirect=1",
+      2: "https://pilasbloques.program.ar/online/#/desafio/208?no_redirect=1",
+      3: "https://pilasbloques.program.ar/online/#/desafio/209?no_redirect=1",
+      4: "https://pilasbloques.program.ar/online/#/desafio/210?no_redirect=1",
+      5: "https://pilasbloques.program.ar/online/#/desafio/211?no_redirect=1",
+      6: "https://pilasbloques.program.ar/online/#/desafio/212?no_redirect=1",
+      7: "https://pilasbloques.program.ar/online/#/desafio/213?no_redirect=1"
+    };
+
+    let currentOpenChallenge = 1;
+    const STORAGE_KEY = "mundo_toby_coty_completed_1p3";
+
+    function getCompletedList() {
+      try {
+        const stored = localStorage.getItem(STORAGE_KEY);
+        return stored ? JSON.parse(stored) : [];
+      } catch (e) { return []; }
+    }
+
+    function saveCompletedList(list) {
+      try { localStorage.setItem(STORAGE_KEY, JSON.stringify(list)); } catch (e) {}
+    }
+
+    function updateProgressBadges() {
+      const completed = getCompletedList();
+      for (let i = 1; i <= 7; i++) {
+        const badge = document.getElementById(`badge-completed-${i}`);
+        if (badge) {
+          if (completed.includes(i)) badge.classList.remove('hidden');
+          else badge.classList.add('hidden');
+        }
+      }
+    }
+
+    function openChallenge(num) {
+      currentOpenChallenge = num;
+      const url = CHALLENGE_URLS[num];
+      if (!url) return;
+
+      const modal = document.getElementById('player-modal');
+      const iframe = document.getElementById('challenge-iframe');
+      const loader = document.getElementById('iframe-loader');
+      const title = document.getElementById('modal-challenge-title');
+      const openTabBtn = document.getElementById('modal-btn-open-tab');
+      const fallbackLink = document.getElementById('fallback-link');
+      const footerInfo = document.getElementById('modal-footer-info');
+
+      title.textContent = `Desafío ${num}: Coty la Llama (Pilas Bloques)`;
+      openTabBtn.href = url;
+      fallbackLink.href = url;
+      footerInfo.textContent = `Desafío ${num} de 7`;
+
+      document.getElementById('btn-prev-challenge').disabled = (num <= 1);
+      document.getElementById('btn-next-challenge').disabled = (num >= 7);
+
+      updateModalCompleteBtn();
+
+      loader.classList.remove('hidden');
+      iframe.src = url;
+
+      iframe.onload = function() {
+        loader.classList.add('hidden');
+      };
+
+      modal.classList.remove('hidden');
+      modal.classList.add('flex');
+      playPopSound();
+    }
+
+    function closeModal() {
+      const modal = document.getElementById('player-modal');
+      const iframe = document.getElementById('challenge-iframe');
+      modal.classList.add('hidden');
+      modal.classList.remove('flex');
+      iframe.src = "";
+      playPopSound();
+    }
+
+    function navChallenge(step) {
+      const target = currentOpenChallenge + step;
+      if (target >= 1 && target <= 7) openChallenge(target);
+    }
+
+    function updateModalCompleteBtn() {
+      const completed = getCompletedList();
+      const isDone = completed.includes(currentOpenChallenge);
+      const btn = document.getElementById('modal-btn-complete');
+      const icon = document.getElementById('complete-icon');
+      const text = document.getElementById('complete-text');
+
+      if (isDone) {
+        icon.textContent = "✓";
+        text.textContent = "¡Completado!";
+        btn.className = "bg-emerald-600 text-white font-black text-xs px-3 py-1.5 rounded-xl shadow transition flex items-center gap-1";
+      } else {
+        icon.textContent = "⭐";
+        text.textContent = "Marcar Hecho";
+        btn.className = "bg-amber-500 hover:bg-amber-600 text-white font-bold text-xs px-3 py-1.5 rounded-xl shadow transition flex items-center gap-1";
+      }
+    }
+
+    function toggleCurrentChallengeComplete() {
+      let completed = getCompletedList();
+      if (completed.includes(currentOpenChallenge)) {
+        completed = completed.filter(id => id !== currentOpenChallenge);
+      } else {
+        completed.push(currentOpenChallenge);
+        addPoints(10);
+        playSuccessSound();
+      }
+      saveCompletedList(completed);
+      updateModalCompleteBtn();
+      updateProgressBadges();
+    }
+
+    window.onclick = function(event) {
+      const pModal = document.getElementById('player-modal');
+      if (event.target === pModal) closeModal();
+    };
+
+    window.addEventListener('keydown', (e) => {
+      if (e.key === 'Escape') closeModal();
+    });
+
+    // --- INICIALIZACIÓN ---
+    window.addEventListener('DOMContentLoaded', () => {
+      updateProgressBadges();
+
+      // Comprobar hash en la URL si se desea entrar directo a un módulo
+      if (window.location.hash === '#modulo-1') {
+        openModule(1);
+      } else if (window.location.hash === '#modulo-2') {
+        openModule(2);
+      }
+    });
+  </script>
+</body>
+</html>

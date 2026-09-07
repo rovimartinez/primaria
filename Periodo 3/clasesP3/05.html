@@ -1,0 +1,2339 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Mundo Jandra | 5° Grado - Harvard CS50 Scratch</title>
+  <link rel="icon" type="image/x-icon" href="../../assets/Icono.ico">
+
+  <!-- Tailwind CSS CDN -->
+  <script src="https://cdn.tailwindcss.com"></script>
+
+  <!-- Google Fonts: Outfit, Plus Jakarta Sans & JetBrains Mono -->
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Fredoka:wght@500;600;700&family=JetBrains+Mono:wght@400;600;700&family=Outfit:wght@400;600;700;800;900&family=Plus+Jakarta+Sans:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+
+  <!-- Canvas Confetti -->
+  <script src="https://cdn.jsdelivr.net/npm/canvas-confetti@1.6.0/dist/confetti.browser.min.js"></script>
+
+<!-- Scratchblocks renderer (Oficial de la comunidad Scratch para renderizado SVG 3.0) -->
+  <script src="https://cdn.jsdelivr.net/npm/scratchblocks@latest/build/scratchblocks.min.js"></script>
+  <script src="https://cdn.jsdelivr.net/npm/scratchblocks@latest/build/translations-all.js"></script>
+
+  <script>
+    tailwind.config = {
+      theme: {
+        extend: {
+          fontFamily: {
+            sans: ['"Plus Jakarta Sans"', 'sans-serif'],
+            display: ['Outfit', 'sans-serif'],
+            scratch: ['Fredoka', 'sans-serif'],
+            mono: ['"JetBrains Mono"', 'monospace']
+          },
+          colors: {
+            harvard: {
+              crimson: '#A51C30',
+              dark: '#7A1523',
+              light: '#BE2A3F',
+              accent: '#FFF1F2'
+            },
+            scratch: {
+              orange: '#FFAB19',
+              darkOrange: '#E69500',
+              blue: '#4C97FF',
+              purple: '#9966FF',
+              pink: '#CF63CF',
+              yellow: '#FFBF00',
+              green: '#59C059',
+              slate: '#4D97FF'
+            }
+          }
+        }
+      }
+    }
+  </script>
+
+  <style>
+    body {
+      background-color: #f8fafc;
+      color: #0f172a;
+      font-family: 'Plus Jakarta Sans', sans-serif;
+    }
+
+    /* Estilos para renderizado de scratchblocks y contenedores de código */
+    .scratchblocks {
+      display: inline-block;
+      vertical-align: middle;
+      font-family: "Helvetica Neue", Helvetica, Arial, sans-serif;
+      font-size: 10pt;
+      font-weight: bold;
+    }
+    .scratchblocks svg {
+      overflow: visible;
+      filter: drop-shadow(0 2px 5px rgba(0,0,0,0.08));
+    }
+    .algo-pill-btn.active-algo {
+      background-color: #ffffff;
+      color: #0f172a;
+      box-shadow: 0 1px 3px 0 rgba(0, 0, 0, 0.1), 0 1px 2px -1px rgba(0, 0, 0, 0.1);
+    }
+
+    /* Fondo temático con sutil cuadrícula */
+    .bg-canvas-pattern {
+      background-color: #f8fafc;
+      background-image: 
+        radial-gradient(rgba(165, 28, 48, 0.08) 1.5px, transparent 1.5px),
+        radial-gradient(rgba(255, 171, 25, 0.08) 1.5px, #f8fafc 1.5px);
+      background-size: 32px 32px;
+      background-position: 0 0, 16px 16px;
+    }
+
+    /* Tarjetas y sombras 3D estilo Scratch/Harvard */
+    .card-cs50 {
+      transition: all 0.25s cubic-bezier(0.16, 1, 0.3, 1);
+      box-shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.05), 0 2px 4px -2px rgba(0, 0, 0, 0.04);
+    }
+    .card-cs50:hover {
+      transform: translateY(-5px);
+      box-shadow: 0 20px 25px -5px rgba(165, 28, 48, 0.12), 0 8px 10px -6px rgba(165, 28, 48, 0.08);
+    }
+
+    /* Bloques de Scratch simulados */
+    .block-motion { background-color: #4C97FF; border: 1px solid #3373CC; }
+    .block-looks { background-color: #9966FF; border: 1px solid #774DCB; }
+    .block-sound { background-color: #CF63CF; border: 1px solid #BD42BD; }
+    .block-events { background-color: #FFBF00; border: 1px solid #CC9900; }
+    .block-control { background-color: #FFAB19; border: 1px solid #CF8B17; }
+    .block-sensing { background-color: #5CB1D6; border: 1px solid #2E8EB8; }
+    .block-operators { background-color: #59C059; border: 1px solid #389438; }
+    .block-variables { background-color: #FF8C1A; border: 1px solid #DB6E00; }
+    .block-myblocks { background-color: #FF6680; border: 1px solid #E64D66; }
+
+    .scratch-chip {
+      display: inline-flex;
+      align-items: center;
+      gap: 6px;
+      padding: 4px 10px;
+      border-radius: 8px;
+      color: white;
+      font-weight: 700;
+      font-size: 0.75rem;
+      box-shadow: 0 2px 0 0 rgba(0, 0, 0, 0.2);
+    }
+
+    /* Botón animado estilo CS50 */
+    .btn-harvard {
+      background: linear-gradient(135deg, #A51C30 0%, #831424 100%);
+      transition: all 0.2s ease;
+      box-shadow: 0 4px 12px rgba(165, 28, 48, 0.25);
+    }
+    .btn-harvard:hover {
+      background: linear-gradient(135deg, #B82238 0%, #901627 100%);
+      transform: translateY(-2px);
+      box-shadow: 0 6px 16px rgba(165, 28, 48, 0.35);
+    }
+
+    /* Botón de subida destacado */
+    .btn-submit-direct {
+      background: linear-gradient(135deg, #A51C30 0%, #dc2626 50%, #f59e0b 100%);
+      box-shadow: 0 8px 20px -4px rgba(165, 28, 48, 0.4);
+      transition: all 0.25s cubic-bezier(0.16, 1, 0.3, 1);
+    }
+    .btn-submit-direct:hover {
+      transform: translateY(-3px) scale(1.01);
+      box-shadow: 0 14px 28px -6px rgba(165, 28, 48, 0.55);
+    }
+
+    /* Píldoras del selector de proyectos */
+    .project-pill-btn {
+      transition: all 0.2s cubic-bezier(0.16, 1, 0.3, 1);
+    }
+    .project-pill-btn.active {
+      background-color: #A51C30;
+      color: #ffffff;
+      border-color: #A51C30;
+      box-shadow: 0 4px 14px rgba(165, 28, 48, 0.3);
+      transform: translateY(-2px);
+    }
+
+    /* Modal de Video */
+    #videoModal {
+      transition: opacity 0.25s ease;
+    }
+
+    /* Pestañas de sección */
+    .nav-tab-btn {
+      transition: all 0.2s ease;
+      cursor: pointer;
+    }
+    .nav-tab-btn.active {
+      background-color: #FFAB19 !important;
+      color: #0f172a !important;
+      font-weight: 800 !important;
+      box-shadow: 0 4px 14px rgba(0, 0, 0, 0.25) !important;
+      border: 1px solid #f59e0b !important;
+    }
+
+    /* Estilo de checkbox interactivo */
+    .custom-checkbox {
+      appearance: none;
+      -webkit-appearance: none;
+      width: 22px;
+      height: 22px;
+      border: 2px solid #cbd5e1;
+      border-radius: 6px;
+      outline: none;
+      cursor: pointer;
+      display: inline-grid;
+      place-content: center;
+      transition: all 0.2s ease;
+      background-color: white;
+    }
+    .custom-checkbox:checked {
+      background-color: #10b981;
+      border-color: #10b981;
+    }
+    .custom-checkbox:checked::before {
+      content: "✓";
+      color: white;
+      font-size: 14px;
+      font-weight: 800;
+    }
+  </style>
+</head>
+<body class="bg-canvas-pattern min-h-screen text-slate-800 flex flex-col selection:bg-rose-200">
+
+  <!-- ========================================================================= -->
+  <!-- BARRA SUPERIOR FIJA CON PESTAÑAS PRINCIPALES                              -->
+  <!-- ========================================================================= -->
+  <header class="bg-gradient-to-r from-harvard-crimson via-rose-800 to-amber-600 text-white shadow-lg border-b-4 border-amber-400 sticky top-0 z-40">
+    <div class="max-w-7xl mx-auto px-4 py-2.5 flex flex-wrap items-center justify-between gap-3">
+      
+      <!-- Volver a Periodo 3 -->
+      <div class="flex items-center">
+        <a href="../periodo3.html" class="inline-flex items-center gap-1.5 bg-black/25 hover:bg-black/40 border border-white/30 text-white text-xs sm:text-sm font-bold px-3.5 py-2 rounded-xl transition active:scale-95" title="Volver al menú de Periodo 3">
+          <span>🏠</span> <span>← Volver al Periodo 3</span>
+        </a>
+      </div>
+
+      <!-- Pestañas de Navegación del Encabezado -->
+      <nav class="flex items-center gap-2 flex-wrap">
+        <button type="button" id="tabBtn-primeros-pasos" class="nav-tab-btn active px-3.5 sm:px-4 py-2 rounded-xl text-xs sm:text-sm font-bold inline-flex items-center gap-1.5 transition cursor-pointer" onclick="showTab('primeros-pasos')">
+          <span>📋</span> <span>Primeros Pasos</span>
+        </button>
+        <button type="button" id="tabBtn-proyectos" class="nav-tab-btn bg-black/25 hover:bg-black/40 text-white/90 border border-white/20 px-3.5 sm:px-4 py-2 rounded-xl text-xs sm:text-sm font-bold inline-flex items-center gap-1.5 transition cursor-pointer" onclick="showTab('proyectos')">
+          <span>🎮</span> <span>Proyectos Oficiales (1 - 9)</span>
+        </button>
+        <button type="button" id="tabBtn-recursos" class="nav-tab-btn bg-black/25 hover:bg-black/40 text-white/90 border border-white/20 px-3.5 sm:px-4 py-2 rounded-xl text-xs sm:text-sm font-bold inline-flex items-center gap-1.5 transition cursor-pointer" onclick="showTab('recursos')">
+          <span>💡</span> <span>Bloques & Recursos</span>
+        </button>
+      </nav>
+
+    </div>
+  </header>
+
+  <!-- ========================================================================= -->
+  <!-- SECCIÓN 1: PRIMEROS PASOS                                                 -->
+  <!-- ========================================================================= -->
+  <section id="primeros-pasos" class="tab-content max-w-7xl mx-auto px-4 py-8 w-full">
+    <!-- HERO BANNER HARVARD CS50 (EXCLUSIVO DE PRIMEROS PASOS) -->
+    <div class="bg-white rounded-3xl py-5 px-6 sm:px-8 border border-slate-200 shadow-md relative overflow-hidden mb-8">
+      <!-- Marca de agua sutil: Solo el Gato de Scratch -->
+      <div class="absolute -right-4 md:right-8 top-1/2 -translate-y-1/2 text-8xl md:text-9xl lg:text-[130px] opacity-[0.08] select-none pointer-events-none">
+        🐱
+      </div>
+
+      <div class="relative z-10 w-full">
+        <div class="flex items-center gap-2 mb-1.5">
+          <span class="inline-flex items-center gap-1.5 px-3 py-0.5 rounded-full bg-rose-100 text-harvard-crimson text-[11px] font-black uppercase tracking-wider">
+            <span>🏛️</span> <span>Certificación Internacional Harvard CS50</span>
+          </span>
+          <span class="text-xs font-bold text-slate-400 hidden sm:inline">&bull; 5° Grado</span>
+        </div>
+        <h1 class="font-display font-black text-xl sm:text-2xl lg:text-3xl text-slate-900 tracking-tight leading-tight">
+          CS50’s Introduction to Programming with <span class="text-harvard-crimson">Scratch</span>
+        </h1>
+        <p class="text-slate-600 text-xs sm:text-sm leading-relaxed mt-1 max-w-5xl">
+          Durante este <strong>3.° Periodo Académico</strong> trabajaremos juntos para obtener tu <strong>certificación internacional oficial de Harvard CS50</strong> de manera 100% gratuita. Te guiaremos paso a paso en el registro, la programación en Scratch y la entrega de los <strong>9 proyectos oficiales</strong> calificados directamente por la plataforma de Harvard University.
+        </p>
+      </div>
+    </div>
+
+    
+    <div class="mb-6">
+      <div class="flex items-center gap-2">
+        <span class="text-2xl">🗝️</span>
+        <h2 class="font-display font-extrabold text-2xl sm:text-3xl text-slate-900">
+          Primeros Pasos
+        </h2>
+      </div>
+      <p class="text-slate-600 text-xs sm:text-sm mt-1.5 leading-relaxed">
+        A continuación deberás realizar la creación de tus cuentas oficiales en <strong>edX</strong> y <strong>GitHub</strong>, e inscribirte en la modalidad gratuita al curso. Posteriormente realizarás la vinculación entre ambas plataformas para que el sistema de Harvard CS50 pueda registrar y calificar automáticamente cada uno de tus proyectos.
+      </p>
+
+      <!-- Nota de punta a punta -->
+      <div class="w-full mt-3.5 bg-rose-50 border-2 border-rose-300 rounded-2xl p-4 flex items-start sm:items-center gap-3.5 shadow-sm">
+        <span class="text-2xl shrink-0">⚠️</span>
+        <div class="text-xs sm:text-sm text-rose-950 space-y-1 w-full">
+          <p>
+            <strong>Importante:</strong> Debes usar obligatoriamente tu <strong>correo institucional</strong> tanto en edX como en GitHub (el mismo en ambas plataformas) para asegurar la calificación automática.
+          </p>
+          <p class="text-xs text-rose-700 font-medium">
+            📌 <em>(El docente de informática no cuenta con sus correos, esos los entregó el Director de grupo).</em>
+          </p>
+        </div>
+      </div>
+    </div>
+
+    <!-- Contenedor de Pasos de Configuración (Secuencia Vertical a Ancho Completo) -->
+    <div class="flex flex-col gap-6 w-full mb-8">
+
+      <!-- INICIO SECUENCIAL: PASO 1 -->
+      <div class="flex items-center justify-center my-1 select-none">
+        <span class="h-0.5 bg-slate-200 flex-1"></span>
+        <div class="bg-rose-100 text-rose-900 border-2 border-rose-300 font-display font-black text-xs px-4 py-1 rounded-full shadow-sm flex items-center gap-1.5">
+          <span>🚀</span> <span>Comenzar: Paso 1 (Crear Cuenta en edX)</span>
+        </div>
+        <span class="h-0.5 bg-slate-200 flex-1"></span>
+      </div>
+
+      <!-- PASO 1: CREAR CUENTA EN EDX -->
+      <div class="bg-white rounded-3xl p-5 sm:p-6 border-2 border-rose-200 shadow-md card-cs50 flex flex-col justify-between relative">
+        <div>
+          <div class="flex flex-wrap items-center justify-between gap-3 mb-4">
+            <div class="flex items-center gap-3">
+              <span class="w-11 h-11 rounded-2xl bg-rose-100 text-harvard-crimson font-black text-lg flex items-center justify-center shadow-inner border border-rose-200">
+                1
+              </span>
+              <div>
+                <h3 class="font-display font-black text-lg sm:text-xl text-slate-900">Crear cuenta en edX</h3>
+                <span class="text-xs text-slate-500 font-semibold">Paso obligatorio para la certificación</span>
+              </div>
+            </div>
+
+            <div class="flex items-center gap-2">
+              <button onclick="openVideoModal('5pGgowAZIFY', 'Crear cuenta en edX - Video Tutorial')" class="bg-rose-50 hover:bg-rose-100 text-harvard-crimson border border-rose-200 text-xs font-bold px-3.5 py-2 rounded-xl inline-flex items-center gap-1.5 transition shadow-sm">
+                <span>📺</span> <span>Ver Video de Apoyo</span>
+              </button>
+              
+            </div>
+          </div>
+
+          <div class="space-y-2 text-xs sm:text-sm text-slate-600">
+            <div class="flex items-start gap-2">
+              <span class="text-rose-500 font-bold">•</span>
+              <span>Ingresar al sitio oficial: <a href="https://www.edx.org" target="_blank" rel="noopener noreferrer" class="text-rose-700 font-bold underline hover:text-rose-900">edX ↗</a></span>
+            </div>
+            <div class="flex items-start gap-2">
+              <span class="text-rose-500 font-bold">•</span>
+              <span>Hacer clic en el botón <strong>"Register for free"</strong> (Registrarse gratis).</span>
+            </div>
+            <div class="flex items-start gap-2">
+              <span class="text-rose-500 font-bold">•</span>
+              <span>Completar datos: nombre completo, <strong>correo institucional</strong> (obligatorio), nombre de usuario, contraseña segura y país.</span>
+            </div>
+            <div class="flex items-start gap-2">
+              <span class="text-rose-500 font-bold">•</span>
+              <span><em>Opcional:</em> Desactivar la casilla de correos de novedades y marketing.</span>
+            </div>
+            <div class="flex items-start gap-2">
+              <span class="text-rose-500 font-bold">•</span>
+              <span>Hacer clic en el botón final <strong>"Create an account for free"</strong> (Crear una cuenta gratis).</span>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <!-- CONECTOR SECUENCIAL PASO 1 A 2 -->
+      <div class="flex items-center justify-center my-1 select-none">
+        <span class="h-0.5 bg-slate-200 flex-1"></span>
+        <div class="bg-amber-100 text-amber-900 border-2 border-amber-300 font-display font-black text-xs px-4 py-1 rounded-full shadow-sm flex items-center gap-1.5">
+          <span>⬇️</span> <span>Siguiente: Paso 2 (Inscripción Gratuita)</span>
+        </div>
+        <span class="h-0.5 bg-slate-200 flex-1"></span>
+      </div>
+
+      <!-- PASO 2: INSCRIPCIÓN AL CURSO EN EDX -->
+      <div class="bg-white rounded-3xl p-5 sm:p-6 border-2 border-amber-200 shadow-md card-cs50 flex flex-col justify-between relative">
+        <div>
+          <div class="flex flex-wrap items-center justify-between gap-3 mb-4">
+            <div class="flex items-center gap-3">
+              <span class="w-11 h-11 rounded-2xl bg-amber-100 text-amber-800 font-black text-lg flex items-center justify-center shadow-inner border border-amber-200">
+                2
+              </span>
+              <div>
+                <h3 class="font-display font-black text-lg sm:text-xl text-slate-900">Inscripción al curso en edX</h3>
+                <span class="text-xs text-slate-500 font-semibold">Selección de modalidad gratuita (Audit)</span>
+              </div>
+            </div>
+
+            <div class="flex items-center gap-2">
+              <button onclick="openVideoModal('_DZRRudfHKI', 'Inscripción al curso en edX - Video Tutorial')" class="bg-amber-50 hover:bg-amber-100 text-amber-800 border border-amber-200 text-xs font-bold px-3.5 py-2 rounded-xl inline-flex items-center gap-1.5 transition shadow-sm">
+                <span>📺</span> <span>Ver Video de Apoyo</span>
+              </button>
+              
+            </div>
+          </div>
+
+          <div class="space-y-2 text-xs sm:text-sm text-slate-600">
+            <div class="flex items-start gap-2">
+              <span class="text-amber-500 font-bold">•</span>
+              <span>En la siguiente pantalla pulsar <strong>"Skip for now"</strong> (Saltar por ahora) y luego <strong>"Continue to edX"</strong> (Continuar hacia edX).</span>
+            </div>
+            <div class="flex items-start gap-2">
+              <span class="text-amber-500 font-bold">•</span>
+              <span>Seleccionar <strong>"Explorar los cursos"</strong>, buscar <strong>"Cs50 Scratch"</strong> y seleccionar: <em>"CS50's Introduction to Programming with Scratch"</em> (Introducción a la programación con Scratch) — (<a href="https://www.edx.org/learn/scratch/harvard-university-cs50-s-introduction-to-programming-with-scratch" target="_blank" rel="noopener noreferrer" class="text-amber-700 font-bold underline hover:text-amber-900">Enlace directo al curso ↗</a>).</span>
+            </div>
+            <div class="flex items-start gap-2">
+              <span class="text-amber-500 font-bold">•</span>
+              <span>Elegir la modalidad gratuita haciendo clic en <strong>"Audit Course"</strong> (Auditar curso / Modo gratuito), ubicado justo debajo de <strong>"Earn certificate"</strong> (Obtener certificado pago).</span>
+            </div>
+            <div class="flex items-start gap-2">
+              <span class="text-amber-500 font-bold">•</span>
+              <span>Confirmar en <strong>"Continue"</strong> (Continuar), dar clic en <strong>"Saltar por ahora"</strong> (visita guiada) y finalmente en el botón rojo <strong>"Iniciar curso"</strong>.</span>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <!-- CONECTOR SECUENCIAL PASO 2 A 3 -->
+      <div class="flex items-center justify-center my-1 select-none">
+        <span class="h-0.5 bg-slate-200 flex-1"></span>
+        <div class="bg-slate-200 text-slate-800 border-2 border-slate-300 font-display font-black text-xs px-4 py-1 rounded-full shadow-sm flex items-center gap-1.5">
+          <span>⬇️</span> <span>Siguiente: Paso 3 (Cuenta en GitHub)</span>
+        </div>
+        <span class="h-0.5 bg-slate-200 flex-1"></span>
+      </div>
+
+      <!-- PASO 3: CREAR CUENTA EN GITHUB -->
+      <div class="bg-white rounded-3xl p-5 sm:p-6 border-2 border-slate-300 shadow-md card-cs50 flex flex-col justify-between relative">
+        <div>
+          <div class="flex flex-wrap items-center justify-between gap-3 mb-4">
+            <div class="flex items-center gap-3">
+              <span class="w-11 h-11 rounded-2xl bg-slate-100 text-slate-800 font-black text-lg flex items-center justify-center shadow-inner border border-slate-300">
+                3
+              </span>
+              <div>
+                <h3 class="font-display font-black text-lg sm:text-xl text-slate-900">Crear cuenta en GitHub</h3>
+                <span class="text-xs text-slate-500 font-semibold">Plataforma técnica para entrega de proyectos</span>
+              </div>
+            </div>
+
+            <div class="flex items-center gap-2">
+              <button onclick="openVideoModal('jeDTRA7poYw', 'Crear cuenta en GitHub - Video Tutorial')" class="bg-slate-100 hover:bg-slate-200 text-slate-800 border border-slate-300 text-xs font-bold px-3.5 py-2 rounded-xl inline-flex items-center gap-1.5 transition shadow-sm">
+                <span>📺</span> <span>Ver Video de Apoyo</span>
+              </button>
+              
+            </div>
+          </div>
+
+          <div class="space-y-2 text-xs sm:text-sm text-slate-600">
+            <div class="flex items-start gap-2">
+              <span class="text-slate-800 font-bold">•</span>
+              <span>Ingresar al sitio oficial: <a href="https://github.com/signup" target="_blank" rel="noopener noreferrer" class="text-slate-900 font-bold underline hover:text-rose-700">GitHub ↗</a></span>
+            </div>
+            <div class="flex items-start gap-2">
+              <span class="text-slate-800 font-bold">•</span>
+              <span>Clic en el botón <strong>"Sign up"</strong> (Registrarse), ubicado en la esquina superior derecha.</span>
+            </div>
+            <div class="flex items-start gap-2">
+              <span class="text-slate-800 font-bold">•</span>
+              <span>Ingresar datos: email (<strong>usar obligatoriamente el mismo correo institucional registrado en edX</strong>), contraseña y nombre de usuario. Clic en <strong>"Continue"</strong> (Continuar).</span>
+            </div>
+            <div class="flex items-start gap-2">
+              <span class="text-slate-800 font-bold">•</span>
+              <span>Completar la verificación visual del rompecabezas / puzzle.</span>
+            </div>
+            <div class="flex items-start gap-2">
+              <span class="text-slate-800 font-bold">•</span>
+              <span>Revisar tu bandeja de correo electrónico institucional, copiar el <strong>código de 8 dígitos</strong> e ingresarlo. Luego iniciar sesión en <strong>"Sign in"</strong> (Iniciar sesión).</span>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <!-- CONECTOR SECUENCIAL PASO 3 A 4 -->
+      <div class="flex items-center justify-center my-1 select-none">
+        <span class="h-0.5 bg-slate-200 flex-1"></span>
+        <div class="bg-purple-100 text-purple-900 border-2 border-purple-300 font-display font-black text-xs px-4 py-1 rounded-full shadow-sm flex items-center gap-1.5">
+          <span>⬇️</span> <span>Siguiente: Paso 4 (Vincular edX con GitHub)</span>
+        </div>
+        <span class="h-0.5 bg-slate-200 flex-1"></span>
+      </div>
+
+      <!-- PASO 4: ASOCIAR EDX CON GITHUB -->
+      <div class="bg-white rounded-3xl p-5 sm:p-6 border-2 border-purple-200 shadow-md card-cs50 flex flex-col justify-between relative">
+        <div>
+          <div class="flex flex-wrap items-center justify-between gap-3 mb-4">
+            <div class="flex items-center gap-3">
+              <span class="w-11 h-11 rounded-2xl bg-purple-100 text-purple-800 font-black text-lg flex items-center justify-center shadow-inner border border-purple-200">
+                4
+              </span>
+              <div>
+                <h3 class="font-display font-black text-lg sm:text-xl text-slate-900">Asociar edX con GitHub</h3>
+                <span class="text-xs text-slate-500 font-semibold">Vinculación de cuentas para calificación</span>
+              </div>
+            </div>
+
+            <div class="flex items-center gap-2">
+              <button onclick="openVideoModal('rm5KK80ODn4', 'Asociar edX con GitHub - Video Tutorial')" class="bg-purple-50 hover:bg-purple-100 text-purple-800 border border-purple-200 text-xs font-bold px-3.5 py-2 rounded-xl inline-flex items-center gap-1.5 transition shadow-sm">
+                <span>📺</span> <span>Ver Video de Apoyo</span>
+              </button>
+              
+            </div>
+          </div>
+
+          <div class="space-y-2 text-xs sm:text-sm text-slate-600">
+            <div class="flex items-start gap-2">
+              <span class="text-purple-600 font-bold">•</span>
+              <span>Realizar la vinculación y autorización entre ambas plataformas educativas ingresando a <a href="https://cs50.me/cs50s" target="_blank" rel="noopener noreferrer" class="text-purple-700 font-bold underline hover:text-purple-900">CS50 Gradebook (Libro de calificaciones de CS50 - cs50.me) ↗</a>.</span>
+            </div>
+            <div class="flex items-start gap-2">
+              <span class="text-purple-600 font-bold">•</span>
+              <span>Esto permite que los calificadores automáticos de CS50 identifiquen tus envíos y registren tu nota en el Gradebook de Harvard.</span>
+            </div>
+            <div class="flex items-start gap-2">
+              <span class="text-purple-600 font-bold">•</span>
+              <span>Haz clic con total confianza en el botón verde <strong>"Authorize cs50"</strong> (Autorizar a cs50) cuando GitHub te lo pida. ¡Es 100% seguro y oficial de Harvard para registrar tus notas!</span>
+            </div>
+          </div>
+        </div>
+      </div>
+
+    </div>
+
+    <!-- ========================================================================= -->
+    <!-- HOJA DE RUTA: LOS 9 PROYECTOS OFICIALES (TABLA PEDAGÓGICA CON EJEMPLOS)  -->
+    <!-- ========================================================================= -->
+    <div class="mt-8 mb-6">
+      <div class="flex items-center gap-2 mb-2">
+        <span class="text-2xl">🎯</span>
+        <h3 class="font-display font-black text-xl sm:text-2xl text-slate-900">
+          Hoja de Ruta: Los 9 Proyectos de Certificación Harvard CS50
+        </h3>
+      </div>
+      <p class="text-slate-600 text-xs sm:text-sm leading-relaxed mb-5">
+        ¡Excelente trabajo completando tus cuentas! Ahora, a lo largo de este periodo académico, desarrollarás paso a paso los <strong>9 proyectos oficiales de Harvard CS50</strong> para obtener tu certificación internacional. A continuación tienes la ruta completa con cada reto, su objetivo pedagógico y un <strong>ejemplo concreto de qué programar</strong>:
+      </p>
+
+      <!-- TABLA ELEGANTE Y RESPONSIVA -->
+      <div class="bg-white rounded-3xl border-2 border-slate-200 shadow-sm overflow-hidden">
+        <div class="overflow-x-auto">
+          <table class="w-full text-left border-collapse">
+            <thead>
+              <tr class="bg-slate-900 text-white text-xs uppercase tracking-wider font-display">
+                <th class="py-4 px-4 sm:px-5 font-black">Proyecto</th>
+                <th class="py-4 px-4 sm:px-5 font-black">Objetivo de Aprendizaje</th>
+                <th class="py-4 px-4 sm:px-5 font-black">Ejemplo de qué programar</th>
+                <th class="py-4 px-4 sm:px-5 font-black text-center">Acción</th>
+              </tr>
+            </thead>
+            <tbody class="divide-y divide-slate-100 text-xs sm:text-sm text-slate-700">
+              
+              <!-- PROYECTO 1 -->
+              <tr class="hover:bg-rose-50/50 transition">
+                <td class="py-3.5 px-4 sm:px-5 font-display font-extrabold text-slate-900 whitespace-nowrap">
+                  <div class="flex items-center gap-2">
+                    <span class="w-7 h-7 rounded-lg bg-rose-100 text-harvard-crimson font-black text-xs flex items-center justify-center border border-rose-200">1</span>
+                    <span>Project 1: Sprites</span>
+                  </div>
+                </td>
+                <td class="py-3.5 px-4 sm:px-5 font-medium text-slate-600">
+                  Dominar personajes, disfraces (costumes) y escenarios (backdrops).
+                </td>
+                <td class="py-3.5 px-4 sm:px-5 text-slate-800 leading-relaxed">
+                  <strong class="text-rose-900">Ejemplo para Reinventar (Remix):</strong> Puedes <a href="https://scratch.mit.edu/projects/1378057637" target="_blank" rel="noopener noreferrer" class="underline text-indigo-700 font-bold hover:text-indigo-900">abrir el proyecto de ejemplo en Scratch ↗</a> y reinventarlo cambiando los personajes y el fondo a tu gusto.
+                </td>
+                <td class="py-3.5 px-4 sm:px-5 text-center whitespace-nowrap">
+                  <button onclick="showTab('proyectos'); selectProject(1);" class="bg-rose-50 hover:bg-rose-100 text-harvard-crimson border border-rose-200 text-xs font-bold px-3 py-1.5 rounded-xl transition shadow-sm inline-flex items-center gap-1">
+                    <span>Ver Proyecto</span> ➔
+                  </button>
+                </td>
+              </tr>
+
+              <!-- PROYECTO 2 (BLOQUEADO) -->
+              <tr class="hover:bg-slate-50/50 transition opacity-80 bg-slate-50/30">
+                <td class="py-3.5 px-4 sm:px-5 font-display font-extrabold text-slate-800 whitespace-nowrap">
+                  <div class="flex items-center gap-2">
+                    <span class="w-7 h-7 rounded-lg bg-slate-100 text-slate-500 font-bold text-xs flex items-center justify-center border border-slate-200">🔒</span>
+                    <span class="text-slate-600">Project 2: Functions</span>
+                    <span class="text-[10px] font-bold bg-slate-100 text-slate-500 px-2 py-0.5 rounded-md border border-slate-200">Bloqueado</span>
+                  </div>
+                </td>
+                <td class="py-3.5 px-4 sm:px-5 font-medium text-slate-500">
+                  Invocación de bloques coordinados de movimiento, apariencias y sonidos.
+                </td>
+                <td class="py-3.5 px-4 sm:px-5 text-slate-600 leading-relaxed">
+                  <strong class="text-slate-700">Banda Musical o Baile:</strong> Personajes que bailan coordinados en el escenario, cambian de tamaño o color con efectos y tocan notas o tambores.
+                </td>
+                <td class="py-3.5 px-4 sm:px-5 text-center whitespace-nowrap">
+                  <button type="button" disabled class="bg-slate-100 text-slate-400 border border-slate-200 text-xs font-bold px-3 py-1.5 rounded-xl cursor-not-allowed inline-flex items-center gap-1 select-none opacity-80" title="Proyecto bloqueado - Disponible próximamente">
+                    <span>🔒</span> <span>Bloqueado</span>
+                  </button>
+                </td>
+              </tr>
+
+              <!-- PROYECTO 3 (BLOQUEADO) -->
+              <tr class="hover:bg-slate-50/50 transition opacity-80 bg-slate-50/30">
+                <td class="py-3.5 px-4 sm:px-5 font-display font-extrabold text-slate-800 whitespace-nowrap">
+                  <div class="flex items-center gap-2">
+                    <span class="w-7 h-7 rounded-lg bg-slate-100 text-slate-500 font-bold text-xs flex items-center justify-center border border-slate-200">🔒</span>
+                    <span class="text-slate-600">Project 3: Events</span>
+                    <span class="text-[10px] font-bold bg-slate-100 text-slate-500 px-2 py-0.5 rounded-md border border-slate-200">Bloqueado</span>
+                  </div>
+                </td>
+                <td class="py-3.5 px-4 sm:px-5 font-medium text-slate-500">
+                  Responder a eventos y estímulos (teclas de flecha, clics y mensajes).
+                </td>
+                <td class="py-3.5 px-4 sm:px-5 text-slate-600 leading-relaxed">
+                  <strong class="text-slate-700">Minijuego de Flechas:</strong> Controlar a un personaje para recorrer la pantalla con las flechas del teclado y recolectar objetos que desaparecen al tocarlos.
+                </td>
+                <td class="py-3.5 px-4 sm:px-5 text-center whitespace-nowrap">
+                  <button type="button" disabled class="bg-slate-100 text-slate-400 border border-slate-200 text-xs font-bold px-3 py-1.5 rounded-xl cursor-not-allowed inline-flex items-center gap-1 select-none opacity-80" title="Proyecto bloqueado - Disponible próximamente">
+                    <span>🔒</span> <span>Bloqueado</span>
+                  </button>
+                </td>
+              </tr>
+
+              <!-- PROYECTO 4 (BLOQUEADO) -->
+              <tr class="hover:bg-slate-50/50 transition opacity-80 bg-slate-50/30">
+                <td class="py-3.5 px-4 sm:px-5 font-display font-extrabold text-slate-800 whitespace-nowrap">
+                  <div class="flex items-center gap-2">
+                    <span class="w-7 h-7 rounded-lg bg-slate-100 text-slate-500 font-bold text-xs flex items-center justify-center border border-slate-200">🔒</span>
+                    <span class="text-slate-600">Project 4: Values</span>
+                    <span class="text-[10px] font-bold bg-slate-100 text-slate-500 px-2 py-0.5 rounded-md border border-slate-200">Bloqueado</span>
+                  </div>
+                </td>
+                <td class="py-3.5 px-4 sm:px-5 font-medium text-slate-500">
+                  Manejar preguntas al usuario, captura de respuestas y unión de texto (join).
+                </td>
+                <td class="py-3.5 px-4 sm:px-5 text-slate-600 leading-relaxed">
+                  <strong class="text-slate-700">Robot Conversacional (Chatbot):</strong> Un genio que te pregunta tu nombre y tu comida favorita, y te responde: <em>"¡Hola Juan, te concedo 100 pizzas!"</em>.
+                </td>
+                <td class="py-3.5 px-4 sm:px-5 text-center whitespace-nowrap">
+                  <button type="button" disabled class="bg-slate-100 text-slate-400 border border-slate-200 text-xs font-bold px-3 py-1.5 rounded-xl cursor-not-allowed inline-flex items-center gap-1 select-none opacity-80" title="Proyecto bloqueado - Disponible próximamente">
+                    <span>🔒</span> <span>Bloqueado</span>
+                  </button>
+                </td>
+              </tr>
+
+              <!-- PROYECTO 5 (BLOQUEADO) -->
+              <tr class="hover:bg-slate-50/50 transition opacity-80 bg-slate-50/30">
+                <td class="py-3.5 px-4 sm:px-5 font-display font-extrabold text-slate-800 whitespace-nowrap">
+                  <div class="flex items-center gap-2">
+                    <span class="w-7 h-7 rounded-lg bg-slate-100 text-slate-500 font-bold text-xs flex items-center justify-center border border-slate-200">🔒</span>
+                    <span class="text-slate-600">Project 5: Conditions</span>
+                    <span class="text-[10px] font-bold bg-slate-100 text-slate-500 px-2 py-0.5 rounded-md border border-slate-200">Bloqueado</span>
+                  </div>
+                </td>
+                <td class="py-3.5 px-4 sm:px-5 font-medium text-slate-500">
+                  Lógica condicional (si... entonces... si no) y operadores de comparación.
+                </td>
+                <td class="py-3.5 px-4 sm:px-5 text-slate-600 leading-relaxed">
+                  <strong class="text-slate-700">Juego de Trivia o Adivinanza:</strong> Preguntar la capital de un país o una suma; si el usuario acierta dice <em>"¡Genial!"</em>, si no dice <em>"Casi, intenta de nuevo"</em>.
+                </td>
+                <td class="py-3.5 px-4 sm:px-5 text-center whitespace-nowrap">
+                  <button type="button" disabled class="bg-slate-100 text-slate-400 border border-slate-200 text-xs font-bold px-3 py-1.5 rounded-xl cursor-not-allowed inline-flex items-center gap-1 select-none opacity-80" title="Proyecto bloqueado - Disponible próximamente">
+                    <span>🔒</span> <span>Bloqueado</span>
+                  </button>
+                </td>
+              </tr>
+
+              <!-- PROYECTO 6 (BLOQUEADO) -->
+              <tr class="hover:bg-slate-50/50 transition opacity-80 bg-slate-50/30">
+                <td class="py-3.5 px-4 sm:px-5 font-display font-extrabold text-slate-800 whitespace-nowrap">
+                  <div class="flex items-center gap-2">
+                    <span class="w-7 h-7 rounded-lg bg-slate-100 text-slate-500 font-bold text-xs flex items-center justify-center border border-slate-200">🔒</span>
+                    <span class="text-slate-600">Project 6: Loops</span>
+                    <span class="text-[10px] font-bold bg-slate-100 text-slate-500 px-2 py-0.5 rounded-md border border-slate-200">Bloqueado</span>
+                  </div>
+                </td>
+                <td class="py-3.5 px-4 sm:px-5 font-medium text-slate-500">
+                  Automatizar repeticiones con bucles (repetir n, por siempre y repetir hasta).
+                </td>
+                <td class="py-3.5 px-4 sm:px-5 text-slate-600 leading-relaxed">
+                  <strong class="text-slate-700">Despegue Espacial:</strong> Un cohete con una cuenta regresiva del 10 al 1 usando un bucle, que luego enciende sus motores y sube al cielo sin parar.
+                </td>
+                <td class="py-3.5 px-4 sm:px-5 text-center whitespace-nowrap">
+                  <button type="button" disabled class="bg-slate-100 text-slate-400 border border-slate-200 text-xs font-bold px-3 py-1.5 rounded-xl cursor-not-allowed inline-flex items-center gap-1 select-none opacity-80" title="Proyecto bloqueado - Disponible próximamente">
+                    <span>🔒</span> <span>Bloqueado</span>
+                  </button>
+                </td>
+              </tr>
+
+              <!-- PROYECTO 7 (BLOQUEADO) -->
+              <tr class="hover:bg-slate-50/50 transition opacity-80 bg-slate-50/30">
+                <td class="py-3.5 px-4 sm:px-5 font-display font-extrabold text-slate-800 whitespace-nowrap">
+                  <div class="flex items-center gap-2">
+                    <span class="w-7 h-7 rounded-lg bg-slate-100 text-slate-500 font-bold text-xs flex items-center justify-center border border-slate-200">🔒</span>
+                    <span class="text-slate-600">Project 7: Variables</span>
+                    <span class="text-[10px] font-bold bg-slate-100 text-slate-500 px-2 py-0.5 rounded-md border border-slate-200">Bloqueado</span>
+                  </div>
+                </td>
+                <td class="py-3.5 px-4 sm:px-5 font-medium text-slate-500">
+                  Gestionar memoria con variables (contadores de puntaje, tiempo y vidas).
+                </td>
+                <td class="py-3.5 px-4 sm:px-5 text-slate-600 leading-relaxed">
+                  <strong class="text-slate-700">Atrapando Frutas:</strong> Canasta que se mueve a los lados; cada manzana atrapada suma +1 en la variable <code>Puntaje</code> y si cae al piso resta 1 en <code>Vidas</code>.
+                </td>
+                <td class="py-3.5 px-4 sm:px-5 text-center whitespace-nowrap">
+                  <button type="button" disabled class="bg-slate-100 text-slate-400 border border-slate-200 text-xs font-bold px-3 py-1.5 rounded-xl cursor-not-allowed inline-flex items-center gap-1 select-none opacity-80" title="Proyecto bloqueado - Disponible próximamente">
+                    <span>🔒</span> <span>Bloqueado</span>
+                  </button>
+                </td>
+              </tr>
+
+              <!-- PROYECTO 8 (BLOQUEADO) -->
+              <tr class="hover:bg-slate-50/50 transition opacity-80 bg-slate-50/30">
+                <td class="py-3.5 px-4 sm:px-5 font-display font-extrabold text-slate-800 whitespace-nowrap">
+                  <div class="flex items-center gap-2">
+                    <span class="w-7 h-7 rounded-lg bg-slate-100 text-slate-500 font-bold text-xs flex items-center justify-center border border-slate-200">🔒</span>
+                    <span class="text-slate-600">Project 8: Abstraction</span>
+                    <span class="text-[10px] font-bold bg-slate-100 text-slate-500 px-2 py-0.5 rounded-md border border-slate-200">Bloqueado</span>
+                  </div>
+                </td>
+                <td class="py-3.5 px-4 sm:px-5 font-medium text-slate-500">
+                  Modularizar código creando bloques personalizados ("Mis Bloques") reutilizables.
+                </td>
+                <td class="py-3.5 px-4 sm:px-5 text-slate-800 leading-relaxed">
+                  <strong class="text-slate-700">Juego de Plataformas:</strong> Crear un bloque propio llamado <code>[saltar con altura (x)]</code> para reutilizar la física del salto cada vez que esquivas obstáculos.
+                </td>
+                <td class="py-3.5 px-4 sm:px-5 text-center whitespace-nowrap">
+                  <button type="button" disabled class="bg-slate-100 text-slate-400 border border-slate-200 text-xs font-bold px-3 py-1.5 rounded-xl cursor-not-allowed inline-flex items-center gap-1 select-none opacity-80" title="Proyecto bloqueado - Disponible próximamente">
+                    <span>🔒</span> <span>Bloqueado</span>
+                  </button>
+                </td>
+              </tr>
+
+              <!-- PROYECTO 9 (BLOQUEADO) -->
+              <tr class="hover:bg-slate-50/50 transition opacity-80 bg-slate-50/30">
+                <td class="py-3.5 px-4 sm:px-5 font-display font-extrabold text-slate-800 whitespace-nowrap">
+                  <div class="flex items-center gap-2">
+                    <span class="w-7 h-7 rounded-lg bg-slate-100 text-slate-500 font-bold text-xs flex items-center justify-center border border-slate-200">🔒</span>
+                    <span class="text-slate-600">Project 9: Build</span>
+                    <span class="text-[10px] font-bold bg-slate-100 text-slate-500 px-2 py-0.5 rounded-md border border-slate-200">Bloqueado</span>
+                  </div>
+                </td>
+                <td class="py-3.5 px-4 sm:px-5 font-medium text-slate-500">
+                  Integrar todos los conceptos: sprites, clones, broadcast, variables y bloques propios.
+                </td>
+                <td class="py-3.5 px-4 sm:px-5 text-slate-800 leading-relaxed">
+                  <strong class="text-slate-700">Gran Videojuego Final:</strong> Un juego completo a tu elección (nave espacial disparando a meteoros clonados, laberinto o aventura) con menú, vidas y sonido.
+                </td>
+                <td class="py-3.5 px-4 sm:px-5 text-center whitespace-nowrap">
+                  <button type="button" disabled class="bg-slate-100 text-slate-400 border border-slate-200 text-xs font-bold px-3 py-1.5 rounded-xl cursor-not-allowed inline-flex items-center gap-1 select-none opacity-80" title="Proyecto bloqueado - Disponible próximamente">
+                    <span>🔒</span> <span>Bloqueado</span>
+                  </button>
+                </td>
+              </tr>
+
+            </tbody>
+          </table>
+        </div>
+      </div>
+    </div>
+
+  </section>
+
+  <!-- ========================================================================= -->
+  <!-- SECCIÓN 2: PROYECTOS OFICIALES (1 AL 9)                                   -->
+  <!-- ========================================================================= -->
+  <section id="proyectos" class="tab-content hidden max-w-7xl mx-auto px-4 py-8 w-full">
+
+    <!-- NAVEGADOR SUPERIOR DE LOS 9 PROYECTOS -->
+    <div class="bg-white rounded-3xl p-4 sm:p-5 border border-slate-200 shadow-sm mb-6">
+      <!-- Píldoras de los 9 proyectos (1 al 9) -->
+      <div id="projectPillsContainer" class="grid grid-cols-3 sm:grid-cols-5 md:grid-cols-9 gap-2">
+        <!-- Generado dinámicamente con renderProjectPills() -->
+      </div>
+    </div>
+
+    <!-- ========================================================================= -->
+    <!-- MODO 1: VISOR DETALLADO 1 A 1 (MISIÓN + REQUISITOS + LINK DE SUBIDA)     -->
+    <!-- ========================================================================= -->
+    <div id="projectDetailViewer" class="w-full">
+      <!-- Se inyecta dinámicamente con renderProjectDetail() -->
+    </div>
+
+    <!-- ========================================================================= -->
+    <!-- MODO 2: CUADRÍCULA DE LOS 9 PROYECTOS (VISTA ALTERNATIVA)                  -->
+    <!-- ========================================================================= -->
+    <div id="projectsGridContainer" class="hidden">
+      <div class="flex flex-wrap items-center justify-between gap-3 mb-6 bg-white p-4 rounded-2xl border border-slate-200">
+        <div class="text-xs font-bold text-slate-500">
+          Explora los 9 proyectos simultáneamente:
+        </div>
+        <div class="flex flex-wrap items-center gap-2.5">
+          <div class="relative">
+            <input type="text" id="projectSearchInput" placeholder="Buscar proyecto o concepto..." class="bg-slate-50 border border-slate-200 text-xs sm:text-sm rounded-xl px-3.5 py-2 pl-8 focus:outline-none focus:ring-2 focus:ring-rose-500 w-48 sm:w-64" oninput="filterProjects()">
+            <span class="absolute left-2.5 top-2.5 text-slate-400 text-xs">🔍</span>
+          </div>
+
+          <select id="projectStatusFilter" class="bg-slate-50 border border-slate-200 text-xs sm:text-sm rounded-xl px-3 py-2 font-semibold text-slate-700 focus:outline-none focus:ring-2 focus:ring-rose-500" onchange="filterProjects()">
+            <option value="all">Todos los proyectos (9)</option>
+            <option value="pending">Pendientes</option>
+            <option value="completed">Completados</option>
+          </select>
+        </div>
+      </div>
+
+      <!-- Grid dinámico de tarjetas -->
+      <div id="projectsGrid" class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
+        <!-- Se inyecta dinámicamente con renderProjectsGrid() -->
+      </div>
+
+      <!-- Mensaje cuando no hay resultados de búsqueda -->
+      <div id="noResultsMsg" class="hidden text-center py-12 bg-white rounded-3xl border border-slate-200 mt-4">
+        <div class="text-4xl mb-2">🔍</div>
+        <h4 class="font-display font-bold text-slate-800 text-lg">No se encontraron proyectos</h4>
+        <p class="text-slate-400 text-xs mt-1">Prueba con otros términos de búsqueda o cambia el filtro de estado.</p>
+      </div>
+    </div>
+
+  </section>
+
+    <!-- ========================================================================= -->
+  <!-- SECCIÓN 3: ECOSISTEMA TÉCNICO, APIS & PALETA DE BLOQUES SCRATCH 3.0       -->
+    <!-- ========================================================================= -->
+  <!-- SECCIÓN 3: TIPOS Y FORMAS DE BLOQUES DE SCRATCH (ANATOMÍA VISUAL)          -->
+    <!-- ========================================================================= -->
+  <!-- SECCIÓN 3: PALETA DE BLOQUES Y EJEMPLO EN SCRATCH 3.0                      -->
+    <!-- ========================================================================= -->
+  <!-- SECCIÓN 3: PALETA DE BLOQUES Y EJEMPLO EN SCRATCH 3.0                      -->
+  <!-- ========================================================================= -->
+  <section id="recursos" class="tab-content hidden max-w-7xl mx-auto px-4 py-8 w-full space-y-8">
+
+    <!-- HERO BANNER AMIGABLE -->
+    <div class="relative overflow-hidden bg-gradient-to-r from-amber-500 via-orange-500 to-rose-600 text-white rounded-2xl p-5 sm:p-6 shadow-md border border-amber-300">
+      <div class="relative z-10 w-full">
+        <h2 class="font-display font-black text-2xl sm:text-3xl text-white mb-1.5">
+          Las 9 Familias de Bloques de Scratch
+        </h2>
+        <p class="text-white/95 text-sm sm:text-base leading-relaxed">
+          En Scratch, cada color representa un superpoder distinto de tu personaje. Conoce los 9 tipos oficiales de bloques con sus formas, ranuras y colores auténticos listos para programar tus juegos.
+        </p>
+      </div>
+    </div>
+
+    <!-- MÓDULO 1 (ARRIBA): LAS 9 FAMILIAS DE BLOQUES -->
+    <div class="bg-white rounded-3xl p-6 sm:p-8 border border-slate-200 shadow-sm">
+      <div class="flex items-center gap-3 mb-2">
+        <span class="text-3xl">🎨</span>
+        <div>
+          <h3 class="font-display font-black text-xl sm:text-2xl text-slate-900">
+            Las 9 Familias de Bloques por Colores
+          </h3>
+          <p class="text-xs text-slate-500">Bloques oficiales de Scratch 3.0 con sus formas, ranuras y colores auténticos</p>
+        </div>
+      </div>
+
+      <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-5 mt-6">
+
+        <!-- 1. Movimiento -->
+        <div class="p-5 rounded-2xl bg-blue-50/60 border-2 border-blue-200 hover:border-blue-300 transition shadow-xs flex flex-col justify-between">
+          <div>
+            <div class="flex items-center justify-between mb-2">
+              <div class="flex items-center gap-2 font-bold text-blue-900 text-sm">
+                <span class="w-4 h-4 rounded-full bg-[#4C97FF] inline-block shadow-xs"></span> Movimiento
+              </div>
+              <span class="text-[10px] font-mono font-bold text-blue-800 bg-blue-100 px-2 py-0.5 rounded">Azul</span>
+            </div>
+            <p class="text-xs text-slate-600 leading-relaxed mb-4">
+              Mueve el personaje en el plano cartesiano (X, Y), cambia su dirección y orientación.
+            </p>
+          </div>
+          <div class="bg-white/90 p-3 rounded-xl border border-blue-100 shadow-inner overflow-x-auto">
+            <pre class="scratchblocks-render" style="font-size: 11px;">
+mover (10) pasos
+girar a la derecha (15) grados
+si tocar el borde, rebotar
+            </pre>
+          </div>
+        </div>
+
+        <!-- 2. Apariencia -->
+        <div class="p-5 rounded-2xl bg-purple-50/60 border-2 border-purple-200 hover:border-purple-300 transition shadow-xs flex flex-col justify-between">
+          <div>
+            <div class="flex items-center justify-between mb-2">
+              <div class="flex items-center gap-2 font-bold text-purple-900 text-sm">
+                <span class="w-4 h-4 rounded-full bg-[#9966FF] inline-block shadow-xs"></span> Apariencia
+              </div>
+              <span class="text-[10px] font-mono font-bold text-purple-800 bg-purple-100 px-2 py-0.5 rounded">Morado</span>
+            </div>
+            <p class="text-xs text-slate-600 leading-relaxed mb-4">
+              Diálogos con bocadillos, cambio de disfraces de animación, fondos y tamaño del sprite.
+            </p>
+          </div>
+          <div class="bg-white/90 p-3 rounded-xl border border-purple-100 shadow-inner overflow-x-auto">
+            <pre class="scratchblocks-render" style="font-size: 11px;">
+decir [¡Hola!] por (2) segundos
+siguiente disfraz
+cambiar tamaño por (10)
+            </pre>
+          </div>
+        </div>
+
+        <!-- 3. Sonido -->
+        <div class="p-5 rounded-2xl bg-pink-50/60 border-2 border-pink-200 hover:border-pink-300 transition shadow-xs flex flex-col justify-between">
+          <div>
+            <div class="flex items-center justify-between mb-2">
+              <div class="flex items-center gap-2 font-bold text-pink-900 text-sm">
+                <span class="w-4 h-4 rounded-full bg-[#D65CD6] inline-block shadow-xs"></span> Sonido
+              </div>
+              <span class="text-[10px] font-mono font-bold text-pink-800 bg-pink-100 px-2 py-0.5 rounded">Magenta</span>
+            </div>
+            <p class="text-xs text-slate-600 leading-relaxed mb-4">
+              Efectos sonoros, notas musicales, melodías de fondo y control de volumen.
+            </p>
+          </div>
+          <div class="bg-white/90 p-3 rounded-xl border border-pink-100 shadow-inner overflow-x-auto">
+            <pre class="scratchblocks-render" style="font-size: 11px;">
+iniciar sonido [Miau v]
+tocar sonido [Pop v] hasta que termine
+fijar volumen al (100) %
+            </pre>
+          </div>
+        </div>
+
+        <!-- 4. Eventos -->
+        <div class="p-5 rounded-2xl bg-amber-50/60 border-2 border-amber-200 hover:border-amber-300 transition shadow-xs flex flex-col justify-between">
+          <div>
+            <div class="flex items-center justify-between mb-2">
+              <div class="flex items-center gap-2 font-bold text-amber-900 text-sm">
+                <span class="w-4 h-4 rounded-full bg-[#FFBF00] inline-block shadow-xs"></span> Eventos
+              </div>
+              <span class="text-[10px] font-mono font-bold text-amber-900 bg-amber-100 px-2 py-0.5 rounded">Amarillo</span>
+            </div>
+            <p class="text-xs text-slate-600 leading-relaxed mb-4">
+              Bloques sombrero que inician los programas: pulsar bandera verde, teclado o recibir mensajes.
+            </p>
+          </div>
+          <div class="bg-white/90 p-3 rounded-xl border border-amber-100 shadow-inner overflow-x-auto">
+            <pre class="scratchblocks-render" style="font-size: 11px;">
+al hacer clic en @greenFlag
+al presionar tecla [espacio v]
+enviar [mensaje1 v]
+            </pre>
+          </div>
+        </div>
+
+        <!-- 5. Control -->
+        <div class="p-5 rounded-2xl bg-orange-50/60 border-2 border-orange-200 hover:border-orange-300 transition shadow-xs flex flex-col justify-between">
+          <div>
+            <div class="flex items-center justify-between mb-2">
+              <div class="flex items-center gap-2 font-bold text-orange-900 text-sm">
+                <span class="w-4 h-4 rounded-full bg-[#FFAB19] inline-block shadow-xs"></span> Control
+              </div>
+              <span class="text-[10px] font-mono font-bold text-orange-900 bg-orange-100 px-2 py-0.5 rounded">Naranja</span>
+            </div>
+            <p class="text-xs text-slate-600 leading-relaxed mb-4">
+              Estructuras lógicas: bucles repetitivos (por siempre), condicionales si/sino, esperas y clones.
+            </p>
+          </div>
+          <div class="bg-white/90 p-3 rounded-xl border border-orange-100 shadow-inner overflow-x-auto">
+            <pre class="scratchblocks-render" style="font-size: 11px;">
+esperar (1) segundos
+por siempre
+  mover (10) pasos
+fin
+            </pre>
+          </div>
+        </div>
+
+        <!-- 6. Sensores -->
+        <div class="p-5 rounded-2xl bg-cyan-50/60 border-2 border-cyan-200 hover:border-cyan-300 transition shadow-xs flex flex-col justify-between">
+          <div>
+            <div class="flex items-center justify-between mb-2">
+              <div class="flex items-center gap-2 font-bold text-cyan-900 text-sm">
+                <span class="w-4 h-4 rounded-full bg-[#5CB1D6] inline-block shadow-xs"></span> Sensores
+              </div>
+              <span class="text-[10px] font-mono font-bold text-cyan-900 bg-cyan-100 px-2 py-0.5 rounded">Celeste</span>
+            </div>
+            <p class="text-xs text-slate-600 leading-relaxed mb-4">
+              Detecta colisiones con otros personajes, colores, posición del ratón y preguntas al usuario.
+            </p>
+          </div>
+          <div class="bg-white/90 p-3 rounded-xl border border-cyan-100 shadow-inner overflow-x-auto">
+            <pre class="scratchblocks-render" style="font-size: 11px;">
+<¿tocando [puntero del ratón v]?>
+(distancia a [puntero del ratón v])
+preguntar [¿Cómo te llamas?] y esperar
+            </pre>
+          </div>
+        </div>
+
+        <!-- 7. Operadores -->
+        <div class="p-5 rounded-2xl bg-emerald-50/60 border-2 border-emerald-200 hover:border-emerald-300 transition shadow-xs flex flex-col justify-between">
+          <div>
+            <div class="flex items-center justify-between mb-2">
+              <div class="flex items-center gap-2 font-bold text-emerald-900 text-sm">
+                <span class="w-4 h-4 rounded-full bg-[#59C059] inline-block shadow-xs"></span> Operadores
+              </div>
+              <span class="text-[10px] font-mono font-bold text-emerald-900 bg-emerald-100 px-2 py-0.5 rounded">Verde</span>
+            </div>
+            <p class="text-xs text-slate-600 leading-relaxed mb-4">
+              Cálculos matemáticos (+, -, *, /), números aleatorios al azar, comparaciones y unir textos.
+            </p>
+          </div>
+          <div class="bg-white/90 p-3 rounded-xl border border-emerald-100 shadow-inner overflow-x-auto">
+            <pre class="scratchblocks-render" style="font-size: 11px;">
+((10) + (5))
+(número aleatorio entre (1) y (10))
+<(puntos) > (50)>
+            </pre>
+          </div>
+        </div>
+
+        <!-- 8. Variables -->
+        <div class="p-5 rounded-2xl bg-amber-50/60 border-2 border-amber-300 hover:border-amber-400 transition shadow-xs flex flex-col justify-between">
+          <div>
+            <div class="flex items-center justify-between mb-2">
+              <div class="flex items-center gap-2 font-bold text-amber-900 text-sm">
+                <span class="w-4 h-4 rounded-full bg-[#FF8C1A] inline-block shadow-xs"></span> Variables
+              </div>
+              <span class="text-[10px] font-mono font-bold text-amber-900 bg-amber-100 px-2 py-0.5 rounded">Naranja Oscuro</span>
+            </div>
+            <p class="text-xs text-slate-600 leading-relaxed mb-4">
+              Cajas de memoria para almacenar y sumar puntos, vidas, cronómetros o inventarios.
+            </p>
+          </div>
+          <div class="bg-white/90 p-3 rounded-xl border border-amber-200 shadow-inner overflow-x-auto">
+            <pre class="scratchblocks-render" style="font-size: 11px;">
+fijar [Puntos v] a (0)
+sumar a [Puntos v] (1)
+(Puntos)
+            </pre>
+          </div>
+        </div>
+
+        <!-- 9. Mis Bloques -->
+        <div class="p-5 rounded-2xl bg-rose-50/60 border-2 border-rose-200 hover:border-rose-300 transition shadow-xs flex flex-col justify-between">
+          <div>
+            <div class="flex items-center justify-between mb-2">
+              <div class="flex items-center gap-2 font-bold text-rose-900 text-sm">
+                <span class="w-4 h-4 rounded-full bg-[#FF6680] inline-block shadow-xs"></span> Mis Bloques
+              </div>
+              <span class="text-[10px] font-mono font-bold text-rose-800 bg-rose-100 px-2 py-0.5 rounded">Rojo Coral</span>
+            </div>
+            <p class="text-xs text-slate-600 leading-relaxed mb-4">
+              Crea tus propios bloques y funciones personalizadas para no repetir código.
+            </p>
+          </div>
+          <div class="bg-white/90 p-3 rounded-xl border border-rose-100 shadow-inner overflow-x-auto">
+            <pre class="scratchblocks-render" style="font-size: 11px;">
+definir saltar
+cambiar y por (20)
+saltar
+            </pre>
+          </div>
+        </div>
+
+      </div>
+    </div>
+
+    <!-- MÓDULO 2 (ABAJO): DESGLOSE DEL EJEMPLO DE LA IMAGEN -->
+    <div class="bg-white rounded-3xl p-6 sm:p-8 border border-slate-200 shadow-sm">
+      <div class="flex items-center gap-3 mb-4">
+        <span class="text-3xl">🧩</span>
+        <div>
+          <h3 class="font-display font-black text-xl sm:text-2xl text-slate-900">
+            ¡Mira cómo encajan todos juntos!
+          </h3>
+          <p class="text-xs text-slate-500">Un programa completo combinando Eventos, Control, Movimiento, Sensores y Operadores</p>
+        </div>
+      </div>
+
+      <div class="grid grid-cols-1 lg:grid-cols-12 gap-8 items-start mt-6">
+
+        <!-- Columna Izquierda: Bloques Reales de Scratch -->
+        <div class="lg:col-span-6 bg-gradient-to-b from-slate-50 to-amber-50/40 rounded-2xl border-2 border-amber-200 p-4 sm:p-6 flex flex-col items-center justify-center shadow-inner">
+          <div class="text-xs font-black text-amber-900 uppercase tracking-wider mb-4 flex items-center gap-2">
+            <span>✨</span> Programa en Scratch 3.0
+          </div>
+          
+          <!-- Contenedor con Scratchblocks SVG -->
+          <div id="scratchblocksExampleContainer" class="bg-white/90 p-2 sm:p-4 rounded-2xl border border-amber-200 shadow-sm overflow-x-auto w-full flex justify-center">
+            <pre class="scratchblocks-render" style="font-size: 14px;">
+al hacer clic en @greenFlag
+por siempre
+  crear clon de [mí mismo v]
+  esperar (2) segundos
+fin
+
+al comenzar como clon
+ir a x: (número aleatorio entre (-200) y (200)) y: (160)
+mostrar
+repetir hasta que <(posición y) < (-150)>
+  cambiar y por (-5)
+fin
+eliminar este clon
+            </pre>
+          </div>
+
+          <div class="mt-4 text-[11px] font-semibold text-slate-500 text-center">
+            💡 Código auténtico de creación de clones y gravedad continua
+          </div>
+        </div>
+
+        <!-- Columna Derecha: Anatomía Explicada Bloque por Bloque -->
+        <div class="lg:col-span-6 space-y-3">
+          <div class="bg-slate-50 p-3.5 rounded-xl border border-slate-200 text-xs font-bold text-slate-700">
+            🔎 ¿Qué hace cada bloque en este programa?
+          </div>
+
+          <div class="space-y-2.5 text-xs text-slate-700">
+
+            <div class="p-3 bg-amber-50 rounded-xl border border-amber-200 flex items-start gap-3">
+              <span class="text-xl">🟡</span>
+              <div>
+                <strong class="text-amber-950 font-bold">1. al hacer clic en bandera verde:</strong>
+                <span class="text-slate-600 block mt-0.5">Familia de <strong>Eventos</strong>. Da la orden de inicio cuando el jugador pulsa la bandera verde 🚩.</span>
+              </div>
+            </div>
+
+            <div class="p-3 bg-orange-50 rounded-xl border border-orange-200 flex items-start gap-3">
+              <span class="text-xl">🟠</span>
+              <div>
+                <strong class="text-orange-950 font-bold">2. por siempre:</strong>
+                <span class="text-slate-600 block mt-0.5">Familia de <strong>Control</strong>. Bucle infinito que crea un clon nuevo cada 2 segundos sin parar.</span>
+              </div>
+            </div>
+
+            <div class="p-3 bg-amber-50 rounded-xl border border-amber-200 flex items-start gap-3">
+              <span class="text-xl">🟡</span>
+              <div>
+                <strong class="text-amber-950 font-bold">3. al comenzar como clon:</strong>
+                <span class="text-slate-600 block mt-0.5">Familia de <strong>Control</strong>. Le da vida y órdenes independientes a cada nuevo clon que aparece en pantalla.</span>
+              </div>
+            </div>
+
+            <div class="p-3 bg-blue-50 rounded-xl border border-blue-200 flex items-start gap-3">
+              <span class="text-xl">🔵</span>
+              <div>
+                <strong class="text-blue-950 font-bold">4. ir a x: ... y: (160):</strong>
+                <span class="text-slate-600 block mt-0.5">Familia de <strong>Movimiento</strong>. Coloca al personaje arriba en el escenario para comenzar su caída.</span>
+              </div>
+            </div>
+
+            <div class="p-3 bg-emerald-50 rounded-xl border border-emerald-200 flex items-start gap-3">
+              <span class="text-xl">🟢</span>
+              <div>
+                <strong class="text-emerald-950 font-bold">5. número aleatorio entre (-200) y (200):</strong>
+                <span class="text-slate-600 block mt-0.5">Familia de <strong>Operadores</strong>. Encaja dentro de la coordenada X para que cada clon caiga por un lugar diferente y sorpresa.</span>
+              </div>
+            </div>
+
+            <div class="p-3 bg-teal-50 rounded-xl border border-teal-200 flex items-start gap-3">
+              <span class="text-xl">🟢</span>
+              <div>
+                <strong class="text-teal-950 font-bold">6. &lt; (posición y) &lt; (-150) &gt;:</strong>
+                <span class="text-slate-600 block mt-0.5">Familia de <strong>Operadores y Sensores</strong>. Compara si la posición vertical del clon ya tocó el piso de la pantalla.</span>
+              </div>
+            </div>
+
+            <div class="p-3 bg-rose-50 rounded-xl border border-rose-200 flex items-start gap-3">
+              <span class="text-xl">🛑</span>
+              <div>
+                <strong class="text-rose-950 font-bold">7. eliminar este clon:</strong>
+                <span class="text-slate-600 block mt-0.5">Familia de <strong>Control</strong>. Destruye el clon que tocó el suelo para mantener el juego rápido y sin trabas.</span>
+              </div>
+            </div>
+
+          </div>
+        </div>
+
+      </div>
+    </div>
+
+    <!-- ENLACES OFICIALES -->
+    <div class="bg-gradient-to-r from-slate-50 to-white rounded-3xl p-6 border border-slate-200 shadow-sm flex flex-wrap items-center justify-between gap-4">
+      <div class="flex items-center gap-3">
+        <span class="text-2xl">🚀</span>
+        <div>
+          <h4 class="font-display font-black text-sm text-slate-900">¿Listo para programar tus propios bloques?</h4>
+          <p class="text-xs text-slate-500">Abre el editor oficial de Scratch o revisa los retos oficiales de Harvard CS50</p>
+        </div>
+      </div>
+      <div class="flex items-center gap-3 flex-wrap">
+        <a href="https://scratch.mit.edu/projects/editor/" target="_blank" rel="noopener noreferrer" class="inline-flex items-center gap-1.5 bg-amber-400 hover:bg-amber-300 text-slate-950 text-xs font-black px-4 py-2.5 rounded-xl transition shadow">
+          <span>😺</span> <span>Abrir Editor de Scratch</span> <span>↗</span>
+        </a>
+        <button type="button" onclick="showTab('proyectos')" class="inline-flex items-center gap-1.5 bg-harvard-crimson hover:bg-harvard-dark text-white text-xs font-bold px-4 py-2.5 rounded-xl transition shadow">
+          <span>🎮</span> <span>Ver Proyectos (1 - 9)</span>
+        </button>
+      </div>
+    </div>
+
+  </section>
+
+  <!-- ========================================================================= -->
+  <!-- MODAL DE REPRODUCCIÓN DE VIDEO                                            -->
+  <!-- ========================================================================= -->
+  <div id="videoModal" class="fixed inset-0 bg-slate-950/80 backdrop-blur-sm z-50 flex items-center justify-center p-4 hidden opacity-0 pointer-events-none transition-opacity duration-300">
+    <div class="bg-white rounded-3xl overflow-hidden shadow-2xl max-w-3xl w-full border border-slate-200">
+      <div class="p-4 bg-slate-900 text-white flex items-center justify-between">
+        <div class="flex items-center gap-2">
+          <span>📺</span>
+          <h4 id="videoModalTitle" class="font-display font-bold text-sm sm:text-base text-white">Video Tutorial de Apoyo</h4>
+        </div>
+        <button onclick="closeVideoModal()" class="text-slate-400 hover:text-white text-lg font-bold px-2 py-1 transition" title="Cerrar ventana">
+          ✕
+        </button>
+      </div>
+
+      <!-- Contenedor Responsive de Video -->
+      <div class="relative w-full pb-[56.25%] bg-black">
+        <iframe id="videoIframe" class="absolute top-0 left-0 w-full h-full" src="" title="Video Tutorial de Apoyo" frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture" allowfullscreen></iframe>
+      </div>
+
+      <div class="p-4 bg-slate-50 flex items-center justify-between flex-wrap gap-2">
+        <span class="text-xs text-slate-500">¿Problemas para reproducir?</span>
+        <div class="flex items-center gap-2">
+          <a id="videoDirectLink" href="#" target="_blank" rel="noopener noreferrer" class="text-xs font-bold text-rose-700 hover:underline inline-flex items-center gap-1">
+            <span>Abrir directamente en YouTube</span> <span>↗</span>
+          </a>
+          <button onclick="closeVideoModal()" class="bg-slate-900 hover:bg-slate-800 text-white text-xs font-bold px-4 py-2 rounded-xl transition">
+            Cerrar
+          </button>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- ========================================================================= -->
+  <!-- TOAST DE NOTIFICACIÓN COPIADO                                            -->
+  <!-- ========================================================================= -->
+  <div id="toastNotification" class="fixed bottom-6 right-6 bg-slate-900 text-white px-4 py-3 rounded-2xl shadow-xl flex items-center gap-2 text-xs font-bold transition-all duration-300 transform translate-y-20 opacity-0 pointer-events-none z-50 border border-slate-700">
+    <span class="text-emerald-400 text-base">✓</span>
+    <span id="toastMessage">Enlace copiado al portapapeles</span>
+  </div>
+
+  <!-- ========================================================================= -->
+  <!-- PIE DE PÁGINA                                                             -->
+  <!-- ========================================================================= -->
+  <footer class="mt-auto bg-white border-t border-slate-200 py-8">
+    <div class="max-w-7xl mx-auto px-4 text-center">
+      <p class="font-display font-black text-slate-900 text-base mb-1">Mundo Jandra &bull; Grado Quinto (5°)</p>
+      <p class="text-slate-500 text-xs font-semibold">Prof. Ronny Martinez &bull; Tecnología e Informática</p>
+    </div>
+  </footer>
+
+  <!-- ========================================================================= -->
+  <!-- SCRIPT INTERACTIVO Y GESTIÓN DE PROGRESO                                  -->
+  <!-- ========================================================================= -->
+  <script>
+    // Clave de almacenamiento en LocalStorage
+    const STORAGE_KEY = 'mundoJandra_p3_grado5_progress';
+
+    // Lista de metas: 4 pasos introductorios + 9 proyectos = 13 metas en total
+    const TASKS = [
+      'step-1', 'step-2', 'step-3', 'step-4',
+      'proj-1', 'proj-2', 'proj-3', 'proj-4', 'proj-5', 'proj-6', 'proj-7', 'proj-8', 'proj-9'
+    ];
+
+    // =========================================================================
+    // BASE DE DATOS COMPLETA DE LOS 9 PROYECTOS OFICIALES DE HARVARD CS50
+    // =========================================================================
+    const CS50_PROJECTS = [
+      {
+        id: 1,
+        title: "Sprites & Fondos",
+        fullTitle: "CS50 Scratch - Proyecto 1: Sprites",
+        slug: "sprites",
+        concept: "Escenario y Personajes (Diseño Visual • Sin código)",
+        icon: "🐱",
+        badgeColor: "bg-blue-100 text-blue-800 border-blue-200",
+        blockChipClass: "block-motion",
+        difficulty: "Nivel Inicial • Sin código obligatorio",
+        harvardUrl: "https://cs50.harvard.edu/scratch/projects/1/",
+        submitUrl: "https://submit.cs50.io/upload/cs50/problems/2024/scratch/sprites",
+        exampleUrl: "https://scratch.mit.edu/projects/1378057637",
+        mission: "Tu objetivo en este proyecto es ambientar una escena completa en Scratch. El escenario no debe quedarse en blanco: debes colocar un fondo nuevo (elegido de la biblioteca de Scratch o dibujado por ti) e insertar al menos tres (3) personajes u objetos (sprites) diferentes en pantalla, ubicándolos libremente donde prefieras arrastrándolos con el ratón.",
+        requirements: [
+          "<strong>Agrega un fondo que te guste:</strong> Elige un escenario de la biblioteca de Scratch o dibújalo (el fondo no debe quedarse en blanco).",
+          "<strong>Agrega al menos tres (3) sprites:</strong> Inserta tres personajes u objetos diferentes y acomódalos en la pantalla arrastrándolos con el ratón.",
+          "<strong>Coloca el nombre al proyecto:</strong> En la barra superior de Scratch escribe <code>Proyecto 1</code>."
+        ],
+        blocks: [],
+        tip: "Puedes mover libremente a cada personaje en el escenario arrastrándolo con el ratón para componer tu escena como más te guste."
+      },
+      {
+        id: 2,
+        title: "Movimiento & Sonido",
+        fullTitle: "CS50 Scratch - Proyecto 2: Functions",
+        slug: "functions",
+        concept: "Funciones de Movimiento, Apariencia y Sonido",
+        icon: "🎵",
+        badgeColor: "bg-purple-100 text-purple-800 border-purple-200",
+        blockChipClass: "block-sound",
+        difficulty: "Nivel Básico • Animación",
+        harvardUrl: "https://cs50.harvard.edu/scratch/projects/2/",
+        submitUrl: "https://submit.cs50.io/upload/cs50/problems/2024/scratch/functions",
+        mission: "Tu objetivo en este proyecto es darle dinamismo a tus personajes utilizando bloques de las tres categorías esenciales de Scratch: Movimiento, Apariencia y Sonido. Tu personaje debe desplazarse en la pantalla, decir una frase mediante un bocadillo de diálogo y emitir un efecto de sonido coordinado.",
+        requirements: [
+          "<strong>Bloque de Movimiento:</strong> Utiliza al menos una instrucción para mover, deslizar o girar a tu personaje (ej: <code>mover (10) pasos</code> o <code>rebotar si toca un borde</code>).",
+          "<strong>Bloque de Apariencia:</strong> Haz que tu personaje hable con un bocadillo de diálogo (ej: <code>decir [¡Hola!] por (2) segs</code>) o cambie de disfraz.",
+          "<strong>Bloque de Sonido:</strong> Haz que reproduzca un efecto de sonido coordinado (ej: <code>iniciar sonido [Miau]</code>).",
+          "<strong>Coloca el nombre al proyecto:</strong> En la barra superior de Scratch escribe <code>Proyecto 2</code>."
+        ],
+        blocks: [
+          { text: "mover (10) pasos", type: "motion" },
+          { text: "decir [¡Hola!] por (2) segs", type: "looks" },
+          { text: "siguiente disfraz", type: "looks" },
+          { text: "iniciar sonido [Miau]", type: "sound" },
+          { text: "rebotar si toca un borde", type: "motion" }
+        ],
+        tip: "Usa <em>decir [texto] por (2) segundos</em> en lugar de <em>decir [texto]</em> para que el mensaje no se borre inmediatamente de la pantalla."
+      },
+      {
+        id: 3,
+        title: "Eventos & Disparadores",
+        fullTitle: "CS50 Scratch - Proyecto 3: Events",
+        slug: "events",
+        concept: "Disparadores de Eventos y Controles",
+        icon: "⚡",
+        badgeColor: "bg-amber-100 text-amber-800 border-amber-200",
+        blockChipClass: "block-events",
+        difficulty: "Nivel Básico • Interactividad",
+        harvardUrl: "https://cs50.harvard.edu/scratch/projects/3/",
+        submitUrl: "https://submit.cs50.io/upload/cs50/problems/2024/scratch/events",
+        mission: "Tu objetivo en este proyecto es hacer que tu proyecto responda dinámicamente a las acciones del usuario. Programa diferentes eventos para que ocurran cosas distintas al pulsar la bandera verde, presionar teclas del teclado (como flechas o espacio) o hacer clic con el ratón sobre los personajes.",
+        requirements: [
+          "<strong>Evento con Bandera Verde:</strong> Inicia una acción principal al pulsar la bandera usando <code>al presionar 🚩</code>.",
+          "<strong>Evento con el Teclado:</strong> Haz que tu personaje responda a una tecla con <code>al presionar tecla [espacio]</code> o flechas.",
+          "<strong>Evento con el Ratón:</strong> Haz que ocurra algo al hacer clic sobre el personaje con <code>al hacer clic en este objeto</code>.",
+          "<strong>Coloca el nombre al proyecto:</strong> En la barra superior de Scratch escribe <code>Proyecto 3</code>."
+        ],
+        blocks: [
+          { text: "al presionar 🚩", type: "events" },
+          { text: "al presionar tecla [espacio]", type: "events" },
+          { text: "al hacer clic en este objeto", type: "events" },
+          { text: "al cambiar el fondo a [...]", type: "events" }
+        ],
+        tip: "Puedes hacer que con las flechas del teclado el personaje camine, y que al hacerle clic salte o cambie de color."
+      },
+      {
+        id: 4,
+        title: "Valores & Preguntas",
+        fullTitle: "CS50 Scratch - Proyecto 4: Values",
+        slug: "values",
+        concept: "Entrada de Datos, Sensor Respuesta y Texto",
+        icon: "🔢",
+        badgeColor: "bg-cyan-100 text-cyan-800 border-cyan-200",
+        blockChipClass: "block-sensing",
+        difficulty: "Nivel Intermedio • Diálogo con el Usuario",
+        harvardUrl: "https://cs50.harvard.edu/scratch/projects/4/",
+        submitUrl: "https://submit.cs50.io/upload/cs50/problems/2024/scratch/values",
+        mission: "Tu objetivo en este proyecto es crear una interacción donde el programa dialogue con el usuario. El personaje debe formular una pregunta en pantalla, esperar a que el usuario escriba la respuesta con el teclado, y utilizar esa información para responderle de manera personalizada combinando texto o calculando números.",
+        requirements: [
+          "<strong>Pregunta al usuario:</strong> Formula una pregunta con el bloque sensor celeste <code>preguntar [¿Cómo te llamas?] y esperar</code>.",
+          "<strong>Captura y une el texto:</strong> Ensambla una respuesta usando el bloque de Operadores verde <code>unir [¡Mucho gusto, ] y (respuesta)</code>.",
+          "<strong>Muestra la respuesta:</strong> Haz que tu personaje diga la frase personalizada usando <code>decir [...] por (3) segs</code>.",
+          "<strong>Coloca el nombre al proyecto:</strong> En la barra superior de Scratch escribe <code>Proyecto 4</code>."
+        ],
+        blocks: [
+          { text: "preguntar [¿Cómo te llamas?] y esperar", type: "sensing" },
+          { text: "(respuesta)", type: "sensing" },
+          { text: "unir [¡Mucho gusto, ] y (respuesta)", type: "operators" },
+          { text: "decir [...] por (3) segs", type: "looks" }
+        ],
+        tip: "El bloque <em>unir</em> de la categoría verde (Operadores) te permite ensamblar saludos como 'Hola, ' + tu nombre para que suene natural."
+      },
+      {
+        id: 5,
+        title: "Condiciones & Lógica",
+        fullTitle: "CS50 Scratch - Proyecto 5: Conditions",
+        slug: "conditions",
+        concept: "Condicionales Si / Sino y Comparaciones",
+        icon: "🔀",
+        badgeColor: "bg-orange-100 text-orange-800 border-orange-200",
+        blockChipClass: "block-control",
+        difficulty: "Nivel Intermedio • Toma de Decisiones",
+        harvardUrl: "https://cs50.harvard.edu/scratch/projects/5/",
+        submitUrl: "https://submit.cs50.io/upload/cs50/problems/2024/scratch/conditions",
+        mission: "Tu objetivo en este proyecto es programar al computador para que tome decisiones lógicas por sí mismo. Crea una adivinanza, un acertijo o un control de contraseña: si el usuario escribe la respuesta correcta pasa una cosa (ej: aplausos), pero si es incorrecta pasa otra distinta (ej: sonido de error o pista).",
+        requirements: [
+          "<strong>Estructura condicional:</strong> Utiliza el bloque de Control <code>si &lt;condición&gt; entonces / si no</code> para evaluar respuestas.",
+          "<strong>Comparación lógica:</strong> Usa un operador de comparación verde para verificar lo que escribió el usuario (ej: <code>(respuesta) = [Harvard]</code>).",
+          "<strong>Dos caminos diferentes:</strong> Programa un mensaje o sonido de felicitación si acierta, y una pista o aviso si falla.",
+          "<strong>Coloca el nombre al proyecto:</strong> En la barra superior de Scratch escribe <code>Proyecto 5</code>."
+        ],
+        blocks: [
+          { text: "si <(respuesta) = [Harvard]> entonces", type: "control" },
+          { text: "si ... si no ...", type: "control" },
+          { text: "operador (=) (<) (>)", type: "operators" },
+          { text: "decir [¡Correcto! Has ganado.]", type: "looks" }
+        ],
+        tip: "Recuerda que Scratch no distingue entre mayúsculas y minúsculas en las comparaciones de texto, pero sí en los espacios en blanco."
+      },
+      {
+        id: 6,
+        title: "Bucles & Repetición",
+        fullTitle: "CS50 Scratch - Proyecto 6: Loops",
+        slug: "loops",
+        concept: "Bucles, Game Loops y Repetición Cíclica",
+        icon: "🔁",
+        badgeColor: "bg-amber-100 text-amber-900 border-amber-300",
+        blockChipClass: "block-control",
+        difficulty: "Nivel Intermedio • Optimización",
+        harvardUrl: "https://cs50.harvard.edu/scratch/projects/6/",
+        submitUrl: "https://submit.cs50.io/upload/cs50/problems/2024/scratch/loops",
+        mission: "Tu objetivo en este proyecto es automatizar acciones repetitivas mediante bucles. En lugar de copiar y pegar bloques manualmente, utiliza estructuras cíclicas para que un personaje patrulle continuamente, gire como un reloj o repita una coreografía un número exacto de veces.",
+        requirements: [
+          "<strong>Dos tipos de bucles:</strong> Utiliza al menos dos bucles de la categoría Control (ej: <code>por siempre</code> y <code>repetir (10) veces</code>).",
+          "<strong>Animación continua:</strong> Haz que tu personaje patrulle la pantalla o alterne disfraces de forma fluida dentro del ciclo.",
+          "<strong>Pausa de fluidez:</strong> Inserta pausas con <code>esperar (0.1) segundos</code> dentro del bucle para evitar movimientos bruscos.",
+          "<strong>Coloca el nombre al proyecto:</strong> En la barra superior de Scratch escribe <code>Proyecto 6</code>."
+        ],
+        blocks: [
+          { text: "por siempre", type: "control" },
+          { text: "repetir (10) veces", type: "control" },
+          { text: "repetir hasta que <¿tocando el borde?>", type: "control" },
+          { text: "esperar (0.1) segundos", type: "control" },
+          { text: "rebotar si toca un borde", type: "motion" }
+        ],
+        tip: "El bloque <em>por siempre</em> es el núcleo de cualquier videojuego (Game Loop). Usa <em>fijar estilo de rotación izquierda-derecha</em> para evitar que tu personaje camine de cabeza al rebotar."
+      },
+      {
+        id: 7,
+        title: "Videojuego con Puntaje",
+        fullTitle: "CS50 Scratch - Proyecto 7: Variables",
+        slug: "variables",
+        concept: "Variables, Sistema de Puntos y Fin de Juego",
+        icon: "🎮",
+        badgeColor: "bg-emerald-100 text-emerald-800 border-emerald-200",
+        blockChipClass: "block-variables",
+        difficulty: "Nivel Avanzado • Videojuego Jugable",
+        harvardUrl: "https://cs50.harvard.edu/scratch/projects/7/",
+        submitUrl: "https://submit.cs50.io/upload/cs50/problems/2024/scratch/variables",
+        mission: "Tu objetivo en este proyecto es construir tu primer videojuego interactivo completo con sistema de puntuación. Diseña una mecánica donde el jugador controle un personaje que deba atrapar objetos que caen o esquivar obstáculos. Debes crear una variable llamada 'Puntaje' (o 'Vidas') que cambie en tiempo real y finalice el juego cuando corresponda.",
+        requirements: [
+          "<strong>Crea tu variable:</strong> Crea una variable en la categoría naranja llamada <code>Puntaje</code> (o <code>Monedas</code> / <code>Vidas</code>).",
+          "<strong>Reinicia al iniciar:</strong> Al presionar la bandera verde fija el valor inicial con <code>fijar [Puntaje] a (0)</code>.",
+          "<strong>Suma puntos por contacto:</strong> Detecta cuando el personaje recolecte un objeto con <code>¿tocando [objeto]?</code> y suma puntos con <code>cambiar [Puntaje] por (1)</code>.",
+          "<strong>Condición de fin:</strong> Haz que el juego termine al alcanzar la meta o quedarse sin vidas usando <code>detener [todos]</code>.",
+          "<strong>Coloca el nombre al proyecto:</strong> En la barra superior de Scratch escribe <code>Proyecto 7</code>."
+        ],
+        blocks: [
+          { text: "fijar [Puntaje] a (0)", type: "variables" },
+          { text: "cambiar [Puntaje] por (1)", type: "variables" },
+          { text: "¿tocando [objeto]?", type: "sensing" },
+          { text: "detener [todos]", type: "control" }
+        ],
+        tip: "Cuando el jugador recolecte un objeto, haz que este salte a una posición aleatoria en la parte superior con <em>ir a posición aleatoria</em> y <em>dar a y el valor (180)</em>."
+      },
+      {
+        id: 8,
+        title: "Bloques Propios (Abstracción)",
+        fullTitle: "CS50 Scratch - Proyecto 8: Abstraction",
+        slug: "abstraction",
+        concept: "Mis Bloques, Funciones Propias y Modularidad",
+        icon: "🏆",
+        badgeColor: "bg-purple-100 text-purple-800 border-purple-200",
+        blockChipClass: "block-myblocks",
+        difficulty: "Nivel Avanzado • Código Modular",
+        harvardUrl: "https://cs50.harvard.edu/scratch/projects/8/",
+        submitUrl: "https://submit.cs50.io/upload/cs50/problems/2024/scratch/abstraction",
+        mission: "Tu objetivo en este proyecto es practicar el principio de abstracción creando tus propios bloques personalizados ('Mis Bloques'). Define una función propia con un nombre claro (por ejemplo: saltar, celebrar o reiniciar_posicion) y reutilízala varias veces en tu programa principal para que tu código sea limpio y ordenado.",
+        requirements: [
+          "<strong>Crea un bloque propio:</strong> En la categoría roja 'Mis Bloques' pulsa <em>Crear un bloque</em> (ej: <code>saltar</code>, <code>celebrar</code> o <code>reiniciar</code>).",
+          "<strong>Define su comportamiento:</strong> Programa la secuencia de acciones debajo del bloque cabecera <code>definir [nombre]</code>.",
+          "<strong>Invócalo dos veces:</strong> Llama o utiliza tu bloque personalizado al menos dos (2) veces en tu código principal.",
+          "<strong>Coloca el nombre al proyecto:</strong> En la barra superior de Scratch escribe <code>Proyecto 8</code>."
+        ],
+        blocks: [
+          { text: "definir [saltar]", type: "myblocks" },
+          { text: "[saltar] (bloque invocado)", type: "myblocks" },
+          { text: "definir [reiniciar_posicion]", type: "myblocks" }
+        ],
+        tip: "Crear bloques propios en Scratch es exactamente lo mismo que crear funciones en Python o JavaScript. ¡Te ahorra repetir decenas de bloques una y otra vez!"
+      },
+      {
+        id: 9,
+        title: "Gran Desafío Final",
+        fullTitle: "CS50 Scratch - Proyecto 9: Building from Scratch",
+        slug: "build",
+        concept: "Mensajería (Broadcast), Clones y Proyecto Integrador",
+        icon: "👑",
+        badgeColor: "bg-rose-100 text-harvard-crimson border-rose-300",
+        blockChipClass: "block-events",
+        difficulty: "Nivel Máster • Proyecto de Graduación",
+        harvardUrl: "https://cs50.harvard.edu/scratch/projects/9/",
+        submitUrl: "https://submit.cs50.io/upload/cs50/problems/2024/scratch/build",
+        mission: "Tu objetivo en este gran proyecto cumbre es demostrar todo tu talento integrando todo lo aprendido a lo largo del curso. Debes coordinar sprites usando señales de radio o mensajes de difusión (broadcast) y generar copias dinámicas de objetos usando el poder de los clones (proyectiles, monedas o enemigos).",
+        requirements: [
+          "<strong>Mensajes de difusión (Broadcast):</strong> Envía una señal con <code>enviar [mensaje]</code> y haz que otro personaje reaccione con <code>al recibir [mensaje]</code>.",
+          "<strong>Clonación dinámica:</strong> Genera copias automáticas con <code>crear clon de [mí mismo]</code> y programa su acción en <code>al comenzar como clon</code>.",
+          "<strong>Integración completa:</strong> Combina puntaje, bucles, fondos y efectos de sonido en una experiencia de juego o animación final.",
+          "<strong>Coloca el nombre al proyecto:</strong> En la barra superior de Scratch escribe <code>Proyecto 9</code>."
+        ],
+        blocks: [
+          { text: "enviar [iniciar_juego]", type: "events" },
+          { text: "al recibir [iniciar_juego]", type: "events" },
+          { text: "crear clon de [mí mismo]", type: "control" },
+          { text: "al comenzar como clon", type: "control" },
+          { text: "eliminar este clon", type: "control" }
+        ],
+        tip: "Los clones son ideales para objetos que aparecen muchas veces como lluvia de monedas o enemigos. Recuerda siempre colocar el bloque <em>eliminar este clon</em> al tocar el fondo para no saturar la memoria."
+      }
+    ];
+
+    let currentProjectId = 1;
+    let currentViewMode = 'single'; // 'single' o 'grid'
+
+    // =========================================================================
+    // GESTIÓN DE PESTAÑAS (SOLO MUESTRA EL CONTENIDO DE LA PESTAÑA ACTIVA)
+    // =========================================================================
+    function showTab(tabId, smoothScroll = true) {
+      const tabs = ['primeros-pasos', 'proyectos', 'recursos'];
+      if (!tabs.includes(tabId)) tabId = 'primeros-pasos';
+
+      // Ocultar todas las secciones y mostrar únicamente la seleccionada
+      tabs.forEach(id => {
+        const section = document.getElementById(id);
+        const btn = document.getElementById(`tabBtn-${id}`);
+
+        if (section) {
+          if (id === tabId) {
+            section.classList.remove('hidden');
+            section.style.display = 'block';
+          } else {
+            section.classList.add('hidden');
+            section.style.display = 'none';
+          }
+        }
+
+        if (btn) {
+          if (id === tabId) {
+            btn.classList.add('active');
+            btn.classList.remove('bg-black/25', 'text-white/90', 'border-white/20');
+          } else {
+            btn.classList.remove('active');
+            btn.classList.add('bg-black/25', 'text-white/90', 'border-white/20');
+          }
+        }
+      });
+
+      // Actualizar hash de URL sin forzar salto brusco
+      if (history.replaceState) {
+        history.replaceState(null, null, `#${tabId}`);
+      }
+
+      // Si se pasa a proyectos, asegurar renderizado del proyecto actual
+      if (tabId === 'proyectos') {
+        renderProjectDetail(currentProjectId);
+        renderProjectPills();
+      }
+
+      // Desplazamiento suave al contenido
+      if (smoothScroll) {
+        const activeSection = document.getElementById(tabId);
+        if (activeSection) {
+          const yOffset = -80;
+          const y = activeSection.getBoundingClientRect().top + window.pageYOffset + yOffset;
+          window.scrollTo({ top: y, behavior: 'smooth' });
+        }
+      }
+    }
+
+    // =========================================================================
+    // VISOR DE PROYECTOS (1 A 1 Y NAVEGACIÓN)
+    // =========================================================================
+    function selectProject(projId) {
+      if (projId > 1) {
+        alert("🔒 Este proyecto estará disponible próximamente en las siguientes clases. ¡Concéntrate por ahora en el Proyecto 1!");
+        return;
+      }
+      if (projId < 1) projId = 1;
+
+      currentProjectId = projId;
+      renderProjectDetail(projId);
+      renderProjectPills();
+
+      // Desplazar suavemente hacia el visor del proyecto
+      const viewer = document.getElementById('projectDetailViewer');
+      if (viewer && currentViewMode === 'single') {
+        const yOffset = -100;
+        const y = viewer.getBoundingClientRect().top + window.pageYOffset + yOffset;
+        window.scrollTo({ top: y, behavior: 'smooth' });
+      }
+    }
+
+    function navigateProject(direction) {
+      const nextId = currentProjectId + direction;
+      if (nextId === 1) {
+        selectProject(nextId);
+      }
+    }
+
+    function setViewMode(mode) {
+      currentViewMode = mode;
+      const singleViewer = document.getElementById('projectDetailViewer');
+      const gridContainer = document.getElementById('projectsGridContainer');
+      const btnSingle = document.getElementById('viewModeBtn-single');
+      const btnGrid = document.getElementById('viewModeBtn-grid');
+
+      if (mode === 'single') {
+        singleViewer.classList.remove('hidden');
+        gridContainer.classList.add('hidden');
+        if (btnSingle) btnSingle.className = 'px-3.5 py-2 rounded-xl text-xs font-bold transition flex items-center gap-1.5 bg-white text-slate-900 shadow-sm';
+        if (btnGrid) btnGrid.className = 'px-3.5 py-2 rounded-xl text-xs font-bold transition flex items-center gap-1.5 text-slate-600 hover:text-slate-900';
+        renderProjectDetail(currentProjectId);
+      }
+      if (tabId === 'recursos') {
+        setTimeout(renderScratchBlocks, 60);
+      } else {
+        singleViewer.classList.add('hidden');
+        gridContainer.classList.remove('hidden');
+        if (btnGrid) btnGrid.className = 'px-3.5 py-2 rounded-xl text-xs font-bold transition flex items-center gap-1.5 bg-white text-slate-900 shadow-sm';
+        if (btnSingle) btnSingle.className = 'px-3.5 py-2 rounded-xl text-xs font-bold transition flex items-center gap-1.5 text-slate-600 hover:text-slate-900';
+        renderProjectsGrid();
+      setAlgorithmExample(0);
+      }
+    }
+
+    // Renderizar píldoras superiores del 1 al 9 (Proyectos 2 al 9 bloqueados)
+    function renderProjectPills() {
+      const container = document.getElementById('projectPillsContainer');
+      if (!container) return;
+
+      let html = '';
+
+      CS50_PROJECTS.forEach(proj => {
+        const isSelected = proj.id === currentProjectId;
+        const isLocked = proj.id > 1;
+
+        if (isLocked) {
+          html += `
+            <button type="button" onclick="alert('🔒 El Proyecto ${proj.id} (${proj.title}) estará disponible en las siguientes clases. ¡Concéntrate por ahora en el Proyecto 1!');" class="project-pill-btn p-2 rounded-2xl border flex flex-col items-center justify-center text-center transition bg-slate-100/70 border-slate-200 text-slate-400 opacity-60 cursor-not-allowed hover:bg-slate-100 select-none" title="Proyecto ${proj.id} Bloqueado">
+              <div class="flex items-center gap-1 mb-0.5">
+                <span class="text-xs">🔒</span>
+                <span class="text-xs font-bold text-slate-400">${proj.id}</span>
+              </div>
+              <span class="text-[9px] font-bold truncate max-w-full block leading-tight text-slate-400">Bloqueado</span>
+            </button>
+          `;
+        } else {
+          html += `
+            <button type="button" onclick="selectProject(${proj.id}); setViewMode('single');" class="project-pill-btn p-2 rounded-2xl border flex flex-col items-center justify-center text-center transition ${isSelected ? 'active' : 'bg-slate-50 hover:bg-slate-100 border-slate-200 text-slate-700'}">
+              <div class="flex items-center gap-1 mb-0.5">
+                <span class="text-sm">${proj.icon}</span>
+                <span class="text-xs font-black">${proj.id}</span>
+              </div>
+              <span class="text-[10px] font-bold truncate max-w-full block leading-tight opacity-90">${proj.title.split(' ')[0]}</span>
+            </button>
+          `;
+        }
+      });
+
+      container.innerHTML = html;
+
+      // Actualizar badge indicador y botones de navegación
+      const badge = document.getElementById('currentProjectBadge');
+      if (badge) {
+        badge.textContent = `Proyecto ${currentProjectId} de 9: ${CS50_PROJECTS[currentProjectId - 1].title}`;
+      }
+
+      const btnPrev = document.getElementById('btnPrevProject');
+      const btnNext = document.getElementById('btnNextProject');
+      if (btnPrev) {
+        btnPrev.disabled = true;
+        btnPrev.classList.add('opacity-40');
+      }
+      if (btnNext) {
+        btnNext.disabled = true;
+        btnNext.classList.add('opacity-40');
+      }
+    }
+
+    // Renderizar la ficha detallada 1 a 1
+    function renderProjectDetail(projId) {
+      const viewer = document.getElementById('projectDetailViewer');
+      if (!viewer) return;
+
+      const proj = CS50_PROJECTS.find(p => p.id === projId) || CS50_PROJECTS[0];
+
+      // Mapear bloques sugeridos a chips visuales
+      const blocksHtml = proj.blocks.map(b => {
+        const blockClass = `block-${b.type}`;
+        return `<span class="scratch-chip ${blockClass} text-xs font-semibold py-1 px-2.5 rounded-lg shadow-sm">${b.text}</span>`;
+      }).join(' ');
+
+      // Mapear lista de requisitos
+      const reqsHtml = proj.requirements.map(req => `
+        <li class="flex items-start gap-2.5 text-xs sm:text-sm text-slate-700">
+          <span class="w-5 h-5 rounded-full bg-emerald-100 text-emerald-800 flex items-center justify-center font-bold text-xs shrink-0 mt-0.5">✓</span>
+          <span>${req}</span>
+        </li>
+      `).join('');
+
+      viewer.innerHTML = `
+        <div class="bg-white rounded-3xl p-6 sm:p-8 lg:p-10 border-2 border-slate-200 shadow-xl card-cs50 transition-all">
+          
+          <!-- Encabezado de la Ficha del Proyecto -->
+          <div class="pb-6 border-b border-slate-100">
+            <h3 class="font-display font-black text-2xl sm:text-3xl lg:text-4xl text-slate-900 tracking-tight">
+              ${proj.fullTitle}
+            </h3>
+          </div>
+
+          <!-- ========================================================================= -->
+          <!-- RUTA LINEAL SECUENCIAL PASO A PASO (1 AL 4)                               -->
+          <!-- ========================================================================= -->
+          <div class="space-y-6 my-6">
+
+            <!-- CONECTOR INICIO PASO 1 -->
+            <div class="flex items-center justify-center select-none">
+              <span class="h-0.5 bg-slate-200 flex-1"></span>
+              <div class="bg-rose-100 text-rose-900 border-2 border-rose-300 font-display font-black text-xs px-4 py-1 rounded-full shadow-sm flex items-center gap-1.5">
+                <span>⬇️</span> <span>Paso 1</span>
+              </div>
+              <span class="h-0.5 bg-slate-200 flex-1"></span>
+            </div>
+
+            <!-- PASO 1: COMPRENDER LA MISIÓN -->
+            <div class="bg-white rounded-3xl p-5 sm:p-6 border-2 border-rose-100 shadow-sm space-y-4">
+              <div class="flex items-center justify-between gap-3 flex-wrap">
+                <div class="flex items-center gap-2.5">
+                  <span class="w-8 h-8 rounded-xl bg-rose-100 text-harvard-crimson font-black text-sm flex items-center justify-center border border-rose-200 shadow-inner">1</span>
+                  <h4 class="font-display font-extrabold text-base sm:text-lg text-slate-900">Paso 1: ¿De qué trata este proyecto? (Misión)</h4>
+                </div>
+                <span class="text-xs font-bold text-slate-400 bg-slate-50 px-2.5 py-1 rounded-lg border">Paso 1 de 4</span>
+              </div>
+              
+              <div class="text-slate-700 text-sm sm:text-base leading-relaxed space-y-2.5">
+                ${proj.mission}
+              </div>
+
+              <!-- BLOQUES RECOMENDADOS O AVISO SIN CÓDIGO -->
+              ${proj.blocks && proj.blocks.length > 0 ? `
+              <div class="bg-slate-50 p-4 rounded-2xl border border-slate-200">
+                <div class="flex items-center gap-2 text-slate-800 font-bold text-xs uppercase tracking-wider mb-2.5">
+                  <span>🧩</span>
+                  <span>Bloques clave recomendados en Scratch:</span>
+                </div>
+                <div class="flex flex-wrap gap-2">
+                  ${blocksHtml}
+                </div>
+              </div>` : `
+              <div class="bg-emerald-50 border-2 border-emerald-200 rounded-2xl p-4 flex items-center gap-3">
+                <span class="text-2xl shrink-0">🎨</span>
+                <div class="text-xs sm:text-sm text-emerald-950 leading-relaxed">
+                  <strong>¡Sin bloques de código obligatorios!</strong> Este primer proyecto califica tu creatividad en la ambientación del fondo y la selección de personajes. La programación con bloques comenzará a partir del <strong>Proyecto 2 (Functions)</strong>.
+                </div>
+              </div>`}
+
+              <!-- CONSEJO PRÁCTICO -->
+              <div class="bg-amber-50/80 border border-amber-200 rounded-2xl p-3.5 flex items-start gap-3">
+                <span class="text-xl shrink-0">💡</span>
+                <div class="text-xs sm:text-sm text-amber-900 leading-relaxed">
+                  <strong>Consejo del profesor:</strong> ${proj.tip}
+                </div>
+              </div>
+            </div>
+
+            <!-- CONECTOR 1 A 2 -->
+            <div class="flex items-center justify-center select-none">
+              <span class="h-0.5 bg-slate-200 flex-1"></span>
+              <div class="bg-blue-100 text-blue-900 border-2 border-blue-300 font-display font-black text-xs px-4 py-1 rounded-full shadow-sm flex items-center gap-1.5">
+                <span>⬇️</span> <span>Paso 2</span>
+              </div>
+              <span class="h-0.5 bg-slate-200 flex-1"></span>
+            </div>
+
+            <!-- PASO 2: ELEGIR CÓMO TRABAJAR EN SCRATCH (2 OPCIONES LADO A LADO) -->
+            <div class="bg-white rounded-3xl p-5 sm:p-6 border-2 border-blue-100 shadow-sm space-y-4">
+              <div class="flex items-center justify-between gap-3 flex-wrap">
+                <div class="flex items-center gap-2.5">
+                  <span class="w-8 h-8 rounded-xl bg-blue-100 text-blue-800 font-black text-sm flex items-center justify-center border border-blue-200 shadow-inner">2</span>
+                  <h4 class="font-display font-extrabold text-base sm:text-lg text-slate-900">Paso 2: ${proj.exampleUrl ? '¡A crear en Scratch! Elige una de las 2 opciones:' : '¡A programar en el Scratch Editor!'}</h4>
+                </div>
+                <span class="text-xs font-bold text-slate-400 bg-slate-50 px-2.5 py-1 rounded-lg border">Paso 2 de 4</span>
+              </div>
+
+              ${proj.exampleUrl ? `
+              <!-- DOS OPCIONES LADO A LADO -->
+              <div class="grid grid-cols-1 md:grid-cols-2 gap-4">
+                
+                <!-- OPCIÓN 1: REINVENTAR EJEMPLO -->
+                <div class="bg-gradient-to-br from-indigo-50/90 to-blue-50/40 border-2 border-indigo-200 rounded-2xl p-4 sm:p-5 flex flex-col justify-between space-y-3">
+                  <div class="space-y-2">
+                    <div class="flex items-center justify-between gap-2">
+                      <span class="bg-indigo-100 text-indigo-800 font-black text-xs px-2.5 py-0.5 rounded-full border border-indigo-200 uppercase tracking-wider">
+                        Opción 1 • Recomendada
+                      </span>
+                      <span class="text-xs font-bold text-indigo-600">Más fácil y rápido</span>
+                    </div>
+                    <h5 class="font-display font-black text-slate-900 text-base flex items-center gap-1.5">
+                      <span>✨</span> <span>Reinventar el Ejemplo</span>
+                    </h5>
+                    <p class="text-slate-600 text-xs sm:text-sm leading-relaxed">
+                      Abre el proyecto base, haz clic en el botón verde <strong>"Reinventar" (Remix)</strong> en Scratch y solo cambia los personajes y el fondo por los que más te gusten.
+                    </p>
+                  </div>
+                  <div class="pt-2">
+                    <a href="${proj.exampleUrl}" target="_blank" rel="noopener noreferrer" class="w-full bg-indigo-600 hover:bg-indigo-700 text-white text-xs sm:text-sm font-black px-4 py-2.5 rounded-xl inline-flex items-center justify-center gap-2 shadow-sm transition">
+                      <span>😺</span>
+                      <span>Abrir Proyecto de Ejemplo ↗</span>
+                    </a>
+                  </div>
+                </div>
+
+                <!-- OPCIÓN 2: DESDE CERO -->
+                <div class="bg-slate-50 border-2 border-slate-200 rounded-2xl p-4 sm:p-5 flex flex-col justify-between space-y-3">
+                  <div class="space-y-2">
+                    <div class="flex items-center justify-between gap-2">
+                      <span class="bg-amber-100 text-amber-900 font-black text-xs px-2.5 py-0.5 rounded-full border border-amber-200 uppercase tracking-wider">
+                        Opción 2 • 100% Libre
+                      </span>
+                      <span class="text-xs font-bold text-slate-500">Página en blanco</span>
+                    </div>
+                    <h5 class="font-display font-black text-slate-900 text-base flex items-center gap-1.5">
+                      <span>🎨</span> <span>Crear desde Cero</span>
+                    </h5>
+                    <p class="text-slate-600 text-xs sm:text-sm leading-relaxed">
+                      Abre el editor oficial de Scratch en blanco y añade tú mismo un fondo nuevo de la biblioteca y tus tres personajes preferidos.
+                    </p>
+                  </div>
+                  <div class="pt-2">
+                    <a href="https://scratch.mit.edu/projects/editor/" target="_blank" rel="noopener noreferrer" class="w-full bg-amber-400 hover:bg-amber-300 text-slate-950 text-xs sm:text-sm font-black px-4 py-2.5 rounded-xl inline-flex items-center justify-center gap-2 shadow-sm transition">
+                      <span>😺</span>
+                      <span>Abrir Scratch Editor en Blanco ↗</span>
+                    </a>
+                  </div>
+                </div>
+
+              </div>` : `
+              <!-- OPCIÓN ÚNICA PARA PROYECTOS SIN EJEMPLO ESPECÍFICO -->
+              <div class="bg-slate-50 border-2 border-slate-200 rounded-2xl p-4 sm:p-5 flex flex-col sm:flex-row items-start sm:items-center justify-between gap-4">
+                <div class="space-y-1">
+                  <div class="font-display font-black text-slate-900 text-base flex items-center gap-2">
+                    <span>😺</span> <span>Crear tu solución en el Scratch Editor</span>
+                  </div>
+                  <p class="text-slate-600 text-xs sm:text-sm leading-relaxed">
+                    Abre el editor oficial de Scratch para comenzar a programar este proyecto siguiendo los requisitos y la misión.
+                  </p>
+                </div>
+                <a href="https://scratch.mit.edu/projects/editor/" target="_blank" rel="noopener noreferrer" class="bg-amber-400 hover:bg-amber-300 text-slate-950 text-xs sm:text-sm font-black px-6 py-3 rounded-xl inline-flex items-center justify-center gap-2 shadow-sm transition shrink-0 transform active:scale-95">
+                  <span>😺</span> <span>Abrir Scratch Editor ↗</span>
+                </a>
+              </div>`}
+            </div>
+
+            <!-- CONECTOR 2 A 3 -->
+            <div class="flex items-center justify-center select-none">
+              <span class="h-0.5 bg-slate-200 flex-1"></span>
+              <div class="bg-amber-100 text-amber-900 border-2 border-amber-300 font-display font-black text-xs px-4 py-1 rounded-full shadow-sm flex items-center gap-1.5">
+                <span>⬇️</span> <span>Paso 3</span>
+              </div>
+              <span class="h-0.5 bg-slate-200 flex-1"></span>
+            </div>
+
+            <!-- PASO 3: LISTA DE CHEQUEO (REQUISITOS OBLIGATORIOS) -->
+            <div class="bg-white rounded-3xl p-5 sm:p-6 border-2 border-amber-100 shadow-sm space-y-4">
+              <div class="flex items-center justify-between gap-3 flex-wrap">
+                <div class="flex items-center gap-2.5">
+                  <span class="w-8 h-8 rounded-xl bg-amber-100 text-amber-800 font-black text-sm flex items-center justify-center border border-amber-200 shadow-inner">3</span>
+                  <h4 class="font-display font-extrabold text-base sm:text-lg text-slate-900">Paso 3: Lista de Chequeo (Requisitos para obtener 100%)</h4>
+                </div>
+                <span class="text-xs font-bold text-slate-400 bg-slate-50 px-2.5 py-1 rounded-lg border">Paso 3 de 4</span>
+              </div>
+
+              <p class="text-xs sm:text-sm text-slate-600">
+                Antes de descargar tu proyecto, revisa que tu trabajo en Scratch cumpla con cada uno de los siguientes puntos evaluados por el calificador automático de Harvard:
+              </p>
+
+              <div class="bg-slate-50 p-4 sm:p-5 rounded-2xl border border-slate-200">
+                <ul class="space-y-3">
+                  ${reqsHtml}
+                </ul>
+              </div>
+            </div>
+
+            <!-- CONECTOR 3 A 4 -->
+            <div class="flex items-center justify-center select-none">
+              <span class="h-0.5 bg-slate-200 flex-1"></span>
+              <div class="bg-emerald-100 text-emerald-900 border-2 border-emerald-300 font-display font-black text-xs px-4 py-1 rounded-full shadow-sm flex items-center gap-1.5">
+                <span>⬇️</span> <span>Paso 4</span>
+              </div>
+              <span class="h-0.5 bg-slate-200 flex-1"></span>
+            </div>
+
+            <!-- PASO 4: GUARDADO Y SUBIDA DIRECTA A CS50 -->
+            <div class="bg-white rounded-3xl p-5 sm:p-6 border-2 border-emerald-200 shadow-sm space-y-5">
+              <div class="flex items-center justify-between gap-3 flex-wrap">
+                <div class="flex items-center gap-2.5">
+                  <span class="w-8 h-8 rounded-xl bg-emerald-100 text-emerald-800 font-black text-sm flex items-center justify-center border border-emerald-200 shadow-inner">4</span>
+                  <h4 class="font-display font-extrabold text-base sm:text-lg text-slate-900">Paso 4: Guardar y Subir a Harvard CS50</h4>
+                </div>
+                <span class="text-xs font-bold text-emerald-700 bg-emerald-50 px-2.5 py-1 rounded-lg border border-emerald-200">¡Paso Final! 🎓</span>
+              </div>
+
+              <!-- Pasos de Entrega uno debajo del otro -->
+              <div class="flex flex-col gap-3 text-xs sm:text-sm text-slate-700">
+                <!-- Paso 1: Guardar -->
+                <div class="bg-slate-50 p-4 rounded-2xl border border-slate-200 flex items-start gap-3">
+                  <span class="w-7 h-7 rounded-full bg-emerald-100 text-emerald-800 font-black flex items-center justify-center text-xs shrink-0 border border-emerald-200">1</span>
+                  <div class="flex-1">
+                    <strong class="text-slate-900 block text-sm mb-0.5">En Scratch: Guardar en tu computador</strong>
+                    <p class="text-slate-600">Ve al menú superior: <em>Archivo ➔ Guardar en tu computador</em>. Se descargará un archivo llamado <code class="bg-white px-1.5 py-0.5 rounded border border-slate-200 font-mono text-emerald-700 font-bold">Proyecto ${proj.id}.sb3</code>.</p>
+                  </div>
+                </div>
+
+                <!-- Paso 2: Subir archivo -->
+                <div class="bg-slate-50 p-4 rounded-2xl border border-slate-200 flex items-start gap-3">
+                  <span class="w-7 h-7 rounded-full bg-rose-100 text-rose-800 font-black flex items-center justify-center text-xs shrink-0 border border-rose-200 mt-0.5">2</span>
+                  <div class="flex-1">
+                    <strong class="text-slate-900 block text-sm mb-0.5">Subir el archivo a CS50</strong>
+                    <p class="text-slate-600 mb-2.5">Haz clic en este botón y selecciona tu archivo <code class="bg-white px-1.5 py-0.5 rounded border border-slate-200 font-mono text-rose-700 font-bold">Proyecto ${proj.id}.sb3</code> para enviarlo:</p>
+                    <a href="${proj.submitUrl}" target="_blank" rel="noopener noreferrer" class="btn-submit-direct text-white text-xs sm:text-sm font-black px-5 py-2.5 rounded-xl inline-flex items-center gap-2 shadow-md transform active:scale-95 transition">
+                      <span>📤</span>
+                      <span>Subir Entrega a CS50 ↗</span>
+                    </a>
+                  </div>
+                </div>
+
+                <!-- Paso 3: Verificar entrega -->
+                <div class="bg-slate-50 p-4 rounded-2xl border border-slate-200 flex items-start gap-3">
+                  <span class="w-7 h-7 rounded-full bg-blue-100 text-blue-800 font-black flex items-center justify-center text-xs shrink-0 border border-blue-200 mt-0.5">3</span>
+                  <div class="flex-1">
+                    <strong class="text-slate-900 block text-sm mb-0.5">Verificar tu entrega</strong>
+                    <p class="text-slate-600 mb-2.5">Haz clic en este botón para verificar tu entrega y revisar tu nota en el Gradebook de CS50:</p>
+                    <a href="https://cs50.me/cs50s" target="_blank" rel="noopener noreferrer" class="bg-white hover:bg-slate-100 text-slate-800 border border-slate-300 text-xs sm:text-sm font-bold px-4 py-2.5 rounded-xl inline-flex items-center gap-1.5 shadow-sm transition">
+                      <span>📊</span>
+                      <span>Verificar Entrega en Gradebook ↗</span>
+                    </a>
+                  </div>
+                </div>
+              </div>
+            </div>
+
+          </div>
+
+          <!-- Barra de navegación inferior entre proyectos -->
+          <div class="flex items-center justify-between gap-2 mt-6 pt-4 border-t border-slate-100">
+            <button type="button" onclick="navigateProject(-1)" ${proj.id === 1 ? 'disabled class="opacity-30 cursor-not-allowed text-xs font-bold text-slate-400 px-3 py-2"' : 'class="bg-slate-100 hover:bg-slate-200 text-slate-700 text-xs font-bold px-4 py-2 rounded-xl transition inline-flex items-center gap-1.5"'}>
+              <span>←</span> <span>Proyecto Anterior</span>
+            </button>
+            <span class="text-xs font-bold text-slate-400">
+              Proyecto ${proj.id} de 9
+            </span>
+            <button type="button" onclick="navigateProject(1)" ${proj.id === 9 ? 'disabled class="opacity-30 cursor-not-allowed text-xs font-bold text-slate-400 px-3 py-2"' : 'class="bg-slate-900 hover:bg-slate-800 text-white text-xs font-bold px-4 py-2 rounded-xl transition inline-flex items-center gap-1.5"'}>
+              <span>Proyecto Siguiente</span> <span>→</span>
+            </button>
+          </div>
+
+        </div>
+      `;
+    }
+
+    // Renderizar la cuadrícula de los 9 proyectos (Vista alternativa)
+    function renderProjectsGrid() {
+      const grid = document.getElementById('projectsGrid');
+      if (!grid) return;
+
+      const progress = getStoredProgress();
+      let html = '';
+
+      CS50_PROJECTS.forEach(proj => {
+        const isLocked = proj.id > 1;
+        const blockPreview = (proj.blocks && proj.blocks.length > 0)
+          ? proj.blocks.slice(0, 3).map(b => `<span class="scratch-chip block-${b.type} text-[11px] py-0.5 px-2 rounded">${b.text}</span>`).join(' ')
+          : '<span class="text-[11px] text-emerald-800 font-bold bg-emerald-50 px-2 py-0.5 rounded-md border border-emerald-200">🎨 Diseño Visual (Sin bloques)</span>';
+
+        if (isLocked) {
+          html += `
+            <div class="bg-slate-50/70 rounded-3xl p-6 border border-slate-200 opacity-65 flex flex-col justify-between project-card" data-project="${proj.id}" data-title="proyecto ${proj.id} ${proj.title.toLowerCase()} ${proj.concept.toLowerCase()}" data-status="locked">
+              <div>
+                <div class="flex items-start justify-between gap-2 mb-3">
+                  <span class="inline-flex items-center gap-1.5 px-2.5 py-1 rounded-lg bg-slate-200 text-slate-600 font-bold text-xs">
+                    <span>🔒</span> <span>${proj.title}</span>
+                  </span>
+                  <span class="text-xs font-black text-slate-400 bg-slate-200/80 px-2.5 py-1 rounded-full border border-slate-300">
+                    Proyecto ${proj.id}
+                  </span>
+                </div>
+
+                <h3 class="font-display font-extrabold text-lg text-slate-700 mb-2">
+                  ${proj.fullTitle}
+                </h3>
+
+                <p class="text-slate-500 text-xs sm:text-sm leading-relaxed mb-4">
+                  ${proj.mission}
+                </p>
+
+                <div class="bg-slate-100 p-3 rounded-2xl border border-slate-200/60 mb-4 space-y-1.5">
+                  <div class="text-[11px] font-bold text-slate-400 uppercase tracking-wider">Conceptos y bloques:</div>
+                  <div class="flex flex-wrap gap-1.5">
+                    ${blockPreview}
+                  </div>
+                </div>
+              </div>
+
+              <div>
+                <div class="pt-4 border-t border-slate-200/60 flex items-center justify-between mb-3">
+                  <span class="text-xs font-bold text-slate-400">Estado: Bloqueado</span>
+                  <span class="badge-status text-[11px] font-bold px-2 py-0.5 rounded-full bg-slate-200 text-slate-500 border border-slate-300">
+                    🔒 Próximamente
+                  </span>
+                </div>
+
+                <div class="space-y-2">
+                  <button type="button" disabled class="w-full bg-slate-200/80 text-slate-400 text-center text-xs font-bold py-2.5 rounded-xl cursor-not-allowed inline-flex items-center justify-center gap-1.5 select-none border border-slate-300/60">
+                    <span>🔒</span> <span>Proyecto Bloqueado por el Profesor</span>
+                  </button>
+                </div>
+              </div>
+            </div>
+          `;
+        } else {
+          html += `
+            <div class="bg-white rounded-3xl p-6 border border-slate-200 card-cs50 flex flex-col justify-between project-card" data-project="${proj.id}" data-title="proyecto ${proj.id} ${proj.title.toLowerCase()} ${proj.concept.toLowerCase()}" data-status="pending">
+              <div>
+                <div class="flex items-start justify-between gap-2 mb-3">
+                  <span class="scratch-chip ${proj.blockChipClass}">
+                    <span>${proj.icon}</span> <span>${proj.title}</span>
+                  </span>
+                  <span class="text-xs font-black text-rose-800 bg-rose-50 px-2.5 py-1 rounded-full border border-rose-200">
+                    Proyecto ${proj.id}
+                  </span>
+                </div>
+
+                <h3 class="font-display font-extrabold text-lg text-slate-900 mb-2">
+                  ${proj.fullTitle}
+                </h3>
+
+                <p class="text-slate-600 text-xs sm:text-sm leading-relaxed mb-4">
+                  ${proj.mission}
+                </p>
+
+                <!-- Bloques clave -->
+                <div class="bg-slate-50 p-3 rounded-2xl border border-slate-100 mb-4 space-y-1.5">
+                  <div class="text-[11px] font-bold text-slate-400 uppercase tracking-wider">Conceptos y bloques:</div>
+                  <div class="flex flex-wrap gap-1.5">
+                    ${blockPreview}
+                  </div>
+                </div>
+              </div>
+
+              <div>
+                <!-- Enlace directo de subida y Ver detalle -->
+                <div class="space-y-2 pt-4 border-t border-slate-100">
+                  <a href="${proj.submitUrl}" target="_blank" rel="noopener noreferrer" class="w-full btn-submit-direct text-white text-center text-xs font-black py-2.5 rounded-xl transition inline-flex items-center justify-center gap-1.5 shadow">
+                    <span>📤</span> <span>Subir Entrega Directa (.sb3) ↗</span>
+                  </a>
+                  <button type="button" onclick="setViewMode('single'); selectProject(${proj.id});" class="w-full bg-slate-100 hover:bg-slate-200 text-slate-800 text-center text-xs font-bold py-2 rounded-xl transition inline-flex items-center justify-center gap-1">
+                    <span>📑</span> <span>Ver Paso a Paso</span>
+                  </button>
+                </div>
+
+              </div>
+            </div>
+          `;
+        }
+      });
+
+      grid.innerHTML = html;
+    }
+
+    // =========================================================================
+    // PROGRESO Y CHECKLIST
+    // =========================================================================
+    function getStoredProgress() {
+      try {
+        const stored = localStorage.getItem(STORAGE_KEY);
+        return stored ? JSON.parse(stored) : {};
+      } catch (e) {
+        return {};
+      }
+    }
+
+    function saveStoredProgress(data) {
+      try {
+        localStorage.setItem(STORAGE_KEY, JSON.stringify(data));
+      } catch (e) {
+        console.error('Error saving progress', e);
+      }
+    }
+
+    function loadProgress() {
+      const progress = getStoredProgress();
+
+      // Cargar pasos introductorios
+      ['1', '2', '3', '4'].forEach(step => {
+        const checkbox = document.getElementById(`task-step-${step}`);
+        if (checkbox) {
+          checkbox.checked = !!progress[`step-${step}`];
+        }
+      });
+
+      updateSummary();
+    }
+
+    function toggleTask(taskId) {
+      const checkbox = document.getElementById(`task-${taskId}`);
+      const progress = getStoredProgress();
+      progress[taskId] = checkbox ? checkbox.checked : false;
+      saveStoredProgress(progress);
+
+      if (checkbox && checkbox.checked) {
+        triggerConfettiMini();
+      }
+      updateSummary();
+    }
+
+    function toggleProject(projNum) {
+      const isDoneInViewer = document.getElementById(`task-proj-${projNum}`)?.checked;
+      const isDoneInGrid = document.getElementById(`task-grid-proj-${projNum}`)?.checked;
+      
+      // Determinar el nuevo estado
+      const progress = getStoredProgress();
+      const currentVal = !!progress[`proj-${projNum}`];
+      const newVal = (isDoneInViewer !== undefined && isDoneInViewer !== currentVal) 
+        ? isDoneInViewer 
+        : (isDoneInGrid !== undefined ? isDoneInGrid : !currentVal);
+
+      progress[`proj-${projNum}`] = newVal;
+      saveStoredProgress(progress);
+
+      // Sincronizar todos los inputs y píldoras
+      const vInput = document.getElementById(`task-proj-${projNum}`);
+      const gInput = document.getElementById(`task-grid-proj-${projNum}`);
+      if (vInput) vInput.checked = newVal;
+      if (gInput) gInput.checked = newVal;
+
+      // Actualizar tarjeta en cuadrícula si existe
+      updateProjectCardUI(projNum, newVal);
+
+      // Re-renderizar píldoras y visor
+      renderProjectPills();
+      if (currentProjectId === projNum && currentViewMode === 'single') {
+        renderProjectDetail(projNum);
+      }
+
+      if (newVal) {
+        triggerConfettiCelebration();
+      }
+      updateSummary();
+    }
+
+    function updateProjectCardUI(projNum, isDone) {
+      const card = document.querySelector(`.project-card[data-project="${projNum}"]`);
+      if (!card) return;
+
+      const badge = card.querySelector('.badge-status');
+      const label = card.querySelector('.status-label');
+
+      if (isDone) {
+        card.setAttribute('data-status', 'completed');
+        card.classList.add('border-emerald-500', 'bg-emerald-50/20');
+        if (badge) {
+          badge.textContent = 'Completado ✓';
+          badge.className = 'badge-status text-[11px] font-extrabold px-2.5 py-0.5 rounded-full bg-emerald-100 text-emerald-800 border border-emerald-300';
+        }
+        if (label) {
+          label.textContent = '¡Completado!';
+          label.classList.add('text-emerald-700');
+        }
+      } else {
+        card.setAttribute('data-status', 'pending');
+        card.classList.remove('border-emerald-500', 'bg-emerald-50/20');
+        if (badge) {
+          badge.textContent = 'Pendiente';
+          badge.className = 'badge-status text-[11px] font-extrabold px-2 py-0.5 rounded-full bg-slate-100 text-slate-600';
+        }
+        if (label) {
+          label.textContent = 'Marcar como completado';
+          label.classList.remove('text-emerald-700');
+        }
+      }
+    }
+
+    function updateSummary() {
+      const progress = getStoredProgress();
+      let completedCount = 0;
+
+      TASKS.forEach(task => {
+        if (progress[task]) completedCount++;
+      });
+
+      const total = TASKS.length; // 13
+      const percent = Math.round((completedCount / total) * 100);
+
+      // Actualizar barra superior
+      const bar = document.getElementById('topProgressBar');
+      const text = document.getElementById('topProgressPercent');
+      const counterBadge = document.getElementById('counterBadge');
+
+      if (bar) bar.style.width = `${percent}%`;
+      if (text) text.textContent = `${percent}%`;
+      if (counterBadge) counterBadge.textContent = `${completedCount} / ${total} tareas`;
+    }
+
+    // =========================================================================
+    // FILTRAR Y BUSCAR EN CUADRÍCULA
+    // =========================================================================
+    function filterProjects() {
+      const query = document.getElementById('projectSearchInput')?.value.toLowerCase().trim() || '';
+      const statusFilter = document.getElementById('projectStatusFilter')?.value || 'all';
+      const cards = document.querySelectorAll('.project-card');
+      let visibleCount = 0;
+
+      cards.forEach(card => {
+        const titleData = card.getAttribute('data-title') || '';
+        const statusData = card.getAttribute('data-status') || 'pending';
+        const textContent = card.innerText.toLowerCase();
+
+        const matchesQuery = query === '' || titleData.includes(query) || textContent.includes(query);
+        const matchesStatus = statusFilter === 'all' || statusFilter === statusData;
+
+        if (matchesQuery && matchesStatus) {
+          card.style.display = 'flex';
+          visibleCount++;
+        } else {
+          card.style.display = 'none';
+        }
+      });
+
+      const noResults = document.getElementById('noResultsMsg');
+      if (noResults) {
+        noResults.classList.toggle('hidden', visibleCount > 0);
+      }
+    }
+
+    // =========================================================================
+    // MODAL DE VIDEOS
+    // =========================================================================
+    function openVideoModal(videoId, title) {
+      const modal = document.getElementById('videoModal');
+      const iframe = document.getElementById('videoIframe');
+      const modalTitle = document.getElementById('videoModalTitle');
+      const directLink = document.getElementById('videoDirectLink');
+
+      modalTitle.textContent = title;
+      iframe.src = `https://www.youtube-nocookie.com/embed/${videoId}?autoplay=1`;
+      directLink.href = `https://www.youtube.com/watch?v=${videoId}`;
+
+      modal.classList.remove('hidden', 'pointer-events-none', 'opacity-0');
+      modal.classList.add('opacity-100');
+    }
+
+    function closeVideoModal() {
+      const modal = document.getElementById('videoModal');
+      const iframe = document.getElementById('videoIframe');
+
+      iframe.src = '';
+      modal.classList.add('opacity-0', 'pointer-events-none');
+      setTimeout(() => {
+        modal.classList.add('hidden');
+      }, 300);
+    }
+
+    window.addEventListener('click', (e) => {
+      const modal = document.getElementById('videoModal');
+      if (e.target === modal) {
+        closeVideoModal();
+      }
+    });
+
+    // =========================================================================
+    // UTILIDADES: COPIAR AL PORTAPAPELES Y TOAST
+    // =========================================================================
+    function copyToClipboard(text, btn) {
+      navigator.clipboard.writeText(text).then(() => {
+        showToast('Enlace copiado al portapapeles');
+        if (btn) {
+          const original = btn.textContent;
+          btn.textContent = '¡Copiado! ✓';
+          setTimeout(() => { btn.textContent = original; }, 2000);
+        }
+      }).catch(() => {
+        showToast('Presiona Ctrl+C para copiar');
+      });
+    }
+
+    function showToast(msg) {
+      const toast = document.getElementById('toastNotification');
+      const msgSpan = document.getElementById('toastMessage');
+      if (msgSpan) msgSpan.textContent = msg;
+
+      toast.classList.remove('translate-y-20', 'opacity-0', 'pointer-events-none');
+      toast.classList.add('translate-y-0', 'opacity-100');
+
+      setTimeout(() => {
+        toast.classList.remove('translate-y-0', 'opacity-100');
+        toast.classList.add('translate-y-20', 'opacity-0', 'pointer-events-none');
+      }, 3000);
+    }
+
+    // =========================================================================
+    // EFECTOS DE CONFETI
+    // =========================================================================
+    function triggerConfettiMini() {
+      if (typeof confetti === 'function') {
+        confetti({
+          particleCount: 35,
+          spread: 50,
+          origin: { y: 0.8 }
+        });
+      }
+    }
+
+    function triggerConfettiCelebration() {
+      if (typeof confetti === 'function') {
+        confetti({
+          particleCount: 80,
+          spread: 70,
+          origin: { y: 0.6 },
+          colors: ['#A51C30', '#FFAB19', '#10B981', '#4C97FF', '#FFBF00']
+        });
+      }
+    }
+
+    
+    // =========================================================================
+    // RENDERIZADO VISUAL DE BLOQUES SCRATCH CON SCRATCHBLOCKS
+    // =========================================================================
+    function renderScratchBlocks() {
+      if (window.scratchblocks && typeof window.scratchblocks.renderMatching === 'function') {
+        try {
+          window.scratchblocks.renderMatching('#recursos .scratchblocks-render', {
+            style: 'scratch3',
+            languages: ['es', 'en'],
+            scale: 0.88
+          });
+        } catch (e) {
+          console.warn('Error al renderizar scratchblocks:', e);
+        }
+      }
+    }
+
+    // =========================================================================
+    // INICIALIZACIÓN AL CARGAR LA PÁGINA
+    // =========================================================================
+    document.addEventListener('DOMContentLoaded', () => {
+      setTimeout(renderScratchBlocks, 300);
+      loadProgress();
+      renderProjectPills();
+      selectProject(1);
+      renderProjectsGrid();
+
+      // Detectar hash inicial (#primeros-pasos, #proyectos, #recursos)
+      const hash = window.location.hash ? window.location.hash.replace('#', '') : 'primeros-pasos';
+      if (['primeros-pasos', 'proyectos', 'recursos'].includes(hash)) {
+        showTab(hash, false);
+      } else {
+        showTab('primeros-pasos', false);
+      }
+    });
+
+    window.addEventListener('hashchange', () => {
+      const hash = window.location.hash ? window.location.hash.replace('#', '') : 'primeros-pasos';
+      if (['primeros-pasos', 'proyectos', 'recursos'].includes(hash)) {
+        showTab(hash, false);
+      }
+    });
+  </script>
+</body>
+</html>

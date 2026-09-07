@@ -3,7 +3,7 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Mundo Toby | 1° Grado - Periodo 3</title>
+  <title>Mundo Jandra | 1° Grado - Periodo 3</title>
   <link rel="icon" type="image/x-icon" href="../../assets/Icono.ico">
   <!-- Tailwind CSS CDN -->
   <script src="https://cdn.tailwindcss.com"></script>
@@ -90,8 +90,9 @@
           <span class="text-[11px] sm:text-xs uppercase tracking-wider">1° GRADO &bull; P3</span>
         </div>
         <div>
-          <h1 class="font-display font-extrabold text-base sm:text-xl text-white tracking-wide flex items-center gap-1.5">
-            <span>Mundo Toby</span>
+          <h1 class="font-display font-extrabold text-base sm:text-xl text-white tracking-wide flex items-center gap-2">
+            <img src="../../assets/jandra/J1.svg" alt="Jandra" class="w-7 h-7 rounded-full bg-white/20 p-0.5 object-cover">
+            <span>Mundo Jandra</span>
           </h1>
         </div>
       </div>
@@ -137,11 +138,11 @@
         </p>
       </div>
 
-      <!-- LAS 2 GRANDES TARJETAS DE MÓDULOS -->
-      <div class="grid grid-cols-1 md:grid-cols-2 gap-6 w-full max-w-3xl">
+      <!-- TARJETA DE MÓDULO (MÓDULO 1: BLOQUES DE DIRECCIÓN) -->
+      <div class="flex justify-center w-full max-w-xl">
 
         <!-- TARJETA MÓDULO 1: BLOQUES DE DIRECCIÓN -->
-        <div onclick="openModule(1)" class="module-card cursor-pointer bg-white rounded-3xl p-6 sm:p-8 border-4 border-emerald-500 shadow-xl flex flex-col justify-between relative overflow-hidden group">
+        <div onclick="openModule(1)" class="module-card cursor-pointer bg-white rounded-3xl p-6 sm:p-8 border-4 border-emerald-500 shadow-xl flex flex-col justify-between relative overflow-hidden group w-full">
           <div class="absolute top-4 right-4 bg-emerald-100 text-emerald-800 font-black text-xs px-3 py-1 rounded-full border border-emerald-300">
             ✨ Habilitado &bull; 4 Clases
           </div>
@@ -164,17 +165,17 @@
               <span>🦙</span> <span>Clase activa: Coty la Llama</span>
             </span>
             <span class="bg-emerald-600 group-hover:bg-emerald-700 text-white font-display font-black text-xs px-4 py-2 rounded-xl shadow transition inline-flex items-center gap-1">
-              <span>Entrar</span> ➜
+              <span>Entrar al Módulo</span> ➜
             </span>
           </div>
         </div>
 
-        <!-- TARJETA MÓDULO 2: PATRONES -->
+        <!-- TARJETA MÓDULO 2: PATRONES (Oculto temporalmente) -->
+        <!--
         <div onclick="openModule(2)" class="module-card cursor-pointer bg-white rounded-3xl p-6 sm:p-8 border-4 border-amber-400 shadow-xl flex flex-col justify-between relative overflow-hidden group">
           <div class="absolute top-4 right-4 bg-amber-100 text-amber-900 font-black text-xs px-3 py-1 rounded-full border border-amber-300">
             🔒 3 Clases
           </div>
-          
           <div>
             <div class="w-20 h-20 bg-amber-100 rounded-3xl flex items-center justify-center text-5xl mb-4 group-hover:scale-110 transition border-2 border-amber-300 shadow-inner">
               🧩
@@ -187,7 +188,6 @@
               Descubre qué figura o color sigue en una secuencia lógica: <strong>Patrones</strong>, <strong>Mensajes Secretos</strong> y el <strong>Código Murciélago</strong>.
             </p>
           </div>
-
           <div class="mt-6 pt-4 border-t border-amber-100 flex items-center justify-between">
             <span class="text-xs font-bold text-amber-800 flex items-center gap-1.5">
               <span>🔍</span> <span>3 Clases preparadas</span>
@@ -197,6 +197,7 @@
             </span>
           </div>
         </div>
+        -->
 
       </div>
 
@@ -804,7 +805,7 @@
 
   <!-- Footer -->
   <footer class="bg-white/90 border-t border-slate-200 py-3 text-center text-xs text-slate-500 mt-auto">
-    <p>Mundo Toby &bull; 1° Grado de Primaria &bull; Profesor: Ronny Martinez</p>
+    <p>Mundo Jandra &bull; 1° Grado de Primaria &bull; Profesor: Ronny Martinez</p>
   </footer>
 
   <!-- SCRIPT DE INTERACTIVIDAD GLOBAL -->
@@ -938,7 +939,7 @@
     };
 
     let currentOpenChallenge = 1;
-    const STORAGE_KEY = "mundo_toby_coty_completed_1p3";
+    const STORAGE_KEY = "mundo_jandra_coty_completed_1p3";
 
     function getCompletedList() {
       try {

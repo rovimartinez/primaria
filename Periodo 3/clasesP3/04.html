@@ -1,0 +1,1652 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Mundo Jandra | 4° Grado: Uso de Variables</title>
+  <link rel="icon" type="image/x-icon" href="../../assets/Icono.ico">
+  <!-- Tailwind CSS CDN -->
+  <script src="https://cdn.tailwindcss.com"></script>
+  <!-- Google Fonts: Fredoka, Outfit & Press Start 2P -->
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Fredoka:wght@400;500;600;700&family=Outfit:wght@400;600;700;800;900&family=Press+Start+2P&display=swap" rel="stylesheet">
+  <!-- Canvas Confetti -->
+  <script src="https://cdn.jsdelivr.net/npm/canvas-confetti@1.6.0/dist/confetti.browser.min.js"></script>
+
+  <script>
+    tailwind.config = {
+      theme: {
+        extend: {
+          fontFamily: {
+            sans: ['Outfit', 'sans-serif'],
+            display: ['Fredoka', 'sans-serif'],
+            pixel: ['"Press Start 2P"', 'monospace']
+          },
+          colors: {
+            game: {
+              sky: '#00a6f4',
+              skyDark: '#0284c7',
+              navy: '#0f172a',
+              yellow: '#fbbf24',
+              orange: '#f97316',
+              box: '#d97706',
+              boxLight: '#fef3c7'
+            }
+          }
+        }
+      }
+    }
+  </script>
+
+  <style>
+    /* Fondo estilo gamer pixel con sutil cuadrícula */
+    .game-grid-bg {
+      background-color: #f0f9ff;
+      background-image: 
+        radial-gradient(#bae6fd 1.2px, transparent 1.2px),
+        radial-gradient(#e0f2fe 1.2px, #f0f9ff 1.2px);
+      background-size: 24px 24px;
+      background-position: 0 0, 12px 12px;
+    }
+
+    /* Cartel Pixel Art escalonado */
+    .pixel-banner {
+      box-shadow: 
+        0 6px 0 0 #0369a1,
+        0 12px 0 0 rgba(15, 23, 42, 0.15);
+      border: 4px solid #ffffff;
+      image-rendering: pixelated;
+    }
+
+    /* Botón estilo Arcade con efecto 3D */
+    .btn-arcade {
+      transition: all 0.15s ease;
+      box-shadow: 0 6px 0 0 rgba(0, 0, 0, 0.25);
+    }
+    .btn-arcade:hover {
+      transform: translateY(-2px);
+      box-shadow: 0 8px 0 0 rgba(0, 0, 0, 0.25);
+    }
+    .btn-arcade:active {
+      transform: translateY(4px);
+      box-shadow: 0 2px 0 0 rgba(0, 0, 0, 0.25);
+    }
+
+    /* Animaciones */
+    @keyframes floatSoft {
+      0%, 100% { transform: translateY(0); }
+      50% { transform: translateY(-8px); }
+    }
+    .animate-float {
+      animation: floatSoft 3s ease-in-out infinite;
+    }
+
+    @keyframes pulseChevron {
+      0%, 100% { transform: translateX(0); opacity: 0.8; }
+      50% { transform: translateX(6px); opacity: 1; }
+    }
+    .animate-chevron {
+      animation: pulseChevron 1s ease-in-out infinite;
+    }
+
+    /* Pestañas de clases */
+    .tab-class-btn {
+      transition: all 0.2s cubic-bezier(0.34, 1.56, 0.64, 1);
+    }
+    .tab-class-btn.active {
+      background: white !important;
+      color: #0284c7 !important;
+      border-color: #0284c7 !important;
+      transform: translateY(-3px) scale(1.02);
+      box-shadow: 0 10px 20px -3px rgba(2, 132, 199, 0.25);
+    }
+
+    /* Bloque Scratch / MakeCode para variables */
+    .scratch-block {
+      background: #f59e0b;
+      color: white;
+      border-radius: 8px;
+      padding: 6px 14px;
+      display: inline-flex;
+      align-items: center;
+      gap: 6px;
+      font-weight: 700;
+      font-size: 0.85rem;
+      box-shadow: 0 3px 0 0 #b45309;
+      border: 1px solid #d97706;
+    }
+
+    .scratch-block-var {
+      background: #ea580c;
+      color: white;
+      border-radius: 9999px;
+      padding: 2px 10px;
+      font-weight: 800;
+      font-size: 0.8rem;
+      border: 1px solid #c2410c;
+    }
+
+    /* Caja de Pelotas */
+    .ball-box {
+      perspective: 800px;
+      transition: all 0.3s cubic-bezier(0.175, 0.885, 0.32, 1.275);
+    }
+
+    /* Fruta rebanada animation */
+    .sliced-left {
+      animation: sliceL 0.4s forwards;
+    }
+    .sliced-right {
+      animation: sliceR 0.4s forwards;
+    }
+    @keyframes sliceL {
+      to { transform: translate(-30px, 30px) rotate(-25deg); opacity: 0; }
+    }
+    @keyframes sliceR {
+      to { transform: translate(30px, 30px) rotate(25deg); opacity: 0; }
+    }
+  </style>
+</head>
+<body class="game-grid-bg min-h-screen text-slate-800 font-sans flex flex-col selection:bg-sky-200">
+
+  <!-- ========================================================================= -->
+  <!-- BARRA SUPERIOR COMPACTA                                                   -->
+  <!-- ========================================================================= -->
+  <header class="bg-gradient-to-r from-sky-600 via-cyan-600 to-sky-700 text-white shadow-lg border-b-4 border-amber-400 sticky top-0 z-50">
+    <div class="max-w-6xl mx-auto px-4 py-2.5 flex flex-wrap items-center justify-between gap-3">
+      
+      <!-- Volver y Grado -->
+      <div class="flex items-center space-x-3">
+        <a href="../periodo3.html" class="inline-flex items-center gap-1.5 bg-sky-950/80 hover:bg-sky-950 border-2 border-white/40 text-white text-xs sm:text-sm font-black px-3.5 py-1.5 rounded-2xl transition shadow transform active:scale-95" title="Volver al menú de Periodo 3">
+          <span>🏠</span> <span>← Volver al Periodo 3</span>
+        </a>
+        <div class="bg-amber-400 text-slate-900 border-2 border-white px-3 py-0.5 rounded-xl shadow-inner flex items-center font-black">
+          <span class="text-[11px] sm:text-xs uppercase tracking-wider">4° GRADO &bull; P3</span>
+        </div>
+        <div class="hidden sm:flex items-center gap-1.5 font-display font-extrabold text-sm text-sky-100">
+          <img src="../../assets/jandra/J1.svg" alt="Jandra" class="w-6 h-6 rounded-full bg-white/20 p-0.5 object-cover">
+          <span>Mundo Jandra &bull; Programación</span>
+        </div>
+      </div>
+
+      <!-- Barra de Estado, Estrellas y Sonido -->
+      <div class="flex items-center space-x-2 sm:space-x-3">
+        <!-- Contador de Estrellas -->
+        <div class="bg-white/20 backdrop-blur-sm border border-white/30 px-3 py-1 rounded-xl flex items-center gap-1.5 text-xs sm:text-sm font-black text-amber-300 shadow-inner">
+          <span>⭐</span>
+          <span id="starScore" class="text-white font-bold text-sm">0</span>
+          <span class="text-[10px] text-amber-200 hidden sm:inline font-bold">estrellas</span>
+        </div>
+
+        <!-- Botón de Sonido -->
+        <button id="soundToggleBtn" onclick="toggleAudio()" class="bg-white/20 hover:bg-white/30 border border-white/30 text-white p-2 rounded-xl text-base transition flex items-center justify-center shadow" title="Activar/Silenciar Sonido">
+          <span id="soundIcon">🔊</span>
+        </button>
+      </div>
+
+    </div>
+  </header>
+
+  <!-- ========================================================================= -->
+  <!-- HERO BANNER AL ESTILO DE LA IMAGEN DE REFERENCIA                          -->
+  <!-- ========================================================================= -->
+  <div class="w-full bg-gradient-to-b from-[#00a6f4] via-[#0284c7] to-[#0369a1] text-white py-6 sm:py-9 px-4 relative overflow-hidden shadow-md">
+    
+    <!-- Elementos tenues gamer de fondo estilo pattern -->
+    <div class="absolute inset-0 opacity-10 pointer-events-none flex justify-between items-center text-6xl select-none">
+      <span>🎮</span><span>⭐</span><span>🍎</span><span>👾</span><span>📦</span><span>🕹️</span><span>⚡</span>
+    </div>
+
+    <div class="max-w-5xl mx-auto flex flex-col md:flex-row items-center justify-between gap-6 relative z-10">
+      
+      <!-- Lado Izquierdo: Astronauta Voxel y Título Pixel Art -->
+      <div class="flex flex-col sm:flex-row items-center sm:items-start gap-4 sm:gap-6 text-center sm:text-left">
+        
+        <!-- Avatar Astronauta Gamer Voxel con PC -->
+        <div class="relative w-28 h-28 sm:w-32 sm:h-32 bg-sky-400/30 rounded-3xl p-2 border-2 border-white/40 shadow-xl flex items-center justify-center animate-float">
+          <!-- Ilustración vectorial de alta fidelidad del Astronauta en PC -->
+          <svg viewBox="0 0 160 160" class="w-full h-full drop-shadow-lg">
+            <!-- Mesa gris -->
+            <rect x="25" y="105" width="110" height="12" rx="3" fill="#64748b" />
+            <rect x="35" y="117" width="8" height="35" fill="#475569" />
+            <rect x="117" y="117" width="8" height="35" fill="#475569" />
+            
+            <!-- Monitor negro voxel -->
+            <rect x="85" y="60" width="46" height="38" rx="4" fill="#0f172a" />
+            <rect x="89" y="64" width="38" height="30" rx="2" fill="#0284c7" />
+            <polyline points="93,82 99,75 106,85 118,72" fill="none" stroke="#38bdf8" stroke-width="3" stroke-linecap="round" />
+            <rect x="105" y="98" width="6" height="8" fill="#334155" />
+            <ellipse cx="108" cy="106" rx="14" ry="3" fill="#1e293b" />
+
+            <!-- Teclado y Mouse -->
+            <rect x="75" y="102" width="22" height="4" rx="1" fill="#cbd5e1" />
+            <ellipse cx="65" cy="104" rx="4" ry="3" fill="#38bdf8" />
+
+            <!-- Silla roja gamer -->
+            <rect x="32" y="100" width="26" height="6" rx="2" fill="#dc2626" />
+            <rect x="43" y="106" width="4" height="42" fill="#991b1b" />
+            <rect x="34" y="146" width="22" height="4" rx="2" fill="#991b1b" />
+
+            <!-- Astronauta Voxel sentado -->
+            <!-- Cuerpo blanco con rayas celestes -->
+            <rect x="32" y="78" width="26" height="24" rx="4" fill="#f8fafc" />
+            <rect x="32" y="86" width="26" height="6" fill="#0284c7" />
+            <!-- Brazos escribiendo -->
+            <rect x="48" y="86" width="24" height="8" rx="4" fill="#f8fafc" transform="rotate(10 48 86)" />
+
+            <!-- Cabeza astronauta voxel con casco -->
+            <rect x="24" y="32" width="42" height="44" rx="10" fill="#ffffff" stroke="#e2e8f0" stroke-width="2" />
+            <rect x="28" y="28" width="34" height="6" rx="3" fill="#f1f5f9" />
+            <!-- Orejeras / comunicadores -->
+            <rect x="18" y="44" width="7" height="18" rx="3" fill="#f1f5f9" />
+            <rect x="65" y="44" width="7" height="18" rx="3" fill="#f1f5f9" />
+            <!-- Rostro pixelado piel con visor abierto -->
+            <rect x="34" y="42" width="24" height="20" rx="3" fill="#e0a96d" />
+            <!-- Ojos pixelados negros -->
+            <rect x="38" y="48" width="4" height="6" fill="#0f172a" />
+            <rect x="48" y="48" width="4" height="6" fill="#0f172a" />
+          </svg>
+        </div>
+
+        <!-- Textos y Cartel Pixel -->
+        <div>
+          <!-- Tag blanco PROGRAMACIÓN -->
+          <div class="inline-block bg-white text-sky-800 text-[11px] sm:text-xs font-black uppercase tracking-wider px-3 py-1 rounded-md mb-2 shadow-sm border border-sky-200">
+            PROGRAMACIÓN
+          </div>
+
+          <!-- Cartel Pixel Art "USO DE VARIABLES" -->
+          <div class="pixel-banner bg-[#009be6] text-white px-5 sm:px-7 py-3 rounded-lg flex items-center justify-center sm:justify-start gap-4 shadow-lg">
+            <h1 class="font-pixel text-xl sm:text-3xl md:text-4xl tracking-wider text-yellow-300 drop-shadow-[0_3px_0_rgba(0,0,0,0.4)]">
+              USO DE VARIABLES
+            </h1>
+            
+            <!-- Flechas amarillas pixeladas >> -->
+            <div class="flex items-center gap-1 text-yellow-300 font-pixel text-2xl sm:text-3xl animate-chevron hidden sm:flex">
+              <span>&gt;</span><span>&gt;</span>
+            </div>
+          </div>
+
+          <p class="text-xs sm:text-sm text-sky-100 font-display font-medium mt-2 max-w-xl">
+            ¡Descubre el superpoder de guardar, cambiar y contar datos en videojuegos y proyectos!
+          </p>
+        </div>
+
+      </div>
+
+      <!-- Lado Derecho: Indicador de Módulo Cuarto Grado -->
+      <div class="bg-sky-950/50 backdrop-blur-md border border-white/30 rounded-2xl p-4 text-center min-w-[200px] shadow-lg">
+        <span class="text-[10px] uppercase font-black tracking-widest text-sky-300">MODULO ACTIVO</span>
+        <div class="font-display font-black text-2xl text-amber-300">4° Grado</div>
+        <div class="text-xs text-sky-200 mt-0.5">4 Clases Interactivas</div>
+        <div class="mt-3 flex items-center justify-center gap-1 text-xs">
+          <span class="w-2.5 h-2.5 rounded-full bg-emerald-400 animate-ping"></span>
+          <span class="text-emerald-300 font-bold">100% Interactivo</span>
+        </div>
+      </div>
+
+    </div>
+  </div>
+
+  <!-- ========================================================================= -->
+  <!-- SELECTOR DE LAS 4 CLASES (TABS INTERACTIVOS)                              -->
+  <!-- ========================================================================= -->
+  <nav class="max-w-5xl mx-auto w-full px-4 -mt-5 z-20">
+    <div class="bg-white/95 backdrop-blur-md rounded-2xl p-2 sm:p-3 border-2 border-sky-200 shadow-xl grid grid-cols-2 sm:grid-cols-4 gap-2">
+      
+      <!-- Pestaña 1: Introducción a Variables -->
+      <button id="tab-btn-1" onclick="switchClass(1)" class="tab-class-btn active border-2 border-transparent p-2.5 sm:p-3 rounded-xl flex flex-col items-center text-center transition">
+        <span class="text-2xl sm:text-3xl mb-1">📦</span>
+        <span class="font-display font-black text-[11px] sm:text-xs uppercase text-slate-500">Clase 1</span>
+        <span class="font-display font-bold text-xs sm:text-sm text-slate-800 leading-tight">Uso de Variables</span>
+        <span class="mt-1 bg-sky-100 text-sky-800 text-[9px] font-black px-2 py-0.5 rounded-full">La Caja Pelotas</span>
+      </button>
+
+      <!-- Pestaña 2: Fruit Ninja -->
+      <button id="tab-btn-2" onclick="switchClass(2)" class="tab-class-btn border-2 border-transparent bg-slate-50 hover:bg-slate-100 p-2.5 sm:p-3 rounded-xl flex flex-col items-center text-center transition">
+        <span class="text-2xl sm:text-3xl mb-1">🍉</span>
+        <span class="font-display font-black text-[11px] sm:text-xs uppercase text-slate-500">Clase 2</span>
+        <span class="font-display font-bold text-xs sm:text-sm text-slate-800 leading-tight">Fruit Ninja</span>
+        <span class="mt-1 bg-rose-100 text-rose-800 text-[9px] font-black px-2 py-0.5 rounded-full">Puntos y Vidas</span>
+      </button>
+
+      <!-- Pestaña 3: Reciclando -->
+      <button id="tab-btn-3" onclick="switchClass(3)" class="tab-class-btn border-2 border-transparent bg-slate-50 hover:bg-slate-100 p-2.5 sm:p-3 rounded-xl flex flex-col items-center text-center transition">
+        <span class="text-2xl sm:text-3xl mb-1">♻️</span>
+        <span class="font-display font-black text-[11px] sm:text-xs uppercase text-slate-500">Clase 3</span>
+        <span class="font-display font-bold text-xs sm:text-sm text-slate-800 leading-tight">Reciclando</span>
+        <span class="mt-1 bg-emerald-100 text-emerald-800 text-[9px] font-black px-2 py-0.5 rounded-full">Variables Múltiples</span>
+      </button>
+
+      <!-- Pestaña 4: Explotando Globos -->
+      <button id="tab-btn-4" onclick="switchClass(4)" class="tab-class-btn border-2 border-transparent bg-slate-50 hover:bg-slate-100 p-2.5 sm:p-3 rounded-xl flex flex-col items-center text-center transition">
+        <span class="text-2xl sm:text-3xl mb-1">🎈</span>
+        <span class="font-display font-black text-[11px] sm:text-xs uppercase text-slate-500">Clase 4</span>
+        <span class="font-display font-bold text-xs sm:text-sm text-slate-800 leading-tight">Explotando Globos</span>
+        <span class="mt-1 bg-amber-100 text-amber-800 text-[9px] font-black px-2 py-0.5 rounded-full">Temporizador</span>
+      </button>
+
+    </div>
+  </nav>
+
+  <!-- ========================================================================= -->
+  <!-- CONTENEDOR PRINCIPAL DE CONTENIDOS (VISTAS POR CLASE)                     -->
+  <!-- ========================================================================= -->
+  <main class="flex-1 w-full max-w-5xl mx-auto py-8 px-4 flex flex-col items-center">
+
+    <!-- ======================================================================= -->
+    <!-- CLASE 1: INTRODUCCIÓN AL USO DE VARIABLES                               -->
+    <!-- (Basado directamente en las diapositivas oficiales de Creativos Digitales) -->
+    <!-- ======================================================================= -->
+    <section id="content-class-1" class="w-full space-y-8 block">
+      
+      <!-- Encabezado de Clase 1 -->
+      <div class="bg-white rounded-3xl p-6 sm:p-8 border-2 border-sky-300 shadow-lg">
+        <div class="flex flex-col md:flex-row items-center justify-between gap-6">
+          <div>
+            <div class="inline-flex items-center gap-2 bg-sky-100 text-sky-800 text-xs font-black px-3.5 py-1 rounded-full uppercase mb-2">
+              <span>📖 TEORÍA & EXPERIMENTACIÓN</span> &bull; <span>CLASE 1</span>
+            </div>
+            <h2 class="font-display font-black text-2xl sm:text-3xl text-slate-900">
+              ¿Qué es una Variable en Programación?
+            </h2>
+            <p class="text-slate-600 text-sm sm:text-base mt-1.5 leading-relaxed">
+              Para crear el tiempo y los puntos del juego necesitaremos hacer uso de <strong>variables</strong>. ¡Descubre cómo funcionan paso a paso con la metáfora de la caja!
+            </p>
+          </div>
+
+          <div class="flex items-center gap-3">
+            <span class="text-4xl">📦</span>
+            <div class="bg-amber-50 border-2 border-amber-300 px-4 py-2 rounded-2xl text-center">
+              <span class="text-[10px] uppercase font-bold text-amber-800 block">Metáfora Oficial</span>
+              <span class="font-display font-black text-sm text-amber-900">Caja "Pelotas"</span>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <!-- DIAPOSITIVAS INTERACTIVAS (Fieles al material original) -->
+      <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
+        
+        <!-- Tarjeta 1: La Caja en la que guardamos pelotas -->
+        <div class="bg-white rounded-3xl p-6 border-2 border-slate-200 shadow-md flex flex-col justify-between hover:border-sky-400 transition">
+          <div>
+            <div class="flex items-center justify-between mb-4">
+              <span class="bg-sky-500 text-white font-pixel text-[10px] px-3 py-1 rounded-md">DIAPOSITIVA 1</span>
+              <span class="text-xs font-bold text-slate-400">Concepto Básico</span>
+            </div>
+            <h3 class="font-display font-black text-xl text-sky-950 mb-3">
+              1. La Caja con Nombre
+            </h3>
+            <ul class="space-y-2.5 text-xs sm:text-sm text-slate-600 leading-relaxed list-disc list-inside">
+              <li>Para crear el <strong>tiempo</strong> y los <strong>puntos</strong> del juego necesitaremos hacer uso de variables.</li>
+              <li>Imaginemos que una variable es como una <strong>caja</strong> en la que guardamos pelotas.</li>
+              <li>Si la caja se llama <strong>"Pelotas"</strong>, yo solo puedo guardar pelotas y no otro objeto.</li>
+            </ul>
+          </div>
+
+          <!-- Ilustración de la caja "Pelotas" -->
+          <div class="mt-6 bg-amber-50/70 border-2 border-dashed border-amber-300 rounded-2xl p-4 flex flex-col items-center justify-center relative min-h-[160px]">
+            <div class="relative w-52 h-36 flex items-center justify-center">
+              <!-- Caja 3D de Cartón Realista con Solapas Abiertas -->
+              <svg viewBox="0 0 220 160" class="w-full h-full drop-shadow-xl" style="overflow: visible;">
+                <defs>
+                  <linearGradient id="cardboardFront1" x1="0%" y1="0%" x2="0%" y2="100%">
+                    <stop offset="0%" stop-color="#d49959" />
+                    <stop offset="100%" stop-color="#b67a39" />
+                  </linearGradient>
+                  <linearGradient id="cardboardSide1" x1="0%" y1="0%" x2="100%" y2="100%">
+                    <stop offset="0%" stop-color="#9e662e" />
+                    <stop offset="100%" stop-color="#7d4e1e" />
+                  </linearGradient>
+                  <linearGradient id="cardboardInside1" x1="0%" y1="0%" x2="0%" y2="100%">
+                    <stop offset="0%" stop-color="#422006" />
+                    <stop offset="100%" stop-color="#60310c" />
+                  </linearGradient>
+                  <linearGradient id="flapTop1" x1="0%" y1="0%" x2="100%" y2="100%">
+                    <stop offset="0%" stop-color="#e2a768" />
+                    <stop offset="100%" stop-color="#c18343" />
+                  </linearGradient>
+                </defs>
+
+                <!-- Sombra en el suelo -->
+                <ellipse cx="110" cy="144" rx="80" ry="12" fill="#000000" opacity="0.2" />
+
+                <!-- Solapa trasera -->
+                <polygon points="78,54 100,22 152,26 142,54" fill="#a4682f" stroke="#714217" stroke-width="0.8" />
+                <!-- Solapa izquierda trasera -->
+                <polygon points="42,66 14,48 50,30 78,54" fill="#c6894b" stroke="#714217" stroke-width="0.8" />
+                <!-- Cavidad Interior Oscura -->
+                <polygon points="42,66 78,54 142,54 178,66 152,86 66,86" fill="url(#cardboardInside1)" />
+                <!-- Solapa derecha trasera -->
+                <polygon points="142,54 182,30 210,50 178,66" fill="url(#flapTop1)" stroke="#8b5321" stroke-width="0.8" />
+                <!-- Solapa frontal izquierda abierta -->
+                <polygon points="42,66 16,80 44,94 72,78" fill="#d99c5c" stroke="#8b5321" stroke-width="0.8" />
+                <!-- Solapa frontal derecha abierta -->
+                <polygon points="178,66 206,80 176,96 146,78" fill="#d99c5c" stroke="#8b5321" stroke-width="0.8" />
+                <!-- Cara lateral izquierda exterior (en sombra) -->
+                <polygon points="42,66 72,78 72,136 42,122" fill="url(#cardboardSide1)" stroke="#714217" stroke-width="0.8" />
+                <!-- Cara frontal exterior principal -->
+                <polygon points="72,78 178,66 178,124 72,136" fill="url(#cardboardFront1)" stroke="#8b5321" stroke-width="0.8" />
+                <!-- Borde luminoso de pliegue central -->
+                <line x1="72" y1="78" x2="72" y2="136" stroke="#fed7aa" stroke-width="1" opacity="0.6" />
+
+                <!-- Letrero en la caja: Pelotas (Negrita cursiva como la original) -->
+                <text x="125" y="108" font-family="'Outfit', sans-serif" font-weight="900" font-style="italic" font-size="20" fill="#1c1917" text-anchor="middle" transform="rotate(-3 125 108)">Pelotas</text>
+              </svg>
+            </div>
+            <span class="text-xs font-bold text-amber-900 mt-2">Caja vacía: Pelotas = 0</span>
+          </div>
+        </div>
+
+        <!-- Tarjeta 2: El VALOR cambia en el tiempo -->
+        <div class="bg-white rounded-3xl p-6 border-2 border-slate-200 shadow-md flex flex-col justify-between hover:border-sky-400 transition">
+          <div>
+            <div class="flex items-center justify-between mb-4">
+              <span class="bg-sky-500 text-white font-pixel text-[10px] px-3 py-1 rounded-md">DIAPOSITIVA 2</span>
+              <span class="text-xs font-bold text-slate-400">Cambio de Valor</span>
+            </div>
+            <h3 class="font-display font-black text-xl text-sky-950 mb-3">
+              2. El VALOR Puede Cambiar
+            </h3>
+            <ul class="space-y-2.5 text-xs sm:text-sm text-slate-600 leading-relaxed list-disc list-inside">
+              <li>Cada vez que necesitemos sacar o guardar una pelota iremos a la caja: el <strong>VALOR</strong> de la caja cambiará.</li>
+              <li>Es decir, podrá <strong>aumentar</strong> o <strong>disminuir</strong> durante un intervalo de tiempo.</li>
+              <li>En programación, las variables son cajas que almacenan datos cuyo valor va cambiando.</li>
+            </ul>
+          </div>
+
+          <!-- Ilustración de la caja con pelotas adentro y afuera -->
+          <div class="mt-6 bg-sky-50/70 border-2 border-dashed border-sky-300 rounded-2xl p-4 flex flex-col items-center justify-center relative min-h-[160px]">
+            <div class="relative w-56 h-36 flex items-center justify-center">
+              <svg viewBox="0 0 240 160" class="w-full h-full drop-shadow-xl" style="overflow: visible;">
+                <!-- Sombra en el suelo -->
+                <ellipse cx="115" cy="144" rx="90" ry="13" fill="#000000" opacity="0.2" />
+
+                <!-- Solapas traseras -->
+                <polygon points="78,54 100,22 152,26 142,54" fill="#a4682f" stroke="#714217" stroke-width="0.8" />
+                <polygon points="42,66 14,48 50,30 78,54" fill="#c6894b" stroke="#714217" stroke-width="0.8" />
+                <!-- Cavidad Interior Oscura -->
+                <polygon points="42,66 78,54 142,54 178,66 152,86 66,86" fill="url(#cardboardInside1)" />
+                <polygon points="142,54 182,30 210,50 178,66" fill="url(#flapTop1)" stroke="#8b5321" stroke-width="0.8" />
+
+                <!-- PELOTAS DENTRO DE LA CAJA (asomándose con realismo) -->
+                <!-- Balón de Básquetbol naranja con líneas -->
+                <g transform="translate(68, 38)">
+                  <circle cx="16" cy="16" r="16" fill="#ea580c" stroke="#9a3412" stroke-width="1.2" />
+                  <ellipse cx="16" cy="16" rx="15" ry="7" fill="none" stroke="#431407" stroke-width="1.2" />
+                  <line x1="16" y1="0" x2="16" y2="32" stroke="#431407" stroke-width="1.2" />
+                  <text x="16" y="19" font-family="'Outfit', sans-serif" font-weight="900" font-size="6" fill="#1c1917" text-anchor="middle">NBA</text>
+                </g>
+
+                <!-- Balón de Fútbol blanco y negro -->
+                <g transform="translate(98, 32)">
+                  <circle cx="18" cy="18" r="18" fill="#ffffff" stroke="#0f172a" stroke-width="1.5" />
+                  <!-- Manchas pentagonales del balón -->
+                  <polygon points="18,12 24,16 22,23 14,23 12,16" fill="#0f172a" />
+                  <polygon points="18,3 22,7 18,9 14,7" fill="#0f172a" />
+                  <polygon points="31,14 34,19 30,22 27,18" fill="#0f172a" />
+                  <polygon points="5,14 2,19 6,22 9,18" fill="#0f172a" />
+                </g>
+
+                <!-- Balón de Voleibol blanco con curvas -->
+                <g transform="translate(134, 38)">
+                  <circle cx="15" cy="15" r="15" fill="#f1f5f9" stroke="#64748b" stroke-width="1.2" />
+                  <path d="M 5,5 Q 15,15 25,5" fill="none" stroke="#0284c7" stroke-width="1.2" />
+                  <path d="M 5,25 Q 15,15 25,25" fill="none" stroke="#eab308" stroke-width="1.2" />
+                  <line x1="15" y1="0" x2="15" y2="30" stroke="#64748b" stroke-width="1" />
+                </g>
+
+                <!-- Frente de la caja y solapas delanteras (cubren la parte baja de los balones) -->
+                <polygon points="42,66 16,80 44,94 72,78" fill="#d99c5c" stroke="#8b5321" stroke-width="0.8" />
+                <polygon points="178,66 206,80 176,96 146,78" fill="#d99c5c" stroke="#8b5321" stroke-width="0.8" />
+                <polygon points="42,66 72,78 72,136 42,122" fill="url(#cardboardSide1)" stroke="#714217" stroke-width="0.8" />
+                <polygon points="72,78 178,66 178,124 72,136" fill="url(#cardboardFront1)" stroke="#8b5321" stroke-width="0.8" />
+                <line x1="72" y1="78" x2="72" y2="136" stroke="#fed7aa" stroke-width="1" opacity="0.6" />
+                <text x="125" y="108" font-family="'Outfit', sans-serif" font-weight="900" font-style="italic" font-size="20" fill="#1c1917" text-anchor="middle" transform="rotate(-3 125 108)">Pelotas</text>
+
+                <!-- Pelotas afuera en el piso (igual que la diapositiva oficial) -->
+                <!-- Balón de Básquet en el suelo a la derecha -->
+                <g transform="translate(195, 96)">
+                  <ellipse cx="14" cy="24" rx="12" ry="4" fill="#000000" opacity="0.2" />
+                  <circle cx="14" cy="14" r="14" fill="#ea580c" stroke="#9a3412" stroke-width="1.2" />
+                  <ellipse cx="14" cy="14" rx="13" ry="6" fill="none" stroke="#431407" stroke-width="1" />
+                  <text x="14" y="16" font-family="'Outfit'" font-weight="900" font-size="5" fill="#1c1917" text-anchor="middle">NBA</text>
+                </g>
+
+                <!-- Pelota de vóley y fútbol en el suelo -->
+                <g transform="translate(160, 118)">
+                  <ellipse cx="12" cy="20" rx="10" ry="3" fill="#000000" opacity="0.15" />
+                  <circle cx="12" cy="12" r="12" fill="#ffffff" stroke="#0f172a" stroke-width="1.2" />
+                  <polygon points="12,8 15,10 14,14 10,14 9,10" fill="#0f172a" />
+                </g>
+              </svg>
+            </div>
+            <span class="text-xs font-bold text-sky-900 mt-2">El valor cambia cuando metemos o sacamos pelotas</span>
+          </div>
+        </div>
+
+      </div>
+
+      <!-- ===================================================================== -->
+      <!-- RETO DIDÁCTICO 1: ANTES Y DESPUÉS (DIAPOSITIVA 3)                     -->
+      <!-- ===================================================================== -->
+      <div class="bg-gradient-to-br from-amber-50 to-orange-50 rounded-3xl p-6 sm:p-8 border-2 border-amber-300 shadow-md">
+        <div class="flex flex-col sm:flex-row items-center justify-between gap-4 mb-6">
+          <div>
+            <span class="bg-amber-500 text-white font-pixel text-[10px] px-3 py-1 rounded-md">DIAPOSITIVA 3 &bull; EJEMPLO 1</span>
+            <h3 class="font-display font-black text-2xl text-slate-900 mt-2">
+              ¿Cuántas pelotas tenía ANTES y cuántas DESPUÉS?
+            </h3>
+            <p class="text-slate-600 text-sm">
+              Observa las dos cajas atentamente y responde las preguntas interactivas:
+            </p>
+          </div>
+          <div class="bg-white px-4 py-2 rounded-2xl border border-amber-300 text-center shadow-sm">
+            <span class="text-[10px] font-bold text-slate-400 uppercase block">Reto 1</span>
+            <span id="reto1-status" class="text-xs font-black text-amber-600">Pendiente ⏳</span>
+          </div>
+        </div>
+
+        <!-- Las 2 Cajas de Comparación (Antes vs Después) -->
+        <div class="grid grid-cols-1 sm:grid-cols-2 gap-6 max-w-2xl mx-auto mb-6">
+          
+          <!-- Caja ANTES: 1 Pelota -->
+          <div class="bg-white p-5 rounded-2xl border-2 border-slate-300 flex flex-col items-center text-center shadow-sm">
+            <span class="font-display font-black text-lg text-slate-700 uppercase tracking-wide mb-2">Antes</span>
+            <div class="w-48 h-36 flex items-center justify-center">
+              <svg viewBox="0 0 220 160" class="w-full h-full drop-shadow-md" style="overflow: visible;">
+                <ellipse cx="110" cy="144" rx="80" ry="12" fill="#000000" opacity="0.2" />
+                <polygon points="78,54 100,22 152,26 142,54" fill="#a4682f" stroke="#714217" stroke-width="0.8" />
+                <polygon points="42,66 14,48 50,30 78,54" fill="#c6894b" stroke="#714217" stroke-width="0.8" />
+                <polygon points="42,66 78,54 142,54 178,66 152,86 66,86" fill="url(#cardboardInside1)" />
+                <polygon points="142,54 182,30 210,50 178,66" fill="url(#flapTop1)" stroke="#8b5321" stroke-width="0.8" />
+                
+                <!-- 1 pelota dentro (fútbol clásico) -->
+                <g transform="translate(95, 34)">
+                  <circle cx="17" cy="17" r="17" fill="#ffffff" stroke="#0f172a" stroke-width="1.5" />
+                  <polygon points="17,11 23,15 21,22 13,22 11,15" fill="#0f172a" />
+                  <polygon points="17,3 21,6 18,8 14,6" fill="#0f172a" />
+                  <polygon points="29,13 32,18 28,21 25,17" fill="#0f172a" />
+                </g>
+
+                <polygon points="42,66 16,80 44,94 72,78" fill="#d99c5c" stroke="#8b5321" stroke-width="0.8" />
+                <polygon points="178,66 206,80 176,96 146,78" fill="#d99c5c" stroke="#8b5321" stroke-width="0.8" />
+                <polygon points="42,66 72,78 72,136 42,122" fill="url(#cardboardSide1)" stroke="#714217" stroke-width="0.8" />
+                <polygon points="72,78 178,66 178,124 72,136" fill="url(#cardboardFront1)" stroke="#8b5321" stroke-width="0.8" />
+                <line x1="72" y1="78" x2="72" y2="136" stroke="#fed7aa" stroke-width="1" opacity="0.6" />
+                <text x="125" y="108" font-family="'Outfit', sans-serif" font-weight="900" font-style="italic" font-size="20" fill="#1c1917" text-anchor="middle" transform="rotate(-3 125 108)">Pelotas</text>
+              </svg>
+            </div>
+            <span class="mt-2 text-xs font-bold text-slate-500">Valor inicial: 1 pelota</span>
+          </div>
+
+          <!-- Caja DESPUÉS: 3 Pelotas -->
+          <div class="bg-white p-5 rounded-2xl border-2 border-emerald-400 flex flex-col items-center text-center shadow-sm">
+            <span class="font-display font-black text-lg text-emerald-800 uppercase tracking-wide mb-2">Después</span>
+            <div class="w-48 h-36 flex items-center justify-center">
+              <svg viewBox="0 0 220 160" class="w-full h-full drop-shadow-md" style="overflow: visible;">
+                <ellipse cx="110" cy="144" rx="80" ry="12" fill="#000000" opacity="0.2" />
+                <polygon points="78,54 100,22 152,26 142,54" fill="#a4682f" stroke="#714217" stroke-width="0.8" />
+                <polygon points="42,66 14,48 50,30 78,54" fill="#c6894b" stroke="#714217" stroke-width="0.8" />
+                <polygon points="42,66 78,54 142,54 178,66 152,86 66,86" fill="url(#cardboardInside1)" />
+                <polygon points="142,54 182,30 210,50 178,66" fill="url(#flapTop1)" stroke="#8b5321" stroke-width="0.8" />
+
+                <!-- 3 pelotas dentro (básquet, fútbol, vóley) -->
+                <!-- Básquet -->
+                <g transform="translate(68, 38)">
+                  <circle cx="15" cy="15" r="15" fill="#ea580c" stroke="#9a3412" stroke-width="1.2" />
+                  <ellipse cx="15" cy="15" rx="14" ry="7" fill="none" stroke="#431407" stroke-width="1.2" />
+                  <text x="15" y="18" font-family="'Outfit'" font-weight="900" font-size="5" fill="#1c1917" text-anchor="middle">NBA</text>
+                </g>
+                <!-- Fútbol -->
+                <g transform="translate(96, 32)">
+                  <circle cx="17" cy="17" r="17" fill="#ffffff" stroke="#0f172a" stroke-width="1.5" />
+                  <polygon points="17,11 23,15 21,22 13,22 11,15" fill="#0f172a" />
+                </g>
+                <!-- Vóley -->
+                <g transform="translate(130, 38)">
+                  <circle cx="14" cy="14" r="14" fill="#f1f5f9" stroke="#64748b" stroke-width="1.2" />
+                  <path d="M 4,4 Q 14,14 24,4" fill="none" stroke="#0284c7" stroke-width="1.2" />
+                </g>
+
+                <polygon points="42,66 16,80 44,94 72,78" fill="#d99c5c" stroke="#8b5321" stroke-width="0.8" />
+                <polygon points="178,66 206,80 176,96 146,78" fill="#d99c5c" stroke="#8b5321" stroke-width="0.8" />
+                <polygon points="42,66 72,78 72,136 42,122" fill="url(#cardboardSide1)" stroke="#714217" stroke-width="0.8" />
+                <polygon points="72,78 178,66 178,124 72,136" fill="url(#cardboardFront1)" stroke="#8b5321" stroke-width="0.8" />
+                <line x1="72" y1="78" x2="72" y2="136" stroke="#fed7aa" stroke-width="1" opacity="0.6" />
+                <text x="125" y="108" font-family="'Outfit', sans-serif" font-weight="900" font-style="italic" font-size="20" fill="#1c1917" text-anchor="middle" transform="rotate(-3 125 108)">Pelotas</text>
+              </svg>
+            </div>
+            <span class="mt-2 text-xs font-bold text-emerald-700">Valor final: 3 pelotas</span>
+          </div>
+
+        </div>
+
+        <!-- Preguntas interactivas con feedback -->
+        <div class="bg-white p-5 sm:p-6 rounded-2xl border border-amber-200 space-y-4 max-w-2xl mx-auto">
+          
+          <!-- Pregunta 1 -->
+          <div>
+            <p class="font-display font-bold text-sm text-slate-800 mb-2">
+              1. ¿Cuántas pelotas tenía la caja <strong>ANTES</strong> y cuántas <strong>DESPUÉS</strong>?
+            </p>
+            <div class="flex flex-wrap gap-2.5">
+              <button onclick="checkQuestion1(this, false)" class="q1-btn px-4 py-2 bg-slate-100 hover:bg-slate-200 rounded-xl text-xs font-bold transition">
+                Antes: 2 &bull; Después: 1
+              </button>
+              <button onclick="checkQuestion1(this, true)" class="q1-btn px-4 py-2 bg-slate-100 hover:bg-slate-200 rounded-xl text-xs font-bold transition">
+                Antes: 1 &bull; Después: 3 ✅
+              </button>
+              <button onclick="checkQuestion1(this, false)" class="q1-btn px-4 py-2 bg-slate-100 hover:bg-slate-200 rounded-xl text-xs font-bold transition">
+                Antes: 0 &bull; Después: 3
+              </button>
+            </div>
+            <p id="q1-feedback" class="text-xs font-bold mt-1.5 hidden"></p>
+          </div>
+
+          <!-- Pregunta 2 -->
+          <div class="pt-3 border-t border-slate-100">
+            <p class="font-display font-bold text-sm text-slate-800 mb-2">
+              2. ¿El valor de la variable <strong>aumentó</strong> o <strong>disminuyó</strong>?
+            </p>
+            <div class="flex flex-wrap gap-2.5">
+              <button onclick="checkQuestion2(this, true)" class="q2-btn px-4 py-2 bg-slate-100 hover:bg-slate-200 rounded-xl text-xs font-bold transition">
+                ⬆️ Aumentó (+2 pelotas)
+              </button>
+              <button onclick="checkQuestion2(this, false)" class="q2-btn px-4 py-2 bg-slate-100 hover:bg-slate-200 rounded-xl text-xs font-bold transition">
+                ⬇️ Disminuyó (-2 pelotas)
+              </button>
+            </div>
+            <p id="q2-feedback" class="text-xs font-bold mt-1.5 hidden"></p>
+          </div>
+
+        </div>
+
+      </div>
+
+      <!-- ===================================================================== -->
+      <!-- REGLAS DE ORO: VACÍA VS NO PUEDE SUCEDER (DIAPOSITIVA 4)               -->
+      <!-- ===================================================================== -->
+      <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
+        
+        <!-- Caso A: Caja Vacía -->
+        <div class="bg-white rounded-3xl p-6 border-2 border-emerald-300 shadow-md">
+          <div class="inline-block bg-emerald-100 text-emerald-800 text-[10px] font-black px-2.5 py-0.5 rounded-full mb-2">
+            CORRECTO &bull; DIAPOSITIVA 4
+          </div>
+          <h3 class="font-display font-black text-xl text-slate-900 mb-1">
+            Variables Vacías (Valor 0)
+          </h3>
+          <p class="text-xs sm:text-sm text-slate-600 mb-4">
+            "Las variables pueden estar vacías, no guardan nada en ese momento." En un juego, por ejemplo, empezamos con <strong>puntos = 0</strong>.
+          </p>
+          
+          <div class="bg-slate-50 border-2 border-dashed border-emerald-300 rounded-2xl p-4 flex flex-col items-center min-h-[160px]">
+            <span class="font-display font-bold text-xs text-slate-500 uppercase">Caja Vacía</span>
+            <div class="w-48 h-36 my-2 flex items-center justify-center">
+              <svg viewBox="0 0 220 160" class="w-full h-full drop-shadow-md" style="overflow: visible;">
+                <ellipse cx="110" cy="144" rx="80" ry="12" fill="#000000" opacity="0.2" />
+                <polygon points="78,54 100,22 152,26 142,54" fill="#a4682f" stroke="#714217" stroke-width="0.8" />
+                <polygon points="42,66 14,48 50,30 78,54" fill="#c6894b" stroke="#714217" stroke-width="0.8" />
+                <polygon points="42,66 78,54 142,54 178,66 152,86 66,86" fill="url(#cardboardInside1)" />
+                <polygon points="142,54 182,30 210,50 178,66" fill="url(#flapTop1)" stroke="#8b5321" stroke-width="0.8" />
+
+                <polygon points="42,66 16,80 44,94 72,78" fill="#d99c5c" stroke="#8b5321" stroke-width="0.8" />
+                <polygon points="178,66 206,80 176,96 146,78" fill="#d99c5c" stroke="#8b5321" stroke-width="0.8" />
+                <polygon points="42,66 72,78 72,136 42,122" fill="url(#cardboardSide1)" stroke="#714217" stroke-width="0.8" />
+                <polygon points="72,78 178,66 178,124 72,136" fill="url(#cardboardFront1)" stroke="#8b5321" stroke-width="0.8" />
+                <line x1="72" y1="78" x2="72" y2="136" stroke="#fed7aa" stroke-width="1" opacity="0.6" />
+                <text x="125" y="108" font-family="'Outfit', sans-serif" font-weight="900" font-style="italic" font-size="20" fill="#1c1917" text-anchor="middle" transform="rotate(-3 125 108)">Pelotas</text>
+              </svg>
+            </div>
+            <div class="scratch-block">
+              <span>fijar</span> <span class="scratch-block-var">Pelotas</span> <span>a 0</span>
+            </div>
+          </div>
+        </div>
+
+        <!-- Caso B: No puede suceder (Mezcla de tipos) -->
+        <div class="bg-white rounded-3xl p-6 border-2 border-rose-300 shadow-md">
+          <div class="inline-block bg-rose-100 text-rose-800 text-[10px] font-black px-2.5 py-0.5 rounded-full mb-2">
+            ¡ALERTA! &bull; DIAPOSITIVA 4
+          </div>
+          <h3 class="font-display font-black text-xl text-slate-900 mb-1">
+            "No Puede Suceder" (Tipos de Datos)
+          </h3>
+          <p class="text-xs sm:text-sm text-slate-600 mb-4">
+            "Una variable solo guarda datos del mismo tipo." ¡No podemos meter un serrucho 🪚 o un martillo 🔨 en la caja de <strong>Pelotas</strong>!
+          </p>
+
+          <div class="bg-rose-50/70 border-2 border-dashed border-rose-300 rounded-2xl p-4 flex flex-col items-center min-h-[160px]">
+            <span class="font-display font-bold text-xs text-rose-700 uppercase">❌ No puede suceder</span>
+            <div class="w-48 h-36 my-2 flex items-center justify-center">
+              <svg viewBox="0 0 220 160" class="w-full h-full drop-shadow-md" style="overflow: visible;">
+                <ellipse cx="110" cy="144" rx="80" ry="12" fill="#000000" opacity="0.2" />
+                <polygon points="78,54 100,22 152,26 142,54" fill="#a4682f" stroke="#714217" stroke-width="0.8" />
+                <polygon points="42,66 14,48 50,30 78,54" fill="#c6894b" stroke="#714217" stroke-width="0.8" />
+                <polygon points="42,66 78,54 142,54 178,66 152,86 66,86" fill="url(#cardboardInside1)" />
+                <polygon points="142,54 182,30 210,50 178,66" fill="url(#flapTop1)" stroke="#8b5321" stroke-width="0.8" />
+
+                <!-- Pelotas dentro -->
+                <circle cx="75" cy="52" r="14" fill="#ea580c" stroke="#9a3412" stroke-width="1.2" />
+                <circle cx="95" cy="48" r="15" fill="#ffffff" stroke="#0f172a" stroke-width="1.2" />
+
+                <!-- Serrucho con mango naranja (fiel a la diapositiva) -->
+                <g transform="translate(110, 15) rotate(-5)">
+                  <!-- Hoja metálica -->
+                  <polygon points="6,35 18,35 16,5 8,12 8,35" fill="#e2e8f0" stroke="#94a3b8" stroke-width="0.8" />
+                  <!-- Dientes del serrucho -->
+                  <polygon points="6,35 4,32 6,29 4,26 6,23 4,20 6,17 4,14 6,11 8,12" fill="#cbd5e1" />
+                  <!-- Mango naranja ergonómico -->
+                  <path d="M 8,20 Q 22,18 20,38 Q 8,40 8,28 Z" fill="#ea580c" stroke="#9a3412" stroke-width="1" />
+                  <circle cx="14" cy="30" r="3" fill="#ffffff" />
+                </g>
+
+                <!-- Martillo con cabeza gris (fiel a la diapositiva) -->
+                <g transform="translate(138, 12) rotate(10)">
+                  <!-- Mango de madera/metal -->
+                  <rect x="12" y="16" width="5" height="42" rx="1.5" fill="#64748b" stroke="#334155" stroke-width="0.8" />
+                  <!-- Cabeza metálica de martillo -->
+                  <rect x="3" y="12" width="23" height="9" rx="2" fill="#334155" />
+                  <polygon points="3,12 0,14 0,19 3,21" fill="#475569" />
+                  <path d="M 26,13 Q 31,16 29,22 L 26,20 Z" fill="#475569" />
+                </g>
+
+                <polygon points="42,66 16,80 44,94 72,78" fill="#d99c5c" stroke="#8b5321" stroke-width="0.8" />
+                <polygon points="178,66 206,80 176,96 146,78" fill="#d99c5c" stroke="#8b5321" stroke-width="0.8" />
+                <polygon points="42,66 72,78 72,136 42,122" fill="url(#cardboardSide1)" stroke="#714217" stroke-width="0.8" />
+                <polygon points="72,78 178,66 178,124 72,136" fill="url(#cardboardFront1)" stroke="#8b5321" stroke-width="0.8" />
+                <line x1="72" y1="78" x2="72" y2="136" stroke="#fed7aa" stroke-width="1" opacity="0.6" />
+                <text x="125" y="108" font-family="'Outfit', sans-serif" font-weight="900" font-style="italic" font-size="20" fill="#1c1917" text-anchor="middle" transform="rotate(-3 125 108)">Pelotas</text>
+              </svg>
+            </div>
+            <span class="text-xs font-bold text-rose-700 bg-white px-3 py-1 rounded-full border border-rose-200">
+              🚫 ¡Error de programación!
+            </span>
+          </div>
+        </div>
+
+      </div>
+
+      <!-- ===================================================================== -->
+      <!-- SIMULADOR INTERACTIVO: EL LABORATORIO DE LA CAJA PELOTAS              -->
+      <!-- ===================================================================== -->
+      <div class="bg-white rounded-3xl p-6 sm:p-8 border-4 border-sky-400 shadow-xl">
+        <div class="text-center max-w-lg mx-auto mb-6">
+          <span class="bg-sky-100 text-sky-800 text-xs font-black uppercase px-3.5 py-1 rounded-full">
+            🕹️ LABORATORIO INTERACTIVO
+          </span>
+          <h3 class="font-display font-black text-2xl sm:text-3xl text-slate-900 mt-2">
+            ¡Controla la Variable en Tiempo Real!
+          </h3>
+          <p class="text-slate-600 text-xs sm:text-sm mt-1">
+            Agrega o saca pelotas de la caja y mira cómo cambia el valor de la variable y el bloque de código Scratch:
+          </p>
+        </div>
+
+        <div class="grid grid-cols-1 md:grid-cols-2 gap-8 items-center max-w-3xl mx-auto">
+          
+          <!-- Área visual de la Caja -->
+          <div class="bg-gradient-to-b from-sky-50 to-amber-50 rounded-3xl p-6 border-2 border-sky-200 flex flex-col items-center justify-center relative overflow-hidden shadow-inner min-h-[300px]">
+            
+            <!-- Monitor del valor -->
+            <div class="bg-white/90 backdrop-blur-sm border-2 border-sky-300 px-4 py-1.5 rounded-2xl shadow-sm mb-3 flex items-center gap-2 z-30">
+              <span class="text-xs font-bold text-slate-500 uppercase">Variable:</span>
+              <span class="font-pixel text-sm text-sky-700">Pelotas =</span>
+              <span id="box-ball-count" class="font-pixel text-xl text-amber-500 font-bold">0</span>
+            </div>
+
+            <!-- Caja 3D Multicapa Realista (Las pelotas quedan dentro de la caja) -->
+            <div class="relative w-64 h-48 flex items-center justify-center">
+              
+              <!-- Capa trasera e interior de la caja (Fondo y solapas traseras) -->
+              <svg viewBox="0 0 220 160" class="absolute inset-0 w-full h-full" style="overflow: visible;">
+                <ellipse cx="110" cy="144" rx="80" ry="12" fill="#000000" opacity="0.2" />
+                <polygon points="78,54 100,22 152,26 142,54" fill="#a4682f" stroke="#714217" stroke-width="0.8" />
+                <polygon points="42,66 14,48 50,30 78,54" fill="#c6894b" stroke="#714217" stroke-width="0.8" />
+                <polygon points="42,66 78,54 142,54 178,66 152,86 66,86" fill="url(#cardboardInside1)" />
+                <polygon points="142,54 182,30 210,50 178,66" fill="url(#flapTop1)" stroke="#8b5321" stroke-width="0.8" />
+              </svg>
+
+              <!-- Contenedor animado de pelotas dentro de la cavidad de la caja -->
+              <div id="balls-inside-container" class="absolute top-12 left-10 right-10 h-16 flex flex-wrap justify-center items-center gap-1 z-10 overflow-hidden pointer-events-none">
+                <!-- Las pelotas se agregan dinámicamente aquí -->
+              </div>
+
+              <!-- Capa frontal de la caja (Solapas delanteras y cara frontal con "Pelotas") -->
+              <svg viewBox="0 0 220 160" class="absolute inset-0 w-full h-full z-20 pointer-events-none" style="overflow: visible;">
+                <polygon points="42,66 16,80 44,94 72,78" fill="#d99c5c" stroke="#8b5321" stroke-width="0.8" />
+                <polygon points="178,66 206,80 176,96 146,78" fill="#d99c5c" stroke="#8b5321" stroke-width="0.8" />
+                <polygon points="42,66 72,78 72,136 42,122" fill="url(#cardboardSide1)" stroke="#714217" stroke-width="0.8" />
+                <polygon points="72,78 178,66 178,124 72,136" fill="url(#cardboardFront1)" stroke="#8b5321" stroke-width="0.8" />
+                <line x1="72" y1="78" x2="72" y2="136" stroke="#fed7aa" stroke-width="1" opacity="0.6" />
+                <text x="125" y="108" font-family="'Outfit', sans-serif" font-weight="900" font-style="italic" font-size="20" fill="#1c1917" text-anchor="middle" transform="rotate(-3 125 108)">Pelotas</text>
+              </svg>
+            </div>
+
+            <!-- Mensaje flotante de alerta -->
+            <div id="box-alert" class="hidden absolute bottom-3 bg-rose-600 text-white text-xs font-bold px-3 py-1.5 rounded-xl shadow-lg transition z-30 flex items-center gap-1.5">
+              <span>🚫</span> <span>¡Solo pelotas! No se admiten herramientas en esta caja.</span>
+            </div>
+          </div>
+
+          <!-- Panel de Controles / Acciones -->
+          <div class="space-y-4">
+            
+            <div class="bg-slate-50 p-4 rounded-2xl border border-slate-200">
+              <span class="text-xs font-extrabold uppercase text-slate-500 block mb-2">Acciones para modificar el valor:</span>
+              <div class="grid grid-cols-2 gap-2">
+                <button onclick="addBall('futbol')" class="btn-arcade bg-sky-500 hover:bg-sky-600 text-white font-display font-black text-xs py-2.5 px-3 rounded-xl flex items-center justify-center gap-1.5">
+                  <span>⚽</span> <span>+1 Fútbol</span>
+                </button>
+                <button onclick="addBall('basket')" class="btn-arcade bg-orange-500 hover:bg-orange-600 text-white font-display font-black text-xs py-2.5 px-3 rounded-xl flex items-center justify-center gap-1.5">
+                  <span>🏀</span> <span>+1 Básquet</span>
+                </button>
+                <button onclick="addBall('voley')" class="btn-arcade bg-amber-500 hover:bg-amber-600 text-white font-display font-black text-xs py-2.5 px-3 rounded-xl flex items-center justify-center gap-1.5">
+                  <span>🏐</span> <span>+1 Voleibol</span>
+                </button>
+                <button onclick="removeBall()" class="btn-arcade bg-slate-600 hover:bg-slate-700 text-white font-display font-black text-xs py-2.5 px-3 rounded-xl flex items-center justify-center gap-1.5">
+                  <span>➖</span> <span>-1 Pelota</span>
+                </button>
+              </div>
+            </div>
+
+            <!-- Probar la regla de "No puede suceder" -->
+            <div class="bg-rose-50 border border-rose-200 p-4 rounded-2xl">
+              <span class="text-xs font-black uppercase text-rose-800 block mb-2">¡Prueba la regla de oro!</span>
+              <button onclick="tryAddTool()" class="w-full btn-arcade bg-rose-500 hover:bg-rose-600 text-white font-display font-black text-xs py-2 px-3 rounded-xl flex items-center justify-center gap-1.5">
+                <span>🔨</span> <span>Intentar meter un Martillo</span>
+              </button>
+            </div>
+
+            <!-- Bloque de código interactivo MakeCode / Scratch -->
+            <div class="bg-slate-900 text-white p-4 rounded-2xl font-mono text-xs">
+              <span class="text-[10px] text-slate-400 block mb-1">CÓDIGO EN EJECUCIÓN:</span>
+              <div id="scratch-code-display" class="scratch-block">
+                <span>cambiar</span> <span class="scratch-block-var">Pelotas</span> <span>por 0</span>
+              </div>
+            </div>
+
+          </div>
+
+        </div>
+      </div>
+
+    </section>
+
+    <!-- ======================================================================= -->
+    <!-- CLASE 2: FRUIT NINJA (CORTAR FRUTAS, PUNTOS Y VIDAS)                    -->
+    <!-- ======================================================================= -->
+    <section id="content-class-2" class="w-full space-y-8 hidden">
+      
+      <!-- Encabezado de Clase 2 -->
+      <div class="bg-white rounded-3xl p-6 sm:p-8 border-2 border-rose-300 shadow-lg">
+        <div class="flex flex-col md:flex-row items-center justify-between gap-6">
+          <div>
+            <div class="inline-flex items-center gap-2 bg-rose-100 text-rose-800 text-xs font-black px-3.5 py-1 rounded-full uppercase mb-2">
+              <span>🍉 PROYECTO & VIDEOJUEGO</span> &bull; <span>CLASE 2</span>
+            </div>
+            <h2 class="font-display font-black text-2xl sm:text-3xl text-slate-900">
+              Fruit Ninja: Puntos y Vidas en Acción
+            </h2>
+            <p class="text-slate-600 text-sm sm:text-base mt-1.5 leading-relaxed">
+              En este juego usaremos dos variables fundamentales: <strong>puntos</strong> (aumenta al cortar frutas) y <strong>vidas</strong> (disminuye si cortamos una bomba).
+            </p>
+          </div>
+
+          <div class="flex items-center gap-3">
+            <span class="text-4xl">🍉</span>
+            <div class="bg-rose-50 border-2 border-rose-300 px-4 py-2 rounded-2xl text-center">
+              <span class="text-[10px] uppercase font-bold text-rose-800 block">Variables del Juego</span>
+              <span class="font-display font-black text-sm text-rose-900">puntos &bull; vidas</span>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <!-- EXPLICACIÓN DE BLOQUES DE CÓDIGO (MakeCode / Scratch) -->
+      <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
+        <div class="bg-white p-6 rounded-3xl border-2 border-slate-200 shadow-sm space-y-3">
+          <span class="text-xs font-black uppercase text-rose-600 tracking-wider">LÓGICA DEL JUEGO #1</span>
+          <h3 class="font-display font-black text-lg text-slate-900">Al Iniciar y al Cortar Fruta</h3>
+          <p class="text-xs sm:text-sm text-slate-600">
+            Fijamos los valores iniciales y sumamos puntos cada vez que tocamos una fruta con la espada:
+          </p>
+          <div class="space-y-2 pt-2 font-mono text-xs">
+            <div class="scratch-block"><span>al iniciar: fijar</span> <span class="scratch-block-var">puntos</span> <span>a 0</span></div>
+            <div class="scratch-block"><span>al iniciar: fijar</span> <span class="scratch-block-var">vidas</span> <span>a 3</span></div>
+            <div class="scratch-block bg-emerald-600 border-emerald-700"><span>al rebanar sandía: cambiar</span> <span class="scratch-block-var">puntos</span> <span>por 1</span></div>
+          </div>
+        </div>
+
+        <div class="bg-white p-6 rounded-3xl border-2 border-slate-200 shadow-sm space-y-3">
+          <span class="text-xs font-black uppercase text-rose-600 tracking-wider">LÓGICA DEL JUEGO #2</span>
+          <h3 class="font-display font-black text-lg text-slate-900">La Condición de la Bomba y Fin</h3>
+          <p class="text-xs sm:text-sm text-slate-600">
+            Si rebanamos una bomba, la variable vidas disminuye. Si llega a 0, termina la partida:
+          </p>
+          <div class="space-y-2 pt-2 font-mono text-xs">
+            <div class="scratch-block bg-rose-600 border-rose-700"><span>al rebanar bomba: cambiar</span> <span class="scratch-block-var">vidas</span> <span>por -1</span></div>
+            <div class="bg-indigo-600 text-white rounded-lg p-2 font-bold flex items-center gap-2">
+              <span>si</span> <span class="bg-orange-500 px-2 rounded-full">vidas = 0</span> <span>entonces: Fin del Juego</span>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <!-- JUEGO INTERACTIVO FRUIT NINJA -->
+      <div class="bg-gradient-to-b from-slate-900 via-slate-800 to-slate-900 rounded-3xl p-5 sm:p-7 border-4 border-rose-500 shadow-2xl text-white">
+        
+        <!-- Header del Juego (Variables en Pantalla) -->
+        <div class="flex flex-wrap items-center justify-between gap-4 pb-4 border-b border-slate-700">
+          <div>
+            <span class="text-[10px] font-pixel text-rose-400">MINI-JUEGO EDUCATIVO</span>
+            <h3 class="font-display font-black text-xl sm:text-2xl text-yellow-300">
+              Fruit Ninja de Variables
+            </h3>
+          </div>
+
+          <!-- Marcadores en Vivo -->
+          <div class="flex items-center gap-4">
+            <!-- Variable Puntos -->
+            <div class="bg-slate-800 border-2 border-yellow-400 px-3.5 py-1.5 rounded-xl flex items-center gap-2">
+              <span class="text-xs font-bold text-yellow-300 uppercase">Puntos:</span>
+              <span id="fn-points" class="font-pixel text-lg text-white">0</span>
+            </div>
+            <!-- Variable Vidas -->
+            <div class="bg-slate-800 border-2 border-rose-400 px-3.5 py-1.5 rounded-xl flex items-center gap-2">
+              <span class="text-xs font-bold text-rose-300 uppercase">Vidas:</span>
+              <span id="fn-lives" class="text-base tracking-widest">❤️❤️❤️</span>
+            </div>
+          </div>
+        </div>
+
+        <!-- Área de Juego (Canvas / Arena de Frutas) -->
+        <div id="fn-arena" class="relative w-full h-80 sm:h-96 my-4 bg-slate-950 rounded-2xl overflow-hidden border-2 border-slate-700 cursor-crosshair flex items-center justify-center select-none">
+          
+          <!-- Pantalla de Inicio del Juego -->
+          <div id="fn-start-overlay" class="text-center z-30 p-6 bg-slate-900/90 rounded-2xl border border-rose-500/50 backdrop-blur-sm max-w-sm">
+            <span class="text-5xl block mb-2 animate-bounce">🍉</span>
+            <h4 class="font-display font-black text-2xl text-white">¿Listo para Rebanar?</h4>
+            <p class="text-xs text-slate-300 mt-2 mb-4 leading-relaxed">
+              Haz clic o pasa el dedo sobre las frutas para sumar puntos. ¡Cuidado con la bomba 💣!
+            </p>
+            <button onclick="startFruitNinja()" class="btn-arcade bg-rose-500 hover:bg-rose-600 text-white font-display font-black text-sm px-6 py-3 rounded-2xl shadow-lg w-full">
+              ¡Iniciar Partida! ⚔️
+            </button>
+          </div>
+
+          <!-- Pantalla de Fin de Juego -->
+          <div id="fn-gameover-overlay" class="hidden text-center z-30 p-6 bg-slate-900/95 rounded-2xl border-2 border-yellow-400 max-w-sm">
+            <span class="text-5xl block mb-2">🏆</span>
+            <h4 class="font-display font-black text-2xl text-yellow-300">¡Partida Terminada!</h4>
+            <p class="text-xs text-slate-300 mt-1">El valor final de tu variable fue:</p>
+            <div class="font-pixel text-3xl text-white my-3"><span id="fn-final-score">0</span> pts</div>
+            <button onclick="startFruitNinja()" class="btn-arcade bg-yellow-400 hover:bg-yellow-500 text-slate-900 font-display font-black text-sm px-6 py-2.5 rounded-xl shadow-lg w-full">
+              Jugar de Nuevo 🔄
+            </button>
+          </div>
+
+          <!-- Elementos voladores interactivos generados por JS -->
+        </div>
+
+        <!-- Instrucciones y Feedback -->
+        <div class="text-center text-xs text-slate-400">
+          💡 <em>Mira cómo la variable <strong>Puntos</strong> cambia instantáneamente con cada corte.</em>
+        </div>
+
+      </div>
+
+    </section>
+
+    <!-- ======================================================================= -->
+    <!-- CLASE 3: RECICLANDO (VARIABLES MÚLTIPLES INDEPENDIENTES)                 -->
+    <!-- ======================================================================= -->
+    <section id="content-class-3" class="w-full space-y-8 hidden">
+      
+      <!-- Encabezado de Clase 3 -->
+      <div class="bg-white rounded-3xl p-6 sm:p-8 border-2 border-emerald-300 shadow-lg">
+        <div class="flex flex-col md:flex-row items-center justify-between gap-6">
+          <div>
+            <div class="inline-flex items-center gap-2 bg-emerald-100 text-emerald-800 text-xs font-black px-3.5 py-1 rounded-full uppercase mb-2">
+              <span>🌱 ECOLOGÍA & MÚLTIPLES DATOS</span> &bull; <span>CLASE 3</span>
+            </div>
+            <h2 class="font-display font-black text-2xl sm:text-3xl text-slate-900">
+              Reciclando: Variables Múltiples Independientes
+            </h2>
+            <p class="text-slate-600 text-sm sm:text-base mt-1.5 leading-relaxed">
+              En este proyecto necesitamos clasificar residuos. Como hay diferentes materiales, usaremos <strong>varias variables separadas</strong>: una para plástico, otra para papel y otra para vidrio.
+            </p>
+          </div>
+
+          <div class="flex items-center gap-3">
+            <span class="text-4xl">♻️</span>
+            <div class="bg-emerald-50 border-2 border-emerald-300 px-4 py-2 rounded-2xl text-center">
+              <span class="text-[10px] uppercase font-bold text-emerald-800 block">Variables</span>
+              <span class="font-display font-black text-xs text-emerald-900">plastico &bull; papel &bull; vidrio</span>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <!-- SIMULADOR INTERACTIVO ECO-CLASIFICADOR -->
+      <div class="bg-white rounded-3xl p-6 sm:p-8 border-4 border-emerald-400 shadow-xl space-y-6">
+        
+        <div class="text-center max-w-xl mx-auto">
+          <span class="bg-emerald-100 text-emerald-800 text-xs font-black uppercase px-3 py-1 rounded-full">
+            ♻️ RETO DE CLASIFICACIÓN
+          </span>
+          <h3 class="font-display font-black text-2xl sm:text-3xl text-slate-900 mt-2">
+            Eco-Clasificador 4° Grado
+          </h3>
+          <p class="text-slate-600 text-xs sm:text-sm mt-1">
+            Haz clic en el residuo y luego haz clic en la caneca correcta para sumarle a su variable:
+          </p>
+        </div>
+
+        <!-- Panel de las 3 Variables (Contadores Independientes) -->
+        <div class="grid grid-cols-3 gap-3 sm:gap-4 max-w-2xl mx-auto">
+          
+          <!-- Variable Plástico -->
+          <div class="bg-amber-50 border-2 border-amber-300 p-3 sm:p-4 rounded-2xl text-center shadow-sm">
+            <span class="text-[10px] sm:text-xs font-bold text-amber-700 uppercase block">Variable:</span>
+            <span class="font-display font-black text-xs sm:text-sm text-amber-900">contador_plastico</span>
+            <div id="var-plastico" class="font-pixel text-2xl sm:text-3xl text-amber-600 mt-1">0</div>
+          </div>
+
+          <!-- Variable Papel -->
+          <div class="bg-sky-50 border-2 border-sky-300 p-3 sm:p-4 rounded-2xl text-center shadow-sm">
+            <span class="text-[10px] sm:text-xs font-bold text-sky-700 uppercase block">Variable:</span>
+            <span class="font-display font-black text-xs sm:text-sm text-sky-900">contador_papel</span>
+            <div id="var-papel" class="font-pixel text-2xl sm:text-3xl text-sky-600 mt-1">0</div>
+          </div>
+
+          <!-- Variable Vidrio -->
+          <div class="bg-emerald-50 border-2 border-emerald-300 p-3 sm:p-4 rounded-2xl text-center shadow-sm">
+            <span class="text-[10px] sm:text-xs font-bold text-emerald-700 uppercase block">Variable:</span>
+            <span class="font-display font-black text-xs sm:text-sm text-emerald-900">contador_vidrio</span>
+            <div id="var-vidrio" class="font-pixel text-2xl sm:text-3xl text-emerald-600 mt-1">0</div>
+          </div>
+
+        </div>
+
+        <!-- Residuo Actual a Clasificar -->
+        <div class="bg-slate-50 border-2 border-slate-200 rounded-3xl p-6 text-center max-w-md mx-auto shadow-inner flex flex-col items-center">
+          <span class="text-[11px] font-bold text-slate-500 uppercase">Residuo para Clasificar:</span>
+          <div id="eco-item-icon" class="text-6xl my-3 animate-bounce">🥤</div>
+          <div id="eco-item-name" class="font-display font-black text-lg text-slate-800">Botella de Plástico</div>
+          <span class="text-xs text-slate-500 mt-1">¿A qué variable debe sumarse?</span>
+        </div>
+
+        <!-- Las 3 Canecas Interactivas -->
+        <div class="grid grid-cols-1 sm:grid-cols-3 gap-4 max-w-2xl mx-auto">
+          
+          <!-- Caneca Amarilla: Plástico -->
+          <button onclick="recycleItem('plastico')" class="btn-arcade bg-amber-400 hover:bg-amber-500 text-amber-950 p-4 rounded-2xl border-2 border-amber-500 flex flex-col items-center text-center shadow">
+            <span class="text-4xl mb-1">🟨 🗑️</span>
+            <span class="font-display font-black text-sm">Caneca Amarilla</span>
+            <span class="text-xs font-bold mt-1">Plásticos</span>
+          </button>
+
+          <!-- Caneca Azul: Papel -->
+          <button onclick="recycleItem('papel')" class="btn-arcade bg-sky-400 hover:bg-sky-500 text-sky-950 p-4 rounded-2xl border-2 border-sky-500 flex flex-col items-center text-center shadow">
+            <span class="text-4xl mb-1">🟦 🗑️</span>
+            <span class="font-display font-black text-sm">Caneca Azul</span>
+            <span class="text-xs font-bold mt-1">Papel y Cartón</span>
+          </button>
+
+          <!-- Caneca Verde: Vidrio -->
+          <button onclick="recycleItem('vidrio')" class="btn-arcade bg-emerald-400 hover:bg-emerald-500 text-emerald-950 p-4 rounded-2xl border-2 border-emerald-500 flex flex-col items-center text-center shadow">
+            <span class="text-4xl mb-1">🟩 🗑️</span>
+            <span class="font-display font-black text-sm">Caneca Verde</span>
+            <span class="text-xs font-bold mt-1">Vidrio</span>
+          </button>
+
+        </div>
+
+        <!-- Mensaje de Feedback -->
+        <div id="eco-feedback" class="text-center text-xs font-bold text-emerald-700 min-h-[20px]"></div>
+
+      </div>
+
+    </section>
+
+    <!-- ======================================================================= -->
+    <!-- CLASE 4: EXPLOTANDO GLOBOS (TEMPORIZADOR & CUENTA REGRESIVA)             -->
+    <!-- ======================================================================= -->
+    <section id="content-class-4" class="w-full space-y-8 hidden">
+      
+      <!-- Encabezado de Clase 4 -->
+      <div class="bg-white rounded-3xl p-6 sm:p-8 border-2 border-amber-300 shadow-lg">
+        <div class="flex flex-col md:flex-row items-center justify-between gap-6">
+          <div>
+            <div class="inline-flex items-center gap-2 bg-amber-100 text-amber-800 text-xs font-black px-3.5 py-1 rounded-full uppercase mb-2">
+              <span>⏱️ TIEMPO Y BUCPLES</span> &bull; <span>CLASE 4</span>
+            </div>
+            <h2 class="font-display font-black text-2xl sm:text-3xl text-slate-900">
+              Explotando Globos: La Variable Tiempo
+            </h2>
+            <p class="text-slate-600 text-sm sm:text-base mt-1.5 leading-relaxed">
+              En los videojuegos, el reloj es una variable que disminuye cada segundo: <strong>tiempo = tiempo - 1</strong>. ¡Explota todos los globos que puedas antes de que llegue a 0!
+            </p>
+          </div>
+
+          <div class="flex items-center gap-3">
+            <span class="text-4xl">🎈</span>
+            <div class="bg-amber-50 border-2 border-amber-300 px-4 py-2 rounded-2xl text-center">
+              <span class="text-[10px] uppercase font-bold text-amber-800 block">Variable Clave</span>
+              <span class="font-display font-black text-sm text-amber-900">tiempo_restante</span>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <!-- EXPLICACIÓN DEL ALGORITMO DEL TEMPORIZADOR -->
+      <div class="bg-white p-6 rounded-3xl border-2 border-slate-200 shadow-sm max-w-3xl mx-auto">
+        <h3 class="font-display font-black text-lg text-slate-900 mb-2">
+          ¿Cómo funciona el temporizador en código?
+        </h3>
+        <p class="text-xs sm:text-sm text-slate-600 mb-4">
+          Creamos un bucle que se repite por siempre. Cada 1 segundo, le restamos 1 a la variable <strong>tiempo</strong>. Cuando sea igual a 0, el juego se detiene:
+        </p>
+
+        <div class="bg-slate-900 p-4 rounded-2xl font-mono text-xs text-white space-y-2">
+          <div><span class="text-amber-400">fijar</span> [tiempo] <span class="text-amber-400">a 20</span></div>
+          <div class="pl-4 border-l-2 border-sky-400 space-y-1">
+            <div class="text-sky-300">por siempre:</div>
+            <div class="pl-4">esperar 1 segundo</div>
+            <div class="pl-4 text-orange-400">cambiar [tiempo] por -1</div>
+            <div class="pl-4 text-emerald-400">si [tiempo] = 0 entonces [detener todo]</div>
+          </div>
+        </div>
+      </div>
+
+      <!-- JUEGO INTERACTIVO EXPLOTANDO GLOBOS -->
+      <div class="bg-gradient-to-b from-sky-400 via-sky-300 to-amber-100 rounded-3xl p-6 border-4 border-sky-500 shadow-2xl relative overflow-hidden">
+        
+        <!-- Header del Juego -->
+        <div class="flex flex-wrap items-center justify-between gap-4 pb-4 border-b border-white/40">
+          <div>
+            <span class="text-[10px] font-pixel text-sky-900 uppercase">JUEGO DE TEMPORIZADOR</span>
+            <h3 class="font-display font-black text-2xl text-slate-900">
+              ¡Desafío Pop Balloons!
+            </h3>
+          </div>
+
+          <!-- Marcadores en Vivo -->
+          <div class="flex items-center gap-3">
+            <!-- Variable Tiempo -->
+            <div class="bg-white/90 border-2 border-rose-500 px-4 py-1.5 rounded-2xl shadow-sm text-center">
+              <span class="text-[10px] font-bold text-rose-600 uppercase block">Tiempo:</span>
+              <div id="balloon-timer" class="font-pixel text-2xl text-rose-600 font-bold">20s</div>
+            </div>
+            <!-- Variable Globos Explotados -->
+            <div class="bg-white/90 border-2 border-sky-500 px-4 py-1.5 rounded-2xl shadow-sm text-center">
+              <span class="text-[10px] font-bold text-sky-600 uppercase block">Globos:</span>
+              <div id="balloon-score" class="font-pixel text-2xl text-sky-700 font-bold">0</div>
+            </div>
+          </div>
+        </div>
+
+        <!-- Cielo donde ascienden los globos -->
+        <div id="balloon-sky" class="relative w-full h-80 sm:h-96 my-4 bg-sky-200/50 rounded-2xl overflow-hidden border-2 border-white/60 flex items-center justify-center select-none shadow-inner">
+          
+          <!-- Pantalla de Inicio -->
+          <div id="balloon-start-overlay" class="text-center z-30 p-6 bg-white/95 rounded-2xl border-2 border-sky-400 shadow-xl max-w-sm">
+            <span class="text-5xl block mb-2 animate-bounce">🎈</span>
+            <h4 class="font-display font-black text-2xl text-slate-900">¿Listo para Explotar?</h4>
+            <p class="text-xs text-slate-600 mt-2 mb-4 leading-relaxed">
+              Tienes <strong>20 segundos</strong> en la variable Tiempo. ¡Toca los globos antes de que vuelen alto!
+            </p>
+            <button onclick="startBalloonGame()" class="btn-arcade bg-sky-500 hover:bg-sky-600 text-white font-display font-black text-sm px-6 py-3 rounded-2xl shadow-lg w-full">
+              ¡Empezar a Explotar! 🎈
+            </button>
+          </div>
+
+          <!-- Pantalla de Fin -->
+          <div id="balloon-gameover-overlay" class="hidden text-center z-30 p-6 bg-white/95 rounded-2xl border-2 border-amber-400 shadow-xl max-w-sm">
+            <span class="text-5xl block mb-2">🎉</span>
+            <h4 class="font-display font-black text-2xl text-slate-900">¡Tiempo Terminado!</h4>
+            <p class="text-xs text-slate-600 mt-1">La variable tiempo llegó a 0. Explotaste:</p>
+            <div class="font-pixel text-3xl text-sky-600 my-3"><span id="balloon-final-score">0</span> globos</div>
+            <button onclick="startBalloonGame()" class="btn-arcade bg-amber-500 hover:bg-amber-600 text-white font-display font-black text-sm px-6 py-2.5 rounded-xl shadow-lg w-full">
+              Intentar de Nuevo 🔄
+            </button>
+          </div>
+
+        </div>
+
+      </div>
+
+    </section>
+
+  </main>
+
+  <!-- ========================================================================= -->
+  <!-- FOOTER                                                                    -->
+  <!-- ========================================================================= -->
+  <footer class="bg-white border-t border-slate-200 py-6 text-center text-xs text-slate-500 mt-auto">
+    <p class="font-display font-bold text-slate-700">Mundo Jandra &bull; 4° Grado de Primaria</p>
+    <p class="text-[11px] text-slate-400 mt-0.5">Prof. Ronny Martinez &bull; Área de Tecnología e Informática</p>
+  </footer>
+
+  <!-- ========================================================================= -->
+  <!-- JAVASCRIPT: LÓGICA DE CLASES, SIMULADORES Y JUEGOS                        -->
+  <!-- ========================================================================= -->
+  <script>
+    // --- ESTADO GLOBAL & AUDIO ---
+    let soundEnabled = true;
+    let totalStars = 0;
+    let audioCtx = null;
+
+    function getAudioContext() {
+      if (!audioCtx) {
+        audioCtx = new (window.AudioContext || window.webkitAudioContext)();
+      }
+      return audioCtx;
+    }
+
+    function toggleAudio() {
+      soundEnabled = !soundEnabled;
+      document.getElementById('soundIcon').textContent = soundEnabled ? '🔊' : '🔇';
+    }
+
+    // Efectos de sonido sintetizados
+    function playSound(type) {
+      if (!soundEnabled) return;
+      try {
+        const ctx = getAudioContext();
+        const osc = ctx.createOscillator();
+        const gain = ctx.createGain();
+        osc.connect(gain);
+        gain.connect(ctx.destination);
+
+        const now = ctx.currentTime;
+
+        if (type === 'pop') {
+          osc.type = 'sine';
+          osc.frequency.setValueAtTime(400, now);
+          osc.frequency.exponentialRampToValueAtTime(800, now + 0.08);
+          gain.gain.setValueAtTime(0.3, now);
+          gain.gain.linearRampToValueAtTime(0.01, now + 0.08);
+          osc.start(now);
+          osc.stop(now + 0.08);
+        } else if (type === 'correct') {
+          osc.type = 'triangle';
+          osc.frequency.setValueAtTime(523.25, now); // C5
+          osc.frequency.setValueAtTime(659.25, now + 0.1); // E5
+          gain.gain.setValueAtTime(0.2, now);
+          gain.gain.linearRampToValueAtTime(0.01, now + 0.25);
+          osc.start(now);
+          osc.stop(now + 0.25);
+        } else if (type === 'wrong') {
+          osc.type = 'sawtooth';
+          osc.frequency.setValueAtTime(220, now);
+          osc.frequency.setValueAtTime(180, now + 0.15);
+          gain.gain.setValueAtTime(0.2, now);
+          gain.gain.linearRampToValueAtTime(0.01, now + 0.25);
+          osc.start(now);
+          osc.stop(now + 0.25);
+        } else if (type === 'slice') {
+          osc.type = 'sine';
+          osc.frequency.setValueAtTime(700, now);
+          osc.frequency.exponentialRampToValueAtTime(200, now + 0.12);
+          gain.gain.setValueAtTime(0.25, now);
+          gain.gain.linearRampToValueAtTime(0.01, now + 0.12);
+          osc.start(now);
+          osc.stop(now + 0.12);
+        }
+      } catch (e) {
+        // Fallback silencioso
+      }
+    }
+
+    function addStars(count) {
+      totalStars += count;
+      document.getElementById('starScore').textContent = totalStars;
+      if (typeof confetti === 'function') {
+        confetti({ particleCount: 30, spread: 60, origin: { y: 0.8 } });
+      }
+    }
+
+    // --- CAMBIO DE CLASES (TABS) ---
+    function switchClass(classNum) {
+      playSound('pop');
+      for (let i = 1; i <= 4; i++) {
+        const tabBtn = document.getElementById(`tab-btn-${i}`);
+        const content = document.getElementById(`content-class-${i}`);
+        if (i === classNum) {
+          tabBtn.classList.add('active');
+          tabBtn.classList.remove('bg-slate-50');
+          content.classList.remove('hidden');
+          content.classList.add('block');
+        } else {
+          tabBtn.classList.remove('active');
+          tabBtn.classList.add('bg-slate-50');
+          content.classList.add('hidden');
+          content.classList.remove('block');
+        }
+      }
+      window.scrollTo({ top: 220, behavior: 'smooth' });
+    }
+
+    // --- CLASE 1: RETO ANTES Y DESPUÉS ---
+    let q1Answered = false;
+    let q2Answered = false;
+
+    function checkQuestion1(btn, isCorrect) {
+      const fb = document.getElementById('q1-feedback');
+      document.querySelectorAll('.q1-btn').forEach(b => b.classList.remove('bg-emerald-500', 'bg-rose-500', 'text-white'));
+      fb.classList.remove('hidden', 'text-emerald-600', 'text-rose-600');
+
+      if (isCorrect) {
+        btn.classList.add('bg-emerald-500', 'text-white');
+        fb.classList.add('text-emerald-600');
+        fb.textContent = '¡Correcto! Antes había 1 pelota y después hay 3 pelotas. ⚽🏀🏐';
+        playSound('correct');
+        if (!q1Answered) { addStars(1); q1Answered = true; }
+      } else {
+        btn.classList.add('bg-rose-500', 'text-white');
+        fb.classList.add('text-rose-600');
+        fb.textContent = 'Inténtalo de nuevo. Cuenta bien las pelotas en cada caja.';
+        playSound('wrong');
+      }
+      checkReto1Completion();
+    }
+
+    function checkQuestion2(btn, isCorrect) {
+      const fb = document.getElementById('q2-feedback');
+      document.querySelectorAll('.q2-btn').forEach(b => b.classList.remove('bg-emerald-500', 'bg-rose-500', 'text-white'));
+      fb.classList.remove('hidden', 'text-emerald-600', 'text-rose-600');
+
+      if (isCorrect) {
+        btn.classList.add('bg-emerald-500', 'text-white');
+        fb.classList.add('text-emerald-600');
+        fb.textContent = '¡Excelente! Pasó de 1 a 3, por lo tanto el valor AUMENTÓ en +2. ⬆️';
+        playSound('correct');
+        if (!q2Answered) { addStars(1); q2Answered = true; }
+      } else {
+        btn.classList.add('bg-rose-500', 'text-white');
+        fb.classList.add('text-rose-600');
+        fb.textContent = 'No disminuyó. Al meter más pelotas el número es más grande.';
+        playSound('wrong');
+      }
+      checkReto1Completion();
+    }
+
+    function checkReto1Completion() {
+      if (q1Answered && q2Answered) {
+        const badge = document.getElementById('reto1-status');
+        badge.textContent = '¡Completado! ⭐';
+        badge.className = 'text-xs font-black text-emerald-600';
+      }
+    }
+
+    // --- CLASE 1: SIMULADOR DE LA CAJA PELOTAS ---
+    let ballCount = 0;
+    const ballContainer = document.getElementById('balls-inside-container');
+    const ballCountDisplay = document.getElementById('box-ball-count');
+    const scratchCode = document.getElementById('scratch-code-display');
+
+    function updateBoxUI(lastActionText) {
+      ballCountDisplay.textContent = ballCount;
+      scratchCode.innerHTML = `<span>cambiar</span> <span class="scratch-block-var">Pelotas</span> <span>${lastActionText}</span> &rarr; <span>Pelotas = ${ballCount}</span>`;
+    }
+
+    function addBall(type) {
+      if (ballCount >= 6) {
+        alert('¡La caja está llena! Puedes sacar pelotas para continuar.');
+        return;
+      }
+      ballCount++;
+      playSound('pop');
+
+      const ball = document.createElement('span');
+      ball.className = 'text-3xl animate-bounce';
+      if (type === 'futbol') ball.textContent = '⚽';
+      else if (type === 'basket') ball.textContent = '🏀';
+      else ball.textContent = '🏐';
+
+      ballContainer.appendChild(ball);
+      updateBoxUI('por 1');
+    }
+
+    function removeBall() {
+      if (ballCount > 0) {
+        ballCount--;
+        playSound('pop');
+        ballContainer.removeChild(ballContainer.lastChild);
+        updateBoxUI('por -1');
+      }
+    }
+
+    function tryAddTool() {
+      playSound('wrong');
+      const alertBox = document.getElementById('box-alert');
+      alertBox.classList.remove('hidden');
+      setTimeout(() => alertBox.classList.add('hidden'), 3500);
+    }
+
+    // --- CLASE 2: FRUIT NINJA MINI-GAME ---
+    let fnScore = 0;
+    let fnLives = 3;
+    let fnActive = false;
+    let fnInterval = null;
+    const fnArena = document.getElementById('fn-arena');
+
+    function startFruitNinja() {
+      fnScore = 0;
+      fnLives = 3;
+      fnActive = true;
+      document.getElementById('fn-points').textContent = fnScore;
+      document.getElementById('fn-lives').textContent = '❤️❤️❤️';
+      document.getElementById('fn-start-overlay').classList.add('hidden');
+      document.getElementById('fn-gameover-overlay').classList.add('hidden');
+
+      // Limpiar items previos
+      document.querySelectorAll('.fn-spawn').forEach(el => el.remove());
+
+      clearInterval(fnInterval);
+      fnInterval = setInterval(spawnFruit, 1000);
+    }
+
+    function spawnFruit() {
+      if (!fnActive) return;
+      const isBomb = Math.random() < 0.25;
+      const fruits = ['🍉', '🍎', '🍌', '🍍', '🍓'];
+      const fruitChar = isBomb ? '💣' : fruits[Math.floor(Math.random() * fruits.length)];
+
+      const item = document.createElement('div');
+      item.className = 'fn-spawn absolute cursor-pointer select-none text-5xl transition-transform duration-300';
+      item.textContent = fruitChar;
+
+      const startX = Math.random() * (fnArena.clientWidth - 80) + 40;
+      item.style.left = `${startX}px`;
+      item.style.bottom = '10px';
+
+      fnArena.appendChild(item);
+
+      let posY = 10;
+      let speed = Math.random() * 4 + 4;
+      const moveInterval = setInterval(() => {
+        if (!fnActive) {
+          clearInterval(moveInterval);
+          item.remove();
+          return;
+        }
+        posY += speed;
+        item.style.bottom = `${posY}px`;
+
+        if (posY > fnArena.clientHeight - 50) {
+          clearInterval(moveInterval);
+          item.remove();
+        }
+      }, 30);
+
+      // Corte (Touch / Clic / Mouseover)
+      const sliceAction = () => {
+        clearInterval(moveInterval);
+        if (isBomb) {
+          playSound('wrong');
+          fnLives--;
+          updateFnLives();
+          item.textContent = '💥';
+          setTimeout(() => item.remove(), 250);
+          if (fnLives <= 0) endFruitNinja();
+        } else {
+          playSound('slice');
+          fnScore++;
+          document.getElementById('fn-points').textContent = fnScore;
+          item.classList.add('sliced-left');
+          setTimeout(() => item.remove(), 200);
+        }
+      };
+
+      item.addEventListener('mouseenter', sliceAction);
+      item.addEventListener('click', sliceAction);
+    }
+
+    function updateFnLives() {
+      let hearts = '';
+      for (let i = 0; i < fnLives; i++) hearts += '❤️';
+      document.getElementById('fn-lives').textContent = hearts || '💀';
+    }
+
+    function endFruitNinja() {
+      fnActive = false;
+      clearInterval(fnInterval);
+      document.getElementById('fn-final-score').textContent = fnScore;
+      document.getElementById('fn-gameover-overlay').classList.remove('hidden');
+      if (fnScore >= 10) addStars(2);
+    }
+
+    // --- CLASE 3: RECICLANDO ECO-CLASIFICADOR ---
+    const ecoItems = [
+      { name: 'Botella de Plástico', type: 'plastico', icon: '🥤' },
+      { name: 'Caja de Cartón', type: 'papel', icon: '📦' },
+      { name: 'Frasco de Mermelada', type: 'vidrio', icon: '🫙' },
+      { name: 'Bolsa Plástica', type: 'plastico', icon: '🛍️' },
+      { name: 'Periódico Viejo', type: 'papel', icon: '📰' },
+      { name: 'Botella de Vidrio', type: 'vidrio', icon: '🍾' }
+    ];
+
+    let currentEcoIndex = 0;
+    let countPlastico = 0;
+    let countPapel = 0;
+    let countVidrio = 0;
+
+    function recycleItem(binType) {
+      const current = ecoItems[currentEcoIndex];
+      const fb = document.getElementById('eco-feedback');
+
+      if (binType === current.type) {
+        playSound('correct');
+        fb.className = 'text-center text-xs font-bold text-emerald-600';
+        fb.textContent = `¡Correcto! Sumaste +1 a la variable contador_${binType}.`;
+
+        if (binType === 'plastico') {
+          countPlastico++;
+          document.getElementById('var-plastico').textContent = countPlastico;
+        } else if (binType === 'papel') {
+          countPapel++;
+          document.getElementById('var-papel').textContent = countPapel;
+        } else if (binType === 'vidrio') {
+          countVidrio++;
+          document.getElementById('var-vidrio').textContent = countVidrio;
+        }
+
+        currentEcoIndex = (currentEcoIndex + 1) % ecoItems.length;
+        const next = ecoItems[currentEcoIndex];
+        document.getElementById('eco-item-icon').textContent = next.icon;
+        document.getElementById('eco-item-name').textContent = next.name;
+
+        if (countPlastico + countPapel + countVidrio === 6) {
+          addStars(2);
+        }
+      } else {
+        playSound('wrong');
+        fb.className = 'text-center text-xs font-bold text-rose-600';
+        fb.textContent = `¡Ups! ${current.name} no va en esa caneca. Revisa el material.`;
+      }
+    }
+
+    // --- CLASE 4: EXPLOTANDO GLOBOS ---
+    let balloonScore = 0;
+    let balloonTimeLeft = 20;
+    let balloonTimerId = null;
+    let balloonSpawnId = null;
+    const balloonSky = document.getElementById('balloon-sky');
+
+    function startBalloonGame() {
+      balloonScore = 0;
+      balloonTimeLeft = 20;
+      document.getElementById('balloon-score').textContent = balloonScore;
+      document.getElementById('balloon-timer').textContent = `${balloonTimeLeft}s`;
+      document.getElementById('balloon-start-overlay').classList.add('hidden');
+      document.getElementById('balloon-gameover-overlay').classList.add('hidden');
+
+      document.querySelectorAll('.balloon-spawn').forEach(b => b.remove());
+
+      clearInterval(balloonTimerId);
+      clearInterval(balloonSpawnId);
+
+      // Temporizador (variable tiempo decrece cada segundo)
+      balloonTimerId = setInterval(() => {
+        balloonTimeLeft--;
+        document.getElementById('balloon-timer').textContent = `${balloonTimeLeft}s`;
+        if (balloonTimeLeft <= 0) {
+          endBalloonGame();
+        }
+      }, 1000);
+
+      balloonSpawnId = setInterval(spawnBalloon, 750);
+    }
+
+    function spawnBalloon() {
+      if (balloonTimeLeft <= 0) return;
+      const balloon = document.createElement('div');
+      balloon.className = 'balloon-spawn absolute cursor-pointer select-none text-5xl transition-transform duration-200';
+      
+      const colors = ['🎈', '🎈', '⭐', '🎈'];
+      balloon.textContent = colors[Math.floor(Math.random() * colors.length)];
+
+      const startX = Math.random() * (balloonSky.clientWidth - 70) + 20;
+      balloon.style.left = `${startX}px`;
+      balloon.style.bottom = '5px';
+
+      balloonSky.appendChild(balloon);
+
+      let posY = 5;
+      const speed = Math.random() * 3 + 3;
+      const moveId = setInterval(() => {
+        posY += speed;
+        balloon.style.bottom = `${posY}px`;
+
+        if (posY > balloonSky.clientHeight - 40) {
+          clearInterval(moveId);
+          balloon.remove();
+        }
+      }, 30);
+
+      balloon.addEventListener('click', () => {
+        clearInterval(moveId);
+        playSound('pop');
+        balloonScore++;
+        document.getElementById('balloon-score').textContent = balloonScore;
+        balloon.textContent = '💥';
+        setTimeout(() => balloon.remove(), 180);
+      });
+    }
+
+    function endBalloonGame() {
+      clearInterval(balloonTimerId);
+      clearInterval(balloonSpawnId);
+      document.getElementById('balloon-final-score').textContent = balloonScore;
+      document.getElementById('balloon-gameover-overlay').classList.remove('hidden');
+      addStars(3);
+    }
+  </script>
+</body>
+</html>

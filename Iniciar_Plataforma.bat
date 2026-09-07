@@ -1,12 +1,12 @@
 @echo off
-title Mundo Toby - Servidor Local
+title Mundo Jandra - Servidor Local
 color 0a
 
 :: Ir al directorio exacto del proyecto primaria
 cd /d "C:\Users\Elizabeth\Desktop\primaria"
 
 echo ==========================================
-echo    INICIANDO MUNDO TOBY (LOCALHOST)
+echo    INICIANDO MUNDO JANDRA (LOCALHOST)
 echo ==========================================
 echo.
 

@@ -1,0 +1,1933 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Mundo Jandra | Grado 11° - Laboratorio de Diseño Ejecutivo en Canva</title>
+  <link rel="icon" type="image/x-icon" href="../../assets/Icono.ico">
+  
+  <!-- Tailwind CSS CDN -->
+  <script src="https://cdn.tailwindcss.com"></script>
+  
+  <!-- Google Fonts: Outfit, Plus Jakarta Sans & JetBrains Mono -->
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=JetBrains+Mono:wght@400;500;700&family=Outfit:wght@400;500;600;700;800;900&family=Plus+Jakarta+Sans:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+  
+  <script>
+    tailwind.config = {
+      theme: {
+        extend: {
+          fontFamily: {
+            sans: ['"Plus Jakarta Sans"', 'sans-serif'],
+            display: ['Outfit', 'sans-serif'],
+            mono: ['"JetBrains Mono"', 'monospace']
+          },
+          colors: {
+            consulting: {
+              50: '#f8fafc',
+              100: '#f1f5f9',
+              200: '#e2e8f0',
+              300: '#cbd5e1',
+              400: '#94a3b8',
+              500: '#64748b',
+              600: '#475569',
+              700: '#334155',
+              800: '#1e293b',
+              900: '#0f172a'
+            },
+            executive: {
+              indigo: '#4f46e5',
+              indigoLight: '#6366f1',
+              cyan: '#06b6d4',
+              emerald: '#10b981',
+              amber: '#f59e0b',
+              crimson: '#ef4444'
+            }
+          }
+        }
+      }
+    }
+  </script>
+
+  <style>
+    /* Estilos base de alta gama Daylight/Clean */
+    body {
+      background-color: #f8fafc;
+      color: #0f172a;
+      font-family: 'Plus Jakarta Sans', sans-serif;
+      scroll-behavior: smooth;
+    }
+
+    /* Fondo sutil tipo cuadrícula técnica de diseño */
+    .blueprint-grid {
+      background-size: 32px 32px;
+      background-image: 
+        linear-gradient(to right, rgba(226, 232, 240, 0.6) 1px, transparent 1px),
+        linear-gradient(to bottom, rgba(226, 232, 240, 0.6) 1px, transparent 1px);
+    }
+
+    /* Glassmorphism ultra limpio */
+    .glass-card {
+      background: rgba(255, 255, 255, 0.88);
+      backdrop-filter: blur(12px);
+      -webkit-backdrop-filter: blur(12px);
+      border: 1px solid rgba(226, 232, 240, 0.9);
+    }
+
+    .glass-nav {
+      background: rgba(255, 255, 255, 0.92);
+      backdrop-filter: blur(16px);
+      border-bottom: 1px solid rgba(226, 232, 240, 0.8);
+    }
+
+    /* Teclas de atajo simuladas */
+    .kbd-shortcut {
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+      padding: 0.25rem 0.6rem;
+      font-family: 'JetBrains Mono', monospace;
+      font-size: 0.8rem;
+      font-weight: 700;
+      color: #1e293b;
+      background: #f1f5f9;
+      border: 1px solid #cbd5e1;
+      border-bottom: 3px solid #94a3b8;
+      border-radius: 0.45rem;
+      box-shadow: 0 1px 2px rgba(0,0,0,0.05);
+      transition: all 0.15s ease;
+    }
+    .kbd-shortcut:hover {
+      transform: translateY(1px);
+      border-bottom-width: 1px;
+    }
+
+    /* Comparador Antes vs Después */
+    .split-wrapper {
+      position: relative;
+      overflow: hidden;
+      user-select: none;
+    }
+
+    /* Animaciones suaves */
+    @keyframes pulseSoft {
+      0%, 100% { opacity: 1; transform: scale(1); }
+      50% { opacity: 0.85; transform: scale(1.02); }
+    }
+    .pulse-soft {
+      animation: pulseSoft 3s infinite ease-in-out;
+    }
+
+    /* Animación de haz de proyector */
+    @keyframes projectorBeam {
+      0%, 100% { opacity: 0.15; }
+      50% { opacity: 0.3; }
+    }
+    .beam-glow {
+      animation: projectorBeam 4s infinite alternate ease-in-out;
+    }
+
+    /* Toast flotante de copiado */
+    #copyToast {
+      position: fixed;
+      bottom: 2rem;
+      right: 2rem;
+      transform: translateY(150%);
+      transition: transform 0.3s cubic-bezier(0.175, 0.885, 0.32, 1.275);
+      z-index: 9999;
+    }
+    #copyToast.show {
+      transform: translateY(0);
+    }
+
+    /* Custom Scrollbar */
+    ::-webkit-scrollbar {
+      width: 8px;
+      height: 8px;
+    }
+    ::-webkit-scrollbar-track {
+      background: #f1f5f9;
+    }
+    ::-webkit-scrollbar-thumb {
+      background: #cbd5e1;
+      border-radius: 4px;
+    }
+    ::-webkit-scrollbar-thumb:hover {
+      background: #94a3b8;
+    }
+  </style>
+</head>
+<body class="blueprint-grid min-h-screen">
+
+  <!-- Toast Notificación de Copiado -->
+  <div id="copyToast" class="bg-slate-900 text-white px-5 py-3 rounded-xl shadow-2xl flex items-center gap-3 border border-slate-700">
+    <div class="w-8 h-8 rounded-full bg-emerald-500/20 text-emerald-400 flex items-center justify-center font-bold">✓</div>
+    <div>
+      <p class="text-sm font-bold" id="toastTitle">¡Copiado con éxito!</p>
+      <p class="text-xs text-slate-300" id="toastSubtitle">Listo para pegar en Canva o tu herramienta de IA.</p>
+    </div>
+  </div>
+
+  <!-- NAVEGACIÓN SUPERIOR FIJA -->
+  <nav class="glass-nav sticky top-0 z-50 py-3 px-4 md:px-8">
+    <div class="max-w-7xl mx-auto flex flex-wrap items-center justify-between gap-4">
+      
+      <!-- Izquierda: Volver y Breadcrumb -->
+      <div class="flex items-center gap-3">
+        <a href="../periodo3.html" class="inline-flex items-center gap-2 px-3.5 py-1.5 rounded-lg bg-slate-100 hover:bg-slate-200 text-slate-700 font-bold text-xs md:text-sm transition-all border border-slate-200 shadow-sm">
+          <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round">
+            <polyline points="15 18 9 12 15 6"></polyline>
+          </svg>
+          Volver a Periodo 3
+        </a>
+        <div class="h-4 w-px bg-slate-300 hidden sm:block"></div>
+        <div class="hidden sm:flex items-center gap-2 text-xs font-semibold text-slate-500">
+          <img src="../../assets/jandra/J1.svg" alt="Jandra" class="w-5 h-5 rounded-full object-cover">
+          <span>Mundo Jandra</span>
+          <span>/</span>
+          <span class="text-indigo-600 font-bold">Grado 11° Media Técnica</span>
+        </div>
+      </div>
+
+      <!-- Centro: Links de Salto Rápido -->
+      <div class="hidden lg:flex items-center gap-5 text-xs font-bold text-slate-600">
+        <a href="#diagnostico-ia" class="hover:text-indigo-600 transition">Diagnóstico IA</a>
+        <a href="#ejes-formativos" class="hover:text-indigo-600 transition">Los 5 Ejes</a>
+        <a href="#laboratorios-vivos" class="hover:text-indigo-600 transition">Simuladores en Vivo</a>
+        <a href="#micro-retos" class="hover:text-indigo-600 transition">Micro-Retos</a>
+        <a href="#cheatsheet" class="hover:text-indigo-600 transition">Atajos & Keywords</a>
+        <a href="#asistente-gemini" class="hover:text-indigo-600 transition">Logo & Gemini IA</a>
+        <a href="#proyecto-final" class="hover:text-indigo-600 transition">Proyecto Final</a>
+      </div>
+
+      <!-- Derecha: Badge de Estatus -->
+      <div class="flex items-center gap-2">
+        <span class="inline-flex items-center gap-1.5 px-3 py-1 rounded-full text-xs font-bold bg-indigo-50 text-indigo-700 border border-indigo-200">
+          <span class="w-2 h-2 rounded-full bg-indigo-600 animate-ping"></span>
+          Consulting Standard
+        </span>
+      </div>
+    </div>
+  </nav>
+
+  <!-- CONTENEDOR PRINCIPAL -->
+  <main class="max-w-7xl mx-auto px-4 md:px-8 py-8 space-y-16">
+
+    <!-- 1. CABECERA INSTITUCIONAL Y PANEL DE BIENVENIDA -->
+    <header class="glass-card rounded-3xl p-6 md:p-10 border border-slate-200 shadow-xl relative overflow-hidden">
+      <!-- Decoración de fondo -->
+      <div class="absolute -right-20 -top-20 w-80 h-80 bg-indigo-100 rounded-full blur-3xl opacity-70 pointer-events-none"></div>
+      <div class="absolute right-1/3 -bottom-20 w-64 h-64 bg-cyan-100 rounded-full blur-3xl opacity-60 pointer-events-none"></div>
+      
+      <div class="relative z-10 max-w-4xl">
+        <div class="flex flex-wrap items-center gap-2.5 mb-4">
+          <span class="px-3 py-1 rounded-md text-xs font-black tracking-wider uppercase bg-slate-900 text-white">
+            Grado 11° • 3.° Periodo Académico
+          </span>
+          <span class="px-3 py-1 rounded-md text-xs font-bold bg-emerald-50 text-emerald-700 border border-emerald-200 flex items-center gap-1">
+            <svg class="w-3.5 h-3.5" fill="currentColor" viewBox="0 0 20 20"><path fill-rule="evenodd" d="M10 18a8 8 0 100-16 8 8 0 000 16zm3.707-9.293a1 1 0 00-1.414-1.414L9 10.586 7.707 9.293a1 1 0 00-1.414 1.414l2 2a1 1 0 001.414 0l4-4z" clip-rule="evenodd"></path></svg>
+            Estándar Universitario y Corporativo
+          </span>
+          <span class="px-3 py-1 rounded-md text-xs font-bold bg-indigo-50 text-indigo-700 border border-indigo-200">
+            Laboratorio Especializado
+          </span>
+        </div>
+
+        <h1 class="font-display font-extrabold text-3xl sm:text-4xl md:text-5xl text-slate-900 tracking-tight leading-tight">
+          Laboratorio de <span class="bg-clip-text text-transparent bg-gradient-to-r from-indigo-600 via-indigo-700 to-cyan-600">Diseño Ejecutivo</span> y Comunicación Visual en Canva
+        </h1>
+
+        <p class="mt-4 text-base sm:text-lg text-slate-600 leading-relaxed font-normal">
+          En grado 11°, las presentaciones escolares cargadas de adornos infantiles quedan atrás. En este periodo transformamos vicios gráficos en <strong>disciplina de consultoría internacional</strong>: aprenderás a estructurar monografías, proyectos de grado y pitch empresariales con el estándar visual que exigen jurados universitarios e inversionistas.
+        </p>
+
+        <!-- Manifiesto Pedagógico Rápido (3 Columnas de Cambio Mental) -->
+        <div class="grid grid-cols-1 sm:grid-cols-3 gap-4 mt-8 pt-6 border-t border-slate-200">
+          <div class="flex items-start gap-3 p-3.5 rounded-xl bg-white/70 border border-slate-200/80">
+            <div class="w-9 h-9 rounded-lg bg-rose-50 border border-rose-200 text-rose-600 flex items-center justify-center font-black text-sm shrink-0">✕</div>
+            <div>
+              <h4 class="text-xs font-black uppercase text-slate-400">Mentalidad Escolar</h4>
+              <p class="text-sm font-bold text-slate-800">"Llenar espacios vacíos y decorar con muñequitos"</p>
+            </div>
+          </div>
+
+          <div class="flex items-start gap-3 p-3.5 rounded-xl bg-white/70 border border-slate-200/80">
+            <div class="w-9 h-9 rounded-lg bg-indigo-50 border border-indigo-200 text-indigo-600 flex items-center justify-center font-black text-sm shrink-0">➔</div>
+            <div>
+              <h4 class="text-xs font-black uppercase text-slate-400">El Enfoque del Periodo</h4>
+              <p class="text-sm font-bold text-slate-800">1 Idea por lámina, jerarquía 2:1 y síntesis de datos</p>
+            </div>
+          </div>
+
+          <div class="flex items-start gap-3 p-3.5 rounded-xl bg-white/70 border border-slate-200/80">
+            <div class="w-9 h-9 rounded-lg bg-emerald-50 border border-emerald-200 text-emerald-600 flex items-center justify-center font-black text-sm shrink-0">★</div>
+            <div>
+              <h4 class="text-xs font-black uppercase text-slate-400">Estándar Alcanzado</h4>
+              <p class="text-sm font-bold text-slate-800">High-Impact Defense: McKinsey, BCG & Big Tech Ready</p>
+            </div>
+          </div>
+        </div>
+      </div>
+    </header>
+
+    <!-- 2. AUDITORÍA CON IA Y DIAGNÓSTICO DEL CASO REAL -->
+    <section id="diagnostico-ia" class="space-y-8 scroll-mt-20">
+      
+      <div class="flex flex-col md:flex-row md:items-end justify-between gap-4 border-b border-slate-200 pb-4">
+        <div>
+          <span class="text-xs font-extrabold uppercase tracking-wider text-indigo-600">Módulo de Auditoría Crítica</span>
+          <h2 class="font-display text-2xl sm:text-3xl font-bold text-slate-900">
+            Auditoría con IA y Diagnóstico del Caso Real
+          </h2>
+          <p class="text-slate-600 text-sm mt-1 max-w-2xl">
+            Analizamos la presentación escolar real del proyecto para diagnosticar los 10 vicios gráficos más destructivos y cómo erradicarlos con rigor técnico.
+          </p>
+        </div>
+        <div class="flex items-center gap-2 text-xs font-bold text-slate-500 bg-slate-100 px-3 py-1.5 rounded-lg border border-slate-200 self-start md:self-auto">
+          <span>Caso de Estudio:</span>
+          <span class="text-slate-800">Diapositiva Escolar Saturada</span>
+        </div>
+      </div>
+
+      <!-- PROMPT MAESTRO DE AUTODIAGNÓSTICO -->
+      <div class="bg-gradient-to-br from-slate-900 to-indigo-950 rounded-2xl p-6 sm:p-8 text-white shadow-xl relative overflow-hidden border border-slate-800">
+        <div class="absolute -right-10 -bottom-10 w-48 h-48 bg-indigo-500/10 rounded-full blur-2xl pointer-events-none"></div>
+        
+        <div class="flex flex-col sm:flex-row sm:items-center justify-between gap-4 mb-4">
+          <div class="flex items-center gap-2.5">
+            <div class="w-8 h-8 rounded-lg bg-indigo-500/30 flex items-center justify-center text-indigo-400 font-mono text-sm font-bold">🤖</div>
+            <div>
+              <h3 class="font-display font-bold text-lg text-white">Prompt Maestro de Autodiagnóstico</h3>
+              <p class="text-xs text-slate-400">Úsalo con tus diapositivas en ChatGPT, Claude o Google Gemini antes de entregar.</p>
+            </div>
+          </div>
+
+          <button onclick="copiarAlPortapapeles(document.getElementById('promptMaestroTexto').innerText, 'Prompt Maestro Copiado', 'Pégalo en Gemini, ChatGPT o Claude para auditar tu presentación.')" class="inline-flex items-center gap-2 px-4 py-2.5 rounded-xl bg-indigo-600 hover:bg-indigo-500 text-white font-bold text-xs tracking-wide transition-all shadow-lg shadow-indigo-600/30 active:scale-95 shrink-0">
+            <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M8 16H6a2 2 0 01-2-2V6a2 2 0 012-2h8a2 2 0 012 2v2m-6 12h8a2 2 0 002-2v-8a2 2 0 00-2-2h-8a2 2 0 00-2 2v8a2 2 0 002 2z"></path></svg>
+            Copiar Prompt Maestro
+          </button>
+        </div>
+
+        <div class="bg-slate-950/80 rounded-xl p-4 sm:p-5 border border-slate-800/80 font-mono text-xs sm:text-sm text-indigo-200 leading-relaxed overflow-x-auto relative">
+          <p id="promptMaestroTexto" class="select-all">"Actúa como diseñador experto. Analiza esta presentación evaluando tipografía, paleta de colores, cantidad y saturación de diapositivas y jerarquía visual. Dame una lista con las 10 mejoras más importantes para hacerla profesional, indicando brevemente el problema y cómo solucionarlo."</p>
+        </div>
+      </div>
+
+      <!-- ALERTA CRÍTICA DESTACADA (DIAPOSITIVA 7) -->
+      <div class="bg-gradient-to-r from-rose-50 via-amber-50 to-orange-50 border-2 border-rose-300 rounded-2xl p-6 sm:p-8 shadow-md">
+        <div class="flex flex-col md:flex-row gap-6 items-start">
+          <div class="w-14 h-14 rounded-2xl bg-rose-500 text-white flex items-center justify-center font-black text-2xl shrink-0 shadow-lg shadow-rose-500/25">
+            ⚠️
+          </div>
+          <div class="space-y-3 flex-1">
+            <div class="flex flex-wrap items-center gap-2">
+              <span class="px-2.5 py-0.5 rounded-full text-xs font-black bg-rose-600 text-white uppercase tracking-wider">
+                Alerta Crítica del Jurado • Diapositiva 7
+              </span>
+              <span class="text-xs font-bold text-rose-800">
+                Fallo Capital de Legibilidad en Proyector
+              </span>
+            </div>
+
+            <h3 class="font-display font-extrabold text-xl sm:text-2xl text-rose-950">
+              PROHIBIDO PEGAR PANTALLAZOS DE TABLAS DE EXCEL
+            </h3>
+
+            <div class="grid grid-cols-1 md:grid-cols-2 gap-4 text-sm text-slate-700 pt-2">
+              <div class="p-4 rounded-xl bg-white/80 border border-rose-200">
+                <h4 class="font-bold text-rose-900 flex items-center gap-2 mb-1">
+                  <span class="text-rose-600 font-black">✕</span> ¿Por qué es un error fatal?
+                </h4>
+                <p class="text-xs sm:text-sm leading-relaxed text-slate-600">
+                  Una captura de pantalla de Excel o de un software tiene texto comprimido equivalente a <strong>4px o 6px</strong>. Al proyectarse en el aula o auditorio, la óptica del proyector HDMI difumina los píxeles, convirtiendo tus datos en una mancha gris completamente ilegible para el jurado.
+                </p>
+              </div>
+
+              <div class="p-4 rounded-xl bg-white/80 border border-emerald-200">
+                <h4 class="font-bold text-emerald-900 flex items-center gap-2 mb-1">
+                  <span class="text-emerald-600 font-black">✓</span> La Solución Ejecutiva en Canva:
+                </h4>
+                <p class="text-xs sm:text-sm leading-relaxed text-slate-600">
+                  1) Inserta el componente nativo <strong>'Elementos > Tablas'</strong> con tipografía editable de <strong>mínimo 14px</strong> y fondos alternos.<br>
+                  2) O mejor aún: <strong>Aísla los 2 o 3 datos críticos</strong> y diagramalos en tarjetas métricas con números gigantes de <strong>44px a 56px</strong>.
+                </p>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <!-- DESGLOSE DE LOS 10 ERRORES DEL CASO REAL -->
+      <div class="space-y-4">
+        <h3 class="font-display font-bold text-xl text-slate-900 flex items-center gap-2">
+          <span>Desglose de los 10 Errores Críticos del Caso Real</span>
+          <span class="text-xs font-bold px-2 py-0.5 rounded bg-slate-200 text-slate-700">Auditoría Clínica</span>
+        </h3>
+
+        <div class="grid grid-cols-1 md:grid-cols-2 gap-4">
+          
+          <!-- Error 1 -->
+          <div class="glass-card p-5 rounded-2xl border border-slate-200 hover:border-indigo-300 transition-all shadow-sm">
+            <div class="flex items-start justify-between gap-2 mb-2">
+              <span class="text-xs font-black text-rose-600 bg-rose-50 px-2 py-0.5 rounded border border-rose-200">01. Capturas Borrosas</span>
+              <span class="text-xs font-mono text-slate-400">Impacto: Ilegible</span>
+            </div>
+            <h4 class="font-bold text-slate-900 text-sm">Capturas de pantalla de reportes y hojas de cálculo</h4>
+            <p class="text-xs text-slate-600 mt-1.5"><strong>El vicio:</strong> Pegar recortes de Excel con 50 columnas y fuentes de 4px que nadie puede leer.</p>
+            <p class="text-xs text-indigo-700 font-semibold mt-2 pt-2 border-t border-slate-100 flex items-center gap-1">
+              <span>Solución:</span> Usar tabla nativa en Canva o tarjetas KPI con números de 44px.
+            </p>
+          </div>
+
+          <!-- Error 2 -->
+          <div class="glass-card p-5 rounded-2xl border border-slate-200 hover:border-indigo-300 transition-all shadow-sm">
+            <div class="flex items-start justify-between gap-2 mb-2">
+              <span class="text-xs font-black text-rose-600 bg-rose-50 px-2 py-0.5 rounded border border-rose-200">02. Ensalada de Estilos</span>
+              <span class="text-xs font-mono text-slate-400">Impacto: Amateur</span>
+            </div>
+            <h4 class="font-bold text-slate-900 text-sm">Mezcla caótica de 3D, emojis, WordArt y planos</h4>
+            <p class="text-xs text-slate-600 mt-1.5"><strong>El vicio:</strong> Combinar avatares 3D generados por IA, emojis de WhatsApp y flechas rojas de WordArt.</p>
+            <p class="text-xs text-indigo-700 font-semibold mt-2 pt-2 border-t border-slate-100 flex items-center gap-1">
+              <span>Solución:</span> Filtrar elementos de Canva por "Estático" + "Monocromo" en un solo tono.
+            </p>
+          </div>
+
+          <!-- Error 3 -->
+          <div class="glass-card p-5 rounded-2xl border border-slate-200 hover:border-indigo-300 transition-all shadow-sm">
+            <div class="flex items-start justify-between gap-2 mb-2">
+              <span class="text-xs font-black text-rose-600 bg-rose-50 px-2 py-0.5 rounded border border-rose-200">03. Asfixia Textual</span>
+              <span class="text-xs font-mono text-slate-400">Impacto: Aburrimiento</span>
+            </div>
+            <h4 class="font-bold text-slate-900 text-sm">Párrafos enteros copiados y pegados sin síntesis</h4>
+            <p class="text-xs text-slate-600 mt-1.5"><strong>El vicio:</strong> Tratar la diapositiva como un teleprompter para leerle al jurado.</p>
+            <p class="text-xs text-indigo-700 font-semibold mt-2 pt-2 border-t border-slate-100 flex items-center gap-1">
+              <span>Solución:</span> Regla "1 idea clave por diapositiva" con máximo 15 palabras de apoyo.
+            </p>
+          </div>
+
+          <!-- Error 4 -->
+          <div class="glass-card p-5 rounded-2xl border border-slate-200 hover:border-indigo-300 transition-all shadow-sm">
+            <div class="flex items-start justify-between gap-2 mb-2">
+              <span class="text-xs font-black text-rose-600 bg-rose-50 px-2 py-0.5 rounded border border-rose-200">04. Conectores Obsoletos</span>
+              <span class="text-xs font-mono text-slate-400">Impacto: Desactualizado</span>
+            </div>
+            <h4 class="font-bold text-slate-900 text-sm">Flechas 3D curvas rojas y conectores tipo Word 2003</h4>
+            <p class="text-xs text-slate-600 mt-1.5"><strong>El vicio:</strong> Llenar el lienzo de flechitas diagonales para forzar al ojo a brincar de un lado a otro.</p>
+            <p class="text-xs text-indigo-700 font-semibold mt-2 pt-2 border-t border-slate-100 flex items-center gap-1">
+              <span>Solución:</span> Usar diagramación modular por columnas (de izquierda a derecha).
+            </p>
+          </div>
+
+          <!-- Error 5 -->
+          <div class="glass-card p-5 rounded-2xl border border-slate-200 hover:border-indigo-300 transition-all shadow-sm">
+            <div class="flex items-start justify-between gap-2 mb-2">
+              <span class="text-xs font-black text-rose-600 bg-rose-50 px-2 py-0.5 rounded border border-rose-200">05. Caos Cromático</span>
+              <span class="text-xs font-mono text-slate-400">Impacto: Fatiga Visual</span>
+            </div>
+            <h4 class="font-bold text-slate-900 text-sm">Fondos oscuros tóxicos sin paleta 60-30-10</h4>
+            <p class="text-xs text-slate-600 mt-1.5"><strong>El vicio:</strong> Fondos azul marino oscuro con letras rojas y amarillas fluorescentes sin contraste.</p>
+            <p class="text-xs text-indigo-700 font-semibold mt-2 pt-2 border-t border-slate-100 flex items-center gap-1">
+              <span>Solución:</span> Fondo Daylight 60% claro (#f8fafc), 30% texto carbón y 10% acento índigo.
+            </p>
+          </div>
+
+          <!-- Error 6 -->
+          <div class="glass-card p-5 rounded-2xl border border-slate-200 hover:border-indigo-300 transition-all shadow-sm">
+            <div class="flex items-start justify-between gap-2 mb-2">
+              <span class="text-xs font-black text-rose-600 bg-rose-50 px-2 py-0.5 rounded border border-rose-200">06. Desorden Tipográfico</span>
+              <span class="text-xs font-mono text-slate-400">Impacto: Descuido</span>
+            </div>
+            <h4 class="font-bold text-slate-900 text-sm">Tipografías desalineadas, sin escala 2:1 y con erratas</h4>
+            <p class="text-xs text-slate-600 mt-1.5"><strong>El vicio:</strong> Títulos en Comic Sans / Papyrus, tamaños aleatorios y nombres del colegio mal escritos.</p>
+            <p class="text-xs text-indigo-700 font-semibold mt-2 pt-2 border-t border-slate-100 flex items-center gap-1">
+              <span>Solución:</span> H1 (36-44px), H2 (20-24px), Cuerpo (14-18px). Máximo 2 familias pulcras.
+            </p>
+          </div>
+
+          <!-- Error 7 -->
+          <div class="glass-card p-5 rounded-2xl border border-slate-200 hover:border-indigo-300 transition-all shadow-sm">
+            <div class="flex items-start justify-between gap-2 mb-2">
+              <span class="text-xs font-black text-rose-600 bg-rose-50 px-2 py-0.5 rounded border border-rose-200">07. Logos Mal Recortados</span>
+              <span class="text-xs font-mono text-slate-400">Impacto: Suciedad Visual</span>
+            </div>
+            <h4 class="font-bold text-slate-900 text-sm">Escudos institucionales con cuadro blanco pegado</h4>
+            <p class="text-xs text-slate-600 mt-1.5"><strong>El vicio:</strong> Bajar el logo de Google Imágenes en JPEG con fondo blanco sobre lienzo de color.</p>
+            <p class="text-xs text-indigo-700 font-semibold mt-2 pt-2 border-t border-slate-100 flex items-center gap-1">
+              <span>Solución:</span> Usar la herramienta 'Quita-fondos' de Canva o archivo oficial PNG transparente.
+            </p>
+          </div>
+
+          <!-- Error 8 -->
+          <div class="glass-card p-5 rounded-2xl border border-slate-200 hover:border-indigo-300 transition-all shadow-sm">
+            <div class="flex items-start justify-between gap-2 mb-2">
+              <span class="text-xs font-black text-rose-600 bg-rose-50 px-2 py-0.5 rounded border border-rose-200">08. Viñetas Planas</span>
+              <span class="text-xs font-mono text-slate-400">Impacto: Pereza</span>
+            </div>
+            <h4 class="font-bold text-slate-900 text-sm">Listas interminables de viñetas (bullet points)</h4>
+            <p class="text-xs text-slate-600 mt-1.5"><strong>El vicio:</strong> Colocar 8 viñetas con texto plano para explicar fases o diagnósticos.</p>
+            <p class="text-xs text-indigo-700 font-semibold mt-2 pt-2 border-t border-slate-100 flex items-center gap-1">
+              <span>Solución:</span> Convertir viñetas en 3 tarjetas modulares en caja (shortcut 'R').
+            </p>
+          </div>
+
+          <!-- Error 9 -->
+          <div class="glass-card p-5 rounded-2xl border border-slate-200 hover:border-indigo-300 transition-all shadow-sm">
+            <div class="flex items-start justify-between gap-2 mb-2">
+              <span class="text-xs font-black text-rose-600 bg-rose-50 px-2 py-0.5 rounded border border-rose-200">09. Fotos Descuidadas</span>
+              <span class="text-xs font-mono text-slate-400">Impacto: Falta de Rigor</span>
+            </div>
+            <h4 class="font-bold text-slate-900 text-sm">Fotografías reales oscuras, torcidas y sin marco</h4>
+            <p class="text-xs text-slate-600 mt-1.5"><strong>El vicio:</strong> Fotos tomadas en el aula con mala luz flotando sin pie de foto ni alineación.</p>
+            <p class="text-xs text-indigo-700 font-semibold mt-2 pt-2 border-t border-slate-100 flex items-center gap-1">
+              <span>Solución:</span> Usar marcos de Canva con cintillo inferior translúcido para créditos.
+            </p>
+          </div>
+
+          <!-- Error 10 -->
+          <div class="glass-card p-5 rounded-2xl border border-slate-200 hover:border-indigo-300 transition-all shadow-sm">
+            <div class="flex items-start justify-between gap-2 mb-2">
+              <span class="text-xs font-black text-rose-600 bg-rose-50 px-2 py-0.5 rounded border border-rose-200">10. Ausencia de Margen</span>
+              <span class="text-xs font-mono text-slate-400">Impacto: Corte Físico</span>
+            </div>
+            <h4 class="font-bold text-slate-900 text-sm">Textos y cifras pegados a los bordes del lienzo</h4>
+            <p class="text-xs text-slate-600 mt-1.5"><strong>El vicio:</strong> Diseñar hasta el píxel 0 sin considerar el encuadre físico del videobeam.</p>
+            <p class="text-xs text-indigo-700 font-semibold mt-2 pt-2 border-t border-slate-100 flex items-center gap-1">
+              <span>Solución:</span> Activar 'Shift + R' y respetar el 10% de margen perimetral seguro.
+            </p>
+          </div>
+
+        </div>
+      </div>
+    </section>
+
+    <!-- 3. LOS 5 EJES FORMATIVOS DEL PERIODO (TEMARIO DETALLADO DE CANVA) -->
+    <section id="ejes-formativos" class="space-y-8 scroll-mt-20">
+      
+      <div class="border-b border-slate-200 pb-4">
+        <span class="text-xs font-extrabold uppercase tracking-wider text-indigo-600">Plan de Estudios 11°</span>
+        <h2 class="font-display text-2xl sm:text-3xl font-bold text-slate-900">
+          Los 5 Ejes Formativos de Comunicación Visual en Canva
+        </h2>
+        <p class="text-slate-600 text-sm mt-1 max-w-2xl">
+          El currículo estructurado paso a paso para dominar las herramientas técnicas de Canva y diagramar con precisión milimétrica.
+        </p>
+      </div>
+
+      <!-- Selector de Ejes Interactivo -->
+      <div class="space-y-4">
+        
+        <!-- Eje 1 -->
+        <details class="group glass-card rounded-2xl border border-slate-200 overflow-hidden shadow-sm transition-all" open>
+          <summary class="flex items-center justify-between p-5 cursor-pointer bg-white hover:bg-slate-50 transition select-none">
+            <div class="flex items-center gap-3">
+              <span class="w-8 h-8 rounded-lg bg-indigo-100 text-indigo-700 font-black text-xs flex items-center justify-center">E1</span>
+              <div>
+                <h3 class="font-display font-bold text-base sm:text-lg text-slate-900">Eje 1: Fundamentos y Configuración del Lienzo</h3>
+                <p class="text-xs text-slate-500">Márgenes perimetrales, guías inteligentes y bloqueo de plantillas fijas.</p>
+              </div>
+            </div>
+            <span class="text-slate-400 group-open:rotate-180 transition-transform">▼</span>
+          </summary>
+          <div class="p-6 bg-slate-50/50 border-t border-slate-200 space-y-4 text-sm text-slate-700">
+            <div class="grid grid-cols-1 md:grid-cols-2 gap-4">
+              <div class="bg-white p-4 rounded-xl border border-slate-200">
+                <h4 class="font-bold text-slate-900 flex items-center gap-2 mb-1">
+                  <span class="kbd-shortcut text-xs">Shift + R</span> Márgenes y Guías Inteligentes
+                </h4>
+                <p class="text-xs text-slate-600 leading-relaxed">
+                  Presiona <kbd class="kbd-shortcut">Shift + R</kbd> en Canva para activar reglas y guías. Configura un <strong>margen perimetral del 10%</strong>. Ningún texto, número ni logo debe sobrepasar esta zona para evitar que el proyector corte información.
+                </p>
+              </div>
+              <div class="bg-white p-4 rounded-xl border border-slate-200">
+                <h4 class="font-bold text-slate-900 flex items-center gap-2 mb-1">
+                  🔒 Coherencia de Plantilla y Bloqueo
+                </h4>
+                <p class="text-xs text-slate-600 leading-relaxed">
+                  Selecciona una sola familia de diseño. Bloquea con el candado de Canva los elementos estructurales y fondos para que los compañeros de equipo no muevan accidentalmente la diagramación base.
+                </p>
+              </div>
+            </div>
+          </div>
+        </details>
+
+        <!-- Eje 2 -->
+        <details class="group glass-card rounded-2xl border border-slate-200 overflow-hidden shadow-sm transition-all">
+          <summary class="flex items-center justify-between p-5 cursor-pointer bg-white hover:bg-slate-50 transition select-none">
+            <div class="flex items-center gap-3">
+              <span class="w-8 h-8 rounded-lg bg-cyan-100 text-cyan-700 font-black text-xs flex items-center justify-center">E2</span>
+              <div>
+                <h3 class="font-display font-bold text-base sm:text-lg text-slate-900">Eje 2: Tipografía y Jerarquía Visual (Ratio 2:1)</h3>
+                <p class="text-xs text-slate-500">Escalas proporcionales, font pairing estricto y respiración de texto.</p>
+              </div>
+            </div>
+            <span class="text-slate-400 group-open:rotate-180 transition-transform">▼</span>
+          </summary>
+          <div class="p-6 bg-slate-50/50 border-t border-slate-200 space-y-4 text-sm text-slate-700">
+            <div class="grid grid-cols-1 md:grid-cols-3 gap-4">
+              <div class="bg-white p-4 rounded-xl border border-slate-200">
+                <div class="text-xs font-black uppercase text-indigo-600 mb-1">Escala Proporcional</div>
+                <h5 class="font-bold text-slate-900 text-sm">H1, H2 y Cuerpo</h5>
+                <ul class="text-xs text-slate-600 mt-2 space-y-1">
+                  <li>• <strong>H1 (Títulos):</strong> 36px a 44px (Bold)</li>
+                  <li>• <strong>H2 (Subtítulos):</strong> 20px a 24px (Medium)</li>
+                  <li>• <strong>Cuerpo:</strong> 14px a 18px (Regular)</li>
+                </ul>
+              </div>
+              <div class="bg-white p-4 rounded-xl border border-slate-200">
+                <div class="text-xs font-black uppercase text-indigo-600 mb-1">Font Pairing Estricto</div>
+                <h5 class="font-bold text-slate-900 text-sm">Máximo 2 Familias</h5>
+                <p class="text-xs text-slate-600 mt-2 leading-relaxed">
+                  Para títulos: <strong>Plus Jakarta Sans</strong>, <strong>Outfit</strong> o <strong>Montserrat</strong>.<br>
+                  Para cuerpo: <strong>Inter</strong> o <strong>Open Sans</strong>. Prohibido usar más de dos tipografías distintas.
+                </p>
+              </div>
+              <div class="bg-white p-4 rounded-xl border border-slate-200">
+                <div class="text-xs font-black uppercase text-indigo-600 mb-1">Espaciado y Ortografía</div>
+                <h5 class="font-bold text-slate-900 text-sm">Interlineado 1.25</h5>
+                <p class="text-xs text-slate-600 mt-2 leading-relaxed">
+                  Ajusta el interlineado a <strong>1.25</strong> e interletreado entre <strong>-10 y 0</strong>. Evita bloques asfixiantes. Toda diapositiva debe tener revisión de tildes y nombres oficiales correctos.
+                </p>
+              </div>
+            </div>
+          </div>
+        </details>
+
+        <!-- Eje 3 -->
+        <details class="group glass-card rounded-2xl border border-slate-200 overflow-hidden shadow-sm transition-all">
+          <summary class="flex items-center justify-between p-5 cursor-pointer bg-white hover:bg-slate-50 transition select-none">
+            <div class="flex items-center gap-3">
+              <span class="w-8 h-8 rounded-lg bg-emerald-100 text-emerald-700 font-black text-xs flex items-center justify-center">E3</span>
+              <div>
+                <h3 class="font-display font-bold text-base sm:text-lg text-slate-900">Eje 3: Color y Composición Visual (La Regla 60-30-10)</h3>
+                <p class="text-xs text-slate-500">Kits de marca, contrastes WCAG 4.5:1 y paletas daylight para auditorio.</p>
+              </div>
+            </div>
+            <span class="text-slate-400 group-open:rotate-180 transition-transform">▼</span>
+          </summary>
+          <div class="p-6 bg-slate-50/50 border-t border-slate-200 space-y-4 text-sm text-slate-700">
+            <div class="grid grid-cols-1 md:grid-cols-3 gap-4">
+              <div class="bg-white p-4 rounded-xl border border-slate-200 border-l-4 border-l-slate-300">
+                <h5 class="font-bold text-slate-900 text-sm flex items-center justify-between">
+                  <span>60% Base Neutra</span>
+                  <span class="text-xs font-mono text-slate-500">#f8fafc</span>
+                </h5>
+                <p class="text-xs text-slate-600 mt-2">
+                  Fondo claro/daylight (blanco marfil o gris tenue). Permite leer sin cansar los ojos en aulas con iluminación diurna o proyector.
+                </p>
+              </div>
+              <div class="bg-white p-4 rounded-xl border border-slate-200 border-l-4 border-l-slate-800">
+                <h5 class="font-bold text-slate-900 text-sm flex items-center justify-between">
+                  <span>30% Estructura y Texto</span>
+                  <span class="text-xs font-mono text-slate-500">#0f172a</span>
+                </h5>
+                <p class="text-xs text-slate-600 mt-2">
+                  Carbón, grafito o pizarra oscura. Usado para títulos, párrafos y bordes sutiles de tarjetas modulares.
+                </p>
+              </div>
+              <div class="bg-white p-4 rounded-xl border border-slate-200 border-l-4 border-l-indigo-600">
+                <h5 class="font-bold text-slate-900 text-sm flex items-center justify-between">
+                  <span>10% Acento Vibrante</span>
+                  <span class="text-xs font-mono text-indigo-600 font-bold">#4f46e5</span>
+                </h5>
+                <p class="text-xs text-slate-600 mt-2">
+                  Índigo, cian o ámbar. <strong>Reservado únicamente</strong> para conclusiones, porcentajes clave y badges de llamada de atención.
+                </p>
+              </div>
+            </div>
+          </div>
+        </details>
+
+        <!-- Eje 4 -->
+        <details class="group glass-card rounded-2xl border border-slate-200 overflow-hidden shadow-sm transition-all">
+          <summary class="flex items-center justify-between p-5 cursor-pointer bg-white hover:bg-slate-50 transition select-none">
+            <div class="flex items-center gap-3">
+              <span class="w-8 h-8 rounded-lg bg-amber-100 text-amber-700 font-black text-xs flex items-center justify-center">E4</span>
+              <div>
+                <h3 class="font-display font-bold text-base sm:text-lg text-slate-900">Eje 4: Manejo Profesional de Imágenes y Recursos</h3>
+                <p class="text-xs text-slate-500">Marcos (Frames), mockups de dispositivos, quitafondos y cintillos.</p>
+              </div>
+            </div>
+            <span class="text-slate-400 group-open:rotate-180 transition-transform">▼</span>
+          </summary>
+          <div class="p-6 bg-slate-50/50 border-t border-slate-200 space-y-4 text-sm text-slate-700">
+            <div class="grid grid-cols-1 md:grid-cols-3 gap-4">
+              <div class="bg-white p-4 rounded-xl border border-slate-200">
+                <h5 class="font-bold text-slate-900 text-sm">📱 Mockups y Marcos</h5>
+                <p class="text-xs text-slate-600 mt-1.5 leading-relaxed">
+                  Si muestras una página web o app de tu proyecto, no pegues la captura cruda: arrástrala dentro de un marco de <strong>Tablet o Laptop</strong> en Canva.
+                </p>
+              </div>
+              <div class="bg-white p-4 rounded-xl border border-slate-200">
+                <h5 class="font-bold text-slate-900 text-sm">🔍 Filtros de Iconos</h5>
+                <p class="text-xs text-slate-600 mt-1.5 leading-relaxed">
+                  Al buscar en elementos, activa los filtros: <strong>"Estático"</strong> y <strong>"Monocromo"</strong>. Esto evita que una diapositiva parezca un collage de stickers infantiles.
+                </p>
+              </div>
+              <div class="bg-white p-4 rounded-xl border border-slate-200">
+                <h5 class="font-bold text-slate-900 text-sm">🛡️ Quitafondos y Cintillos</h5>
+                <p class="text-xs text-slate-600 mt-1.5 leading-relaxed">
+                  Logos siempre en <strong>PNG transparente</strong> sin recuadro blanco. Para fotos reales de testimonios o encuestas, usa un cintillo inferior oscuro con opacidad para el pie de foto.
+                </p>
+              </div>
+            </div>
+          </div>
+        </details>
+
+        <!-- Eje 5 -->
+        <details class="group glass-card rounded-2xl border border-slate-200 overflow-hidden shadow-sm transition-all">
+          <summary class="flex items-center justify-between p-5 cursor-pointer bg-white hover:bg-slate-50 transition select-none">
+            <div class="flex items-center gap-3">
+              <span class="w-8 h-8 rounded-lg bg-rose-100 text-rose-700 font-black text-xs flex items-center justify-center">E5</span>
+              <div>
+                <h3 class="font-display font-bold text-base sm:text-lg text-slate-900">Eje 5: Estructura, Tablas Nativas y Diagramación Modular</h3>
+                <p class="text-xs text-slate-500">Componente 'Tablas' nativo de Canva, matrices de 3 columnas y 'Ordenar'.</p>
+              </div>
+            </div>
+            <span class="text-slate-400 group-open:rotate-180 transition-transform">▼</span>
+          </summary>
+          <div class="p-6 bg-slate-50/50 border-t border-slate-200 space-y-4 text-sm text-slate-700">
+            <div class="grid grid-cols-1 md:grid-cols-3 gap-4">
+              <div class="bg-white p-4 rounded-xl border border-slate-200">
+                <h5 class="font-bold text-slate-900 text-sm">📊 Tablas Nativas</h5>
+                <p class="text-xs text-slate-600 mt-1.5 leading-relaxed">
+                  Ve a <em>Elementos > Tablas</em>. Configura celdas con relleno alterno suave y texto tipiado directamente de <strong>mínimo 14px</strong>. Totalmente nítido en HDMI.
+                </p>
+              </div>
+              <div class="bg-white p-4 rounded-xl border border-slate-200">
+                <h5 class="font-bold text-slate-900 text-sm">🧩 Matrices de 3 Columnas</h5>
+                <p class="text-xs text-slate-600 mt-1.5 leading-relaxed">
+                  En diagnósticos de desempeño o viñetas extensas, divide la diapositiva en 3 bloques independientes (ej: <em>Maestría, Estable y En Riesgo</em>) con tarjetas elevadas.
+                </p>
+              </div>
+              <div class="bg-white p-4 rounded-xl border border-slate-200">
+                <h5 class="font-bold text-slate-900 text-sm">📐 Posición > Ordenar (Tidy Up)</h5>
+                <p class="text-xs text-slate-600 mt-1.5 leading-relaxed">
+                  Selecciona todas tus tarjetas modulares y haz clic en <strong>Posición > Ordenar</strong>. Canva calcula automáticamente la separación equitativa entre elementos.
+                </p>
+              </div>
+            </div>
+          </div>
+        </details>
+
+      </div>
+    </section>
+
+    <!-- 4. SIMULADORES Y LABORATORIOS INTERACTIVOS EN VIVO -->
+    <section id="laboratorios-vivos" class="space-y-12 scroll-mt-20">
+      
+      <div class="border-b border-slate-200 pb-4">
+        <span class="text-xs font-extrabold uppercase tracking-wider text-indigo-600">Entorno Práctico Reactivo</span>
+        <h2 class="font-display text-2xl sm:text-3xl font-bold text-slate-900">
+          Simuladores y Laboratorios Interactivos en Vivo
+        </h2>
+        <p class="text-slate-600 text-sm mt-1 max-w-2xl">
+          Experimenta en tiempo real con la regla cromática 60-30-10, la prueba física del proyector escolar y la comparativa interactiva Antes vs. Después.
+        </p>
+      </div>
+
+      <!-- SIMULADOR A: GENERADOR DE PALETAS 60-30-10 EN TIEMPO REAL CON INPUT HEX -->
+      <div class="glass-card rounded-3xl p-6 sm:p-8 border border-slate-200 shadow-xl space-y-6">
+        
+        <div class="flex flex-col md:flex-row md:items-center justify-between gap-4">
+          <div>
+            <span class="px-2.5 py-0.5 rounded text-xs font-black bg-indigo-100 text-indigo-800 uppercase">Simulador A</span>
+            <h3 class="font-display font-bold text-xl sm:text-2xl text-slate-900 mt-1">
+              Generador de Paletas 60-30-10 & Validador WCAG
+            </h3>
+            <p class="text-xs sm:text-sm text-slate-600">
+              Coloca cualquier código HEX (ej. el de tu logo institucional) y el laboratorio calculará la paleta ejecutiva recomendada para Canva.
+            </p>
+          </div>
+
+          <!-- Presets Rápidos -->
+          <div class="flex flex-wrap items-center gap-2">
+            <span class="text-xs font-bold text-slate-500">Presets:</span>
+            <button onclick="aplicarPreset('#f8fafc', '#0f172a', '#4f46e5')" class="text-xs font-bold px-3 py-1.5 rounded-lg bg-slate-100 hover:bg-slate-200 text-slate-700 transition border border-slate-200">
+              McKinsey Índigo
+            </button>
+            <button onclick="aplicarPreset('#f1f5f9', '#1e293b', '#06b6d4')" class="text-xs font-bold px-3 py-1.5 rounded-lg bg-slate-100 hover:bg-slate-200 text-slate-700 transition border border-slate-200">
+              Nórdico Cian
+            </button>
+            <button onclick="aplicarPreset('#f0fdf4', '#064e3b', '#10b981')" class="text-xs font-bold px-3 py-1.5 rounded-lg bg-slate-100 hover:bg-slate-200 text-slate-700 transition border border-slate-200">
+              Salud & Bio
+            </button>
+            <button onclick="aplicarPreset('#fffbeb', '#451a03', '#d97706')" class="text-xs font-bold px-3 py-1.5 rounded-lg bg-slate-100 hover:bg-slate-200 text-slate-700 transition border border-slate-200">
+              Startup Ámbar
+            </button>
+          </div>
+        </div>
+
+        <!-- Barra de Control de Color & Input HEX Personalizado -->
+        <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-4 p-4 rounded-2xl bg-slate-100/80 border border-slate-200">
+          
+          <!-- Input HEX rápido sugeridor -->
+          <div class="space-y-1 sm:col-span-2 lg:col-span-1">
+            <label class="text-xs font-bold text-slate-700 flex items-center justify-between">
+              <span>Tu HEX de Marca / Logo:</span>
+            </label>
+            <div class="flex items-center gap-2">
+              <input type="text" id="customHexInput" value="#4f46e5" maxlength="7" class="w-full text-xs font-mono px-3 py-2 rounded-lg border border-slate-300 uppercase focus:outline-none focus:ring-2 focus:ring-indigo-500 bg-white">
+              <button onclick="generarDesdeHex()" class="px-3 py-2 rounded-lg bg-indigo-600 hover:bg-indigo-700 text-white font-bold text-xs shrink-0 transition">
+                Sugerir
+              </button>
+            </div>
+            <p class="text-[10px] text-slate-500">Calcula fondo 60%, texto 30% y acento 10%.</p>
+          </div>
+
+          <!-- Color 60% Fondo -->
+          <div class="space-y-1">
+            <label class="text-xs font-bold text-slate-700 flex items-center justify-between">
+              <span>60% Base (Fondo)</span>
+              <span id="hexLabel60" class="font-mono text-[11px] text-slate-500">#f8fafc</span>
+            </label>
+            <div class="flex items-center gap-2">
+              <input type="color" id="picker60" value="#f8fafc" class="w-9 h-9 rounded-lg border border-slate-300 cursor-pointer p-0.5 bg-white">
+              <input type="text" id="inputHex60" value="#f8fafc" class="w-full text-xs font-mono px-2 py-1.5 rounded-lg border border-slate-300 uppercase bg-white">
+            </div>
+          </div>
+
+          <!-- Color 30% Texto/Estructura -->
+          <div class="space-y-1">
+            <label class="text-xs font-bold text-slate-700 flex items-center justify-between">
+              <span>30% Estructura (Texto)</span>
+              <span id="hexLabel30" class="font-mono text-[11px] text-slate-500">#0f172a</span>
+            </label>
+            <div class="flex items-center gap-2">
+              <input type="color" id="picker30" value="#0f172a" class="w-9 h-9 rounded-lg border border-slate-300 cursor-pointer p-0.5 bg-white">
+              <input type="text" id="inputHex30" value="#0f172a" class="w-full text-xs font-mono px-2 py-1.5 rounded-lg border border-slate-300 uppercase bg-white">
+            </div>
+          </div>
+
+          <!-- Color 10% Acento -->
+          <div class="space-y-1">
+            <label class="text-xs font-bold text-slate-700 flex items-center justify-between">
+              <span>10% Acento (KPIs)</span>
+              <span id="hexLabel10" class="font-mono text-[11px] text-indigo-600 font-bold">#4f46e5</span>
+            </label>
+            <div class="flex items-center gap-2">
+              <input type="color" id="picker10" value="#4f46e5" class="w-9 h-9 rounded-lg border border-slate-300 cursor-pointer p-0.5 bg-white">
+              <input type="text" id="inputHex10" value="#4f46e5" class="w-full text-xs font-mono px-2 py-1.5 rounded-lg border border-slate-300 uppercase bg-white">
+            </div>
+          </div>
+
+        </div>
+
+        <!-- LIENZO DE DIAPOSITIVA INTERACTIVA EN VIVO -->
+        <div class="border-2 border-slate-300 rounded-2xl overflow-hidden shadow-xl">
+          <!-- Barra superior de ventana de simulación -->
+          <div class="bg-slate-200 px-4 py-2 flex items-center justify-between border-b border-slate-300 text-xs text-slate-600 font-mono">
+            <div class="flex items-center gap-2">
+              <span class="w-3 h-3 rounded-full bg-rose-400 inline-block"></span>
+              <span class="w-3 h-3 rounded-full bg-amber-400 inline-block"></span>
+              <span class="w-3 h-3 rounded-full bg-emerald-400 inline-block"></span>
+              <span class="ml-2 font-bold font-sans text-slate-700">Canva Live Preview (16:9 1920x1080)</span>
+            </div>
+            <div class="flex items-center gap-3">
+              <span id="wcagBadge" class="px-2 py-0.5 rounded text-[10px] font-bold bg-emerald-100 text-emerald-800">
+                WCAG AAA Contraste: 14.8:1
+              </span>
+              <button onclick="copiarPaletaCanva()" class="px-3 py-1 rounded bg-slate-900 text-white font-bold text-[11px] hover:bg-slate-800 transition">
+                Copiar Códigos HEX para Canva
+              </button>
+            </div>
+          </div>
+
+          <!-- Diapositiva Realtime Target -->
+          <div id="slidePreviewCanvas" class="p-6 sm:p-10 transition-colors duration-300 min-h-[360px] flex flex-col justify-between" style="background-color: #f8fafc;">
+            
+            <!-- Encabezado de la diapositiva en vivo -->
+            <div class="flex items-start justify-between gap-4 border-b pb-4 transition-colors" id="slideHeaderBorder" style="border-color: rgba(15, 23, 42, 0.1);">
+              <div>
+                <span id="slideCategoryBadge" class="text-xs font-black uppercase tracking-widest px-2.5 py-1 rounded transition-colors" style="background-color: rgba(79, 70, 229, 0.1); color: #4f46e5;">
+                  Reporte Ejecutivo • Grado 11°
+                </span>
+                <h4 id="slideTitle" class="font-display font-extrabold text-2xl sm:text-3xl mt-2 tracking-tight transition-colors" style="color: #0f172a;">
+                  Diagnóstico de Desempeño y Viabilidad del Proyecto
+                </h4>
+              </div>
+              <div id="slideMetaBox" class="text-right hidden sm:block">
+                <span class="text-xs font-bold block" id="slideDate" style="color: #0f172a;">Septiembre 2026</span>
+                <span class="text-[10px] font-mono opacity-70" id="slideVer" style="color: #0f172a;">VERSIÓN 3.0 FINAL</span>
+              </div>
+            </div>
+
+            <!-- Contenido modular de 3 tarjetas en vivo -->
+            <div class="grid grid-cols-1 sm:grid-cols-3 gap-4 my-6">
+              
+              <!-- Tarjeta 1 -->
+              <div id="slideCard1" class="p-4 rounded-xl border transition-all shadow-sm" style="background-color: rgba(255, 255, 255, 0.9); border-color: rgba(15, 23, 42, 0.15);">
+                <div class="flex items-center justify-between mb-2">
+                  <span class="text-xs font-bold uppercase tracking-wider" style="color: #0f172a;">Muestra Evaluada</span>
+                  <span class="text-xs font-bold" id="slideAccentTag1" style="color: #4f46e5;">Fase 1</span>
+                </div>
+                <div class="text-3xl sm:text-4xl font-extrabold font-display my-1 transition-colors" id="slideMetric1" style="color: #4f46e5;">
+                  128
+                </div>
+                <p class="text-xs leading-relaxed" id="slideText1" style="color: #0f172a;">
+                  Estudiantes y usuarios evaluados con el instrumento diagnóstico formal.
+                </p>
+              </div>
+
+              <!-- Tarjeta 2 -->
+              <div id="slideCard2" class="p-4 rounded-xl border transition-all shadow-sm" style="background-color: rgba(255, 255, 255, 0.9); border-color: rgba(15, 23, 42, 0.15);">
+                <div class="flex items-center justify-between mb-2">
+                  <span class="text-xs font-bold uppercase tracking-wider" style="color: #0f172a;">Tasa de Aprobación</span>
+                  <span class="text-xs font-bold" id="slideAccentTag2" style="color: #4f46e5;">KPI Central</span>
+                </div>
+                <div class="text-3xl sm:text-4xl font-extrabold font-display my-1 transition-colors" id="slideMetric2" style="color: #4f46e5;">
+                  94.2%
+                </div>
+                <p class="text-xs leading-relaxed" id="slideText2" style="color: #0f172a;">
+                  Índice de efectividad tras la erradicación de vicios gráficos en Canva.
+                </p>
+              </div>
+
+              <!-- Tarjeta 3 -->
+              <div id="slideCard3" class="p-4 rounded-xl border transition-all shadow-sm" style="background-color: rgba(255, 255, 255, 0.9); border-color: rgba(15, 23, 42, 0.15);">
+                <div class="flex items-center justify-between mb-2">
+                  <span class="text-xs font-bold uppercase tracking-wider" style="color: #0f172a;">Reducción de Vicios</span>
+                  <span class="text-xs font-bold" id="slideAccentTag3" style="color: #4f46e5;">Optimización</span>
+                </div>
+                <div class="text-3xl sm:text-4xl font-extrabold font-display my-1 transition-colors" id="slideMetric3" style="color: #4f46e5;">
+                  -82%
+                </div>
+                <p class="text-xs leading-relaxed" id="slideText3" style="color: #0f172a;">
+                  Eliminación de capturas borrosas y mezclas caóticas de 3D con emojis.
+                </p>
+              </div>
+
+            </div>
+
+            <!-- Pie de lámina de la diapositiva en vivo -->
+            <div class="flex items-center justify-between text-xs pt-3 border-t transition-colors" id="slideFooterBorder" style="border-color: rgba(15, 23, 42, 0.1);">
+              <span id="slideFooterNote" style="color: #0f172a;" class="font-medium text-[11px]">
+                Regla aplicada: 60% Base Daylight • 30% Texto Ejecutivo • 10% Foco de Atención
+              </span>
+              <span id="slidePageNum" style="color: #4f46e5;" class="font-bold font-mono">
+                Pág. 07
+              </span>
+            </div>
+
+          </div>
+        </div>
+
+      </div>
+
+      <!-- SIMULADOR B: SIMULADOR DE PROYECTOR ESCOLAR Y MARGEN DE SEGURIDAD 10% -->
+      <div class="glass-card rounded-3xl p-6 sm:p-8 border border-slate-200 shadow-xl space-y-6">
+        
+        <div class="flex flex-col sm:flex-row sm:items-center justify-between gap-4">
+          <div>
+            <span class="px-2.5 py-0.5 rounded text-xs font-black bg-amber-100 text-amber-800 uppercase">Simulador B</span>
+            <h3 class="font-display font-bold text-xl sm:text-2xl text-slate-900 mt-1">
+              Simulador Óptico de Proyector Escolar (Efecto Overscan)
+            </h3>
+            <p class="text-xs sm:text-sm text-slate-600">
+              Comprueba qué ocurre con tu presentación cuando se conecta a un proyector HDMI de aula con recorte perimetral físico.
+            </p>
+          </div>
+
+          <!-- Controles del Simulador B -->
+          <div class="flex items-center gap-3">
+            <button id="btnMargen0" onclick="setMargenSeguridad(false)" class="text-xs font-bold px-4 py-2 rounded-xl bg-rose-100 text-rose-800 border border-rose-300 transition">
+              Margen 0% (Error Escolar)
+            </button>
+            <button id="btnMargen10" onclick="setMargenSeguridad(true)" class="text-xs font-bold px-4 py-2 rounded-xl bg-indigo-600 text-white shadow-md shadow-indigo-600/30 transition">
+              Margen 10% Activo (Shift + R)
+            </button>
+          </div>
+        </div>
+
+        <!-- Pantalla de Proyección Simulada -->
+        <div class="relative bg-slate-950 rounded-2xl p-4 sm:p-8 overflow-hidden shadow-2xl border-4 border-slate-800">
+          
+          <!-- Efecto de haz de luz proyectado -->
+          <div class="absolute inset-0 bg-gradient-to-tr from-cyan-500/10 via-transparent to-indigo-500/10 pointer-events-none beam-glow"></div>
+
+          <!-- Marco de recorte del proyector (Bezel / Overscan de recorte) -->
+          <div id="projectorBezel" class="relative bg-white rounded-xl overflow-hidden aspect-[16/9] max-w-4xl mx-auto border-dashed transition-all duration-500">
+            
+            <!-- Máscara de corte visual -->
+            <div id="overscanMask" class="absolute inset-0 border-[28px] sm:border-[44px] border-rose-600/40 pointer-events-none z-30 transition-all flex items-center justify-center">
+              <span id="overscanWarningTag" class="text-xs font-black bg-rose-700 text-white px-3 py-1 rounded-full shadow-lg">
+                ⚠️ ZONA AMPUTADA POR EL PROYECTOR
+              </span>
+            </div>
+
+            <!-- Guías de reglas Shift + R (Moradas como en Canva) -->
+            <div id="canvaGuides" class="absolute inset-[10%] border-2 border-indigo-500/70 border-dashed pointer-events-none z-20 transition-all hidden">
+              <span class="absolute -top-5 left-2 text-[10px] font-mono font-bold bg-indigo-600 text-white px-1.5 py-0.5 rounded">
+                Shift + R (Margen Seguro 10%)
+              </span>
+            </div>
+
+            <!-- Contenido de la diapositiva en el proyector -->
+            <div id="projectorSlideContent" class="h-full p-2 sm:p-4 flex flex-col justify-between transition-all duration-300 bg-[#f8fafc]">
+              
+              <div class="flex items-start justify-between">
+                <div>
+                  <h5 id="projTitle" class="font-display font-black text-slate-900 text-sm sm:text-2xl transition-all">
+                    CONCLUSIÓN DEL ESTUDIO DE IMPACTO
+                  </h5>
+                  <p id="projSubtitle" class="text-[10px] sm:text-xs text-slate-500 font-bold transition-all">
+                    Evaluación cuantitativa aplicada a 11.° Grado
+                  </p>
+                </div>
+                <span id="projTag" class="text-[10px] sm:text-xs font-bold bg-slate-900 text-white px-2 py-1 rounded transition-all">
+                  DEFENSA FINAL
+                </span>
+              </div>
+
+              <div class="grid grid-cols-2 gap-3 my-auto">
+                <div class="p-3 bg-white rounded-lg border border-slate-200 shadow-sm">
+                  <span class="text-[10px] text-slate-400 font-bold">MÉTRICA EXTERNA</span>
+                  <div class="text-lg sm:text-3xl font-black text-indigo-600">89.4%</div>
+                  <p class="text-[10px] text-slate-600">Retención de audiencia con estándar consultor.</p>
+                </div>
+                <div class="p-3 bg-white rounded-lg border border-slate-200 shadow-sm">
+                  <span class="text-[10px] text-slate-400 font-bold">TIEMPO MEDIO</span>
+                  <div class="text-lg sm:text-3xl font-black text-slate-900">12 MIN</div>
+                  <p class="text-[10px] text-slate-600">Duración máxima de exposición de pitch.</p>
+                </div>
+              </div>
+
+              <div class="flex items-center justify-between text-[10px] text-slate-500 pt-2 border-t border-slate-200">
+                <span id="projFooterText">Colegio Mundo Jandra • Media Técnica 11°</span>
+                <span id="projPageText">Lámina 14</span>
+              </div>
+
+            </div>
+
+          </div>
+
+          <!-- Leyenda explicativa -->
+          <div class="mt-4 text-center text-xs text-slate-400 flex flex-wrap items-center justify-center gap-4">
+            <div class="flex items-center gap-1.5">
+              <span class="w-3 h-3 rounded bg-rose-500/60 inline-block"></span>
+              <span>Área de recorte del proyector</span>
+            </div>
+            <div class="flex items-center gap-1.5">
+              <span class="w-3 h-3 rounded border border-indigo-400 border-dashed inline-block"></span>
+              <span>Límite seguro 'Shift + R' (10%)</span>
+            </div>
+          </div>
+
+        </div>
+
+      </div>
+
+      <!-- SIMULADOR C: COMPARADOR VISUAL ANTES VS. DESPUÉS -->
+      <div class="glass-card rounded-3xl p-6 sm:p-8 border border-slate-200 shadow-xl space-y-6">
+        
+        <div class="flex flex-col sm:flex-row sm:items-center justify-between gap-4">
+          <div>
+            <span class="px-2.5 py-0.5 rounded text-xs font-black bg-emerald-100 text-emerald-800 uppercase">Simulador C</span>
+            <h3 class="font-display font-bold text-xl sm:text-2xl text-slate-900 mt-1">
+              Comparador Visual Interactivo "Antes vs. Después"
+            </h3>
+            <p class="text-xs sm:text-sm text-slate-600">
+              Desliza o alterna entre la diapositiva escolar caótica del caso real y la transformación al estándar de consultoría.
+            </p>
+          </div>
+
+          <div class="flex items-center gap-2">
+            <button onclick="setComparadorTab('antes')" id="tabBtnAntes" class="text-xs font-bold px-3.5 py-2 rounded-xl bg-slate-200 text-slate-700 hover:bg-slate-300 transition">
+              Ver Solo Antes (Caótico)
+            </button>
+            <button onclick="setComparadorTab('despues')" id="tabBtnDespues" class="text-xs font-bold px-3.5 py-2 rounded-xl bg-slate-200 text-slate-700 hover:bg-slate-300 transition">
+              Ver Solo Después (Consultoría)
+            </button>
+            <button onclick="setComparadorTab('slider')" id="tabBtnSlider" class="text-xs font-bold px-3.5 py-2 rounded-xl bg-indigo-600 text-white shadow-md transition">
+              Deslizador Split 50/50
+            </button>
+          </div>
+        </div>
+
+        <!-- Contenedor del Comparador -->
+        <div class="relative rounded-2xl overflow-hidden border-2 border-slate-300 shadow-2xl aspect-[16/9] max-w-4xl mx-auto bg-slate-900" id="comparadorContenedor">
+          
+          <!-- DIAPOSITIVA DESPUÉS (FONDO CLARO, CONSULTORÍA) - CAPA INFERIOR -->
+          <div class="absolute inset-0 bg-[#f8fafc] p-6 sm:p-10 flex flex-col justify-between text-slate-900 select-none">
+            <div class="flex justify-between items-start border-b border-slate-200 pb-3">
+              <div>
+                <span class="text-[10px] font-black uppercase tracking-wider px-2 py-0.5 rounded bg-indigo-50 text-indigo-700 border border-indigo-200">
+                  ESTÁNDAR CONSULTORÍA INTERNACIONAL
+                </span>
+                <h4 class="font-display font-extrabold text-lg sm:text-2xl text-slate-900 mt-1">
+                  Nivel de Desempeño y Diagnóstico Operativo
+                </h4>
+              </div>
+              <span class="text-xs font-mono font-bold text-slate-400">Pág. 05</span>
+            </div>
+
+            <!-- 3 Tarjetas Ejecutivas Nítidas -->
+            <div class="grid grid-cols-3 gap-3 sm:gap-4 my-auto">
+              <div class="bg-white p-3 sm:p-4 rounded-xl border border-slate-200 shadow-sm">
+                <span class="text-[10px] font-bold text-slate-400 block uppercase">Nivel 1</span>
+                <div class="text-base sm:text-2xl font-black text-emerald-600">Maestría</div>
+                <p class="text-[10px] sm:text-xs text-slate-600 mt-1">72% de dominio sin soporte del docente.</p>
+              </div>
+
+              <div class="bg-white p-3 sm:p-4 rounded-xl border border-slate-200 shadow-sm">
+                <span class="text-[10px] font-bold text-slate-400 block uppercase">Nivel 2</span>
+                <div class="text-base sm:text-2xl font-black text-indigo-600">Estable</div>
+                <p class="text-[10px] sm:text-xs text-slate-600 mt-1">21% con correcciones menores en Canva.</p>
+              </div>
+
+              <div class="bg-white p-3 sm:p-4 rounded-xl border border-slate-200 shadow-sm">
+                <span class="text-[10px] font-bold text-slate-400 block uppercase">Nivel 3</span>
+                <div class="text-base sm:text-2xl font-black text-amber-600">En Riesgo</div>
+                <p class="text-[10px] sm:text-xs text-slate-600 mt-1">7% requiere tutoría técnica intensiva.</p>
+              </div>
+            </div>
+
+            <div class="flex items-center justify-between text-[10px] text-slate-500 pt-2 border-t border-slate-200">
+              <span>✓ Margen 10% Activo • Tipografía Outfit + Inter • Tabla Nativa</span>
+              <span class="font-bold text-emerald-600">APROBADO POR JURADO</span>
+            </div>
+          </div>
+
+          <!-- DIAPOSITIVA ANTES (FONDO NEGRO, FLECHAS ROJAS 3D, SATURADA) - CAPA SUPERIOR RECORTADA -->
+          <div id="capaAntes" class="absolute inset-0 bg-[#0a0a14] p-6 sm:p-10 flex flex-col justify-between text-white select-none border-r-4 border-indigo-500 overflow-hidden" style="width: 50%;">
+            
+            <!-- Contenido saturado tipo escolar -->
+            <div class="w-[700px] sm:w-[850px]">
+              <div class="flex items-center gap-3">
+                <span class="text-2xl">🔥🚀👽</span>
+                <h4 class="font-black text-xl sm:text-2xl text-yellow-300 drop-shadow-[0_2px_4px_rgba(255,0,0,0.8)] tracking-tight">
+                  !!!DIAGNOSTICO DEL PROYECTO 2026!!!
+                </h4>
+              </div>
+
+              <!-- Collage caótico -->
+              <div class="flex items-center gap-4 my-4">
+                <div class="bg-red-950/80 p-3 rounded border-2 border-red-500 text-[11px] text-red-200 w-52">
+                  <p class="font-bold underline">ERRORES GRAVES:</p>
+                  <p>- Captura de Excel 4px borrosa pegada</p>
+                  <p>- Flechas rojas curvas de WordArt</p>
+                  <p>- Fondo oscuro con texto rojo</p>
+                </div>
+
+                <div class="text-red-500 font-extrabold text-4xl animate-bounce">
+                  ➔➔➔
+                </div>
+
+                <div class="bg-yellow-950/80 p-3 rounded border border-yellow-400 text-yellow-200 text-[10px] w-48">
+                  <p>TEXTO PEGADO AL BORDE SIN MARGEN (CORTADO POR PROYECTOR)</p>
+                </div>
+              </div>
+
+              <div class="text-[10px] text-red-400 font-mono">
+                REPROBADO: Saturación excesiva, ilegibilidad y falta de rigor formal.
+              </div>
+            </div>
+
+            <!-- Etiqueta flotante Antes -->
+            <span class="absolute top-4 left-4 bg-rose-600 text-white font-black text-xs px-2.5 py-1 rounded shadow">
+              ✕ CASO REAL (CON ERRORES)
+            </span>
+          </div>
+
+          <!-- Barra de Deslizamiento Manual -->
+          <input type="range" id="splitSlider" min="0" max="100" value="50" class="absolute inset-0 opacity-0 cursor-ew-resize z-40 w-full h-full" oninput="actualizarSliderSplit(this.value)">
+
+          <!-- Indicador visual del Slider Handle -->
+          <div id="sliderHandle" class="absolute top-0 bottom-0 w-1 bg-white shadow-2xl pointer-events-none z-30 flex items-center justify-center" style="left: 50%;">
+            <div class="w-8 h-8 rounded-full bg-slate-900 text-white border-2 border-white flex items-center justify-center text-xs font-black shadow-lg">
+              ↔
+            </div>
+          </div>
+
+        </div>
+
+      </div>
+
+    </section>
+
+    <!-- 5. MICRO-RETOS PRÁCTICOS DE AULA (15-20 MINUTOS) -->
+    <section id="micro-retos" class="space-y-8 scroll-mt-20">
+      
+      <div class="flex flex-col md:flex-row md:items-end justify-between gap-4 border-b border-slate-200 pb-4">
+        <div>
+          <span class="text-xs font-extrabold uppercase tracking-wider text-indigo-600">Dinámica de Clase</span>
+          <h2 class="font-display text-2xl sm:text-3xl font-bold text-slate-900">
+            Micro-Retos Prácticos de Aula (15-20 Minutos)
+          </h2>
+          <p class="text-slate-600 text-sm mt-1 max-w-2xl">
+            Desafíos cronometrados para ejecutar en vivo dentro de tu cuenta de Canva durante la sesión pedagógica.
+          </p>
+        </div>
+
+        <!-- CRONÓMETRO DE AULA INTERACTIVO -->
+        <div class="glass-card px-5 py-3 rounded-2xl border border-indigo-200 shadow-md flex items-center gap-4 shrink-0">
+          <div>
+            <span class="text-[10px] font-black uppercase text-slate-400 block">Temporizador de Aula</span>
+            <div id="timerDisplay" class="font-mono font-black text-2xl text-slate-900">15:00</div>
+          </div>
+          <div class="flex items-center gap-1.5">
+            <button onclick="iniciarTemporizador()" id="btnStartTimer" class="p-2 rounded-xl bg-indigo-600 hover:bg-indigo-700 text-white transition shadow-sm" title="Iniciar">
+              <svg class="w-4 h-4" fill="currentColor" viewBox="0 0 20 20"><path fill-rule="evenodd" d="M10 18a8 8 0 100-16 8 8 0 000 16zM9.555 7.168A1 1 0 008 8v4a1 1 0 001.555.832l3-2a1 1 0 000-1.664l-3-2z" clip-rule="evenodd"></path></svg>
+            </button>
+            <button onclick="pausarTemporizador()" class="p-2 rounded-xl bg-slate-100 hover:bg-slate-200 text-slate-700 transition" title="Pausar">
+              <svg class="w-4 h-4" fill="currentColor" viewBox="0 0 20 20"><path fill-rule="evenodd" d="M18 10a8 8 0 11-16 0 8 8 0 0116 0zM7 8a1 1 0 012 0v4a1 1 0 11-2 0V8zm5-1a1 1 0 00-1 1v4a1 1 0 102 0V8a1 1 0 00-1-1z" clip-rule="evenodd"></path></svg>
+            </button>
+            <button onclick="reiniciarTemporizador(15)" class="text-xs font-bold px-2 py-2 rounded-xl bg-slate-100 hover:bg-slate-200 text-slate-700 transition" title="15 min">
+              15m
+            </button>
+            <button onclick="reiniciarTemporizador(20)" class="text-xs font-bold px-2 py-2 rounded-xl bg-slate-100 hover:bg-slate-200 text-slate-700 transition" title="20 min">
+              20m
+            </button>
+          </div>
+        </div>
+      </div>
+
+      <!-- Tarjetas de los 3 Micro-Retos -->
+      <div class="grid grid-cols-1 md:grid-cols-3 gap-6">
+        
+        <!-- Reto 1 -->
+        <div class="glass-card rounded-2xl p-6 border border-slate-200 hover:border-indigo-300 transition-all shadow-md flex flex-col justify-between">
+          <div>
+            <div class="flex items-center justify-between gap-2 mb-3">
+              <span class="px-2.5 py-1 rounded text-xs font-black bg-indigo-100 text-indigo-800">RETO 01</span>
+              <span class="text-xs font-bold text-slate-400">15 Minutos</span>
+            </div>
+            <h3 class="font-display font-bold text-lg text-slate-900">
+              Desintoxicación de Viñetas
+            </h3>
+            <p class="text-xs text-slate-600 mt-2 leading-relaxed">
+              Toma un bloque escolar con 6 viñetas llenas de texto. Transfórmalo en <strong>3 tarjetas horizontales elevadas</strong> usando el atajo <kbd class="kbd-shortcut">R</kbd>. Cada tarjeta debe tener máximo <strong>12 palabras</strong>.
+            </p>
+            <div class="mt-4 p-3 rounded-xl bg-slate-50 border border-slate-200 text-xs text-slate-700 space-y-1">
+              <p><strong>Atajos clave:</strong> <kbd class="kbd-shortcut">R</kbd> (Rectángulo) + <kbd class="kbd-shortcut">T</kbd> (Texto).</p>
+              <p><strong>Criterio:</strong> Cero bullets de lista; jerarquía por tarjetas.</p>
+            </div>
+          </div>
+          <button onclick="copiarAlPortapapeles('RETO 01 CANVA: Convertir 6 viñetas en 3 tarjetas horizontales en caja (Atajo R) con máximo 12 palabras por tarjeta.', 'Consigna Reto 01 Copiada', 'Pégala en tu Canva o libreta.')" class="mt-5 w-full py-2.5 rounded-xl bg-slate-100 hover:bg-indigo-50 text-indigo-700 font-bold text-xs transition border border-slate-200">
+            Copiar Consigna Reto 01
+          </button>
+        </div>
+
+        <!-- Reto 2 -->
+        <div class="glass-card rounded-2xl p-6 border border-slate-200 hover:border-indigo-300 transition-all shadow-md flex flex-col justify-between">
+          <div>
+            <div class="flex items-center justify-between gap-2 mb-3">
+              <span class="px-2.5 py-1 rounded text-xs font-black bg-cyan-100 text-cyan-800">RETO 02</span>
+              <span class="text-xs font-bold text-slate-400">15 Minutos</span>
+            </div>
+            <h3 class="font-display font-bold text-lg text-slate-900">
+              El Mockup de Dispositivo
+            </h3>
+            <p class="text-xs text-slate-600 mt-2 leading-relaxed">
+              Toma una captura de pantalla de la app web o software de tu proyecto de grado. Insértala dentro de un <strong>marco (frame) de tablet o laptop</strong> en Canva, agregando sombra perimetral sutil y cintillo formal de testimonio.
+            </p>
+            <div class="mt-4 p-3 rounded-xl bg-slate-50 border border-slate-200 text-xs text-slate-700 space-y-1">
+              <p><strong>Herramienta:</strong> Marcos > Tablet / Dispositivo.</p>
+              <p><strong>Criterio:</strong> Prohibido pegar pantallazos planos sin marco.</p>
+            </div>
+          </div>
+          <button onclick="copiarAlPortapapeles('RETO 02 CANVA: Incrustar captura de software dentro de un marco de Tablet/Laptop en Canva con sombra sutil y cintillo formal de datos.', 'Consigna Reto 02 Copiada', 'Pégala en tu Canva o libreta.')" class="mt-5 w-full py-2.5 rounded-xl bg-slate-100 hover:bg-cyan-50 text-cyan-700 font-bold text-xs transition border border-slate-200">
+            Copiar Consigna Reto 02
+          </button>
+        </div>
+
+        <!-- Reto 3 -->
+        <div class="glass-card rounded-2xl p-6 border border-slate-200 hover:border-indigo-300 transition-all shadow-md flex flex-col justify-between">
+          <div>
+            <div class="flex items-center justify-between gap-2 mb-3">
+              <span class="px-2.5 py-1 rounded text-xs font-black bg-emerald-100 text-emerald-800">RETO 03</span>
+              <span class="text-xs font-bold text-slate-400">20 Minutos</span>
+            </div>
+            <h3 class="font-display font-bold text-lg text-slate-900">
+              La Matriz de 3 Columnas
+            </h3>
+            <p class="text-xs text-slate-600 mt-2 leading-relaxed">
+              Diagrama una matriz comparativa de 3 columnas (ej. <em>Niveles de Desempeño: Alto, Medio, Bajo</em>) con iconos monocromáticos. Utiliza la función <strong>Posición > Ordenar (Tidy Up)</strong> para una separación perfecta.
+            </p>
+            <div class="mt-4 p-3 rounded-xl bg-slate-50 border border-slate-200 text-xs text-slate-700 space-y-1">
+              <p><strong>Función Canva:</strong> Posición > Ordenar (Tidy up).</p>
+              <p><strong>Criterio:</strong> Espaciado matemático equitativo de 24px.</p>
+            </div>
+          </div>
+          <button onclick="copiarAlPortapapeles('RETO 03 CANVA: Diseñar matriz de 3 columnas con iconos monocromáticos y alineación milimétrica usando Posición > Ordenar (Tidy Up).', 'Consigna Reto 03 Copiada', 'Pégala en tu Canva o libreta.')" class="mt-5 w-full py-2.5 rounded-xl bg-slate-100 hover:bg-emerald-50 text-emerald-700 font-bold text-xs transition border border-slate-200">
+            Copiar Consigna Reto 03
+          </button>
+        </div>
+
+      </div>
+    </section>
+
+    <!-- 6. CHEATSHEET DE ATAJOS Y BÚSQUEDAS SECRETAS DE CANVA -->
+    <section id="cheatsheet" class="space-y-8 scroll-mt-20">
+      
+      <div class="border-b border-slate-200 pb-4">
+        <span class="text-xs font-extrabold uppercase tracking-wider text-indigo-600">Productividad a Nivel Profesional</span>
+        <h2 class="font-display text-2xl sm:text-3xl font-bold text-slate-900">
+          Cheatsheet de Atajos y Búsquedas Secretas de Canva
+        </h2>
+        <p class="text-slate-600 text-sm mt-1 max-w-2xl">
+          Diseñar a velocidad de agencia: domina los atajos de teclado y los términos de búsqueda en inglés para encontrar recursos de alto nivel.
+        </p>
+      </div>
+
+      <div class="grid grid-cols-1 lg:grid-cols-2 gap-8">
+        
+        <!-- Atajos de Teclado -->
+        <div class="glass-card rounded-2xl p-6 border border-slate-200 shadow-md space-y-4">
+          <div class="flex items-center justify-between">
+            <h3 class="font-display font-bold text-lg text-slate-900 flex items-center gap-2">
+              <span>⌨️ Atajos de Teclado Esenciales</span>
+            </h3>
+            <span class="text-xs text-slate-400 font-mono">1-Click Speed</span>
+          </div>
+
+          <div class="divide-y divide-slate-100 text-sm">
+            <div class="py-2.5 flex items-center justify-between">
+              <span class="text-slate-700 font-medium">Insertar Caja de Texto</span>
+              <kbd class="kbd-shortcut">T</kbd>
+            </div>
+            <div class="py-2.5 flex items-center justify-between">
+              <span class="text-slate-700 font-medium">Crear Rectángulo para Tarjeta</span>
+              <kbd class="kbd-shortcut">R</kbd>
+            </div>
+            <div class="py-2.5 flex items-center justify-between">
+              <span class="text-slate-700 font-medium">Insertar Círculo / Contenedor</span>
+              <kbd class="kbd-shortcut">C</kbd>
+            </div>
+            <div class="py-2.5 flex items-center justify-between">
+              <span class="text-slate-700 font-medium">Activar Reglas y Margen Seguro</span>
+              <div class="flex gap-1"><kbd class="kbd-shortcut">Shift</kbd><kbd class="kbd-shortcut">R</kbd></div>
+            </div>
+            <div class="py-2.5 flex items-center justify-between">
+              <span class="text-slate-700 font-medium">Duplicar Elemento al Instante</span>
+              <span class="text-xs font-mono text-slate-500 font-bold">Alt + Arrastrar</span>
+            </div>
+            <div class="py-2.5 flex items-center justify-between">
+              <span class="text-slate-700 font-medium">Agrupar / Desagrupar Tarjetas</span>
+              <div class="flex gap-1"><kbd class="kbd-shortcut">Ctrl</kbd><kbd class="kbd-shortcut">G</kbd> / <kbd class="kbd-shortcut">Ctrl</kbd><kbd class="kbd-shortcut">Shift</kbd><kbd class="kbd-shortcut">G</kbd></div>
+            </div>
+            <div class="py-2.5 flex items-center justify-between">
+              <span class="text-slate-700 font-medium">Mover Capa Adelante / Atrás</span>
+              <div class="flex gap-1"><kbd class="kbd-shortcut">Ctrl</kbd><kbd class="kbd-shortcut">]</kbd> / <kbd class="kbd-shortcut">Ctrl</kbd><kbd class="kbd-shortcut">[</kbd></div>
+            </div>
+          </div>
+        </div>
+
+        <!-- Búsquedas Secretas en Inglés -->
+        <div class="glass-card rounded-2xl p-6 border border-slate-200 shadow-md space-y-4">
+          <div class="flex items-center justify-between">
+            <h3 class="font-display font-bold text-lg text-slate-900 flex items-center gap-2">
+              <span>🔎 Keywords Secretas en Inglés</span>
+            </h3>
+            <span class="text-xs text-indigo-600 font-bold">Haz clic para copiar</span>
+          </div>
+
+          <p class="text-xs text-slate-500">
+            Canva indexa sus mejores recursos premium en inglés. Copia y pega estos términos en el buscador de "Elementos":
+          </p>
+
+          <div class="space-y-2.5">
+            
+            <div onclick="copiarAlPortapapeles('minimalist line icon', 'Keyword Copiada', 'Pégala en el buscador de Elementos de Canva.')" class="p-3 rounded-xl bg-slate-50 hover:bg-indigo-50 border border-slate-200 cursor-pointer flex items-center justify-between transition group">
+              <div>
+                <span class="font-mono font-bold text-xs text-indigo-700 group-hover:underline">minimalist line icon</span>
+                <p class="text-[11px] text-slate-500">Iconos vectoriales limpios y homogéneos de 1 solo trazo.</p>
+              </div>
+              <span class="text-xs text-slate-400 group-hover:text-indigo-600">Copiar 📋</span>
+            </div>
+
+            <div onclick="copiarAlPortapapeles('device mockup tablet laptop', 'Keyword Copiada', 'Pégala en el buscador de Elementos de Canva.')" class="p-3 rounded-xl bg-slate-50 hover:bg-indigo-50 border border-slate-200 cursor-pointer flex items-center justify-between transition group">
+              <div>
+                <span class="font-mono font-bold text-xs text-indigo-700 group-hover:underline">device mockup tablet laptop</span>
+                <p class="text-[11px] text-slate-500">Marcos hiperrealistas para incrustar pantallas de sistemas.</p>
+              </div>
+              <span class="text-xs text-slate-400 group-hover:text-indigo-600">Copiar 📋</span>
+            </div>
+
+            <div onclick="copiarAlPortapapeles('corporate badge minimal', 'Keyword Copiada', 'Pégala en el buscador de Elementos de Canva.')" class="p-3 rounded-xl bg-slate-50 hover:bg-indigo-50 border border-slate-200 cursor-pointer flex items-center justify-between transition group">
+              <div>
+                <span class="font-mono font-bold text-xs text-indigo-700 group-hover:underline">corporate badge minimal</span>
+                <p class="text-[11px] text-slate-500">Pastillas e indicadores para fases, estados y categorías.</p>
+              </div>
+              <span class="text-xs text-slate-400 group-hover:text-indigo-600">Copiar 📋</span>
+            </div>
+
+            <div onclick="copiarAlPortapapeles('clean geometric container', 'Keyword Copiada', 'Pégala en el buscador de Elementos de Canva.')" class="p-3 rounded-xl bg-slate-50 hover:bg-indigo-50 border border-slate-200 cursor-pointer flex items-center justify-between transition group">
+              <div>
+                <span class="font-mono font-bold text-xs text-indigo-700 group-hover:underline">clean geometric container</span>
+                <p class="text-[11px] text-slate-500">Contenedores sutiles para agrupar métricas y testimonios.</p>
+              </div>
+              <span class="text-xs text-slate-400 group-hover:text-indigo-600">Copiar 📋</span>
+            </div>
+
+          </div>
+        </div>
+
+      </div>
+
+    </section>
+
+    <!-- 7. CONSEJO EXPERTO DE LOGO + ASISTENTE IA CON GEMINI (REQUERIMIENTO ESPECIAL) -->
+    <section id="asistente-gemini" class="space-y-8 scroll-mt-20">
+      
+      <div class="border-b border-slate-200 pb-4">
+        <span class="text-xs font-extrabold uppercase tracking-wider text-indigo-600">Identidad de Marca & Asesoría IA</span>
+        <h2 class="font-display text-2xl sm:text-3xl font-bold text-slate-900">
+          Elección de Logo & Asistente de Diseño con Google Gemini
+        </h2>
+        <p class="text-slate-600 text-sm mt-1 max-w-2xl">
+          El logotipo define la paleta de toda tu presentación. Aprende las reglas de selección de logo y audítalo directamente con la IA de Google Gemini.
+        </p>
+      </div>
+
+      <!-- Guía de Elección de Logo & Extractor de Paleta -->
+      <div class="grid grid-cols-1 lg:grid-cols-3 gap-6">
+        
+        <!-- Columna 1 y 2: Reglas de Oro para el Logo del Proyecto -->
+        <div class="lg:col-span-2 glass-card rounded-2xl p-6 sm:p-8 border border-slate-200 shadow-md space-y-6">
+          <h3 class="font-display font-bold text-xl text-slate-900 flex items-center gap-2">
+            <span>🛡️ Las 4 Reglas de Oro para el Logo de tu Proyecto de Grado</span>
+          </h3>
+
+          <div class="grid grid-cols-1 sm:grid-cols-2 gap-4 text-sm">
+            <div class="p-4 rounded-xl bg-slate-50 border border-slate-200">
+              <h5 class="font-bold text-slate-900 text-xs uppercase tracking-wider text-indigo-600 mb-1">1. Simplicidad Vectorial</h5>
+              <p class="text-xs text-slate-600 leading-relaxed">
+                Un logo no es una ilustración con 10 personajes. Debe ser un símbolo o isotipo simple que pueda identificarse en 1 segundo a 10 metros de distancia.
+              </p>
+            </div>
+
+            <div class="p-4 rounded-xl bg-slate-50 border border-slate-200">
+              <h5 class="font-bold text-slate-900 text-xs uppercase tracking-wider text-indigo-600 mb-1">2. Fondo 100% Transparente</h5>
+              <p class="text-xs text-slate-600 leading-relaxed">
+                Jamás uses un logo con recuadro blanco pegado encima de diapositivas. Usa formato <strong>PNG transparente</strong> o el botón "Quitar Fondo" en Canva.
+              </p>
+            </div>
+
+            <div class="p-4 rounded-xl bg-slate-50 border border-slate-200">
+              <h5 class="font-bold text-slate-900 text-xs uppercase tracking-wider text-indigo-600 mb-1">3. Escalabilidad Extrema</h5>
+              <p class="text-xs text-slate-600 leading-relaxed">
+                El logo debe ser legible tanto a <strong>500px</strong> en la portada como en miniatura de <strong>32px</strong> en la esquina superior del membrete.
+              </p>
+            </div>
+
+            <div class="p-4 rounded-xl bg-slate-50 border border-slate-200">
+              <h5 class="font-bold text-slate-900 text-xs uppercase tracking-wider text-indigo-600 mb-1">4. Generatriz de la Paleta 60-30-10</h5>
+              <p class="text-xs text-slate-600 leading-relaxed">
+                Los colores de tu presentación NO se eligen al azar: se derivan directamente del color principal y secundario del logotipo institucional.
+              </p>
+            </div>
+          </div>
+
+          <!-- EXTRACTOR DE PALETA SEGÚN EL COLOR DEL LOGO -->
+          <div class="p-5 rounded-xl bg-gradient-to-r from-indigo-50 via-slate-50 to-cyan-50 border border-indigo-200 space-y-3">
+            <h4 class="font-bold text-sm text-slate-900 flex items-center justify-between">
+              <span>🧪 Extractor Rápido: Paleta de Diapositivas según el Logo</span>
+              <span class="text-xs font-mono text-indigo-600">Herramienta en Vivo</span>
+            </h4>
+            <p class="text-xs text-slate-600">
+              Ingresa el color principal de tu logo (o selecciona en el picker) para derivar la combinación 60-30-10 para tu presentación en Canva:
+            </p>
+            <div class="flex flex-wrap items-center gap-3">
+              <input type="color" id="logoColorInput" value="#4f46e5" class="w-9 h-9 rounded-lg border border-slate-300 cursor-pointer p-0.5 bg-white" onchange="derivarDesdeLogo(this.value)">
+              <input type="text" id="logoColorHex" value="#4f46e5" maxlength="7" class="text-xs font-mono px-3 py-2 rounded-lg border border-slate-300 uppercase bg-white w-28" oninput="derivarDesdeLogo(this.value)">
+              <button onclick="derivarDesdeLogo(document.getElementById('logoColorHex').value)" class="px-4 py-2 rounded-lg bg-indigo-600 hover:bg-indigo-700 text-white font-bold text-xs transition">
+                Calcular Paleta para Canva
+              </button>
+            </div>
+            <div id="logoDerivacionOutput" class="text-xs text-slate-700 pt-2 font-medium">
+              💡 <strong>Recomendación automática:</strong> Fondo Base 60%: <code class="font-mono bg-white px-1.5 py-0.5 rounded border">#f8fafc</code> • Estructura 30%: <code class="font-mono bg-white px-1.5 py-0.5 rounded border">#0f172a</code> • Acento 10% (Tu Logo): <code class="font-mono bg-white px-1.5 py-0.5 rounded border" id="derivedLogoHex">#4f46e5</code>.
+            </div>
+          </div>
+        </div>
+
+        <!-- Columna 3: Enlace e Integración con Google Gemini IA -->
+        <div class="glass-card rounded-2xl p-6 sm:p-8 border border-indigo-200 shadow-md bg-gradient-to-b from-white to-indigo-50/40 flex flex-col justify-between space-y-6">
+          <div class="space-y-4">
+            <div class="flex items-center gap-3">
+              <div class="w-10 h-10 rounded-xl bg-gradient-to-tr from-blue-600 via-indigo-600 to-purple-600 text-white flex items-center justify-center font-black shadow-md shadow-indigo-500/20">
+                ✦
+              </div>
+              <div>
+                <h4 class="font-display font-bold text-lg text-slate-900">Google Gemini IA</h4>
+                <p class="text-xs text-slate-500">Asesor y Evaluador de Branding</p>
+              </div>
+            </div>
+
+            <p class="text-xs text-slate-600 leading-relaxed">
+              Puedes subir la imagen de tu logo a <strong>Google Gemini</strong> para recibir una crítica constructiva sobre su profesionalismo y pedirle que arme la paleta de tu presentación.
+            </p>
+
+            <!-- Prompts para Gemini -->
+            <div class="space-y-3">
+              <!-- Prompt Logo 1 -->
+              <div class="p-3 rounded-xl bg-white border border-slate-200 space-y-1.5">
+                <span class="text-[10px] font-black uppercase text-indigo-600 block">Prompt 1: Auditoría de Logo</span>
+                <p class="text-[11px] text-slate-600 line-clamp-2" id="promptLogo1">
+                  "Actúa como Director de Arte y Branding. Evalúa este logotipo para mi proyecto de grado de 11°: legibilidad, pregnancia, si parece un logo corporativo o un clipart escolar, y qué mejoras necesita."
+                </p>
+                <button onclick="copiarAlPortapapeles(document.getElementById('promptLogo1').innerText, 'Prompt para Gemini Copiado', 'Abre Gemini, adjunta tu logo y pega este prompt.')" class="text-[10px] font-bold text-indigo-600 hover:underline flex items-center gap-1">
+                  Copiar Prompt para Gemini 📋
+                </button>
+              </div>
+
+              <!-- Prompt Logo 2 -->
+              <div class="p-3 rounded-xl bg-white border border-slate-200 space-y-1.5">
+                <span class="text-[10px] font-black uppercase text-indigo-600 block">Prompt 2: Paleta Canva según Logo</span>
+                <p class="text-[11px] text-slate-600 line-clamp-2" id="promptLogo2">
+                  "Tengo este logotipo con los colores [Insertar Colores]. Genera una paleta ejecutiva 60-30-10 para mi presentación en Canva con fondo daylight (claro), indicando los 3 códigos HEX y cómo aplicarlos."
+                </p>
+                <button onclick="copiarAlPortapapeles(document.getElementById('promptLogo2').innerText, 'Prompt para Gemini Copiado', 'Pégalo en Gemini indicando los colores de tu logotipo.')" class="text-[10px] font-bold text-indigo-600 hover:underline flex items-center gap-1">
+                  Copiar Prompt para Gemini 📋
+                </button>
+              </div>
+            </div>
+          </div>
+
+          <!-- Botón Directo a Gemini -->
+          <a href="https://gemini.google.com/" target="_blank" rel="noopener noreferrer" class="w-full py-3 rounded-xl bg-slate-900 hover:bg-slate-800 text-white font-bold text-xs flex items-center justify-center gap-2 transition shadow-lg shadow-slate-900/20 text-center">
+            <span>Abrir Google Gemini</span>
+            <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M10 6H6a2 2 0 00-2 2v10a2 2 0 002 2h10a2 2 0 002-2v-4M14 4h6m0 0v6m0-6L10 14"></path></svg>
+          </a>
+        </div>
+
+      </div>
+
+    </section>
+
+    <!-- 8. PROYECTO FINAL INTEGRADOR DEL 3.° PERIODO Y RÚBRICA INTERACTIVA -->
+    <section id="proyecto-final" class="space-y-8 scroll-mt-20">
+      
+      <div class="border-b border-slate-200 pb-4">
+        <span class="text-xs font-extrabold uppercase tracking-wider text-indigo-600">Evaluación del Periodo</span>
+        <h2 class="font-display text-2xl sm:text-3xl font-bold text-slate-900">
+          Proyecto Final Integrador & Rúbrica de Autoevaluación
+        </h2>
+        <p class="text-slate-600 text-sm mt-1 max-w-2xl">
+          El entregable definitivo de Grado 11°: rediseño integral de la presentación de tu proyecto empresarial en Canva bajo estándar de consultoría.
+        </p>
+      </div>
+
+      <!-- Consigna Formal del Proyecto -->
+      <div class="glass-card rounded-2xl p-6 sm:p-8 border border-slate-200 shadow-md space-y-4">
+        <div class="flex flex-wrap items-center gap-2">
+          <span class="px-3 py-1 rounded-md text-xs font-black bg-indigo-600 text-white uppercase tracking-wider">
+            Consigna Oficial
+          </span>
+          <span class="text-xs font-bold text-slate-500">
+            Modalidad: Individual o Parejas de Proyecto de Grado
+          </span>
+        </div>
+
+        <h3 class="font-display font-extrabold text-xl sm:text-2xl text-slate-900">
+          Rediseño de Alto Impacto: De Diapositiva Escolar a Pitch Ejecutivo
+        </h3>
+
+        <p class="text-sm text-slate-700 leading-relaxed">
+          Cada estudiante debe tomar la presentación original de su <strong>proyecto empresarial / monografía</strong> y reconstruirla desde cero en Canva. Debe demostrar la eliminación total de los 10 vicios gráficos, aplicando el margen del 10% (<kbd class="kbd-shortcut">Shift + R</kbd>), paleta 60-30-10 con fondo daylight, tablas nativas de mínimo 14px, tarjetas de métricas aisladas y mockups de dispositivos para capturas de software.
+        </p>
+
+        <div class="p-4 rounded-xl bg-slate-50 border border-slate-200 text-xs text-slate-600 flex flex-col sm:flex-row sm:items-center justify-between gap-3">
+          <div>
+            <span class="font-bold text-slate-900">Formato de Entrega:</span>
+            <span>1) Enlace público de lectura de Canva + 2) Archivo PDF Estándar para proyección.</span>
+          </div>
+          <span class="text-indigo-700 font-bold">Ponderación: 40% de la nota definitiva del periodo</span>
+        </div>
+      </div>
+
+      <!-- RÚBRICA INTERACTIVA DE AUTOEVALUACIÓN -->
+      <div class="glass-card rounded-2xl p-6 sm:p-8 border border-slate-200 shadow-md space-y-6">
+        <div class="flex flex-col sm:flex-row sm:items-center justify-between gap-4">
+          <div>
+            <h3 class="font-display font-bold text-xl text-slate-900">
+              Calculadora de Rúbrica & Checklist de Calidad
+            </h3>
+            <p class="text-xs sm:text-sm text-slate-600">
+              Marca los criterios que cumple tu presentación para calcular tu nota proyectada (escala 1.0 a 5.0).
+            </p>
+          </div>
+
+          <!-- Nota Dinámica -->
+          <div class="bg-slate-900 text-white px-5 py-3 rounded-2xl shadow-md text-center shrink-0">
+            <span class="text-[10px] font-bold text-slate-400 uppercase tracking-wider block">Nota Estimada</span>
+            <div id="rubricaNota" class="font-display font-black text-3xl text-emerald-400">1.0</div>
+            <span id="rubricaEstado" class="text-[10px] text-slate-300 font-medium">Incompleto</span>
+          </div>
+        </div>
+
+        <!-- Lista de Criterios Checkables -->
+        <div class="space-y-3 pt-2">
+          
+          <label class="flex items-start gap-3 p-3.5 rounded-xl bg-slate-50 hover:bg-slate-100 border border-slate-200 cursor-pointer transition select-none">
+            <input type="checkbox" class="rubrica-check mt-1 w-4 h-4 text-indigo-600 rounded border-slate-300 focus:ring-indigo-500" value="0.7" onchange="calcularRubrica()">
+            <div class="text-xs">
+              <span class="font-bold text-slate-900 block text-sm">Margen Seguro del 10% Activo (Shift + R)</span>
+              <span class="text-slate-600">Ningún texto ni cifra clave se encuentra pegado al borde exterior; pasa la prueba del proyector.</span>
+            </div>
+          </label>
+
+          <label class="flex items-start gap-3 p-3.5 rounded-xl bg-slate-50 hover:bg-slate-100 border border-slate-200 cursor-pointer transition select-none">
+            <input type="checkbox" class="rubrica-check mt-1 w-4 h-4 text-indigo-600 rounded border-slate-300 focus:ring-indigo-500" value="0.7" onchange="calcularRubrica()">
+            <div class="text-xs">
+              <span class="font-bold text-slate-900 block text-sm">Paleta Armónica 60-30-10 con Fondo Claro</span>
+              <span class="text-slate-600">Fondo daylight (#f8fafc o neutro suave), texto pizarra oscuro y 1 solo color de acento para datos clave.</span>
+            </div>
+          </label>
+
+          <label class="flex items-start gap-3 p-3.5 rounded-xl bg-slate-50 hover:bg-slate-100 border border-slate-200 cursor-pointer transition select-none">
+            <input type="checkbox" class="rubrica-check mt-1 w-4 h-4 text-indigo-600 rounded border-slate-300 focus:ring-indigo-500" value="0.7" onchange="calcularRubrica()">
+            <div class="text-xs">
+              <span class="font-bold text-slate-900 block text-sm">Jerarquía Tipográfica y Regla 2:1</span>
+              <span class="text-slate-600">Títulos H1 (36-44px), Subtítulos (20-24px) y Cuerpo (14-18px). Máximo 2 familias tipográficas legibles.</span>
+            </div>
+          </label>
+
+          <label class="flex items-start gap-3 p-3.5 rounded-xl bg-slate-50 hover:bg-slate-100 border border-slate-200 cursor-pointer transition select-none">
+            <input type="checkbox" class="rubrica-check mt-1 w-4 h-4 text-indigo-600 rounded border-slate-300 focus:ring-indigo-500" value="0.7" onchange="calcularRubrica()">
+            <div class="text-xs">
+              <span class="font-bold text-slate-900 block text-sm">Cero Pantallazos de Tablas de Excel</span>
+              <span class="text-slate-600">Los datos se presentan en tablas nativas de Canva de mínimo 14px o en tarjetas métricas de 44px.</span>
+            </div>
+          </label>
+
+          <label class="flex items-start gap-3 p-3.5 rounded-xl bg-slate-50 hover:bg-slate-100 border border-slate-200 cursor-pointer transition select-none">
+            <input type="checkbox" class="rubrica-check mt-1 w-4 h-4 text-indigo-600 rounded border-slate-300 focus:ring-indigo-500" value="0.6" onchange="calcularRubrica()">
+            <div class="text-xs">
+              <span class="font-bold text-slate-900 block text-sm">Mockup de Dispositivo para Software / Web</span>
+              <span class="text-slate-600">Las capturas del sistema están incrustadas en marcos de tablet/laptop con sombra sutil y cintillo formal.</span>
+            </div>
+          </label>
+
+          <label class="flex items-start gap-3 p-3.5 rounded-xl bg-slate-50 hover:bg-slate-100 border border-slate-200 cursor-pointer transition select-none">
+            <input type="checkbox" class="rubrica-check mt-1 w-4 h-4 text-indigo-600 rounded border-slate-300 focus:ring-indigo-500" value="0.6" onchange="calcularRubrica()">
+            <div class="text-xs">
+              <span class="font-bold text-slate-900 block text-sm">Logo Institucional en PNG Transparente</span>
+              <span class="text-slate-600">Logo sin recuadro blanco, perfectamente escalado y alineado con la paleta de la presentación.</span>
+            </div>
+          </label>
+
+        </div>
+      </div>
+
+    </section>
+
+  </main>
+
+  <!-- FOOTER INSTITUCIONAL -->
+  <footer class="mt-20 border-t border-slate-200 bg-white/80 py-10 px-4 md:px-8 text-center text-xs text-slate-500">
+    <div class="max-w-7xl mx-auto flex flex-col sm:flex-row items-center justify-between gap-4">
+      <div class="flex items-center gap-2 font-bold text-slate-700">
+        <img src="../../assets/jandra/J1.svg" alt="Jandra" class="w-6 h-6 rounded-full object-cover">
+        <span>Mundo Jandra • Plataforma Académica</span>
+      </div>
+      <p>3.° Periodo Académico • Grado 11° • Especialidad en Comunicación Visual y Diseño Ejecutivo en Canva</p>
+      <a href="../periodo3.html" class="text-indigo-600 font-bold hover:underline">
+        Volver a la selección de grados ➔
+      </a>
+    </div>
+  </footer>
+
+  <!-- SCRIPTING REACTIVO E INTERACTIVO -->
+  <script>
+    // ==========================================
+    // 1. SISTEMA DE COPIADO CON FEEDBACK TOAST
+    // ==========================================
+    function copiarAlPortapapeles(texto, titulo = '¡Copiado con éxito!', subtitulo = 'Listo para pegar donde lo necesites.') {
+      navigator.clipboard.writeText(texto).then(() => {
+        mostrarToast(titulo, subtitulo);
+      }).catch(err => {
+        // Fallback clásico
+        const textarea = document.createElement('textarea');
+        textarea.value = texto;
+        document.body.appendChild(textarea);
+        textarea.select();
+        document.execCommand('copy');
+        document.body.removeChild(textarea);
+        mostrarToast(titulo, subtitulo);
+      });
+    }
+
+    function mostrarToast(titulo, subtitulo) {
+      const toast = document.getElementById('copyToast');
+      document.getElementById('toastTitle').textContent = titulo;
+      document.getElementById('toastSubtitle').textContent = subtitulo;
+      toast.classList.add('show');
+      setTimeout(() => {
+        toast.classList.remove('show');
+      }, 2600);
+    }
+
+    // ==========================================
+    // 2. SIMULADOR A: PALETAS 60-30-10 & CONTROLES
+    // ==========================================
+    const picker60 = document.getElementById('picker60');
+    const inputHex60 = document.getElementById('inputHex60');
+    const hexLabel60 = document.getElementById('hexLabel60');
+
+    const picker30 = document.getElementById('picker30');
+    const inputHex30 = document.getElementById('inputHex30');
+    const hexLabel30 = document.getElementById('hexLabel30');
+
+    const picker10 = document.getElementById('picker10');
+    const inputHex10 = document.getElementById('inputHex10');
+    const hexLabel10 = document.getElementById('hexLabel10');
+
+    // Sincronización Pickers con Inputs
+    picker60.addEventListener('input', (e) => actualizarColor60(e.target.value));
+    inputHex60.addEventListener('input', (e) => {
+      if (/^#[0-9A-F]{6}$/i.test(e.target.value)) actualizarColor60(e.target.value);
+    });
+
+    picker30.addEventListener('input', (e) => actualizarColor30(e.target.value));
+    inputHex30.addEventListener('input', (e) => {
+      if (/^#[0-9A-F]{6}$/i.test(e.target.value)) actualizarColor30(e.target.value);
+    });
+
+    picker10.addEventListener('input', (e) => actualizarColor10(e.target.value));
+    inputHex10.addEventListener('input', (e) => {
+      if (/^#[0-9A-F]{6}$/i.test(e.target.value)) actualizarColor10(e.target.value);
+    });
+
+    function actualizarColor60(hex) {
+      picker60.value = hex;
+      inputHex60.value = hex;
+      hexLabel60.textContent = hex;
+      document.getElementById('slidePreviewCanvas').style.backgroundColor = hex;
+      actualizarContrasteWCAG();
+    }
+
+    function actualizarColor30(hex) {
+      picker30.value = hex;
+      inputHex30.value = hex;
+      hexLabel30.textContent = hex;
+      document.getElementById('slideTitle').style.color = hex;
+      document.getElementById('slideDate').style.color = hex;
+      document.getElementById('slideVer').style.color = hex;
+      document.getElementById('slideText1').style.color = hex;
+      document.getElementById('slideText2').style.color = hex;
+      document.getElementById('slideText3').style.color = hex;
+      document.getElementById('slideFooterNote').style.color = hex;
+      actualizarContrasteWCAG();
+    }
+
+    function actualizarColor10(hex) {
+      picker10.value = hex;
+      inputHex10.value = hex;
+      hexLabel10.textContent = hex;
+      document.getElementById('slideCategoryBadge').style.color = hex;
+      document.getElementById('slideCategoryBadge').style.backgroundColor = hex + '1A';
+      document.getElementById('slideAccentTag1').style.color = hex;
+      document.getElementById('slideAccentTag2').style.color = hex;
+      document.getElementById('slideAccentTag3').style.color = hex;
+      document.getElementById('slideMetric1').style.color = hex;
+      document.getElementById('slideMetric2').style.color = hex;
+      document.getElementById('slideMetric3').style.color = hex;
+      document.getElementById('slidePageNum').style.color = hex;
+      actualizarContrasteWCAG();
+    }
+
+    function aplicarPreset(c60, c30, c10) {
+      actualizarColor60(c60);
+      actualizarColor30(c30);
+      actualizarColor10(c10);
+      mostrarToast('Preset de Paleta Aplicado', 'Se han actualizado los colores en el lienzo en vivo.');
+    }
+
+    function generarDesdeHex() {
+      let hex = document.getElementById('customHexInput').value.trim();
+      if (!hex.startsWith('#')) hex = '#' + hex;
+      if (!/^#[0-9A-F]{6}$/i.test(hex)) {
+        alert('Por favor introduce un código HEX válido de 6 caracteres (Ej: #4f46e5).');
+        return;
+      }
+      
+      // Algoritmo armónico ejecutivo: el tono ingresado se toma como el 10% de acento,
+      // el 60% se asigna como un neutro marfil/pizarra claro daylight, y el 30% como carbón oscuro.
+      actualizarColor60('#f8fafc');
+      actualizarColor30('#0f172a');
+      actualizarColor10(hex);
+      mostrarToast('Paleta Generada con Éxito', `Acento derivado: ${hex}. Fondo y estructura ajustados para máximo contraste.`);
+    }
+
+    function derivarDesdeLogo(hex) {
+      if (!hex.startsWith('#')) hex = '#' + hex;
+      if (/^#[0-9A-F]{6}$/i.test(hex)) {
+        document.getElementById('logoColorInput').value = hex;
+        document.getElementById('logoColorHex').value = hex;
+        document.getElementById('derivedLogoHex').textContent = hex;
+        actualizarColor10(hex);
+        actualizarColor60('#f8fafc');
+        actualizarColor30('#0f172a');
+      }
+    }
+
+    function copiarPaletaCanva() {
+      const c60 = picker60.value;
+      const c30 = picker30.value;
+      const c10 = picker10.value;
+      const texto = `PALETA 60-30-10 CANVA (GRADO 11°):\n- Fondo 60%: ${c60}\n- Texto y Estructura 30%: ${c30}\n- Acento y Métricas 10%: ${c10}`;
+      copiarAlPortapapeles(texto, 'Paleta HEX Copiada', 'Pega estos códigos en tu Kit de Marca de Canva.');
+    }
+
+    // Cálculo de Contraste WCAG
+    function getLuminance(hex) {
+      const rgb = parseInt(hex.slice(1), 16);
+      const r = ((rgb >> 16) & 0xff) / 255;
+      const g = ((rgb >> 8) & 0xff) / 255;
+      const b = ((rgb >> 0) & 0xff) / 255;
+      const a = [r, g, b].map(v => (v <= 0.03928 ? v / 12.92 : Math.pow((v + 0.055) / 1.055, 2.4)));
+      return a[0] * 0.2126 + a[1] * 0.7152 + a[2] * 0.0722;
+    }
+
+    function actualizarContrasteWCAG() {
+      const lumFondo = getLuminance(picker60.value);
+      const lumTexto = getLuminance(picker30.value);
+      const l1 = Math.max(lumFondo, lumTexto);
+      const l2 = Math.min(lumFondo, lumTexto);
+      const ratio = ((l1 + 0.05) / (l2 + 0.05)).toFixed(1);
+
+      const badge = document.getElementById('wcagBadge');
+      if (ratio >= 7) {
+        badge.className = 'px-2 py-0.5 rounded text-[10px] font-bold bg-emerald-100 text-emerald-800';
+        badge.textContent = `WCAG AAA Contraste: ${ratio}:1 (Excelente)`;
+      } else if (ratio >= 4.5) {
+        badge.className = 'px-2 py-0.5 rounded text-[10px] font-bold bg-indigo-100 text-indigo-800';
+        badge.textContent = `WCAG AA Contraste: ${ratio}:1 (Óptimo)`;
+      } else {
+        badge.className = 'px-2 py-0.5 rounded text-[10px] font-bold bg-rose-100 text-rose-800';
+        badge.textContent = `WCAG Riesgo: ${ratio}:1 (Poco legible en proyector)`;
+      }
+    }
+
+    // ==========================================
+    // 3. SIMULADOR B: PROYECTOR Y MARGEN SEGURO
+    // ==========================================
+    function setMargenSeguridad(activo) {
+      const mask = document.getElementById('overscanMask');
+      const guides = document.getElementById('canvaGuides');
+      const content = document.getElementById('projectorSlideContent');
+      const btn0 = document.getElementById('btnMargen0');
+      const btn10 = document.getElementById('btnMargen10');
+
+      if (activo) {
+        // Con margen 10%
+        content.classList.remove('p-2', 'sm:p-4');
+        content.classList.add('p-8', 'sm:p-12');
+        guides.classList.remove('hidden');
+        mask.classList.add('opacity-30');
+        document.getElementById('overscanWarningTag').classList.add('hidden');
+
+        btn10.className = 'text-xs font-bold px-4 py-2 rounded-xl bg-indigo-600 text-white shadow-md shadow-indigo-600/30 transition';
+        btn0.className = 'text-xs font-bold px-4 py-2 rounded-xl bg-slate-100 text-slate-700 hover:bg-slate-200 transition';
+      } else {
+        // Sin margen (Error escolar)
+        content.classList.add('p-2', 'sm:p-4');
+        content.classList.remove('p-8', 'sm:p-12');
+        guides.classList.add('hidden');
+        mask.classList.remove('opacity-30');
+        document.getElementById('overscanWarningTag').classList.remove('hidden');
+
+        btn0.className = 'text-xs font-bold px-4 py-2 rounded-xl bg-rose-600 text-white shadow-md shadow-rose-600/30 transition';
+        btn10.className = 'text-xs font-bold px-4 py-2 rounded-xl bg-slate-100 text-slate-700 hover:bg-slate-200 transition';
+      }
+    }
+
+    // ==========================================
+    // 4. SIMULADOR C: COMPARADOR ANTES VS DESPUÉS
+    // ==========================================
+    function actualizarSliderSplit(val) {
+      document.getElementById('capaAntes').style.width = val + '%';
+      document.getElementById('sliderHandle').style.left = val + '%';
+    }
+
+    function setComparadorTab(modo) {
+      const slider = document.getElementById('splitSlider');
+      const btnA = document.getElementById('tabBtnAntes');
+      const btnD = document.getElementById('tabBtnDespues');
+      const btnS = document.getElementById('tabBtnSlider');
+
+      btnA.className = 'text-xs font-bold px-3.5 py-2 rounded-xl bg-slate-200 text-slate-700 hover:bg-slate-300 transition';
+      btnD.className = 'text-xs font-bold px-3.5 py-2 rounded-xl bg-slate-200 text-slate-700 hover:bg-slate-300 transition';
+      btnS.className = 'text-xs font-bold px-3.5 py-2 rounded-xl bg-slate-200 text-slate-700 hover:bg-slate-300 transition';
+
+      if (modo === 'antes') {
+        actualizarSliderSplit(100);
+        btnA.className = 'text-xs font-bold px-3.5 py-2 rounded-xl bg-rose-600 text-white shadow-md transition';
+      } else if (modo === 'despues') {
+        actualizarSliderSplit(0);
+        btnD.className = 'text-xs font-bold px-3.5 py-2 rounded-xl bg-emerald-600 text-white shadow-md transition';
+      } else {
+        actualizarSliderSplit(50);
+        btnS.className = 'text-xs font-bold px-3.5 py-2 rounded-xl bg-indigo-600 text-white shadow-md transition';
+      }
+    }
+
+    // ==========================================
+    // 5. TEMPORIZADOR DE MICRO-RETOS
+    // ==========================================
+    let timerSegundos = 15 * 60;
+    let timerInterval = null;
+
+    function formatTime(sec) {
+      const m = Math.floor(sec / 60);
+      const s = sec % 60;
+      return `${m.toString().padStart(2, '0')}:${s.toString().padStart(2, '0')}`;
+    }
+
+    function iniciarTemporizador() {
+      if (timerInterval) return;
+      document.getElementById('btnStartTimer').classList.add('bg-emerald-600');
+      timerInterval = setInterval(() => {
+        if (timerSegundos > 0) {
+          timerSegundos--;
+          document.getElementById('timerDisplay').textContent = formatTime(timerSegundos);
+        } else {
+          pausarTemporizador();
+          mostrarToast('⏰ ¡Tiempo Cumplido!', 'Los 15-20 minutos del reto práctico han finalizado.');
+        }
+      }, 1000);
+    }
+
+    function pausarTemporizador() {
+      clearInterval(timerInterval);
+      timerInterval = null;
+      document.getElementById('btnStartTimer').classList.remove('bg-emerald-600');
+    }
+
+    function reiniciarTemporizador(minutos) {
+      pausarTemporizador();
+      timerSegundos = minutos * 60;
+      document.getElementById('timerDisplay').textContent = formatTime(timerSegundos);
+      mostrarToast(`Temporizador reiniciado a ${minutos}m`, 'Listo para arrancar el micro-reto.');
+    }
+
+    // ==========================================
+    // 6. RÚBRICA INTERACTIVA DE AUTOEVALUACIÓN
+    // ==========================================
+    function calcularRubrica() {
+      let nota = 1.0;
+      const checkboxes = document.querySelectorAll('.rubrica-check');
+      checkboxes.forEach(cb => {
+        if (cb.checked) nota += parseFloat(cb.value);
+      });
+      if (nota > 5.0) nota = 5.0;
+
+      const notaDisplay = document.getElementById('rubricaNota');
+      const estadoDisplay = document.getElementById('rubricaEstado');
+      notaDisplay.textContent = nota.toFixed(1);
+
+      if (nota >= 4.5) {
+        notaDisplay.className = 'font-display font-black text-3xl text-emerald-400';
+        estadoDisplay.textContent = 'Estándar Consultoría Internacional ★';
+      } else if (nota >= 3.5) {
+        notaDisplay.className = 'font-display font-black text-3xl text-indigo-400';
+        estadoDisplay.textContent = 'Aprobado • Pequeños Ajustes';
+      } else {
+        notaDisplay.className = 'font-display font-black text-3xl text-rose-400';
+        estadoDisplay.textContent = 'Requiere Corregir Vicios Gráficos';
+      }
+    }
+  </script>
+</body>
+</html>

@@ -15,6 +15,52 @@
   <link href="https://fonts.googleapis.com/css2?family=JetBrains+Mono:wght@400;500;700&family=Outfit:wght@400;500;600;700;800;900&family=Plus+Jakarta+Sans:wght@400;500;600;700;800&display=swap" rel="stylesheet">
   
   <script>
+    // ==========================================
+    // 0. GESTOR DE MÓDULOS / NAVEGACIÓN EN PESTAÑAS (NO LINEAL)
+    // ==========================================
+    const modulos = [
+      'inicio',
+      'diagnostico-ia',
+      'ejes-formativos',
+      'laboratorios-vivos',
+      'micro-retos',
+      'cheatsheet',
+      'proyecto-final'
+    ];
+
+    function cambiarModulo(id) {
+      if (!modulos.includes(id)) id = 'inicio';
+
+      modulos.forEach(m => {
+        const sec = document.getElementById(m);
+        const btn = document.getElementById('tabNav-' + m);
+        if (sec) {
+          if (m === id) {
+            sec.classList.remove('hidden');
+            sec.style.display = '';
+          } else {
+            sec.classList.add('hidden');
+            sec.style.display = 'none';
+          }
+        }
+        if (btn) {
+          if (m === id) {
+            btn.className = 'tab-nav-btn shrink-0 px-3 py-1.5 rounded-xl font-bold text-xs bg-indigo-600 text-white shadow-md shadow-indigo-600/20 transition-all';
+          } else {
+            btn.className = 'tab-nav-btn shrink-0 px-3 py-1.5 rounded-xl font-bold text-xs bg-slate-100 hover:bg-slate-200 text-slate-600 hover:text-slate-900 transition-all';
+          }
+        }
+      });
+
+      if (history.replaceState) {
+        history.replaceState(null, null, '#' + id);
+      } else {
+        location.hash = id;
+      }
+
+      window.scrollTo({ top: 0, behavior: 'smooth' });
+    }
+
     tailwind.config = {
       theme: {
         extend: {
@@ -169,44 +215,45 @@
     </div>
   </div>
 
-  <!-- NAVEGACIÓN SUPERIOR FIJA -->
-  <nav class="glass-nav sticky top-0 z-50 py-3 px-4 md:px-8">
-    <div class="max-w-7xl mx-auto flex flex-wrap items-center justify-between gap-4">
+  <!-- NAVEGACIÓN SUPERIOR FIJA / SELECTOR DE MÓDULOS -->
+  <nav class="glass-nav sticky top-0 z-50 py-2.5 px-4 md:px-8 border-b border-slate-200/80">
+    <div class="max-w-7xl mx-auto flex flex-wrap items-center justify-between gap-3">
       
-      <!-- Izquierda: Volver y Breadcrumb -->
-      <div class="flex items-center gap-3">
-        <a href="../periodo3.html" class="inline-flex items-center gap-2 px-3.5 py-1.5 rounded-lg bg-slate-100 hover:bg-slate-200 text-slate-700 font-bold text-xs md:text-sm transition-all border border-slate-200 shadow-sm">
-          <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round">
-            <polyline points="15 18 9 12 15 6"></polyline>
-          </svg>
-          Volver a Periodo 3
-        </a>
-        <div class="h-4 w-px bg-slate-300 hidden sm:block"></div>
-        <div class="hidden sm:flex items-center gap-2 text-xs font-semibold text-slate-500">
-          <img src="../../assets/jandra/J1.svg" alt="Jandra" class="w-5 h-5 rounded-full object-cover">
-          <span>Mundo Jandra</span>
+      <!-- Izquierda: Identidad de Grado (Sin Volver a Periodo 3 y sin Media Técnica) -->
+      <div class="flex items-center gap-2.5 shrink-0">
+        <img src="../../assets/jandra/J1.svg" alt="Jandra" class="w-7 h-7 rounded-full object-cover shadow-sm">
+        <div class="flex items-center gap-1.5 text-xs font-semibold text-slate-500">
+          <span class="font-bold text-slate-800">Mundo Jandra</span>
           <span>/</span>
-          <span class="text-indigo-600 font-bold">Grado 9° Media Técnica</span>
+          <span class="text-indigo-600 font-extrabold bg-indigo-50 px-2.5 py-0.5 rounded-lg border border-indigo-200">Grado 9°</span>
         </div>
       </div>
 
-      <!-- Centro: Links de Salto Rápido -->
-      <div class="hidden lg:flex items-center gap-5 text-xs font-bold text-slate-600">
-        <a href="#diagnostico-ia" class="hover:text-indigo-600 transition">Diagnóstico IA</a>
-        <a href="#ejes-formativos" class="hover:text-indigo-600 transition">Los 5 Ejes</a>
-        <a href="#laboratorios-vivos" class="hover:text-indigo-600 transition">Simuladores en Vivo</a>
-        <a href="#micro-retos" class="hover:text-indigo-600 transition">Micro-Retos</a>
-        <a href="#cheatsheet" class="hover:text-indigo-600 transition">Atajos & Keywords</a>
-        <a href="#proyecto-final" class="hover:text-indigo-600 transition">Proyecto Final</a>
+      <!-- Centro / Derecha: Selector de Módulos (Pestañas) -->
+      <div class="flex items-center gap-1.5 overflow-x-auto py-1 max-w-full no-scrollbar">
+        <button onclick="cambiarModulo('inicio')" id="tabNav-inicio" class="tab-nav-btn shrink-0 px-3 py-1.5 rounded-xl font-bold text-xs transition-all">
+          🏠 Inicio
+        </button>
+        <button onclick="cambiarModulo('diagnostico-ia')" id="tabNav-diagnostico-ia" class="tab-nav-btn shrink-0 px-3 py-1.5 rounded-xl font-bold text-xs transition-all">
+          🤖 Diagnóstico IA
+        </button>
+        <button onclick="cambiarModulo('ejes-formativos')" id="tabNav-ejes-formativos" class="tab-nav-btn shrink-0 px-3 py-1.5 rounded-xl font-bold text-xs transition-all">
+          📚 Los 5 Ejes
+        </button>
+        <button onclick="cambiarModulo('laboratorios-vivos')" id="tabNav-laboratorios-vivos" class="tab-nav-btn shrink-0 px-3 py-1.5 rounded-xl font-bold text-xs transition-all">
+          🔬 Simuladores en Vivo
+        </button>
+        <button onclick="cambiarModulo('micro-retos')" id="tabNav-micro-retos" class="tab-nav-btn shrink-0 px-3 py-1.5 rounded-xl font-bold text-xs transition-all">
+          ⏱️ Micro-Retos
+        </button>
+        <button onclick="cambiarModulo('cheatsheet')" id="tabNav-cheatsheet" class="tab-nav-btn shrink-0 px-3 py-1.5 rounded-xl font-bold text-xs transition-all">
+          ⌨️ Atajos & Keywords
+        </button>
+        <button onclick="cambiarModulo('proyecto-final')" id="tabNav-proyecto-final" class="tab-nav-btn shrink-0 px-3 py-1.5 rounded-xl font-bold text-xs transition-all">
+          🏆 Proyecto Final
+        </button>
       </div>
 
-      <!-- Derecha: Badge de Estatus -->
-      <div class="flex items-center gap-2">
-        <span class="inline-flex items-center gap-1.5 px-3 py-1 rounded-full text-xs font-bold bg-indigo-50 text-indigo-700 border border-indigo-200">
-          <span class="w-2 h-2 rounded-full bg-indigo-600 animate-ping"></span>
-          Consulting Standard
-        </span>
-      </div>
     </div>
   </nav>
 
@@ -214,7 +261,7 @@
   <main class="max-w-7xl mx-auto px-4 md:px-8 py-8 space-y-16">
 
     <!-- 1. CABECERA INSTITUCIONAL Y PANEL DE BIENVENIDA -->
-    <header class="glass-card rounded-3xl p-6 md:p-10 border border-slate-200 shadow-xl relative overflow-hidden">
+    <header id="inicio" class="modulo-seccion glass-card rounded-3xl p-6 md:p-10 border border-slate-200 shadow-xl relative overflow-hidden space-y-8">
       <!-- Decoración de fondo -->
       <div class="absolute -right-20 -top-20 w-80 h-80 bg-indigo-100 rounded-full blur-3xl opacity-70 pointer-events-none"></div>
       <div class="absolute right-1/3 -bottom-20 w-64 h-64 bg-cyan-100 rounded-full blur-3xl opacity-60 pointer-events-none"></div>
@@ -267,11 +314,70 @@
             </div>
           </div>
         </div>
+
+        <!-- Selector Rápido de Módulos (Cards de Navegación) -->
+        <div class="mt-8 pt-6 border-t border-slate-200 space-y-4">
+          <div class="flex items-center justify-between">
+            <span class="text-xs font-black uppercase tracking-wider text-indigo-600">Explora los Módulos del Periodo</span>
+            <span class="text-xs text-slate-400 font-medium">Selecciona un módulo para abrir su contenido</span>
+          </div>
+          
+          <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-3.5">
+            <button onclick="cambiarModulo('diagnostico-ia')" class="group p-4 rounded-2xl bg-white/90 hover:bg-white border border-slate-200 hover:border-indigo-400 hover:shadow-lg transition-all text-left flex items-start gap-3">
+              <span class="w-10 h-10 rounded-xl bg-indigo-50 text-indigo-600 border border-indigo-200 flex items-center justify-center text-lg shrink-0 group-hover:scale-110 transition-transform">🤖</span>
+              <div>
+                <h4 class="text-xs font-black uppercase text-slate-900 group-hover:text-indigo-600 transition-colors">1. Diagnóstico IA</h4>
+                <p class="text-[11px] text-slate-500 mt-0.5">Auditoría del caso real y los 10 vicios gráficos más destructivos.</p>
+              </div>
+            </button>
+
+            <button onclick="cambiarModulo('ejes-formativos')" class="group p-4 rounded-2xl bg-white/90 hover:bg-white border border-slate-200 hover:border-indigo-400 hover:shadow-lg transition-all text-left flex items-start gap-3">
+              <span class="w-10 h-10 rounded-xl bg-indigo-50 text-indigo-600 border border-indigo-200 flex items-center justify-center text-lg shrink-0 group-hover:scale-110 transition-transform">📚</span>
+              <div>
+                <h4 class="text-xs font-black uppercase text-slate-900 group-hover:text-indigo-600 transition-colors">2. Los 5 Ejes Formativos</h4>
+                <p class="text-[11px] text-slate-500 mt-0.5">Regla 60-30-10, jerarquía visual, tablas y mockups ejecutivos.</p>
+              </div>
+            </button>
+
+            <button onclick="cambiarModulo('laboratorios-vivos')" class="group p-4 rounded-2xl bg-white/90 hover:bg-white border border-slate-200 hover:border-indigo-400 hover:shadow-lg transition-all text-left flex items-start gap-3">
+              <span class="w-10 h-10 rounded-xl bg-indigo-50 text-indigo-600 border border-indigo-200 flex items-center justify-center text-lg shrink-0 group-hover:scale-110 transition-transform">🔬</span>
+              <div>
+                <h4 class="text-xs font-black uppercase text-slate-900 group-hover:text-indigo-600 transition-colors">3. Simuladores en Vivo</h4>
+                <p class="text-[11px] text-slate-500 mt-0.5">Calculadora 60-30-10, contraste WCAG y comparador split.</p>
+              </div>
+            </button>
+
+            <button onclick="cambiarModulo('micro-retos')" class="group p-4 rounded-2xl bg-white/90 hover:bg-white border border-slate-200 hover:border-indigo-400 hover:shadow-lg transition-all text-left flex items-start gap-3">
+              <span class="w-10 h-10 rounded-xl bg-indigo-50 text-indigo-600 border border-indigo-200 flex items-center justify-center text-lg shrink-0 group-hover:scale-110 transition-transform">⏱️</span>
+              <div>
+                <h4 class="text-xs font-black uppercase text-slate-900 group-hover:text-indigo-600 transition-colors">4. Micro-Retos de Aula</h4>
+                <p class="text-[11px] text-slate-500 mt-0.5">3 retos cronometrados de 15 minutos para resolver en Canva.</p>
+              </div>
+            </button>
+
+            <button onclick="cambiarModulo('cheatsheet')" class="group p-4 rounded-2xl bg-white/90 hover:bg-white border border-slate-200 hover:border-indigo-400 hover:shadow-lg transition-all text-left flex items-start gap-3">
+              <span class="w-10 h-10 rounded-xl bg-indigo-50 text-indigo-600 border border-indigo-200 flex items-center justify-center text-lg shrink-0 group-hover:scale-110 transition-transform">⌨️</span>
+              <div>
+                <h4 class="text-xs font-black uppercase text-slate-900 group-hover:text-indigo-600 transition-colors">5. Atajos & Keywords</h4>
+                <p class="text-[11px] text-slate-500 mt-0.5">Atajos de teclado clave y términos de búsqueda ocultos.</p>
+              </div>
+            </button>
+
+            <button onclick="cambiarModulo('proyecto-final')" class="group p-4 rounded-2xl bg-white/90 hover:bg-white border border-slate-200 hover:border-indigo-400 hover:shadow-lg transition-all text-left flex items-start gap-3">
+              <span class="w-10 h-10 rounded-xl bg-indigo-50 text-indigo-600 border border-indigo-200 flex items-center justify-center text-lg shrink-0 group-hover:scale-110 transition-transform">🏆</span>
+              <div>
+                <h4 class="text-xs font-black uppercase text-slate-900 group-hover:text-indigo-600 transition-colors">6. Proyecto Final & Rúbrica</h4>
+                <p class="text-[11px] text-slate-500 mt-0.5">Consigna de rediseño de pitch y rúbrica con cálculo de nota.</p>
+              </div>
+            </button>
+          </div>
+        </div>
+
       </div>
     </header>
 
     <!-- 2. AUDITORÍA CON IA Y DIAGNÓSTICO DEL CASO REAL -->
-    <section id="diagnostico-ia" class="space-y-8 scroll-mt-20">
+    <section id="diagnostico-ia" class="modulo-seccion space-y-8 scroll-mt-20">
       
       <div class="flex flex-col md:flex-row md:items-end justify-between gap-4 border-b border-slate-200 pb-4">
         <div>
@@ -518,10 +624,18 @@
 
         </div>
       </div>
-    </section>
-
-    <!-- 3. LOS 5 EJES FORMATIVOS DEL PERIODO (TEMARIO DETALLADO DE CANVA) -->
-    <section id="ejes-formativos" class="space-y-8 scroll-mt-20">
+    
+      <!-- Barra de Navegación entre Módulos -->
+      <div class="flex items-center justify-between pt-6 border-t border-slate-200">
+        <button onclick="cambiarModulo('inicio')" class="px-4 py-2 rounded-xl bg-slate-100 hover:bg-slate-200 text-slate-700 font-bold text-xs transition">
+          ← Volver a Inicio
+        </button>
+        <button onclick="cambiarModulo('ejes-formativos')" class="px-4 py-2 rounded-xl bg-indigo-600 hover:bg-indigo-700 text-white font-bold text-xs shadow-md transition">
+          Siguiente: Los 5 Ejes →
+        </button>
+      </div>
+    </section>  <!-- 3. LOS 5 EJES FORMATIVOS DEL PERIODO (TEMARIO DETALLADO DE CANVA) -->
+    <section id="ejes-formativos" class="modulo-seccion space-y-8 scroll-mt-20">
       
       <div class="border-b border-slate-200 pb-4">
         <span class="text-xs font-extrabold uppercase tracking-wider text-indigo-600">Plan de Estudios 10°</span>
@@ -730,10 +844,18 @@
         </details>
 
       </div>
-    </section>
-
-    <!-- 4. SIMULADORES Y LABORATORIOS INTERACTIVOS EN VIVO -->
-    <section id="laboratorios-vivos" class="space-y-12 scroll-mt-20">
+    
+      <!-- Barra de Navegación entre Módulos -->
+      <div class="flex items-center justify-between pt-6 border-t border-slate-200">
+        <button onclick="cambiarModulo('diagnostico-ia')" class="px-4 py-2 rounded-xl bg-slate-100 hover:bg-slate-200 text-slate-700 font-bold text-xs transition">
+          ← Anterior: Diagnóstico IA
+        </button>
+        <button onclick="cambiarModulo('laboratorios-vivos')" class="px-4 py-2 rounded-xl bg-indigo-600 hover:bg-indigo-700 text-white font-bold text-xs shadow-md transition">
+          Siguiente: Simuladores en Vivo →
+        </button>
+      </div>
+    </section>  <!-- 4. SIMULADORES Y LABORATORIOS INTERACTIVOS EN VIVO -->
+    <section id="laboratorios-vivos" class="modulo-seccion space-y-12 scroll-mt-20">
       
       <div class="border-b border-slate-200 pb-4">
         <span class="text-xs font-extrabold uppercase tracking-wider text-indigo-600">Entorno Práctico Reactivo</span>
@@ -1162,10 +1284,18 @@
 
       </div>
 
-    </section>
-
-    <!-- 5. MICRO-RETOS PRÁCTICOS DE AULA (15-20 MINUTOS) -->
-    <section id="micro-retos" class="space-y-8 scroll-mt-20">
+    
+      <!-- Barra de Navegación entre Módulos -->
+      <div class="flex items-center justify-between pt-6 border-t border-slate-200">
+        <button onclick="cambiarModulo('ejes-formativos')" class="px-4 py-2 rounded-xl bg-slate-100 hover:bg-slate-200 text-slate-700 font-bold text-xs transition">
+          ← Anterior: Los 5 Ejes
+        </button>
+        <button onclick="cambiarModulo('micro-retos')" class="px-4 py-2 rounded-xl bg-indigo-600 hover:bg-indigo-700 text-white font-bold text-xs shadow-md transition">
+          Siguiente: Micro-Retos →
+        </button>
+      </div>
+    </section>  <!-- 5. MICRO-RETOS PRÁCTICOS DE AULA (15-20 MINUTOS) -->
+    <section id="micro-retos" class="modulo-seccion space-y-8 scroll-mt-20">
       
       <div class="flex flex-col md:flex-row md:items-end justify-between gap-4 border-b border-slate-200 pb-4">
         <div>
@@ -1274,10 +1404,18 @@
         </div>
 
       </div>
-    </section>
-
-    <!-- 6. CHEATSHEET DE ATAJOS Y BÚSQUEDAS SECRETAS DE CANVA -->
-    <section id="cheatsheet" class="space-y-8 scroll-mt-20">
+    
+      <!-- Barra de Navegación entre Módulos -->
+      <div class="flex items-center justify-between pt-6 border-t border-slate-200">
+        <button onclick="cambiarModulo('laboratorios-vivos')" class="px-4 py-2 rounded-xl bg-slate-100 hover:bg-slate-200 text-slate-700 font-bold text-xs transition">
+          ← Anterior: Simuladores en Vivo
+        </button>
+        <button onclick="cambiarModulo('cheatsheet')" class="px-4 py-2 rounded-xl bg-indigo-600 hover:bg-indigo-700 text-white font-bold text-xs shadow-md transition">
+          Siguiente: Atajos & Keywords →
+        </button>
+      </div>
+    </section>  <!-- 6. CHEATSHEET DE ATAJOS Y BÚSQUEDAS SECRETAS DE CANVA -->
+    <section id="cheatsheet" class="modulo-seccion space-y-8 scroll-mt-20">
       
       <div class="border-b border-slate-200 pb-4">
         <span class="text-xs font-extrabold uppercase tracking-wider text-indigo-600">Productividad a Nivel Profesional</span>
@@ -1384,10 +1522,18 @@
 
       </div>
 
-    </section>
-
-    <!-- 7. PROYECTO FINAL INTEGRADOR DEL 3.° PERIODO Y RÚBRICA INTERACTIVA -->
-    <section id="proyecto-final" class="space-y-8 scroll-mt-20">
+    
+      <!-- Barra de Navegación entre Módulos -->
+      <div class="flex items-center justify-between pt-6 border-t border-slate-200">
+        <button onclick="cambiarModulo('micro-retos')" class="px-4 py-2 rounded-xl bg-slate-100 hover:bg-slate-200 text-slate-700 font-bold text-xs transition">
+          ← Anterior: Micro-Retos
+        </button>
+        <button onclick="cambiarModulo('proyecto-final')" class="px-4 py-2 rounded-xl bg-indigo-600 hover:bg-indigo-700 text-white font-bold text-xs shadow-md transition">
+          Siguiente: Proyecto Final →
+        </button>
+      </div>
+    </section>  <!-- 7. PROYECTO FINAL INTEGRADOR DEL 3.° PERIODO Y RÚBRICA INTERACTIVA -->
+    <section id="proyecto-final" class="modulo-seccion space-y-8 scroll-mt-20">
       
       <div class="border-b border-slate-200 pb-4">
         <span class="text-xs font-extrabold uppercase tracking-wider text-indigo-600">Evaluación del Periodo</span>
@@ -1501,9 +1647,17 @@
         </div>
       </div>
 
-    </section>
-
-  </main>
+    
+      <!-- Barra de Navegación entre Módulos -->
+      <div class="flex items-center justify-between pt-6 border-t border-slate-200">
+        <button onclick="cambiarModulo('cheatsheet')" class="px-4 py-2 rounded-xl bg-slate-100 hover:bg-slate-200 text-slate-700 font-bold text-xs transition">
+          ← Anterior: Atajos & Keywords
+        </button>
+        <button onclick="cambiarModulo('inicio')" class="px-4 py-2 rounded-xl bg-slate-900 hover:bg-slate-800 text-white font-bold text-xs shadow-md transition">
+          🏠 Volver al Inicio
+        </button>
+      </div>
+    </section></main>
 
   <!-- FOOTER INSTITUCIONAL -->
   <footer class="mt-20 border-t border-slate-200 bg-white/80 py-10 px-4 md:px-8 text-center text-xs text-slate-500">
@@ -1757,8 +1911,11 @@
       }
     }
 
-    // Init comparador as "despues" (clean slide shown by default)
+    // Init comparador as "despues" & inicializar modulo activo
     document.addEventListener('DOMContentLoaded', function() {
+      const hash = window.location.hash ? window.location.hash.slice(1) : '';
+      const initial = modulos.includes(hash) ? hash : 'inicio';
+      cambiarModulo(initial);
       setComparadorTab('despues');
     });
 

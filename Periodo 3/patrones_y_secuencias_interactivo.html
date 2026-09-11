@@ -132,8 +132,8 @@
 
       <!-- Barra de herramientas (Estrellas, Sonido, Imprimir) -->
       <div class="flex items-center space-x-2 sm:space-x-3">
-        <!-- Marcador de estrellas -->
-        <div class="bg-white/10 backdrop-blur-sm border border-white/20 px-3 py-1.5 rounded-full flex items-center gap-1.5 text-yellow-300 font-bold text-xs sm:text-sm">
+        <!-- Marcador de estrellas con persistencia local -->
+        <div id="star-badge-container" class="bg-white/10 backdrop-blur-sm border border-white/20 px-3 py-1.5 rounded-full flex items-center gap-1.5 text-yellow-300 font-bold text-xs sm:text-sm cursor-pointer select-none transition-transform duration-300" title="Estrellas acumuladas guardadas en este equipo. (Doble clic si deseas reiniciar a 0)" ondblclick="resetStars()">
           <span class="text-base animate-pulse">⭐</span>
           <span id="starScore">0</span> <span class="text-white font-normal text-xs">estrellas</span>
         </div>
@@ -601,12 +601,55 @@
       icon.textContent = soundEnabled ? '🔊' : '🔇';
     }
 
-    // --- PUNTUACIÓN DE ESTRELLAS ---
-    let totalScore = 0;
+    // --- PUNTUACIÓN DE ESTRELLAS PERSISTENTE (LOCALSTORAGE) ---
+    const STARS_STORAGE_KEY = "mundo_jandra_stars_2p3";
+    let totalScore = getSavedStars();
+
+    function getSavedStars() {
+      try {
+        const saved = localStorage.getItem(STARS_STORAGE_KEY);
+        return saved !== null ? (parseInt(saved, 10) || 0) : 0;
+      } catch (e) {
+        return 0;
+      }
+    }
+
+    function saveStars(pts) {
+      try {
+        localStorage.setItem(STARS_STORAGE_KEY, pts.toString());
+      } catch (e) {}
+    }
+
+    function updateStarsDisplay() {
+      const el = document.getElementById('starScore');
+      if (el) el.textContent = totalScore;
+    }
+
     function addPoints(pts) {
       totalScore += pts;
-      document.getElementById('starScore').textContent = totalScore;
+      saveStars(totalScore);
+      updateStarsDisplay();
+
+      // Animación al ganar estrellas
+      const badge = document.getElementById('star-badge-container');
+      if (badge) {
+        badge.classList.remove('scale-125');
+        void badge.offsetWidth;
+        badge.classList.add('scale-125');
+        setTimeout(() => badge.classList.remove('scale-125'), 350);
+      }
     }
+
+    function resetStars() {
+      if (confirm("¿Quieres reiniciar el contador de estrellas acumuladas a 0?")) {
+        totalScore = 0;
+        saveStars(0);
+        updateStarsDisplay();
+      }
+    }
+
+    // Actualizar de inmediato
+    updateStarsDisplay();
 
     // --- NAVEGACIÓN ENTRE LAS 3 PESTAÑAS ---
     function switchTab(tabId) {
@@ -1359,6 +1402,7 @@
 
     // --- INICIALIZACIÓN ---
     window.addEventListener('DOMContentLoaded', () => {
+      updateStarsDisplay();
       updateTrafficDisplay();
       loadTrainLevel(1);
       renderQuizQuestion();

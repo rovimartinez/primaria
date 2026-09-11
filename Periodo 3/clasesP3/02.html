@@ -132,6 +132,23 @@
       box-shadow: 0 0 25px rgba(245, 158, 11, 0.8) !important;
     }
 
+    /* Animación de palpito (aumentar y reducir) para Capy y la Sandía */
+    @keyframes capyPulseScale {
+      0%, 100% {
+        transform: scale(1);
+      }
+      50% {
+        transform: scale(1.14);
+      }
+    }
+    .capy-pulse-scale {
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+      animation: capyPulseScale 1.3s ease-in-out infinite;
+      transform-origin: center center;
+    }
+
     /* Ocultar elementos para imprimir */
     @media print {
       .no-print {
@@ -199,49 +216,45 @@
 <body class="notebook-grid text-slate-800 font-sans min-h-screen flex flex-col selection:bg-orange-200">
 
   <!-- Header Superior -->
-  <header class="bg-gradient-to-r from-sky-600 via-cyan-600 to-indigo-700 text-white shadow-md border-b-4 border-amber-400 no-print sticky top-0 z-40">
-    <div class="max-w-6xl mx-auto px-4 py-2.5 flex flex-wrap items-center justify-between gap-3">
+  <header class="bg-gradient-to-r from-sky-600 via-cyan-600 to-sky-700 text-white shadow-md border-b-4 border-amber-400 no-print sticky top-0 z-40">
+    <div class="max-w-6xl mx-auto px-4 py-2 flex flex-wrap items-center justify-between gap-2.5">
       
-      <!-- Volver y Grado -->
-      <div class="flex items-center space-x-2 sm:space-x-3">
-        <!-- Botón cuando se está en la vista de Módulos (vuelve a periodo3.html) -->
-        <a id="nav-btn-periodo" href="../periodo3.html" class="inline-flex items-center gap-1.5 bg-sky-950/80 hover:bg-sky-950 border-2 border-white/40 text-white text-xs sm:text-sm font-black px-3.5 py-1.5 rounded-2xl transition shadow transform active:scale-95" title="Volver al menú de Periodo 3">
-          <span>🏠</span> <span>← Volver al Periodo 3</span>
-        </a>
-
-        <!-- Botón cuando se está dentro del Módulo (vuelve a view-modules) -->
-        <button id="nav-btn-modules" onclick="backToModules()" class="hidden inline-flex items-center gap-1.5 bg-sky-950/90 hover:bg-sky-950 border-2 border-amber-300 text-white text-xs sm:text-sm font-black px-3.5 py-1.5 rounded-2xl transition shadow transform active:scale-95" title="Volver a los Módulos">
-          <span>← Volver a los Módulos</span>
+      <!-- Contenedor Izquierdo: Botones y Badges -->
+      <div class="flex items-center flex-wrap gap-2 sm:gap-3">
+        
+        <!-- Botón Volver a los Temas (Visible al entrar a una clase, idéntico a la imagen) -->
+        <button id="header-btn-back-themes" onclick="backToThemes()" class="hidden items-center gap-2 bg-[#0a3556] hover:bg-[#072740] border border-white/30 text-white font-black text-xs sm:text-sm px-4 py-1.5 rounded-full transition shadow cursor-pointer">
+          <span>🏠</span> <span>← Volver a los Temas</span>
         </button>
 
-        <div class="bg-amber-400 text-slate-900 border-2 border-white px-3 py-0.5 rounded-xl shadow-inner flex items-center font-black">
-          <span class="text-[11px] sm:text-xs uppercase tracking-wider">2° GRADO &bull; P3</span>
+        <!-- Insignia de Grado (Amarilla con borde blanco, idéntica a la imagen) -->
+        <div class="bg-amber-400 text-slate-900 border-2 border-white px-4 py-1 rounded-full shadow-inner flex items-center font-black text-xs uppercase tracking-wider">
+          <span>2° GRADO &bull; P3</span>
         </div>
 
-        <div>
-          <h1 class="font-display font-extrabold text-base sm:text-xl text-white tracking-wide flex items-center gap-2">
-            <img src="../../assets/jandra/J1.svg" alt="Jandra" class="w-7 h-7 rounded-full bg-white/20 p-0.5 object-cover">
-            <span>Mundo Jandra</span>
-          </h1>
-        </div>
-
-        <!-- Indicador de Módulo Activo en el encabezado -->
-        <div id="header-module-badge" class="hidden md:inline-flex items-center gap-1.5 bg-sky-950/50 border border-white/30 text-white font-display font-black text-xs px-3 py-1 rounded-xl shadow-inner">
+        <!-- Módulo Activo (Visible en pantalla principal) -->
+        <div id="header-module-badge" class="inline-flex items-center gap-1.5 bg-[#0a3556] border border-white/30 text-white font-display font-black text-xs px-4 py-1 rounded-full shadow-inner">
           <span>🧩 MÓDULO:</span> <span class="text-amber-300">PATRONES Y BUCLES</span>
         </div>
+
+        <!-- Insignia de Tema Activo (Visible al entrar a una clase, idéntica a la imagen) -->
+        <div id="header-theme-badge" class="hidden items-center gap-1.5 bg-[#0a3556] border border-white/30 text-amber-300 font-display font-black text-xs sm:text-sm px-4 py-1 rounded-full shadow-inner">
+          <span id="header-theme-icon">🧩</span> <span id="header-theme-text">TEMA: PATRONES</span>
+        </div>
+
       </div>
 
-      <!-- Barra de herramientas (Estrellas, Sonido, Imprimir) -->
+      <!-- Barra de herramientas Derecha (Estrellas y Sonido) -->
       <div class="flex items-center space-x-2 sm:space-x-3">
         <!-- Marcador de estrellas -->
-        <div class="bg-white/20 backdrop-blur-sm border border-white/30 px-3 py-1 rounded-xl flex items-center gap-1.5 text-xs sm:text-sm font-black text-amber-300 shadow-inner">
+        <div id="star-badge-container" class="bg-[#0a3556]/60 backdrop-blur-sm border border-white/30 px-4 py-1.5 rounded-full flex items-center gap-1.5 text-xs sm:text-sm font-black text-amber-300 shadow-inner cursor-pointer select-none transition-transform duration-300" title="Estrellas acumuladas guardadas. (Doble clic si deseas reiniciar a 0)" ondblclick="resetStars()">
           <span>⭐</span>
-          <span id="starScore" class="text-white font-bold">0</span>
-          <span class="text-[10px] text-amber-200 hidden sm:inline font-bold">estrellas</span>
+          <span id="starScore" class="text-white font-bold text-sm">0</span>
+          <span class="text-amber-200 font-bold text-xs">estrellas</span>
         </div>
 
         <!-- Botón Audio -->
-        <button id="soundToggleBtn" onclick="toggleAudio()" class="bg-white/20 hover:bg-white/30 border border-white/30 text-white p-2 rounded-xl text-base transition flex items-center justify-center shadow" title="Activar/Desactivar Sonidos">
+        <button id="soundToggleBtn" onclick="toggleAudio()" class="bg-[#0a3556]/60 hover:bg-[#0a3556] border border-white/30 text-white p-2 rounded-2xl text-base transition flex items-center justify-center shadow cursor-pointer" title="Activar/Desactivar Sonidos">
           <span id="soundIcon">🔊</span>
         </button>
       </div>
@@ -253,109 +266,93 @@
   <main class="flex-1 w-full max-w-5xl mx-auto py-8 px-4 flex flex-col items-center">
 
     <!-- ======================================================================= -->
-    <!-- VISTA 1: PANTALLA PRINCIPAL DE 2° GRADO (MÓDULO DE APRENDIZAJE)          -->
+    <!-- VISTA 1: ENTRADA / SELECTOR DE TEMAS (SOLO ESTO AL ENTRAR)              -->
     <!-- ======================================================================= -->
-    <div id="view-modules" class="w-full flex flex-col items-center animate-pop">
-      
-      <!-- Título de Bienvenida -->
-      <div class="text-center mb-8">
-        <div class="inline-flex items-center gap-2 bg-sky-100 text-sky-800 font-black text-xs uppercase px-3.5 py-1 rounded-full border border-sky-300 mb-2 shadow-sm">
-          <span>🎒</span> <span>TERCER PERIODO &bull; 2° GRADO</span>
-        </div>
-        <h2 class="text-3xl sm:text-4xl font-display font-black text-slate-800 tracking-wide">
-          Elige un Módulo de Aprendizaje
-        </h2>
-        <p class="text-slate-600 font-display font-semibold text-sm sm:text-base max-w-lg mx-auto mt-1">
-          Selecciona el módulo en el que vas a trabajar hoy:
-        </p>
-      </div>
+    <div id="view-theme-selector" class="w-full flex flex-col items-center animate-pop">
 
-      <!-- TARJETA DEL MÓDULO -->
-      <div class="flex justify-center w-full max-w-xl">
-        <div onclick="openModule(1)" class="module-card cursor-pointer bg-white rounded-3xl p-6 sm:p-8 border-4 border-sky-500 shadow-xl flex flex-col justify-between relative overflow-hidden group w-full">
-          <div class="absolute top-4 right-4 bg-sky-100 text-sky-800 font-black text-xs px-3 py-1 rounded-full border border-sky-300">
-            ✨ Habilitado &bull; 4 Clases
-          </div>
-          
-          <div>
-            <div class="w-20 h-20 bg-sky-100 rounded-3xl flex items-center justify-center text-5xl mb-4 group-hover:scale-110 transition border-2 border-sky-300 shadow-inner">
+      <!-- BANNER INFORMATIVO DEL MÓDULO -->
+      <div class="w-full max-w-4xl bg-white rounded-3xl p-5 sm:p-6 border-4 border-sky-500 shadow-xl mb-6 relative overflow-hidden">
+        <div class="flex flex-col sm:flex-row items-center justify-between gap-4">
+          <div class="flex flex-col sm:flex-row items-center gap-4 text-center sm:text-left">
+            <div class="w-16 h-16 sm:w-20 sm:h-20 bg-sky-100 rounded-2xl flex items-center justify-center text-4xl sm:text-5xl border-2 border-sky-300 shadow-inner flex-shrink-0 mx-auto sm:mx-0">
               🧩
             </div>
-            <span class="text-xs font-black uppercase text-sky-600 tracking-wider">MÓDULO</span>
-            <h3 class="font-display font-black text-2xl sm:text-3xl text-slate-800 mt-1">
-              Patrones y Bucles
-            </h3>
-            <p class="text-slate-600 text-xs sm:text-sm mt-2 leading-relaxed">
-              Descubre qué figura sigue en una secuencia lógica y aprende algoritmos de repetición con bucles: <strong>Patrones</strong>, <strong>Bucles con Capy y Guyra</strong>, <strong>Bucles Anidados</strong> y <strong>Bucles con Mañic</strong>.
-            </p>
+            <div>
+              <div class="flex flex-wrap items-center justify-center sm:justify-start gap-2 mb-1.5">
+                <span class="inline-flex items-center gap-1.5 bg-sky-100 text-sky-800 font-black text-[10px] uppercase px-2.5 py-0.5 rounded-full border border-sky-300">
+                  <span>🎒</span> <span>2° GRADO &bull; PERIODO 3</span>
+                </span>
+                <span class="inline-flex items-center gap-1 bg-emerald-100 text-emerald-800 font-black text-[10px] uppercase px-2.5 py-0.5 rounded-full border border-emerald-300">
+                  <span>✨</span> <span>Módulo Activo</span>
+                </span>
+              </div>
+              <h2 class="font-display font-black text-2xl sm:text-3xl text-slate-800 tracking-tight">
+                Patrones y Bucles
+              </h2>
+              <p class="text-slate-600 text-xs sm:text-sm mt-1 leading-relaxed max-w-xl">
+                Descubre qué figura sigue en una secuencia lógica y aprende algoritmos de repetición con bucles: <strong>Patrones</strong>, <strong>Bucles con Capy y Guyra</strong>, <strong>Bucles Anidados</strong> y <strong>Bucles con Mañic</strong>.
+              </p>
+            </div>
           </div>
 
-          <div class="mt-6 pt-4 border-t border-sky-100 flex items-center justify-between">
-            <span class="text-xs font-bold text-sky-800 flex items-center gap-1.5">
-              <span>🚀</span> <span>Clases activas: Patrones + Capy y Guyra</span>
-            </span>
-            <span class="bg-sky-600 group-hover:bg-sky-700 text-white font-display font-black text-xs px-4 py-2 rounded-xl shadow transition inline-flex items-center gap-1">
-              <span>Entrar al Módulo</span> ➜
-            </span>
+          <div class="flex sm:flex-col items-center sm:items-end justify-center text-center sm:text-right flex-shrink-0 bg-sky-50 sm:bg-transparent p-3 sm:p-0 rounded-2xl border sm:border-0 border-sky-200 w-full sm:w-auto">
+            <span class="text-xs font-black text-sky-800 uppercase tracking-wider">📚 4 Temas Interactivos</span>
+            <span class="text-[11px] text-slate-500 mt-0.5 hidden sm:inline">Haz clic en una tarjeta abajo para comenzar</span>
           </div>
         </div>
       </div>
 
-    </div>
-
-    <!-- ======================================================================= -->
-    <!-- VISTA 2: DENTRO DEL MÓDULO: PATRONES Y BUCLES (4 CLASES)                -->
-    <!-- ======================================================================= -->
-    <div id="view-module-1" class="w-full hidden flex-col items-center animate-pop">
-
-      <!-- Selector de las 4 Clases (Barra flotante eliminada y trasladada al encabezado) -->
+      <!-- Selector de las 4 Tarjetas de Temas (SOLO ESTO VISIBLE AL ENTRAR) -->
       <div class="w-full max-w-4xl mb-6">
         <div class="text-xs uppercase font-extrabold text-slate-500 tracking-wider mb-2 flex items-center justify-between">
-          <span class="flex items-center gap-1.5"><span>📚</span> <span>Selecciona una Clase:</span></span>
-          <span class="text-sky-700 font-bold">4 Clases</span>
+          <span class="flex items-center gap-1.5"><span>📚</span> <span>Selecciona un Tema:</span></span>
+          <span class="text-sky-700 font-bold">4 Temas</span>
         </div>
 
         <div class="grid grid-cols-2 sm:grid-cols-4 gap-2.5 sm:gap-3">
           
-          <!-- Botón Clase 1: Patrones -->
-          <button id="btn-class-1" onclick="switchClass(1)" class="class-card active-class bg-white border-2 border-sky-500 text-sky-950 p-3 rounded-2xl shadow-md transition flex flex-col items-center text-center">
-            <span class="text-2xl mb-1">🧩</span>
-            <span class="font-display font-black text-xs">CLASE 1</span>
-            <span class="text-[11px] text-slate-800 font-bold">Patrones</span>
-            <span class="mt-1 bg-sky-100 text-sky-800 text-[9px] font-black px-2 py-0.5 rounded-full">✨ Habilitada</span>
+          <!-- Botón: Patrones -->
+          <button id="btn-class-1" onclick="switchClass(1)" class="class-card bg-white border-2 border-sky-400 hover:border-sky-500 hover:shadow-lg text-sky-950 p-4 rounded-2xl shadow-md transition flex flex-col items-center text-center hover:scale-[1.02] cursor-pointer">
+            <span class="text-3xl mb-1.5">🧩</span>
+            <span class="font-display font-black text-xs sm:text-sm text-slate-800">Patrones</span>
+            <span class="mt-2 bg-sky-100 text-sky-800 text-[9px] font-black px-2 py-0.5 rounded-full">✨ Habilitada</span>
           </button>
 
-          <!-- Botón Clase 2: Bucles con Capy y Guyra -->
-          <button id="btn-class-2" onclick="switchClass(2)" class="class-card bg-white/80 border-2 border-slate-200 text-slate-700 p-3 rounded-2xl shadow-sm hover:border-amber-400 hover:bg-white transition flex flex-col items-center text-center">
-            <span class="text-2xl mb-1">🐾</span>
-            <span class="font-display font-black text-xs">CLASE 2</span>
-            <span class="text-[11px] text-slate-700 font-bold">Capy y Guyra</span>
-            <span class="mt-1 bg-emerald-100 text-emerald-800 text-[9px] font-black px-2 py-0.5 rounded-full">✨ Habilitada</span>
+          <!-- Botón: Capy y Guyra -->
+          <button id="btn-class-2" onclick="switchClass(2)" class="class-card bg-white border-2 border-emerald-400 hover:border-emerald-500 hover:shadow-lg text-emerald-950 p-4 rounded-2xl shadow-md transition flex flex-col items-center text-center hover:scale-[1.02] cursor-pointer">
+            <span class="text-3xl mb-1.5">🐾</span>
+            <span class="font-display font-black text-xs sm:text-sm text-slate-800">Capy y Guyra</span>
+            <span class="mt-2 bg-emerald-100 text-emerald-800 text-[9px] font-black px-2 py-0.5 rounded-full">✨ Habilitada</span>
           </button>
 
-          <!-- Botón Clase 3: Bucles Anidados -->
-          <button id="btn-class-3" onclick="switchClass(3)" class="class-card bg-white/80 border-2 border-slate-200 text-slate-700 p-3 rounded-2xl shadow-sm hover:border-teal-400 hover:bg-white transition flex flex-col items-center text-center">
-            <span class="text-2xl mb-1">🔄</span>
-            <span class="font-display font-black text-xs">CLASE 3</span>
-            <span class="text-[11px] text-slate-700 font-bold">Bucles Anidados</span>
-            <span class="mt-1 bg-slate-100 text-slate-500 text-[9px] font-bold px-2 py-0.5 rounded-full">🔒 Próxima</span>
+          <!-- Botón: Bucles Anidados -->
+          <button id="btn-class-3" onclick="switchClass(3)" class="class-card bg-white/90 border-2 border-slate-200 text-slate-700 p-4 rounded-2xl shadow-sm hover:border-teal-400 hover:bg-white hover:shadow-md transition flex flex-col items-center text-center hover:scale-[1.02] cursor-pointer">
+            <span class="text-3xl mb-1.5">🔄</span>
+            <span class="font-display font-black text-xs sm:text-sm text-slate-800">Bucles Anidados</span>
+            <span class="mt-2 bg-slate-100 text-slate-500 text-[9px] font-bold px-2 py-0.5 rounded-full">🔒 Próxima</span>
           </button>
 
-          <!-- Botón Clase 4: Bucles Anidados con Mañic -->
-          <button id="btn-class-4" onclick="switchClass(4)" class="class-card bg-white/80 border-2 border-slate-200 text-slate-700 p-3 rounded-2xl shadow-sm hover:border-indigo-400 hover:bg-white transition flex flex-col items-center text-center">
-            <span class="text-2xl mb-1">🦥</span>
-            <span class="font-display font-black text-xs">CLASE 4</span>
-            <span class="text-[11px] text-slate-700 font-bold">Bucles con Mañic</span>
-            <span class="mt-1 bg-slate-100 text-slate-500 text-[9px] font-bold px-2 py-0.5 rounded-full">🔒 Próxima</span>
+          <!-- Botón: Bucles con Mañic -->
+          <button id="btn-class-4" onclick="switchClass(4)" class="class-card bg-white/90 border-2 border-slate-200 text-slate-700 p-4 rounded-2xl shadow-sm hover:border-indigo-400 hover:bg-white hover:shadow-md transition flex flex-col items-center text-center hover:scale-[1.02] cursor-pointer">
+            <span class="text-3xl mb-1.5">🦥</span>
+            <span class="font-display font-black text-xs sm:text-sm text-slate-800">Bucles con Mañic</span>
+            <span class="mt-2 bg-slate-100 text-slate-500 text-[9px] font-bold px-2 py-0.5 rounded-full">🔒 Próxima</span>
           </button>
 
         </div>
       </div>
 
+    </div> <!-- Fin view-theme-selector -->
+
+    <!-- ======================================================================= -->
+    <!-- VISTA 2: DENTRO DE LA CLASE (CON NAV 1 2 3 DIRECTO)                      -->
+    <!-- ======================================================================= -->
+    <div id="view-class-container" class="w-full hidden flex-col items-center animate-fadeIn">
+
       <!-- =================================================================== -->
-      <!-- CONTENIDO CLASE 1: PATRONES (TABS INTERACTIVOS ACTUALES)            -->
+      <!-- CONTENIDO CLASE 1: PATRONES (TABS INTERACTIVOS CON NAV 1 2 3)       -->
       <!-- =================================================================== -->
-      <div id="content-class-1" class="class-content-view block w-full space-y-6">
+      <div id="content-class-1" class="class-content-view hidden w-full space-y-6">
         
         <!-- Menú de Pestañas de Clase 1 -->
         <div class="bg-sky-950/40 backdrop-blur-md border border-white/20 p-2 rounded-2xl shadow-sm mb-6">
@@ -855,30 +852,28 @@
             <div class="flex items-center justify-between min-w-[340px] max-w-lg mx-auto gap-2">
               
               <!-- Casilla 0 (Inicio Capy) -->
-              <div id="sim-cell-0" class="w-14 h-16 sm:w-16 sm:h-20 bg-emerald-100 border-2 border-emerald-400 rounded-2xl flex flex-col items-center justify-center shadow-sm relative transition duration-300">
-                <span id="sim-capy-icon" class="text-3xl sm:text-4xl animate-bounce">🦫</span>
-                <span class="text-[9px] font-bold text-emerald-800 mt-1">Inicio</span>
+              <div id="sim-cell-0" class="w-14 h-16 sm:w-16 sm:h-20 bg-emerald-100 border-2 border-emerald-400 rounded-2xl flex items-center justify-center shadow-sm relative transition duration-300">
+                <span id="sim-capy-icon" class="text-3xl sm:text-4xl capy-pulse-scale select-none">🦫</span>
               </div>
 
               <!-- Casilla 1 -->
-              <div id="sim-cell-1" class="w-14 h-16 sm:w-16 sm:h-20 bg-slate-50 border-2 border-dashed border-slate-300 rounded-2xl flex flex-col items-center justify-center transition duration-300">
-                <span class="cell-marker text-xs font-bold text-slate-400">1</span>
+              <div id="sim-cell-1" class="w-14 h-16 sm:w-16 sm:h-20 bg-slate-50 border-2 border-dashed border-slate-300 rounded-2xl flex items-center justify-center transition duration-300">
+                <span class="cell-marker text-xs font-bold text-slate-400 select-none">1</span>
               </div>
 
               <!-- Casilla 2 -->
-              <div id="sim-cell-2" class="w-14 h-16 sm:w-16 sm:h-20 bg-slate-50 border-2 border-dashed border-slate-300 rounded-2xl flex flex-col items-center justify-center transition duration-300">
-                <span class="cell-marker text-xs font-bold text-slate-400">2</span>
+              <div id="sim-cell-2" class="w-14 h-16 sm:w-16 sm:h-20 bg-slate-50 border-2 border-dashed border-slate-300 rounded-2xl flex items-center justify-center transition duration-300">
+                <span class="cell-marker text-xs font-bold text-slate-400 select-none">2</span>
               </div>
 
               <!-- Casilla 3 -->
-              <div id="sim-cell-3" class="w-14 h-16 sm:w-16 sm:h-20 bg-slate-50 border-2 border-dashed border-slate-300 rounded-2xl flex flex-col items-center justify-center transition duration-300">
-                <span class="cell-marker text-xs font-bold text-slate-400">3</span>
+              <div id="sim-cell-3" class="w-14 h-16 sm:w-16 sm:h-20 bg-slate-50 border-2 border-dashed border-slate-300 rounded-2xl flex items-center justify-center transition duration-300">
+                <span class="cell-marker text-xs font-bold text-slate-400 select-none">3</span>
               </div>
 
               <!-- Casilla 4 (Meta Sandía) -->
-              <div id="sim-cell-4" class="w-14 h-16 sm:w-16 sm:h-20 bg-rose-50 border-2 border-rose-300 rounded-2xl flex flex-col items-center justify-center shadow-sm relative transition duration-300">
-                <span id="sim-target-icon" class="text-3xl sm:text-4xl">🍉</span>
-                <span class="text-[9px] font-bold text-rose-700 mt-1">Meta</span>
+              <div id="sim-cell-4" class="w-14 h-16 sm:w-16 sm:h-20 bg-rose-50 border-2 border-rose-300 rounded-2xl flex items-center justify-center shadow-sm relative transition duration-300">
+                <span id="sim-target-icon" class="text-3xl sm:text-4xl capy-pulse-scale select-none">🍉</span>
               </div>
 
             </div>
@@ -891,7 +886,7 @@
               <button onclick="setCapySimRepeat(1)" id="btn-sim-rep-1" class="sim-rep-btn w-9 h-9 rounded-xl font-black text-xs transition border border-slate-200 bg-white text-slate-700 hover:bg-slate-100">1</button>
               <button onclick="setCapySimRepeat(2)" id="btn-sim-rep-2" class="sim-rep-btn w-9 h-9 rounded-xl font-black text-xs transition border border-slate-200 bg-white text-slate-700 hover:bg-slate-100">2</button>
               <button onclick="setCapySimRepeat(3)" id="btn-sim-rep-3" class="sim-rep-btn w-9 h-9 rounded-xl font-black text-xs transition border border-slate-200 bg-white text-slate-700 hover:bg-slate-100">3</button>
-              <button onclick="setCapySimRepeat(4)" id="btn-sim-rep-4" class="sim-rep-btn active w-9 h-9 rounded-xl font-black text-xs transition border-2 border-emerald-500 bg-emerald-600 text-white shadow-sm">4</button>
+              <button onclick="setCapySimRepeat(4)" id="btn-sim-rep-4" class="sim-rep-btn w-9 h-9 rounded-xl font-black text-xs transition border border-slate-200 bg-white text-slate-700 hover:bg-slate-100">4</button>
               <span class="text-xs font-bold text-slate-600 px-1">veces</span>
             </div>
 
@@ -1603,11 +1598,11 @@
         <span class="text-xs text-slate-500">Los desafíos interactivos de bucles anidados se habilitarán en la siguiente sesión programada.</span>
       </div>
       <div class="flex flex-wrap justify-center gap-3 pt-2">
-        <button onclick="switchClass(1)" class="bg-sky-600 hover:bg-sky-700 text-white font-display font-bold text-xs sm:text-sm px-6 py-2.5 rounded-xl shadow transition inline-flex items-center gap-2">
-          <span>← Ir a Clase 1: Patrones</span>
+        <button onclick="backToThemes()" class="bg-sky-600 hover:bg-sky-700 text-white font-display font-bold text-xs sm:text-sm px-6 py-2.5 rounded-xl shadow transition inline-flex items-center gap-2 cursor-pointer">
+          <span>← Volver a los Temas</span>
         </button>
-        <button onclick="switchClass(2)" class="bg-amber-500 hover:bg-amber-600 text-white font-display font-bold text-xs sm:text-sm px-6 py-2.5 rounded-xl shadow transition inline-flex items-center gap-2">
-          <span>Ir a Clase 2: Capy y Guyra ➜</span>
+        <button onclick="switchClass(2)" class="bg-emerald-600 hover:bg-emerald-700 text-white font-display font-bold text-xs sm:text-sm px-6 py-2.5 rounded-xl shadow transition inline-flex items-center gap-2 cursor-pointer">
+          <span>Ir a Capy y Guyra ➜</span>
         </button>
       </div>
     </div>
@@ -1637,26 +1632,26 @@
         <span class="text-xs text-slate-500">Los problemas y desafíos avanzados de Mañic estarán disponibles al finalizar las clases anteriores.</span>
       </div>
       <div class="flex flex-wrap justify-center gap-3 pt-2">
-        <button onclick="switchClass(1)" class="bg-sky-600 hover:bg-sky-700 text-white font-display font-bold text-xs sm:text-sm px-6 py-2.5 rounded-xl shadow transition inline-flex items-center gap-2">
-          <span>← Ir a Clase 1: Patrones</span>
+        <button onclick="backToThemes()" class="bg-sky-600 hover:bg-sky-700 text-white font-display font-bold text-xs sm:text-sm px-6 py-2.5 rounded-xl shadow transition inline-flex items-center gap-2 cursor-pointer">
+          <span>← Volver a los Temas</span>
         </button>
       </div>
     </div>
   </div>
 
-</div> <!-- Fin view-module-1 -->
+</div> <!-- Fin view-class-container -->
 
 </main>
 
 
   <!-- ========================================================================= -->
-  <!-- MODAL VISOR INTERACTIVO DE PILAS BLOQUES (CAPY Y GUYRA)                   -->
+  <!-- MODAL VISOR INTERACTIVO DE PILAS BLOQUES (CAPY Y GUYRA - MAXIMIZADO)      -->
   <!-- ========================================================================= -->
-  <div id="player-modal-capy" class="fixed inset-0 z-50 bg-slate-950/75 hidden items-center justify-center p-2 sm:p-4 backdrop-blur-sm">
-    <div class="bg-white rounded-3xl shadow-2xl border-4 border-amber-400 w-full max-w-5xl h-[92vh] flex flex-col overflow-hidden animate-pop">
+  <div id="player-modal-capy" class="fixed inset-0 z-50 bg-slate-950/85 hidden items-center justify-center p-1 sm:p-1.5 backdrop-blur-sm">
+    <div id="capy-modal-dialog" class="bg-white rounded-2xl shadow-2xl border-4 border-amber-400 w-[99vw] max-w-[99vw] h-[98vh] flex flex-col overflow-hidden animate-pop transition-all duration-200">
       
-      <!-- Barra superior del Modal -->
-      <div class="bg-gradient-to-r from-sky-700 via-cyan-700 to-indigo-800 text-white px-4 py-3 flex items-center justify-between gap-2">
+      <!-- Barra superior del Modal (Compacta para dar máximo espacio al juego) -->
+      <div class="bg-gradient-to-r from-sky-700 via-cyan-700 to-indigo-800 text-white px-3 sm:px-4 py-2 flex items-center justify-between gap-2 flex-shrink-0">
         <div class="flex items-center gap-2">
           <span class="text-2xl">🦫</span>
           <div>
@@ -1668,7 +1663,12 @@
         </div>
 
         <div class="flex items-center gap-2">
-          <button id="modal-btn-complete-capy" onclick="toggleCurrentCapyChallengeComplete()" class="bg-emerald-500 hover:bg-emerald-600 text-white font-bold text-xs px-3 py-1.5 rounded-xl shadow transition flex items-center gap-1">
+          <!-- Botón Pantalla Completa Total -->
+          <button id="modal-btn-fullscreen-capy" onclick="toggleModalFullscreen()" class="bg-white/20 hover:bg-white/30 text-white font-bold text-xs px-2.5 py-1.5 rounded-xl transition flex items-center gap-1 shadow cursor-pointer" title="Alternar Pantalla Completa Total">
+            <span id="fullscreen-icon">⛶</span> <span class="hidden md:inline">Pantalla Completa</span>
+          </button>
+
+          <button id="modal-btn-complete-capy" onclick="toggleCurrentCapyChallengeComplete()" class="bg-emerald-500 hover:bg-emerald-600 text-white font-bold text-xs px-3 py-1.5 rounded-xl shadow transition flex items-center gap-1 cursor-pointer">
             <span id="complete-icon-capy">⭐</span> <span id="complete-text-capy">Marcar Hecho</span>
           </button>
 
@@ -1676,15 +1676,15 @@
             <span>🔗</span> <span class="hidden sm:inline">Nueva Pestaña</span>
           </a>
 
-          <button onclick="closeCapyModal()" class="bg-rose-500 hover:bg-rose-600 text-white font-black text-sm w-8 h-8 rounded-xl transition flex items-center justify-center shadow" title="Cerrar ventana">
+          <button onclick="closeCapyModal()" class="bg-rose-500 hover:bg-rose-600 text-white font-black text-sm w-8 h-8 rounded-xl transition flex items-center justify-center shadow cursor-pointer" title="Cerrar ventana">
             ✕
           </button>
         </div>
       </div>
 
-      <!-- Contenedor del IFRAME de Pilas Bloques -->
-      <div class="flex-1 bg-slate-100 relative">
-        <iframe id="challenge-iframe-capy" src="" class="w-full h-full border-none" allow="autoplay; fullscreen" title="Desafío Pilas Bloques"></iframe>
+      <!-- Contenedor del IFRAME de Pilas Bloques (Ocupa todo el alto disponible) -->
+      <div class="flex-1 bg-slate-100 relative overflow-hidden">
+        <iframe id="challenge-iframe-capy" src="" class="w-full h-full border-none block" allow="autoplay; fullscreen" title="Desafío Pilas Bloques"></iframe>
         
         <div id="iframe-loader-capy" class="absolute inset-0 bg-slate-50 flex flex-col items-center justify-center gap-3 z-10">
           <span class="text-5xl animate-bounce">🦫</span>
@@ -1695,15 +1695,15 @@
         </div>
       </div>
 
-      <!-- Pie del Modal con Navegación entre los 6 Desafíos -->
-      <div class="bg-slate-50 border-t border-slate-200 px-4 py-2 flex items-center justify-between text-xs text-slate-600">
-        <button id="btn-prev-challenge-capy" onclick="navCapyChallenge(-1)" class="font-bold text-slate-700 hover:text-sky-700 disabled:opacity-40 disabled:pointer-events-none flex items-center gap-1">
+      <!-- Pie del Modal con Navegación entre los 6 Desafíos (Compacto) -->
+      <div class="bg-slate-50 border-t border-slate-200 px-4 py-1.5 flex items-center justify-between text-xs text-slate-600 flex-shrink-0">
+        <button id="btn-prev-challenge-capy" onclick="navCapyChallenge(-1)" class="font-bold text-slate-700 hover:text-sky-700 disabled:opacity-40 disabled:pointer-events-none flex items-center gap-1 py-1 cursor-pointer">
           ◀ Desafío Anterior
         </button>
         <span id="modal-footer-info-capy" class="font-bold text-sky-800">
           Desafío 1 de 6
         </span>
-        <button id="btn-next-challenge-capy" onclick="navCapyChallenge(1)" class="font-bold text-slate-700 hover:text-sky-700 disabled:opacity-40 disabled:pointer-events-none flex items-center gap-1">
+        <button id="btn-next-challenge-capy" onclick="navCapyChallenge(1)" class="font-bold text-slate-700 hover:text-sky-700 disabled:opacity-40 disabled:pointer-events-none flex items-center gap-1 py-1 cursor-pointer">
           Siguiente Desafío ▶
         </button>
       </div>
@@ -1836,45 +1836,63 @@
       icon.textContent = soundEnabled ? '🔊' : '🔇';
     }
 
-    // --- PUNTUACIÓN DE ESTRELLAS ---
-    let totalScore = 0;
-    function addPoints(pts) {
-      totalScore += pts;
-      document.getElementById('starScore').textContent = totalScore;
+    // --- PUNTUACIÓN DE ESTRELLAS PERSISTENTE (LOCALSTORAGE) ---
+    const STARS_STORAGE_KEY = "mundo_jandra_stars_2p3";
+    let totalScore = getSavedStars();
+
+    function getSavedStars() {
+      try {
+        const saved = localStorage.getItem(STARS_STORAGE_KEY);
+        return saved !== null ? (parseInt(saved, 10) || 0) : 0;
+      } catch (e) {
+        return 0;
+      }
     }
 
-    // --- NAVEGACIÓN ENTRE MÓDULO Y CLASES (ARQUITECTURA DE 1° GRADO) ---
+    function saveStars(pts) {
+      try {
+        localStorage.setItem(STARS_STORAGE_KEY, pts.toString());
+      } catch (e) {}
+    }
+
+    function updateStarsDisplay() {
+      const el = document.getElementById('starScore');
+      if (el) el.textContent = totalScore;
+    }
+
+    function addPoints(pts) {
+      totalScore += pts;
+      saveStars(totalScore);
+      updateStarsDisplay();
+
+      // Animación divertida de rebote al ganar estrellas
+      const badge = document.getElementById('star-badge-container');
+      if (badge) {
+        badge.classList.remove('scale-125');
+        void badge.offsetWidth; // reiniciar animación
+        badge.classList.add('scale-125');
+        setTimeout(() => badge.classList.remove('scale-125'), 350);
+      }
+    }
+
+    function resetStars() {
+      if (confirm("¿Quieres reiniciar el contador de estrellas acumuladas a 0?")) {
+        totalScore = 0;
+        saveStars(0);
+        updateStarsDisplay();
+      }
+    }
+
+    // Actualizar de inmediato al cargar el script
+    updateStarsDisplay();
+
+    // --- NAVEGACIÓN DIRECTA ENTRE TEMAS ---
     function openModule(num) {
-      playPopSound();
-      document.getElementById('view-modules').classList.add('hidden');
-      document.getElementById('view-module-1').classList.remove('hidden');
-
-      // Actualizar botones de navegación en el encabezado
-      const pBtn = document.getElementById('nav-btn-periodo');
-      const mBtn = document.getElementById('nav-btn-modules');
-      const bBadge = document.getElementById('header-module-badge');
-      if (pBtn) pBtn.classList.add('hidden');
-      if (mBtn) mBtn.classList.remove('hidden');
-      if (bBadge) bBadge.classList.remove('hidden');
-
       switchClass(1);
-      window.scrollTo({ top: 0, behavior: 'smooth' });
     }
 
     function backToModules() {
-      playPopSound();
-      document.getElementById('view-module-1').classList.add('hidden');
-      document.getElementById('view-modules').classList.remove('hidden');
-
-      // Restaurar botones de navegación en el encabezado
-      const pBtn = document.getElementById('nav-btn-periodo');
-      const mBtn = document.getElementById('nav-btn-modules');
-      const bBadge = document.getElementById('header-module-badge');
-      if (mBtn) mBtn.classList.add('hidden');
-      if (bBadge) bBadge.classList.add('hidden');
-      if (pBtn) pBtn.classList.remove('hidden');
-
-      window.scrollTo({ top: 0, behavior: 'smooth' });
+      window.location.href = '../periodo3.html';
     }
 
     // --- LÓGICA DE CLASE 2: BUCLES CON CAPY Y GUYRA (3 PESTAÑAS) ---
@@ -1897,7 +1915,7 @@
     }
 
     // --- SIMULADOR DE BUCLES DE CAPY (PESTAÑA 1 DE CLASE 2) ---
-    let capySimRepeatCount = 4;
+    let capySimRepeatCount = null;
     let capySimRunning = false;
 
     function setCapySimRepeat(num) {
@@ -1908,7 +1926,7 @@
         const btn = document.getElementById(`btn-sim-rep-${i}`);
         if (btn) {
           if (i === num) {
-            btn.className = "sim-rep-btn active w-9 h-9 rounded-xl font-black text-xs transition border-2 border-emerald-500 bg-emerald-600 text-white shadow-sm";
+            btn.className = "sim-rep-btn active w-9 h-9 rounded-xl font-black text-xs transition border-2 border-emerald-500 bg-emerald-600 text-white shadow-sm scale-105";
           } else {
             btn.className = "sim-rep-btn w-9 h-9 rounded-xl font-black text-xs transition border border-slate-200 bg-white text-slate-700 hover:bg-slate-100";
           }
@@ -1916,8 +1934,38 @@
       }
     }
 
+    function resetCapySimBoard() {
+      for (let i = 0; i <= 4; i++) {
+        const cell = document.getElementById(`sim-cell-${i}`);
+        if (cell) {
+          if (i === 0) {
+            cell.className = "w-14 h-16 sm:w-16 sm:h-20 bg-emerald-100 border-2 border-emerald-400 rounded-2xl flex items-center justify-center shadow-sm relative transition duration-300";
+            cell.innerHTML = `<span id="sim-capy-icon" class="text-3xl sm:text-4xl capy-pulse-scale select-none">🦫</span>`;
+          } else if (i === 4) {
+            cell.className = "w-14 h-16 sm:w-16 sm:h-20 bg-rose-50 border-2 border-rose-300 rounded-2xl flex items-center justify-center shadow-sm relative transition duration-300";
+            cell.innerHTML = `<span id="sim-target-icon" class="text-3xl sm:text-4xl capy-pulse-scale select-none">🍉</span>`;
+          } else {
+            cell.className = "w-14 h-16 sm:w-16 sm:h-20 bg-slate-50 border-2 border-dashed border-slate-300 rounded-2xl flex items-center justify-center transition duration-300";
+            cell.innerHTML = `<span class="cell-marker text-xs font-bold text-slate-400 select-none">${i}</span>`;
+          }
+        }
+      }
+    }
+
     function runCapySim() {
       if (capySimRunning) return;
+      const fb = document.getElementById('sim-feedback');
+
+      if (!capySimRepeatCount) {
+        playErrorSound();
+        if (fb) {
+          fb.classList.remove('hidden');
+          fb.className = "p-3 rounded-2xl text-center text-xs sm:text-sm font-bold max-w-md mx-auto bg-amber-100 text-amber-950 border-2 border-amber-400 block animate-fadeIn";
+          fb.innerHTML = "👉 ¡Primero elige cuántas veces debe repetir Capy (<strong>1</strong>, <strong>2</strong>, <strong>3</strong> o <strong>4</strong>)!";
+        }
+        return;
+      }
+
       capySimRunning = true;
       playPopSound();
 
@@ -1927,24 +1975,10 @@
         runBtn.classList.add('opacity-50', 'pointer-events-none');
       }
 
-      const fb = document.getElementById('sim-feedback');
       if (fb) fb.classList.add('hidden');
 
-      // Resetear casillas
-      for (let i = 0; i <= 4; i++) {
-        const cell = document.getElementById(`sim-cell-${i}`);
-        if (cell) {
-          cell.className = (i === 0)
-            ? "w-14 h-16 sm:w-16 sm:h-20 bg-emerald-100 border-2 border-emerald-400 rounded-2xl flex flex-col items-center justify-center shadow-sm relative transition duration-300"
-            : (i === 4)
-            ? "w-14 h-16 sm:w-16 sm:h-20 bg-rose-50 border-2 border-rose-300 rounded-2xl flex flex-col items-center justify-center shadow-sm relative transition duration-300"
-            : "w-14 h-16 sm:w-16 sm:h-20 bg-slate-50 border-2 border-dashed border-slate-300 rounded-2xl flex flex-col items-center justify-center transition duration-300";
-          
-          if (i === 0) cell.innerHTML = `<span id="sim-capy-icon" class="text-3xl sm:text-4xl animate-bounce">🦫</span><span class="text-[9px] font-bold text-emerald-800 mt-1">Inicio</span>`;
-          else if (i === 4) cell.innerHTML = `<span id="sim-target-icon" class="text-3xl sm:text-4xl">🍉</span><span class="text-[9px] font-bold text-rose-700 mt-1">Meta</span>`;
-          else cell.innerHTML = `<span class="cell-marker text-xs font-bold text-slate-400">${i}</span>`;
-        }
-      }
+      // Resetear casillas a estado inicial limpio
+      resetCapySimBoard();
 
       // Animación paso a paso
       let step = 0;
@@ -1956,20 +1990,20 @@
         const prevCell = document.getElementById(`sim-cell-${step - 1}`);
         if (prevCell) {
           prevCell.className = (step - 1 === 0)
-            ? "w-14 h-16 sm:w-16 sm:h-20 bg-slate-100 border-2 border-slate-200 rounded-2xl flex flex-col items-center justify-center transition duration-300"
-            : "w-14 h-16 sm:w-16 sm:h-20 bg-slate-50 border-2 border-dashed border-slate-200 rounded-2xl flex flex-col items-center justify-center transition duration-300";
-          prevCell.innerHTML = `<span class="cell-marker text-xs font-bold text-slate-300">${step - 1 === 0 ? '✓' : step - 1}</span>`;
+            ? "w-14 h-16 sm:w-16 sm:h-20 bg-slate-100 border-2 border-slate-200 rounded-2xl flex items-center justify-center transition duration-300"
+            : "w-14 h-16 sm:w-16 sm:h-20 bg-slate-50 border-2 border-dashed border-slate-200 rounded-2xl flex items-center justify-center transition duration-300";
+          prevCell.innerHTML = `<span class="cell-marker text-xs font-bold text-slate-300 select-none">${step - 1 === 0 ? '✓' : step - 1}</span>`;
         }
 
-        // Nueva celda de Capy
+        // Nueva celda de Capy (con animación de palpito centrada, sin desbordar)
         const currCell = document.getElementById(`sim-cell-${step}`);
         if (currCell) {
           if (step === 4) {
-            currCell.className = "w-14 h-16 sm:w-16 sm:h-20 bg-emerald-400 border-3 border-white rounded-2xl flex flex-col items-center justify-center shadow-lg relative transition duration-300 scale-110";
-            currCell.innerHTML = `<span class="text-3xl sm:text-4xl animate-bounce">🦫🍉</span><span class="text-[9px] font-black text-white mt-1">¡ÑAM!</span>`;
+            currCell.className = "w-14 h-16 sm:w-16 sm:h-20 bg-emerald-400 border-3 border-white rounded-2xl flex items-center justify-center shadow-lg relative transition duration-300 scale-105";
+            currCell.innerHTML = `<span class="text-3xl sm:text-4xl capy-pulse-scale select-none">🦫🍉</span>`;
           } else {
-            currCell.className = "w-14 h-16 sm:w-16 sm:h-20 bg-emerald-100 border-2 border-emerald-400 rounded-2xl flex flex-col items-center justify-center shadow-md relative transition duration-300";
-            currCell.innerHTML = `<span class="text-3xl sm:text-4xl animate-bounce">🦫</span><span class="text-[9px] font-bold text-emerald-800 mt-1">Paso ${step}</span>`;
+            currCell.className = "w-14 h-16 sm:w-16 sm:h-20 bg-emerald-100 border-2 border-emerald-400 rounded-2xl flex items-center justify-center shadow-md relative transition duration-300";
+            currCell.innerHTML = `<span class="text-3xl sm:text-4xl capy-pulse-scale select-none">🦫</span>`;
           }
         }
 
@@ -2538,9 +2572,62 @@
       playPopSound();
     }
 
-    function closeCapyModal() {
+    function toggleModalFullscreen() {
       const modal = document.getElementById('player-modal-capy');
+      const dialog = document.getElementById('capy-modal-dialog');
+      const icon = document.getElementById('fullscreen-icon');
+
+      if (!document.fullscreenElement) {
+        if (modal.requestFullscreen) {
+          modal.requestFullscreen().catch(() => {});
+        } else if (modal.webkitRequestFullscreen) {
+          modal.webkitRequestFullscreen();
+        }
+        if (dialog) {
+          dialog.classList.remove('w-[99vw]', 'h-[98vh]', 'rounded-2xl');
+          dialog.classList.add('w-screen', 'h-screen', 'rounded-none', 'border-0');
+        }
+        if (icon) icon.textContent = '🗗';
+      } else {
+        if (document.exitFullscreen) {
+          document.exitFullscreen().catch(() => {});
+        } else if (document.webkitExitFullscreen) {
+          document.webkitExitFullscreen();
+        }
+        if (dialog) {
+          dialog.classList.add('w-[99vw]', 'h-[98vh]', 'rounded-2xl');
+          dialog.classList.remove('w-screen', 'h-screen', 'rounded-none', 'border-0');
+        }
+        if (icon) icon.textContent = '⛶';
+      }
+    }
+
+    // Restaurar si el usuario sale de pantalla completa con la tecla Escape
+    document.addEventListener('fullscreenchange', () => {
+      const dialog = document.getElementById('capy-modal-dialog');
+      const icon = document.getElementById('fullscreen-icon');
+      if (!document.fullscreenElement) {
+        if (dialog) {
+          dialog.classList.add('w-[99vw]', 'h-[98vh]', 'rounded-2xl');
+          dialog.classList.remove('w-screen', 'h-screen', 'rounded-none', 'border-0');
+        }
+        if (icon) icon.textContent = '⛶';
+      }
+    });
+
+    function closeCapyModal() {
+      if (document.fullscreenElement) {
+        if (document.exitFullscreen) document.exitFullscreen().catch(() => {});
+      }
+      const modal = document.getElementById('player-modal-capy');
+      const dialog = document.getElementById('capy-modal-dialog');
       const iframe = document.getElementById('challenge-iframe-capy');
+      const icon = document.getElementById('fullscreen-icon');
+      if (dialog) {
+        dialog.classList.add('w-[99vw]', 'h-[98vh]', 'rounded-2xl');
+        dialog.classList.remove('w-screen', 'h-screen', 'rounded-none', 'border-0');
+      }
+      if (icon) icon.textContent = '⛶';
       modal.classList.add('hidden');
       modal.classList.remove('flex');
       iframe.src = "";
@@ -2598,42 +2685,117 @@
       m.classList.remove('flex');
     }
 
-    function switchClass(classNum) {
+    function backToThemes() {
       playPopSound();
-      // Ocultar todas las vistas de clases
+      const selector = document.getElementById('view-theme-selector');
+      const container = document.getElementById('view-class-container');
+      if (selector) {
+        selector.classList.remove('hidden');
+        selector.classList.add('flex');
+      }
+      if (container) {
+        container.classList.add('hidden');
+        container.classList.remove('flex');
+      }
+
+      // Ocultar todas las clases
       document.querySelectorAll('.class-content-view').forEach(el => el.classList.add('hidden'));
 
-      // Desactivar botones de clases
-      for (let i = 1; i <= 4; i++) {
-        const btn = document.getElementById(`btn-class-${i}`);
-        if (btn) {
-          btn.classList.remove('active-class', 'border-sky-500', 'bg-white');
-          btn.classList.add('bg-white/80', 'border-slate-200');
+      // Encabezado en modo menú principal de temas
+      const btnBackThemes = document.getElementById('header-btn-back-themes');
+      const headerModuleBadge = document.getElementById('header-module-badge');
+      const headerThemeBadge = document.getElementById('header-theme-badge');
+
+      if (btnBackThemes) {
+        btnBackThemes.classList.add('hidden');
+        btnBackThemes.classList.remove('inline-flex');
+      }
+      if (headerModuleBadge) {
+        headerModuleBadge.classList.remove('hidden');
+        headerModuleBadge.classList.add('inline-flex');
+      }
+      if (headerThemeBadge) {
+        headerThemeBadge.classList.add('hidden');
+        headerThemeBadge.classList.remove('inline-flex');
+      }
+
+      // Limpiar hash de la URL para permanecer en la pantalla principal
+      if (window.location.hash) {
+        try {
+          history.replaceState(null, null, window.location.pathname + window.location.search);
+        } catch (e) {
+          window.location.hash = '';
         }
       }
+
+      window.scrollTo({ top: 0, behavior: 'smooth' });
+    }
+
+    function switchClass(classNum) {
+      playPopSound();
+
+      // Ocultar selector principal de temas y mostrar contenedor de clase
+      const selector = document.getElementById('view-theme-selector');
+      const container = document.getElementById('view-class-container');
+      if (selector) {
+        selector.classList.add('hidden');
+        selector.classList.remove('flex');
+      }
+      if (container) {
+        container.classList.remove('hidden');
+        container.classList.add('flex');
+      }
+
+      // Ocultar todas las vistas de clases
+      document.querySelectorAll('.class-content-view').forEach(el => el.classList.add('hidden'));
 
       // Activar vista seleccionada
       const activeView = document.getElementById(`content-class-${classNum}`);
       if (activeView) activeView.classList.remove('hidden');
 
-      // Activar botón seleccionado
-      const activeBtn = document.getElementById(`btn-class-${classNum}`);
-      if (activeBtn) {
-        activeBtn.classList.add('active-class', 'border-sky-500', 'bg-white');
-        activeBtn.classList.remove('bg-white/80', 'border-slate-200');
+      // Actualizar encabezado para modo clase (idéntico a la captura del usuario)
+      const btnBackThemes = document.getElementById('header-btn-back-themes');
+      const headerModuleBadge = document.getElementById('header-module-badge');
+      const headerThemeBadge = document.getElementById('header-theme-badge');
+      const headerThemeIcon = document.getElementById('header-theme-icon');
+      const headerThemeText = document.getElementById('header-theme-text');
+
+      if (btnBackThemes) {
+        btnBackThemes.classList.remove('hidden');
+        btnBackThemes.classList.add('inline-flex');
+      }
+      if (headerModuleBadge) {
+        headerModuleBadge.classList.add('hidden');
+        headerModuleBadge.classList.remove('inline-flex');
+      }
+      if (headerThemeBadge) {
+        headerThemeBadge.classList.remove('hidden');
+        headerThemeBadge.classList.add('inline-flex');
       }
 
-      // Si es Clase 1, asegurar que la pestaña activa se visualice
+      const meta = {
+        1: { title: 'TEMA: PATRONES', icon: '🧩' },
+        2: { title: 'TEMA: CAPY Y GUYRA', icon: '🐾' },
+        3: { title: 'TEMA: BUCLES ANIDADOS', icon: '🔄' },
+        4: { title: 'TEMA: BUCLES CON MAÑIC', icon: '🦥' }
+      }[classNum] || { title: 'TEMA', icon: '📚' };
+
+      if (headerThemeIcon) headerThemeIcon.textContent = meta.icon;
+      if (headerThemeText) headerThemeText.textContent = meta.title;
+
+      // Si es Clase 1, asegurar que la pestaña activa se visualice con su nav 1 2 3
       if (classNum === 1) {
         const activeTab = document.querySelector('.tab-btn.active');
         if (activeTab) {
           const tabId = activeTab.id.replace('btn-', '');
           const tabContent = document.getElementById(tabId);
           if (tabContent) tabContent.classList.remove('hidden');
+        } else {
+          switchTab('tab-aprender');
         }
       }
 
-      // Si es Clase 2, asegurar que la pestaña activa de Clase 2 se visualice
+      // Si es Clase 2, asegurar que la pestaña activa de Clase 2 se visualice con su nav 1 2 3
       if (classNum === 2) {
         const activeCapyTab = document.querySelector('.tab-btn-capy.active');
         if (activeCapyTab) {
@@ -2644,6 +2806,8 @@
           switchCapyTab('tab-capy-aprender');
         }
       }
+
+      window.scrollTo({ top: 0, behavior: 'smooth' });
     }
 
     // --- NAVEGACIÓN ENTRE LAS 3 PESTAÑAS (CLASE 1) ---
@@ -3413,6 +3577,8 @@
       });
 
       // Cerrar modal al hacer clic en el fondo oscuro
+      updateStarsDisplay();
+
       const capyModal = document.getElementById('player-modal-capy');
       if (capyModal) {
         capyModal.addEventListener('click', (e) => {
@@ -3427,21 +3593,18 @@
         });
       }
 
-      // Navegación por hash en la URL
-      if (window.location.hash === '#modulo-1') {
-        openModule(1);
-      } else if (window.location.hash === '#clase-1') {
-        openModule(1);
-        switchClass(1);
-      } else if (window.location.hash === '#clase-2') {
-        openModule(1);
+      // Navegación por hash si se abre un tema directamente, o vista inicial con solo banner y las 4 tarjetas
+      if (window.location.hash === '#clase-2' || window.location.hash === '#tema-2' || window.location.hash === '#capy') {
         switchClass(2);
-      } else if (window.location.hash === '#clase-3') {
-        openModule(1);
+      } else if (window.location.hash === '#clase-3' || window.location.hash === '#tema-3') {
         switchClass(3);
-      } else if (window.location.hash === '#clase-4') {
-        openModule(1);
+      } else if (window.location.hash === '#clase-4' || window.location.hash === '#tema-4') {
         switchClass(4);
+      } else if (window.location.hash === '#clase-1' || window.location.hash === '#tema-1' || window.location.hash === '#patrones') {
+        switchClass(1);
+      } else {
+        // Al entrar: SOLO el banner informativo y las 4 tarjetas de selección
+        backToThemes();
       }
     });
   </script>

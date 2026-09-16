@@ -1,0 +1,838 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>SpriteLab - Taller de Bloques</title>
+  <link rel="icon" type="image/x-icon" href="../../assets/Icono.ico">
+  <!-- Tailwind CSS CDN -->
+  <script src="https://cdn.tailwindcss.com"></script>
+  <!-- Google Fonts -->
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Fredoka:wght@400;500;600;700&family=Outfit:wght@400;600;700;800;900&family=Press+Start+2P&family=Fira+Code:wght@500;700&display=swap" rel="stylesheet">
+  <!-- Canvas Confetti -->
+  <script src="https://cdn.jsdelivr.net/npm/canvas-confetti@1.6.0/dist/confetti.browser.min.js"></script>
+
+  <script>
+    tailwind.config = {
+      theme: {
+        extend: {
+          fontFamily: {
+            sans: ['Outfit', 'sans-serif'],
+            display: ['Fredoka', 'sans-serif'],
+            pixel: ['"Press Start 2P"', 'monospace'],
+            code: ['"Fira Code"', 'monospace']
+          }
+        }
+      }
+    }
+  </script>
+
+  <style>
+    /* Fondo estilo Sprite Lab de Code.org */
+    .spritelab-canvas-bg {
+      background-color: #f8fafc;
+      background-image: 
+        radial-gradient(#e2e8f0 2px, transparent 2px);
+      background-size: 20px 20px;
+    }
+
+    /* Estilo de Bloque Code.org Sprite Lab */
+    .block-spritelab {
+      user-select: none;
+      cursor: grab;
+      touch-action: none;
+      position: relative;
+      border-radius: 8px;
+      font-weight: 700;
+      transition: transform 0.12s ease, box-shadow 0.12s ease;
+      box-shadow: 0 4px 0 rgba(0, 0, 0, 0.2), 0 6px 10px rgba(0,0,0,0.1);
+    }
+    .block-spritelab:active, .block-spritelab.dragging {
+      cursor: grabbing;
+      transform: scale(1.04) rotate(1.5deg);
+      box-shadow: 0 10px 20px rgba(0,0,0,0.25) !important;
+      z-index: 1000;
+      opacity: 0.9;
+    }
+
+    /* Muesca tipo puzzle en la parte superior e inferior */
+    .block-notch-top::before {
+      content: '';
+      position: absolute;
+      top: -5px;
+      left: 20px;
+      width: 16px;
+      height: 5px;
+      background: inherit;
+      border-radius: 3px 3px 0 0;
+    }
+
+    /* Ranura de conexión (Drop Zone) */
+    .connect-slot {
+      min-height: 48px;
+      border: 3px dashed #cbd5e1;
+      border-radius: 8px;
+      background-color: #f1f5f9;
+      transition: all 0.2s cubic-bezier(0.34, 1.56, 0.64, 1);
+    }
+    .connect-slot.drag-over {
+      border-color: #0284c7 !important;
+      background-color: #e0f2fe !important;
+      transform: scale(1.03);
+      box-shadow: 0 0 16px rgba(2, 132, 199, 0.35);
+    }
+    .connect-slot.filled {
+      border: none;
+      background: transparent;
+      padding: 0;
+    }
+
+    /* Botón estilo Code.org / Arcade */
+    .btn-run {
+      transition: all 0.12s ease;
+      box-shadow: 0 5px 0 0 #15803d;
+    }
+    .btn-run:hover {
+      transform: translateY(-2px);
+      box-shadow: 0 7px 0 0 #15803d;
+    }
+    .btn-run:active {
+      transform: translateY(3px);
+      box-shadow: 0 2px 0 0 #15803d;
+    }
+
+    /* Canvas */
+    #gameCanvas {
+      background: linear-gradient(180deg, #7dd3fc 0%, #bae6fd 60%, #86efac 60%, #4ade80 100%);
+      border: 4px solid #0284c7;
+      border-radius: 12px;
+      image-rendering: pixelated;
+    }
+
+    /* Elemento móvil Touch Ghost */
+    .touch-ghost {
+      position: fixed;
+      pointer-events: none;
+      z-index: 99999;
+      transform: translate(-50%, -50%) scale(1.05);
+      opacity: 0.9;
+    }
+  </style>
+</head>
+<body class="bg-slate-100 text-slate-800 font-sans min-h-screen flex flex-col justify-between select-none">
+
+  <!-- ========================================================================= -->
+  <!-- BARRA DE CABECERA ESTILO CODE.ORG SPRITE LAB                             -->
+  <!-- ========================================================================= -->
+  <header class="bg-[#0094a8] text-white px-4 py-2.5 shadow-md flex flex-wrap items-center justify-between gap-3 border-b-4 border-[#007a8a]">
+    <div class="flex items-center gap-3">
+      <div class="w-9 h-9 rounded-xl bg-white/20 flex items-center justify-center text-xl shadow-inner font-black">
+        🎮
+      </div>
+      <div>
+        <h1 class="font-display font-extrabold text-base sm:text-lg leading-tight flex items-center gap-2">
+          <span>Sprite Lab</span>
+          <span class="text-[10px] bg-amber-400 text-slate-950 font-black px-2 py-0.5 rounded-full uppercase">Clase 1: Condicionales</span>
+        </h1>
+        <p class="text-[11px] text-cyan-100">Proyecto: "Atrapa la Manzana"</p>
+      </div>
+    </div>
+
+    <!-- Controles rápidos -->
+    <div class="flex items-center gap-2">
+      <button onclick="autoSolve()" class="bg-amber-400 hover:bg-amber-300 text-slate-950 font-black text-xs px-3 py-1.5 rounded-xl transition flex items-center gap-1.5 shadow" title="Completar automáticamente para ver cómo queda">
+        <span>💡</span> <span>Resolver / Pista</span>
+      </button>
+
+      <button onclick="resetAll()" class="bg-white/20 hover:bg-white/30 text-white font-bold text-xs px-3 py-1.5 rounded-xl transition flex items-center gap-1.5" title="Reiniciar bloques">
+        <span>🧹</span> <span>Limpiar</span>
+      </button>
+
+      <button id="soundToggle" onclick="toggleAudio()" class="bg-white/20 hover:bg-white/30 text-white p-1.5 rounded-xl text-sm transition">
+        <span id="soundIcon">🔊</span>
+      </button>
+    </div>
+  </header>
+
+  <!-- ========================================================================= -->
+  <!-- GUÍA DE MISIÓN (QUÉ DEBES HACER)                                          -->
+  <!-- ========================================================================= -->
+  <div class="bg-amber-50 border-b-2 border-amber-200 px-4 py-2.5 text-xs text-amber-950 flex flex-wrap items-center justify-between gap-2">
+    <div class="flex items-center gap-2">
+      <span class="text-base">🎯</span>
+      <div>
+        <strong>¿Qué debes hacer?</strong> Arrastra la <strong>acción correcta</strong> de la izquierda dentro de cada condicional <span class="bg-orange-500 text-white font-black px-1.5 py-0.5 rounded text-[10px]">SI... ENTONCES</span> de la derecha.
+      </div>
+    </div>
+    <div class="flex items-center gap-1 text-[11px] font-bold text-amber-900 bg-amber-200/70 px-2.5 py-1 rounded-lg">
+      <span>1️⃣ Puntos</span> &bull; <span>2️⃣ Vidas</span> &bull; <span>3️⃣ Ganar</span>
+    </div>
+  </div>
+
+  <!-- ========================================================================= -->
+  <!-- ÁREA DE TRABAJO (TOOLBOX + WORKSPACE + STAGE)                            -->
+  <!-- ========================================================================= -->
+  <main class="flex-1 p-3 sm:p-4 max-w-7xl w-full mx-auto grid grid-cols-1 lg:grid-cols-12 gap-4">
+
+    <!-- COLUMNA 1: CAJA DE HERRAMIENTAS (TOOLBOX) -->
+    <div class="lg:col-span-4 bg-white rounded-2xl p-4 border-2 border-slate-300 shadow-md flex flex-col justify-between">
+      <div>
+        <div class="flex items-center justify-between pb-2 border-b border-slate-200 mb-3">
+          <h2 class="font-display font-extrabold text-xs uppercase tracking-wider text-slate-700 flex items-center gap-1.5">
+            <span>📦</span> Acciones Disponibles
+          </h2>
+          <span class="text-[10px] bg-slate-100 text-slate-600 px-2 py-0.5 rounded font-bold">Arrastra un bloque</span>
+        </div>
+
+        <p class="text-[11px] text-slate-500 mb-3">
+          Toma una acción con el mouse o dedo y suéltala en el espacio vacío del condicional:
+        </p>
+
+        <!-- Bloques Arrastrables con estilo Code.org -->
+        <div class="space-y-3" id="toolbox">
+          
+          <!-- Bloque A: Puntos -->
+          <div id="block-puntos" draggable="true" data-type="puntos" class="block-spritelab bg-[#10b981] text-white p-3 border-l-8 border-[#047857]">
+            <div class="text-[10px] uppercase text-emerald-100 font-bold">Acción de Juego</div>
+            <div class="text-sm font-bold flex items-center gap-2 mt-0.5">
+              <span>➕</span> sumar 10 al [ puntaje ]
+            </div>
+          </div>
+
+          <!-- Bloque B: Vidas -->
+          <div id="block-vidas" draggable="true" data-type="vidas" class="block-spritelab bg-[#ef4444] text-white p-3 border-l-8 border-[#b91c1c]">
+            <div class="text-[10px] uppercase text-rose-100 font-bold">Acción de Juego</div>
+            <div class="text-sm font-bold flex items-center gap-2 mt-0.5">
+              <span>💔</span> restar 1 a [ vidas ]
+            </div>
+          </div>
+
+          <!-- Bloque C: Ganar -->
+          <div id="block-ganar" draggable="true" data-type="ganar" class="block-spritelab bg-[#f59e0b] text-slate-950 p-3 border-l-8 border-[#d97706]">
+            <div class="text-[10px] uppercase text-amber-900 font-bold">Acción de Juego</div>
+            <div class="text-sm font-black flex items-center gap-2 mt-0.5">
+              <span>🎉</span> mostrar texto [ "¡Ganaste!" ]
+            </div>
+          </div>
+
+          <!-- Bloque D: Distractor Sonido -->
+          <div id="block-sonido" draggable="true" data-type="sonido" class="block-spritelab bg-[#06b6d4] text-white p-3 border-l-8 border-[#0e7490]">
+            <div class="text-[10px] uppercase text-cyan-100 font-bold">Acción de Sonido</div>
+            <div class="text-sm font-bold flex items-center gap-2 mt-0.5">
+              <span>🔔</span> reproducir sonido [ campana ]
+            </div>
+          </div>
+
+        </div>
+      </div>
+
+      <div class="mt-4 pt-3 border-t border-slate-100 text-center text-[11px] text-slate-400">
+        💡 <em>Nota:</em> También puedes hacer clic sobre el bloque y luego clic en la ranura.
+      </div>
+    </div>
+
+    <!-- COLUMNA 2: ESPACIO DE TRABAJO (WORKSPACE DE BLOQUES) -->
+    <div class="lg:col-span-5 bg-white rounded-2xl p-4 border-2 border-[#0094a8] shadow-md spritelab-canvas-bg flex flex-col justify-between">
+      <div>
+        <div class="flex items-center justify-between pb-2 border-b border-slate-200 mb-3">
+          <h2 class="font-display font-extrabold text-xs uppercase tracking-wider text-[#007a8a] flex items-center gap-1.5">
+            <span>🧩</span> Espacio de Trabajo (Código)
+          </h2>
+          <span id="badgeProgreso" class="text-[10px] bg-rose-100 text-rose-700 font-bold px-2 py-0.5 rounded-full">
+            0 de 3 reglas completas
+          </span>
+        </div>
+
+        <div class="space-y-3">
+          
+          <!-- BLOQUE DE EVENTO INICIO (ESTILO CODE.ORG) -->
+          <div class="bg-[#e67e22] text-white p-2.5 rounded-t-xl rounded-br-xl font-bold text-xs shadow border-b-4 border-[#b95b0b] flex items-center gap-2">
+            <span class="text-base">🚩</span> cuando empiece el juego
+          </div>
+
+          <!-- CONDICIONAL 1: ATRAPAR MANZANA -->
+          <div class="bg-[#3b82f6] text-white rounded-xl p-3 shadow border-b-4 border-[#1d4ed8]">
+            <div class="flex items-center gap-1.5 text-xs font-bold mb-2">
+              <span class="bg-white text-blue-700 px-1.5 py-0.5 rounded font-black text-[10px]">SI</span>
+              <span>la canasta 🧺 toca la manzana 🍎 :</span>
+            </div>
+            
+            <div class="pl-3 border-l-4 border-white/40">
+              <div id="slot-puntos" data-target="puntos" class="connect-slot flex items-center justify-center p-2 text-xs text-slate-500 font-bold">
+                <span class="slot-hint">👉 Arrastra aquí: [ Sumar 10 puntos ]</span>
+              </div>
+            </div>
+          </div>
+
+          <!-- CONDICIONAL 2: MANZANA TOCA EL SUELO -->
+          <div class="bg-[#3b82f6] text-white rounded-xl p-3 shadow border-b-4 border-[#1d4ed8]">
+            <div class="flex items-center gap-1.5 text-xs font-bold mb-2">
+              <span class="bg-white text-blue-700 px-1.5 py-0.5 rounded font-black text-[10px]">SI</span>
+              <span>la manzana 🍎 toca el suelo :</span>
+            </div>
+            
+            <div class="pl-3 border-l-4 border-white/40">
+              <div id="slot-vidas" data-target="vidas" class="connect-slot flex items-center justify-center p-2 text-xs text-slate-500 font-bold">
+                <span class="slot-hint">👉 Arrastra aquí: [ Restar 1 vida ]</span>
+              </div>
+            </div>
+          </div>
+
+          <!-- CONDICIONAL 3: VICTORIA A 50 PUNTOS -->
+          <div class="bg-[#3b82f6] text-white rounded-xl p-3 shadow border-b-4 border-[#1d4ed8]">
+            <div class="flex items-center gap-1.5 text-xs font-bold mb-2">
+              <span class="bg-white text-blue-700 px-1.5 py-0.5 rounded font-black text-[10px]">SI</span>
+              <span>el puntaje es igual a 50 :</span>
+            </div>
+            
+            <div class="pl-3 border-l-4 border-white/40">
+              <div id="slot-ganar" data-target="ganar" class="connect-slot flex items-center justify-center p-2 text-xs text-slate-500 font-bold">
+                <span class="slot-hint">👉 Arrastra aquí: [ Mostrar "¡Ganaste!" ]</span>
+              </div>
+            </div>
+          </div>
+
+        </div>
+      </div>
+
+      <!-- Mensaje de estado -->
+      <div id="statusMessage" class="mt-3 bg-white p-2 rounded-xl border border-slate-200 text-center text-xs text-slate-600 font-medium shadow-sm">
+        Conecta las 3 acciones en sus condicionales para poder jugar.
+      </div>
+    </div>
+
+    <!-- COLUMNA 3: PANTALLA DE JUEGO (STAGE) -->
+    <div class="lg:col-span-3 bg-slate-900 rounded-2xl p-4 text-white flex flex-col justify-between shadow-xl border-2 border-slate-800">
+      <div>
+        <div class="flex items-center justify-between pb-2 border-b border-slate-800 mb-2">
+          <span class="text-xs font-pixel text-cyan-400">PANTALLA</span>
+          <div class="text-xs font-bold flex items-center gap-2">
+            <span class="text-amber-300">PTS: <span id="valPts">0</span></span>
+            <span id="valHearts">❤️❤️❤️</span>
+          </div>
+        </div>
+
+        <div class="flex justify-center my-2">
+          <canvas id="gameCanvas" width="260" height="230" class="w-full max-w-[260px] shadow-lg"></canvas>
+        </div>
+      </div>
+
+      <!-- Controles y Ejecutar -->
+      <div class="space-y-2 mt-2">
+        <button id="btnPlay" onclick="runGame()" class="btn-run w-full bg-[#22c55e] hover:bg-[#16a34a] text-slate-950 font-black py-2.5 px-4 rounded-xl text-sm flex items-center justify-center gap-2 shadow-lg">
+          <span>▶️</span> EJECUTAR
+        </button>
+
+        <div class="grid grid-cols-2 gap-2">
+          <button onmousedown="startLeft()" onmouseup="stopMove()" ontouchstart="startLeft()" ontouchend="stopMove()" class="bg-slate-800 hover:bg-slate-700 text-white font-bold py-2 rounded-xl text-xs flex items-center justify-center gap-1 border border-slate-700 active:bg-slate-900">
+            <span>⬅️</span> Izq
+          </button>
+          <button onmousedown="startRight()" onmouseup="stopMove()" ontouchstart="startRight()" ontouchend="stopMove()" class="bg-slate-800 hover:bg-slate-700 text-white font-bold py-2 rounded-xl text-xs flex items-center justify-center gap-1 border border-slate-700 active:bg-slate-900">
+            Der <span>➡️</span>
+          </button>
+        </div>
+
+        <div id="gameLog" class="bg-black/50 border border-slate-800 rounded-lg p-2 font-mono text-[10px] text-cyan-300 text-center truncate">
+          &gt; Esperando bloques...
+        </div>
+      </div>
+    </div>
+
+  </main>
+
+  <!-- ========================================================================= -->
+  <!-- LÓGICA DE PROGRAMACIÓN (DRAG & DROP NATIVO + TOUCH + SIMULADOR)            -->
+  <!-- ========================================================================= -->
+  <script>
+    // --- SONIDOS ---
+    let audioCtx = null;
+    let audioOn = true;
+
+    function initAudio() {
+      if (!audioCtx) audioCtx = new (window.AudioContext || window.webkitAudioContext)();
+    }
+    function toggleAudio() {
+      audioOn = !audioOn;
+      document.getElementById('soundIcon').textContent = audioOn ? '🔊' : '🔇';
+    }
+    function playBeep(freq, type = 'sine', dur = 0.1) {
+      if (!audioOn) return;
+      initAudio();
+      try {
+        const osc = audioCtx.createOscillator();
+        const g = audioCtx.createGain();
+        osc.type = type;
+        osc.frequency.setValueAtTime(freq, audioCtx.currentTime);
+        g.gain.setValueAtTime(0.18, audioCtx.currentTime);
+        g.gain.exponentialRampToValueAtTime(0.001, audioCtx.currentTime + dur);
+        osc.connect(g);
+        g.connect(audioCtx.destination);
+        osc.start();
+        osc.stop(audioCtx.currentTime + dur);
+      } catch (e) {}
+    }
+    function playSnap() { playBeep(520, 'triangle', 0.1); }
+    function playFanfare() {
+      playBeep(523, 'triangle', 0.1);
+      setTimeout(() => playBeep(659, 'triangle', 0.12), 90);
+      setTimeout(() => playBeep(784, 'triangle', 0.22), 180);
+    }
+    function playError() { playBeep(200, 'sawtooth', 0.2); }
+
+    // --- DATOS DE BLOQUES ---
+    const BLOCKS_INFO = {
+      puntos: {
+        text: '➕ sumar 10 al [ puntaje ]',
+        bg: 'bg-[#10b981]',
+        border: 'border-l-8 border-[#047857]',
+        label: 'Acción de Juego'
+      },
+      vidas: {
+        text: '💔 restar 1 a [ vidas ]',
+        bg: 'bg-[#ef4444]',
+        border: 'border-l-8 border-[#b91c1c]',
+        label: 'Acción de Juego'
+      },
+      ganar: {
+        text: '🎉 mostrar texto [ "¡Ganaste!" ]',
+        bg: 'bg-[#f59e0b] text-slate-950',
+        border: 'border-l-8 border-[#d97706]',
+        label: 'Acción de Juego'
+      },
+      sonido: {
+        text: '🔔 reproducir sonido [ campana ]',
+        bg: 'bg-[#06b6d4]',
+        border: 'border-l-8 border-[#0e7490]',
+        label: 'Acción de Sonido'
+      }
+    };
+
+    // Estado del Workspace
+    let userCode = {
+      puntos: null,
+      vidas: null,
+      ganar: null
+    };
+
+    let selectedBlockType = null;
+
+    // --- INICIALIZAR DRAG AND DROP ---
+    function setupInteractions() {
+      const draggables = document.querySelectorAll('.block-spritelab');
+      const slots = document.querySelectorAll('.connect-slot');
+
+      draggables.forEach(block => {
+        // Dragstart
+        block.addEventListener('dragstart', (e) => {
+          const type = block.getAttribute('data-type');
+          e.dataTransfer.setData('text/plain', type);
+          block.classList.add('dragging');
+          playBeep(420, 'sine', 0.05);
+        });
+
+        // Dragend
+        block.addEventListener('dragend', () => {
+          block.classList.remove('dragging');
+          slots.forEach(s => s.classList.remove('drag-over'));
+        });
+
+        // Click Alternativo
+        block.addEventListener('click', () => {
+          selectedBlockType = block.getAttribute('data-type');
+          playBeep(450, 'sine', 0.06);
+          slots.forEach(s => s.classList.add('border-[#0094a8]', 'bg-cyan-50'));
+          document.getElementById('statusMessage').innerHTML = `
+            👉 Bloque seleccionado. Haz clic en la ranura donde quieres conectarlo.
+          `;
+        });
+      });
+
+      // Ranuras (Drop Zones)
+      slots.forEach(slot => {
+        slot.addEventListener('dragover', (e) => {
+          e.preventDefault();
+          slot.classList.add('drag-over');
+        });
+
+        slot.addEventListener('dragleave', () => {
+          slot.classList.remove('drag-over');
+        });
+
+        slot.addEventListener('drop', (e) => {
+          e.preventDefault();
+          slot.classList.remove('drag-over');
+          const type = e.dataTransfer.getData('text/plain');
+          const target = slot.getAttribute('data-target');
+          if (type && target) {
+            connectBlock(target, type);
+          }
+        });
+
+        // Click en Ranura
+        slot.addEventListener('click', () => {
+          const target = slot.getAttribute('data-target');
+          if (selectedBlockType) {
+            connectBlock(target, selectedBlockType);
+            selectedBlockType = null;
+            slots.forEach(s => s.classList.remove('border-[#0094a8]', 'bg-cyan-50'));
+          } else if (userCode[target]) {
+            // Desconectar si ya tiene bloque
+            userCode[target] = null;
+            renderWorkspace();
+            playBeep(300, 'sine', 0.08);
+          }
+        });
+      });
+    }
+
+    // --- TOUCH DRAG PARA CELULARES Y TABLETS ---
+    let touchType = null;
+    let touchGhost = null;
+
+    function setupTouch() {
+      const draggables = document.querySelectorAll('.block-spritelab');
+      const slots = document.querySelectorAll('.connect-slot');
+
+      draggables.forEach(block => {
+        block.addEventListener('touchstart', (e) => {
+          const touch = e.touches[0];
+          touchType = block.getAttribute('data-type');
+
+          touchGhost = block.cloneNode(true);
+          touchGhost.classList.add('touch-ghost');
+          touchGhost.style.left = `${touch.clientX}px`;
+          touchGhost.style.top = `${touch.clientY}px`;
+          document.body.appendChild(touchGhost);
+          playBeep(400, 'sine', 0.05);
+        }, { passive: false });
+
+        block.addEventListener('touchmove', (e) => {
+          if (!touchGhost) return;
+          e.preventDefault();
+          const touch = e.touches[0];
+          touchGhost.style.left = `${touch.clientX}px`;
+          touchGhost.style.top = `${touch.clientY}px`;
+
+          const elem = document.elementFromPoint(touch.clientX, touch.clientY);
+          slots.forEach(s => s.classList.remove('drag-over'));
+          if (elem) {
+            const slot = elem.closest('.connect-slot');
+            if (slot) slot.classList.add('drag-over');
+          }
+        }, { passive: false });
+
+        block.addEventListener('touchend', (e) => {
+          if (!touchGhost) return;
+          const touch = e.changedTouches[0];
+          const elem = document.elementFromPoint(touch.clientX, touch.clientY);
+
+          if (elem) {
+            const slot = elem.closest('.connect-slot');
+            if (slot && touchType) {
+              const target = slot.getAttribute('data-target');
+              connectBlock(target, touchType);
+            }
+          }
+
+          touchGhost.remove();
+          touchGhost = null;
+          touchType = null;
+          slots.forEach(s => s.classList.remove('drag-over'));
+        });
+      });
+    }
+
+    function connectBlock(slotTarget, blockType) {
+      userCode[slotTarget] = blockType;
+      playSnap();
+      renderWorkspace();
+      checkProgress();
+    }
+
+    function renderWorkspace() {
+      const targets = ['puntos', 'vidas', 'ganar'];
+      let completedCount = 0;
+
+      targets.forEach(target => {
+        const slot = document.getElementById(`slot-${target}`);
+        const currentType = userCode[target];
+
+        if (currentType) {
+          completedCount++;
+          const info = BLOCKS_INFO[currentType];
+          slot.className = `connect-slot filled`;
+          slot.innerHTML = `
+            <div class="block-spritelab ${info.bg} ${info.border} text-white p-2.5 rounded-lg flex items-center justify-between shadow-sm">
+              <div>
+                <div class="text-[9px] uppercase font-bold opacity-80">${info.label}</div>
+                <div class="text-xs font-bold mt-0.5">${info.text}</div>
+              </div>
+              <button onclick="disconnect('${target}')" class="bg-black/30 hover:bg-black/50 text-white text-xs px-2 py-1 rounded-md ml-2 font-bold" title="Quitar">✕</button>
+            </div>
+          `;
+        } else {
+          slot.className = `connect-slot flex items-center justify-center p-2 text-xs text-slate-500 font-bold`;
+          let hintText = target === 'puntos' ? '👉 Arrastra aquí: [ Sumar 10 puntos ]' :
+                         target === 'vidas' ? '👉 Arrastra aquí: [ Restar 1 vida ]' :
+                         '👉 Arrastra aquí: [ Mostrar "¡Ganaste!" ]';
+          slot.innerHTML = `<span class="slot-hint">${hintText}</span>`;
+        }
+      });
+
+      const badge = document.getElementById('badgeProgreso');
+      badge.textContent = `${completedCount} de 3 reglas conectadas`;
+      if (completedCount === 3) {
+        badge.className = 'text-[10px] bg-emerald-100 text-emerald-800 font-bold px-2 py-0.5 rounded-full';
+      } else {
+        badge.className = 'text-[10px] bg-rose-100 text-rose-700 font-bold px-2 py-0.5 rounded-full';
+      }
+    }
+
+    function disconnect(target) {
+      userCode[target] = null;
+      renderWorkspace();
+      checkProgress();
+      playBeep(320, 'sine', 0.08);
+    }
+
+    function checkProgress() {
+      const msg = document.getElementById('statusMessage');
+      if (userCode.puntos === 'puntos' && userCode.vidas === 'vidas' && userCode.ganar === 'ganar') {
+        msg.innerHTML = `🎉 <strong>¡Perfecto!</strong> Todas las reglas condicionales están listas. Presiona <strong>'EJECUTAR'</strong> para jugar.`;
+        msg.className = 'mt-3 bg-emerald-50 border-2 border-emerald-300 p-2 rounded-xl text-center text-xs text-emerald-900 font-bold shadow-sm';
+      } else {
+        msg.innerHTML = `Conecta las 3 acciones en sus condicionales para poder jugar.`;
+        msg.className = 'mt-3 bg-white p-2 rounded-xl border border-slate-200 text-center text-xs text-slate-600 font-medium shadow-sm';
+      }
+    }
+
+    function autoSolve() {
+      userCode = { puntos: 'puntos', vidas: 'vidas', ganar: 'ganar' };
+      renderWorkspace();
+      checkProgress();
+      playFanfare();
+    }
+
+    function resetAll() {
+      userCode = { puntos: null, vidas: null, ganar: null };
+      selectedBlockType = null;
+      renderWorkspace();
+      checkProgress();
+      gameActive = false;
+      drawCanvasHome();
+      document.getElementById('gameLog').innerHTML = `&gt; Espacio reiniciado.`;
+      playBeep(260, 'sine', 0.1);
+    }
+
+    // --- MOTOR DEL JUEGO (CANVAS) ---
+    const canvas = document.getElementById('gameCanvas');
+    const ctx = canvas.getContext('2d');
+
+    let gameActive = false;
+    let score = 0;
+    let lives = 3;
+    let playerX = 110;
+    const playerWidth = 46;
+    const playerHeight = 18;
+
+    let appleX = 130;
+    let appleY = 10;
+    let appleSpeed = 2.4;
+    let animId = null;
+    let moveDir = 0;
+
+    function resetApple() {
+      appleX = Math.floor(Math.random() * (canvas.width - 35)) + 18;
+      appleY = -15;
+      appleSpeed = 2.0 + Math.random() * 1.5;
+    }
+
+    function updateHud() {
+      document.getElementById('valPts').textContent = score;
+      let h = '';
+      for (let i = 0; i < lives; i++) h += '❤️';
+      document.getElementById('valHearts').textContent = h || '💀';
+    }
+
+    function startLeft() { moveDir = -1; }
+    function startRight() { moveDir = 1; }
+    function stopMove() { moveDir = 0; }
+
+    window.addEventListener('keydown', (e) => {
+      if (!gameActive) return;
+      if (e.key === 'ArrowLeft' || e.key === 'a') playerX -= 18;
+      if (e.key === 'ArrowRight' || e.key === 'd') playerX += 18;
+      clamp();
+    });
+
+    function clamp() {
+      if (playerX < 0) playerX = 0;
+      if (playerX + playerWidth > canvas.width) playerX = canvas.width - playerWidth;
+    }
+
+    function runGame() {
+      const log = document.getElementById('gameLog');
+
+      // Validar si faltan reglas
+      if (!userCode.puntos || !userCode.vidas || !userCode.ganar) {
+        log.innerHTML = `⚠️ <span class="text-amber-300">¡Faltan bloques!</span> Conecta las 3 reglas.`;
+        playError();
+        return;
+      }
+
+      // Validar lógica
+      if (userCode.puntos !== 'puntos' || userCode.vidas !== 'vidas' || userCode.ganar !== 'ganar') {
+        log.innerHTML = `❌ <span class="text-rose-400">Regla equivocada:</span> Revisa los bloques conectados.`;
+        playError();
+        return;
+      }
+
+      // Éxito: Iniciar Juego
+      log.innerHTML = `🚀 <span class="text-emerald-300 font-bold">¡Ejecutando tu código!</span>`;
+      confetti({ particleCount: 40, spread: 60, origin: { y: 0.6 } });
+      playFanfare();
+
+      gameActive = true;
+      score = 0;
+      lives = 3;
+      playerX = (canvas.width - playerWidth) / 2;
+      resetApple();
+      updateHud();
+
+      if (animId) cancelAnimationFrame(animId);
+      loop();
+    }
+
+    function loop() {
+      if (!gameActive) return;
+
+      if (moveDir !== 0) {
+        playerX += moveDir * 4;
+        clamp();
+      }
+
+      // Limpiar
+      ctx.clearRect(0, 0, canvas.width, canvas.height);
+
+      // Fondo
+      ctx.fillStyle = '#7dd3fc';
+      ctx.fillRect(0, 0, canvas.width, 165);
+      ctx.fillStyle = '#4ade80';
+      ctx.fillRect(0, 165, canvas.width, 65);
+
+      // Nube
+      ctx.fillStyle = 'rgba(255, 255, 255, 0.85)';
+      ctx.beginPath();
+      ctx.arc(45, 35, 16, 0, Math.PI * 2);
+      ctx.arc(68, 30, 20, 0, Math.PI * 2);
+      ctx.arc(90, 35, 16, 0, Math.PI * 2);
+      ctx.fill();
+
+      // Manzana
+      appleY += appleSpeed;
+      ctx.font = '20px Arial';
+      ctx.textAlign = 'center';
+      ctx.fillText('🍎', appleX, appleY);
+
+      // Canasta
+      ctx.fillStyle = '#b45309';
+      ctx.beginPath();
+      ctx.roundRect(playerX, canvas.height - playerHeight - 8, playerWidth, playerHeight, 5);
+      ctx.fill();
+      ctx.strokeStyle = '#78350f';
+      ctx.lineWidth = 2;
+      ctx.stroke();
+
+      ctx.font = '10px Fredoka, sans-serif';
+      ctx.fillStyle = '#ffffff';
+      ctx.fillText('🧺 Canasta', playerX + playerWidth / 2, canvas.height - 15);
+
+      // CONDICIONAL 1: Toca canasta
+      const bTop = canvas.height - playerHeight - 8;
+      if (
+        appleY >= bTop &&
+        appleY <= bTop + 18 &&
+        appleX >= playerX - 8 &&
+        appleX <= playerX + playerWidth + 8
+      ) {
+        if (userCode.puntos === 'puntos') {
+          score += 10;
+          playBeep(640, 'sine', 0.09);
+        }
+        updateHud();
+        resetApple();
+
+        // CONDICIONAL 3: 50 Puntos
+        if (score >= 50 && userCode.ganar === 'ganar') {
+          gameActive = false;
+          showEnd(true);
+          return;
+        }
+      }
+
+      // CONDICIONAL 2: Toca suelo
+      if (appleY > canvas.height - 6) {
+        if (userCode.vidas === 'vidas') {
+          lives--;
+          playError();
+        }
+        updateHud();
+        resetApple();
+
+        if (lives <= 0) {
+          gameActive = false;
+          showEnd(false);
+          return;
+        }
+      }
+
+      animId = requestAnimationFrame(loop);
+    }
+
+    function showEnd(won) {
+      ctx.fillStyle = 'rgba(15, 23, 42, 0.85)';
+      ctx.fillRect(0, 0, canvas.width, canvas.height);
+      ctx.textAlign = 'center';
+
+      if (won) {
+        confetti({ particleCount: 60, spread: 70, origin: { y: 0.5 } });
+        ctx.fillStyle = '#fde047';
+        ctx.font = 'bold 16px Fredoka, sans-serif';
+        ctx.fillText('🎉 ¡FELICITACIONES!', canvas.width / 2, canvas.height / 2 - 10);
+        ctx.fillStyle = '#ffffff';
+        ctx.font = '11px Outfit, sans-serif';
+        ctx.fillText('¡Completaste los 50 puntos!', canvas.width / 2, canvas.height / 2 + 12);
+      } else {
+        ctx.fillStyle = '#f87171';
+        ctx.font = 'bold 16px Fredoka, sans-serif';
+        ctx.fillText('💀 GAME OVER', canvas.width / 2, canvas.height / 2 - 10);
+        ctx.fillStyle = '#ffffff';
+        ctx.font = '11px Outfit, sans-serif';
+        ctx.fillText('¡Vuelve a intentarlo!', canvas.width / 2, canvas.height / 2 + 12);
+      }
+    }
+
+    function drawCanvasHome() {
+      ctx.fillStyle = '#7dd3fc';
+      ctx.fillRect(0, 0, canvas.width, 165);
+      ctx.fillStyle = '#4ade80';
+      ctx.fillRect(0, 165, canvas.width, 65);
+      ctx.fillStyle = '#0f172a';
+      ctx.textAlign = 'center';
+      ctx.font = 'bold 14px Fredoka, sans-serif';
+      ctx.fillText('Atrapa la manzana 🍎', canvas.width / 2, canvas.height / 2 - 10);
+      ctx.font = '10px Outfit, sans-serif';
+      ctx.fillStyle = '#334155';
+      ctx.fillText('Conecta las 3 acciones y presiona Ejecutar', canvas.width / 2, canvas.height / 2 + 12);
+    }
+
+    window.onload = () => {
+      setupInteractions();
+      setupTouch();
+      drawCanvasHome();
+    };
+  </script>
+</body>
+</html>

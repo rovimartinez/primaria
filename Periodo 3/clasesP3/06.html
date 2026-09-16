@@ -228,6 +228,9 @@
         <button type="button" id="tabBtn-recursos" class="nav-tab-btn bg-black/25 hover:bg-black/40 text-white/90 border border-white/20 px-3.5 sm:px-4 py-2 rounded-xl text-xs sm:text-sm font-bold inline-flex items-center gap-1.5 transition cursor-pointer" onclick="showTab('recursos')">
           <span>💡</span> <span>Bloques & Recursos</span>
         </button>
+        <a href="creacion_carpeta.html" class="nav-tab-btn bg-black/25 hover:bg-black/40 text-white/90 border border-white/20 px-3.5 sm:px-4 py-2 rounded-xl text-xs sm:text-sm font-bold inline-flex items-center gap-1.5 transition cursor-pointer hover:border-amber-300 hover:text-amber-200" title="Guía interactiva y simuladores para crear tu carpeta de proyectos">
+          <span>📁</span> <span>Creación de Carpeta</span>
+        </a>
       </nav>
 
     </div>
@@ -501,6 +504,30 @@
         </div>
       </div>
 
+      <!-- TARJETA DESTACADA: CREACIÓN DE CARPETA EN DOCUMENTOS -->
+      <div class="bg-gradient-to-r from-amber-500 via-orange-500 to-rose-600 rounded-3xl p-5 sm:p-6 text-white shadow-lg border-2 border-amber-300 flex flex-col sm:flex-row items-center justify-between gap-4">
+        <div class="flex items-center gap-4">
+          <div class="w-14 h-14 rounded-2xl bg-white/20 backdrop-blur-md flex items-center justify-center text-3xl shrink-0 shadow-inner border border-white/30">
+            📁
+          </div>
+          <div>
+            <div class="inline-flex items-center gap-1.5 px-2.5 py-0.5 rounded-full bg-white/20 text-[11px] font-black uppercase tracking-wider mb-1">
+              <span>⚡ Paso Fundamental</span>
+            </div>
+            <h4 class="font-display font-black text-lg sm:text-xl text-white">
+              Crea tu Carpeta de Proyectos en el PC
+            </h4>
+            <p class="text-xs sm:text-sm text-amber-100 mt-0.5 max-w-2xl">
+              Aprende con nuestros <strong>simuladores interactivos</strong> a crear tu carpeta en <strong>Documentos</strong>, descargar tus proyectos de Scratch (<code class="bg-black/30 px-1 py-0.5 rounded font-mono text-white">.sb3</code>) y moverlos desde <strong>Descargas</strong> para mantenerlos siempre organizados y seguros.
+            </p>
+          </div>
+        </div>
+        <a href="creacion_carpeta.html" class="bg-white hover:bg-amber-100 text-amber-950 font-black text-xs sm:text-sm px-5 py-3 rounded-2xl transition shadow-md whitespace-nowrap active:scale-95 flex items-center gap-2">
+          <span>🕹️ Abrir Simulador Interactivo</span>
+          <span>➔</span>
+        </a>
+      </div>
+
     </div>
 
     <!-- ========================================================================= -->
@@ -532,6 +559,7 @@
             <tbody class="divide-y divide-slate-100 text-xs sm:text-sm text-slate-700">
               
               <!-- PROYECTO 1 -->
+              <!-- PROYECTO 1 -->
               <tr class="hover:bg-rose-50/50 transition">
                 <td class="py-3.5 px-4 sm:px-5 font-display font-extrabold text-slate-900 whitespace-nowrap">
                   <div class="flex items-center gap-2">
@@ -543,7 +571,7 @@
                   Dominar personajes, disfraces (costumes) y escenarios (backdrops).
                 </td>
                 <td class="py-3.5 px-4 sm:px-5 text-slate-800 leading-relaxed">
-                  <strong class="text-rose-900">Ejemplo para Reinventar (Remix):</strong> Puedes <a href="https://scratch.mit.edu/projects/1378057637" target="_blank" rel="noopener noreferrer" class="underline text-indigo-700 font-bold hover:text-indigo-900">abrir el proyecto de ejemplo en Scratch ↗</a> y reinventarlo cambiando los personajes y el fondo a tu gusto.
+                  <strong class="text-rose-900">Ejemplo para Reinventar (Remix):</strong> Puedes <a href="https://scratch.mit.edu/projects/1125580414/" target="_blank" rel="noopener noreferrer" class="underline text-indigo-700 font-bold hover:text-indigo-900">abrir el proyecto de ejemplo en Scratch ↗</a> y reinventarlo cambiando los personajes y el fondo a tu gusto.
                 </td>
                 <td class="py-3.5 px-4 sm:px-5 text-center whitespace-nowrap">
                   <button onclick="showTab('proyectos'); selectProject(1);" class="bg-rose-50 hover:bg-rose-100 text-harvard-crimson border border-rose-200 text-xs font-bold px-3 py-1.5 rounded-xl transition shadow-sm inline-flex items-center gap-1">
@@ -552,178 +580,170 @@
                 </td>
               </tr>
 
-              <!-- PROYECTO 2 (BLOQUEADO) -->
-              <tr class="hover:bg-slate-50/50 transition opacity-80 bg-slate-50/30">
-                <td class="py-3.5 px-4 sm:px-5 font-display font-extrabold text-slate-800 whitespace-nowrap">
+              <!-- PROYECTO 2 -->
+              <tr class="hover:bg-rose-50/50 transition">
+                <td class="py-3.5 px-4 sm:px-5 font-display font-extrabold text-slate-900 whitespace-nowrap">
                   <div class="flex items-center gap-2">
-                    <span class="w-7 h-7 rounded-lg bg-slate-100 text-slate-500 font-bold text-xs flex items-center justify-center border border-slate-200">🔒</span>
-                    <span class="text-slate-600">Project 2: Functions</span>
-                    <span class="text-[10px] font-bold bg-slate-100 text-slate-500 px-2 py-0.5 rounded-md border border-slate-200">Bloqueado</span>
+                    <span class="w-7 h-7 rounded-lg bg-purple-100 text-purple-800 font-black text-xs flex items-center justify-center border border-purple-200">2</span>
+                    <span>Project 2: Functions</span>
                   </div>
                 </td>
-                <td class="py-3.5 px-4 sm:px-5 font-medium text-slate-500">
+                <td class="py-3.5 px-4 sm:px-5 font-medium text-slate-600">
                   Invocación de bloques coordinados de movimiento, apariencias y sonidos.
                 </td>
-                <td class="py-3.5 px-4 sm:px-5 text-slate-600 leading-relaxed">
-                  <strong class="text-slate-700">Banda Musical o Baile:</strong> Personajes que bailan coordinados en el escenario, cambian de tamaño o color con efectos y tocan notas o tambores.
+                <td class="py-3.5 px-4 sm:px-5 text-slate-800 leading-relaxed">
+                  <strong class="text-purple-900">Ejemplo para Reinventar (Remix):</strong> Puedes <a href="https://scratch.mit.edu/projects/1125676644/" target="_blank" rel="noopener noreferrer" class="underline text-indigo-700 font-bold hover:text-indigo-900">abrir el proyecto de ejemplo en Scratch ↗</a> y reinventarlo con tu propia animación y sonidos.
                 </td>
                 <td class="py-3.5 px-4 sm:px-5 text-center whitespace-nowrap">
-                  <button type="button" disabled class="bg-slate-100 text-slate-400 border border-slate-200 text-xs font-bold px-3 py-1.5 rounded-xl cursor-not-allowed inline-flex items-center gap-1 select-none opacity-80" title="Proyecto bloqueado - Disponible próximamente">
-                    <span>🔒</span> <span>Bloqueado</span>
+                  <button onclick="showTab('proyectos'); selectProject(2);" class="bg-rose-50 hover:bg-rose-100 text-harvard-crimson border border-rose-200 text-xs font-bold px-3 py-1.5 rounded-xl transition shadow-sm inline-flex items-center gap-1">
+                    <span>Ver Proyecto</span> ➔
                   </button>
                 </td>
               </tr>
 
-              <!-- PROYECTO 3 (BLOQUEADO) -->
-              <tr class="hover:bg-slate-50/50 transition opacity-80 bg-slate-50/30">
-                <td class="py-3.5 px-4 sm:px-5 font-display font-extrabold text-slate-800 whitespace-nowrap">
+              <!-- PROYECTO 3 -->
+              <tr class="hover:bg-rose-50/50 transition">
+                <td class="py-3.5 px-4 sm:px-5 font-display font-extrabold text-slate-900 whitespace-nowrap">
                   <div class="flex items-center gap-2">
-                    <span class="w-7 h-7 rounded-lg bg-slate-100 text-slate-500 font-bold text-xs flex items-center justify-center border border-slate-200">🔒</span>
-                    <span class="text-slate-600">Project 3: Events</span>
-                    <span class="text-[10px] font-bold bg-slate-100 text-slate-500 px-2 py-0.5 rounded-md border border-slate-200">Bloqueado</span>
+                    <span class="w-7 h-7 rounded-lg bg-amber-100 text-amber-900 font-black text-xs flex items-center justify-center border border-amber-200">3</span>
+                    <span>Project 3: Events</span>
                   </div>
                 </td>
-                <td class="py-3.5 px-4 sm:px-5 font-medium text-slate-500">
+                <td class="py-3.5 px-4 sm:px-5 font-medium text-slate-600">
                   Responder a eventos y estímulos (teclas de flecha, clics y mensajes).
                 </td>
-                <td class="py-3.5 px-4 sm:px-5 text-slate-600 leading-relaxed">
-                  <strong class="text-slate-700">Minijuego de Flechas:</strong> Controlar a un personaje para recorrer la pantalla con las flechas del teclado y recolectar objetos que desaparecen al tocarlos.
+                <td class="py-3.5 px-4 sm:px-5 text-slate-800 leading-relaxed">
+                  <strong class="text-amber-900">Ejemplo para Reinventar (Remix):</strong> Puedes <a href="https://scratch.mit.edu/projects/1125676879/" target="_blank" rel="noopener noreferrer" class="underline text-indigo-700 font-bold hover:text-indigo-900">abrir el proyecto de ejemplo en Scratch ↗</a> y reinventarlo con tus propios controles interactivos.
                 </td>
                 <td class="py-3.5 px-4 sm:px-5 text-center whitespace-nowrap">
-                  <button type="button" disabled class="bg-slate-100 text-slate-400 border border-slate-200 text-xs font-bold px-3 py-1.5 rounded-xl cursor-not-allowed inline-flex items-center gap-1 select-none opacity-80" title="Proyecto bloqueado - Disponible próximamente">
-                    <span>🔒</span> <span>Bloqueado</span>
+                  <button onclick="showTab('proyectos'); selectProject(3);" class="bg-rose-50 hover:bg-rose-100 text-harvard-crimson border border-rose-200 text-xs font-bold px-3 py-1.5 rounded-xl transition shadow-sm inline-flex items-center gap-1">
+                    <span>Ver Proyecto</span> ➔
                   </button>
                 </td>
               </tr>
 
-              <!-- PROYECTO 4 (BLOQUEADO) -->
-              <tr class="hover:bg-slate-50/50 transition opacity-80 bg-slate-50/30">
-                <td class="py-3.5 px-4 sm:px-5 font-display font-extrabold text-slate-800 whitespace-nowrap">
+              <!-- PROYECTO 4 -->
+              <tr class="hover:bg-rose-50/50 transition">
+                <td class="py-3.5 px-4 sm:px-5 font-display font-extrabold text-slate-900 whitespace-nowrap">
                   <div class="flex items-center gap-2">
-                    <span class="w-7 h-7 rounded-lg bg-slate-100 text-slate-500 font-bold text-xs flex items-center justify-center border border-slate-200">🔒</span>
-                    <span class="text-slate-600">Project 4: Values</span>
-                    <span class="text-[10px] font-bold bg-slate-100 text-slate-500 px-2 py-0.5 rounded-md border border-slate-200">Bloqueado</span>
+                    <span class="w-7 h-7 rounded-lg bg-cyan-100 text-cyan-900 font-black text-xs flex items-center justify-center border border-cyan-200">4</span>
+                    <span>Project 4: Values</span>
                   </div>
                 </td>
-                <td class="py-3.5 px-4 sm:px-5 font-medium text-slate-500">
+                <td class="py-3.5 px-4 sm:px-5 font-medium text-slate-600">
                   Manejar preguntas al usuario, captura de respuestas y unión de texto (join).
                 </td>
-                <td class="py-3.5 px-4 sm:px-5 text-slate-600 leading-relaxed">
-                  <strong class="text-slate-700">Robot Conversacional (Chatbot):</strong> Un genio que te pregunta tu nombre y tu comida favorita, y te responde: <em>"¡Hola Juan, te concedo 100 pizzas!"</em>.
+                <td class="py-3.5 px-4 sm:px-5 text-slate-800 leading-relaxed">
+                  <strong class="text-cyan-900">Ejemplo para Reinventar (Remix):</strong> Puedes <a href="https://scratch.mit.edu/projects/1125810379/" target="_blank" rel="noopener noreferrer" class="underline text-indigo-700 font-bold hover:text-indigo-900">abrir el proyecto de ejemplo en Scratch ↗</a> y reinventarlo con tus propias preguntas y respuestas.
                 </td>
                 <td class="py-3.5 px-4 sm:px-5 text-center whitespace-nowrap">
-                  <button type="button" disabled class="bg-slate-100 text-slate-400 border border-slate-200 text-xs font-bold px-3 py-1.5 rounded-xl cursor-not-allowed inline-flex items-center gap-1 select-none opacity-80" title="Proyecto bloqueado - Disponible próximamente">
-                    <span>🔒</span> <span>Bloqueado</span>
+                  <button onclick="showTab('proyectos'); selectProject(4);" class="bg-rose-50 hover:bg-rose-100 text-harvard-crimson border border-rose-200 text-xs font-bold px-3 py-1.5 rounded-xl transition shadow-sm inline-flex items-center gap-1">
+                    <span>Ver Proyecto</span> ➔
                   </button>
                 </td>
               </tr>
 
-              <!-- PROYECTO 5 (BLOQUEADO) -->
-              <tr class="hover:bg-slate-50/50 transition opacity-80 bg-slate-50/30">
-                <td class="py-3.5 px-4 sm:px-5 font-display font-extrabold text-slate-800 whitespace-nowrap">
+              <!-- PROYECTO 5 -->
+              <tr class="hover:bg-rose-50/50 transition">
+                <td class="py-3.5 px-4 sm:px-5 font-display font-extrabold text-slate-900 whitespace-nowrap">
                   <div class="flex items-center gap-2">
-                    <span class="w-7 h-7 rounded-lg bg-slate-100 text-slate-500 font-bold text-xs flex items-center justify-center border border-slate-200">🔒</span>
-                    <span class="text-slate-600">Project 5: Conditions</span>
-                    <span class="text-[10px] font-bold bg-slate-100 text-slate-500 px-2 py-0.5 rounded-md border border-slate-200">Bloqueado</span>
+                    <span class="w-7 h-7 rounded-lg bg-orange-100 text-orange-900 font-black text-xs flex items-center justify-center border border-orange-200">5</span>
+                    <span>Project 5: Conditions</span>
                   </div>
                 </td>
-                <td class="py-3.5 px-4 sm:px-5 font-medium text-slate-500">
+                <td class="py-3.5 px-4 sm:px-5 font-medium text-slate-600">
                   Lógica condicional (si... entonces... si no) y operadores de comparación.
                 </td>
-                <td class="py-3.5 px-4 sm:px-5 text-slate-600 leading-relaxed">
-                  <strong class="text-slate-700">Juego de Trivia o Adivinanza:</strong> Preguntar la capital de un país o una suma; si el usuario acierta dice <em>"¡Genial!"</em>, si no dice <em>"Casi, intenta de nuevo"</em>.
+                <td class="py-3.5 px-4 sm:px-5 text-slate-800 leading-relaxed">
+                  <strong class="text-orange-900">Ejemplo para Reinventar (Remix):</strong> Puedes <a href="https://scratch.mit.edu/projects/1125824332/" target="_blank" rel="noopener noreferrer" class="underline text-indigo-700 font-bold hover:text-indigo-900">abrir el proyecto de ejemplo en Scratch ↗</a> y reinventarlo con tus propias condiciones y retos.
                 </td>
                 <td class="py-3.5 px-4 sm:px-5 text-center whitespace-nowrap">
-                  <button type="button" disabled class="bg-slate-100 text-slate-400 border border-slate-200 text-xs font-bold px-3 py-1.5 rounded-xl cursor-not-allowed inline-flex items-center gap-1 select-none opacity-80" title="Proyecto bloqueado - Disponible próximamente">
-                    <span>🔒</span> <span>Bloqueado</span>
+                  <button onclick="showTab('proyectos'); selectProject(5);" class="bg-rose-50 hover:bg-rose-100 text-harvard-crimson border border-rose-200 text-xs font-bold px-3 py-1.5 rounded-xl transition shadow-sm inline-flex items-center gap-1">
+                    <span>Ver Proyecto</span> ➔
                   </button>
                 </td>
               </tr>
 
-              <!-- PROYECTO 6 (BLOQUEADO) -->
-              <tr class="hover:bg-slate-50/50 transition opacity-80 bg-slate-50/30">
-                <td class="py-3.5 px-4 sm:px-5 font-display font-extrabold text-slate-800 whitespace-nowrap">
+              <!-- PROYECTO 6 -->
+              <tr class="hover:bg-rose-50/50 transition">
+                <td class="py-3.5 px-4 sm:px-5 font-display font-extrabold text-slate-900 whitespace-nowrap">
                   <div class="flex items-center gap-2">
-                    <span class="w-7 h-7 rounded-lg bg-slate-100 text-slate-500 font-bold text-xs flex items-center justify-center border border-slate-200">🔒</span>
-                    <span class="text-slate-600">Project 6: Loops</span>
-                    <span class="text-[10px] font-bold bg-slate-100 text-slate-500 px-2 py-0.5 rounded-md border border-slate-200">Bloqueado</span>
+                    <span class="w-7 h-7 rounded-lg bg-amber-100 text-amber-900 font-black text-xs flex items-center justify-center border border-amber-200">6</span>
+                    <span>Project 6: Loops</span>
                   </div>
                 </td>
-                <td class="py-3.5 px-4 sm:px-5 font-medium text-slate-500">
+                <td class="py-3.5 px-4 sm:px-5 font-medium text-slate-600">
                   Automatizar repeticiones con bucles (repetir n, por siempre y repetir hasta).
                 </td>
-                <td class="py-3.5 px-4 sm:px-5 text-slate-600 leading-relaxed">
-                  <strong class="text-slate-700">Despegue Espacial:</strong> Un cohete con una cuenta regresiva del 10 al 1 usando un bucle, que luego enciende sus motores y sube al cielo sin parar.
+                <td class="py-3.5 px-4 sm:px-5 text-slate-800 leading-relaxed">
+                  <strong class="text-amber-900">Ejemplo para Reinventar (Remix):</strong> Puedes <a href="https://scratch.mit.edu/projects/1126037123/" target="_blank" rel="noopener noreferrer" class="underline text-indigo-700 font-bold hover:text-indigo-900">abrir el proyecto de ejemplo en Scratch ↗</a> y reinventarlo con tus propias secuencias y bucles.
                 </td>
                 <td class="py-3.5 px-4 sm:px-5 text-center whitespace-nowrap">
-                  <button type="button" disabled class="bg-slate-100 text-slate-400 border border-slate-200 text-xs font-bold px-3 py-1.5 rounded-xl cursor-not-allowed inline-flex items-center gap-1 select-none opacity-80" title="Proyecto bloqueado - Disponible próximamente">
-                    <span>🔒</span> <span>Bloqueado</span>
+                  <button onclick="showTab('proyectos'); selectProject(6);" class="bg-rose-50 hover:bg-rose-100 text-harvard-crimson border border-rose-200 text-xs font-bold px-3 py-1.5 rounded-xl transition shadow-sm inline-flex items-center gap-1">
+                    <span>Ver Proyecto</span> ➔
                   </button>
                 </td>
               </tr>
 
-              <!-- PROYECTO 7 (BLOQUEADO) -->
-              <tr class="hover:bg-slate-50/50 transition opacity-80 bg-slate-50/30">
-                <td class="py-3.5 px-4 sm:px-5 font-display font-extrabold text-slate-800 whitespace-nowrap">
+              <!-- PROYECTO 7 -->
+              <tr class="hover:bg-rose-50/50 transition">
+                <td class="py-3.5 px-4 sm:px-5 font-display font-extrabold text-slate-900 whitespace-nowrap">
                   <div class="flex items-center gap-2">
-                    <span class="w-7 h-7 rounded-lg bg-slate-100 text-slate-500 font-bold text-xs flex items-center justify-center border border-slate-200">🔒</span>
-                    <span class="text-slate-600">Project 7: Variables</span>
-                    <span class="text-[10px] font-bold bg-slate-100 text-slate-500 px-2 py-0.5 rounded-md border border-slate-200">Bloqueado</span>
+                    <span class="w-7 h-7 rounded-lg bg-emerald-100 text-emerald-800 font-black text-xs flex items-center justify-center border border-emerald-200">7</span>
+                    <span>Project 7: Variables</span>
                   </div>
                 </td>
-                <td class="py-3.5 px-4 sm:px-5 font-medium text-slate-500">
+                <td class="py-3.5 px-4 sm:px-5 font-medium text-slate-600">
                   Gestionar memoria con variables (contadores de puntaje, tiempo y vidas).
                 </td>
-                <td class="py-3.5 px-4 sm:px-5 text-slate-600 leading-relaxed">
-                  <strong class="text-slate-700">Atrapando Frutas:</strong> Canasta que se mueve a los lados; cada manzana atrapada suma +1 en la variable <code>Puntaje</code> y si cae al piso resta 1 en <code>Vidas</code>.
+                <td class="py-3.5 px-4 sm:px-5 text-slate-800 leading-relaxed">
+                  <strong class="text-emerald-900">Ejemplo para Reinventar (Remix):</strong> Puedes <a href="https://scratch.mit.edu/projects/1126069522/" target="_blank" rel="noopener noreferrer" class="underline text-indigo-700 font-bold hover:text-indigo-900">abrir el proyecto de ejemplo en Scratch ↗</a> y reinventarlo con tus propios personajes, objetos y reglas de juego.
                 </td>
                 <td class="py-3.5 px-4 sm:px-5 text-center whitespace-nowrap">
-                  <button type="button" disabled class="bg-slate-100 text-slate-400 border border-slate-200 text-xs font-bold px-3 py-1.5 rounded-xl cursor-not-allowed inline-flex items-center gap-1 select-none opacity-80" title="Proyecto bloqueado - Disponible próximamente">
-                    <span>🔒</span> <span>Bloqueado</span>
+                  <button onclick="showTab('proyectos'); selectProject(7);" class="bg-rose-50 hover:bg-rose-100 text-harvard-crimson border border-rose-200 text-xs font-bold px-3 py-1.5 rounded-xl transition shadow-sm inline-flex items-center gap-1">
+                    <span>Ver Proyecto</span> ➔
                   </button>
                 </td>
               </tr>
 
-              <!-- PROYECTO 8 (BLOQUEADO) -->
-              <tr class="hover:bg-slate-50/50 transition opacity-80 bg-slate-50/30">
-                <td class="py-3.5 px-4 sm:px-5 font-display font-extrabold text-slate-800 whitespace-nowrap">
+              <!-- PROYECTO 8 -->
+              <tr class="hover:bg-rose-50/50 transition">
+                <td class="py-3.5 px-4 sm:px-5 font-display font-extrabold text-slate-900 whitespace-nowrap">
                   <div class="flex items-center gap-2">
-                    <span class="w-7 h-7 rounded-lg bg-slate-100 text-slate-500 font-bold text-xs flex items-center justify-center border border-slate-200">🔒</span>
-                    <span class="text-slate-600">Project 8: Abstraction</span>
-                    <span class="text-[10px] font-bold bg-slate-100 text-slate-500 px-2 py-0.5 rounded-md border border-slate-200">Bloqueado</span>
+                    <span class="w-7 h-7 rounded-lg bg-purple-100 text-purple-800 font-black text-xs flex items-center justify-center border border-purple-200">8</span>
+                    <span>Project 8: Abstraction</span>
                   </div>
                 </td>
-                <td class="py-3.5 px-4 sm:px-5 font-medium text-slate-500">
+                <td class="py-3.5 px-4 sm:px-5 font-medium text-slate-600">
                   Modularizar código creando bloques personalizados ("Mis Bloques") reutilizables.
                 </td>
                 <td class="py-3.5 px-4 sm:px-5 text-slate-800 leading-relaxed">
-                  <strong class="text-slate-700">Juego de Plataformas:</strong> Crear un bloque propio llamado <code>[saltar con altura (x)]</code> para reutilizar la física del salto cada vez que esquivas obstáculos.
+                  <strong class="text-purple-900">Ejemplo para Reinventar (Remix):</strong> Puedes <a href="https://scratch.mit.edu/projects/1126079492/" target="_blank" rel="noopener noreferrer" class="underline text-indigo-700 font-bold hover:text-indigo-900">abrir el proyecto de ejemplo en Scratch ↗</a> y reinventarlo definiendo tus propios bloques personalizados.
                 </td>
                 <td class="py-3.5 px-4 sm:px-5 text-center whitespace-nowrap">
-                  <button type="button" disabled class="bg-slate-100 text-slate-400 border border-slate-200 text-xs font-bold px-3 py-1.5 rounded-xl cursor-not-allowed inline-flex items-center gap-1 select-none opacity-80" title="Proyecto bloqueado - Disponible próximamente">
-                    <span>🔒</span> <span>Bloqueado</span>
+                  <button onclick="showTab('proyectos'); selectProject(8);" class="bg-rose-50 hover:bg-rose-100 text-harvard-crimson border border-rose-200 text-xs font-bold px-3 py-1.5 rounded-xl transition shadow-sm inline-flex items-center gap-1">
+                    <span>Ver Proyecto</span> ➔
                   </button>
                 </td>
               </tr>
 
-              <!-- PROYECTO 9 (BLOQUEADO) -->
-              <tr class="hover:bg-slate-50/50 transition opacity-80 bg-slate-50/30">
-                <td class="py-3.5 px-4 sm:px-5 font-display font-extrabold text-slate-800 whitespace-nowrap">
+              <!-- PROYECTO 9 -->
+              <tr class="hover:bg-rose-50/50 transition">
+                <td class="py-3.5 px-4 sm:px-5 font-display font-extrabold text-slate-900 whitespace-nowrap">
                   <div class="flex items-center gap-2">
-                    <span class="w-7 h-7 rounded-lg bg-slate-100 text-slate-500 font-bold text-xs flex items-center justify-center border border-slate-200">🔒</span>
-                    <span class="text-slate-600">Project 9: Build</span>
-                    <span class="text-[10px] font-bold bg-slate-100 text-slate-500 px-2 py-0.5 rounded-md border border-slate-200">Bloqueado</span>
+                    <span class="w-7 h-7 rounded-lg bg-rose-100 text-harvard-crimson font-black text-xs flex items-center justify-center border border-rose-200">9</span>
+                    <span>Project 9: Build</span>
                   </div>
                 </td>
-                <td class="py-3.5 px-4 sm:px-5 font-medium text-slate-500">
+                <td class="py-3.5 px-4 sm:px-5 font-medium text-slate-600">
                   Integrar todos los conceptos: sprites, clones, broadcast, variables y bloques propios.
                 </td>
                 <td class="py-3.5 px-4 sm:px-5 text-slate-800 leading-relaxed">
-                  <strong class="text-slate-700">Gran Videojuego Final:</strong> Un juego completo a tu elección (nave espacial disparando a meteoros clonados, laberinto o aventura) con menú, vidas y sonido.
+                  <strong class="text-rose-900">Ejemplo para Reinventar (Remix):</strong> Puedes <a href="https://scratch.mit.edu/projects/1126573729/" target="_blank" rel="noopener noreferrer" class="underline text-indigo-700 font-bold hover:text-indigo-900">abrir el proyecto de ejemplo en Scratch ↗</a> y reinventarlo integrando todas tus habilidades maestras.
                 </td>
                 <td class="py-3.5 px-4 sm:px-5 text-center whitespace-nowrap">
-                  <button type="button" disabled class="bg-slate-100 text-slate-400 border border-slate-200 text-xs font-bold px-3 py-1.5 rounded-xl cursor-not-allowed inline-flex items-center gap-1 select-none opacity-80" title="Proyecto bloqueado - Disponible próximamente">
-                    <span>🔒</span> <span>Bloqueado</span>
+                  <button onclick="showTab('proyectos'); selectProject(9);" class="bg-rose-50 hover:bg-rose-100 text-harvard-crimson border border-rose-200 text-xs font-bold px-3 py-1.5 rounded-xl transition shadow-sm inline-flex items-center gap-1">
+                    <span>Ver Proyecto</span> ➔
                   </button>
                 </td>
               </tr>
@@ -1248,7 +1268,7 @@ eliminar este clon
         difficulty: "Nivel Inicial • Sin código obligatorio",
         harvardUrl: "https://cs50.harvard.edu/scratch/projects/1/",
         submitUrl: "https://submit.cs50.io/upload/cs50/problems/2024/scratch/sprites",
-        exampleUrl: "https://scratch.mit.edu/projects/1378057637",
+        exampleUrl: "https://scratch.mit.edu/projects/1125580414/",
         mission: "Tu objetivo en este proyecto es ambientar una escena completa en Scratch. El escenario no debe quedarse en blanco: debes colocar un fondo nuevo (elegido de la biblioteca de Scratch o dibujado por ti) e insertar al menos tres (3) personajes u objetos (sprites) diferentes en pantalla, ubicándolos libremente donde prefieras arrastrándolos con el ratón.",
         requirements: [
           "<strong>Agrega un fondo que te guste:</strong> Elige un escenario de la biblioteca de Scratch o dibújalo (el fondo no debe quedarse en blanco).",
@@ -1270,6 +1290,7 @@ eliminar este clon
         difficulty: "Nivel Básico • Animación",
         harvardUrl: "https://cs50.harvard.edu/scratch/projects/2/",
         submitUrl: "https://submit.cs50.io/upload/cs50/problems/2024/scratch/functions",
+        exampleUrl: "https://scratch.mit.edu/projects/1125676644/",
         mission: "Tu objetivo en este proyecto es darle dinamismo a tus personajes utilizando bloques de las tres categorías esenciales de Scratch: Movimiento, Apariencia y Sonido. Tu personaje debe desplazarse en la pantalla, decir una frase mediante un bocadillo de diálogo y emitir un efecto de sonido coordinado.",
         requirements: [
           "<strong>Bloque de Movimiento:</strong> Utiliza al menos una instrucción para mover, deslizar o girar a tu personaje (ej: <code>mover (10) pasos</code> o <code>rebotar si toca un borde</code>).",
@@ -1298,6 +1319,7 @@ eliminar este clon
         difficulty: "Nivel Básico • Interactividad",
         harvardUrl: "https://cs50.harvard.edu/scratch/projects/3/",
         submitUrl: "https://submit.cs50.io/upload/cs50/problems/2024/scratch/events",
+        exampleUrl: "https://scratch.mit.edu/projects/1125676879/",
         mission: "Tu objetivo en este proyecto es hacer que tu proyecto responda dinámicamente a las acciones del usuario. Programa diferentes eventos para que ocurran cosas distintas al pulsar la bandera verde, presionar teclas del teclado (como flechas o espacio) o hacer clic con el ratón sobre los personajes.",
         requirements: [
           "<strong>Evento con Bandera Verde:</strong> Inicia una acción principal al pulsar la bandera usando <code>al presionar 🚩</code>.",
@@ -1325,6 +1347,7 @@ eliminar este clon
         difficulty: "Nivel Intermedio • Diálogo con el Usuario",
         harvardUrl: "https://cs50.harvard.edu/scratch/projects/4/",
         submitUrl: "https://submit.cs50.io/upload/cs50/problems/2024/scratch/values",
+        exampleUrl: "https://scratch.mit.edu/projects/1125810379/",
         mission: "Tu objetivo en este proyecto es crear una interacción donde el programa dialogue con el usuario. El personaje debe formular una pregunta en pantalla, esperar a que el usuario escriba la respuesta con el teclado, y utilizar esa información para responderle de manera personalizada combinando texto o calculando números.",
         requirements: [
           "<strong>Pregunta al usuario:</strong> Formula una pregunta con el bloque sensor celeste <code>preguntar [¿Cómo te llamas?] y esperar</code>.",
@@ -1352,6 +1375,7 @@ eliminar este clon
         difficulty: "Nivel Intermedio • Toma de Decisiones",
         harvardUrl: "https://cs50.harvard.edu/scratch/projects/5/",
         submitUrl: "https://submit.cs50.io/upload/cs50/problems/2024/scratch/conditions",
+        exampleUrl: "https://scratch.mit.edu/projects/1125824332/",
         mission: "Tu objetivo en este proyecto es programar al computador para que tome decisiones lógicas por sí mismo. Crea una adivinanza, un acertijo o un control de contraseña: si el usuario escribe la respuesta correcta pasa una cosa (ej: aplausos), pero si es incorrecta pasa otra distinta (ej: sonido de error o pista).",
         requirements: [
           "<strong>Estructura condicional:</strong> Utiliza el bloque de Control <code>si &lt;condición&gt; entonces / si no</code> para evaluar respuestas.",
@@ -1379,6 +1403,7 @@ eliminar este clon
         difficulty: "Nivel Intermedio • Optimización",
         harvardUrl: "https://cs50.harvard.edu/scratch/projects/6/",
         submitUrl: "https://submit.cs50.io/upload/cs50/problems/2024/scratch/loops",
+        exampleUrl: "https://scratch.mit.edu/projects/1126037123/",
         mission: "Tu objetivo en este proyecto es automatizar acciones repetitivas mediante bucles. En lugar de copiar y pegar bloques manualmente, utiliza estructuras cíclicas para que un personaje patrulle continuamente, gire como un reloj o repita una coreografía un número exacto de veces.",
         requirements: [
           "<strong>Dos tipos de bucles:</strong> Utiliza al menos dos bucles de la categoría Control (ej: <code>por siempre</code> y <code>repetir (10) veces</code>).",
@@ -1407,6 +1432,7 @@ eliminar este clon
         difficulty: "Nivel Avanzado • Videojuego Jugable",
         harvardUrl: "https://cs50.harvard.edu/scratch/projects/7/",
         submitUrl: "https://submit.cs50.io/upload/cs50/problems/2024/scratch/variables",
+        exampleUrl: "https://scratch.mit.edu/projects/1126069522/",
         mission: "Tu objetivo en este proyecto es construir tu primer videojuego interactivo completo con sistema de puntuación. Diseña una mecánica donde el jugador controle un personaje que deba atrapar objetos que caen o esquivar obstáculos. Debes crear una variable llamada 'Puntaje' (o 'Vidas') que cambie en tiempo real y finalice el juego cuando corresponda.",
         requirements: [
           "<strong>Crea tu variable:</strong> Crea una variable en la categoría naranja llamada <code>Puntaje</code> (o <code>Monedas</code> / <code>Vidas</code>).",
@@ -1435,6 +1461,7 @@ eliminar este clon
         difficulty: "Nivel Avanzado • Código Modular",
         harvardUrl: "https://cs50.harvard.edu/scratch/projects/8/",
         submitUrl: "https://submit.cs50.io/upload/cs50/problems/2024/scratch/abstraction",
+        exampleUrl: "https://scratch.mit.edu/projects/1126079492/",
         mission: "Tu objetivo en este proyecto es practicar el principio de abstracción creando tus propios bloques personalizados ('Mis Bloques'). Define una función propia con un nombre claro (por ejemplo: saltar, celebrar o reiniciar_posicion) y reutilízala varias veces en tu programa principal para que tu código sea limpio y ordenado.",
         requirements: [
           "<strong>Crea un bloque propio:</strong> En la categoría roja 'Mis Bloques' pulsa <em>Crear un bloque</em> (ej: <code>saltar</code>, <code>celebrar</code> o <code>reiniciar</code>).",
@@ -1461,6 +1488,7 @@ eliminar este clon
         difficulty: "Nivel Máster • Proyecto de Graduación",
         harvardUrl: "https://cs50.harvard.edu/scratch/projects/9/",
         submitUrl: "https://submit.cs50.io/upload/cs50/problems/2024/scratch/build",
+        exampleUrl: "https://scratch.mit.edu/projects/1126573729/",
         mission: "Tu objetivo en este gran proyecto cumbre es demostrar todo tu talento integrando todo lo aprendido a lo largo del curso. Debes coordinar sprites usando señales de radio o mensajes de difusión (broadcast) y generar copias dinámicas de objetos usando el poder de los clones (proyectiles, monedas o enemigos).",
         requirements: [
           "<strong>Mensajes de difusión (Broadcast):</strong> Envía una señal con <code>enviar [mensaje]</code> y haz que otro personaje reaccione con <code>al recibir [mensaje]</code>.",
@@ -1562,7 +1590,7 @@ eliminar este clon
 
     function navigateProject(direction) {
       const nextId = currentProjectId + direction;
-      if (nextId === 1) {
+      if (nextId >= 1 && nextId <= CS50_PROJECTS.length) {
         selectProject(nextId);
       }
     }
@@ -1589,11 +1617,11 @@ eliminar este clon
         if (btnGrid) btnGrid.className = 'px-3.5 py-2 rounded-xl text-xs font-bold transition flex items-center gap-1.5 bg-white text-slate-900 shadow-sm';
         if (btnSingle) btnSingle.className = 'px-3.5 py-2 rounded-xl text-xs font-bold transition flex items-center gap-1.5 text-slate-600 hover:text-slate-900';
         renderProjectsGrid();
-      setAlgorithmExample(0);
+        setAlgorithmExample(0);
       }
     }
 
-    // Renderizar píldoras superiores del 1 al 9 (Proyectos 2 al 9 bloqueados)
+    // Renderizar píldoras superiores del 1 al 9
     function renderProjectPills() {
       const container = document.getElementById('projectPillsContainer');
       if (!container) return;
@@ -1602,29 +1630,15 @@ eliminar este clon
 
       CS50_PROJECTS.forEach(proj => {
         const isSelected = proj.id === currentProjectId;
-        const isLocked = proj.id > 1;
-
-        if (isLocked) {
-          html += `
-            <button type="button" onclick="alert('🔒 El Proyecto ${proj.id} (${proj.title}) estará disponible en las siguientes clases. ¡Concéntrate por ahora en el Proyecto 1!');" class="project-pill-btn p-2 rounded-2xl border flex flex-col items-center justify-center text-center transition bg-slate-100/70 border-slate-200 text-slate-400 opacity-60 cursor-not-allowed hover:bg-slate-100 select-none" title="Proyecto ${proj.id} Bloqueado">
-              <div class="flex items-center gap-1 mb-0.5">
-                <span class="text-xs">🔒</span>
-                <span class="text-xs font-bold text-slate-400">${proj.id}</span>
-              </div>
-              <span class="text-[9px] font-bold truncate max-w-full block leading-tight text-slate-400">Bloqueado</span>
-            </button>
-          `;
-        } else {
-          html += `
-            <button type="button" onclick="selectProject(${proj.id}); setViewMode('single');" class="project-pill-btn p-2 rounded-2xl border flex flex-col items-center justify-center text-center transition ${isSelected ? 'active' : 'bg-slate-50 hover:bg-slate-100 border-slate-200 text-slate-700'}">
-              <div class="flex items-center gap-1 mb-0.5">
-                <span class="text-sm">${proj.icon}</span>
-                <span class="text-xs font-black">${proj.id}</span>
-              </div>
-              <span class="text-[10px] font-bold truncate max-w-full block leading-tight opacity-90">${proj.title.split(' ')[0]}</span>
-            </button>
-          `;
-        }
+        html += `
+          <button type="button" onclick="selectProject(${proj.id}); setViewMode('single');" class="project-pill-btn p-2 rounded-2xl border flex flex-col items-center justify-center text-center transition ${isSelected ? 'active' : 'bg-slate-50 hover:bg-slate-100 border-slate-200 text-slate-700'}">
+            <div class="flex items-center gap-1 mb-0.5">
+              <span class="text-sm">${proj.icon}</span>
+              <span class="text-xs font-black">${proj.id}</span>
+            </div>
+            <span class="text-[10px] font-bold truncate max-w-full block leading-tight opacity-90">${proj.title.split(' ')[0]}</span>
+          </button>
+        `;
       });
 
       container.innerHTML = html;
@@ -1638,12 +1652,12 @@ eliminar este clon
       const btnPrev = document.getElementById('btnPrevProject');
       const btnNext = document.getElementById('btnNextProject');
       if (btnPrev) {
-        btnPrev.disabled = true;
-        btnPrev.classList.add('opacity-40');
+        btnPrev.disabled = currentProjectId <= 1;
+        btnPrev.classList.toggle('opacity-40', currentProjectId <= 1);
       }
       if (btnNext) {
-        btnNext.disabled = true;
-        btnNext.classList.add('opacity-40');
+        btnNext.disabled = currentProjectId >= CS50_PROJECTS.length;
+        btnNext.classList.toggle('opacity-40', currentProjectId >= CS50_PROJECTS.length);
       }
     }
 
@@ -1937,101 +1951,57 @@ eliminar este clon
       let html = '';
 
       CS50_PROJECTS.forEach(proj => {
-        const isLocked = proj.id > 1;
         const blockPreview = (proj.blocks && proj.blocks.length > 0)
           ? proj.blocks.slice(0, 3).map(b => `<span class="scratch-chip block-${b.type} text-[11px] py-0.5 px-2 rounded">${b.text}</span>`).join(' ')
           : '<span class="text-[11px] text-emerald-800 font-bold bg-emerald-50 px-2 py-0.5 rounded-md border border-emerald-200">🎨 Diseño Visual (Sin bloques)</span>';
 
-        if (isLocked) {
-          html += `
-            <div class="bg-slate-50/70 rounded-3xl p-6 border border-slate-200 opacity-65 flex flex-col justify-between project-card" data-project="${proj.id}" data-title="proyecto ${proj.id} ${proj.title.toLowerCase()} ${proj.concept.toLowerCase()}" data-status="locked">
-              <div>
-                <div class="flex items-start justify-between gap-2 mb-3">
-                  <span class="inline-flex items-center gap-1.5 px-2.5 py-1 rounded-lg bg-slate-200 text-slate-600 font-bold text-xs">
-                    <span>🔒</span> <span>${proj.title}</span>
-                  </span>
-                  <span class="text-xs font-black text-slate-400 bg-slate-200/80 px-2.5 py-1 rounded-full border border-slate-300">
-                    Proyecto ${proj.id}
-                  </span>
-                </div>
-
-                <h3 class="font-display font-extrabold text-lg text-slate-700 mb-2">
-                  ${proj.fullTitle}
-                </h3>
-
-                <p class="text-slate-500 text-xs sm:text-sm leading-relaxed mb-4">
-                  ${proj.mission}
-                </p>
-
-                <div class="bg-slate-100 p-3 rounded-2xl border border-slate-200/60 mb-4 space-y-1.5">
-                  <div class="text-[11px] font-bold text-slate-400 uppercase tracking-wider">Conceptos y bloques:</div>
-                  <div class="flex flex-wrap gap-1.5">
-                    ${blockPreview}
-                  </div>
-                </div>
+        html += `
+          <div class="bg-white rounded-3xl p-6 border border-slate-200 card-cs50 flex flex-col justify-between project-card" data-project="${proj.id}" data-title="proyecto ${proj.id} ${proj.title.toLowerCase()} ${proj.concept.toLowerCase()}" data-status="pending">
+            <div>
+              <div class="flex items-start justify-between gap-2 mb-3">
+                <span class="scratch-chip ${proj.blockChipClass}">
+                  <span>${proj.icon}</span> <span>${proj.title}</span>
+                </span>
+                <span class="text-xs font-black text-rose-800 bg-rose-50 px-2.5 py-1 rounded-full border border-rose-200">
+                  Proyecto ${proj.id}
+                </span>
               </div>
 
-              <div>
-                <div class="pt-4 border-t border-slate-200/60 flex items-center justify-between mb-3">
-                  <span class="text-xs font-bold text-slate-400">Estado: Bloqueado</span>
-                  <span class="badge-status text-[11px] font-bold px-2 py-0.5 rounded-full bg-slate-200 text-slate-500 border border-slate-300">
-                    🔒 Próximamente
-                  </span>
-                </div>
+              <h3 class="font-display font-extrabold text-lg text-slate-900 mb-2">
+                ${proj.fullTitle}
+              </h3>
 
-                <div class="space-y-2">
-                  <button type="button" disabled class="w-full bg-slate-200/80 text-slate-400 text-center text-xs font-bold py-2.5 rounded-xl cursor-not-allowed inline-flex items-center justify-center gap-1.5 select-none border border-slate-300/60">
-                    <span>🔒</span> <span>Proyecto Bloqueado por el Profesor</span>
-                  </button>
+              <p class="text-slate-600 text-xs sm:text-sm leading-relaxed mb-4">
+                ${proj.mission}
+              </p>
+
+              <!-- Bloques clave -->
+              <div class="bg-slate-50 p-3 rounded-2xl border border-slate-100 mb-4 space-y-1.5">
+                <div class="text-[11px] font-bold text-slate-400 uppercase tracking-wider">Conceptos y bloques:</div>
+                <div class="flex flex-wrap gap-1.5">
+                  ${blockPreview}
                 </div>
               </div>
             </div>
-          `;
-        } else {
-          html += `
-            <div class="bg-white rounded-3xl p-6 border border-slate-200 card-cs50 flex flex-col justify-between project-card" data-project="${proj.id}" data-title="proyecto ${proj.id} ${proj.title.toLowerCase()} ${proj.concept.toLowerCase()}" data-status="pending">
-              <div>
-                <div class="flex items-start justify-between gap-2 mb-3">
-                  <span class="scratch-chip ${proj.blockChipClass}">
-                    <span>${proj.icon}</span> <span>${proj.title}</span>
-                  </span>
-                  <span class="text-xs font-black text-rose-800 bg-rose-50 px-2.5 py-1 rounded-full border border-rose-200">
-                    Proyecto ${proj.id}
-                  </span>
-                </div>
 
-                <h3 class="font-display font-extrabold text-lg text-slate-900 mb-2">
-                  ${proj.fullTitle}
-                </h3>
-
-                <p class="text-slate-600 text-xs sm:text-sm leading-relaxed mb-4">
-                  ${proj.mission}
-                </p>
-
-                <!-- Bloques clave -->
-                <div class="bg-slate-50 p-3 rounded-2xl border border-slate-100 mb-4 space-y-1.5">
-                  <div class="text-[11px] font-bold text-slate-400 uppercase tracking-wider">Conceptos y bloques:</div>
-                  <div class="flex flex-wrap gap-1.5">
-                    ${blockPreview}
-                  </div>
-                </div>
+            <div>
+              <!-- Enlace directo de subida y Ver detalle -->
+              <div class="space-y-2 pt-4 border-t border-slate-100">
+                ${proj.exampleUrl ? `
+                <a href="${proj.exampleUrl}" target="_blank" rel="noopener noreferrer" class="w-full bg-indigo-600 hover:bg-indigo-700 text-white text-center text-xs font-bold py-2 rounded-xl transition inline-flex items-center justify-center gap-1.5 shadow-sm">
+                  <span>😺</span> <span>Abrir Ejemplo Scratch ↗</span>
+                </a>` : ''}
+                <a href="${proj.submitUrl}" target="_blank" rel="noopener noreferrer" class="w-full btn-submit-direct text-white text-center text-xs font-black py-2.5 rounded-xl transition inline-flex items-center justify-center gap-1.5 shadow">
+                  <span>📤</span> <span>Subir Entrega Directa (.sb3) ↗</span>
+                </a>
+                <button type="button" onclick="setViewMode('single'); selectProject(${proj.id});" class="w-full bg-slate-100 hover:bg-slate-200 text-slate-800 text-center text-xs font-bold py-2 rounded-xl transition inline-flex items-center justify-center gap-1">
+                  <span>📑</span> <span>Ver Paso a Paso</span>
+                </button>
               </div>
 
-              <div>
-                <!-- Enlace directo de subida y Ver detalle -->
-                <div class="space-y-2 pt-4 border-t border-slate-100">
-                  <a href="${proj.submitUrl}" target="_blank" rel="noopener noreferrer" class="w-full btn-submit-direct text-white text-center text-xs font-black py-2.5 rounded-xl transition inline-flex items-center justify-center gap-1.5 shadow">
-                    <span>📤</span> <span>Subir Entrega Directa (.sb3) ↗</span>
-                  </a>
-                  <button type="button" onclick="setViewMode('single'); selectProject(${proj.id});" class="w-full bg-slate-100 hover:bg-slate-200 text-slate-800 text-center text-xs font-bold py-2 rounded-xl transition inline-flex items-center justify-center gap-1">
-                    <span>📑</span> <span>Ver Paso a Paso</span>
-                  </button>
-                </div>
-
-              </div>
             </div>
-          `;
-        }
+          </div>
+        `;
       });
 
       grid.innerHTML = html;

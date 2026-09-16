@@ -326,10 +326,10 @@
           </button>
 
           <!-- Botón: Bucles Anidados -->
-          <button id="btn-class-3" onclick="switchClass(3)" class="class-card bg-white/90 border-2 border-slate-200 text-slate-700 p-4 rounded-2xl shadow-sm hover:border-teal-400 hover:bg-white hover:shadow-md transition flex flex-col items-center text-center hover:scale-[1.02] cursor-pointer">
+          <button id="btn-class-3" onclick="switchClass(3)" class="class-card bg-white border-2 border-teal-400 hover:border-teal-500 hover:shadow-lg text-teal-950 p-4 rounded-2xl shadow-md transition flex flex-col items-center text-center hover:scale-[1.02] cursor-pointer">
             <span class="text-3xl mb-1.5">🔄</span>
             <span class="font-display font-black text-xs sm:text-sm text-slate-800">Bucles Anidados</span>
-            <span class="mt-2 bg-slate-100 text-slate-500 text-[9px] font-bold px-2 py-0.5 rounded-full">🔒 Próxima</span>
+            <span class="mt-2 bg-teal-100 text-teal-800 text-[9px] font-black px-2 py-0.5 rounded-full">✨ Habilitada</span>
           </button>
 
           <!-- Botón: Bucles con Mañic -->
@@ -1575,38 +1575,814 @@
   </div> <!-- Fin content-class-2 -->
 
   <!-- ======================================================================= -->
-  <!-- CONTENIDO CLASE 3: BUCLES ANIDADOS                                      -->
+  <!-- CONTENIDO CLASE 3: BUCLES ANIDADOS (YVOTY, OSO & PILAS BLOQUES)         -->
   <!-- ======================================================================= -->
   <div id="content-class-3" class="class-content-view hidden w-full space-y-6">
-    <div class="bg-white rounded-3xl p-8 sm:p-10 border-4 border-teal-400 shadow-xl text-center space-y-4">
-      <div class="w-24 h-24 bg-teal-100 rounded-3xl flex items-center justify-center text-5xl mx-auto shadow-inner border-2 border-teal-300">
-        🔄
-      </div>
-      <div>
-        <span class="bg-teal-100 text-teal-900 text-xs font-black uppercase px-3.5 py-1 rounded-full border border-teal-300">
-          Módulo de Bucles &bull; Clase 3
-        </span>
-        <h3 class="font-display font-black text-2xl sm:text-3xl text-slate-800 mt-2">
-          CLASE 3 - BUCLES ANIDADOS
-        </h3>
-        <p class="text-slate-600 text-sm sm:text-base max-w-md mx-auto mt-2">
-          Aprenderemos qué sucede cuando colocamos <strong>un bucle dentro de otro bucle</strong> para dibujar cuadrículas, patrones dobles y recorrer laberintos bidimensionales.
-        </p>
-      </div>
-      <div class="p-4 bg-teal-50 rounded-2xl border-2 border-dashed border-teal-300 max-w-md mx-auto">
-        <span class="text-teal-800 font-extrabold text-sm block">🔒 Próxima Sesión</span>
-        <span class="text-xs text-slate-500">Los desafíos interactivos de bucles anidados se habilitarán en la siguiente sesión programada.</span>
-      </div>
-      <div class="flex flex-wrap justify-center gap-3 pt-2">
-        <button onclick="backToThemes()" class="bg-sky-600 hover:bg-sky-700 text-white font-display font-bold text-xs sm:text-sm px-6 py-2.5 rounded-xl shadow transition inline-flex items-center gap-2 cursor-pointer">
-          <span>← Volver a los Temas</span>
+    
+    <!-- Menú de Pestañas de Clase 3 (5 Pestañas: 1. Aprender, 2. Ejercitamos, 3. Actividades, 4. Súper Test, 5. Actividad Extra) -->
+    <div class="bg-sky-950/40 backdrop-blur-md border border-white/20 p-2 rounded-2xl shadow-sm mb-6">
+      <nav class="max-w-5xl mx-auto flex items-center justify-center gap-1.5 sm:gap-2.5 overflow-x-auto no-scrollbar py-1">
+        <button onclick="switchNestedTab('tab-nested-aprender')" id="btn-tab-nested-aprender" class="tab-btn-nested active flex-1 min-w-[130px] sm:min-w-[150px] flex items-center justify-center gap-1.5 px-3 py-2.5 rounded-xl font-display font-bold text-xs sm:text-sm whitespace-nowrap bg-white text-teal-900 shadow-md cursor-pointer">
+          <span class="text-base sm:text-lg">💡</span> <span>1. Aprender</span>
         </button>
-        <button onclick="switchClass(2)" class="bg-emerald-600 hover:bg-emerald-700 text-white font-display font-bold text-xs sm:text-sm px-6 py-2.5 rounded-xl shadow transition inline-flex items-center gap-2 cursor-pointer">
-          <span>Ir a Capy y Guyra ➜</span>
+        <button onclick="switchNestedTab('tab-nested-taller')" id="btn-tab-nested-taller" class="tab-btn-nested flex-1 min-w-[160px] sm:min-w-[180px] flex items-center justify-center gap-1.5 px-3 py-2.5 rounded-xl font-display font-medium text-xs sm:text-sm whitespace-nowrap bg-sky-900/60 hover:bg-sky-900 text-white border border-white/15 cursor-pointer">
+          <span class="text-base sm:text-lg">🐻</span> <span>2. Ejercitamos (El Oso)</span>
         </button>
-      </div>
+        <button onclick="switchNestedTab('tab-nested-retos')" id="btn-tab-nested-retos" class="tab-btn-nested flex-1 min-w-[150px] sm:min-w-[170px] flex items-center justify-center gap-1.5 px-3 py-2.5 rounded-xl font-display font-medium text-xs sm:text-sm whitespace-nowrap bg-sky-900/60 hover:bg-sky-900 text-white border border-white/15 cursor-pointer">
+          <span class="text-base sm:text-lg">🎮</span> <span>3. Actividades Pilas</span>
+        </button>
+        <button onclick="switchNestedTab('tab-nested-test')" id="btn-tab-nested-test" class="tab-btn-nested flex-1 min-w-[140px] sm:min-w-[160px] flex items-center justify-center gap-1.5 px-3 py-2.5 rounded-xl font-display font-medium text-xs sm:text-sm whitespace-nowrap bg-sky-900/60 hover:bg-sky-900 text-white border border-white/15 cursor-pointer">
+          <span class="text-base sm:text-lg">📝</span> <span>4. Súper Test (10)</span>
+        </button>
+        <button onclick="switchNestedTab('tab-nested-extra')" id="btn-tab-nested-extra" class="tab-btn-nested flex-1 min-w-[140px] sm:min-w-[160px] flex items-center justify-center gap-1.5 px-3 py-2.5 rounded-xl font-display font-medium text-xs sm:text-sm whitespace-nowrap bg-sky-900/60 hover:bg-sky-900 text-white border border-white/15 cursor-pointer">
+          <span class="text-base sm:text-lg">🎨</span> <span>5. Actividad Extra</span>
+        </button>
+      </nav>
     </div>
-  </div>
+
+    <!-- ================================================================= -->
+    <!-- PESTAÑA 1: 💡 APRENDER (TEORÍA VISUAL CON YVOTY Y MARIPOSAS)     -->
+    <!-- ================================================================= -->
+    <section id="tab-nested-aprender" class="tab-content-nested block space-y-8 animate-fadeIn">
+      
+      <!-- Saludo temático de Yvoty y Jandra -->
+      <div class="bg-gradient-to-r from-teal-600 via-cyan-600 to-sky-700 rounded-3xl p-6 text-white shadow-xl flex flex-col md:flex-row items-center gap-6 border-4 border-white/40">
+        <div class="w-20 h-20 sm:w-24 sm:h-24 flex-shrink-0 bg-white/20 rounded-2xl p-2 border-2 border-white/60 shadow-lg flex items-center justify-center text-4xl sm:text-5xl">
+          🐆
+        </div>
+        <div class="text-center md:text-left">
+          <span class="bg-white/20 text-white font-bold px-3 py-1 rounded-full text-xs uppercase tracking-wider">¡Mundo de la Programación!</span>
+          <h2 class="text-2xl sm:text-3xl font-display font-black mt-2">¡Hola! Soy Yvoty. ¡Descubre los BUCLES ANIDADOS!</h2>
+          <p class="text-teal-100 text-sm sm:text-base mt-1">¿Qué pasa si ponemos un bucle dentro de otro bucle? ¡Podemos resolver laberintos gigantes con poquitos bloques!</p>
+        </div>
+      </div>
+
+      <!-- Tarjeta 1: ¿Qué es un Bucle? (Repaso rápido) -->
+      <div class="bg-white rounded-3xl p-6 sm:p-8 border-4 border-teal-500 shadow-xl relative overflow-hidden retro-card">
+        <div class="flex items-center gap-3 border-b-4 border-amber-400 pb-3 mb-5">
+          <div class="w-10 h-10 bg-teal-600 text-white rounded-2xl flex items-center justify-center font-bold text-xl shadow">1</div>
+          <h3 class="text-xl sm:text-2xl font-bold font-display text-teal-950">¿Qué es un Bucle Simple?</h3>
+        </div>
+
+        <p class="text-slate-700 text-base sm:text-lg mb-6 leading-relaxed">
+          Un <strong>bucle</strong> se usa para ejecutar una secuencia <span class="bg-amber-200 text-amber-950 font-bold px-2 py-0.5 rounded">varias veces</span>. Las instrucciones se repetirán tantas veces como lo indiquemos.
+        </p>
+
+        <!-- Bloque visual Scratch / Pilas -->
+        <div class="bg-teal-50 border-2 border-teal-200 rounded-2xl p-5 flex flex-col items-center justify-center">
+          <div class="bg-orange-500 text-white font-black text-sm sm:text-base px-6 py-3 rounded-2xl shadow-lg border-2 border-orange-600 flex items-center gap-3">
+            <span>🔁 REPETIR</span>
+            <span class="bg-slate-800 text-white px-3 py-1 rounded-xl text-sm border border-slate-600">10</span>
+            <span>VECES</span>
+          </div>
+        </div>
+      </div>
+
+      <!-- Tarjeta 2: ¿Qué es un Bucle Anidado? (Bucle Externo vs Interno) -->
+      <div class="bg-white rounded-3xl p-6 sm:p-8 border-4 border-teal-500 shadow-xl relative overflow-hidden retro-card">
+        <div class="flex items-center gap-3 border-b-4 border-teal-400 pb-3 mb-5">
+          <div class="w-10 h-10 bg-teal-600 text-white rounded-2xl flex items-center justify-center font-bold text-xl shadow">2</div>
+          <h3 class="text-xl sm:text-2xl font-bold font-display text-teal-950">¿Qué es un Bucle Anidado?</h3>
+        </div>
+
+        <p class="text-slate-700 text-base sm:text-lg mb-6 leading-relaxed">
+          Un <strong>bucle anidado</strong> es como tener una <span class="bg-teal-100 text-teal-900 font-bold px-2 py-0.5 rounded">tarea repetida DENTRO de otra tarea repetida</span>.
+        </p>
+
+        <!-- Visualización Bucle Externo vs Interno -->
+        <div class="grid grid-cols-1 md:grid-cols-2 gap-6 my-4">
+          
+          <div class="space-y-4">
+            <div class="p-4 bg-sky-50 rounded-2xl border-2 border-sky-300">
+              <span class="inline-block bg-sky-600 text-white text-xs font-black px-2.5 py-0.5 rounded-full uppercase mb-1">Bucle Externo</span>
+              <p class="text-xs sm:text-sm text-sky-950 font-medium">Es el bucle que se encuentra <strong>por fuera</strong>. Envuelve a todo el grupo de órdenes.</p>
+            </div>
+            <div class="p-4 bg-amber-50 rounded-2xl border-2 border-amber-300">
+              <span class="inline-block bg-amber-600 text-white text-xs font-black px-2.5 py-0.5 rounded-full uppercase mb-1">Bucle Interno</span>
+              <p class="text-xs sm:text-sm text-amber-950 font-medium">Es el bucle que está <strong>adentro</strong>. Realiza su repetición en cada vuelta del externo.</p>
+            </div>
+          </div>
+
+          <!-- Bloque Gráfico de Scratch de Bucle Anidado -->
+          <div class="bg-slate-900 p-5 rounded-3xl shadow-xl flex flex-col justify-center border-4 border-slate-700">
+            <div class="bg-emerald-600 text-white p-2 rounded-t-xl text-xs font-bold font-mono">
+              AL EMPEZAR A EJECUTAR
+            </div>
+            <!-- Bucle externo -->
+            <div class="bg-orange-500 text-white p-3 rounded-b-xl border-l-8 border-orange-600 space-y-2">
+              <div class="flex items-center justify-between text-xs sm:text-sm font-black">
+                <span>REPETIR <span class="bg-blue-600 px-2 py-0.5 rounded text-white">2</span> VECES</span>
+                <span class="bg-orange-700/80 text-[10px] px-2 py-0.5 rounded-full text-amber-200">BUCLE EXTERNO ↗</span>
+              </div>
+              <!-- Bucle interno -->
+              <div class="bg-amber-600 text-white p-2.5 rounded-xl ml-3 border-l-6 border-amber-700 space-y-1.5">
+                <div class="flex items-center justify-between text-xs font-black">
+                  <span>REPETIR <span class="bg-blue-600 px-2 py-0.5 rounded text-white">3</span> VECES</span>
+                  <span class="bg-amber-800 text-[9px] px-1.5 py-0.5 rounded text-yellow-200">INTERNO ↘</span>
+                </div>
+                <div class="bg-blue-600 text-white text-xs font-mono font-bold px-3 py-1.5 rounded-lg ml-2 shadow-sm flex items-center gap-1.5">
+                  <span>➡️</span> <span>MOVER A LA DERECHA</span>
+                </div>
+              </div>
+              <div class="bg-purple-600 text-white text-xs font-mono font-bold px-3 py-1.5 rounded-lg ml-3 shadow-sm flex items-center gap-1.5">
+                <span>📸</span> <span>FOTOGRAFIAR MARIPOSA</span>
+              </div>
+              <div class="bg-blue-600 text-white text-xs font-mono font-bold px-3 py-1.5 rounded-lg ml-3 shadow-sm flex items-center gap-1.5">
+                <span>⬇️</span> <span>MOVER ABAJO</span>
+              </div>
+            </div>
+          </div>
+
+        </div>
+      </div>
+
+      <!-- Tarjeta 3: Ejemplo Guiado - El Laberinto de Yvoty y las Mariposas -->
+      <div class="bg-white rounded-3xl p-6 sm:p-8 border-4 border-teal-500 shadow-xl relative overflow-hidden retro-card">
+        <div class="flex items-center gap-3 border-b-4 border-teal-400 pb-3 mb-5">
+          <div class="w-10 h-10 bg-teal-600 text-white rounded-2xl flex items-center justify-center font-bold text-xl shadow">3</div>
+          <h3 class="text-xl sm:text-2xl font-bold font-display text-teal-950">Ejemplo Guiado: Yvoty Fotografía Mariposas</h3>
+        </div>
+
+        <p class="text-slate-700 text-base sm:text-lg mb-4 leading-relaxed">
+          Para que <strong>Yvoty</strong> recolecte las fotos de las 2 mariposas esquivando los troncos, observa cómo transformamos un código largo en un bucle anidado superordenado:
+        </p>
+
+        <!-- Cuadrícula y Comparación -->
+        <div class="grid grid-cols-1 lg:grid-cols-2 gap-6 items-center my-6">
+          
+          <!-- Cuadrícula 4x3 del Bosque de Yvoty -->
+          <div class="bg-emerald-800 p-4 rounded-3xl border-4 border-emerald-950 shadow-inner flex flex-col items-center">
+            <span class="text-emerald-100 font-display font-black text-xs uppercase tracking-wider mb-2">Cuadrícula del Bosque</span>
+            
+            <div class="grid grid-cols-4 gap-1.5 bg-emerald-500 p-2.5 rounded-2xl border-2 border-emerald-300 w-full max-w-sm">
+              <!-- Fila 1: Yvoty (1,1), libre, libre, Mariposa 1 (1,4) -->
+              <div class="h-14 sm:h-16 bg-emerald-200/90 rounded-xl border border-emerald-400 flex items-center justify-center text-3xl shadow-sm relative">
+                <span title="Yvoty">🐆</span>
+              </div>
+              <div class="h-14 sm:h-16 bg-emerald-200/90 rounded-xl border border-emerald-400 flex items-center justify-center text-slate-400 text-xs">
+                ➡️
+              </div>
+              <div class="h-14 sm:h-16 bg-emerald-200/90 rounded-xl border border-emerald-400 flex items-center justify-center text-slate-400 text-xs">
+                ➡️
+              </div>
+              <div class="h-14 sm:h-16 bg-emerald-200/90 rounded-xl border border-emerald-400 flex items-center justify-center text-3xl shadow-sm bg-amber-100/90">
+                <span title="Mariposa 1">🦋</span>
+              </div>
+
+              <!-- Fila 2: Troncos (2,1), (2,2), (2,3), libre con flecha abajo (2,4) -->
+              <div class="h-14 sm:h-16 bg-emerald-300/90 rounded-xl border border-emerald-400 flex items-center justify-center text-2xl">
+                🪵
+              </div>
+              <div class="h-14 sm:h-16 bg-emerald-300/90 rounded-xl border border-emerald-400 flex items-center justify-center text-2xl">
+                🪵
+              </div>
+              <div class="h-14 sm:h-16 bg-emerald-300/90 rounded-xl border border-emerald-400 flex items-center justify-center text-2xl">
+                🪵
+              </div>
+              <div class="h-14 sm:h-16 bg-emerald-200/90 rounded-xl border border-emerald-400 flex items-center justify-center text-slate-400 text-xs">
+                ⬇️
+              </div>
+
+              <!-- Fila 3: libre, libre, libre, Mariposa 2 (3,4) -->
+              <div class="h-14 sm:h-16 bg-emerald-200/90 rounded-xl border border-emerald-400 flex items-center justify-center text-slate-400 text-xs">
+                ➡️
+              </div>
+              <div class="h-14 sm:h-16 bg-emerald-200/90 rounded-xl border border-emerald-400 flex items-center justify-center text-slate-400 text-xs">
+                ➡️
+              </div>
+              <div class="h-14 sm:h-16 bg-emerald-200/90 rounded-xl border border-emerald-400 flex items-center justify-center text-slate-400 text-xs">
+                ➡️
+              </div>
+              <div class="h-14 sm:h-16 bg-emerald-200/90 rounded-xl border border-emerald-400 flex items-center justify-center text-3xl shadow-sm bg-amber-100/90">
+                <span title="Mariposa 2">🦋</span>
+              </div>
+            </div>
+
+            <span class="text-emerald-200 text-[11px] mt-2 text-center">Yvoty avanza 3 veces a la derecha ➡️, toma la foto 📸 y baja ⬇️. ¡Lo hace 2 veces!</span>
+          </div>
+
+          <!-- Comparación Paso a Paso -->
+          <div class="space-y-3">
+            <div class="p-3.5 bg-rose-50 border-2 border-rose-300 rounded-2xl">
+              <span class="text-rose-900 font-display font-bold text-xs uppercase block">1. Secuencia Repetida:</span>
+              <p class="text-xs text-rose-800 mt-1">El bloque <code>[Repetir 3 veces Mover Derecha + Fotografiar + Mover Abajo]</code> se ejecuta <strong>2 veces idénticas</strong>.</p>
+            </div>
+
+            <div class="text-center text-xl text-teal-600 font-black">⬇️ ¡Encerramos todo en un Bucle! ⬇️</div>
+
+            <div class="p-3.5 bg-emerald-50 border-2 border-emerald-400 rounded-2xl">
+              <span class="text-emerald-900 font-display font-bold text-xs uppercase block">2. Solución con Bucle Anidado:</span>
+              <p class="text-xs text-emerald-900 mt-1 font-bold"><code>REPETIR 2 VECES { REPETIR 3 VECES [Mover Derecha], Fotografiar, Mover Abajo }</code></p>
+              <span class="inline-block mt-1 text-[11px] text-emerald-700 bg-white px-2 py-0.5 rounded-lg border border-emerald-300">✨ ¡Código limpio, rápido y profesional!</span>
+            </div>
+          </div>
+
+        </div>
+
+        <!-- Botón para ir al taller interactivo -->
+        <div class="text-center pt-2">
+          <button onclick="switchNestedTab('tab-nested-taller')" class="bg-teal-600 hover:bg-teal-700 text-white font-display font-black text-sm sm:text-base px-8 py-3.5 rounded-2xl shadow-lg transition transform hover:scale-105 inline-flex items-center gap-2">
+            <span>¡Pasar a los Ejercicios del Oso!</span> ➜ 🐻
+          </button>
+        </div>
+
+      </div>
+
+    </section>
+
+    <!-- ================================================================= -->
+    <!-- PESTAÑA 2: 🐻 EJERCITAMOS (TALLER DEL OSO Y LA MIEL - 2 EJERCICIOS)-->
+    <!-- ================================================================= -->
+    <section id="tab-nested-taller" class="tab-content-nested hidden space-y-8 animate-fadeIn">
+      
+      <!-- Encabezado del Taller -->
+      <div class="bg-gradient-to-r from-amber-500 via-orange-500 to-amber-600 text-white rounded-3xl p-6 shadow-xl border-4 border-white/40 flex flex-col sm:flex-row items-center justify-between gap-4">
+        <div class="flex items-center gap-4 text-center sm:text-left">
+          <div class="w-16 h-16 bg-white/20 rounded-2xl border-2 border-white/40 flex items-center justify-center text-4xl flex-shrink-0 shadow-inner">
+            🐻
+          </div>
+          <div>
+            <span class="bg-white/20 text-white font-bold px-3 py-1 rounded-full text-xs uppercase tracking-wider">Taller Práctico Interactivo</span>
+            <h3 class="font-display font-black text-xl sm:text-2xl mt-1">Ejercitamos: El Algoritmo del Oso y la Miel</h3>
+            <p class="text-amber-100 text-xs sm:text-sm mt-0.5">Completa el algoritmo usando los comandos y números para que el oso coma toda la miel 🍯</p>
+          </div>
+        </div>
+
+        <!-- Selector de Ejercicio 1 y 2 -->
+        <div class="flex items-center gap-2 bg-amber-950/40 p-1.5 rounded-2xl border border-white/20">
+          <button id="btn-bear-ex-1" onclick="switchBearExercise(1)" class="bg-white text-slate-900 font-display font-black text-xs px-3.5 py-1.5 rounded-xl shadow transition cursor-pointer">
+            Ejercicio 1
+          </button>
+          <button id="btn-bear-ex-2" onclick="switchBearExercise(2)" class="text-white hover:bg-white/20 font-display font-bold text-xs px-3.5 py-1.5 rounded-xl transition cursor-pointer">
+            Ejercicio 2 (Anidado)
+          </button>
+        </div>
+      </div>
+
+      <!-- =============================================================== -->
+      <!-- EJERCICIO 1 DEL OSO: BUCLE SIMPLE (1 FILA x 4 CASILLAS)        -->
+      <!-- =============================================================== -->
+      <div id="bear-exercise-1" class="space-y-6">
+        
+        <div class="bg-white rounded-3xl p-6 sm:p-8 border-4 border-amber-400 shadow-xl space-y-6">
+          <div class="flex items-center justify-between border-b-2 border-amber-200 pb-3">
+            <div>
+              <span class="text-xs font-black text-amber-600 uppercase tracking-wider">Nivel 1 &bull; Bucle Simple</span>
+              <h4 class="font-display font-black text-xl text-slate-800">
+                🍯 El Oso y los 2 Tarros de Miel en Fila
+              </h4>
+            </div>
+            <span class="text-2xl">🐻🍯</span>
+          </div>
+
+          <!-- Tablero visual del Ejercicio 1 (1 fila x 4 casillas) -->
+          <div class="bg-amber-50 p-4 sm:p-6 rounded-2xl border-2 border-amber-300 flex flex-col items-center">
+            <span class="text-xs font-bold text-amber-800 uppercase mb-3">Tablero de Posiciones</span>
+            
+            <div class="grid grid-cols-4 gap-2 w-full max-w-md">
+              <!-- Casilla 1: Miel -->
+              <div id="bear1-cell-1" class="h-20 sm:h-24 bg-white border-2 border-amber-400 rounded-2xl flex flex-col items-center justify-center text-3xl shadow-sm relative">
+                <span>🍯</span>
+                <span class="text-[10px] text-slate-400 font-bold mt-1">Casilla 1</span>
+              </div>
+              <!-- Casilla 2: Miel -->
+              <div id="bear1-cell-2" class="h-20 sm:h-24 bg-white border-2 border-amber-400 rounded-2xl flex flex-col items-center justify-center text-3xl shadow-sm relative">
+                <span>🍯</span>
+                <span class="text-[10px] text-slate-400 font-bold mt-1">Casilla 2</span>
+              </div>
+              <!-- Casilla 3: Vacía -->
+              <div id="bear1-cell-3" class="h-20 sm:h-24 bg-white border-2 border-dashed border-slate-300 rounded-2xl flex flex-col items-center justify-center text-slate-300 text-xs">
+                <span>Libre</span>
+                <span class="text-[10px] text-slate-400 font-bold mt-1">Casilla 3</span>
+              </div>
+              <!-- Casilla 4: Oso -->
+              <div id="bear1-cell-4" class="h-20 sm:h-24 bg-amber-100 border-2 border-amber-500 rounded-2xl flex flex-col items-center justify-center text-4xl shadow-sm relative">
+                <span>🐻</span>
+                <span class="text-[10px] text-amber-700 font-bold mt-1">Inicio (4)</span>
+              </div>
+            </div>
+          </div>
+
+          <!-- Banco de Bloques y Algoritmo a Completar -->
+          <div class="grid grid-cols-1 lg:grid-cols-12 gap-6 items-start">
+            
+            <!-- Selector de Números y Banco de Comandos (Columna Izquierda) -->
+            <div class="lg:col-span-6 space-y-4">
+              
+              <!-- Selector de Números de Repetición -->
+              <div class="p-4 bg-slate-50 border-2 border-slate-200 rounded-2xl">
+                <span class="text-xs font-black text-slate-700 uppercase tracking-wider block mb-2">
+                  🔢 1. Elige el número de repeticiones:
+                </span>
+                <div class="flex gap-2">
+                  <button onclick="selectBearNumber(1, 1)" id="btn-num-1-1" class="bear-num-btn flex-1 py-2 rounded-xl font-display font-black text-base border-2 border-slate-300 bg-white hover:border-amber-400 transition">1</button>
+                  <button onclick="selectBearNumber(1, 2)" id="btn-num-1-2" class="bear-num-btn flex-1 py-2 rounded-xl font-display font-black text-base border-2 border-slate-300 bg-white hover:border-amber-400 transition">2</button>
+                  <button onclick="selectBearNumber(1, 3)" id="btn-num-1-3" class="bear-num-btn flex-1 py-2 rounded-xl font-display font-black text-base border-2 border-slate-300 bg-white hover:border-amber-400 transition">3</button>
+                  <button onclick="selectBearNumber(1, 4)" id="btn-num-1-4" class="bear-num-btn flex-1 py-2 rounded-xl font-display font-black text-base border-2 border-slate-300 bg-white hover:border-amber-400 transition">4</button>
+                </div>
+              </div>
+
+              <!-- Comandos Disponibles -->
+              <div class="p-4 bg-yellow-50 border-2 border-yellow-200 rounded-2xl space-y-2">
+                <span class="text-xs font-black text-yellow-900 uppercase tracking-wider block mb-1">
+                  📦 2. Comandos disponibles (Toca para agregar a las casillas):
+                </span>
+                
+                <button onclick="clickAddBearCommand(1, 'up')" class="w-full p-2.5 bg-amber-400 hover:bg-amber-500 text-slate-900 font-display font-bold text-xs sm:text-sm rounded-xl shadow-sm flex items-center gap-2 text-left transition">
+                  <span>⬆️</span> <span>DESPLAZAR HACIA ARRIBA</span>
+                </button>
+                <button onclick="clickAddBearCommand(1, 'left')" class="w-full p-2.5 bg-amber-400 hover:bg-amber-500 text-slate-900 font-display font-bold text-xs sm:text-sm rounded-xl shadow-sm flex items-center gap-2 text-left transition">
+                  <span>⬅️</span> <span>DESPLAZAR HACIA LA IZQUIERDA</span>
+                </button>
+                <button onclick="clickAddBearCommand(1, 'down')" class="w-full p-2.5 bg-amber-400 hover:bg-amber-500 text-slate-900 font-display font-bold text-xs sm:text-sm rounded-xl shadow-sm flex items-center gap-2 text-left transition">
+                  <span>⬇️</span> <span>DESPLAZAR HACIA ABAJO</span>
+                </button>
+                <button onclick="clickAddBearCommand(1, 'right')" class="w-full p-2.5 bg-amber-400 hover:bg-amber-500 text-slate-900 font-display font-bold text-xs sm:text-sm rounded-xl shadow-sm flex items-center gap-2 text-left transition">
+                  <span>➡️</span> <span>DESPLAZAR HACIA LA DERECHA</span>
+                </button>
+                <button onclick="clickAddBearCommand(1, 'eat')" class="w-full p-2.5 bg-yellow-400 hover:bg-yellow-500 text-slate-900 font-display font-bold text-xs sm:text-sm rounded-xl shadow-sm flex items-center gap-2 text-left transition">
+                  <span>🍯</span> <span>COMER LA MIEL</span>
+                </button>
+              </div>
+
+            </div>
+
+            <!-- Algoritmo a Completar (Columna Derecha) -->
+            <div class="lg:col-span-6 bg-cyan-400 p-4 sm:p-5 rounded-3xl shadow-xl border-4 border-cyan-500 space-y-3">
+              <span class="text-xs font-black uppercase text-cyan-950 tracking-wider block">
+                ALGORITMO PARA EL OSO (NIVEL 1)
+              </span>
+
+              <!-- Paso 1 fijo: Desplazar izquierda (a la casilla 3) -->
+              <div class="bg-amber-400 text-slate-900 font-display font-black text-xs sm:text-sm p-3 rounded-xl shadow flex items-center gap-2">
+                <span>⬅️</span> <span>DESPLAZAR HACIA LA IZQUIERDA</span>
+              </div>
+
+              <!-- Bloque Bucle Repetir -->
+              <div class="bg-cyan-300 p-3.5 rounded-2xl border-2 border-cyan-500 space-y-2.5">
+                <div class="flex items-center gap-2 font-display font-black text-xs sm:text-sm text-cyan-950">
+                  <span>🔁 REPETIR</span>
+                  <div id="bear1-slot-num" class="w-10 h-8 bg-white border-2 border-cyan-600 rounded-lg flex items-center justify-center text-slate-900 font-black text-sm shadow-inner">
+                    ?
+                  </div>
+                  <span>VECES:</span>
+                </div>
+
+                <!-- Slot 1 adentro del bucle -->
+                <div onclick="clearBearSlot(1, 1)" id="bear1-slot-cmd-1" class="h-12 bg-white/90 border-2 border-dashed border-cyan-600 rounded-xl flex items-center justify-center text-xs font-bold text-slate-500 cursor-pointer hover:bg-white shadow-sm">
+                  [ Toca un comando para colocar aquí ]
+                </div>
+
+                <!-- Slot 2 adentro del bucle -->
+                <div onclick="clearBearSlot(1, 2)" id="bear1-slot-cmd-2" class="h-12 bg-white/90 border-2 border-dashed border-cyan-600 rounded-xl flex items-center justify-center text-xs font-bold text-slate-500 cursor-pointer hover:bg-white shadow-sm">
+                  [ Toca un comando para colocar aquí ]
+                </div>
+              </div>
+
+              <!-- Botones de Acción -->
+              <div class="flex gap-2 pt-2">
+                <button onclick="checkBearAlgorithm1()" class="flex-1 bg-emerald-600 hover:bg-emerald-700 text-white font-display font-black text-xs sm:text-sm py-3 rounded-xl shadow transition flex items-center justify-center gap-2 cursor-pointer">
+                  <span>▶ Comprobar Algoritmo</span>
+                </button>
+                <button onclick="resetBearExercise1()" class="bg-slate-700 hover:bg-slate-800 text-white font-bold text-xs px-4 py-3 rounded-xl shadow transition cursor-pointer">
+                  🔄
+                </button>
+              </div>
+
+              <div id="bear1-feedback" class="hidden p-3 rounded-xl font-bold text-xs sm:text-sm text-center"></div>
+
+            </div>
+
+          </div>
+        </div>
+
+      </div>
+
+      <!-- =============================================================== -->
+      <!-- EJERCICIO 2 DEL OSO: BUCLE ANIDADO (3 FILAS x 4 CASILLAS)      -->
+      <!-- =============================================================== -->
+      <div id="bear-exercise-2" class="hidden space-y-6">
+        
+        <div class="bg-white rounded-3xl p-6 sm:p-8 border-4 border-teal-400 shadow-xl space-y-6">
+          <div class="flex items-center justify-between border-b-2 border-teal-200 pb-3">
+            <div>
+              <span class="text-xs font-black text-teal-600 uppercase tracking-wider">Nivel 2 &bull; Bucle Anidado</span>
+              <h4 class="font-display font-black text-xl text-slate-800">
+                🍯 El Oso Come Miel en Dos Pisos (Bucle Anidado)
+              </h4>
+            </div>
+            <span class="text-2xl">🔄🐻🍯</span>
+          </div>
+
+          <!-- Tablero visual del Ejercicio 2 (3 filas x 4 columnas) -->
+          <div class="bg-teal-50 p-4 sm:p-6 rounded-2xl border-2 border-teal-300 flex flex-col items-center">
+            <span class="text-xs font-bold text-teal-900 uppercase mb-3">Tablero 3x4 (2 Pisos de Miel)</span>
+            
+            <div class="grid grid-cols-4 gap-2 w-full max-w-lg">
+              <!-- FILA 1: Oso (1,1), Libre (1,2), Libre (1,3), Libre (1,4) -->
+              <div id="bear2-cell-1-1" class="h-16 sm:h-20 bg-amber-100 border-2 border-amber-500 rounded-2xl flex flex-col items-center justify-center text-3xl shadow-sm transition-all duration-300">
+                <span class="bear-avatar">🐻</span>
+                <span class="text-[9px] text-amber-800 font-bold">Inicio</span>
+              </div>
+              <div id="bear2-cell-1-2" class="h-16 sm:h-20 bg-white border-2 border-dashed border-slate-300 rounded-2xl flex items-center justify-center text-slate-300 text-xs transition-all duration-300">Libre</div>
+              <div id="bear2-cell-1-3" class="h-16 sm:h-20 bg-white border-2 border-dashed border-slate-300 rounded-2xl flex items-center justify-center text-slate-300 text-xs transition-all duration-300">Libre</div>
+              <div id="bear2-cell-1-4" class="h-16 sm:h-20 bg-white border-2 border-dashed border-slate-300 rounded-2xl flex items-center justify-center text-slate-300 text-xs transition-all duration-300">Libre</div>
+
+              <!-- FILA 2: Libre (2,1), Miel (2,2), Miel (2,3), Libre (2,4) -->
+              <div id="bear2-cell-2-1" class="h-16 sm:h-20 bg-white border-2 border-dashed border-slate-300 rounded-2xl flex items-center justify-center text-slate-400 text-xs font-bold transition-all duration-300">⬇️ Baja</div>
+              <div id="bear2-cell-2-2" class="h-16 sm:h-20 bg-amber-50 border-2 border-amber-400 rounded-2xl flex flex-col items-center justify-center text-2xl shadow-sm transition-all duration-300">
+                <span class="honey-icon">🍯</span>
+                <span class="text-[9px] text-amber-700 font-bold label-text">Miel 1</span>
+              </div>
+              <div id="bear2-cell-2-3" class="h-16 sm:h-20 bg-amber-50 border-2 border-amber-400 rounded-2xl flex flex-col items-center justify-center text-2xl shadow-sm transition-all duration-300">
+                <span class="honey-icon">🍯</span>
+                <span class="text-[9px] text-amber-700 font-bold label-text">Miel 2</span>
+              </div>
+              <div id="bear2-cell-2-4" class="h-16 sm:h-20 bg-white border-2 border-dashed border-slate-300 rounded-2xl flex items-center justify-center text-slate-300 text-xs transition-all duration-300">Libre</div>
+
+              <!-- FILA 3: Libre (3,1), Libre (3,2), Miel (3,3), Miel (3,4) -->
+              <div id="bear2-cell-3-1" class="h-16 sm:h-20 bg-white border-2 border-dashed border-slate-300 rounded-2xl flex items-center justify-center text-slate-300 text-xs transition-all duration-300">Libre</div>
+              <div id="bear2-cell-3-2" class="h-16 sm:h-20 bg-white border-2 border-dashed border-slate-300 rounded-2xl flex items-center justify-center text-slate-400 text-xs font-bold transition-all duration-300">⬇️ Baja</div>
+              <div id="bear2-cell-3-3" class="h-16 sm:h-20 bg-amber-50 border-2 border-amber-400 rounded-2xl flex flex-col items-center justify-center text-2xl shadow-sm transition-all duration-300">
+                <span class="honey-icon">🍯</span>
+                <span class="text-[9px] text-amber-700 font-bold label-text">Miel 3</span>
+              </div>
+              <div id="bear2-cell-3-4" class="h-16 sm:h-20 bg-amber-50 border-2 border-amber-400 rounded-2xl flex flex-col items-center justify-center text-2xl shadow-sm transition-all duration-300">
+                <span class="honey-icon">🍯</span>
+                <span class="text-[9px] text-amber-700 font-bold label-text">Miel 4</span>
+              </div>
+            </div>
+          </div>
+
+          <!-- Bloque de Construcción del Algoritmo Anidado -->
+          <div class="grid grid-cols-1 lg:grid-cols-12 gap-6 items-start">
+            
+            <!-- Comandos y Números Izquierda -->
+            <div class="lg:col-span-6 space-y-4">
+              
+              <!-- Selector de Número de Repetición Interno -->
+              <div class="p-4 bg-slate-50 border-2 border-slate-200 rounded-2xl">
+                <span class="text-xs font-black text-slate-700 uppercase tracking-wider block mb-2">
+                  🔢 1. Elige el número del bucle INTERNO:
+                </span>
+                <div class="flex gap-2">
+                  <button onclick="selectBearNumber(2, 1)" id="btn-num-2-1" class="bear-num-btn-2 flex-1 py-2 rounded-xl font-display font-black text-base border-2 border-slate-300 bg-white hover:border-teal-400 transition">1</button>
+                  <button onclick="selectBearNumber(2, 2)" id="btn-num-2-2" class="bear-num-btn-2 flex-1 py-2 rounded-xl font-display font-black text-base border-2 border-slate-300 bg-white hover:border-teal-400 transition">2</button>
+                  <button onclick="selectBearNumber(2, 3)" id="btn-num-2-3" class="bear-num-btn-2 flex-1 py-2 rounded-xl font-display font-black text-base border-2 border-slate-300 bg-white hover:border-teal-400 transition">3</button>
+                  <button onclick="selectBearNumber(2, 4)" id="btn-num-2-4" class="bear-num-btn-2 flex-1 py-2 rounded-xl font-display font-black text-base border-2 border-slate-300 bg-white hover:border-teal-400 transition">4</button>
+                </div>
+              </div>
+
+              <!-- Comandos Disponibles -->
+              <div class="p-4 bg-yellow-50 border-2 border-yellow-200 rounded-2xl space-y-2">
+                <span class="text-xs font-black text-yellow-900 uppercase tracking-wider block mb-1">
+                  📦 2. Comandos disponibles (Toca para agregar a las casillas):
+                </span>
+                
+                <button onclick="clickAddBearCommand(2, 'up')" class="w-full p-2.5 bg-amber-400 hover:bg-amber-500 text-slate-900 font-display font-bold text-xs sm:text-sm rounded-xl shadow-sm flex items-center gap-2 text-left transition">
+                  <span>⬆️</span> <span>DESPLAZAR HACIA ARRIBA</span>
+                </button>
+                <button onclick="clickAddBearCommand(2, 'left')" class="w-full p-2.5 bg-amber-400 hover:bg-amber-500 text-slate-900 font-display font-bold text-xs sm:text-sm rounded-xl shadow-sm flex items-center gap-2 text-left transition">
+                  <span>⬅️</span> <span>DESPLAZAR HACIA LA IZQUIERDA</span>
+                </button>
+                <button onclick="clickAddBearCommand(2, 'down')" class="w-full p-2.5 bg-amber-400 hover:bg-amber-500 text-slate-900 font-display font-bold text-xs sm:text-sm rounded-xl shadow-sm flex items-center gap-2 text-left transition">
+                  <span>⬇️</span> <span>DESPLAZAR HACIA ABAJO</span>
+                </button>
+                <button onclick="clickAddBearCommand(2, 'right')" class="w-full p-2.5 bg-amber-400 hover:bg-amber-500 text-slate-900 font-display font-bold text-xs sm:text-sm rounded-xl shadow-sm flex items-center gap-2 text-left transition">
+                  <span>➡️</span> <span>DESPLAZAR HACIA LA DERECHA</span>
+                </button>
+                <button onclick="clickAddBearCommand(2, 'eat')" class="w-full p-2.5 bg-yellow-400 hover:bg-yellow-500 text-slate-900 font-display font-bold text-xs sm:text-sm rounded-xl shadow-sm flex items-center gap-2 text-left transition">
+                  <span>🍯</span> <span>COMER LA MIEL</span>
+                </button>
+              </div>
+
+            </div>
+
+            <!-- Estructura del Bucle Anidado Derecha -->
+            <div class="lg:col-span-6 bg-cyan-400 p-4 sm:p-5 rounded-3xl shadow-xl border-4 border-cyan-500 space-y-3">
+              <span class="text-xs font-black uppercase text-cyan-950 tracking-wider block">
+                ALGORITMO PARA EL OSO (BUCLE ANIDADO)
+              </span>
+
+              <!-- Bucle Externo: REPETIR 2 VECES -->
+              <div class="bg-cyan-300 p-3.5 rounded-2xl border-2 border-cyan-500 space-y-2.5">
+                <div class="flex items-center gap-2 font-display font-black text-xs sm:text-sm text-cyan-950">
+                  <span>🔁 REPETIR</span>
+                  <span class="bg-white px-2.5 py-1 rounded-lg text-slate-900 font-black border border-cyan-600">2</span>
+                  <span>VECES:</span>
+                  <span class="text-[10px] bg-cyan-600 text-white px-2 py-0.5 rounded-full font-bold ml-auto">EXTERNO</span>
+                </div>
+
+                <!-- Slot 1 Externo (para bajar de piso) -->
+                <div onclick="clearBearSlot(2, 'ext')" id="bear2-slot-cmd-ext" class="h-11 bg-white/90 border-2 border-dashed border-cyan-600 rounded-xl flex items-center justify-center text-xs font-bold text-slate-500 cursor-pointer hover:bg-white shadow-sm">
+                  [ Toca el comando para bajar de piso ]
+                </div>
+
+                <!-- Bucle Interno -->
+                <div class="bg-cyan-200 p-3 rounded-xl border-2 border-cyan-400 ml-3 space-y-2">
+                  <div class="flex items-center gap-2 font-display font-black text-xs text-cyan-950">
+                    <span>🔁 REPETIR</span>
+                    <div id="bear2-slot-num" class="w-9 h-7 bg-white border-2 border-cyan-600 rounded-lg flex items-center justify-center text-slate-900 font-black text-xs shadow-inner">
+                      ?
+                    </div>
+                    <span>VECES:</span>
+                    <span class="text-[9px] bg-teal-600 text-white px-1.5 py-0.5 rounded font-bold ml-auto">INTERNO</span>
+                  </div>
+
+                  <!-- Slot 1 Interno -->
+                  <div onclick="clearBearSlot(2, 'int1')" id="bear2-slot-cmd-int1" class="h-10 bg-white/90 border-2 border-dashed border-cyan-500 rounded-lg flex items-center justify-center text-xs font-bold text-slate-500 cursor-pointer hover:bg-white shadow-sm">
+                    [ Comando 1 interno ]
+                  </div>
+
+                  <!-- Slot 2 Interno -->
+                  <div onclick="clearBearSlot(2, 'int2')" id="bear2-slot-cmd-int2" class="h-10 bg-white/90 border-2 border-dashed border-cyan-500 rounded-lg flex items-center justify-center text-xs font-bold text-slate-500 cursor-pointer hover:bg-white shadow-sm">
+                    [ Comando 2 interno ]
+                  </div>
+                </div>
+
+              </div>
+
+              <!-- Botones de Acción -->
+              <div class="flex gap-2 pt-2">
+                <button onclick="checkBearAlgorithm2()" class="flex-1 bg-emerald-600 hover:bg-emerald-700 text-white font-display font-black text-xs sm:text-sm py-3 rounded-xl shadow transition flex items-center justify-center gap-2 cursor-pointer">
+                  <span>▶ Comprobar Bucle Anidado</span>
+                </button>
+                <button onclick="resetBearExercise2()" class="bg-slate-700 hover:bg-slate-800 text-white font-bold text-xs px-4 py-3 rounded-xl shadow transition cursor-pointer">
+                  🔄
+                </button>
+              </div>
+
+              <div id="bear2-feedback" class="hidden p-3 rounded-xl font-bold text-xs sm:text-sm text-center"></div>
+
+            </div>
+
+          </div>
+
+        </div>
+
+      </div>
+
+    </section>
+
+    <!-- ================================================================= -->
+    <!-- PESTAÑA 3: 🎮 ACTIVIDADES PILAS BLOQUES (LOS 3 DESAFÍOS DE YVOTY)-->
+    <!-- ================================================================= -->
+    <section id="tab-nested-retos" class="tab-content-nested hidden space-y-6 animate-fadeIn">
+      
+      <!-- Banner temático de actividades -->
+      <div class="bg-gradient-to-r from-teal-600 via-cyan-600 to-sky-700 rounded-3xl p-6 text-white shadow-xl flex flex-col md:flex-row items-center justify-between gap-6 border-4 border-white/40">
+        <div class="text-center md:text-left space-y-2">
+          <span class="bg-white/20 text-white font-bold px-3 py-1 rounded-full text-xs uppercase tracking-wider">
+            ¡Manos a la Obra en Pilas Bloques!
+          </span>
+          <h3 class="font-display font-black text-2xl sm:text-3xl text-white">
+            ACTIVIDADES DE BUCLES ANIDADOS
+          </h3>
+          <p class="text-teal-100 text-xs sm:text-sm max-w-xl">
+            Haz clic en cada tarjeta de <strong>Yvoty</strong> para ingresar y resolver los desafíos oficiales de programación en Pilas Bloques:
+          </p>
+        </div>
+
+        <button onclick="openHowToUseModal()" class="bg-amber-400 hover:bg-amber-500 text-slate-900 font-display font-black text-xs sm:text-sm px-5 py-3 rounded-2xl shadow-lg transition flex items-center gap-2 flex-shrink-0 cursor-pointer">
+          <span>💡 ¿Cómo se juega?</span>
+        </button>
+      </div>
+
+      <!-- Cuadrícula con las 3 Tarjetas de Actividades de Yvoty -->
+      <div class="bg-gradient-to-b from-[#00b4d8] to-[#0077b6] p-6 sm:p-10 rounded-3xl border-4 border-white shadow-2xl relative overflow-hidden">
+        
+        <div class="text-center mb-6">
+          <h4 class="font-display font-black text-2xl sm:text-3xl text-white drop-shadow">
+            ACTIVIDADES
+          </h4>
+          <p class="text-cyan-100 text-xs sm:text-sm font-bold uppercase tracking-wider mt-1">
+            HAZ CLIC PARA INGRESAR A CADA EJERCICIO:
+          </p>
+        </div>
+
+        <div class="grid grid-cols-1 sm:grid-cols-3 gap-5 sm:gap-6 max-w-3xl mx-auto">
+          
+          <!-- Actividad 1 -->
+          <div onclick="openNestedChallenge(1)" class="challenge-card bg-white p-4 rounded-3xl shadow-2xl border-4 border-white cursor-pointer hover:border-amber-400 group relative flex flex-col items-center text-center">
+            <div id="nested-badge-completed-1" class="hidden absolute top-3 right-3 z-20 bg-emerald-500 text-white text-[10px] font-black px-2.5 py-1 rounded-full shadow flex items-center gap-1">
+              ✓ ¡LISTO!
+            </div>
+            
+            <div class="w-full h-44 sm:h-48 bg-gradient-to-b from-sky-50 to-teal-50 rounded-2xl flex items-center justify-center relative overflow-hidden border border-slate-100">
+              <span class="text-6xl group-hover:scale-110 transition drop-shadow">🐆</span>
+              <span class="absolute top-2 right-4 font-display font-black text-5xl sm:text-6xl text-amber-500 select-none drop-shadow">
+                1
+              </span>
+            </div>
+
+            <span class="mt-3 text-sm font-black text-[#0b3b60] group-hover:text-amber-600 transition">
+              EJERCICIO 1
+            </span>
+            <span class="text-[11px] text-slate-500 font-medium">Desafío con Yvoty</span>
+          </div>
+
+          <!-- Actividad 2 -->
+          <div onclick="openNestedChallenge(2)" class="challenge-card bg-white p-4 rounded-3xl shadow-2xl border-4 border-white cursor-pointer hover:border-amber-400 group relative flex flex-col items-center text-center">
+            <div id="nested-badge-completed-2" class="hidden absolute top-3 right-3 z-20 bg-emerald-500 text-white text-[10px] font-black px-2.5 py-1 rounded-full shadow flex items-center gap-1">
+              ✓ ¡LISTO!
+            </div>
+            
+            <div class="w-full h-44 sm:h-48 bg-gradient-to-b from-sky-50 to-teal-50 rounded-2xl flex items-center justify-center relative overflow-hidden border border-slate-100">
+              <span class="text-6xl group-hover:scale-110 transition drop-shadow">🐆</span>
+              <span class="absolute top-2 right-4 font-display font-black text-5xl sm:text-6xl text-amber-500 select-none drop-shadow">
+                2
+              </span>
+            </div>
+
+            <span class="mt-3 text-sm font-black text-[#0b3b60] group-hover:text-amber-600 transition">
+              EJERCICIO 2
+            </span>
+            <span class="text-[11px] text-slate-500 font-medium">Desafío con Yvoty</span>
+          </div>
+
+          <!-- Actividad 3 -->
+          <div onclick="openNestedChallenge(3)" class="challenge-card bg-white p-4 rounded-3xl shadow-2xl border-4 border-white cursor-pointer hover:border-amber-400 group relative flex flex-col items-center text-center">
+            <div id="nested-badge-completed-3" class="hidden absolute top-3 right-3 z-20 bg-emerald-500 text-white text-[10px] font-black px-2.5 py-1 rounded-full shadow flex items-center gap-1">
+              ✓ ¡LISTO!
+            </div>
+            
+            <div class="w-full h-44 sm:h-48 bg-gradient-to-b from-sky-50 to-teal-50 rounded-2xl flex items-center justify-center relative overflow-hidden border border-slate-100">
+              <span class="text-6xl group-hover:scale-110 transition drop-shadow">🐆</span>
+              <span class="absolute top-2 right-4 font-display font-black text-5xl sm:text-6xl text-amber-500 select-none drop-shadow">
+                3
+              </span>
+            </div>
+
+            <span class="mt-3 text-sm font-black text-[#0b3b60] group-hover:text-amber-600 transition">
+              EJERCICIO 3
+            </span>
+            <span class="text-[11px] text-slate-500 font-medium">Desafío con Yvoty</span>
+          </div>
+
+        </div>
+
+        <div class="text-center pt-6">
+          <button onclick="switchNestedTab('tab-nested-test')" class="bg-amber-500 hover:bg-amber-600 text-white font-display font-black text-xs sm:text-base px-8 py-3.5 rounded-2xl shadow-lg transition transform hover:scale-105 inline-flex items-center gap-2 cursor-pointer">
+            <span>¡Demuestra tus poderes en el Súper Test!</span> ➜ 📝
+          </button>
+        </div>
+
+      </div>
+
+    </section>
+
+    <!-- ================================================================= -->
+    <!-- PESTAÑA 4: 📝 SÚPER TEST DE BUCLES ANIDADOS (10 PREGUNTAS)        -->
+    <!-- ================================================================= -->
+    <section id="tab-nested-test" class="tab-content-nested hidden space-y-6 animate-fadeIn">
+      
+      <!-- Encabezado del Test -->
+      <div class="bg-gradient-to-r from-teal-600 via-cyan-600 to-sky-700 text-white rounded-3xl p-6 shadow-xl border-4 border-white/40 flex flex-col sm:flex-row items-center justify-between gap-4">
+        <div class="flex items-center gap-4 text-center sm:text-left">
+          <div class="w-16 h-16 bg-white/20 rounded-2xl border-2 border-white/40 flex items-center justify-center text-3xl flex-shrink-0 shadow-inner">
+            📝
+          </div>
+          <div>
+            <span class="bg-white/20 text-white font-bold px-3 py-1 rounded-full text-xs uppercase tracking-wider">Evaluación Formativa &bull; 2° Grado</span>
+            <h3 class="font-display font-black text-xl sm:text-2xl mt-1">Súper Test: Bucles Anidados con Yvoty</h3>
+            <p class="text-teal-100 text-xs sm:text-sm mt-0.5">Responde 10 preguntas interactivas y gana hasta 100 estrellas ⭐</p>
+          </div>
+        </div>
+
+        <div class="bg-teal-950/40 px-4 py-2 rounded-2xl border border-white/20 text-center flex-shrink-0">
+          <span class="text-[10px] uppercase font-bold text-teal-200 block">Progreso del Test</span>
+          <span id="nested-quiz-progress-text" class="font-display font-black text-lg text-white">Pregunta 1 de 10</span>
+        </div>
+      </div>
+
+      <!-- Tarjeta del Cuestionario -->
+      <div id="nested-quiz-card" class="bg-white rounded-3xl p-6 sm:p-8 border-4 border-teal-400 shadow-xl space-y-6">
+        
+        <!-- Barra de progreso visual -->
+        <div class="w-full bg-slate-100 h-3 rounded-full overflow-hidden border border-slate-200">
+          <div id="nested-quiz-progress-bar" class="bg-gradient-to-r from-teal-400 to-cyan-500 h-full w-[10%] transition-all duration-300 rounded-full"></div>
+        </div>
+
+        <!-- Enunciado de la Pregunta -->
+        <div class="space-y-3">
+          <div class="flex items-center gap-2">
+            <span id="nested-quiz-badge" class="bg-teal-100 text-teal-900 border border-teal-300 text-xs font-black px-3 py-1 rounded-full uppercase">
+              Pregunta #1
+            </span>
+          </div>
+          <h4 id="nested-quiz-question-text" class="font-display font-black text-lg sm:text-2xl text-slate-800 leading-snug">
+            ¿Qué es un bucle anidado?
+          </h4>
+        </div>
+
+        <!-- Opciones de respuesta -->
+        <div id="nested-quiz-options-container" class="grid grid-cols-1 gap-3 pt-2">
+          <!-- Se inyectan dinámicamente -->
+        </div>
+
+        <!-- Panel de Feedback Inmediato -->
+        <div id="nested-quiz-feedback-panel" class="hidden p-4 rounded-2xl border-2 flex flex-col sm:flex-row items-center justify-between gap-3 animate-fadeIn">
+          <div class="flex items-center gap-3">
+            <span id="nested-quiz-feedback-icon" class="text-3xl">🎉</span>
+            <div>
+              <strong id="nested-quiz-feedback-title" class="font-display font-bold text-sm sm:text-base block"></strong>
+              <p id="nested-quiz-feedback-explanation" class="text-xs sm:text-sm font-medium mt-0.5"></p>
+            </div>
+          </div>
+          <button id="nested-quiz-next-btn" onclick="nextNestedQuizQuestion()" class="bg-teal-600 hover:bg-teal-700 text-white font-display font-black text-xs sm:text-sm px-6 py-2.5 rounded-xl shadow transition flex-shrink-0 inline-flex items-center gap-1.5 active:scale-95 cursor-pointer">
+            <span>Siguiente Reto</span> ➜
+          </button>
+        </div>
+
+      </div>
+
+      <!-- Pantalla de Resultados Finales del Test de Bucles Anidados -->
+      <div id="nested-quiz-results-screen" class="hidden bg-white rounded-3xl p-8 sm:p-12 border-4 border-teal-400 shadow-2xl text-center space-y-6 animate-pop">
+        <div class="w-28 h-28 bg-gradient-to-tr from-teal-400 to-cyan-300 rounded-full flex items-center justify-center text-6xl mx-auto shadow-xl border-4 border-white animate-bounce">
+          🏆
+        </div>
+        
+        <div>
+          <span class="bg-emerald-100 text-emerald-900 text-xs font-black uppercase px-4 py-1.5 rounded-full border border-emerald-300">
+            ¡Test Completado con Éxito!
+          </span>
+          <h3 class="font-display font-black text-3xl sm:text-4xl text-[#0b3b60] mt-3">
+            ¡Felicitaciones, Maestro de los Bucles Anidados!
+          </h3>
+          <p id="nested-quiz-final-message" class="text-slate-600 text-sm sm:text-base max-w-md mx-auto mt-2 font-medium">
+            Has dominado el arte de anidar bucles con Yvoty y el Oso.
+          </p>
+        </div>
+
+        <div class="bg-teal-50 border-2 border-teal-300 rounded-2xl p-4 max-w-xs mx-auto">
+          <span class="text-xs text-teal-800 font-bold uppercase tracking-wider block">Puntuación Final</span>
+          <span id="nested-quiz-final-score" class="font-display font-black text-4xl text-teal-700">10 / 10</span>
+        </div>
+
+        <div class="flex flex-wrap justify-center gap-3 pt-2">
+          <button onclick="restartNestedQuiz()" class="bg-teal-600 hover:bg-teal-700 text-white font-display font-black text-xs sm:text-sm px-6 py-3 rounded-2xl shadow-md transition inline-flex items-center gap-2 cursor-pointer">
+            <span>🔄 Repetir el Test</span>
+          </button>
+          <button onclick="switchNestedTab('tab-nested-extra')" class="bg-amber-500 hover:bg-amber-600 text-white font-display font-black text-xs sm:text-sm px-6 py-3 rounded-2xl shadow-md transition inline-flex items-center gap-2 cursor-pointer">
+            <span>🎨 Ir a la Actividad Extra (Kleki)</span> ➜
+          </button>
+        </div>
+      </div>
+
+    </section>
+
+    <!-- ================================================================= -->
+    <!-- PESTAÑA 5: 🎨 ACTIVIDAD EXTRA (DIBUJO DIGITAL EN KLEKI)          -->
+    <!-- ================================================================= -->
+    <section id="tab-nested-extra" class="tab-content-nested hidden space-y-6 animate-fadeIn">
+      
+      <div class="bg-white rounded-3xl p-6 sm:p-8 border-4 border-amber-400 shadow-xl space-y-6">
+        
+        <div class="text-center border-b-2 border-amber-200 pb-3">
+          <span class="text-xs font-black text-amber-600 uppercase tracking-wider">🌟 Creatividad Digital</span>
+          <h4 class="font-display font-black text-2xl sm:text-3xl text-[#0b3b60]">
+            ACTIVIDAD EXTRA
+          </h4>
+        </div>
+
+        <div class="grid grid-cols-1 md:grid-cols-12 gap-6 items-center">
+          
+          <div class="md:col-span-8 text-center md:text-left space-y-3">
+            <p class="font-display font-black text-base sm:text-lg text-slate-800 uppercase leading-relaxed tracking-wide">
+              Ingresa a <span class="text-amber-600 underline">Kleki</span> dando clic en la imagen y dibuja a <strong>Yvoty con sus mariposas 🦋</strong> o al <strong>oso comiendo miel 🍯</strong>.
+            </p>
+            <p class="text-xs sm:text-sm text-slate-500 font-medium">
+              Usa los pinceles, colores y formas geométricas para recrear la escena del laberinto que más te haya gustado.
+            </p>
+            <div class="pt-2 flex flex-wrap gap-3 justify-center md:justify-start">
+              <a href="https://kleki.com/" target="_blank" rel="noopener" class="inline-flex items-center gap-2 bg-gradient-to-r from-amber-500 to-orange-500 hover:from-amber-600 hover:to-orange-600 text-white font-display font-black text-xs sm:text-sm px-6 py-3 rounded-2xl shadow-md transition transform hover:scale-105 cursor-pointer">
+                <span>🎨 Abrir Kleki en Nueva Pestaña</span> ➜
+              </a>
+              <button onclick="switchNestedTab('tab-nested-taller')" class="bg-slate-100 hover:bg-slate-200 text-slate-700 font-display font-bold text-xs sm:text-sm px-5 py-3 rounded-2xl transition cursor-pointer">
+                <span>← Volver al Taller del Oso</span>
+              </button>
+            </div>
+          </div>
+
+          <div class="md:col-span-4 flex flex-col items-center">
+            <a href="https://kleki.com/" target="_blank" rel="noopener" class="challenge-card bg-slate-50 p-4 rounded-3xl border-4 border-amber-300 hover:border-amber-500 shadow-lg group relative flex flex-col items-center text-center cursor-pointer transition transform hover:scale-105 w-full max-w-[220px]">
+              <div class="w-full h-36 bg-gradient-to-tr from-amber-100 via-sky-100 to-emerald-100 rounded-2xl flex flex-col items-center justify-center border border-amber-200 shadow-inner">
+                <span class="text-5xl group-hover:scale-125 transition">🎨</span>
+                <span class="text-xs font-black text-slate-700 mt-2">KLEKI PAINT</span>
+              </div>
+              <span class="text-[11px] font-black text-amber-700 uppercase tracking-wider mt-2.5">
+                Haz clic para ingresar
+              </span>
+            </a>
+          </div>
+
+        </div>
+
+      </div>
+
+    </section>
+
+  </div> <!-- Fin content-class-3 -->
 
   <!-- ======================================================================= -->
   <!-- CONTENIDO CLASE 4: BUCLES ANIDADOS CON MAÑIC                            -->
@@ -1893,6 +2669,715 @@
 
     function backToModules() {
       window.location.href = '../periodo3.html';
+    }
+
+    // =========================================================================
+    // LÓGICA DE CLASE 3: BUCLES ANIDADOS (YVOTY, OSO & PILAS BLOQUES)
+    // =========================================================================
+    function switchNestedTab(tabId) {
+      playPopSound();
+      document.querySelectorAll('.tab-content-nested').forEach(el => el.classList.add('hidden'));
+      document.querySelectorAll('.tab-btn-nested').forEach(el => {
+        el.classList.remove('active', 'bg-white', 'text-teal-900', 'shadow-md', 'font-bold');
+        el.classList.add('bg-sky-900/60', 'text-white', 'font-medium', 'border-white/15');
+      });
+
+      const selectedContent = document.getElementById(tabId);
+      if (selectedContent) selectedContent.classList.remove('hidden');
+
+      const activeBtn = document.getElementById(`btn-${tabId}`);
+      if (activeBtn) {
+        activeBtn.classList.add('active', 'bg-white', 'text-teal-900', 'shadow-md', 'font-bold');
+        activeBtn.classList.remove('bg-sky-900/60', 'text-white', 'font-medium', 'border-white/15');
+      }
+    }
+
+    // --- TALLER DEL OSO Y LA MIEL (EJERCICIO 1 Y EJERCICIO 2) ---
+    let bearSelectedNumber1 = null;
+    let bearSlotCmd1 = null;
+    let bearSlotCmd2 = null;
+
+    let bearSelectedNumber2 = null;
+    let bearSlotExt = null;
+    let bearSlotInt1 = null;
+    let bearSlotInt2 = null;
+
+    const COMMAND_LABELS = {
+      up: { text: "⬆️ DESPLAZAR HACIA ARRIBA", icon: "⬆️" },
+      left: { text: "⬅️ DESPLAZAR HACIA LA IZQUIERDA", icon: "⬅️" },
+      down: { text: "⬇️ DESPLAZAR HACIA ABAJO", icon: "⬇️" },
+      right: { text: "➡️ DESPLAZAR HACIA LA DERECHA", icon: "➡️" },
+      eat: { text: "🍯 COMER LA MIEL", icon: "🍯" }
+    };
+
+    function switchBearExercise(exNum) {
+      playPopSound();
+      const ex1 = document.getElementById('bear-exercise-1');
+      const ex2 = document.getElementById('bear-exercise-2');
+      const btn1 = document.getElementById('btn-bear-ex-1');
+      const btn2 = document.getElementById('btn-bear-ex-2');
+
+      if (exNum === 1) {
+        if (ex1) ex1.classList.remove('hidden');
+        if (ex2) ex2.classList.add('hidden');
+        if (btn1) {
+          btn1.className = "bg-white text-slate-900 font-display font-black text-xs px-3.5 py-1.5 rounded-xl shadow transition cursor-pointer";
+        }
+        if (btn2) {
+          btn2.className = "text-white hover:bg-white/20 font-display font-bold text-xs px-3.5 py-1.5 rounded-xl transition cursor-pointer";
+        }
+      } else {
+        if (ex1) ex1.classList.add('hidden');
+        if (ex2) ex2.classList.remove('hidden');
+        if (btn1) {
+          btn1.className = "text-white hover:bg-white/20 font-display font-bold text-xs px-3.5 py-1.5 rounded-xl transition cursor-pointer";
+        }
+        if (btn2) {
+          btn2.className = "bg-white text-slate-900 font-display font-black text-xs px-3.5 py-1.5 rounded-xl shadow transition cursor-pointer";
+        }
+      }
+    }
+
+    function selectBearNumber(exNum, num) {
+      playPopSound();
+      if (exNum === 1) {
+        bearSelectedNumber1 = num;
+        document.querySelectorAll('.bear-num-btn').forEach(btn => {
+          btn.className = "bear-num-btn flex-1 py-2 rounded-xl font-display font-black text-base border-2 border-slate-300 bg-white hover:border-amber-400 transition";
+        });
+        const selectedBtn = document.getElementById(`btn-num-1-${num}`);
+        if (selectedBtn) {
+          selectedBtn.className = "bear-num-btn flex-1 py-2 rounded-xl font-display font-black text-base border-2 border-amber-500 bg-amber-400 text-slate-900 shadow-md scale-105 transition";
+        }
+        const slotNum = document.getElementById('bear1-slot-num');
+        if (slotNum) slotNum.textContent = num;
+      } else {
+        bearSelectedNumber2 = num;
+        document.querySelectorAll('.bear-num-btn-2').forEach(btn => {
+          btn.className = "bear-num-btn-2 flex-1 py-2 rounded-xl font-display font-black text-base border-2 border-slate-300 bg-white hover:border-teal-400 transition";
+        });
+        const selectedBtn = document.getElementById(`btn-num-2-${num}`);
+        if (selectedBtn) {
+          selectedBtn.className = "bear-num-btn-2 flex-1 py-2 rounded-xl font-display font-black text-base border-2 border-teal-500 bg-teal-400 text-slate-900 shadow-md scale-105 transition";
+        }
+        const slotNum = document.getElementById('bear2-slot-num');
+        if (slotNum) slotNum.textContent = num;
+      }
+    }
+
+    function clickAddBearCommand(exNum, cmdKey) {
+      playDropSound();
+      const cmdInfo = COMMAND_LABELS[cmdKey];
+      if (!cmdInfo) return;
+
+      if (exNum === 1) {
+        if (!bearSlotCmd1) {
+          bearSlotCmd1 = cmdKey;
+          renderBearSlot('bear1-slot-cmd-1', cmdInfo.text, true);
+        } else if (!bearSlotCmd2) {
+          bearSlotCmd2 = cmdKey;
+          renderBearSlot('bear1-slot-cmd-2', cmdInfo.text, true);
+        } else {
+          // Reemplazar el segundo si ya están llenos
+          bearSlotCmd2 = cmdKey;
+          renderBearSlot('bear1-slot-cmd-2', cmdInfo.text, true);
+        }
+      } else {
+        if (!bearSlotExt) {
+          bearSlotExt = cmdKey;
+          renderBearSlot('bear2-slot-cmd-ext', cmdInfo.text, true);
+        } else if (!bearSlotInt1) {
+          bearSlotInt1 = cmdKey;
+          renderBearSlot('bear2-slot-cmd-int1', cmdInfo.text, true);
+        } else if (!bearSlotInt2) {
+          bearSlotInt2 = cmdKey;
+          renderBearSlot('bear2-slot-cmd-int2', cmdInfo.text, true);
+        } else {
+          bearSlotInt2 = cmdKey;
+          renderBearSlot('bear2-slot-cmd-int2', cmdInfo.text, true);
+        }
+      }
+    }
+
+    function renderBearSlot(elementId, text, isFilled) {
+      const el = document.getElementById(elementId);
+      if (!el) return;
+      if (isFilled) {
+        el.className = "h-11 sm:h-12 bg-amber-400 text-slate-900 font-display font-black text-xs sm:text-sm p-3 rounded-xl shadow flex items-center justify-between cursor-pointer border-2 border-amber-500 animate-fadeIn";
+        el.innerHTML = `<span>${text}</span> <span class="text-xs text-amber-950 font-bold">✕ Quitar</span>`;
+      } else {
+        el.className = "h-11 sm:h-12 bg-white/90 border-2 border-dashed border-cyan-600 rounded-xl flex items-center justify-center text-xs font-bold text-slate-500 cursor-pointer hover:bg-white shadow-sm";
+        el.innerHTML = `[ Toca un comando para colocar aquí ]`;
+      }
+    }
+
+    function clearBearSlot(exNum, slotName) {
+      playPopSound();
+      if (exNum === 1) {
+        if (slotName === 1) {
+          bearSlotCmd1 = null;
+          renderBearSlot('bear1-slot-cmd-1', '', false);
+        } else {
+          bearSlotCmd2 = null;
+          renderBearSlot('bear1-slot-cmd-2', '', false);
+        }
+      } else {
+        if (slotName === 'ext') {
+          bearSlotExt = null;
+          renderBearSlot('bear2-slot-cmd-ext', '', false);
+        } else if (slotName === 'int1') {
+          bearSlotInt1 = null;
+          renderBearSlot('bear2-slot-cmd-int1', '', false);
+        } else if (slotName === 'int2') {
+          bearSlotInt2 = null;
+          renderBearSlot('bear2-slot-cmd-int2', '', false);
+        }
+      }
+    }
+
+    let bear1Animating = false;
+    let bear2Animating = false;
+
+    function checkBearAlgorithm1() {
+      if (bear1Animating) return;
+      const fb = document.getElementById('bear1-feedback');
+      if (!fb) return;
+      fb.classList.remove('hidden');
+
+      // Correcto: Repetir 2 veces [Desplazar Izquierda + Comer Miel]
+      const isNumCorrect = (bearSelectedNumber1 === 2);
+      const isCmd1Correct = (bearSlotCmd1 === 'left');
+      const isCmd2Correct = (bearSlotCmd2 === 'eat');
+
+      if (isNumCorrect && isCmd1Correct && isCmd2Correct) {
+        bear1Animating = true;
+        fb.className = "p-3 rounded-2xl text-center text-xs sm:text-sm font-bold bg-amber-100 text-amber-950 border-2 border-amber-400 block animate-fadeIn";
+        fb.innerHTML = "🎬 ¡Ejecutando algoritmo! Mira cómo avanza el oso...";
+
+        // Resetear tablero inicial
+        renderBear1BoardState(4, [1, 2]);
+
+        // Paso 1: Mover a casilla 3 (paso previo fijo)
+        setTimeout(() => {
+          playTone(400, 'triangle', 0.15);
+          renderBear1BoardState(3, [1, 2]);
+
+          // Bucle vuelta 1: Mover a casilla 2 y Comer Miel 2
+          setTimeout(() => {
+            playTone(480, 'triangle', 0.15);
+            renderBear1BoardState(2, [1]); // Come miel 2
+
+            // Bucle vuelta 2: Mover a casilla 1 y Comer Miel 1
+            setTimeout(() => {
+              playSuccessSound();
+              addPoints(15);
+              renderBear1BoardState(1, []); // Come miel 1 (tablero limpio)
+              bear1Animating = false;
+
+              fb.className = "p-3 rounded-2xl text-center text-xs sm:text-sm font-bold bg-emerald-100 text-emerald-950 border-2 border-emerald-400 block animate-fadeIn";
+              fb.innerHTML = "🎉 ¡EXCELENTE! El oso se desplazó a la izquierda y comió la miel en <strong>2 repeticiones exactas</strong>. ¡Comió ambos tarros! ⭐ (+15 estrellas)";
+            }, 800);
+
+          }, 800);
+
+        }, 700);
+
+      } else {
+        playErrorSound();
+        fb.className = "p-3 rounded-2xl text-center text-xs sm:text-sm font-bold bg-amber-100 text-amber-950 border-2 border-amber-400 block animate-fadeIn";
+        let msg = "💡 Revisa tu código: ";
+        if (!isNumCorrect) msg += "El bucle debe repetirse <strong>2 veces</strong> (para 2 tarros). ";
+        if (!isCmd1Correct) msg += "El primer bloque interno debe ser <strong>⬅️ DESPLAZAR HACIA LA IZQUIERDA</strong>. ";
+        if (!isCmd2Correct) msg += "El segundo bloque interno debe ser <strong>🍯 COMER LA MIEL</strong>.";
+        fb.innerHTML = msg;
+      }
+    }
+
+    function renderBear1BoardState(bearPos, honeyList) {
+      for (let i = 1; i <= 4; i++) {
+        const cell = document.getElementById(`bear1-cell-${i}`);
+        if (!cell) continue;
+
+        if (i === bearPos) {
+          const hasHoney = honeyList.includes(i);
+          cell.className = "h-20 sm:h-24 bg-amber-200 border-3 border-amber-500 rounded-2xl flex flex-col items-center justify-center text-3xl shadow-md transition-all duration-300 scale-105";
+          cell.innerHTML = hasHoney ? `<span>🐻🍯</span><span class="text-[10px] text-amber-900 font-bold mt-1">¡Comiendo!</span>` : `<span>🐻</span><span class="text-[10px] text-amber-900 font-bold mt-1">Oso</span>`;
+        } else if (honeyList.includes(i)) {
+          cell.className = "h-20 sm:h-24 bg-white border-2 border-amber-400 rounded-2xl flex flex-col items-center justify-center text-3xl shadow-sm";
+          cell.innerHTML = `<span>🍯</span><span class="text-[10px] text-slate-400 font-bold mt-1">Casilla ${i}</span>`;
+        } else {
+          cell.className = "h-20 sm:h-24 bg-slate-50 border-2 border-dashed border-slate-200 rounded-2xl flex flex-col items-center justify-center text-slate-300 text-xs";
+          cell.innerHTML = `<span>Libre</span><span class="text-[10px] text-slate-400 font-bold mt-1">Casilla ${i}</span>`;
+        }
+      }
+    }
+
+    function resetBearExercise1() {
+      playPopSound();
+      bear1Animating = false;
+      bearSelectedNumber1 = null;
+      bearSlotCmd1 = null;
+      bearSlotCmd2 = null;
+      document.querySelectorAll('.bear-num-btn').forEach(btn => {
+        btn.className = "bear-num-btn flex-1 py-2 rounded-xl font-display font-black text-base border-2 border-slate-300 bg-white hover:border-amber-400 transition";
+      });
+      const slotNum = document.getElementById('bear1-slot-num');
+      if (slotNum) slotNum.textContent = "?";
+      renderBearSlot('bear1-slot-cmd-1', '', false);
+      renderBearSlot('bear1-slot-cmd-2', '', false);
+      renderBear1BoardState(4, [1, 2]);
+      const fb = document.getElementById('bear1-feedback');
+      if (fb) fb.classList.add('hidden');
+    }
+
+    function checkBearAlgorithm2() {
+      if (bear2Animating) return;
+      const fb = document.getElementById('bear2-feedback');
+      if (!fb) return;
+      fb.classList.remove('hidden');
+
+      // Bucle externo: Repetir 2 veces:
+      //   Paso externo: Desplazar abajo (down)
+      //   Bucle interno: Repetir 2 veces (2)
+      //     Paso interno 1: Desplazar derecha (right)
+      //     Paso interno 2: Comer la miel (eat)
+      const isExtCmdCorrect = (bearSlotExt === 'down');
+      const isIntNumCorrect = (bearSelectedNumber2 === 2);
+      const isIntCmd1Correct = (bearSlotInt1 === 'right');
+      const isIntCmd2Correct = (bearSlotInt2 === 'eat');
+
+      if (isExtCmdCorrect && isIntNumCorrect && isIntCmd1Correct && isIntCmd2Correct) {
+        bear2Animating = true;
+        fb.className = "p-3 rounded-2xl text-center text-xs sm:text-sm font-bold bg-amber-100 text-amber-950 border-2 border-amber-400 block animate-fadeIn";
+        fb.innerHTML = "🎬 ¡Ejecutando Bucle Anidado! Mira al oso recorrer ambos pisos...";
+
+        // Resetear tablero 2
+        renderBear2BoardState('1-1', ['2-2', '2-3', '3-3', '3-4']);
+
+        // VUELTA 1 EXTERNA:
+        // 1.1 Desplazar abajo a (2,1)
+        setTimeout(() => {
+          playTone(400, 'triangle', 0.15);
+          renderBear2BoardState('2-1', ['2-2', '2-3', '3-3', '3-4']);
+
+          // 1.2 Interno 1: Desplazar derecha a (2,2) y comer miel 1
+          setTimeout(() => {
+            playTone(460, 'triangle', 0.15);
+            renderBear2BoardState('2-2', ['2-3', '3-3', '3-4']);
+
+            // 1.3 Interno 2: Desplazar derecha a (2,3) y comer miel 2
+            setTimeout(() => {
+              playTone(520, 'triangle', 0.15);
+              renderBear2BoardState('2-3', ['3-3', '3-4']);
+
+              // VUELTA 2 EXTERNA:
+              // 2.1 Desplazar abajo a (3,2) (desde 2,2 relativo o bajando columna)
+              setTimeout(() => {
+                playTone(420, 'triangle', 0.15);
+                renderBear2BoardState('3-2', ['3-3', '3-4']);
+
+                // 2.2 Interno 1: Desplazar derecha a (3,3) y comer miel 3
+                setTimeout(() => {
+                  playTone(480, 'triangle', 0.15);
+                  renderBear2BoardState('3-3', ['3-4']);
+
+                  // 2.3 Interno 2: Desplazar derecha a (3,4) y comer miel 4
+                  setTimeout(() => {
+                    playSuccessSound();
+                    addPoints(20);
+                    renderBear2BoardState('3-4', []);
+                    bear2Animating = false;
+
+                    fb.className = "p-3 rounded-2xl text-center text-xs sm:text-sm font-bold bg-emerald-100 text-emerald-950 border-2 border-emerald-400 block animate-fadeIn";
+                    fb.innerHTML = "🎉 ¡BRILIANTE! Construiste un <strong>Bucle Anidado perfecto</strong>: Bajas de fila ⬇️ y repites 2 veces mover derecha ➡️ y comer miel 🍯. ¡El oso comió los 4 tarros! ⭐ (+20 estrellas)";
+                  }, 700);
+
+                }, 700);
+
+              }, 700);
+
+            }, 700);
+
+          }, 700);
+
+        }, 700);
+
+      } else {
+        playErrorSound();
+        fb.className = "p-3 rounded-2xl text-center text-xs sm:text-sm font-bold bg-amber-100 text-amber-950 border-2 border-amber-400 block animate-fadeIn";
+        let msg = "💡 Pistas para el Bucle Anidado: ";
+        if (!isExtCmdCorrect) msg += "Para cambiar de fila necesitas <strong>⬇️ DESPLAZAR HACIA ABAJO</strong>. ";
+        if (!isIntNumCorrect) msg += "El bucle interno debe ser <strong>2 veces</strong> (hay 2 tarros por fila). ";
+        if (!isIntCmd1Correct) msg += "Dentro del bucle interno necesitas <strong>➡️ DESPLAZAR HACIA LA DERECHA</strong>. ";
+        if (!isIntCmd2Correct) msg += "Y luego <strong>🍯 COMER LA MIEL</strong>.";
+        fb.innerHTML = msg;
+      }
+    }
+
+    function renderBear2BoardState(bearCoord, remainingHoneys) {
+      const allCoords = ['1-1','1-2','1-3','1-4','2-1','2-2','2-3','2-4','3-1','3-2','3-3','3-4'];
+      const honeyLabels = { '2-2': 'Miel 1', '2-3': 'Miel 2', '3-3': 'Miel 3', '3-4': 'Miel 4' };
+
+      allCoords.forEach(coord => {
+        const cell = document.getElementById(`bear2-cell-${coord}`);
+        if (!cell) return;
+
+        if (coord === bearCoord) {
+          const wasHoney = remainingHoneys.includes(coord) || honeyLabels[coord];
+          cell.className = "h-16 sm:h-20 bg-amber-200 border-3 border-amber-500 rounded-2xl flex flex-col items-center justify-center text-3xl shadow-md transition-all duration-300 scale-105";
+          cell.innerHTML = wasHoney ? `<span>🐻🍯</span><span class="text-[9px] text-amber-900 font-bold">¡Oso comiendo!</span>` : `<span>🐻</span><span class="text-[9px] text-amber-900 font-bold">Oso</span>`;
+        } else if (remainingHoneys.includes(coord)) {
+          cell.className = "h-16 sm:h-20 bg-amber-50 border-2 border-amber-400 rounded-2xl flex flex-col items-center justify-center text-2xl shadow-sm transition-all duration-300";
+          cell.innerHTML = `<span class="honey-icon">🍯</span><span class="text-[9px] text-amber-700 font-bold label-text">${honeyLabels[coord] || 'Miel'}</span>`;
+        } else if (coord === '2-1' || coord === '3-2') {
+          cell.className = "h-16 sm:h-20 bg-white border-2 border-dashed border-slate-300 rounded-2xl flex items-center justify-center text-slate-400 text-xs font-bold transition-all duration-300";
+          cell.innerHTML = "⬇️ Baja";
+        } else if (coord === '1-1') {
+          cell.className = "h-16 sm:h-20 bg-slate-50 border-2 border-dashed border-slate-200 rounded-2xl flex items-center justify-center text-slate-300 text-xs transition-all duration-300";
+          cell.innerHTML = "Inicio";
+        } else {
+          cell.className = "h-16 sm:h-20 bg-white border-2 border-dashed border-slate-300 rounded-2xl flex items-center justify-center text-slate-300 text-xs transition-all duration-300";
+          cell.innerHTML = "Libre";
+        }
+      });
+    }
+
+    function resetBearExercise2() {
+      playPopSound();
+      bear2Animating = false;
+      bearSelectedNumber2 = null;
+      bearSlotExt = null;
+      bearSlotInt1 = null;
+      bearSlotInt2 = null;
+      document.querySelectorAll('.bear-num-btn-2').forEach(btn => {
+        btn.className = "bear-num-btn-2 flex-1 py-2 rounded-xl font-display font-black text-base border-2 border-slate-300 bg-white hover:border-teal-400 transition";
+      });
+      const slotNum = document.getElementById('bear2-slot-num');
+      if (slotNum) slotNum.textContent = "?";
+      renderBearSlot('bear2-slot-cmd-ext', '', false);
+      renderBearSlot('bear2-slot-cmd-int1', '', false);
+      renderBearSlot('bear2-slot-cmd-int2', '', false);
+      renderBear2BoardState('1-1', ['2-2', '2-3', '3-3', '3-4']);
+      const fb = document.getElementById('bear2-feedback');
+      if (fb) fb.classList.add('hidden');
+    }
+
+    // --- SÚPER TEST DE BUCLES ANIDADOS (10 PREGUNTAS CON YVOTY) ---
+    const nestedQuizQuestions = [
+      {
+        question: "¿Qué es un bucle anidado en programación?",
+        options: [
+          { text: "Un bucle que está colocado dentro de otro bucle 🔄🔁", isCorrect: true },
+          { text: "Un nudo que no se puede desatar 🧶", isCorrect: false },
+          { text: "Un programa que solo funciona de noche 🌙", isCorrect: false }
+        ],
+        explanation: "¡Correcto! Un bucle anidado es tener una tarea repetida DENTRO de otra tarea repetida."
+      },
+      {
+        question: "Al bucle que se encuentra afuera envolviendo todo se le llama:",
+        options: [
+          { text: "Bucle Externo 🌐", isCorrect: true },
+          { text: "Bucle Invisible 👻", isCorrect: false },
+          { text: "Bucle Interno 📦", isCorrect: false }
+        ],
+        explanation: "¡Exacto! El bucle de afuera es el Bucle Externo y dicta cuántas veces se repite el ciclo completo."
+      },
+      {
+        question: "Al bucle que se encuentra adentro se le denomina:",
+        options: [
+          { text: "Bucle Interno 📦", isCorrect: true },
+          { text: "Bucle Gigante 🗿", isCorrect: false },
+          { text: "Bucle Apagado 🛑", isCorrect: false }
+        ],
+        explanation: "¡Muy bien! El bucle de adentro es el Bucle Interno."
+      },
+      {
+        question: "Si el bucle externo se repite 2 veces, y el interno repite [Avanzar] 3 veces, ¿cuántos pasos da en total?",
+        options: [
+          { text: "Da 6 pasos en total (2 × 3 = 6) 🚀", isCorrect: true },
+          { text: "Da solo 2 pasos ✌️", isCorrect: false },
+          { text: "Da 5 pasos 🖐️", isCorrect: false }
+        ],
+        explanation: "¡Gran cálculo matemático! Como hace 3 pasos dos veces seguidas: 3 + 3 = 6 pasos en total."
+      },
+      {
+        question: "En el laberinto de Yvoty, ¿para qué usamos el bucle anidado?",
+        options: [
+          { text: "Para fotografiar las mariposas y bajar de fila ahorrando bloques 📸🦋", isCorrect: true },
+          { text: "Para apagar la computadora 💻", isCorrect: false },
+          { text: "Para que Yvoty se vaya a dormir 😴", isCorrect: false }
+        ],
+        explanation: "¡Excelente! Nos permite recorrer cada piso del bosque y fotografiar mariposas con código cortito y ordenado."
+      },
+      {
+        question: "En el ejercicio del Oso en 2 pisos, ¿qué orden se coloca en el bucle externo para cambiar de nivel?",
+        options: [
+          { text: "DESPLAZAR HACIA ABAJO ⬇️", isCorrect: true },
+          { text: "SALIR DEL JUEGO 🚪", isCorrect: false },
+          { text: "DESPLAZAR HACIA ARRIBA ⬆️", isCorrect: false }
+        ],
+        explanation: "¡Así es! Al desplazarse hacia abajo cambia de piso antes de comer la miel de esa fila."
+      },
+      {
+        question: "Si dentro de un bucle de 3 repeticiones pones otro bucle de 2 aplausos 👏, ¿cuántos aplausos son?",
+        options: [
+          { text: "6 aplausos en total (3 × 2 = 6) 👏", isCorrect: true },
+          { text: "2 aplausos ✌️", isCorrect: false },
+          { text: "3 aplausos 🖐️", isCorrect: false }
+        ],
+        explanation: "¡Perfecto! 2 aplausos en la ronda 1, 2 en la ronda 2 y 2 en la ronda 3 = ¡6 aplausos!"
+      },
+      {
+        question: "¿Cuál es la principal ventaja de usar bucles anidados en cuadrículas y laberintos?",
+        options: [
+          { text: "Escribir menos bloques y resolver patrones de filas y columnas fácilmente 💡", isCorrect: true },
+          { text: "Hacer que el juego se vuelva más lento 🐢", isCorrect: false },
+          { text: "Que los personajes no se puedan mover 🛑", isCorrect: false }
+        ],
+        explanation: "¡Correcto! Los bucles anidados son ideales para recorrer tableros de 2 dimensiones (filas y columnas)."
+      },
+      {
+        question: "Si Yvoty tiene que recoger 3 filas con 4 flores cada una, ¿cómo organizas el bucle anidado?",
+        options: [
+          { text: "Repetir 3 veces: [Repetir 4 veces: Recoger flor] 🌸", isCorrect: true },
+          { text: "Repetir 1 vez: [Recoger flor] ❌", isCorrect: false },
+          { text: "Repetir 100 veces sin mirar 🙈", isCorrect: false }
+        ],
+        explanation: "¡Brillante! 3 veces para las 3 filas, y adentro 4 veces para las 4 flores de cada fila."
+      },
+      {
+        question: "¡Pregunta de Gran Maestro! ¿Puedo colocar acciones sueltas antes o después del bucle interno?",
+        options: [
+          { text: "¡Sí! Como bajar de fila o tomar una foto antes o después de repetir 🎯", isCorrect: true },
+          { text: "No, está prohibido por la computadora 🚫", isCorrect: false },
+          { text: "Solo si es día domingo 📅", isCorrect: false }
+        ],
+        explanation: "🎉 ¡FELICITACIONES! Dentro del bucle externo puedes mezclar bucles internos y comandos sueltos según lo que necesite tu algoritmo."
+      }
+    ];
+
+    let currentNestedQuizIndex = 0;
+    let nestedQuizScore = 0;
+    let nestedQuizAnswered = false;
+
+    function renderNestedQuizQuestion() {
+      nestedQuizAnswered = false;
+      const q = nestedQuizQuestions[currentNestedQuizIndex];
+
+      const badge = document.getElementById('nested-quiz-badge');
+      const progText = document.getElementById('nested-quiz-progress-text');
+      const progBar = document.getElementById('nested-quiz-progress-bar');
+      const qText = document.getElementById('nested-quiz-question-text');
+      const optsContainer = document.getElementById('nested-quiz-options-container');
+      const fbPanel = document.getElementById('nested-quiz-feedback-panel');
+
+      if (badge) badge.textContent = `Pregunta #${currentNestedQuizIndex + 1}`;
+      if (progText) progText.textContent = `Pregunta ${currentNestedQuizIndex + 1} de 10`;
+      if (progBar) progBar.style.width = `${((currentNestedQuizIndex + 1) / 10) * 100}%`;
+      if (qText) qText.textContent = q.question;
+
+      if (optsContainer) {
+        optsContainer.innerHTML = '';
+        q.options.forEach((opt) => {
+          const btn = document.createElement('button');
+          btn.className = "nested-quiz-opt-btn p-3.5 sm:p-4 rounded-2xl border-2 border-slate-200 bg-white hover:border-teal-400 hover:bg-teal-50 text-left font-display font-bold text-xs sm:text-base text-slate-800 transition flex items-center justify-between shadow-sm active:scale-98 cursor-pointer";
+          btn.innerHTML = `
+            <span>${opt.text}</span>
+            <span class="nested-opt-indicator text-slate-300 ml-2 text-xs sm:text-sm">⚪</span>
+          `;
+          btn.onclick = () => selectNestedQuizOption(opt, btn);
+          optsContainer.appendChild(btn);
+        });
+      }
+
+      if (fbPanel) fbPanel.classList.add('hidden');
+    }
+
+    function selectNestedQuizOption(selectedOpt, btnElement) {
+      if (nestedQuizAnswered) return;
+      nestedQuizAnswered = true;
+
+      const q = nestedQuizQuestions[currentNestedQuizIndex];
+      const feedbackPanel = document.getElementById('nested-quiz-feedback-panel');
+      const feedbackIcon = document.getElementById('nested-quiz-feedback-icon');
+      const feedbackTitle = document.getElementById('nested-quiz-feedback-title');
+      const feedbackExp = document.getElementById('nested-quiz-feedback-explanation');
+      const allBtns = document.querySelectorAll('.nested-quiz-opt-btn');
+
+      allBtns.forEach(b => b.classList.add('pointer-events-none'));
+
+      if (selectedOpt.isCorrect) {
+        playSuccessSound();
+        addPoints(10);
+        nestedQuizScore++;
+        btnElement.classList.replace('border-slate-200', 'border-emerald-500');
+        btnElement.classList.replace('bg-white', 'bg-emerald-50');
+        btnElement.querySelector('.nested-opt-indicator').innerHTML = "🟢";
+
+        feedbackPanel.className = "p-3 sm:p-3.5 rounded-2xl border-2 border-emerald-400 bg-emerald-50 text-emerald-950 flex flex-col sm:flex-row items-center justify-between gap-3 animate-fadeIn shadow-sm";
+        feedbackIcon.textContent = "🎉";
+        feedbackTitle.textContent = "¡EXCELENTE DETECTIVE!";
+      } else {
+        playErrorSound();
+        btnElement.classList.replace('border-slate-200', 'border-rose-500');
+        btnElement.classList.replace('bg-white', 'bg-rose-50');
+        btnElement.querySelector('.nested-opt-indicator').innerHTML = "❌";
+
+        allBtns.forEach(b => {
+          if (b.textContent.includes(q.options.find(o => o.isCorrect).text)) {
+            b.classList.replace('border-slate-200', 'border-emerald-500');
+            b.classList.replace('bg-white', 'bg-emerald-50');
+            b.querySelector('.nested-opt-indicator').innerHTML = "🟢";
+          }
+        });
+
+        feedbackPanel.className = "p-3 sm:p-3.5 rounded-2xl border-2 border-amber-400 bg-amber-50 text-amber-950 flex flex-col sm:flex-row items-center justify-between gap-3 animate-fadeIn shadow-sm";
+        feedbackIcon.textContent = "💡";
+        feedbackTitle.textContent = "¡Casi lo logras! Mira:";
+      }
+
+      feedbackExp.innerHTML = q.explanation;
+      feedbackPanel.classList.remove('hidden');
+
+      const nextBtn = document.getElementById('nested-quiz-next-btn');
+      if (nextBtn) {
+        if (currentNestedQuizIndex === nestedQuizQuestions.length - 1) {
+          nextBtn.innerHTML = `<span>Ver Mi Calificación Final</span> 🏆`;
+        } else {
+          nextBtn.innerHTML = `<span>Siguiente Reto</span> ➜`;
+        }
+      }
+    }
+
+    function nextNestedQuizQuestion() {
+      playPopSound();
+      if (currentNestedQuizIndex < nestedQuizQuestions.length - 1) {
+        currentNestedQuizIndex++;
+        renderNestedQuizQuestion();
+      } else {
+        showNestedQuizResults();
+      }
+    }
+
+    function showNestedQuizResults() {
+      document.getElementById('nested-quiz-card').classList.add('hidden');
+      const resultsScreen = document.getElementById('nested-quiz-results-screen');
+      resultsScreen.classList.remove('hidden');
+
+      document.getElementById('nested-quiz-final-score').textContent = `${nestedQuizScore} / 10`;
+
+      const msg = document.getElementById('nested-quiz-final-message');
+      if (nestedQuizScore === 10) {
+        playSuccessSound();
+        msg.textContent = "🌟 ¡PERFECTO! Eres un Súper Maestro de los Bucles Anidados.";
+      } else if (nestedQuizScore >= 7) {
+        playSuccessSound();
+        msg.textContent = "🎉 ¡MUY BIEN! Comprendiste cómo anidar bucles y resolver retos en cuadrículas.";
+      } else {
+        playTone(440, 'triangle', 0.2);
+        msg.textContent = "💪 ¡Buen intento! Repasa la pestaña de Aprender y vuelve a jugar para sacar 10/10.";
+      }
+    }
+
+    function restartNestedQuiz() {
+      currentNestedQuizIndex = 0;
+      nestedQuizScore = 0;
+      document.getElementById('nested-quiz-results-screen').classList.add('hidden');
+      document.getElementById('nested-quiz-card').classList.remove('hidden');
+      renderNestedQuizQuestion();
+    }
+      const slotNum = document.getElementById('bear2-slot-num');
+      if (slotNum) slotNum.textContent = "?";
+      renderBearSlot('bear2-slot-cmd-ext', '', false);
+      renderBearSlot('bear2-slot-cmd-int1', '', false);
+      renderBearSlot('bear2-slot-cmd-int2', '', false);
+      const fb = document.getElementById('bear2-feedback');
+      if (fb) fb.classList.add('hidden');
+    }
+
+    // --- ACTIVIDADES DE PILAS BLOQUES DE YVOTY (CLASE 3) ---
+    const NESTED_CHALLENGE_URLS = {
+      1: "https://pilasbloques.program.ar/online/#/desafio/guardado/44905728684",
+      2: "https://pilasbloques.program.ar/online/#/desafio/guardado/44906144758",
+      3: "https://pilasbloques.program.ar/online/#/desafio/guardado/44906395320"
+    };
+
+    let currentOpenNestedChallenge = 1;
+    const NESTED_STORAGE_KEY = "mundo_jandra_nested_completed_2p3";
+
+    function getNestedCompletedList() {
+      try {
+        const stored = localStorage.getItem(NESTED_STORAGE_KEY);
+        return stored ? JSON.parse(stored) : [];
+      } catch (e) { return []; }
+    }
+
+    function saveNestedCompletedList(list) {
+      try { localStorage.setItem(NESTED_STORAGE_KEY, JSON.stringify(list)); } catch (e) {}
+    }
+
+    function updateNestedProgressBadges() {
+      const completed = getNestedCompletedList();
+      for (let i = 1; i <= 3; i++) {
+        const badge = document.getElementById(`nested-badge-completed-${i}`);
+        if (badge) {
+          if (completed.includes(i)) badge.classList.remove('hidden');
+          else badge.classList.add('hidden');
+        }
+      }
+    }
+
+    function openNestedChallenge(num) {
+      currentOpenNestedChallenge = num;
+      const url = NESTED_CHALLENGE_URLS[num];
+      if (!url) return;
+
+      const modal = document.getElementById('player-modal-capy');
+      const iframe = document.getElementById('challenge-iframe-capy');
+      const loader = document.getElementById('iframe-loader-capy');
+      const title = document.getElementById('modal-capy-title');
+      const openTabBtn = document.getElementById('modal-btn-open-tab-capy');
+      const fallbackLink = document.getElementById('fallback-link-capy');
+      const footerInfo = document.getElementById('modal-footer-info-capy');
+
+      title.textContent = `Desafío ${num}: Bucles Anidados con Yvoty (Pilas Bloques)`;
+      openTabBtn.href = url;
+      fallbackLink.href = url;
+      footerInfo.textContent = `Desafío ${num} de 3`;
+
+      document.getElementById('btn-prev-challenge-capy').disabled = (num <= 1);
+      document.getElementById('btn-next-challenge-capy').disabled = (num >= 3);
+
+      updateNestedModalCompleteBtn();
+
+      loader.classList.remove('hidden');
+      iframe.src = url;
+
+      iframe.onload = function() {
+        loader.classList.add('hidden');
+      };
+
+      modal.classList.remove('hidden');
+      modal.classList.add('flex');
+      playPopSound();
+    }
+
+    function updateNestedModalCompleteBtn() {
+      const completed = getNestedCompletedList();
+      const isDone = completed.includes(currentOpenNestedChallenge);
+      const btn = document.getElementById('modal-btn-complete-capy');
+      const icon = document.getElementById('complete-icon-capy');
+      const text = document.getElementById('complete-text-capy');
+
+      if (isDone) {
+        icon.textContent = "✓";
+        text.textContent = "¡Completado!";
+        btn.className = "bg-emerald-600 text-white font-black text-xs px-3 py-1.5 rounded-xl shadow transition flex items-center gap-1";
+      } else {
+        icon.textContent = "⭐";
+        text.textContent = "Marcar Hecho";
+        btn.className = "bg-amber-500 hover:bg-amber-600 text-white font-bold text-xs px-3 py-1.5 rounded-xl shadow transition flex items-center gap-1";
+      }
     }
 
     // --- LÓGICA DE CLASE 2: BUCLES CON CAPY Y GUYRA (3 PESTAÑAS) ---
@@ -2635,11 +4120,20 @@
     }
 
     function navCapyChallenge(step) {
-      const target = currentOpenCapyChallenge + step;
-      if (target >= 1 && target <= 6) openCapyChallenge(target);
+      if (currentActiveThemeClass === 3) {
+        const target = currentOpenNestedChallenge + step;
+        if (target >= 1 && target <= 3) openNestedChallenge(target);
+      } else {
+        const target = currentOpenCapyChallenge + step;
+        if (target >= 1 && target <= 6) openCapyChallenge(target);
+      }
     }
 
     function updateCapyModalCompleteBtn() {
+      if (currentActiveThemeClass === 3) {
+        updateNestedModalCompleteBtn();
+        return;
+      }
       const completed = getCapyCompletedList();
       const isDone = completed.includes(currentOpenCapyChallenge);
       const btn = document.getElementById('modal-btn-complete-capy');
@@ -2658,6 +4152,21 @@
     }
 
     function toggleCurrentCapyChallengeComplete() {
+      if (currentActiveThemeClass === 3) {
+        let completed = getNestedCompletedList();
+        if (completed.includes(currentOpenNestedChallenge)) {
+          completed = completed.filter(id => id !== currentOpenNestedChallenge);
+        } else {
+          completed.push(currentOpenNestedChallenge);
+          addPoints(15);
+          playSuccessSound();
+        }
+        saveNestedCompletedList(completed);
+        updateNestedModalCompleteBtn();
+        updateNestedProgressBadges();
+        return;
+      }
+
       let completed = getCapyCompletedList();
       if (completed.includes(currentOpenCapyChallenge)) {
         completed = completed.filter(id => id !== currentOpenCapyChallenge);
@@ -2731,8 +4240,11 @@
       window.scrollTo({ top: 0, behavior: 'smooth' });
     }
 
+    let currentActiveThemeClass = 1;
+
     function switchClass(classNum) {
       playPopSound();
+      currentActiveThemeClass = classNum;
 
       // Ocultar selector principal de temas y mostrar contenedor de clase
       const selector = document.getElementById('view-theme-selector');
@@ -2783,28 +4295,25 @@
       if (headerThemeIcon) headerThemeIcon.textContent = meta.icon;
       if (headerThemeText) headerThemeText.textContent = meta.title;
 
-      // Si es Clase 1, asegurar que la pestaña activa se visualice con su nav 1 2 3
-      if (classNum === 1) {
-        const activeTab = document.querySelector('.tab-btn.active');
-        if (activeTab) {
-          const tabId = activeTab.id.replace('btn-', '');
-          const tabContent = document.getElementById(tabId);
-          if (tabContent) tabContent.classList.remove('hidden');
-        } else {
-          switchTab('tab-aprender');
-        }
+      // Si es Clase 3 (Bucles Anidados), activar pestaña de Clase 3
+      if (classNum === 3) {
+        const activeNestedTab = document.querySelector('.tab-btn-nested.active');
+        const tabId = activeNestedTab ? activeNestedTab.id.replace('btn-', '') : 'tab-nested-aprender';
+        switchNestedTab(tabId);
       }
 
-      // Si es Clase 2, asegurar que la pestaña activa de Clase 2 se visualice con su nav 1 2 3
+      // Si es Clase 2 (Capy y Guyra), activar pestaña de Clase 2
       if (classNum === 2) {
         const activeCapyTab = document.querySelector('.tab-btn-capy.active');
-        if (activeCapyTab) {
-          const tabId = activeCapyTab.id.replace('btn-', '');
-          const tabContent = document.getElementById(tabId);
-          if (tabContent) tabContent.classList.remove('hidden');
-        } else {
-          switchCapyTab('tab-capy-aprender');
-        }
+        const tabId = activeCapyTab ? activeCapyTab.id.replace('btn-', '') : 'tab-capy-aprender';
+        switchCapyTab(tabId);
+      }
+
+      // Si es Clase 1 (Patrones), activar pestaña de Clase 1
+      if (classNum === 1) {
+        const activeTab = document.querySelector('.tab-btn.active');
+        const tabId = activeTab ? activeTab.id.replace('btn-', '') : 'tab-aprender';
+        switchTab(tabId);
       }
 
       window.scrollTo({ top: 0, behavior: 'smooth' });
@@ -3565,7 +5074,9 @@
       loadTrainLevel(1);
       renderQuizQuestion();
       renderCapyQuizQuestion();
+      renderNestedQuizQuestion();
       updateCapyProgressBadges();
+      updateNestedProgressBadges();
       initCapyDragAndDrop();
 
       // Cerrar modales con tecla Escape

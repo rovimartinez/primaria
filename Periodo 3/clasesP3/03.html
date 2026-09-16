@@ -1,0 +1,559 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Mundo Jandra | 3° Grado: Videojuegos en SpriteLab</title>
+  <link rel="icon" type="image/x-icon" href="../../assets/Icono.ico">
+  <!-- Tailwind CSS CDN -->
+  <script src="https://cdn.tailwindcss.com"></script>
+  <!-- Google Fonts -->
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Fredoka:wght@400;500;600;700&family=Outfit:wght@400;600;700;800;900&family=Press+Start+2P&family=Fira+Code:wght@500;700&display=swap" rel="stylesheet">
+  <!-- Canvas Confetti -->
+  <script src="https://cdn.jsdelivr.net/npm/canvas-confetti@1.6.0/dist/confetti.browser.min.js"></script>
+
+  <script>
+    tailwind.config = {
+      theme: {
+        extend: {
+          fontFamily: {
+            sans: ['Outfit', 'sans-serif'],
+            display: ['Fredoka', 'sans-serif'],
+            pixel: ['"Press Start 2P"', 'monospace'],
+            code: ['"Fira Code"', 'monospace']
+          },
+          colors: {
+            spritelab: {
+              cyan: '#00b4d8',
+              cyanDark: '#0077b6',
+              deep: '#03045e',
+              orange: '#f97316',
+              orangeDark: '#ea580c',
+              apple: '#ef4444',
+              grass: '#10b981'
+            }
+          }
+        }
+      }
+    }
+  </script>
+
+  <style>
+    /* Cuadrícula de fondo estilo Sprite Lab */
+    .spritelab-bg {
+      background-color: #f0f9ff;
+      background-image: 
+        linear-gradient(rgba(186, 230, 253, 0.5) 1.5px, transparent 1.5px),
+        linear-gradient(90deg, rgba(186, 230, 253, 0.5) 1.5px, transparent 1.5px);
+      background-size: 28px 28px;
+    }
+
+    /* Fondo de cuadrícula de programación IDE */
+    .ide-workspace-bg {
+      background-color: #ffffff;
+      background-image: radial-gradient(#cbd5e1 1.5px, transparent 1.5px);
+      background-size: 16px 16px;
+    }
+
+    /* Tarjetas interactivas con sombra 3D */
+    .card-3d {
+      transition: all 0.25s cubic-bezier(0.34, 1.56, 0.64, 1);
+      box-shadow: 0 8px 0 0 #0284c7, 0 14px 20px rgba(0, 0, 0, 0.08);
+    }
+    .card-3d:hover {
+      transform: translateY(-4px);
+      box-shadow: 0 12px 0 0 #0284c7, 0 18px 24px rgba(0, 0, 0, 0.12);
+    }
+
+    /* Botones estilo Arcade */
+    .btn-arcade {
+      transition: all 0.15s ease;
+      box-shadow: 0 5px 0 0 rgba(0, 0, 0, 0.2);
+    }
+    .btn-arcade:hover {
+      transform: translateY(-2px);
+      box-shadow: 0 7px 0 0 rgba(0, 0, 0, 0.25);
+    }
+    .btn-arcade:active {
+      transform: translateY(4px);
+      box-shadow: 0 1px 0 0 rgba(0, 0, 0, 0.2);
+    }
+
+    /* Bloques de código visual estilo Code.org / Blockly */
+    .code-block {
+      user-select: none;
+      cursor: grab;
+      transition: transform 0.15s ease, box-shadow 0.15s ease;
+      position: relative;
+    }
+    .code-block:active {
+      cursor: grabbing;
+      transform: scale(1.02);
+    }
+
+    /* Pestañas de bloque tipo puzzle */
+    .puzzle-notch-top {
+      position: relative;
+    }
+    .puzzle-notch-top::before {
+      content: '';
+      position: absolute;
+      top: -6px;
+      left: 24px;
+      width: 18px;
+      height: 6px;
+      background: inherit;
+      border-radius: 4px 4px 0 0;
+    }
+
+    /* Animaciones */
+    @keyframes floatHero {
+      0%, 100% { transform: translateY(0px) rotate(0deg); }
+      50% { transform: translateY(-8px) rotate(1deg); }
+    }
+    .animate-float-hero {
+      animation: floatHero 3.5s ease-in-out infinite;
+    }
+
+    @keyframes pulseGlow {
+      0%, 100% { opacity: 0.9; transform: scale(1); }
+      50% { opacity: 1; transform: scale(1.03); }
+    }
+    .animate-pulse-glow {
+      animation: pulseGlow 2s infinite ease-in-out;
+    }
+
+    /* Canvas de Juego */
+    #gameCanvas {
+      background: linear-gradient(180deg, #7dd3fc 0%, #bae6fd 60%, #86efac 60%, #4ade80 100%);
+      border: 4px solid #0369a1;
+      border-radius: 16px;
+      image-rendering: pixelated;
+    }
+
+    /* Ranura de código */
+    .code-slot {
+      min-height: 48px;
+      border: 2px dashed #94a3b8;
+      border-radius: 12px;
+      background-color: rgba(241, 245, 249, 0.6);
+      transition: all 0.2s ease;
+    }
+    .code-slot.slot-ready {
+      border-color: #10b981;
+      background-color: #ecfdf5;
+    }
+    .code-slot.slot-active {
+      border-color: #0284c7;
+      background-color: #e0f2fe;
+    }
+  </style>
+</head>
+<body class="spritelab-bg min-h-screen text-slate-800 font-sans flex flex-col selection:bg-cyan-200">
+
+  <!-- ========================================================================= -->
+  <!-- BARRA SUPERIOR                                                            -->
+  <!-- ========================================================================= -->
+  <header class="bg-gradient-to-r from-sky-600 via-cyan-600 to-blue-700 text-white shadow-md border-b-4 border-amber-400 sticky top-0 z-40">
+    <div class="max-w-6xl mx-auto px-4 py-2.5 flex flex-wrap items-center justify-between gap-3">
+      
+      <!-- Volver y Grado -->
+      <div class="flex items-center space-x-3">
+        <a href="../periodo3.html" class="inline-flex items-center gap-1.5 bg-sky-950/80 hover:bg-sky-950 border-2 border-white/40 text-white text-xs sm:text-sm font-black px-3.5 py-1.5 rounded-2xl transition shadow transform active:scale-95" title="Volver al menú de Periodo 3">
+          <span>🏠</span> <span>← Volver al Periodo 3</span>
+        </a>
+        <div class="bg-amber-400 text-slate-900 border-2 border-white px-3 py-0.5 rounded-xl shadow-inner flex items-center font-black">
+          <span class="text-[11px] sm:text-xs uppercase tracking-wider">3° GRADO &bull; P3</span>
+        </div>
+        <div>
+          <h1 class="font-display font-extrabold text-base sm:text-xl text-white tracking-wide flex items-center gap-2">
+            <img src="../../assets/jandra/J1.svg" alt="Jandra" class="w-7 h-7 rounded-full bg-white/20 p-0.5 object-cover">
+            <span>Mundo Jandra</span>
+          </h1>
+        </div>
+      </div>
+
+      <!-- Barra de Estado, Estrellas y Sonido -->
+      <div class="flex items-center space-x-2 sm:space-x-3">
+        <div class="bg-white/20 backdrop-blur-sm border border-white/30 px-3 py-1 rounded-xl flex items-center gap-1.5 text-xs sm:text-sm font-black text-amber-300 shadow-inner">
+          <span>⭐</span>
+          <span id="starScore" class="text-white font-bold">0</span>
+          <span class="text-[10px] text-amber-200 hidden sm:inline font-bold">estrellas</span>
+        </div>
+
+        <button id="soundToggleBtn" onclick="toggleAudio()" class="bg-white/20 hover:bg-white/30 border border-white/30 text-white p-2 rounded-xl text-base transition flex items-center justify-center shadow" title="Activar/Desactivar Sonido">
+          <span id="soundIcon">🔊</span>
+        </button>
+      </div>
+
+    </div>
+  </header>
+
+  <!-- ========================================================================= -->
+  <!-- CONTENIDO PRINCIPAL                                                       -->
+  <!-- ========================================================================= -->
+  <main class="flex-1 max-w-6xl w-full mx-auto px-4 py-8">
+
+    <!-- HERO BANNER: SPRITELAB -->
+    <div class="relative overflow-hidden bg-gradient-to-r from-sky-500 via-cyan-500 to-teal-500 rounded-3xl p-6 sm:p-8 text-white shadow-xl border-4 border-white mb-8">
+      <div class="absolute -right-10 -bottom-10 opacity-15 text-[180px] select-none pointer-events-none font-black leading-none">
+        🎮
+      </div>
+
+      <div class="flex flex-col md:flex-row items-center gap-6 relative z-10">
+        <!-- Avatar / Ilustración -->
+        <div class="w-28 h-28 sm:w-36 sm:h-36 bg-white/20 backdrop-blur-md rounded-2xl border-4 border-white/50 flex flex-col items-center justify-center shadow-inner text-5xl sm:text-6xl animate-float-hero flex-shrink-0">
+          <span>🤖</span>
+          <span class="text-[10px] font-pixel text-amber-300 mt-1 uppercase tracking-widest bg-sky-900/60 px-2 py-0.5 rounded-full">SpriteLab</span>
+        </div>
+
+        <!-- Info Portada -->
+        <div class="flex-1 text-center md:text-left">
+          <div class="inline-flex items-center gap-2 bg-orange-500 text-white font-black text-xs sm:text-sm px-3.5 py-1 rounded-full uppercase tracking-wider shadow-md mb-2">
+            <span>🍎 MÓDULO: CONDICIONALES</span>
+          </div>
+          <h2 class="text-2xl sm:text-4xl font-extrabold font-display leading-tight drop-shadow-md">
+            Videojuegos en SpriteLab
+          </h2>
+          <p class="text-base sm:text-lg text-sky-100 font-medium mt-1">
+            Clase 1 &bull; <strong class="text-white font-bold bg-sky-800/40 px-2 py-0.5 rounded-lg">Atrapa la manzana</strong>
+          </p>
+          <p class="mt-3 text-sm sm:text-base text-white/90 max-w-2xl">
+            "Algo muy importante en los videojuegos es que, además de programar lo que tiene que pasar, también hay que programar <strong>cuándo</strong> tiene que pasar. ¡Hoy aprenderemos y programaremos con condicionales!"
+          </p>
+          <div class="mt-4 flex flex-wrap gap-3 justify-center md:justify-start">
+            <a href="#ideSection" class="inline-flex items-center gap-2 bg-emerald-500 hover:bg-emerald-600 text-white font-black text-xs sm:text-sm px-4 py-2 rounded-xl shadow-lg transition transform hover:-translate-y-0.5 active:translate-y-0">
+              <span>🧩</span> Ir al Mini IDE de Bloques
+            </a>
+            <a href="https://code.org/es/tools/sprite-lab" target="_blank" rel="noopener noreferrer" class="inline-flex items-center gap-2 bg-amber-400 hover:bg-amber-300 text-slate-900 font-black text-xs sm:text-sm px-4 py-2 rounded-xl shadow-lg transition transform hover:-translate-y-0.5 active:translate-y-0">
+              <span>🚀</span> Abrir Sprite Lab Oficial (Code.org)
+              <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><path d="M18 13v6a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2V8a2 2 0 0 1 2-2h6"></path><polyline points="15 3 21 3 21 9"></polyline><line x1="10" y1="14" x2="21" y2="3"></line></svg>
+            </a>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- SECCIÓN 1: ¿QUÉ ES UN CONDICIONAL? -->
+    <section class="mb-10">
+      <div class="flex items-center gap-3 mb-4">
+        <span class="w-10 h-10 rounded-2xl bg-orange-500 text-white font-black flex items-center justify-center text-lg shadow">1</span>
+        <h3 class="text-2xl font-black font-display text-sky-900">¿Qué es un Condicional?</h3>
+      </div>
+
+      <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
+        <!-- Tarjeta Concepto -->
+        <div class="bg-white rounded-2xl p-6 border-2 border-sky-200 shadow-md flex flex-col justify-between">
+          <div>
+            <div class="inline-block bg-orange-100 text-orange-700 font-black text-xs px-3 py-1 rounded-full uppercase mb-3">
+              Concepto Fundamental
+            </div>
+            <p class="text-slate-700 text-base sm:text-lg leading-relaxed">
+              Usamos <strong class="text-orange-600 font-bold bg-orange-50 px-1 rounded">condicionales</strong> porque <strong class="text-sky-800">cierta condición o regla debe ser cumplida</strong> para que una acción se lleve a cabo en el videojuego.
+            </p>
+          </div>
+
+          <div class="mt-4 bg-sky-50 rounded-xl p-4 border border-sky-200">
+            <h4 class="font-bold text-sky-900 text-sm flex items-center gap-2 mb-1">
+              <span>❓</span> ¿Cuándo ganamos el juego?
+            </h4>
+            <div class="bg-white p-3 rounded-lg border border-sky-300 font-mono text-sm text-slate-800 shadow-sm">
+              <span class="text-orange-600 font-black">SI</span> el puntaje es 50,<br>
+              <span class="text-sky-600 font-black">ENTONCES</span> mostrar en pantalla: <span class="text-emerald-600 font-bold">"¡Felicitaciones Ganaste!"</span>
+            </div>
+          </div>
+        </div>
+
+        <!-- Tarjeta Las 2 Partes -->
+        <div class="bg-white rounded-2xl p-6 border-2 border-sky-200 shadow-md flex flex-col justify-between">
+          <div>
+            <div class="inline-block bg-sky-100 text-sky-700 font-black text-xs px-3 py-1 rounded-full uppercase mb-3">
+              Estructura de Bloque
+            </div>
+            <h4 class="text-xl font-bold font-display text-slate-800 mb-2">Los condicionales tienen 2 partes:</h4>
+            
+            <div class="space-y-3 mt-3">
+              <div class="flex items-start gap-3 bg-orange-50 p-3.5 rounded-xl border-2 border-orange-200">
+                <span class="w-7 h-7 rounded-full bg-orange-500 text-white font-black text-sm flex items-center justify-center flex-shrink-0">1</span>
+                <div>
+                  <span class="font-black text-orange-700 text-sm uppercase">La Condición a cumplir</span>
+                  <p class="text-xs sm:text-sm text-slate-600">Es la regla o evento que se evalúa (¿tocó la canasta? ¿llegó a 50 puntos?).</p>
+                </div>
+              </div>
+
+              <div class="flex items-start gap-3 bg-cyan-50 p-3.5 rounded-xl border-2 border-cyan-200">
+                <span class="w-7 h-7 rounded-full bg-cyan-600 text-white font-black text-sm flex items-center justify-center flex-shrink-0">2</span>
+                <div>
+                  <span class="font-black text-cyan-800 text-sm uppercase">Qué pasa si eso se cumple</span>
+                  <p class="text-xs sm:text-sm text-slate-600">Es la acción o consecuencia que ocurre (sumar 10 puntos, restar vida, ganar).</p>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- ========================================================================= -->
+    <!-- MINI IDE SPRITELAB EMBEBIDO: ARRASTRA BLOQUES Y EJECUTA EL JUEGO           -->
+    <!-- ========================================================================= -->
+    <section id="ideSection" class="mb-12 bg-slate-900 rounded-3xl p-4 sm:p-6 border-4 border-sky-400 shadow-2xl text-white">
+      
+      <!-- Encabezado del IDE embebido -->
+      <div class="flex flex-wrap items-center justify-between gap-4 border-b border-slate-700 pb-4 mb-4">
+        <div>
+          <div class="flex items-center gap-2">
+            <span class="bg-gradient-to-r from-sky-500 to-cyan-400 text-slate-950 font-black text-xs px-3 py-1 rounded-full uppercase tracking-wider flex items-center gap-1.5 shadow">
+              <span>💻</span> IDE Interactivo SpriteLab
+            </span>
+            <span class="bg-emerald-500/20 text-emerald-300 text-xs font-bold px-2.5 py-0.5 rounded-lg border border-emerald-500/30">
+              Drag & Drop Activado
+            </span>
+          </div>
+          <h3 class="text-xl sm:text-2xl font-extrabold font-display text-white mt-1">
+            Taller Práctico: Programa "Atrapa la Manzana"
+          </h3>
+          <p class="text-xs sm:text-sm text-slate-300 mt-0.5">
+            Arrastra físicamente los bloques de acción hacia las ranuras o haz clic sobre ellos para programar las reglas del juego.
+          </p>
+        </div>
+
+        <!-- Botones de Acción del IDE -->
+        <div class="flex flex-wrap items-center gap-2">
+          <a href="ide_spritelab.html" target="_blank" rel="noopener noreferrer" class="bg-gradient-to-r from-sky-500 to-cyan-500 hover:from-sky-400 hover:to-cyan-400 text-slate-950 font-black text-xs px-3.5 py-2 rounded-xl transition flex items-center gap-1.5 shadow-lg transform hover:-translate-y-0.5">
+            <span>↗️</span> Abrir IDE en Pantalla Completa
+          </a>
+          <button onclick="reloadIDE()" class="bg-slate-800 hover:bg-slate-700 text-slate-200 border border-slate-600 font-bold text-xs px-3 py-2 rounded-xl transition flex items-center gap-1.5 shadow" title="Recargar el entorno">
+            <span>🔄</span> Recargar
+          </button>
+        </div>
+      </div>
+
+      <!-- IFRAME EMBEBIDO DEL IDE -->
+      <div class="relative w-full rounded-2xl overflow-hidden shadow-2xl border-2 border-slate-700 bg-slate-950">
+        <iframe id="ideIframe" src="ide_spritelab.html" class="w-full h-[620px] sm:h-[660px] border-0" allow="fullscreen"></iframe>
+      </div>
+
+    </section>
+
+    <!-- SECCIÓN 2: EJEMPLOS CLAVE CON TABLERO INTERACTIVO -->
+    <section class="mb-10">
+      <div class="flex items-center gap-3 mb-4">
+        <span class="w-10 h-10 rounded-2xl bg-cyan-600 text-white font-black flex items-center justify-center text-lg shadow">2</span>
+        <h3 class="text-2xl font-black font-display text-sky-900">Ejemplos de Condicionales en Acción</h3>
+      </div>
+
+      <div class="grid grid-cols-1 sm:grid-cols-3 gap-4">
+        <!-- Ejemplo 1 -->
+        <div class="bg-white rounded-2xl p-5 border-2 border-slate-200 shadow-sm hover:border-orange-400 transition">
+          <div class="text-3xl mb-2">🏆</div>
+          <div class="bg-orange-500 text-white text-[11px] font-black uppercase px-2 py-0.5 rounded inline-block mb-2">
+            Condición 1
+          </div>
+          <p class="text-xs font-mono text-slate-700 leading-snug">
+            <span class="text-orange-600 font-black">SI</span> el puntaje es 50
+          </p>
+          <div class="mt-2 bg-sky-500 text-white text-[11px] font-black uppercase px-2 py-0.5 rounded inline-block mb-1">
+            Acción
+          </div>
+          <p class="text-xs font-mono text-emerald-700 font-bold">
+            <span class="text-sky-700 font-black">ENTONCES</span> ¡Ganaste!
+          </p>
+        </div>
+
+        <!-- Ejemplo 2 -->
+        <div class="bg-white rounded-2xl p-5 border-2 border-slate-200 shadow-sm hover:border-orange-400 transition">
+          <div class="text-3xl mb-2">👾</div>
+          <div class="bg-orange-500 text-white text-[11px] font-black uppercase px-2 py-0.5 rounded inline-block mb-2">
+            Condición 2
+          </div>
+          <p class="text-xs font-mono text-slate-700 leading-snug">
+            <span class="text-orange-600 font-black">SI</span> toca al enemigo
+          </p>
+          <div class="mt-2 bg-sky-500 text-white text-[11px] font-black uppercase px-2 py-0.5 rounded inline-block mb-1">
+            Acción
+          </div>
+          <p class="text-xs font-mono text-rose-700 font-bold">
+            <span class="text-sky-700 font-black">ENTONCES</span> Game Over
+          </p>
+        </div>
+
+        <!-- Ejemplo 3 -->
+        <div class="bg-white rounded-2xl p-5 border-2 border-slate-200 shadow-sm hover:border-orange-400 transition">
+          <div class="text-3xl mb-2">🚀</div>
+          <div class="bg-orange-500 text-white text-[11px] font-black uppercase px-2 py-0.5 rounded inline-block mb-2">
+            Condición 3
+          </div>
+          <p class="text-xs font-mono text-slate-700 leading-snug">
+            <span class="text-orange-600 font-black">SI</span> el puntaje es 100
+          </p>
+          <div class="mt-2 bg-sky-500 text-white text-[11px] font-black uppercase px-2 py-0.5 rounded inline-block mb-1">
+            Acción
+          </div>
+          <p class="text-xs font-mono text-blue-700 font-bold">
+            <span class="text-sky-700 font-black">ENTONCES</span> Pasar al nivel 2
+          </p>
+        </div>
+      </div>
+    </section>
+
+    <!-- SECCIÓN 3: MINI QUIZ DE AFIANZAMIENTO -->
+    <section class="bg-gradient-to-r from-blue-900 via-sky-900 to-indigo-950 rounded-3xl p-6 sm:p-8 text-white shadow-xl border-4 border-amber-300">
+      <div class="text-center max-w-2xl mx-auto mb-6">
+        <span class="bg-amber-400 text-slate-900 font-black text-xs px-3 py-1 rounded-full uppercase tracking-wider">
+          🧠 RETO EXPRESS DE CONDICIONALES
+        </span>
+        <h3 class="text-2xl sm:text-3xl font-extrabold font-display text-white mt-2">
+          ¿Aprendiste la regla de oro?
+        </h3>
+        <p class="text-sky-200 text-sm mt-1">
+          Responde estas 2 preguntas para ganar estrellas adicionales en tu perfil.
+        </p>
+      </div>
+
+      <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
+        <!-- Pregunta 1 -->
+        <div class="bg-white/10 backdrop-blur-md rounded-2xl p-5 border border-white/20">
+          <p class="text-sm font-bold text-amber-300 mb-3">1. ¿Para qué usamos condicionales en un videojuego?</p>
+          <div class="space-y-2">
+            <button onclick="checkQuiz(1, false, this)" class="w-full text-left p-3 rounded-xl bg-white/10 hover:bg-white/20 text-xs sm:text-sm font-medium transition border border-white/10">
+              A) Solo para cambiar los colores de la pantalla.
+            </button>
+            <button onclick="checkQuiz(1, true, this)" class="w-full text-left p-3 rounded-xl bg-white/10 hover:bg-white/20 text-xs sm:text-sm font-medium transition border border-white/10">
+              B) Para programar CUÁNDO debe ocurrir una acción si se cumple una regla.
+            </button>
+            <button onclick="checkQuiz(1, false, this)" class="w-full text-left p-3 rounded-xl bg-white/10 hover:bg-white/20 text-xs sm:text-sm font-medium transition border border-white/10">
+              C) Para apagar la computadora automáticamente.
+            </button>
+          </div>
+          <div id="quizFeedback1" class="mt-3 text-xs font-bold hidden"></div>
+        </div>
+
+        <!-- Pregunta 2 -->
+        <div class="bg-white/10 backdrop-blur-md rounded-2xl p-5 border border-white/20">
+          <p class="text-sm font-bold text-amber-300 mb-3">2. Si queremos que al llegar a 50 puntos ganemos, la estructura es:</p>
+          <div class="space-y-2">
+            <button onclick="checkQuiz(2, true, this)" class="w-full text-left p-3 rounded-xl bg-white/10 hover:bg-white/20 text-xs sm:text-sm font-medium transition border border-white/10">
+              A) SI puntaje = 50, ENTONCES mostrar "¡Ganaste!"
+            </button>
+            <button onclick="checkQuiz(2, false, this)" class="w-full text-left p-3 rounded-xl bg-white/10 hover:bg-white/20 text-xs sm:text-sm font-medium transition border border-white/10">
+              B) SIEMPRE mostrar "¡Ganaste!" sin importar los puntos
+            </button>
+            <button onclick="checkQuiz(2, false, this)" class="w-full text-left p-3 rounded-xl bg-white/10 hover:bg-white/20 text-xs sm:text-sm font-medium transition border border-white/10">
+              C) NUNCA mostrar ningún mensaje
+            </button>
+          </div>
+          <div id="quizFeedback2" class="mt-3 text-xs font-bold hidden"></div>
+        </div>
+      </div>
+    </section>
+
+  </main>
+
+  <!-- ========================================================================= -->
+  <!-- PIE DE PÁGINA                                                             -->
+  <!-- ========================================================================= -->
+  <footer class="bg-white border-t border-slate-200 py-6 text-center text-slate-500 text-xs">
+    <p class="font-bold text-slate-700">&copy; 2026 Mundo Jandra &bull; Profesor: Ronny Martinez</p>
+    <p class="text-slate-400 mt-1">Tecnología e Informática &bull; Primaria 3° Grado</p>
+  </footer>
+
+  <!-- ========================================================================= -->
+  <!-- SCRIPTS & INTERACTIVIDAD DEL MINI IDE Y JUEGO                             -->
+  <!-- ========================================================================= -->
+  <script>
+    // --- SISTEMA DE AUDIO SINTETIZADO (Web Audio API) ---
+    let audioCtx = null;
+    let soundEnabled = true;
+
+    function initAudio() {
+      if (!audioCtx) {
+        audioCtx = new (window.AudioContext || window.webkitAudioContext)();
+      }
+    }
+
+    function toggleAudio() {
+      soundEnabled = !soundEnabled;
+      const icon = document.getElementById('soundIcon');
+      icon.textContent = soundEnabled ? '🔊' : '🔇';
+    }
+
+    function playTone(freq, type = 'sine', duration = 0.15) {
+      if (!soundEnabled) return;
+      initAudio();
+      try {
+        const osc = audioCtx.createOscillator();
+        const gain = audioCtx.createGain();
+        osc.type = type;
+        osc.frequency.setValueAtTime(freq, audioCtx.currentTime);
+        gain.gain.setValueAtTime(0.2, audioCtx.currentTime);
+        gain.gain.exponentialRampToValueAtTime(0.001, audioCtx.currentTime + duration);
+        osc.connect(gain);
+        gain.connect(audioCtx.destination);
+        osc.start();
+        osc.stop(audioCtx.currentTime + duration);
+      } catch (e) {
+        console.log("Audio error", e);
+      }
+    }
+
+    function playSuccess() {
+      playTone(523.25, 'triangle', 0.1);
+      setTimeout(() => playTone(659.25, 'triangle', 0.15), 100);
+      setTimeout(() => playTone(783.99, 'triangle', 0.25), 200);
+    }
+
+    function playMiss() {
+      playTone(220, 'sawtooth', 0.2);
+    }
+
+    // --- SISTEMA DE PUNTOS / ESTRELLAS ---
+    let totalStars = parseInt(localStorage.getItem('jandra_stars_p3_03') || '0');
+    document.getElementById('starScore').textContent = totalStars;
+
+    function addStars(num) {
+      totalStars += num;
+      document.getElementById('starScore').textContent = totalStars;
+      localStorage.setItem('jandra_stars_p3_03', totalStars.toString());
+      confetti({ particleCount: 50, spread: 70, origin: { y: 0.7 } });
+      playSuccess();
+    }
+
+    // --- QUIZ INTERACTIVO ---
+    function checkQuiz(qNum, isCorrect, btn) {
+      const feedback = document.getElementById(`quizFeedback${qNum}`);
+      feedback.classList.remove('hidden');
+
+      if (isCorrect) {
+        btn.classList.add('bg-emerald-500', 'text-white', 'border-emerald-300');
+        feedback.className = 'mt-3 text-xs font-bold text-emerald-300 block';
+        feedback.innerHTML = '✅ ¡Excelente! Respuesta correcta (+1 ⭐)';
+        addStars(1);
+      } else {
+        btn.classList.add('bg-rose-500', 'text-white', 'border-rose-300');
+        feedback.className = 'mt-3 text-xs font-bold text-rose-300 block';
+        feedback.innerHTML = '❌ Intenta de nuevo, revisa los conceptos arriba.';
+        playMiss();
+      }
+    }
+
+    // --- MINI IDE LOGIC & ESTADO ---
+    let selectedBlockId = null;
+    const blocksData = {
+      sumarPuntos: { text: "➕ sumar +10 puntos", bg: "bg-emerald-500", border: "border-emerald-700" },
+      restarVida: { text: "💔 restar 1 vida", bg: "bg-rose-500", border: "border-rose-700" },
+      mostrarGanaste: { text: "🎉 mostrar '¡Ganaste!'", bg: "bg-amber-500", border: "border-amber-700" },
+      sonidoMoneda: { text: "🔔 reproducir sonido", bg: "bg-teal-500", border: "border-teal-700" },
+      crearManzana: { text: "🍎 nueva manzana arriba", bg: "bg-sky-500", border: "border-sky-700" }
+    function reloadIDE() {
+      const iframe = document.getElementById('ideIframe');
+      if (iframe) {
+        iframe.src = iframe.src;
+        playSuccess();
+      }
+    }
+  </script>
+</body>
+</html>

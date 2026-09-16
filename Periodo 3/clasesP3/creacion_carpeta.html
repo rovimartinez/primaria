@@ -1,0 +1,1349 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Mundo Jandra | Creación de Carpeta de Proyectos Scratch & edX</title>
+  <link rel="icon" type="image/x-icon" href="../../assets/Icono.ico">
+
+  <!-- Tailwind CSS CDN -->
+  <script src="https://cdn.tailwindcss.com"></script>
+
+  <!-- Google Fonts: Outfit, Plus Jakarta Sans & JetBrains Mono -->
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Fredoka:wght@500;600;700&family=JetBrains+Mono:wght@400;600;700&family=Outfit:wght@400;600;700;800;900&family=Plus+Jakarta+Sans:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+
+  <!-- Canvas Confetti -->
+  <script src="https://cdn.jsdelivr.net/npm/canvas-confetti@1.6.0/dist/confetti.browser.min.js"></script>
+
+  <script>
+    tailwind.config = {
+      theme: {
+        extend: {
+          fontFamily: {
+            sans: ['"Plus Jakarta Sans"', 'sans-serif'],
+            display: ['Outfit', 'sans-serif'],
+            scratch: ['Fredoka', 'sans-serif'],
+            mono: ['"JetBrains Mono"', 'monospace']
+          },
+          colors: {
+            harvard: {
+              crimson: '#A51C30',
+              dark: '#7A1523',
+              light: '#BE2A3F',
+              accent: '#FFF1F2'
+            },
+            scratch: {
+              purple: '#723FB3',
+              purpleDark: '#5C3191',
+              orange: '#FF8500',
+              yellow: '#FFAB19',
+              blue: '#4D97FF'
+            }
+          }
+        }
+      }
+    }
+  </script>
+
+  <style>
+    body {
+      background-color: #f8fafc;
+      color: #0f172a;
+      font-family: 'Plus Jakarta Sans', sans-serif;
+    }
+
+    .bg-canvas-pattern {
+      background-color: #f8fafc;
+      background-image: 
+        radial-gradient(rgba(114, 63, 179, 0.08) 1.5px, transparent 1.5px),
+        radial-gradient(rgba(255, 133, 0, 0.08) 1.5px, #f8fafc 1.5px);
+      background-size: 32px 32px;
+      background-position: 0 0, 16px 16px;
+    }
+
+    /* Windows Explorer Glass Style */
+    .win-window {
+      border: 1px solid #cbd5e1;
+      border-radius: 12px;
+      background: #ffffff;
+      box-shadow: 0 20px 25px -5px rgba(15, 23, 42, 0.15), 0 8px 10px -6px rgba(15, 23, 42, 0.1);
+      overflow: hidden;
+    }
+
+    .pulse-target {
+      animation: pulse-border 1.8s infinite;
+    }
+    @keyframes pulse-border {
+      0%, 100% {
+        box-shadow: 0 0 0 0 rgba(255, 133, 0, 0.7);
+        border-color: #ff8500;
+      }
+      50% {
+        box-shadow: 0 0 0 8px rgba(255, 133, 0, 0);
+        border-color: #f59e0b;
+      }
+    }
+
+    /* Context menu */
+    .win-context-menu {
+      position: absolute;
+      z-index: 50;
+      background: #ffffff;
+      border: 1px solid #cbd5e1;
+      border-radius: 8px;
+      box-shadow: 0 10px 25px -5px rgba(0, 0, 0, 0.2);
+      min-width: 190px;
+      font-size: 12px;
+    }
+
+    /* File item cut state (semi-transparent) */
+    .file-is-cut {
+      opacity: 0.45;
+      filter: grayscale(0.5);
+    }
+  </style>
+</head>
+<body class="bg-canvas-pattern min-h-screen text-slate-800 flex flex-col selection:bg-rose-200">
+
+  <!-- ========================================================================= -->
+  <!-- BARRA SUPERIOR FIJA CON NAVEGACIÓN COMPLETA                                -->
+  <!-- ========================================================================= -->
+  <header class="bg-gradient-to-r from-harvard-crimson via-rose-800 to-amber-600 text-white shadow-lg border-b-4 border-amber-400 sticky top-0 z-40">
+    <div class="max-w-7xl mx-auto px-4 py-2.5 flex flex-wrap items-center justify-between gap-3">
+      
+      <!-- Volver al menú principal -->
+      <div class="flex items-center gap-2">
+        <a href="../periodo3.html" class="inline-flex items-center gap-1.5 bg-black/25 hover:bg-black/40 border border-white/30 text-white text-xs sm:text-sm font-bold px-3 py-2 rounded-xl transition active:scale-95" title="Volver al menú del Periodo 3">
+          <span>🏠</span> <span>Periodo 3</span>
+        </a>
+        <a href="05.html" class="inline-flex items-center gap-1.5 bg-black/25 hover:bg-black/40 border border-white/30 text-white text-xs sm:text-sm font-bold px-3 py-2 rounded-xl transition active:scale-95" title="Volver a 5° Grado CS50">
+          <span>🐱</span> <span>5° Grado</span>
+        </a>
+      </div>
+
+      <!-- Pestañas de Navegación -->
+      <nav class="flex items-center gap-2 flex-wrap">
+        <a href="05.html" class="bg-black/25 hover:bg-black/40 text-white/90 border border-white/20 px-3.5 sm:px-4 py-2 rounded-xl text-xs sm:text-sm font-bold inline-flex items-center gap-1.5 transition cursor-pointer">
+          <span>📋</span> <span>Primeros Pasos</span>
+        </a>
+        <a href="05.html#proyectos" class="bg-black/25 hover:bg-black/40 text-white/90 border border-white/20 px-3.5 sm:px-4 py-2 rounded-xl text-xs sm:text-sm font-bold inline-flex items-center gap-1.5 transition cursor-pointer">
+          <span>🎮</span> <span>Proyectos Oficiales (1 - 9)</span>
+        </a>
+        <a href="creacion_carpeta.html" class="bg-amber-400 text-amber-950 font-black px-3.5 sm:px-4 py-2 rounded-xl text-xs sm:text-sm inline-flex items-center gap-1.5 shadow-md ring-2 ring-white/50">
+          <span>📁</span> <span>Creación de Carpeta</span>
+        </a>
+      </nav>
+
+    </div>
+  </header>
+
+  <!-- ========================================================================= -->
+  <!-- CONTENIDO PRINCIPAL                                                       -->
+  <!-- ========================================================================= -->
+  <main class="max-w-7xl mx-auto px-4 py-8 w-full flex-grow">
+
+    <!-- HERO BANNER -->
+    <div class="bg-white rounded-3xl py-6 px-6 sm:px-8 border-2 border-amber-200 shadow-md relative overflow-hidden mb-8">
+      <!-- Marca de agua -->
+      <div class="absolute -right-4 md:right-8 top-1/2 -translate-y-1/2 text-8xl md:text-9xl opacity-[0.08] select-none pointer-events-none">
+        📂
+      </div>
+
+      <div class="relative z-10 w-full">
+        <div class="flex items-center gap-2 mb-2">
+          <span class="inline-flex items-center gap-1.5 px-3 py-1 rounded-full bg-amber-100 text-amber-800 text-xs font-black uppercase tracking-wider">
+            <span>💾</span> <span>Gestión de Archivos de Scratch</span>
+          </span>
+          <span class="text-xs font-bold text-slate-400">&bull; Harvard CS50 Scratch</span>
+        </div>
+        <h1 class="font-display font-black text-2xl sm:text-3xl lg:text-4xl text-slate-900 tracking-tight leading-tight">
+          Crea tu <span class="text-amber-600">Carpeta de Proyectos</span> y Organiza tus Archivos
+        </h1>
+        <p class="text-slate-600 text-sm sm:text-base leading-relaxed mt-2 max-w-4xl">
+          Al hacer clic en <strong>"Guardar en tu computador"</strong> en Scratch, el archivo se descarga automáticamente en la carpeta <strong>Descargas</strong> de tu navegador. Aquí aprenderás a crear una carpeta en <strong>Documentos</strong> y mover tus proyectos allí para tenerlos ordenados y listos para cualquier entrega en edX.
+        </p>
+
+        <!-- Pasos resumen -->
+        <div class="grid grid-cols-1 md:grid-cols-3 gap-3 mt-5">
+          <div class="bg-amber-50/70 border border-amber-200 rounded-2xl p-3 flex items-center gap-3">
+            <span class="text-2xl bg-white p-2 rounded-xl shadow-xs">1️⃣</span>
+            <div>
+              <p class="text-xs font-bold text-amber-950">Crear la Carpeta</p>
+              <p class="text-[11px] text-amber-800">En Documentos: <span class="font-mono font-bold">Mis Proyectos Scratch</span></p>
+            </div>
+          </div>
+          <div class="bg-purple-50/70 border border-purple-200 rounded-2xl p-3 flex items-center gap-3">
+            <span class="text-2xl bg-white p-2 rounded-xl shadow-xs">2️⃣</span>
+            <div>
+              <p class="text-xs font-bold text-purple-950">Descargar desde Scratch</p>
+              <p class="text-[11px] text-purple-800">Archivo ➔ Guardar en tu computador</p>
+            </div>
+          </div>
+          <div class="bg-blue-50/70 border border-blue-200 rounded-2xl p-3 flex items-center gap-3">
+            <span class="text-2xl bg-white p-2 rounded-xl shadow-xs">3️⃣</span>
+            <div>
+              <p class="text-xs font-bold text-blue-950">Mover a tu Carpeta</p>
+              <p class="text-[11px] text-blue-800">Cortar de Descargas ➔ Pegar en Documentos</p>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- NAVEGADOR DE SIMULADORES (TABS DE SIMULACIÓN) -->
+    <div class="flex items-center justify-between flex-wrap gap-3 mb-6">
+      <div>
+        <h2 class="font-display font-extrabold text-2xl text-slate-900 flex items-center gap-2">
+          <span>🕹️</span> <span>Simuladores Interactivos Paso a Paso</span>
+        </h2>
+        <p class="text-xs sm:text-sm text-slate-500">Haz clic en cada pestaña para practicar todo el proceso paso a paso.</p>
+      </div>
+
+      <div class="flex items-center gap-2 bg-slate-200/80 p-1 rounded-2xl border border-slate-300 shadow-inner">
+        <button id="simBtn1" onclick="switchSimulator(1)" class="px-3.5 py-2 rounded-xl font-bold text-xs sm:text-sm transition flex items-center gap-1.5 bg-white text-slate-900 shadow-sm">
+          <span>📁</span> <span>Simulador 1: Crear Carpeta</span>
+        </button>
+        <button id="simBtn2" onclick="switchSimulator(2)" class="px-3.5 py-2 rounded-xl font-bold text-xs sm:text-sm transition flex items-center gap-1.5 text-slate-600 hover:text-slate-900">
+          <span>🐱</span> <span>Simulador 2: Guardar en Scratch</span>
+        </button>
+        <button id="simBtn3" onclick="switchSimulator(3)" class="px-3.5 py-2 rounded-xl font-bold text-xs sm:text-sm transition flex items-center gap-1.5 text-slate-600 hover:text-slate-900">
+          <span>🚚</span> <span>Simulador 3: Mover a tu Carpeta</span>
+        </button>
+      </div>
+    </div>
+
+    <!-- ========================================================================= -->
+    <!-- SIMULADOR 1: EXPLORADOR DE ARCHIVOS DE WINDOWS                            -->
+    <!-- ========================================================================= -->
+    <section id="simSection1" class="space-y-6">
+      
+      <!-- Barra de instrucción guiada -->
+      <div class="bg-amber-50 border-2 border-amber-300 rounded-2xl p-4 flex flex-col sm:flex-row sm:items-center justify-between gap-3 shadow-sm">
+        <div class="flex items-center gap-3">
+          <span class="w-9 h-9 rounded-xl bg-amber-500 text-white font-black flex items-center justify-center shrink-0 shadow">1</span>
+          <div>
+            <h3 class="font-bold text-sm text-amber-950" id="sim1-instruction-title">Objetivo: Crear tu carpeta "Mis Proyectos Scratch" en Documentos</h3>
+            <p class="text-xs text-amber-800" id="sim1-instruction-desc">Haz clic en <strong>"✨ Nueva Carpeta"</strong> en la barra superior o da clic derecho en el fondo blanco.</p>
+          </div>
+        </div>
+        <div class="flex items-center gap-2 self-end sm:self-auto">
+          <button onclick="resetSim1()" class="text-xs bg-white hover:bg-slate-100 text-slate-700 font-bold px-3 py-1.5 rounded-lg border border-slate-300 transition shadow-xs">
+            🔄 Reiniciar Simulador
+          </button>
+        </div>
+      </div>
+
+      <!-- Ventana de Windows File Explorer -->
+      <div class="win-window relative" id="winExplorerBox">
+        
+        <!-- Barra de título de la ventana -->
+        <div class="bg-slate-100 border-b border-slate-200 px-4 py-2.5 flex items-center justify-between select-none">
+          <div class="flex items-center gap-2 text-xs font-semibold text-slate-700">
+            <span>📁</span> <span id="winTitleText">Explorador de Archivos — Documentos</span>
+          </div>
+          <div class="flex items-center gap-3 text-slate-400">
+            <span class="hover:text-slate-700 cursor-pointer">🗕</span>
+            <span class="hover:text-slate-700 cursor-pointer">🗖</span>
+            <span class="hover:text-rose-600 font-bold cursor-pointer">✕</span>
+          </div>
+        </div>
+
+        <!-- Barra de herramientas superior (Windows 11 Ribbon) -->
+        <div class="bg-white border-b border-slate-200 px-4 py-2 flex items-center gap-2 flex-wrap text-xs">
+          <button id="btnNewFolderRibbon" onclick="triggerNewFolderCreation()" class="inline-flex items-center gap-1.5 bg-blue-50 hover:bg-blue-100 text-blue-700 border border-blue-300 px-3 py-1.5 rounded-lg font-bold transition active:scale-95 shadow-xs pulse-target">
+            <span>✨</span> <span>Nueva Carpeta</span>
+          </button>
+          <div class="h-5 w-px bg-slate-200 mx-1"></div>
+          <span class="text-slate-400 hidden sm:inline text-[11px]">💡 Tip: También puedes dar clic derecho en el fondo blanco o presionar <kbd class="bg-slate-100 border border-slate-300 px-1.5 py-0.5 rounded font-mono text-[10px] text-slate-700">Ctrl + Shift + N</kbd></span>
+        </div>
+
+        <!-- Barra de ruta y búsqueda -->
+        <div class="bg-slate-50 border-b border-slate-200 px-4 py-1.5 flex items-center gap-2 text-xs text-slate-600">
+          <div class="flex items-center gap-1 text-slate-400">
+            <button class="hover:text-slate-700">←</button>
+            <button class="hover:text-slate-700">→</button>
+            <button class="hover:text-slate-700">↑</button>
+          </div>
+          <div class="flex-grow bg-white border border-slate-300 rounded-md px-3 py-1 flex items-center gap-1.5 font-mono text-[11px] text-slate-700 shadow-inner">
+            <span class="text-slate-400">💻</span> <span>Este equipo</span> <span class="text-slate-400">&gt;</span> <span class="font-bold text-blue-600">Documentos</span>
+          </div>
+          <div class="w-40 hidden sm:block bg-white border border-slate-300 rounded-md px-2 py-1 text-slate-400 text-[11px]">
+            🔍 Buscar en Documentos
+          </div>
+        </div>
+
+        <!-- Cuerpo del Explorador: Barra Lateral + Área de Contenido -->
+        <div class="flex min-h-[380px] text-xs relative" id="explorerCanvasArea" oncontextmenu="handleRightClick(event)">
+          
+          <!-- Barra Lateral Izquierda (Árbol de carpetas) -->
+          <div class="w-48 bg-slate-50/80 border-r border-slate-200 p-3 space-y-1 select-none shrink-0 hidden sm:block">
+            <div class="text-[10px] font-black uppercase text-slate-400 px-2 py-1 tracking-wider">Acceso Rápido</div>
+            <div class="flex items-center gap-2 px-2 py-1.5 rounded-lg hover:bg-slate-200 text-slate-700 cursor-pointer">
+              <span>⭐</span> <span>Favoritos</span>
+            </div>
+            <div class="flex items-center gap-2 px-2 py-1.5 rounded-lg hover:bg-slate-200 text-slate-700 cursor-pointer">
+              <span>🖥️</span> <span>Escritorio</span>
+            </div>
+            <div class="flex items-center gap-2 px-2 py-1.5 rounded-lg hover:bg-slate-200 text-slate-700 cursor-pointer">
+              <span>📥</span> <span>Descargas</span>
+            </div>
+            <div class="flex items-center gap-2 px-2 py-1.5 rounded-lg bg-blue-100/70 text-blue-800 font-bold border border-blue-200 cursor-pointer">
+              <span>📄</span> <span>Documentos</span>
+            </div>
+            <div class="flex items-center gap-2 px-2 py-1.5 rounded-lg hover:bg-slate-200 text-slate-700 cursor-pointer">
+              <span>🖼️</span> <span>Imágenes</span>
+            </div>
+
+            <div class="text-[10px] font-black uppercase text-slate-400 px-2 py-1 mt-3 tracking-wider">Este Equipo</div>
+            <div class="flex items-center gap-2 px-2 py-1.5 rounded-lg hover:bg-slate-200 text-slate-700 cursor-pointer">
+              <span>💽</span> <span>Disco Local (C:)</span>
+            </div>
+          </div>
+
+          <!-- Área Principal de Archivos -->
+          <div class="flex-grow p-5 bg-white relative" id="folderFilesGrid">
+            
+            <div class="grid grid-cols-2 sm:grid-cols-3 md:grid-cols-4 gap-4" id="itemsContainer">
+              
+              <!-- Elementos existentes en Documentos -->
+              <div class="flex flex-col items-center text-center p-3 rounded-xl hover:bg-slate-100 border border-transparent hover:border-slate-200 cursor-pointer transition select-none">
+                <span class="text-4xl mb-1">📁</span>
+                <span class="font-medium text-slate-700 text-[11px] truncate w-full">Zoom</span>
+              </div>
+              <div class="flex flex-col items-center text-center p-3 rounded-xl hover:bg-slate-100 border border-transparent hover:border-slate-200 cursor-pointer transition select-none">
+                <span class="text-4xl mb-1">📁</span>
+                <span class="font-medium text-slate-700 text-[11px] truncate w-full">Mis Archivos de Clase</span>
+              </div>
+
+              <!-- NUEVA CARPETA EDITABLE ESTILO WINDOWS REAL (SIN BOTONES ARTIFICIALES) -->
+              <div id="newFolderSlot" class="hidden flex flex-col items-center text-center p-2 rounded-lg bg-[#cce8ff]/50 border border-[#0078d7] cursor-pointer shadow-xs select-none">
+                <span class="text-4xl mb-1">📁</span>
+                <div class="w-full px-1">
+                  <input type="text" id="folderNameInput" value="Nueva carpeta" class="w-full text-center text-xs font-semibold border border-[#0078d7] bg-[#0078d7] text-white selection:bg-white selection:text-[#0078d7] rounded px-1 py-0.5 outline-none font-sans shadow-inner" onkeydown="handleInputKey(event)" onblur="handleInputBlur()">
+                </div>
+              </div>
+
+              <!-- CARPETA YA CREADA EN EXPLORADOR DE WINDOWS -->
+              <div id="confirmedFolderItem" class="hidden flex flex-col items-center text-center p-2 rounded-lg hover:bg-slate-100 border border-transparent hover:border-slate-200 cursor-pointer select-none transition">
+                <span class="text-4xl mb-1">📁</span>
+                <span class="font-semibold text-slate-800 text-[11px] truncate w-full" id="confirmedFolderName">Mis Proyectos Scratch</span>
+              </div>
+
+            </div>
+
+            <!-- Banner Guía Estilo Windows para presionar Enter -->
+            <div id="newFolderGuideHint" class="hidden mt-4 bg-blue-50 border border-blue-200 rounded-xl p-2.5 flex items-center justify-between text-xs text-blue-900 animate-in fade-in">
+              <div class="flex items-center gap-2">
+                <span>⌨️</span>
+                <span>Escribe el nombre de tu carpeta (ej: <strong>Mis Proyectos Scratch</strong>) y pulsa <kbd class="bg-white border border-blue-300 font-mono px-1.5 py-0.5 rounded font-bold">Enter ↵</kbd> para guardarla.</span>
+              </div>
+              <button onclick="confirmFolderName()" class="bg-blue-600 hover:bg-blue-700 text-white font-bold text-xs px-2.5 py-1 rounded-lg transition shadow-xs">
+                Listo (Enter)
+              </button>
+            </div>
+
+            <!-- Menú contextual simulado -->
+            <div id="winContextMenu" class="win-context-menu hidden">
+              <div class="px-3 py-1.5 hover:bg-slate-100 text-slate-600 cursor-pointer flex items-center justify-between">
+                <span>Ver</span> <span class="text-[10px]">▶</span>
+              </div>
+              <div class="px-3 py-1.5 hover:bg-slate-100 text-slate-600 cursor-pointer flex items-center justify-between">
+                <span>Ordenar por</span> <span class="text-[10px]">▶</span>
+              </div>
+              <div class="px-3 py-1.5 hover:bg-slate-100 text-slate-600 cursor-pointer">
+                <span>Actualizar</span>
+              </div>
+              <div class="h-px bg-slate-200 my-1"></div>
+              <div onclick="triggerNewFolderCreation()" class="px-3 py-1.5 bg-amber-50 hover:bg-amber-100 text-amber-900 font-bold cursor-pointer flex items-center gap-2">
+                <span>📁</span> <span>Nuevo ➔ Carpeta</span>
+              </div>
+              <div class="px-3 py-1.5 hover:bg-slate-100 text-slate-600 cursor-pointer">
+                <span>Propiedades</span>
+              </div>
+            </div>
+
+            <!-- Tarjeta de éxito tras crear carpeta -->
+            <div id="sim1SuccessCard" class="hidden mt-8 bg-green-50 border-2 border-green-300 rounded-2xl p-4 flex items-center justify-between gap-4">
+              <div class="flex items-center gap-3">
+                <span class="text-3xl">🎉</span>
+                <div>
+                  <h4 class="font-black text-green-900 text-sm">¡Excelente trabajo! Has creado tu carpeta en Documentos</h4>
+                  <p class="text-xs text-green-700">Ruta oficial: <code class="font-mono font-bold bg-white px-2 py-0.5 rounded border border-green-200">Este equipo > Documentos > Mis Proyectos Scratch</code></p>
+                </div>
+              </div>
+              <button onclick="switchSimulator(2)" class="bg-green-600 hover:bg-green-700 text-white font-bold text-xs px-4 py-2 rounded-xl transition shadow-md flex items-center gap-1.5 whitespace-nowrap active:scale-95">
+                <span>Paso 2: Descargar desde Scratch</span> <span>➔</span>
+              </button>
+            </div>
+
+          </div>
+        </div>
+
+      </div>
+
+    </section>
+
+    <!-- ========================================================================= -->
+    <!-- SIMULADOR 2: DESCARGAR PROYECTO DESDE SCRATCH                             -->
+    <!-- ========================================================================= -->
+    <section id="simSection2" class="hidden space-y-6">
+      
+      <!-- Instrucción paso 2 -->
+      <div class="bg-purple-50 border-2 border-purple-300 rounded-2xl p-4 flex flex-col sm:flex-row sm:items-center justify-between gap-3 shadow-sm">
+        <div class="flex items-center gap-3">
+          <span class="w-9 h-9 rounded-xl bg-scratch-purple text-white font-black flex items-center justify-center shrink-0 shadow">2</span>
+          <div>
+            <h3 class="font-bold text-sm text-purple-950">Objetivo: Descargar tu proyecto de Scratch (.sb3)</h3>
+            <p class="text-xs text-purple-800">Haz clic en el menú <strong class="bg-white px-1.5 py-0.5 rounded border border-purple-300 font-mono">📄 Archivo ▾</strong> y selecciona <strong class="bg-white px-1.5 py-0.5 rounded border border-purple-300">Guardar en tu computador</strong> para descargarlo a tu PC.</p>
+          </div>
+        </div>
+        <div class="flex items-center gap-2 self-end sm:self-auto">
+          <button onclick="resetSim2()" class="text-xs bg-white hover:bg-slate-100 text-slate-700 font-bold px-3 py-1.5 rounded-lg border border-slate-300 transition shadow-xs">
+            🔄 Reiniciar Paso 2
+          </button>
+        </div>
+      </div>
+
+      <!-- Mockup Realista de Scratch 3.0 Oficial -->
+      <div class="border-2 border-slate-300 rounded-2xl bg-white shadow-2xl font-sans relative">
+        
+        <!-- BARRA SUPERIOR SCRATCH (TEMA EXACTO PÚRPURA / ROVIMARTINEZ) -->
+        <div class="bg-[#723FB3] min-h-[48px] py-1.5 px-3 sm:px-4 flex items-center justify-between text-white select-none relative z-40 rounded-t-2xl font-['Helvetica_Neue',Helvetica,Arial,sans-serif] text-[13px] font-bold shadow-md">
+          
+          <!-- Lado Izquierdo: Logo, Ajustes, Archivo, Editar, Título Proyecto 1 y Compartir -->
+          <div class="flex items-center gap-2 sm:gap-2.5 flex-wrap">
+            
+            <!-- Logo Scratch Oficial -->
+            <div class="flex items-center mr-1 cursor-pointer hover:opacity-95 transition shrink-0">
+              <div class="bg-[#FFAB19] text-white px-2.5 py-1 rounded-xl font-scratch font-black text-sm tracking-wider border-2 border-white/90 shadow-xs flex items-center gap-1">
+                <span class="text-base">🐱</span>
+                <span class="text-white drop-shadow-[0_1px_1px_rgba(0,0,0,0.3)] font-black text-xs sm:text-sm uppercase">SCRATCH</span>
+              </div>
+            </div>
+
+            <!-- Ajustes -->
+            <button type="button" class="h-8 px-2.5 flex items-center gap-1 rounded-md hover:bg-[#5C3191] transition text-white/95 shrink-0">
+              <span>⚙</span> <span>Ajustes</span> <span class="text-[9px] opacity-80">▾</span>
+            </button>
+
+            <!-- MENÚ ARCHIVO INTERACTIVO (CLIC AQUÍ PARA GUARDAR) -->
+            <div class="relative inline-block shrink-0">
+              <button type="button" id="scratchFileMenuBtn" onclick="toggleScratchFileMenu(event)" class="h-8 px-3 rounded-md bg-[#5C3191] hover:bg-[#4E277D] flex items-center gap-1.5 transition pulse-target text-white font-bold cursor-pointer shadow-sm" title="Haz clic en Archivo para desplegar las opciones">
+                <span>📄</span> <span>Archivo</span> <span class="text-[9px] opacity-80">▾</span>
+              </button>
+
+              <!-- Dropdown Oficial Scratch en tema púrpura (Exacto a captura) -->
+              <div id="scratchFileDropdown" class="hidden absolute left-0 top-[38px] bg-[#723FB3] border-2 border-[#5C3191] text-white rounded-xl shadow-2xl w-64 py-1.5 z-[9999] text-[12px] font-bold animate-in fade-in zoom-in-95">
+                <div class="px-4 py-2 hover:bg-[#5C3191] text-white/40 cursor-not-allowed flex items-center justify-between">
+                  <span>Nuevo</span>
+                </div>
+                <div class="px-4 py-2 hover:bg-[#5C3191] text-white/40 cursor-not-allowed flex items-center justify-between">
+                  <span>Guardar ahora</span>
+                </div>
+                <div class="px-4 py-2 hover:bg-[#5C3191] text-white/40 cursor-not-allowed flex items-center justify-between">
+                  <span>Guardar como copia</span>
+                </div>
+                <div class="px-4 py-2 hover:bg-[#5C3191] text-white/40 cursor-not-allowed flex items-center justify-between">
+                  <span>Load from your computer</span>
+                </div>
+                <div class="h-px bg-white/20 my-1"></div>
+                <!-- OPCIÓN OBJETIVO -->
+                <div onclick="executeScratchSave(event)" class="px-4 py-2.5 bg-amber-400 hover:bg-amber-500 text-slate-900 font-black cursor-pointer flex items-center justify-between transition shadow-md m-1 rounded-lg border-2 border-black/80 ring-2 ring-white/60">
+                  <span class="flex items-center gap-2"><span>💾</span> <span>Guardar en tu computador</span></span>
+                  <span class="text-[10px] bg-slate-900 text-amber-300 px-1.5 py-0.5 rounded font-mono">.sb3</span>
+                </div>
+              </div>
+            </div>
+
+            <!-- Editar -->
+            <button type="button" class="h-8 px-2.5 rounded-md hover:bg-[#5C3191] text-white/95 transition shrink-0 flex items-center gap-1">
+              <span>✏️</span> <span>Editar</span> <span class="text-[9px] opacity-80">▾</span>
+            </button>
+
+            <!-- Caja de Nombre del Proyecto: Proyecto 1 -->
+            <div class="relative shrink-0">
+              <input type="text" value="Proyecto 1" readonly class="bg-[#5C3191] border border-white/20 text-white font-bold text-xs rounded-md px-3 py-1.5 w-32 sm:w-40 outline-none cursor-default shadow-inner">
+            </div>
+
+            <!-- Botón Compartir Naranja Sólido -->
+            <button type="button" class="bg-[#FF8500] hover:bg-[#E67700] text-white text-xs font-bold px-3.5 py-1.5 rounded-md transition shadow-sm shrink-0">
+              Compartir
+            </button>
+
+          </div>
+
+          <!-- Lado Derecho: Mis Cosas e Icono de Usuario con rovimartinez -->
+          <div class="flex items-center gap-3 shrink-0">
+            
+            <!-- Carpeta Mis Cosas (My Stuff) -->
+            <button class="h-8 w-8 flex items-center justify-center rounded-md hover:bg-[#5C3191] text-white transition text-base" title="Mis cosas">
+              📁
+            </button>
+
+            <!-- Perfil de usuario con avatar y nombre exacto rovimartinez -->
+            <div class="flex items-center gap-2 bg-[#5C3191]/80 hover:bg-[#5C3191] px-2.5 py-1 rounded-lg cursor-pointer transition border border-white/20">
+              <div class="w-6 h-6 rounded-md bg-amber-400 flex items-center justify-center text-xs overflow-hidden shadow-xs">
+                🤖
+              </div>
+              <span class="text-xs font-bold text-white">rovimartinez</span>
+              <span class="text-[9px] text-white/80">▾</span>
+            </div>
+
+          </div>
+
+        </div>
+
+        <!-- Barra Secundaria de Pestañas de Scratch (Código / Disfraces / Sonidos) -->
+        <div class="bg-[#F9F9F9] border-b border-slate-200 px-4 flex items-center justify-between text-xs text-slate-600 select-none">
+          <div class="flex items-center gap-1">
+            <div class="px-4 py-2 bg-white border-b-2 border-purple-600 font-bold text-purple-700 flex items-center gap-1.5">
+              <span>🧩</span> <span>Código</span>
+            </div>
+            <div class="px-4 py-2 hover:bg-slate-100 text-slate-500 font-semibold flex items-center gap-1.5 cursor-pointer">
+              <span>🎨</span> <span>Disfraces</span>
+            </div>
+            <div class="px-4 py-2 hover:bg-slate-100 text-slate-500 font-semibold flex items-center gap-1.5 cursor-pointer">
+              <span>🔊</span> <span>Sonidos</span>
+            </div>
+          </div>
+          <div class="text-[11px] text-slate-400 font-mono hidden sm:block">
+            Scratch Web Editor
+          </div>
+        </div>
+
+        <!-- Área de Trabajo Simulada de Scratch -->
+        <div class="grid grid-cols-1 md:grid-cols-12 min-h-[320px] bg-white relative">
+          
+          <!-- Notificación simulada de descarga del navegador (Chrome / Edge download bubble) -->
+          <div id="browserDownloadBanner" class="hidden absolute top-3 right-3 z-30 bg-slate-900 text-white rounded-2xl p-3.5 shadow-2xl border border-slate-700 max-w-sm animate-in fade-in slide-in-from-top duration-300">
+            <div class="flex items-start gap-3">
+              <div class="w-9 h-9 rounded-xl bg-blue-600 flex items-center justify-center text-lg shrink-0 shadow">
+                📥
+              </div>
+              <div class="flex-grow">
+                <div class="flex items-center justify-between">
+                  <span class="font-mono font-bold text-xs text-green-400">Descarga completada</span>
+                  <span class="text-[10px] text-slate-400">142 KB</span>
+                </div>
+                <p class="font-mono font-black text-xs text-white mt-0.5">Proyecto 1.sb3</p>
+                <p class="text-[10px] text-slate-300 mt-1 flex items-center gap-1">
+                  <span>📂 Guardado en:</span> <span class="text-amber-300 font-bold">Descargas</span>
+                </p>
+              </div>
+            </div>
+          </div>
+
+          <!-- Paleta de Categorías de Bloques (Scratch Circles) -->
+          <div class="md:col-span-1 bg-slate-50 border-r border-slate-200 py-3 flex flex-col items-center gap-2.5 select-none hidden md:flex text-[9px] font-bold text-slate-500">
+            <div class="flex flex-col items-center gap-0.5 cursor-pointer">
+              <span class="w-5 h-5 rounded-full bg-[#4C97FF] shadow-xs"></span>
+              <span>Movimiento</span>
+            </div>
+            <div class="flex flex-col items-center gap-0.5 cursor-pointer">
+              <span class="w-5 h-5 rounded-full bg-[#9966FF] shadow-xs"></span>
+              <span>Apariencia</span>
+            </div>
+            <div class="flex flex-col items-center gap-0.5 cursor-pointer">
+              <span class="w-5 h-5 rounded-full bg-[#D65CD6] shadow-xs"></span>
+              <span>Sonido</span>
+            </div>
+            <div class="flex flex-col items-center gap-0.5 cursor-pointer">
+              <span class="w-5 h-5 rounded-full bg-[#FFD500] shadow-xs"></span>
+              <span>Eventos</span>
+            </div>
+            <div class="flex flex-col items-center gap-0.5 cursor-pointer">
+              <span class="w-5 h-5 rounded-full bg-[#FFAB19] shadow-xs"></span>
+              <span>Control</span>
+            </div>
+          </div>
+
+          <!-- Bloques de Código disponibles -->
+          <div class="md:col-span-3 bg-white border-r border-slate-200 p-3 space-y-2.5 select-none hidden md:block">
+            <div class="text-[11px] font-black uppercase tracking-wider text-slate-400">Bloques del Proyecto</div>
+            <div class="bg-[#FFD500] text-slate-900 text-xs font-bold px-3 py-1.5 rounded-lg shadow-xs cursor-grab">al presionar 🏳️</div>
+            <div class="bg-[#4C97FF] text-white text-xs font-bold px-3 py-1.5 rounded-lg shadow-xs cursor-grab">mover (10) pasos</div>
+            <div class="bg-[#9966FF] text-white text-xs font-bold px-3 py-1.5 rounded-lg shadow-xs cursor-grab">decir [¡Hola, Mundo!] por (2) seg</div>
+          </div>
+
+          <!-- Área central de programación (Scripts Canvas) -->
+          <div class="md:col-span-4 bg-[#F0F4F9] p-4 relative flex items-center justify-center border-r border-slate-200">
+            <div class="bg-white/95 backdrop-blur-sm border-2 border-dashed border-purple-200 rounded-2xl p-4 text-center shadow-xs max-w-xs">
+              <span class="text-3xl">🐱</span>
+              <p class="font-bold text-xs text-slate-800 mt-1.5">¡Proyecto 1 Listo para Descargar!</p>
+              <p class="text-[11px] text-slate-500 mt-0.5">Haz clic en <strong class="text-purple-700">📄 Archivo ➔ Guardar en tu computador</strong>.</p>
+            </div>
+          </div>
+
+          <!-- Escenario / Stage y Controles (Lado Derecho) -->
+          <div class="md:col-span-4 bg-white p-3 flex flex-col justify-between">
+            
+            <!-- Barra de control del escenario (Bandera verde y Stop) -->
+            <div class="flex items-center justify-between pb-2 border-b border-slate-100">
+              <div class="flex items-center gap-3">
+                <button class="text-green-600 hover:text-green-700 font-bold text-base bg-green-50 hover:bg-green-100 p-1 rounded-lg transition" title="Ejecutar (Bandera Verde)">🏳️</button>
+                <button class="text-rose-600 hover:text-rose-700 font-bold text-base bg-rose-50 hover:bg-rose-100 p-1 rounded-lg transition" title="Detener">🛑</button>
+              </div>
+              <div class="flex items-center gap-1 text-slate-400 text-xs">
+                <span>⛶ Pantalla Completa</span>
+              </div>
+            </div>
+
+            <!-- Lienzo del Escenario con el Gato Scratch -->
+            <div class="py-6 flex flex-col items-center justify-center bg-slate-50 rounded-xl border border-slate-100 my-2">
+              <div class="text-6xl animate-bounce select-none">🐱</div>
+              <div class="bg-purple-100 text-purple-900 text-xs font-bold px-3 py-1 rounded-full mt-2 inline-block shadow-xs border border-purple-200">
+                ¡Proyecto 1 Terminado!
+              </div>
+            </div>
+
+            <!-- Panel de propiedades del Objeto (Sprite Panel) -->
+            <div class="bg-slate-50 border border-slate-200 rounded-xl p-2 text-[10px] grid grid-cols-3 gap-1 text-slate-600">
+              <div><span class="text-slate-400">Objeto:</span> <span class="font-bold">Objeto1</span></div>
+              <div><span class="text-slate-400">x:</span> <span class="font-bold">0</span></div>
+              <div><span class="text-slate-400">y:</span> <span class="font-bold">0</span></div>
+            </div>
+
+          </div>
+
+        </div>
+
+      </div>
+
+      <!-- Tarjeta de éxito tras descargar -->
+      <div id="sim2SuccessCard" class="hidden bg-green-50 border-2 border-green-300 rounded-2xl p-4 flex flex-col sm:flex-row items-center justify-between gap-4 animate-in fade-in">
+        <div class="flex items-center gap-3">
+          <span class="text-3xl">📥</span>
+          <div>
+            <h4 class="font-black text-green-900 text-sm">¡Archivo descargado en la carpeta "Descargas"!</h4>
+            <p class="text-xs text-green-700">El navegador guardó <code class="font-mono font-bold bg-white px-2 py-0.5 rounded border border-green-200">Proyecto 1.sb3</code> en Descargas. Ahora aprenderemos a moverlo a tu carpeta de Documentos.</p>
+          </div>
+        </div>
+        <button onclick="switchSimulator(3)" class="bg-blue-600 hover:bg-blue-700 text-white font-bold text-xs px-4 py-2.5 rounded-xl transition shadow-md flex items-center gap-1.5 whitespace-nowrap active:scale-95">
+          <span>Paso 3: Mover a tu Carpeta</span> <span>➔</span>
+        </button>
+      </div>
+
+    </section>
+
+    <!-- ========================================================================= -->
+    <!-- SIMULADOR 3: MOVER DE DESCARGAS A LA CARPETA EN DOCUMENTOS                 -->
+    <!-- ========================================================================= -->
+    <section id="simSection3" class="hidden space-y-6">
+      
+      <!-- Instrucción paso 3 -->
+      <div class="bg-blue-50 border-2 border-blue-300 rounded-2xl p-4 flex flex-col sm:flex-row sm:items-center justify-between gap-3 shadow-sm">
+        <div class="flex items-center gap-3">
+          <span class="w-9 h-9 rounded-xl bg-blue-600 text-white font-black flex items-center justify-center shrink-0 shadow">3</span>
+          <div>
+            <h3 class="font-bold text-sm text-blue-950" id="sim3-instruction-title">Objetivo: Mover "Proyecto 1.sb3" de Descargas a tu carpeta en Documentos</h3>
+            <p class="text-xs text-blue-800" id="sim3-instruction-desc">1. Selecciona el archivo y haz clic en <strong>"✂️ Cortar"</strong> ➔ 2. Ve a <strong>Documentos &gt; Mis Proyectos Scratch</strong> ➔ 3. Haz clic en <strong>"📋 Pegar"</strong>.</p>
+          </div>
+        </div>
+        <div class="flex items-center gap-2 self-end sm:self-auto">
+          <button onclick="resetSim3()" class="text-xs bg-white hover:bg-slate-100 text-slate-700 font-bold px-3 py-1.5 rounded-lg border border-slate-300 transition shadow-xs">
+            🔄 Reiniciar Paso 3
+          </button>
+        </div>
+      </div>
+
+      <!-- Ventana de Windows File Explorer (Mover de Descargas a Documentos) -->
+      <div class="win-window relative shadow-2xl">
+        
+        <!-- Barra de título de la ventana -->
+        <div class="bg-slate-100 border-b border-slate-200 px-4 py-2.5 flex items-center justify-between select-none">
+          <div class="flex items-center gap-2 text-xs font-semibold text-slate-700">
+            <span>📁</span> <span id="sim3WindowTitle">Explorador de Archivos — Descargas</span>
+          </div>
+          <div class="flex items-center gap-3 text-slate-400">
+            <span class="hover:text-slate-700 cursor-pointer">🗕</span>
+            <span class="hover:text-slate-700 cursor-pointer">🗖</span>
+            <span class="hover:text-rose-600 font-bold cursor-pointer">✕</span>
+          </div>
+        </div>
+
+        <!-- BARRA DE COMANDOS OFICIAL WINDOWS 11 (CON ICONOS REALES) -->
+        <div class="bg-[#f3f3f3] border-b border-slate-200 px-3 py-1 flex items-center gap-1.5 flex-wrap text-xs select-none text-slate-700 font-sans">
+          
+          <!-- Nuevo -->
+          <button type="button" class="h-8 px-2 flex items-center gap-1.5 rounded-md hover:bg-slate-200/80 transition text-slate-800 font-semibold">
+            <span class="text-blue-600 font-bold text-sm">⊕</span>
+            <span>Nuevo</span>
+            <span class="text-[9px] text-slate-400">▾</span>
+          </button>
+
+          <div class="h-5 w-px bg-slate-300 mx-1"></div>
+
+          <!-- ICONOS DE ACCIÓN RÁPIDA (WINDOWS 11) -->
+          <div class="flex items-center gap-1">
+            
+            <!-- Icono Cortar (Tijeras) -->
+            <button type="button" id="btnSim3CutIcon" onclick="actionSim3Cut()" class="h-8 w-8 flex items-center justify-center rounded-md hover:bg-slate-200 text-blue-600 transition pulse-target" title="Cortar (Ctrl + X)">
+              <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                <circle cx="6" cy="6" r="3" stroke-width="2"/>
+                <circle cx="6" cy="18" r="3" stroke-width="2"/>
+                <path stroke-width="2" stroke-linecap="round" d="M20 4L8.12 15.88M14.47 14.48L20 20M8.12 8.12L12 12"/>
+              </svg>
+            </button>
+
+            <!-- Icono Copiar -->
+            <button type="button" class="h-8 w-8 flex items-center justify-center rounded-md hover:bg-slate-200 text-slate-600 transition" title="Copiar (Ctrl + C)">
+              <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                <rect x="9" y="9" width="13" height="13" rx="2" stroke-width="2"/>
+                <path d="M5 15H4a2 2 0 01-2-2V4a2 2 0 012-2h9a2 2 0 012 2v1" stroke-width="2"/>
+              </svg>
+            </button>
+
+            <!-- Icono Pegar -->
+            <button type="button" id="btnSim3PasteIcon" onclick="actionSim3Paste()" disabled class="h-8 w-8 flex items-center justify-center rounded-md text-slate-300 transition cursor-not-allowed" title="Pegar (Ctrl + V)">
+              <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                <path d="M16 4h2a2 2 0 012 2v14a2 2 0 01-2 2H6a2 2 0 01-2-2V6a2 2 0 012-2h2" stroke-width="2"/>
+                <rect x="8" y="2" width="8" height="4" rx="1" stroke-width="2"/>
+              </svg>
+            </button>
+
+            <!-- Icono Cambiar nombre -->
+            <button type="button" class="h-8 w-8 flex items-center justify-center rounded-md hover:bg-slate-200 text-slate-600 transition" title="Cambiar nombre (F2)">
+              <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                <path stroke-width="2" stroke-linecap="round" d="M11 4H4a2 2 0 00-2 2v14a2 2 0 002 2h14a2 2 0 002-2v-7"/>
+                <path stroke-width="2" stroke-linecap="round" d="M18.5 2.5a2.121 2.121 0 013 3L12 15l-4 1 1-4 9.5-9.5z"/>
+              </svg>
+            </button>
+
+            <!-- Icono Compartir -->
+            <button type="button" class="h-8 w-8 flex items-center justify-center rounded-md hover:bg-slate-200 text-blue-500 transition" title="Compartir">
+              <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                <path stroke-width="2" stroke-linecap="round" stroke-linejoin="round" d="M8.684 13.342C8.886 12.938 9 12.482 9 12c0-.482-.114-.938-.316-1.342m0 2.684a3 3 0 110-2.684m0 2.684l6.632 3.316m-6.632-6l6.632-3.316m0 0a3 3 0 105.367-2.684 3 3 0 00-5.367 2.684zm0 9.316a3 3 0 105.368 2.684 3 3 0 00-5.368-2.684z"/>
+              </svg>
+            </button>
+
+            <!-- Icono Eliminar -->
+            <button type="button" class="h-8 w-8 flex items-center justify-center rounded-md hover:bg-slate-200 text-slate-600 transition" title="Eliminar">
+              <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                <path stroke-width="2" stroke-linecap="round" stroke-linejoin="round" d="M19 7l-.867 12.142A2 2 0 0116.138 21H7.862a2 2 0 01-1.995-1.858L5 7m5 4v6m4-6v6m1-10V4a1 1 0 00-1-1h-4a1 1 0 00-1 1v3M4 7h16"/>
+              </svg>
+            </button>
+          </div>
+
+          <div class="h-5 w-px bg-slate-300 mx-1"></div>
+
+          <!-- Ordenar -->
+          <button type="button" class="h-8 px-2 flex items-center gap-1 rounded-md hover:bg-slate-200 transition text-slate-700">
+            <span class="text-blue-600 font-bold">⇅</span>
+            <span>Ordenar</span>
+            <span class="text-[9px] text-slate-400">▾</span>
+          </button>
+
+          <!-- Ver -->
+          <button type="button" class="h-8 px-2 flex items-center gap-1 rounded-md hover:bg-slate-200 transition text-slate-700">
+            <span>▤</span>
+            <span>Ver</span>
+            <span class="text-[9px] text-slate-400">▾</span>
+          </button>
+
+          <!-- Más opciones -->
+          <button type="button" class="h-8 w-8 flex items-center justify-center rounded-md hover:bg-slate-200 transition text-slate-700 font-bold">
+            •••
+          </button>
+
+          <div class="ml-auto hidden md:flex items-center">
+            <span id="clipboardStatusBadge" class="text-[11px] text-slate-500 bg-white px-2.5 py-0.5 rounded-full border border-slate-200 font-medium">
+              Portapapeles: Vacío
+            </span>
+          </div>
+        </div>
+
+        <!-- Barra de ruta y navegación -->
+        <div class="bg-slate-50 border-b border-slate-200 px-4 py-1.5 flex items-center gap-2 text-xs text-slate-600">
+          <div class="flex items-center gap-1 text-slate-400">
+            <button onclick="navSim3ToDownloads()" class="hover:text-slate-700" title="Ir a Descargas">←</button>
+            <button class="hover:text-slate-700">→</button>
+          </div>
+          <div class="flex-grow bg-white border border-slate-300 rounded-md px-3 py-1 flex items-center gap-1.5 font-mono text-[11px] text-slate-700 shadow-inner" id="sim3Breadcrumbs">
+            <span class="text-slate-400">💻</span> <span>Este equipo</span> <span class="text-slate-400">&gt;</span> <span class="font-bold text-blue-600">Descargas</span>
+          </div>
+          <div class="w-40 hidden sm:block bg-white border border-slate-300 rounded-md px-2 py-1 text-slate-400 text-[11px]">
+            🔍 Buscar archivos
+          </div>
+        </div>
+
+        <!-- Cuerpo del Explorador: Barra Lateral + Área de Contenido -->
+        <div class="flex min-h-[380px] text-xs relative" id="sim3CanvasArea" oncontextmenu="handleSim3RightClick(event)">
+          
+          <!-- Barra Lateral Izquierda (Árbol de carpetas interactivo) -->
+          <div class="w-52 bg-slate-50/90 border-r border-slate-200 p-3 space-y-1 select-none shrink-0 hidden sm:block">
+            <div class="text-[10px] font-black uppercase text-slate-400 px-2 py-1 tracking-wider">Acceso Rápido</div>
+            
+            <!-- Botón de navegación a Descargas -->
+            <div id="navSideDownloads" onclick="navSim3ToDownloads()" class="flex items-center justify-between px-2.5 py-2 rounded-xl bg-blue-100/80 text-blue-900 font-bold border border-blue-200 cursor-pointer transition">
+              <div class="flex items-center gap-2">
+                <span>📥</span> <span>Descargas</span>
+              </div>
+              <span id="downloadsCountBadge" class="text-[10px] bg-blue-600 text-white font-mono px-1.5 py-0.2 rounded-full">1</span>
+            </div>
+
+            <!-- Botón de navegación a Documentos -->
+            <div id="navSideDocs" onclick="navSim3ToDocs()" class="flex items-center justify-between px-2.5 py-2 rounded-xl hover:bg-slate-200 text-slate-700 font-bold cursor-pointer transition">
+              <div class="flex items-center gap-2">
+                <span>📄</span> <span>Documentos</span>
+              </div>
+            </div>
+
+            <!-- Subcarpeta Mis Proyectos Scratch -->
+            <div id="navSideScratchFolder" onclick="navSim3ToScratchFolder()" class="ml-4 flex items-center justify-between px-2.5 py-1.5 rounded-lg hover:bg-amber-100 text-amber-950 font-bold cursor-pointer transition border border-transparent hover:border-amber-300">
+              <div class="flex items-center gap-1.5 truncate">
+                <span>📂</span> <span class="truncate">Mis Proyectos</span>
+              </div>
+              <span id="docsCountBadge" class="text-[10px] bg-slate-200 text-slate-600 font-mono px-1.5 py-0.2 rounded-full">0</span>
+            </div>
+
+            <div class="text-[10px] font-black uppercase text-slate-400 px-2 py-1 mt-4 tracking-wider">Este Equipo</div>
+            <div class="flex items-center gap-2 px-2.5 py-1.5 rounded-lg hover:bg-slate-200 text-slate-700 cursor-pointer">
+              <span>🖥️</span> <span>Escritorio</span>
+            </div>
+            <div class="flex items-center gap-2 px-2.5 py-1.5 rounded-lg hover:bg-slate-200 text-slate-700 cursor-pointer">
+              <span>💽</span> <span>Disco Local (C:)</span>
+            </div>
+          </div>
+
+          <!-- Área Principal de Archivos -->
+          <div class="flex-grow p-5 bg-white relative" id="sim3FilesContainer">
+            
+            <!-- VISTA 1: DENTRO DE DESCARGAS -->
+            <div id="viewDownloadsArea" class="space-y-4">
+              <div class="flex items-center justify-between pb-2 border-b border-slate-100">
+                <span class="text-xs font-bold text-slate-500">Archivos en Descargas:</span>
+                <span class="text-[11px] text-slate-400">Usa el icono <strong>✂️</strong> arriba o haz <strong>clic derecho ➔ Cortar</strong></span>
+              </div>
+
+              <div class="grid grid-cols-2 sm:grid-cols-3 md:grid-cols-4 gap-4">
+                
+                <!-- Archivo Proyecto 1.sb3 (Interactivo con clic derecho) -->
+                <div id="fileItemDownloaded" onclick="selectSim3File()" oncontextmenu="handleFileRightClick(event)" class="flex flex-col items-center text-center p-3 rounded-2xl border-2 border-blue-400 bg-blue-50/60 hover:bg-blue-100/70 cursor-pointer transition shadow-sm select-none pulse-target">
+                  <span class="text-4xl mb-1">🐱</span>
+                  <span class="font-mono font-black text-slate-900 text-xs truncate w-full">Proyecto 1.sb3</span>
+                  <span class="text-[10px] bg-white border border-blue-200 text-blue-800 font-bold px-1.5 py-0.5 rounded-full mt-1">142 KB</span>
+                </div>
+
+                <!-- Archivo de ejemplo en Descargas -->
+                <div class="flex flex-col items-center text-center p-3 rounded-2xl border border-slate-200 hover:bg-slate-50 cursor-pointer transition select-none opacity-60">
+                  <span class="text-4xl mb-1">📄</span>
+                  <span class="font-medium text-slate-700 text-xs truncate w-full">Instalador.exe</span>
+                  <span class="text-[10px] text-slate-400 mt-1">45 MB</span>
+                </div>
+
+              </div>
+
+              <!-- Banner de ayuda guiada en Descargas -->
+              <div id="guideBannerCut" class="bg-amber-50 border border-amber-300 rounded-xl p-3 flex items-center justify-between text-xs text-amber-950">
+                <div class="flex items-center gap-2">
+                  <span>💡</span>
+                  <span>Haz clic en el icono <strong>✂️ Cortar</strong> de la barra superior o <strong>clic derecho</strong> sobre Proyecto 1.sb3.</span>
+                </div>
+              </div>
+            </div>
+
+            <!-- VISTA 2: DENTRO DE DOCUMENTOS > MIS PROYECTOS SCRATCH -->
+            <div id="viewDocsScratchArea" class="hidden space-y-4">
+              <div class="flex items-center justify-between pb-2 border-b border-slate-100">
+                <span class="text-xs font-bold text-amber-900">Carpeta: Mis Proyectos Scratch</span>
+                <span class="text-[11px] text-slate-400">Ruta: Documentos &gt; Mis Proyectos Scratch</span>
+              </div>
+
+              <div class="grid grid-cols-2 sm:grid-cols-3 md:grid-cols-4 gap-4" id="scratchFolderGrid">
+                
+                <!-- Estado vacío inicial -->
+                <div id="emptyScratchFolderNotice" class="col-span-full py-8 text-center text-slate-400 border-2 border-dashed border-slate-200 rounded-2xl bg-slate-50/50">
+                  <span class="text-3xl block mb-1">📂</span>
+                  <p class="font-bold text-xs text-slate-600">Esta carpeta está vacía</p>
+                  <p class="text-[11px] text-slate-400">Usa el icono <strong>📋 Pegar</strong> arriba o haz <strong>clic derecho ➔ Pegar</strong> aquí.</p>
+                </div>
+
+                <!-- Archivo pegado con éxito -->
+                <div id="pastedFileItem" class="hidden flex flex-col items-center text-center p-3 rounded-2xl border-2 border-green-500 bg-green-50/80 cursor-pointer transition shadow-md select-none animate-in zoom-in-90 duration-300">
+                  <span class="text-4xl mb-1">🐱</span>
+                  <span class="font-mono font-black text-green-950 text-xs truncate w-full">Proyecto 1.sb3</span>
+                  <span class="text-[9px] bg-green-200 text-green-900 font-bold px-2 py-0.5 rounded-full mt-1">✅ En su lugar seguro</span>
+                </div>
+
+              </div>
+
+              <!-- Banner de ayuda para Pegar -->
+              <div id="guideBannerPaste" class="bg-blue-50 border border-blue-300 rounded-xl p-3 flex items-center justify-between text-xs text-blue-950">
+                <div class="flex items-center gap-2">
+                  <span>📌</span>
+                  <span>¡Ya estás en tu carpeta! Haz clic en el icono <strong>📋 Pegar</strong> de la barra o <strong>clic derecho ➔ Pegar</strong>.</span>
+                </div>
+              </div>
+
+            </div>
+
+            <!-- MENÚ CONTEXTUAL WINDOWS 11 (CLIC DERECHO EN ARCHIVO / CARPETA) -->
+            <div id="sim3ContextMenu" class="win-context-menu hidden shadow-2xl rounded-xl border border-slate-300 bg-white/95 backdrop-blur-md overflow-hidden text-xs">
+              
+              <!-- FILA SUPERIOR DE ICONOS DE ACCIÓN (ESTILO WINDOWS 11) -->
+              <div class="flex items-center justify-around p-1.5 bg-slate-100 border-b border-slate-200 text-slate-700">
+                <button onclick="actionSim3Cut()" class="p-1.5 hover:bg-slate-200 rounded text-blue-600 font-bold" title="Cortar">
+                  <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                    <circle cx="6" cy="6" r="3" stroke-width="2"/><circle cx="6" cy="18" r="3" stroke-width="2"/>
+                    <path stroke-width="2" stroke-linecap="round" d="M20 4L8.12 15.88M14.47 14.48L20 20M8.12 8.12L12 12"/>
+                  </svg>
+                </button>
+                <button class="p-1.5 hover:bg-slate-200 rounded text-slate-600" title="Copiar">
+                  <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                    <rect x="9" y="9" width="13" height="13" rx="2" stroke-width="2"/>
+                    <path d="M5 15H4a2 2 0 01-2-2V4a2 2 0 012-2h9a2 2 0 012 2v1" stroke-width="2"/>
+                  </svg>
+                </button>
+                <button onclick="actionSim3Paste()" id="ctxPasteIcon" class="p-1.5 hover:bg-slate-200 rounded text-slate-300" title="Pegar">
+                  <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                    <path d="M16 4h2a2 2 0 012 2v14a2 2 0 01-2 2H6a2 2 0 01-2-2V6a2 2 0 012-2h2" stroke-width="2"/>
+                    <rect x="8" y="2" width="8" height="4" rx="1" stroke-width="2"/>
+                  </svg>
+                </button>
+                <button class="p-1.5 hover:bg-slate-200 rounded text-slate-600" title="Renombrar">
+                  <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                    <path stroke-width="2" stroke-linecap="round" d="M11 4H4a2 2 0 00-2 2v14a2 2 0 002 2h14a2 2 0 002-2v-7"/>
+                    <path stroke-width="2" stroke-linecap="round" d="M18.5 2.5a2.121 2.121 0 013 3L12 15l-4 1 1-4 9.5-9.5z"/>
+                  </svg>
+                </button>
+                <button class="p-1.5 hover:bg-slate-200 rounded text-slate-600" title="Eliminar">
+                  <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                    <path stroke-width="2" stroke-linecap="round" stroke-linejoin="round" d="M19 7l-.867 12.142A2 2 0 0116.138 21H7.862a2 2 0 01-1.995-1.858L5 7m5 4v6m4-6v6m1-10V4a1 1 0 00-1-1h-4a1 1 0 00-1 1v3M4 7h16"/>
+                  </svg>
+                </button>
+              </div>
+
+              <!-- OPCIONES DE TEXTO -->
+              <div class="py-1">
+                <div onclick="actionSim3Cut()" class="px-3.5 py-1.5 hover:bg-blue-50 text-slate-800 font-semibold cursor-pointer flex items-center justify-between">
+                  <span class="flex items-center gap-2"><span>✂️</span> <span>Cortar</span></span>
+                  <span class="text-[10px] text-slate-400 font-mono">Ctrl+X</span>
+                </div>
+                <div class="px-3.5 py-1.5 hover:bg-slate-100 text-slate-500 cursor-not-allowed flex items-center justify-between">
+                  <span class="flex items-center gap-2"><span>📄</span> <span>Copiar</span></span>
+                  <span class="text-[10px] text-slate-400 font-mono">Ctrl+C</span>
+                </div>
+                <div onclick="actionSim3Paste()" id="ctxPasteText" class="px-3.5 py-1.5 text-slate-300 cursor-not-allowed flex items-center justify-between">
+                  <span class="flex items-center gap-2"><span>📋</span> <span>Pegar</span></span>
+                  <span class="text-[10px] text-slate-400 font-mono">Ctrl+V</span>
+                </div>
+                <div class="h-px bg-slate-200 my-1"></div>
+                <div class="px-3.5 py-1.5 hover:bg-slate-100 text-slate-600 cursor-pointer">
+                  <span>Propiedades</span>
+                </div>
+              </div>
+
+            </div>
+
+            <!-- Tarjeta de éxito final -->
+            <div id="sim3SuccessCard" class="hidden mt-6 bg-gradient-to-r from-emerald-500 via-green-600 to-teal-700 rounded-2xl p-5 text-white shadow-xl flex flex-col sm:flex-row items-center justify-between gap-4 animate-in fade-in">
+              <div class="flex items-center gap-3.5">
+                <span class="text-4xl">🎉</span>
+                <div>
+                  <h4 class="font-display font-black text-base">¡Proyecto 1 Guardado y Organizado con Éxito!</h4>
+                  <p class="text-xs text-green-100 mt-0.5">
+                    El archivo <code class="bg-black/30 font-mono font-bold px-1.5 py-0.5 rounded text-white">Proyecto 1.sb3</code> ya está en tu carpeta de <strong>Documentos &gt; Mis Proyectos Scratch</strong>. ¡Todo listo para seguir con el siguiente proyecto!
+                  </p>
+                </div>
+              </div>
+              <a href="05.html#proyectos" class="bg-white hover:bg-amber-100 text-slate-900 font-black text-xs px-4 py-2.5 rounded-xl transition shadow-md whitespace-nowrap active:scale-95 flex items-center gap-1.5">
+                <span>🎮 Ver Catálogo de Proyectos</span> <span>➔</span>
+              </a>
+            </div>
+
+          </div>
+        </div>
+
+      </div>
+
+    </section>
+
+  </main>
+
+  <!-- ========================================================================= -->
+  <!-- FOOTER                                                                    -->
+  <!-- ========================================================================= -->
+  <footer class="bg-slate-900 text-slate-400 py-6 border-t border-slate-800 text-center text-xs mt-12">
+    <div class="max-w-7xl mx-auto px-4 flex flex-col sm:flex-row items-center justify-between gap-3">
+      <div class="flex items-center gap-2">
+        <span class="text-lg">🏫</span>
+        <span class="font-bold text-slate-200">Mundo Jandra &bull; Informática & Programación Escolar</span>
+      </div>
+      <div class="flex items-center gap-4 text-slate-400 text-xs">
+        <a href="05.html" class="hover:text-amber-400 transition">5° Grado</a>
+        <span>&bull;</span>
+        <a href="06.html" class="hover:text-amber-400 transition">6° Grado</a>
+        <span>&bull;</span>
+        <a href="../periodo3.html" class="hover:text-amber-400 transition">Periodo 3</a>
+      </div>
+    </div>
+  </footer>
+
+  <!-- ========================================================================= -->
+  <!-- JAVASCRIPT: LOGICA DE LOS SIMULADORES                                      -->
+  <!-- ========================================================================= -->
+  <script>
+    // ESTADO GENERAL
+    let currentSim = 1;
+    let sim1FolderCreated = false;
+    let sim2FileDownloaded = false;
+    
+    // Estado del Simulador 3
+    let sim3Clipboard = null; // 'Proyecto 1.sb3'
+    let sim3CurrentFolder = 'downloads'; // 'downloads' o 'scratchFolder'
+    let sim3FileMoved = false;
+
+    // Cambiar entre pestañas de simuladores
+    function switchSimulator(simNumber) {
+      currentSim = simNumber;
+
+      // Ocultar todos
+      document.getElementById('simSection1').classList.add('hidden');
+      document.getElementById('simSection2').classList.add('hidden');
+      document.getElementById('simSection3').classList.add('hidden');
+
+      // Botones tabs
+      const b1 = document.getElementById('simBtn1');
+      const b2 = document.getElementById('simBtn2');
+      const b3 = document.getElementById('simBtn3');
+
+      [b1, b2, b3].forEach(b => {
+        b.className = "px-3.5 py-2 rounded-xl font-bold text-xs sm:text-sm transition flex items-center gap-1.5 text-slate-600 hover:text-slate-900";
+      });
+
+      if (simNumber === 1) {
+        document.getElementById('simSection1').classList.remove('hidden');
+        b1.className = "px-3.5 py-2 rounded-xl font-bold text-xs sm:text-sm transition flex items-center gap-1.5 bg-white text-slate-900 shadow-sm";
+      } else if (simNumber === 2) {
+        document.getElementById('simSection2').classList.remove('hidden');
+        b2.className = "px-3.5 py-2 rounded-xl font-bold text-xs sm:text-sm transition flex items-center gap-1.5 bg-white text-slate-900 shadow-sm";
+      } else if (simNumber === 3) {
+        document.getElementById('simSection3').classList.remove('hidden');
+        b3.className = "px-3.5 py-2 rounded-xl font-bold text-xs sm:text-sm transition flex items-center gap-1.5 bg-white text-slate-900 shadow-sm";
+      }
+    }
+
+    // ==========================================
+    // SIMULADOR 1: WINDOWS EXPLORER (CREAR CARPETA)
+    // ==========================================
+    function handleRightClick(e) {
+      e.preventDefault();
+      const menu = document.getElementById('winContextMenu');
+      const canvas = document.getElementById('explorerCanvasArea');
+      const rect = canvas.getBoundingClientRect();
+      
+      const x = e.clientX - rect.left;
+      const y = e.clientY - rect.top;
+
+      menu.style.left = `${Math.min(x, rect.width - 200)}px`;
+      menu.style.top = `${Math.min(y, rect.height - 180)}px`;
+      menu.classList.remove('hidden');
+    }
+
+    document.addEventListener('click', (e) => {
+      const menu = document.getElementById('winContextMenu');
+      if (menu && !menu.contains(e.target)) {
+        menu.classList.add('hidden');
+      }
+      const scratchMenu = document.getElementById('scratchFileDropdown');
+      const scratchBtn = document.getElementById('scratchFileMenuBtn');
+      if (scratchMenu && !scratchMenu.contains(e.target) && scratchBtn && !scratchBtn.contains(e.target)) {
+        scratchMenu.classList.add('hidden');
+      }
+    });
+
+    function triggerNewFolderCreation() {
+      document.getElementById('winContextMenu').classList.add('hidden');
+      document.getElementById('newFolderSlot').classList.remove('hidden');
+      document.getElementById('newFolderGuideHint').classList.remove('hidden');
+      const input = document.getElementById('folderNameInput');
+      input.focus();
+      input.select();
+    }
+
+    function handleInputBlur() {
+      // Si el usuario da clic afuera mientras edita, confirma el nombre
+      const slot = document.getElementById('newFolderSlot');
+      if (!slot.classList.contains('hidden')) {
+        confirmFolderName();
+      }
+    }
+
+    function handleInputKey(e) {
+      if (e.key === 'Enter') {
+        confirmFolderName();
+      }
+    }
+
+    function confirmFolderName() {
+      const input = document.getElementById('folderNameInput');
+      const name = input.value.trim() || 'Mis Proyectos Scratch';
+      document.getElementById('newFolderSlot').classList.add('hidden');
+      document.getElementById('newFolderGuideHint').classList.add('hidden');
+      document.getElementById('confirmedFolderName').textContent = name;
+      document.getElementById('confirmedFolderItem').classList.remove('hidden');
+      document.getElementById('sim1SuccessCard').classList.remove('hidden');
+      sim1FolderCreated = true;
+
+      confetti({
+        particleCount: 80,
+        spread: 70,
+        origin: { y: 0.6 }
+      });
+    }
+
+    function resetSim1() {
+      document.getElementById('newFolderSlot').classList.add('hidden');
+      document.getElementById('newFolderGuideHint').classList.add('hidden');
+      document.getElementById('confirmedFolderItem').classList.add('hidden');
+      document.getElementById('sim1SuccessCard').classList.add('hidden');
+      document.getElementById('folderNameInput').value = 'Nueva carpeta';
+      sim1FolderCreated = false;
+    }
+
+    // ==========================================
+    // SIMULADOR 2: DESCARGAR DESDE SCRATCH
+    // ==========================================
+    function toggleScratchFileMenu(e) {
+      if (e) {
+        e.stopPropagation();
+      }
+      const dropdown = document.getElementById('scratchFileDropdown');
+      dropdown.classList.toggle('hidden');
+    }
+
+    function executeScratchSave(e) {
+      if (e) {
+        e.stopPropagation();
+      }
+      document.getElementById('scratchFileDropdown').classList.add('hidden');
+      
+      // Mostrar animación de descarga real del navegador
+      const banner = document.getElementById('browserDownloadBanner');
+      banner.classList.remove('hidden');
+
+      // Tarjeta de éxito paso 2
+      document.getElementById('sim2SuccessCard').classList.remove('hidden');
+      sim2FileDownloaded = true;
+
+      confetti({
+        particleCount: 100,
+        spread: 80,
+        origin: { y: 0.6 }
+      });
+    }
+
+    function resetSim2() {
+      document.getElementById('scratchFileDropdown').classList.add('hidden');
+      document.getElementById('browserDownloadBanner').classList.add('hidden');
+      document.getElementById('sim2SuccessCard').classList.add('hidden');
+      sim2FileDownloaded = false;
+    }
+
+    // ==========================================
+    // SIMULADOR 3: MOVER DE DESCARGAS A DOCUMENTOS (CON ICONOS WINDOWS 11)
+    // ==========================================
+    function handleSim3RightClick(e) {
+      e.preventDefault();
+      // Si estamos en la carpeta de proyectos y hay algo en portapapeles, habilitar pegar en clic derecho
+      const menu = document.getElementById('sim3ContextMenu');
+      const canvas = document.getElementById('sim3CanvasArea');
+      const rect = canvas.getBoundingClientRect();
+      
+      const x = e.clientX - rect.left;
+      const y = e.clientY - rect.top;
+
+      menu.style.left = `${Math.min(x, rect.width - 200)}px`;
+      menu.style.top = `${Math.min(y, rect.height - 180)}px`;
+      menu.classList.remove('hidden');
+    }
+
+    function handleFileRightClick(e) {
+      e.preventDefault();
+      e.stopPropagation();
+      selectSim3File();
+      handleSim3RightClick(e);
+    }
+
+    // Cerrar menú contextual al hacer clic fuera
+    document.addEventListener('click', (e) => {
+      const sim3Menu = document.getElementById('sim3ContextMenu');
+      if (sim3Menu && !sim3Menu.contains(e.target)) {
+        sim3Menu.classList.add('hidden');
+      }
+    });
+
+    function selectSim3File() {
+      const file = document.getElementById('fileItemDownloaded');
+      file.classList.add('ring-2', 'ring-blue-500', 'bg-blue-100');
+    }
+
+    function actionSim3Cut() {
+      sim3Clipboard = 'Proyecto 1.sb3';
+      const file = document.getElementById('fileItemDownloaded');
+      if (file) {
+        file.classList.add('file-is-cut', 'opacity-50');
+      }
+      
+      // Ocultar menú contextual si estaba abierto
+      const menu = document.getElementById('sim3ContextMenu');
+      if (menu) menu.classList.add('hidden');
+
+      // Habilitar icono Pegar en la barra superior
+      const pasteIconBtn = document.getElementById('btnSim3PasteIcon');
+      if (pasteIconBtn) {
+        pasteIconBtn.disabled = false;
+        pasteIconBtn.className = "h-8 w-8 flex items-center justify-center rounded-md text-slate-700 hover:bg-slate-200 transition font-bold pulse-target";
+      }
+
+      // Habilitar Pegar en el menú contextual
+      const ctxPasteIcon = document.getElementById('ctxPasteIcon');
+      if (ctxPasteIcon) {
+        ctxPasteIcon.className = "p-1.5 hover:bg-slate-200 rounded text-slate-700 font-bold";
+      }
+      const ctxPasteText = document.getElementById('ctxPasteText');
+      if (ctxPasteText) {
+        ctxPasteText.className = "px-3.5 py-1.5 hover:bg-blue-50 text-slate-800 font-semibold cursor-pointer flex items-center justify-between";
+      }
+
+      // Desactivar icono Cortar
+      const cutIconBtn = document.getElementById('btnSim3CutIcon');
+      if (cutIconBtn) {
+        cutIconBtn.className = "h-8 w-8 flex items-center justify-center rounded-md text-slate-300 transition cursor-not-allowed";
+      }
+
+      document.getElementById('clipboardStatusBadge').textContent = 'Portapapeles: Proyecto 1.sb3 (Cortado ✂️)';
+      document.getElementById('clipboardStatusBadge').className = 'text-[11px] text-green-800 bg-green-100 px-2.5 py-0.5 rounded-full border border-green-300 font-bold';
+
+      // Guiar a navegar a la carpeta de Documentos
+      document.getElementById('navSideScratchFolder').classList.add('pulse-target', 'bg-amber-200');
+      document.getElementById('guideBannerCut').innerHTML = `
+        <div class="flex items-center gap-2">
+          <span>✅</span>
+          <span>¡Archivo cortado con <strong>✂️</strong>! Ahora en la barra izquierda haz clic en <strong>"📂 Mis Proyectos"</strong> para ir a tu carpeta.</span>
+        </div>
+        <button onclick="navSim3ToScratchFolder()" class="bg-amber-600 hover:bg-amber-700 text-white font-bold px-3 py-1 rounded-lg transition shadow-xs">
+          Ir a Mis Proyectos ➔
+        </button>
+      `;
+    }
+
+    function navSim3ToDownloads() {
+      sim3CurrentFolder = 'downloads';
+      document.getElementById('viewDownloadsArea').classList.remove('hidden');
+      document.getElementById('viewDocsScratchArea').classList.add('hidden');
+
+      document.getElementById('sim3WindowTitle').textContent = 'Explorador de Archivos — Descargas';
+      document.getElementById('sim3Breadcrumbs').innerHTML = `<span class="text-slate-400">💻</span> <span>Este equipo</span> <span class="text-slate-400">&gt;</span> <span class="font-bold text-blue-600">Descargas</span>`;
+
+      document.getElementById('navSideDownloads').className = "flex items-center justify-between px-2.5 py-2 rounded-xl bg-blue-100/80 text-blue-900 font-bold border border-blue-200 cursor-pointer transition";
+      document.getElementById('navSideDocs').className = "flex items-center justify-between px-2.5 py-2 rounded-xl hover:bg-slate-200 text-slate-700 font-bold cursor-pointer transition";
+    }
+
+    function navSim3ToDocs() {
+      navSim3ToScratchFolder();
+    }
+
+    function navSim3ToScratchFolder() {
+      sim3CurrentFolder = 'scratchFolder';
+      document.getElementById('viewDownloadsArea').classList.add('hidden');
+      document.getElementById('viewDocsScratchArea').classList.remove('hidden');
+
+      document.getElementById('sim3WindowTitle').textContent = 'Explorador de Archivos — Mis Proyectos Scratch';
+      document.getElementById('sim3Breadcrumbs').innerHTML = `<span class="text-slate-400">💻</span> <span>Este equipo</span> <span class="text-slate-400">&gt;</span> <span>Documentos</span> <span class="text-slate-400">&gt;</span> <span class="font-bold text-amber-600">Mis Proyectos Scratch</span>`;
+
+      document.getElementById('navSideDownloads').className = "flex items-center justify-between px-2.5 py-2 rounded-xl hover:bg-slate-200 text-slate-700 font-bold cursor-pointer transition";
+      document.getElementById('navSideScratchFolder').className = "ml-4 flex items-center justify-between px-2.5 py-1.5 rounded-lg bg-amber-100 text-amber-950 font-bold cursor-pointer transition border border-amber-300";
+    }
+
+    function actionSim3Paste() {
+      if (!sim3Clipboard) return;
+
+      // Ocultar menú contextual si estaba abierto
+      const menu = document.getElementById('sim3ContextMenu');
+      if (menu) menu.classList.add('hidden');
+
+      // Asegurar que estamos en la carpeta
+      if (sim3CurrentFolder !== 'scratchFolder') {
+        navSim3ToScratchFolder();
+      }
+
+      document.getElementById('emptyScratchFolderNotice').classList.add('hidden');
+      document.getElementById('pastedFileItem').classList.remove('hidden');
+      document.getElementById('guideBannerPaste').classList.add('hidden');
+      document.getElementById('sim3SuccessCard').classList.remove('hidden');
+
+      // Actualizar contadores
+      document.getElementById('downloadsCountBadge').textContent = '0';
+      document.getElementById('downloadsCountBadge').className = 'text-[10px] bg-slate-300 text-slate-600 font-mono px-1.5 py-0.2 rounded-full';
+      
+      document.getElementById('docsCountBadge').textContent = '1';
+      document.getElementById('docsCountBadge').className = 'text-[10px] bg-green-600 text-white font-mono px-1.5 py-0.2 rounded-full';
+
+      // Desactivar icono Pegar
+      const pasteIconBtn = document.getElementById('btnSim3PasteIcon');
+      if (pasteIconBtn) {
+        pasteIconBtn.disabled = true;
+        pasteIconBtn.className = "h-8 w-8 flex items-center justify-center rounded-md text-slate-300 transition cursor-not-allowed";
+      }
+
+      const ctxPasteIcon = document.getElementById('ctxPasteIcon');
+      if (ctxPasteIcon) {
+        ctxPasteIcon.className = "p-1.5 hover:bg-slate-200 rounded text-slate-300";
+      }
+      const ctxPasteText = document.getElementById('ctxPasteText');
+      if (ctxPasteText) {
+        ctxPasteText.className = "px-3.5 py-1.5 text-slate-300 cursor-not-allowed flex items-center justify-between";
+      }
+
+      document.getElementById('clipboardStatusBadge').textContent = 'Portapapeles: Vacío';
+      document.getElementById('clipboardStatusBadge').className = 'text-[11px] text-slate-500 bg-slate-100 px-2.5 py-0.5 rounded-full border border-slate-200';
+
+      sim3FileMoved = true;
+
+      confetti({
+        particleCount: 150,
+        spread: 100,
+        origin: { y: 0.6 }
+      });
+    }
+
+    function resetSim3() {
+      sim3Clipboard = null;
+      sim3FileMoved = false;
+
+      const file = document.getElementById('fileItemDownloaded');
+      file.className = "flex flex-col items-center text-center p-3 rounded-2xl border-2 border-blue-400 bg-blue-50/60 hover:bg-blue-100/70 cursor-pointer transition shadow-sm select-none pulse-target";
+      
+      document.getElementById('emptyScratchFolderNotice').classList.remove('hidden');
+      document.getElementById('pastedFileItem').classList.add('hidden');
+      document.getElementById('guideBannerPaste').classList.remove('hidden');
+      document.getElementById('sim3SuccessCard').classList.add('hidden');
+
+      document.getElementById('downloadsCountBadge').textContent = '1';
+      document.getElementById('downloadsCountBadge').className = 'text-[10px] bg-blue-600 text-white font-mono px-1.5 py-0.2 rounded-full';
+      
+      document.getElementById('docsCountBadge').textContent = '0';
+      document.getElementById('docsCountBadge').className = 'text-[10px] bg-slate-200 text-slate-600 font-mono px-1.5 py-0.2 rounded-full';
+
+      const cutIconBtn = document.getElementById('btnSim3CutIcon');
+      if (cutIconBtn) {
+        cutIconBtn.className = "h-8 w-8 flex items-center justify-center rounded-md hover:bg-slate-200 text-blue-600 transition pulse-target";
+      }
+
+      const pasteIconBtn = document.getElementById('btnSim3PasteIcon');
+      if (pasteIconBtn) {
+        pasteIconBtn.disabled = true;
+        pasteIconBtn.className = "h-8 w-8 flex items-center justify-center rounded-md text-slate-300 transition cursor-not-allowed";
+      }
+
+      document.getElementById('clipboardStatusBadge').textContent = 'Portapapeles: Vacío';
+      document.getElementById('clipboardStatusBadge').className = 'text-[11px] text-slate-500 bg-slate-100 px-2.5 py-0.5 rounded-full border border-slate-200';
+
+      navSim3ToDownloads();
+    }
+  </script>
+</body>
+</html>

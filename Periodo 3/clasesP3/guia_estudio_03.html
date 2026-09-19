@@ -82,129 +82,129 @@
 
   <!-- BARRA SUPERIOR -->
   <header class="bg-gradient-to-r from-sky-600 via-cyan-600 to-blue-700 text-white shadow-md border-b-4 border-amber-400 sticky top-0 z-40">
-    <div class="w-full max-w-7xl mx-auto px-4 sm:px-8 py-2.5 flex flex-wrap items-center justify-between gap-3">
-      <div class="flex items-center space-x-3">
-        <a href="03.html" class="inline-flex items-center gap-1.5 bg-sky-950/80 hover:bg-sky-950 border-2 border-white/40 text-white text-xs sm:text-sm font-black px-3.5 py-1.5 rounded-2xl transition shadow transform active:scale-95">
-          <span>🏠</span> <span>← Menú Grado 3°</span>
+    <div class="w-full max-w-7xl mx-auto px-3 sm:px-8 py-2 flex items-center justify-between gap-2">
+      <div class="flex items-center space-x-2 sm:space-x-3">
+        <a href="03.html" class="inline-flex items-center gap-1 bg-sky-950/80 hover:bg-sky-950 border-2 border-white/40 text-white text-xs sm:text-sm font-black px-2.5 sm:px-3.5 py-1 sm:py-1.5 rounded-xl sm:rounded-2xl transition shadow transform active:scale-95">
+          <span>🏠</span> <span>← Grado 3°</span>
         </a>
-        <div class="bg-amber-400 text-slate-900 border-2 border-white px-3 py-0.5 rounded-xl shadow-inner font-black text-xs uppercase">
-          LABORATORIO INTERACTIVO • P3
+        <div class="bg-amber-400 text-slate-900 border border-white px-2 sm:px-3 py-0.5 rounded-lg sm:rounded-xl shadow-inner font-black text-[10px] sm:text-xs uppercase">
+          LABORATORIO • P3
         </div>
       </div>
 
-      <div class="flex items-center gap-3">
-        <div class="bg-white/20 border border-white/30 px-3 py-1 rounded-xl text-amber-300 font-kids font-bold text-xs sm:text-sm flex items-center gap-1.5">
+      <div class="flex items-center gap-2">
+        <div class="hidden sm:flex bg-white/20 border border-white/30 px-3 py-1 rounded-xl text-amber-300 font-kids font-bold text-xs sm:text-sm items-center gap-1.5">
           <span>⭐</span> Retos completados: <span id="completedCounter" class="text-white font-black">0 / 4</span>
         </div>
-        <a href="examen_practica_03.html" class="bg-orange-500 hover:bg-orange-600 text-white font-kids font-bold text-xs sm:text-sm px-4 py-1.5 rounded-xl shadow transition flex items-center gap-1.5 border border-amber-300">
-          <span>🎯</span> Ir al Examen de Práctica
+        <a href="examen_practica_03.html" class="bg-orange-500 hover:bg-orange-600 text-white font-kids font-bold text-[11px] sm:text-sm px-2.5 sm:px-4 py-1 sm:py-1.5 rounded-xl shadow transition flex items-center gap-1 border border-amber-300">
+          <span>🎯</span> <span class="hidden sm:inline">Ir al</span> Examen
         </a>
       </div>
     </div>
   </header>
 
   <!-- CONTENIDO PRINCIPAL CON ANCHO EXPANDIDO PARA APROVECHAR TODO EL ESPACIO -->
-  <main class="flex-1 w-full max-w-[1600px] mx-auto px-4 sm:px-8 lg:px-12 py-8">
+  <main class="flex-1 w-full max-w-[1600px] mx-auto px-3 sm:px-8 lg:px-12 py-3 sm:py-8">
 
-    <!-- HERO HEADER -->
-    <div class="bg-gradient-to-r from-sky-500 via-cyan-600 to-teal-500 rounded-3xl p-6 sm:p-8 text-white shadow-xl border-4 border-white mb-8 relative overflow-hidden">
-      <div class="flex flex-col md:flex-row items-center gap-6 relative z-10">
-        <div class="w-24 h-24 sm:w-28 sm:h-28 bg-white/20 backdrop-blur-md rounded-2xl border-4 border-white/50 flex items-center justify-center text-5xl shadow-inner animate-float flex-shrink-0">
+    <!-- HERO HEADER COMPACTO EN MÓVIL -->
+    <div class="bg-gradient-to-r from-sky-500 via-cyan-600 to-teal-500 rounded-2xl sm:rounded-3xl p-3.5 sm:p-7 text-white shadow-lg border-2 sm:border-4 border-white mb-4 sm:mb-8 relative overflow-hidden">
+      <div class="flex items-center gap-3 sm:gap-6 relative z-10 text-left">
+        <div class="w-12 h-12 sm:w-20 sm:h-20 bg-white/20 backdrop-blur-md rounded-xl sm:rounded-2xl border-2 sm:border-4 border-white/50 flex items-center justify-center text-2xl sm:text-4xl shadow-inner animate-float flex-shrink-0">
           🧪
         </div>
-        <div class="text-center md:text-left flex-1">
-          <span class="bg-amber-400 text-slate-950 font-kids font-black text-xs uppercase px-3 py-1 rounded-full tracking-wider shadow">
-            🕹️ Aprende Jugando y Experimentando
+        <div class="flex-1 min-w-0">
+          <span class="bg-amber-400 text-slate-950 font-kids font-black text-[9px] sm:text-xs uppercase px-2 sm:px-3 py-0.5 rounded-full tracking-wider shadow inline-block mb-1">
+            🕹️ Aprende Jugando
           </span>
-          <h1 class="text-2xl sm:text-4xl font-kids font-black text-white mt-2 leading-tight">
+          <h1 class="text-base sm:text-2xl lg:text-3xl font-kids font-black text-white leading-tight">
             Laboratorio de Condicionales & Sprites
           </h1>
-          <p class="text-sky-100 text-sm sm:text-base mt-2 font-medium">
-            Repasa los conceptos clave y experimenta con los simuladores interactivos para dominar tu examen de práctica.
+          <p class="text-sky-100 text-[11px] sm:text-sm mt-0.5 sm:mt-1 font-medium line-clamp-2 sm:line-clamp-none">
+            Repasa los conceptos clave y experimenta con los simuladores interactivos para tu examen.
           </p>
         </div>
       </div>
     </div>
 
     <!-- ========================================================================= -->
-    <!-- DICCIONARIO VISUAL: CONCEPTOS CLAVE CON ESPACIO AMPLIO                    -->
+    <!-- DICCIONARIO VISUAL: CONCEPTOS CLAVE COMPACTO EN MÓVIL Y ELEGANTE EN PC -->
     <!-- ========================================================================= -->
-    <section class="bg-white rounded-3xl p-6 sm:p-8 shadow-md border-2 border-sky-200 mb-8">
-      <div class="flex items-center gap-3 mb-6">
-        <span class="w-11 h-11 rounded-2xl bg-amber-500 text-white font-kids font-black flex items-center justify-center text-2xl shadow">💡</span>
+    <section class="bg-white rounded-2xl sm:rounded-3xl p-3.5 sm:p-7 shadow-md border-2 border-sky-200 mb-4 sm:mb-8">
+      <div class="flex items-center gap-2.5 sm:gap-3 mb-3.5 sm:mb-6">
+        <span class="w-9 h-9 sm:w-11 sm:h-11 rounded-xl sm:rounded-2xl bg-amber-500 text-white font-kids font-black flex items-center justify-center text-xl sm:text-2xl shadow">💡</span>
         <div>
-          <h2 class="text-2xl sm:text-3xl font-kids font-black text-slate-800">Conceptos Clave que Debes Saber</h2>
-          <p class="text-xs sm:text-sm text-slate-500 font-medium">Definiciones breves y sencillas para tu examen:</p>
+          <h2 class="text-base sm:text-2xl font-kids font-black text-slate-800">Conceptos Clave para el Examen</h2>
+          <p class="text-[11px] sm:text-sm text-slate-500 font-medium">Definiciones rápidas que debes recordar:</p>
         </div>
       </div>
 
-      <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-5">
+      <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-3 sm:gap-5">
         
         <!-- Concepto 1: Condicional -->
-        <div class="bg-orange-50/80 border-2 border-orange-300 rounded-3xl p-6 flex flex-col justify-between hover:shadow-lg transition">
+        <div class="bg-orange-50/80 border-2 border-orange-300 rounded-2xl sm:rounded-3xl p-3.5 sm:p-5 flex flex-col justify-between hover:shadow-md transition">
           <div>
-            <div class="flex items-center justify-between mb-3">
-              <span class="text-4xl">🔀</span>
-              <span class="bg-orange-500 text-white font-kids font-black text-xs px-3 py-1 rounded-full uppercase tracking-wider">Regla</span>
+            <div class="flex items-center justify-between mb-2">
+              <span class="text-2xl sm:text-3xl">🔀</span>
+              <span class="bg-orange-500 text-white font-kids font-black text-[9px] sm:text-xs px-2 sm:px-2.5 py-0.5 rounded-full uppercase tracking-wider">Regla</span>
             </div>
-            <h3 class="font-kids font-black text-orange-950 text-xl mb-2">¿Qué es un Condicional?</h3>
-            <p class="text-sm text-slate-700 font-medium leading-relaxed">
-              Es una <strong>regla o condición</strong> que dice cuándo debe pasar algo: <em>"<strong>SI</strong> pasa esto, <strong>ENTONCES</strong> haz aquello"</em>.
+            <h3 class="font-kids font-black text-orange-950 text-sm sm:text-lg mb-1">¿Qué es un Condicional?</h3>
+            <p class="text-xs sm:text-sm text-slate-700 font-medium leading-relaxed">
+              Es una <strong>regla o condición</strong>: <em>"<strong>SI</strong> pasa esto, <strong>ENTONCES</strong> haz aquello"</em>.
             </p>
           </div>
-          <div class="mt-4 pt-3 border-t border-orange-200/80 text-xs font-bold text-orange-800 bg-orange-100/60 p-2.5 rounded-xl">
+          <div class="mt-2.5 pt-2 border-t border-orange-200/80 text-[11px] sm:text-xs font-bold text-orange-800 bg-orange-100/60 p-2 rounded-xl">
             📌 <strong>Ejemplo:</strong> SI puntaje = 20 ➔ Ganaste
           </div>
         </div>
 
         <!-- Concepto 2: Sprite -->
-        <div class="bg-sky-50/80 border-2 border-sky-300 rounded-3xl p-6 flex flex-col justify-between hover:shadow-lg transition">
+        <div class="bg-sky-50/80 border-2 border-sky-300 rounded-2xl sm:rounded-3xl p-3.5 sm:p-5 flex flex-col justify-between hover:shadow-md transition">
           <div>
-            <div class="flex items-center justify-between mb-3">
-              <span class="text-4xl">👾</span>
-              <span class="bg-sky-600 text-white font-kids font-black text-xs px-3 py-1 rounded-full uppercase tracking-wider">Personaje</span>
+            <div class="flex items-center justify-between mb-2">
+              <span class="text-2xl sm:text-3xl">👾</span>
+              <span class="bg-sky-600 text-white font-kids font-black text-[9px] sm:text-xs px-2 sm:px-2.5 py-0.5 rounded-full uppercase tracking-wider">Personaje</span>
             </div>
-            <h3 class="font-kids font-black text-sky-950 text-xl mb-2">¿Qué es un Sprite?</h3>
-            <p class="text-sm text-slate-700 font-medium leading-relaxed">
-              Es cualquier <strong>personaje u objeto gráfico</strong> que se mueve, cambia o interactúa en la pantalla de nuestro juego.
+            <h3 class="font-kids font-black text-sky-950 text-sm sm:text-lg mb-1">¿Qué es un Sprite?</h3>
+            <p class="text-xs sm:text-sm text-slate-700 font-medium leading-relaxed">
+              Cualquier <strong>personaje u objeto gráfico</strong> que se mueve o interactúa en la pantalla.
             </p>
           </div>
-          <div class="mt-4 pt-3 border-t border-sky-200/80 text-xs font-bold text-sky-800 bg-sky-100/60 p-2.5 rounded-xl">
+          <div class="mt-2.5 pt-2 border-t border-sky-200/80 text-[11px] sm:text-xs font-bold text-sky-800 bg-sky-100/60 p-2 rounded-xl">
             📌 <strong>Ejemplo:</strong> El monstruo, el virus, la manzana
           </div>
         </div>
 
         <!-- Concepto 3: Evento -->
-        <div class="bg-emerald-50/80 border-2 border-emerald-300 rounded-3xl p-6 flex flex-col justify-between hover:shadow-lg transition">
+        <div class="bg-emerald-50/80 border-2 border-emerald-300 rounded-2xl sm:rounded-3xl p-3.5 sm:p-5 flex flex-col justify-between hover:shadow-md transition">
           <div>
-            <div class="flex items-center justify-between mb-3">
-              <span class="text-4xl">⚡</span>
-              <span class="bg-emerald-600 text-white font-kids font-black text-xs px-3 py-1 rounded-full uppercase tracking-wider">Disparador</span>
+            <div class="flex items-center justify-between mb-2">
+              <span class="text-2xl sm:text-3xl">⚡</span>
+              <span class="bg-emerald-600 text-white font-kids font-black text-[9px] sm:text-xs px-2 sm:px-2.5 py-0.5 rounded-full uppercase tracking-wider">Disparador</span>
             </div>
-            <h3 class="font-kids font-black text-emerald-950 text-xl mb-2">¿Qué es un Evento?</h3>
-            <p class="text-sm text-slate-700 font-medium leading-relaxed">
-              Es una <strong>acción que hace reaccionar al juego</strong>, como hacer clic, presionar una tecla o cuando dos sprites chocan.
+            <h3 class="font-kids font-black text-emerald-950 text-sm sm:text-lg mb-1">¿Qué es un Evento?</h3>
+            <p class="text-xs sm:text-sm text-slate-700 font-medium leading-relaxed">
+              Una <strong>acción que hace reaccionar al juego</strong>, como hacer clic o chocar sprites.
             </p>
           </div>
-          <div class="mt-4 pt-3 border-t border-emerald-200/80 text-xs font-bold text-emerald-800 bg-emerald-100/60 p-2.5 rounded-xl">
+          <div class="mt-2.5 pt-2 border-t border-emerald-200/80 text-[11px] sm:text-xs font-bold text-emerald-800 bg-emerald-100/60 p-2 rounded-xl">
             📌 <strong>Ejemplo:</strong> cuando [monstruo] pulsado
           </div>
         </div>
 
         <!-- Concepto 4: Disfraz -->
-        <div class="bg-purple-50/80 border-2 border-purple-300 rounded-3xl p-6 flex flex-col justify-between hover:shadow-lg transition">
+        <div class="bg-purple-50/80 border-2 border-purple-300 rounded-2xl sm:rounded-3xl p-3.5 sm:p-5 flex flex-col justify-between hover:shadow-md transition">
           <div>
-            <div class="flex items-center justify-between mb-3">
-              <span class="text-4xl">🎭</span>
-              <span class="bg-purple-600 text-white font-kids font-black text-xs px-3 py-1 rounded-full uppercase tracking-wider">Apariencia</span>
+            <div class="flex items-center justify-between mb-2">
+              <span class="text-2xl sm:text-3xl">🎭</span>
+              <span class="bg-purple-600 text-white font-kids font-black text-[9px] sm:text-xs px-2 sm:px-2.5 py-0.5 rounded-full uppercase tracking-wider">Apariencia</span>
             </div>
-            <h3 class="font-kids font-black text-purple-950 text-xl mb-2">¿Qué es un Disfraz?</h3>
-            <p class="text-sm text-slate-700 font-medium leading-relaxed">
-              Es la <strong>apariencia visual o traje</strong> de un sprite. Un mismo personaje <strong>SÍ puede cambiar</strong> de disfraz.
+            <h3 class="font-kids font-black text-purple-950 text-sm sm:text-lg mb-1">¿Qué es un Disfraz?</h3>
+            <p class="text-xs sm:text-sm text-slate-700 font-medium leading-relaxed">
+              La <strong>apariencia visual</strong> del personaje (por ejemplo: sano vs. con mascarilla).
             </p>
           </div>
-          <div class="mt-4 pt-3 border-t border-purple-200/80 text-xs font-bold text-purple-800 bg-purple-100/60 p-2.5 rounded-xl">
-            📌 <strong>Ejemplo:</strong> Sano, enfermo, con mascarilla
+          <div class="mt-2.5 pt-2 border-t border-purple-200/80 text-[11px] sm:text-xs font-bold text-purple-800 bg-purple-100/60 p-2 rounded-xl">
+            📌 <strong>Ejemplo:</strong> cambiar disfraz a [con Mascarilla]
           </div>
         </div>
 
@@ -428,11 +428,11 @@
           </div>
 
           <!-- Pantalla Interactiva del Juego con Canvas / Escenario -->
-          <div id="appleGameStage" class="relative w-full h-72 sm:h-80 bg-gradient-to-b from-sky-200 via-sky-100 to-emerald-200 rounded-2xl border-4 border-white shadow-inner overflow-hidden flex flex-col justify-between p-3 select-none touch-none">
+          <div id="appleGameStage" class="relative w-full h-60 sm:h-80 bg-gradient-to-b from-sky-200 via-sky-100 to-emerald-200 rounded-2xl border-2 sm:border-4 border-white shadow-inner overflow-hidden flex flex-col justify-between p-2.5 sm:p-3 select-none touch-none">
             
             <!-- Pantalla de Inicio: Botón JUGAR -->
-            <div id="gameStartOverlay" class="absolute inset-0 bg-slate-900/70 backdrop-blur-sm rounded-xl flex flex-col items-center justify-center text-center p-4 z-30">
-              <div class="w-16 h-16 mb-2">
+            <div id="gameStartOverlay" class="absolute inset-0 bg-slate-900/75 backdrop-blur-sm rounded-xl flex flex-col items-center justify-center text-center p-3 sm:p-4 z-30">
+              <div class="w-12 h-12 sm:w-16 sm:h-16 mb-1.5 sm:mb-2">
                 <svg viewBox="0 0 64 64" class="w-full h-full drop-shadow-md">
                   <path d="M32 14 C30 8 36 4 36 4 C36 4 38 10 34 14" stroke="#78350f" stroke-width="3" stroke-linecap="round" fill="none"/>
                   <path d="M34 8 C40 6 44 10 42 14 C38 14 36 10 34 8 Z" fill="#22c55e"/>
@@ -440,15 +440,15 @@
                   <path d="M22 28 Q26 24 30 26" stroke="#fca5a5" stroke-width="2" stroke-linecap="round" fill="none"/>
                 </svg>
               </div>
-              <h3 class="font-kids font-black text-white text-xl mb-1">¿Listo para atrapar manzanas?</h3>
-              <p class="text-xs text-sky-200 mb-4 font-medium max-w-xs">Mueve la canasta con las flechas o tocando la pantalla para sumar 20 puntos.</p>
-              <button onclick="startPlayingAppleGame()" class="btn-3d px-8 py-3 bg-emerald-500 hover:bg-emerald-600 text-white font-kids font-black text-base rounded-2xl shadow-xl flex items-center gap-2 transform active:scale-95 transition">
+              <h3 class="font-kids font-black text-white text-base sm:text-xl mb-1">¿Listo para atrapar manzanas?</h3>
+              <p class="text-[11px] sm:text-xs text-sky-200 mb-3 font-medium max-w-xs">Mueve la canasta tocando la pantalla o con los botones para sumar 20 puntos.</p>
+              <button onclick="startPlayingAppleGame()" class="btn-3d px-6 sm:px-8 py-2.5 sm:py-3 bg-emerald-500 hover:bg-emerald-600 text-white font-kids font-black text-sm sm:text-base rounded-xl sm:rounded-2xl shadow-xl flex items-center gap-2 transform active:scale-95 transition">
                 <span>▶️</span> ¡JUGAR AHORA!
               </button>
             </div>
 
             <!-- Manzana Cayendo Lentamente (Detrás de la Canasta) -->
-            <div id="fallingApple" class="absolute w-12 h-12 pointer-events-none transition-transform duration-75 z-10" style="top: 20px; left: 50%;">
+            <div id="fallingApple" class="absolute w-10 h-10 sm:w-12 sm:h-12 pointer-events-none transition-transform duration-75 z-10" style="top: 20px; left: 50%;">
               <svg viewBox="0 0 64 64" class="w-full h-full drop-shadow-md">
                 <path d="M32 14 C30 8 36 4 36 4 C36 4 38 10 34 14" stroke="#78350f" stroke-width="3" stroke-linecap="round" fill="none"/>
                 <path d="M34 8 C40 6 44 10 42 14 C38 14 36 10 34 8 Z" fill="#16a34a"/>
@@ -458,8 +458,8 @@
             </div>
 
             <!-- Canasta Móvil al Frente (z-20 para tapar la manzana que entra) -->
-            <div id="movableBasket" class="absolute bottom-2 cursor-grab active:cursor-grabbing flex flex-col items-center select-none z-20" style="left: calc(50% - 36px); width: 72px;">
-              <svg viewBox="0 0 80 40" class="w-full h-10 drop-shadow-lg">
+            <div id="movableBasket" class="absolute bottom-2 cursor-grab active:cursor-grabbing flex flex-col items-center select-none z-20" style="left: calc(50% - 32px); width: 64px;">
+              <svg viewBox="0 0 80 40" class="w-full h-9 sm:h-10 drop-shadow-lg">
                 <!-- Borde superior de la canasta -->
                 <rect x="6" y="2" width="68" height="6" rx="3" fill="#78350f"/>
                 <!-- Cuerpo de mimbre -->
@@ -475,15 +475,15 @@
             </div>
 
             <!-- Cartel de Victoria Overlay (Oculto hasta llegar a 20) -->
-            <div id="gameVictoryOverlay" class="absolute inset-0 bg-slate-900/85 backdrop-blur-sm rounded-xl flex flex-col items-center justify-center text-center p-4 z-30 hidden">
-              <div class="text-5xl mb-2 animate-bounce">🏆🎉</div>
-              <div class="bg-gradient-to-r from-amber-400 to-yellow-300 text-slate-950 font-kids font-black text-xl sm:text-2xl px-5 py-2.5 rounded-2xl shadow-xl border-2 border-white mb-2">
+            <div id="gameVictoryOverlay" class="absolute inset-0 bg-slate-900/85 backdrop-blur-sm rounded-xl flex flex-col items-center justify-center text-center p-3 sm:p-4 z-30 hidden">
+              <div class="text-4xl sm:text-5xl mb-1.5 animate-bounce">🏆🎉</div>
+              <div class="bg-gradient-to-r from-amber-400 to-yellow-300 text-slate-950 font-kids font-black text-lg sm:text-2xl px-4 py-2 rounded-xl sm:rounded-2xl shadow-xl border-2 border-white mb-1.5">
                 “ Felicitaciones, ganaste ”
               </div>
-              <p class="text-xs sm:text-sm text-cyan-200 font-kids font-bold">
+              <p class="text-[11px] sm:text-sm text-cyan-200 font-kids font-bold">
                 ¡Se cumplió la regla <strong>SI puntaje = 20</strong>! Todo se detuvo.
               </p>
-              <button onclick="resetAppleGame()" class="mt-4 btn-3d px-6 py-2.5 bg-emerald-500 hover:bg-emerald-600 text-white font-kids font-bold text-sm rounded-xl shadow-lg">
+              <button onclick="resetAppleGame()" class="mt-3 btn-3d px-5 py-2 bg-emerald-500 hover:bg-emerald-600 text-white font-kids font-bold text-xs sm:text-sm rounded-xl shadow-lg">
                 🔄 Jugar de nuevo
               </button>
             </div>
@@ -491,12 +491,12 @@
           </div>
 
           <!-- Controles Touch en Pantalla para Celulares / Tablets -->
-          <div class="flex items-center justify-center gap-4 mt-3 sm:hidden">
-            <button onmousedown="startMoveLeft()" onmouseup="stopMove()" ontouchstart="startMoveLeft()" ontouchend="stopMove()" class="btn-3d flex-1 py-3 bg-sky-500 text-white font-kids font-black rounded-2xl text-base flex items-center justify-center gap-1">
-              ◀ Mover Izquierda
+          <div class="flex items-center justify-center gap-3 mt-2.5 sm:hidden">
+            <button onmousedown="startMoveLeft()" onmouseup="stopMove()" ontouchstart="startMoveLeft()" ontouchend="stopMove()" class="btn-3d flex-1 py-2.5 bg-sky-500 text-white font-kids font-black rounded-xl text-sm flex items-center justify-center gap-1 active:bg-sky-700">
+              ◀ Izquierda
             </button>
-            <button onmousedown="startMoveRight()" onmouseup="stopMove()" ontouchstart="startMoveRight()" ontouchend="stopMove()" class="btn-3d flex-1 py-3 bg-sky-500 text-white font-kids font-black rounded-2xl text-base flex items-center justify-center gap-1">
-              Mover Derecha ▶
+            <button onmousedown="startMoveRight()" onmouseup="stopMove()" ontouchstart="startMoveRight()" ontouchend="stopMove()" class="btn-3d flex-1 py-2.5 bg-sky-500 text-white font-kids font-black rounded-xl text-sm flex items-center justify-center gap-1 active:bg-sky-700">
+              Derecha ▶
             </button>
           </div>
 
@@ -677,18 +677,18 @@
       </div>
     </section>
 
-    <!-- CALL TO ACTION FINAL: IR AL EXAMEN DE PRÁCTICA -->
-    <div class="bg-gradient-to-r from-orange-500 to-amber-500 rounded-3xl p-6 sm:p-8 text-white text-center shadow-xl border-4 border-amber-300 flex flex-col sm:flex-row items-center justify-between gap-6">
-      <div class="text-center sm:text-left">
-        <span class="bg-white/20 text-white font-kids font-bold text-xs uppercase px-3 py-1 rounded-full">¡Todo Listo!</span>
-        <h3 class="text-2xl sm:text-3xl font-kids font-black mt-1">¿Listo para el Examen de Práctica?</h3>
-        <p class="text-white/90 text-sm sm:text-base mt-1 font-medium">
-          Ya experimentaste todos los conceptos. ¡Es hora de responder las 10 preguntas interactivas!
+    <!-- CALL TO ACTION FINAL: IR AL EXAMEN DE PRÁCTICA (Compacto en móvil) -->
+    <div class="bg-gradient-to-r from-orange-500 to-amber-500 rounded-2xl sm:rounded-3xl p-4 sm:p-7 text-white text-center sm:text-left shadow-lg border-2 sm:border-4 border-amber-300 flex flex-col sm:flex-row items-center justify-between gap-3 sm:gap-6 mb-4">
+      <div class="flex-1">
+        <span class="bg-white/20 text-white font-kids font-bold text-[9px] sm:text-xs uppercase px-2.5 py-0.5 rounded-full inline-block mb-1">¡Todo Listo!</span>
+        <h3 class="text-base sm:text-2xl font-kids font-black leading-tight">¿Listo para el Examen de Práctica?</h3>
+        <p class="text-white/90 text-[11px] sm:text-sm mt-0.5 sm:mt-1 font-medium">
+          ¡Es hora de responder las 10 preguntas interactivas y obtener tu calificación!
         </p>
       </div>
 
-      <a href="examen_practica_03.html" class="btn-3d px-8 py-4 bg-white hover:bg-amber-50 text-slate-900 font-kids font-black text-xl rounded-2xl flex items-center gap-2 shadow-lg flex-shrink-0">
-        <span>🚀</span> Iniciar Examen de Práctica
+      <a href="examen_practica_03.html" class="btn-3d w-full sm:w-auto px-5 sm:px-7 py-2.5 sm:py-3.5 bg-white hover:bg-amber-50 text-slate-900 font-kids font-black text-sm sm:text-lg rounded-xl sm:rounded-2xl flex items-center justify-center gap-2 shadow flex-shrink-0">
+        <span>🚀</span> Iniciar Examen
       </a>
     </div>
 

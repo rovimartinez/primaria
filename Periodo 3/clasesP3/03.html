@@ -102,15 +102,12 @@
   <header class="bg-gradient-to-r from-sky-600 via-cyan-600 to-blue-700 text-white shadow-md border-b-4 border-amber-400 sticky top-0 z-40">
     <div class="max-w-6xl mx-auto px-4 py-2.5 flex flex-wrap items-center justify-between gap-3">
       
-      <!-- Volver y Grado -->
+      <!-- Grado y Marca -->
       <div class="flex items-center space-x-3">
-        <a href="../periodo3.html" class="inline-flex items-center gap-1.5 bg-sky-950/80 hover:bg-sky-950 border-2 border-white/40 text-white text-xs sm:text-sm font-black px-3.5 py-1.5 rounded-2xl transition shadow transform active:scale-95" title="Volver al menú de Periodo 3">
-          <span>🏠</span> <span>← Volver al Periodo 3</span>
-        </a>
-        <div class="bg-amber-400 text-slate-900 border-2 border-white px-3 py-0.5 rounded-xl shadow-inner flex items-center font-black">
-          <span class="text-[11px] sm:text-xs uppercase tracking-wider">3° GRADO &bull; P3</span>
+        <div class="bg-amber-400 text-slate-900 border-2 border-white px-3 py-1 rounded-xl shadow-inner flex items-center font-black">
+          <span class="text-xs uppercase tracking-wider">3° GRADO &bull; P3</span>
         </div>
-        <div class="hidden sm:flex items-center gap-2">
+        <div class="flex items-center gap-2">
           <img src="../../assets/jandra/J1.svg" alt="Jandra" class="w-6 h-6 rounded-full bg-white/20 p-0.5 object-cover">
           <span class="font-kids font-bold text-sm text-white">Mundo Jandra</span>
         </div>
@@ -129,119 +126,117 @@
   <!-- ========================================================================= -->
   <!-- CONTENIDO PRINCIPAL: PORTADA Y SELECCIÓN DE 2 TARJETAS                     -->
   <!-- ========================================================================= -->
-  <main class="flex-1 max-w-5xl w-full mx-auto px-4 py-8 flex flex-col justify-center">
+  <main class="flex-1 max-w-5xl w-full mx-auto px-3 sm:px-6 py-3 sm:py-6 flex flex-col justify-center">
 
-    <!-- HERO BANNER -->
-    <div class="relative overflow-hidden bg-gradient-to-r from-sky-500 via-cyan-500 to-teal-500 rounded-3xl p-6 sm:p-8 text-white shadow-xl border-4 border-white mb-8">
-      <div class="absolute -right-8 -bottom-8 opacity-15 text-[160px] select-none pointer-events-none font-black leading-none">
+    <!-- HERO BANNER (Muy compacto y estilizado en móvil, amplio en PC) -->
+    <div class="relative overflow-hidden bg-gradient-to-r from-sky-500 via-cyan-500 to-teal-500 rounded-2xl sm:rounded-3xl p-3.5 sm:p-6 text-white shadow-lg border-2 sm:border-4 border-white mb-3.5 sm:mb-6">
+      <div class="absolute -right-6 -bottom-6 opacity-15 text-7xl sm:text-[140px] select-none pointer-events-none font-black leading-none">
         🎮
       </div>
 
-      <div class="flex flex-col md:flex-row items-center gap-6 relative z-10">
-        <!-- Avatar / Ilustración -->
-        <div class="w-24 h-24 sm:w-32 sm:h-32 bg-white/20 backdrop-blur-md rounded-3xl border-4 border-white/50 flex flex-col items-center justify-center shadow-inner text-5xl sm:text-6xl animate-float-hero flex-shrink-0">
+      <div class="flex items-center gap-3 sm:gap-6 relative z-10 text-left">
+        <!-- Avatar / Ilustración Compacto -->
+        <div class="w-12 h-12 sm:w-20 sm:h-20 bg-white/20 backdrop-blur-md rounded-xl sm:rounded-2xl border-2 sm:border-3 border-white/60 flex flex-col items-center justify-center shadow-inner text-2xl sm:text-4xl animate-float-hero flex-shrink-0">
           <span>🤖</span>
-          <span class="text-[9px] font-pixel text-amber-300 mt-1 uppercase tracking-widest bg-sky-900/60 px-2 py-0.5 rounded-full">SpriteLab</span>
+          <span class="text-[6px] sm:text-[8px] font-pixel text-amber-300 uppercase tracking-widest bg-sky-900/60 px-1 py-0.5 rounded-full mt-0.5 hidden sm:inline">SpriteLab</span>
         </div>
 
         <!-- Info Portada -->
-        <div class="flex-1 text-center md:text-left">
-          <div class="inline-flex items-center gap-2 bg-orange-500 text-white font-kids font-black text-xs sm:text-sm px-3.5 py-1 rounded-full uppercase tracking-wider shadow-md mb-2">
+        <div class="flex-1 min-w-0">
+          <div class="inline-flex items-center gap-1 bg-orange-500 text-white font-kids font-black text-[10px] sm:text-xs px-2 sm:px-3 py-0.5 rounded-full uppercase tracking-wider shadow-sm mb-1">
             <span>👾 PROGRAMACIÓN & VIDEOJUEGOS</span>
           </div>
-          <h1 class="text-2xl sm:text-4xl font-black font-kids leading-tight drop-shadow-md">
+          <h1 class="text-base sm:text-2xl font-black font-kids leading-tight drop-shadow-sm truncate sm:whitespace-normal">
             Misión: Condicionales y Sprites
           </h1>
-          <p class="mt-2 text-sm sm:text-base text-sky-100 font-medium max-w-2xl">
-            ¡Bienvenido al laboratorio de 3° Grado! Selecciona qué deseas hacer hoy: <strong>repasar el contenido y programar en el simulador</strong> o <strong>presentar tu examen de práctica</strong>.
+          <p class="text-[11px] sm:text-xs text-sky-100 font-medium leading-tight sm:leading-relaxed mt-0.5 sm:mt-1">
+            Laboratorio de 3° Grado: repasa los conceptos clave o demuestra tus habilidades en el examen.
           </p>
         </div>
       </div>
     </div>
 
-    <!-- SECCIÓN DE SELECCIÓN: 2 TARJETAS PRINCIPALES -->
-    <div class="grid grid-cols-1 md:grid-cols-2 gap-6 sm:gap-8 mb-8">
+    <!-- SECCIÓN DE SELECCIÓN: 2 TARJETAS PRINCIPALES (Compactas en móvil, con altura cómoda) -->
+    <div class="grid grid-cols-1 sm:grid-cols-2 gap-3.5 sm:gap-6 mb-4">
       
       <!-- TARJETA 1: CONTENIDO Y ESTUDIO -->
-      <div onclick="window.location.href='guia_estudio_03.html'" class="option-card-3d bg-white rounded-3xl p-6 sm:p-8 border-4 border-sky-400 card-content-shadow flex flex-col justify-between relative overflow-hidden group">
-        <!-- Decoración de fondo -->
-        <div class="absolute -right-8 -top-8 w-32 h-32 bg-sky-100 rounded-full group-hover:scale-110 transition duration-300 pointer-events-none"></div>
+      <div onclick="window.location.href='guia_estudio_03.html'" class="option-card-3d bg-white rounded-2xl sm:rounded-3xl p-4 sm:p-6 border-2 sm:border-4 border-sky-400 card-content-shadow flex flex-col justify-between relative overflow-hidden group">
+        <div class="absolute -right-6 -top-6 w-20 sm:w-28 h-20 sm:h-28 bg-sky-100 rounded-full group-hover:scale-110 transition duration-300 pointer-events-none"></div>
 
         <div>
-          <div class="flex items-center justify-between mb-4 relative z-10">
-            <span class="w-14 h-14 rounded-2xl bg-sky-500 text-white text-3xl flex items-center justify-center shadow-md group-hover:rotate-6 transition">
+          <div class="flex items-center justify-between mb-2.5 relative z-10">
+            <span class="w-9 h-9 sm:w-12 sm:h-12 rounded-xl sm:rounded-2xl bg-sky-500 text-white text-xl sm:text-2xl flex items-center justify-center shadow group-hover:rotate-6 transition">
               📚
             </span>
-            <span class="bg-sky-100 text-sky-700 font-kids font-black text-xs px-3 py-1 rounded-full uppercase tracking-wider">
+            <span class="bg-sky-100 text-sky-700 font-kids font-black text-[9px] sm:text-xs px-2 py-0.5 rounded-full uppercase tracking-wider">
               Guía + Conceptos
             </span>
           </div>
 
-          <h2 class="text-2xl sm:text-3xl font-kids font-black text-sky-900 mb-3 group-hover:text-sky-600 transition">
+          <h2 class="text-base sm:text-xl font-kids font-black text-sky-900 mb-1 group-hover:text-sky-600 transition">
             1. Contenido de Estudio
           </h2>
 
-          <p class="text-slate-600 text-sm sm:text-base leading-relaxed mb-6 font-medium">
-            Aprende qué es un <strong>condicional (SI / ENTONCES)</strong>, cómo funcionan los bloques en SpriteLab, los cambios de disfraz y los eventos del <strong>juego del virus</strong>.
+          <p class="text-slate-600 text-[11px] sm:text-xs leading-relaxed mb-2.5 sm:mb-3 font-medium">
+            Aprende sobre <strong>condicionales (SI / ENTONCES)</strong>, cambios de disfraz y eventos del <strong>juego del virus</strong>.
           </p>
 
           <!-- Puntos destacados -->
-          <ul class="space-y-2.5 text-xs sm:text-sm text-slate-700 font-bold mb-6">
-            <li class="flex items-center gap-2">
-              <span class="text-emerald-500 text-base">✔</span> Explicación paso a paso con fórmulas
+          <ul class="space-y-1 text-[11px] sm:text-xs text-slate-700 font-bold mb-3.5 sm:mb-4">
+            <li class="flex items-center gap-1.5">
+              <span class="text-emerald-500 font-black">✔</span> Explicación paso a paso
             </li>
-            <li class="flex items-center gap-2">
-              <span class="text-emerald-500 text-base">✔</span> Bloques de código visuales interactivos
+            <li class="flex items-center gap-1.5">
+              <span class="text-emerald-500 font-black">✔</span> Bloques interactivos en forma de C
             </li>
-            <li class="flex items-center gap-2">
-              <span class="text-emerald-500 text-base">✔</span> Ejemplos del juego del virus y medicina
+            <li class="flex items-center gap-1.5">
+              <span class="text-emerald-500 font-black">✔</span> Simuladores de juego en vivo
             </li>
           </ul>
         </div>
 
-        <a href="guia_estudio_03.html" class="btn-3d w-full py-3.5 bg-sky-500 hover:bg-sky-600 text-white font-kids font-black text-lg sm:text-xl rounded-2xl text-center uppercase tracking-wider flex items-center justify-center gap-2 shadow-md">
+        <a href="guia_estudio_03.html" class="btn-3d w-full py-2.5 sm:py-3 bg-sky-500 hover:bg-sky-600 text-white font-kids font-black text-sm sm:text-base rounded-xl sm:rounded-2xl text-center uppercase tracking-wider flex items-center justify-center gap-2 shadow">
           <span>📖</span> Entrar a Estudiar
         </a>
       </div>
 
       <!-- TARJETA 2: EXAMEN DE PRÁCTICA -->
-      <div onclick="window.location.href='examen_practica_03.html'" class="option-card-3d bg-white rounded-3xl p-6 sm:p-8 border-4 border-orange-400 card-exam-shadow flex flex-col justify-between relative overflow-hidden group">
-        <!-- Decoración de fondo -->
-        <div class="absolute -right-8 -top-8 w-32 h-32 bg-orange-100 rounded-full group-hover:scale-110 transition duration-300 pointer-events-none"></div>
+      <div onclick="window.location.href='examen_practica_03.html'" class="option-card-3d bg-white rounded-2xl sm:rounded-3xl p-4 sm:p-6 border-2 sm:border-4 border-orange-400 card-exam-shadow flex flex-col justify-between relative overflow-hidden group">
+        <div class="absolute -right-6 -top-6 w-20 sm:w-28 h-20 sm:h-28 bg-orange-100 rounded-full group-hover:scale-110 transition duration-300 pointer-events-none"></div>
 
         <div>
-          <div class="flex items-center justify-between mb-4 relative z-10">
-            <span class="w-14 h-14 rounded-2xl bg-orange-500 text-white text-3xl flex items-center justify-center shadow-md group-hover:-rotate-6 transition">
+          <div class="flex items-center justify-between mb-2.5 relative z-10">
+            <span class="w-9 h-9 sm:w-12 sm:h-12 rounded-xl sm:rounded-2xl bg-orange-500 text-white text-xl sm:text-2xl flex items-center justify-center shadow group-hover:-rotate-6 transition">
               🎮
             </span>
-            <span class="bg-orange-100 text-orange-700 font-kids font-black text-xs px-3 py-1 rounded-full uppercase tracking-wider animate-pulse-badge">
+            <span class="bg-orange-100 text-orange-700 font-kids font-black text-[9px] sm:text-xs px-2 py-0.5 rounded-full uppercase tracking-wider animate-pulse-badge">
               ⭐ 10 Preguntas
             </span>
           </div>
 
-          <h2 class="text-2xl sm:text-3xl font-kids font-black text-orange-600 mb-3 group-hover:text-orange-500 transition">
+          <h2 class="text-base sm:text-xl font-kids font-black text-orange-600 mb-1 group-hover:text-orange-500 transition">
             2. Examen de Práctica
           </h2>
 
-          <p class="text-slate-600 text-sm sm:text-base leading-relaxed mb-6 font-medium">
-            ¡Demuestra tus súper poderes de programador! Responde las 10 preguntas interactivas con sonido, efectos visuales y explicación inmediata.
+          <p class="text-slate-600 text-[11px] sm:text-xs leading-relaxed mb-2.5 sm:mb-3 font-medium">
+            ¡Demuestra tus poderes de programador! 10 preguntas interactivas con sonido, efectos visuales y explicación.
           </p>
 
           <!-- Puntos destacados -->
-          <ul class="space-y-2.5 text-xs sm:text-sm text-slate-700 font-bold mb-6">
-            <li class="flex items-center gap-2">
-              <span class="text-orange-500 text-base">⭐</span> 10 preguntas de opción múltiple y V/F
+          <ul class="space-y-1 text-[11px] sm:text-xs text-slate-700 font-bold mb-3.5 sm:mb-4">
+            <li class="flex items-center gap-1.5">
+              <span class="text-orange-500 font-black">⭐</span> 10 preguntas interactivas
             </li>
-            <li class="flex items-center gap-2">
-              <span class="text-orange-500 text-base">⭐</span> Feedback y retroalimentación al instante
+            <li class="flex items-center gap-1.5">
+              <span class="text-orange-500 font-black">⭐</span> Sonidos y feedback al instante
             </li>
-            <li class="flex items-center gap-2">
-              <span class="text-orange-500 text-base">⭐</span> Puntaje, nivel y calificación final
+            <li class="flex items-center gap-1.5">
+              <span class="text-orange-500 font-black">⭐</span> Calificación y medallas finales
             </li>
           </ul>
         </div>
 
-        <a href="examen_practica_03.html" class="btn-3d w-full py-3.5 bg-orange-500 hover:bg-orange-600 text-white font-kids font-black text-lg sm:text-xl rounded-2xl text-center uppercase tracking-wider flex items-center justify-center gap-2 shadow-md">
+        <a href="examen_practica_03.html" class="btn-3d w-full py-2.5 sm:py-3 bg-orange-500 hover:bg-orange-600 text-white font-kids font-black text-sm sm:text-base rounded-xl sm:rounded-2xl text-center uppercase tracking-wider flex items-center justify-center gap-2 shadow">
           <span>🚀</span> Iniciar Examen
         </a>
       </div>

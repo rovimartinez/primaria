@@ -3,26 +3,18 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Mundo Jandra | Centro de Repasos</title>
+    <title>Mundo Jandra | Plataforma Interactiva de Informática</title>
     <link rel="icon" type="image/x-icon" href="assets/Icono.ico">
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-    <link href="https://fonts.googleapis.com/css2?family=Outfit:wght@400;600;800&family=Plus+Jakarta+Sans:wght@400;500;700&display=swap" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css2?family=Fredoka:wght@400;600;700;800&family=Outfit:wght@400;600;800;900&family=Plus+Jakarta+Sans:wght@400;500;700;800&display=swap" rel="stylesheet">
+    <script src="https://cdn.tailwindcss.com"></script>
     
     <style>
         :root {
-            --primary: #6366f1;
-            --primary-dark: #4f46e5;
-            --secondary: #f43f5e;
-            --accent: #10b981;
-            --warning: #f59e0b;
-            --slate-50: #f8fafc;
-            --slate-200: #e2e8f0;
-            --slate-400: #94a3b8;
-            --slate-800: #1e293b;
-            --slate-900: #0f172a;
-            --glass: rgba(255, 255, 255, 0.8);
-            --glass-border: rgba(255, 255, 255, 0.6);
+            --p1-grad: linear-gradient(135deg, #6366f1 0%, #8b5cf6 100%);
+            --p2-grad: linear-gradient(135deg, #ec4899 0%, #f43f5e 100%);
+            --p3-grad: linear-gradient(135deg, #059669 0%, #10b981 50%, #06b6d4 100%);
         }
 
         * {
@@ -32,238 +24,80 @@
             font-family: 'Plus Jakarta Sans', sans-serif;
         }
 
+        .font-kids {
+            font-family: 'Fredoka', cursive, sans-serif;
+        }
+
+        .font-title {
+            font-family: 'Outfit', sans-serif;
+        }
+
         body {
-            background-color: var(--slate-50);
-            color: var(--slate-800);
-            overflow-x: hidden;
+            background-color: #f0fdfa;
+            background-image: 
+                radial-gradient(at 0% 0%, rgba(99, 102, 241, 0.12) 0px, transparent 50%),
+                radial-gradient(at 100% 0%, rgba(16, 185, 129, 0.15) 0px, transparent 50%),
+                radial-gradient(at 50% 100%, rgba(6, 182, 212, 0.12) 0px, transparent 50%);
+            color: #0f172a;
             min-height: 100vh;
+            overflow-x: hidden;
             display: flex;
             flex-direction: column;
+            user-select: none;
         }
 
-        /* Fondo Animado */
-        .background-blobs {
+        /* Floating Blobs */
+        .ambient-blob {
             position: fixed;
-            top: 0;
-            left: 0;
-            width: 100%;
-            height: 100%;
+            border-radius: 50%;
+            filter: blur(90px);
             z-index: -1;
+            pointer-events: none;
+            animation: floatSlow 22s infinite alternate ease-in-out;
         }
 
-        .blob {
-            position: absolute;
-            filter: blur(80px);
-            opacity: 0.4;
-            border-radius: 50%;
-            animation: move 20s infinite alternate ease-in-out;
+        .blob-a { width: 450px; height: 450px; background: #c7d2fe; top: -100px; right: -50px; opacity: 0.45; }
+        .blob-b { width: 380px; height: 380px; background: #a7f3d0; bottom: -80px; left: -60px; opacity: 0.55; animation-delay: -6s; }
+        .blob-c { width: 320px; height: 320px; background: #fbcfe8; top: 45%; left: 45%; opacity: 0.35; animation-delay: -12s; }
+
+        @keyframes floatSlow {
+            0% { transform: translate(0, 0) scale(1); }
+            50% { transform: translate(40px, 30px) scale(1.08); }
+            100% { transform: translate(-30px, 50px) scale(0.95); }
         }
 
-        .blob-1 { width: 400px; height: 400px; background: #c7d2fe; top: -100px; right: -50px; }
-        .blob-2 { width: 300px; height: 300px; background: #fecdd3; bottom: -50px; left: -50px; }
-        .blob-3 { width: 250px; height: 250px; background: #dcfce7; top: 40%; left: 30%; }
-
-        @keyframes move {
-            from { transform: translate(0, 0) scale(1); }
-            to { transform: translate(50px, 40px) scale(1.1); }
+        /* Hero Astronaut Float Animation */
+        @keyframes astronautHover {
+            0%, 100% { transform: translateY(0px) rotate(0deg); }
+            50% { transform: translateY(-12px) rotate(3deg); }
         }
 
-        .app-container {
-            max-width: 1100px;
-            margin: 0 auto;
-            padding: 0 1rem;
-            flex: 1;
-            display: flex;
-            flex-direction: column;
-            width: 100%;
+        .hero-mascot {
+            animation: astronautHover 4.5s ease-in-out infinite;
         }
 
-        /* Navbar Compacto */
-        .top-navbar {
-            background: var(--glass);
-            backdrop-filter: blur(15px);
-            -webkit-backdrop-filter: blur(15px);
-            border-bottom: 1px solid var(--glass-border);
-            padding: 0.75rem 1.5rem;
-            position: sticky;
-            top: 10px;
-            z-index: 1000;
-            display: flex;
-            justify-content: space-between;
-            align-items: center;
-            margin-top: 10px;
-            margin-bottom: 3rem;
-            border-radius: 1.25rem;
-            box-shadow: 0 4px 20px rgba(0, 0, 0, 0.05);
+        /* Pulsing ring for active period */
+        @keyframes activePulse {
+            0%, 100% { box-shadow: 0 0 0 0 rgba(16, 185, 129, 0.4), 0 20px 35px -10px rgba(16, 185, 129, 0.3); }
+            50% { box-shadow: 0 0 0 14px rgba(16, 185, 129, 0), 0 25px 45px -5px rgba(16, 185, 129, 0.4); }
         }
 
-        .logo-area {
-            display: flex;
-            align-items: center;
-            gap: 0.75rem;
+        .active-period-glow {
+            animation: activePulse 3s infinite;
         }
 
-        .icon-box {
-            background: var(--primary);
-            color: white;
-            padding: 0.5rem;
-            border-radius: 8px;
-            display: flex;
-            width: 32px;
-            height: 32px;
-            align-items: center;
-            justify-content: center;
+        /* 3D Button Effects */
+        .btn-3d {
+            transition: all 0.2s cubic-bezier(0.165, 0.84, 0.44, 1);
+            box-shadow: 0 6px 0 rgba(0, 0, 0, 0.15);
         }
-
-        .logo-text {
-            font-family: 'Outfit', sans-serif;
-            font-weight: 800;
-            font-size: 1.1rem;
-            color: var(--slate-900);
-        }
-
-        .btn-exams {
-            background: var(--slate-900);
-            color: white;
-            padding: 0.5rem 1.2rem;
-            border-radius: 0.75rem;
-            font-weight: 700;
-            font-size: 0.75rem;
-            transition: all 0.3s;
-            border: none;
-            cursor: pointer;
-            text-transform: uppercase;
-            letter-spacing: 0.05em;
-        }
-
-        .btn-exams:hover {
-            background: var(--primary);
+        .btn-3d:hover {
             transform: translateY(-2px);
-            box-shadow: 0 5px 15px rgba(99, 102, 241, 0.4);
+            box-shadow: 0 8px 0 rgba(0, 0, 0, 0.15);
         }
-
-        /* Grid */
-        .period-selector {
-            display: grid;
-            grid-template-columns: repeat(3, 1fr);
-            gap: 1.5rem;
-            padding-bottom: 4rem;
-        }
-
-        @media (max-width: 768px) {
-            .period-selector {
-                grid-template-columns: 1fr;
-            }
-        }
-
-        .period-card {
-            background: white;
-            border: 1px solid var(--slate-200);
-            border-radius: 1.5rem;
-            padding: 2.5rem 1.5rem;
-            text-align: center;
-            transition: all 0.4s cubic-bezier(0.165, 0.84, 0.44, 1);
-            cursor: pointer;
-            position: relative;
-            display: flex;
-            flex-direction: column;
-            align-items: center;
-            box-shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.05);
-        }
-
-        .period-card:hover {
-            transform: translateY(-8px);
-            border-color: var(--primary);
-            box-shadow: 0 20px 25px -5px rgba(0, 0, 0, 0.1);
-        }
-
-        .category-tag {
-            font-size: 0.6rem;
-            font-weight: 800;
-            text-transform: uppercase;
-            color: var(--primary);
-            background: rgba(99, 102, 241, 0.1);
-            padding: 0.2rem 0.6rem;
-            border-radius: 6px;
-            margin-bottom: 1rem;
-        }
-
-        .period-number {
-            font-size: 3.5rem;
-            font-weight: 800;
-            font-family: 'Outfit', sans-serif;
-            line-height: 1;
-            margin-bottom: 0.75rem;
-        }
-
-        .p1 .period-number { color: var(--primary); }
-        .p2 .period-number { color: var(--secondary); }
-        .p3 .period-number { color: var(--accent); }
-
-        .period-card h3 {
-            font-size: 1.3rem;
-            font-weight: 800;
-            margin-bottom: 0.5rem;
-            color: var(--slate-900);
-        }
-
-        .period-card p {
-            color: var(--slate-400);
-            font-size: 0.85rem;
-            margin-bottom: 1.5rem;
-            line-height: 1.4;
-        }
-
-        .period-status {
-            padding: 0.4rem 1rem;
-            border-radius: 0.75rem;
-            font-size: 0.7rem;
-            font-weight: 700;
-            display: flex;
-            align-items: center;
-            gap: 0.4rem;
-        }
-
-        .status-active { background: #f0fdf4; color: #166534; }
-        .status-locked { background: #f8fafc; color: #64748b; }
-
-        .lock-badge {
-            position: absolute;
-            top: 1rem;
-            right: 1rem;
-            background: var(--slate-50);
-            width: 28px;
-            height: 28px;
-            border-radius: 50%;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            font-size: 0.8rem;
-            border: 1px solid var(--slate-200);
-            color: var(--slate-400);
-        }
-
-        /* Footer */
-        .main-footer {
-            text-align: center;
-            padding: 3rem 0;
-            border-top: 1px solid var(--slate-200);
-            width: 100%;
-            background-color: var(--slate-50);
-            margin-top: auto;
-        }
-
-        .footer-copy {
-            font-weight: 700;
-            color: var(--slate-900);
-            font-size: 0.9rem;
-            margin-bottom: 0.25rem;
-        }
-
-        .footer-sub {
-            font-size: 0.8rem;
-            color: var(--slate-400);
-            font-weight: 500;
+        .btn-3d:active {
+            transform: translateY(4px);
+            box-shadow: 0 2px 0 rgba(0, 0, 0, 0.15);
         }
 
         /* Modal */
@@ -271,8 +105,8 @@
             display: none;
             position: fixed;
             inset: 0;
-            background: rgba(15, 23, 42, 0.5);
-            backdrop-filter: blur(4px);
+            background: rgba(15, 23, 42, 0.65);
+            backdrop-filter: blur(8px);
             z-index: 2000;
             align-items: center;
             justify-content: center;
@@ -280,95 +114,230 @@
         }
 
         .modal-content {
-            background: white;
-            padding: 2rem;
-            border-radius: 1.5rem;
-            max-width: 350px;
-            width: 100%;
-            text-align: center;
-            box-shadow: 0 25px 50px -12px rgba(0, 0, 0, 0.25);
+            animation: popIn 0.3s cubic-bezier(0.175, 0.885, 0.32, 1.275);
         }
 
-        .modal-btn {
-            margin-top: 1.5rem;
-            background: var(--slate-900);
-            color: white;
-            border: none;
-            padding: 0.75rem 1.5rem;
-            border-radius: 0.75rem;
-            font-weight: 700;
-            cursor: pointer;
-            width: 100%;
-            transition: all 0.2s;
+        @keyframes popIn {
+            0% { transform: scale(0.85); opacity: 0; }
+            100% { transform: scale(1); opacity: 1; }
         }
-        
-        .modal-btn:hover { background: var(--primary); }
     </style>
 </head>
-<body>
-    <div class="background-blobs">
-        <div class="blob blob-1"></div>
-        <div class="blob blob-2"></div>
-        <div class="blob blob-3"></div>
-    </div>
+<body class="p-3 sm:p-6 lg:p-8">
 
+    <!-- Ambient Floating Orbs -->
+    <div class="ambient-blob blob-a"></div>
+    <div class="ambient-blob blob-b"></div>
+    <div class="ambient-blob blob-c"></div>
+
+    <!-- Alert Modal -->
     <div id="custom-alert">
-        <div class="modal-content">
-            <h2 style="margin-bottom: 0.5rem; font-family: 'Outfit'; color: var(--slate-900);">Próximamente</h2>
-            <p id="alert-message" style="color: var(--slate-400); font-size: 0.9rem;"></p>
-            <button class="modal-btn" onclick="closeAlert()">Cerrar</button>
+        <div class="modal-content bg-white rounded-3xl p-6 sm:p-8 max-w-sm w-full text-center shadow-2xl border-4 border-slate-100">
+            <div class="w-16 h-16 bg-amber-100 text-amber-600 rounded-2xl flex items-center justify-center text-3xl mx-auto mb-3 shadow-inner">
+                🔒
+            </div>
+            <h2 class="text-2xl font-kids font-black text-slate-900 mb-1">Periodo Bloqueado</h2>
+            <p id="alert-message" class="text-slate-500 font-medium text-sm mb-6"></p>
+            <button class="btn-3d w-full py-3.5 bg-slate-900 hover:bg-slate-800 text-white font-kids font-bold text-base rounded-2xl" onclick="closeAlert()">
+                Entendido 👍
+            </button>
         </div>
     </div>
 
-    <div class="app-container">
-        <nav class="top-navbar">
-            <div class="logo-area">
-                <img src="assets/jandra/J1.svg" alt="Jandra" style="width:40px;height:40px;border-radius:10px;object-fit:cover;">
-                <span class="logo-text">Mundo Jandra</span>
-            </div>
-            <button class="btn-exams" onclick="window.location.href='Periodo 1/examenesP1.html'">
-                Exámenes
-            </button>
-        </nav>
-
-        <main class="period-selector">
-            <!-- Periodo 1 -->
-            <div class="period-card p1" onclick="customAlert('El Periodo 1 ya ha finalizado.')">
-                <div class="lock-badge">🔒</div>
-                <span class="category-tag" style="background: rgba(100, 116, 139, 0.12); color: #64748b;">Bloqueado</span>
-                <span class="period-number" style="opacity: 0.4;">1</span>
-                <h3>Periodo 1</h3>
-                <p>Repaso de conceptos fundamentales, estructuras y multimedia.</p>
-                <div class="period-status status-locked">Cerrado</div>
+    <!-- Main Wrapper -->
+    <div class="max-w-6xl mx-auto w-full flex-1 flex flex-col justify-between">
+        
+        <!-- HEADER NAVBAR -->
+        <header class="bg-white/85 backdrop-blur-md rounded-3xl p-4 sm:p-5 shadow-lg border-2 border-white mb-6 sm:mb-8 flex items-center justify-between gap-4">
+            <div class="flex items-center gap-3.5">
+                <div class="w-12 h-12 rounded-2xl bg-gradient-to-tr from-sky-500 to-indigo-600 p-1 flex items-center justify-center shadow-md flex-shrink-0">
+                    <img src="assets/jandra/J1.svg" alt="Jandra" class="w-full h-full object-contain filter drop-shadow">
+                </div>
+                <div>
+                    <span class="text-[10px] font-bold tracking-widest text-emerald-600 uppercase bg-emerald-100 px-2.5 py-0.5 rounded-full">Primaria 3° Grado</span>
+                    <h1 class="text-xl sm:text-2xl font-title font-black text-slate-900 leading-tight mt-0.5">Mundo Jandra</h1>
+                </div>
             </div>
 
-            <!-- Periodo 2 -->
-            <div class="period-card p2" onclick="customAlert('El Periodo 2 se encuentra bloqueado.')">
-                <div class="lock-badge">🔒</div>
-                <span class="category-tag" style="background: rgba(100, 116, 139, 0.12); color: #64748b;">Bloqueado</span>
-                <span class="period-number" style="opacity: 0.4;">2</span>
-                <h3>Periodo 2</h3>
-                <p>Profundización en lógica y nuevos desafíos digitales.</p>
-                <div class="period-status status-locked">Cerrado</div>
+            <div class="flex items-center gap-2 sm:gap-3">
+                <button onclick="playChime(600); window.location.href='Periodo 1/examenesP1.html'" class="btn-3d px-4 sm:px-6 py-2.5 sm:py-3 bg-slate-900 hover:bg-slate-800 text-white font-kids font-bold text-xs sm:text-sm rounded-2xl flex items-center gap-2">
+                    <span>📝</span>
+                    <span>Exámenes</span>
+                </button>
+            </div>
+        </header>
+
+        <!-- HERO SECTION IMPACTANTE -->
+        <section class="bg-gradient-to-r from-emerald-600 via-teal-600 to-sky-600 rounded-3xl p-6 sm:p-10 text-white shadow-xl border-4 border-white mb-8 relative overflow-hidden">
+            <!-- Background glow & sparkles -->
+            <div class="absolute -right-12 -top-12 w-64 h-64 bg-white/10 rounded-full blur-2xl pointer-events-none"></div>
+            <div class="absolute -left-12 -bottom-12 w-64 h-64 bg-emerald-400/20 rounded-full blur-2xl pointer-events-none"></div>
+
+            <div class="grid grid-cols-1 md:grid-cols-12 gap-6 items-center relative z-10">
+                
+                <!-- Text Content -->
+                <div class="md:col-span-8 text-center md:text-left">
+                    <div class="inline-flex items-center gap-2 bg-white/20 backdrop-blur-md px-3.5 py-1 rounded-full text-xs font-kids font-black text-emerald-100 uppercase tracking-wider mb-3 shadow-sm border border-white/20">
+                        <span>🚀 PLATAFORMA DE APRENDIZAJE DIGITAL</span>
+                    </div>
+
+                    <h2 class="text-3xl sm:text-5xl font-kids font-black leading-tight drop-shadow-md">
+                        ¡Aprende Tecnología <br class="hidden sm:inline">y Código Jugando!
+                    </h2>
+
+                    <p class="text-emerald-50 text-sm sm:text-base font-medium mt-3 max-w-xl leading-relaxed">
+                        Explora simuladores interactivos, crea videojuegos paso a paso con bloques y ponte a prueba con nuestros divertidos exámenes con sonido.
+                    </p>
+
+                    <div class="flex flex-wrap items-center justify-center md:justify-start gap-3 mt-6">
+                        <a href="Periodo 3/periodo3.html" onclick="playChime(750)" class="btn-3d px-6 sm:px-8 py-3.5 bg-amber-400 hover:bg-amber-300 text-slate-950 font-kids font-black text-base sm:text-lg rounded-2xl shadow-lg flex items-center gap-2">
+                            <span>⭐</span> Entrar al Periodo 3 (Activo)
+                        </a>
+                        <a href="Periodo 3/clasesP3/03.html" onclick="playChime(650)" class="btn-3d px-5 py-3.5 bg-white/20 hover:bg-white/30 text-white font-kids font-bold text-sm sm:text-base rounded-2xl backdrop-blur-md flex items-center gap-2 border border-white/30">
+                            <span>👾</span> Clase 3: Sprites & Condicionales
+                        </a>
+                    </div>
+                </div>
+
+                <!-- Mascot Visual (Astronaut / Jandra) -->
+                <div class="md:col-span-4 flex justify-center items-center">
+                    <div class="relative hero-mascot">
+                        <div class="w-44 h-44 sm:w-56 sm:h-56 bg-white/20 backdrop-blur-md rounded-full border-4 border-white/40 flex items-center justify-center shadow-2xl p-4">
+                            <img src="assets/jandra/J1.svg" alt="Mascota Jandra" class="w-full h-full object-contain filter drop-shadow-2xl">
+                        </div>
+                        <div class="absolute -bottom-2 -right-2 bg-amber-400 text-slate-950 px-3 py-1 rounded-2xl font-kids font-black text-xs shadow-lg border-2 border-white flex items-center gap-1">
+                            <span>🎮</span> ¡Hola, Alumno!
+                        </div>
+                    </div>
+                </div>
+
+            </div>
+        </section>
+
+        <!-- PERIOD SELECTOR GRID (3 CARDS PREMIUM) -->
+        <main class="mb-8">
+            <div class="flex items-center justify-between mb-4 px-1">
+                <div>
+                    <h3 class="text-xl sm:text-2xl font-kids font-black text-slate-900">Periodos Académicos</h3>
+                    <p class="text-xs sm:text-sm text-slate-500 font-medium">Selecciona el periodo que deseas repasar:</p>
+                </div>
+                <span class="text-xs font-bold text-emerald-700 bg-emerald-100 px-3 py-1 rounded-full flex items-center gap-1">
+                    <span class="w-2 h-2 rounded-full bg-emerald-500 animate-ping"></span> 1 Periodo Habilitado
+                </span>
             </div>
 
-            <!-- Periodo 3 -->
-            <div class="period-card p3" onclick="window.location.href='Periodo 3/periodo3.html'">
-                <span class="category-tag" style="background: rgba(16, 185, 129, 0.12); color: #10b981;">Activo</span>
-                <span class="period-number">3</span>
-                <h3>Periodo 3</h3>
-                <p>Patrones, secuencias, lógica de programación y proyectos.</p>
-                <div class="period-status status-active">Habilitado</div>
+            <div class="grid grid-cols-1 md:grid-cols-3 gap-5 sm:gap-6">
+                
+                <!-- Periodo 1 Card (Bloqueado) -->
+                <div onclick="playChime(250, 'sawtooth'); customAlert('El Periodo 1 ya ha finalizado. Consulta con tu profesor para repasos especiales.')" 
+                     class="btn-3d bg-white/90 backdrop-blur-sm rounded-3xl p-6 sm:p-7 border-2 border-slate-200 flex flex-col justify-between items-center text-center relative overflow-hidden group cursor-pointer hover:border-slate-300">
+                    <div class="absolute top-4 right-4 bg-slate-100 text-slate-400 w-8 h-8 rounded-full flex items-center justify-center text-sm border border-slate-200">
+                        🔒
+                    </div>
+                    
+                    <span class="text-xs font-kids font-bold uppercase tracking-wider text-slate-400 bg-slate-100 px-3 py-1 rounded-full mb-3">
+                        Bloqueado
+                    </span>
+
+                    <div class="w-24 h-24 rounded-3xl bg-indigo-50 flex items-center justify-center font-title font-black text-5xl text-indigo-300 mb-4 group-hover:scale-105 transition">
+                        1
+                    </div>
+
+                    <h4 class="text-xl font-kids font-black text-slate-700 mb-1">Periodo 1</h4>
+                    <p class="text-xs text-slate-400 font-medium leading-relaxed mb-6">
+                        Repaso de conceptos fundamentales, hardware, estructuras y multimedia.
+                    </p>
+
+                    <div class="w-full py-2.5 bg-slate-100 text-slate-400 font-kids font-bold text-xs rounded-xl border border-slate-200 flex items-center justify-center gap-1">
+                        <span>🔒</span> Finalizado
+                    </div>
+                </div>
+
+                <!-- Periodo 2 Card (Bloqueado) -->
+                <div onclick="playChime(250, 'sawtooth'); customAlert('El Periodo 2 se encuentra cerrado actualmente.')" 
+                     class="btn-3d bg-white/90 backdrop-blur-sm rounded-3xl p-6 sm:p-7 border-2 border-slate-200 flex flex-col justify-between items-center text-center relative overflow-hidden group cursor-pointer hover:border-slate-300">
+                    <div class="absolute top-4 right-4 bg-slate-100 text-slate-400 w-8 h-8 rounded-full flex items-center justify-center text-sm border border-slate-200">
+                        🔒
+                    </div>
+                    
+                    <span class="text-xs font-kids font-bold uppercase tracking-wider text-slate-400 bg-slate-100 px-3 py-1 rounded-full mb-3">
+                        Bloqueado
+                    </span>
+
+                    <div class="w-24 h-24 rounded-3xl bg-pink-50 flex items-center justify-center font-title font-black text-5xl text-pink-300 mb-4 group-hover:scale-105 transition">
+                        2
+                    </div>
+
+                    <h4 class="text-xl font-kids font-black text-slate-700 mb-1">Periodo 2</h4>
+                    <p class="text-xs text-slate-400 font-medium leading-relaxed mb-6">
+                        Profundización en lógica, algoritmos y nuevos desafíos digitales.
+                    </p>
+
+                    <div class="w-full py-2.5 bg-slate-100 text-slate-400 font-kids font-bold text-xs rounded-xl border border-slate-200 flex items-center justify-center gap-1">
+                        <span>🔒</span> Finalizado
+                    </div>
+                </div>
+
+                <!-- Periodo 3 Card (ACTIVO & DESTACADO) -->
+                <div onclick="playChime(750); window.location.href='Periodo 3/periodo3.html'" 
+                     class="btn-3d bg-gradient-to-b from-white to-emerald-50/70 rounded-3xl p-6 sm:p-7 border-3 border-emerald-400 flex flex-col justify-between items-center text-center relative overflow-hidden group cursor-pointer active-period-glow">
+                    
+                    <div class="absolute top-4 right-4 bg-emerald-500 text-white w-8 h-8 rounded-full flex items-center justify-center text-sm shadow-md animate-bounce">
+                        ⭐
+                    </div>
+                    
+                    <span class="text-xs font-kids font-black uppercase tracking-wider text-emerald-800 bg-emerald-200/80 px-3 py-1 rounded-full mb-3 flex items-center gap-1">
+                        <span>✨</span> Periodo en Curso
+                    </span>
+
+                    <div class="w-24 h-24 rounded-3xl bg-gradient-to-tr from-emerald-500 to-teal-400 text-white flex items-center justify-center font-title font-black text-5xl shadow-lg mb-4 transform group-hover:scale-110 group-hover:rotate-3 transition duration-300">
+                        3
+                    </div>
+
+                    <h4 class="text-2xl font-kids font-black text-emerald-950 mb-1">Periodo 3</h4>
+                    <p class="text-xs text-slate-600 font-medium leading-relaxed mb-6">
+                        Patrones, secuencias, condicionales, disfraces, eventos y proyectos interactivos.
+                    </p>
+
+                    <button class="btn-3d w-full py-3 bg-emerald-500 hover:bg-emerald-600 text-white font-kids font-black text-sm rounded-xl shadow-md flex items-center justify-center gap-2">
+                        <span>🚀</span> Ingresar al Periodo ➔
+                    </button>
+                </div>
+
             </div>
         </main>
+
+        <!-- FOOTER -->
+        <footer class="bg-white/80 backdrop-blur-md rounded-2xl py-5 px-6 border border-slate-200 text-center text-slate-500 text-xs flex flex-col sm:flex-row items-center justify-between gap-2 shadow-sm">
+            <div class="flex items-center gap-2">
+                <span class="text-lg">🤖</span>
+                <span class="font-bold text-slate-700">&copy; 2026 Mundo Jandra &bull; Prof. Ronny Martinez</span>
+            </div>
+            <p class="text-slate-400 font-medium">Tecnología e Informática &bull; Primaria</p>
+        </footer>
+
     </div>
 
-    <footer class="main-footer">
-        <p class="footer-copy">&copy; 2026 Mundo Jandra</p>
-        <p class="footer-sub">Prof. Ronny Martinez &bull; Tecnología e Informática</p>
-    </footer>
-
+    <!-- SOUND & MODAL SCRIPTS -->
     <script>
+        let audioCtx = null;
+        function playChime(freq = 520, type = 'triangle') {
+            try {
+                if (!audioCtx) audioCtx = new (window.AudioContext || window.webkitAudioContext)();
+                if (audioCtx.state === 'suspended') audioCtx.resume();
+                const osc = audioCtx.createOscillator();
+                const gain = audioCtx.createGain();
+                osc.type = type;
+                osc.frequency.setValueAtTime(freq, audioCtx.currentTime);
+                gain.gain.setValueAtTime(0.18, audioCtx.currentTime);
+                gain.gain.exponentialRampToValueAtTime(0.001, audioCtx.currentTime + 0.3);
+                osc.connect(gain);
+                gain.connect(audioCtx.destination);
+                osc.start();
+                osc.stop(audioCtx.currentTime + 0.3);
+            } catch(e) {}
+        }
+
         function customAlert(message) {
             document.getElementById('alert-message').textContent = message;
             document.getElementById('custom-alert').style.display = 'flex';
@@ -385,3 +354,4 @@
     </script>
 </body>
 </html>
+

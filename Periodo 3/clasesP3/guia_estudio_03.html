@@ -1,0 +1,1251 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Mundo Jandra | 3° Grado: Laboratorio Interactivo de Preparación</title>
+  <link rel="icon" type="image/x-icon" href="../../assets/Icono.ico">
+  <!-- Tailwind CSS CDN -->
+  <script src="https://cdn.tailwindcss.com"></script>
+  <!-- Google Fonts -->
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Fredoka:wght@400;500;600;700&family=Outfit:wght@400;600;700;800;900&family=Press+Start+2P&family=Fira+Code:wght@500;700&display=swap" rel="stylesheet">
+  <script src="https://cdn.jsdelivr.net/npm/canvas-confetti@1.6.0/dist/confetti.browser.min.js"></script>
+
+  <script>
+    tailwind.config = {
+      theme: {
+        extend: {
+          fontFamily: {
+            sans: ['Outfit', 'sans-serif'],
+            kids: ['Fredoka', 'sans-serif'],
+            pixel: ['"Press Start 2P"', 'monospace'],
+            code: ['"Fira Code"', 'monospace']
+          }
+        }
+      }
+    }
+  </script>
+
+  <style>
+    body {
+      background-color: #f0f9ff;
+      background-image: 
+        radial-gradient(#bae6fd 1.2px, transparent 1.2px),
+        radial-gradient(#e0f2fe 1.2px, #f0f9ff 1.2px);
+      background-size: 24px 24px;
+      background-position: 0 0, 12px 12px;
+      user-select: none;
+    }
+    .btn-3d {
+      transition: all 0.15s ease-in-out;
+      box-shadow: 0 5px 0 rgba(0, 0, 0, 0.18);
+    }
+    .btn-3d:hover {
+      transform: translateY(-2px);
+      box-shadow: 0 7px 0 rgba(0, 0, 0, 0.18);
+    }
+    .btn-3d:active {
+      transform: translateY(3px);
+      box-shadow: 0 2px 0 rgba(0, 0, 0, 0.18);
+    }
+    @keyframes floatSoft {
+      0%, 100% { transform: translateY(0px) rotate(0deg); }
+      50% { transform: translateY(-6px) rotate(1deg); }
+    }
+    .animate-float {
+      animation: floatSoft 3s ease-in-out infinite;
+    }
+    .interactive-card {
+      transition: all 0.2s ease;
+    }
+    .interactive-card:hover {
+      border-color: #0284c7;
+    }
+    /* Estilo de la zona interactiva del virus */
+    .sim-arena {
+      background: #e0f2fe;
+      background-image: radial-gradient(#93c5fd 1.5px, transparent 1.5px);
+      background-size: 16px 16px;
+    }
+    .draggable-item {
+      cursor: grab;
+      touch-action: none;
+    }
+    .draggable-item:active {
+      cursor: grabbing;
+    }
+  </style>
+</head>
+<body class="min-h-screen text-slate-800 font-sans flex flex-col selection:bg-cyan-200">
+
+  <!-- BARRA SUPERIOR -->
+  <header class="bg-gradient-to-r from-sky-600 via-cyan-600 to-blue-700 text-white shadow-md border-b-4 border-amber-400 sticky top-0 z-40">
+    <div class="w-full max-w-7xl mx-auto px-4 sm:px-8 py-2.5 flex flex-wrap items-center justify-between gap-3">
+      <div class="flex items-center space-x-3">
+        <a href="03.html" class="inline-flex items-center gap-1.5 bg-sky-950/80 hover:bg-sky-950 border-2 border-white/40 text-white text-xs sm:text-sm font-black px-3.5 py-1.5 rounded-2xl transition shadow transform active:scale-95">
+          <span>🏠</span> <span>← Menú Grado 3°</span>
+        </a>
+        <div class="bg-amber-400 text-slate-900 border-2 border-white px-3 py-0.5 rounded-xl shadow-inner font-black text-xs uppercase">
+          LABORATORIO INTERACTIVO • P3
+        </div>
+      </div>
+
+      <div class="flex items-center gap-3">
+        <div class="bg-white/20 border border-white/30 px-3 py-1 rounded-xl text-amber-300 font-kids font-bold text-xs sm:text-sm flex items-center gap-1.5">
+          <span>⭐</span> Retos completados: <span id="completedCounter" class="text-white font-black">0 / 4</span>
+        </div>
+        <a href="examen_practica_03.html" class="bg-orange-500 hover:bg-orange-600 text-white font-kids font-bold text-xs sm:text-sm px-4 py-1.5 rounded-xl shadow transition flex items-center gap-1.5 border border-amber-300">
+          <span>🎯</span> Ir al Examen de Práctica
+        </a>
+      </div>
+    </div>
+  </header>
+
+  <!-- CONTENIDO PRINCIPAL CON ANCHO EXPANDIDO PARA APROVECHAR TODO EL ESPACIO -->
+  <main class="flex-1 w-full max-w-[1600px] mx-auto px-4 sm:px-8 lg:px-12 py-8">
+
+    <!-- HERO HEADER -->
+    <div class="bg-gradient-to-r from-sky-500 via-cyan-600 to-teal-500 rounded-3xl p-6 sm:p-8 text-white shadow-xl border-4 border-white mb-8 relative overflow-hidden">
+      <div class="flex flex-col md:flex-row items-center gap-6 relative z-10">
+        <div class="w-24 h-24 sm:w-28 sm:h-28 bg-white/20 backdrop-blur-md rounded-2xl border-4 border-white/50 flex items-center justify-center text-5xl shadow-inner animate-float flex-shrink-0">
+          🧪
+        </div>
+        <div class="text-center md:text-left flex-1">
+          <span class="bg-amber-400 text-slate-950 font-kids font-black text-xs uppercase px-3 py-1 rounded-full tracking-wider shadow">
+            🕹️ Aprende Jugando y Experimentando
+          </span>
+          <h1 class="text-2xl sm:text-4xl font-kids font-black text-white mt-2 leading-tight">
+            Laboratorio de Condicionales & Sprites
+          </h1>
+          <p class="text-sky-100 text-sm sm:text-base mt-2 font-medium">
+            Repasa los conceptos clave y experimenta con los simuladores interactivos para dominar tu examen de práctica.
+          </p>
+        </div>
+      </div>
+    </div>
+
+    <!-- ========================================================================= -->
+    <!-- DICCIONARIO VISUAL: CONCEPTOS CLAVE CON ESPACIO AMPLIO                    -->
+    <!-- ========================================================================= -->
+    <section class="bg-white rounded-3xl p-6 sm:p-8 shadow-md border-2 border-sky-200 mb-8">
+      <div class="flex items-center gap-3 mb-6">
+        <span class="w-11 h-11 rounded-2xl bg-amber-500 text-white font-kids font-black flex items-center justify-center text-2xl shadow">💡</span>
+        <div>
+          <h2 class="text-2xl sm:text-3xl font-kids font-black text-slate-800">Conceptos Clave que Debes Saber</h2>
+          <p class="text-xs sm:text-sm text-slate-500 font-medium">Definiciones breves y sencillas para tu examen:</p>
+        </div>
+      </div>
+
+      <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-5">
+        
+        <!-- Concepto 1: Condicional -->
+        <div class="bg-orange-50/80 border-2 border-orange-300 rounded-3xl p-6 flex flex-col justify-between hover:shadow-lg transition">
+          <div>
+            <div class="flex items-center justify-between mb-3">
+              <span class="text-4xl">🔀</span>
+              <span class="bg-orange-500 text-white font-kids font-black text-xs px-3 py-1 rounded-full uppercase tracking-wider">Regla</span>
+            </div>
+            <h3 class="font-kids font-black text-orange-950 text-xl mb-2">¿Qué es un Condicional?</h3>
+            <p class="text-sm text-slate-700 font-medium leading-relaxed">
+              Es una <strong>regla o condición</strong> que dice cuándo debe pasar algo: <em>"<strong>SI</strong> pasa esto, <strong>ENTONCES</strong> haz aquello"</em>.
+            </p>
+          </div>
+          <div class="mt-4 pt-3 border-t border-orange-200/80 text-xs font-bold text-orange-800 bg-orange-100/60 p-2.5 rounded-xl">
+            📌 <strong>Ejemplo:</strong> SI puntaje = 20 ➔ Ganaste
+          </div>
+        </div>
+
+        <!-- Concepto 2: Sprite -->
+        <div class="bg-sky-50/80 border-2 border-sky-300 rounded-3xl p-6 flex flex-col justify-between hover:shadow-lg transition">
+          <div>
+            <div class="flex items-center justify-between mb-3">
+              <span class="text-4xl">👾</span>
+              <span class="bg-sky-600 text-white font-kids font-black text-xs px-3 py-1 rounded-full uppercase tracking-wider">Personaje</span>
+            </div>
+            <h3 class="font-kids font-black text-sky-950 text-xl mb-2">¿Qué es un Sprite?</h3>
+            <p class="text-sm text-slate-700 font-medium leading-relaxed">
+              Es cualquier <strong>personaje u objeto gráfico</strong> que se mueve, cambia o interactúa en la pantalla de nuestro juego.
+            </p>
+          </div>
+          <div class="mt-4 pt-3 border-t border-sky-200/80 text-xs font-bold text-sky-800 bg-sky-100/60 p-2.5 rounded-xl">
+            📌 <strong>Ejemplo:</strong> El monstruo, el virus, la manzana
+          </div>
+        </div>
+
+        <!-- Concepto 3: Evento -->
+        <div class="bg-emerald-50/80 border-2 border-emerald-300 rounded-3xl p-6 flex flex-col justify-between hover:shadow-lg transition">
+          <div>
+            <div class="flex items-center justify-between mb-3">
+              <span class="text-4xl">⚡</span>
+              <span class="bg-emerald-600 text-white font-kids font-black text-xs px-3 py-1 rounded-full uppercase tracking-wider">Disparador</span>
+            </div>
+            <h3 class="font-kids font-black text-emerald-950 text-xl mb-2">¿Qué es un Evento?</h3>
+            <p class="text-sm text-slate-700 font-medium leading-relaxed">
+              Es una <strong>acción que hace reaccionar al juego</strong>, como hacer clic, presionar una tecla o cuando dos sprites chocan.
+            </p>
+          </div>
+          <div class="mt-4 pt-3 border-t border-emerald-200/80 text-xs font-bold text-emerald-800 bg-emerald-100/60 p-2.5 rounded-xl">
+            📌 <strong>Ejemplo:</strong> cuando [monstruo] pulsado
+          </div>
+        </div>
+
+        <!-- Concepto 4: Disfraz -->
+        <div class="bg-purple-50/80 border-2 border-purple-300 rounded-3xl p-6 flex flex-col justify-between hover:shadow-lg transition">
+          <div>
+            <div class="flex items-center justify-between mb-3">
+              <span class="text-4xl">🎭</span>
+              <span class="bg-purple-600 text-white font-kids font-black text-xs px-3 py-1 rounded-full uppercase tracking-wider">Apariencia</span>
+            </div>
+            <h3 class="font-kids font-black text-purple-950 text-xl mb-2">¿Qué es un Disfraz?</h3>
+            <p class="text-sm text-slate-700 font-medium leading-relaxed">
+              Es la <strong>apariencia visual o traje</strong> de un sprite. Un mismo personaje <strong>SÍ puede cambiar</strong> de disfraz.
+            </p>
+          </div>
+          <div class="mt-4 pt-3 border-t border-purple-200/80 text-xs font-bold text-purple-800 bg-purple-100/60 p-2.5 rounded-xl">
+            📌 <strong>Ejemplo:</strong> Sano, enfermo, con mascarilla
+          </div>
+        </div>
+
+      </div>
+    </section>
+
+    <!-- ========================================================================= -->
+    <!-- SIMULADOR 1: LA MÁQUINA DE DECISIONES (CONDICIONALES SI / ENTONCES)       -->
+    <!-- ========================================================================= -->
+    <section class="bg-white rounded-3xl p-6 sm:p-8 shadow-md border-2 border-sky-200 mb-8 interactive-card">
+      <div class="flex items-center justify-between flex-wrap gap-2 mb-4">
+        <div class="flex items-center gap-3">
+          <span class="w-10 h-10 rounded-2xl bg-orange-500 text-white font-kids font-black flex items-center justify-center text-lg shadow">1</span>
+          <div>
+            <h2 class="text-2xl font-kids font-black text-sky-900">Simulador: La Máquina del Condicional</h2>
+            <p class="text-xs sm:text-sm text-slate-500 font-medium">¿Qué es un condicional? Es una regla que decide <strong>CUÁNDO</strong> debe ocurrir algo.</p>
+          </div>
+        </div>
+        <span id="badgeSim1" class="text-xs font-bold text-amber-700 bg-amber-100 px-3 py-1 rounded-full">Prueba los botones</span>
+      </div>
+
+      <!-- Área Interactiva -->
+      <div class="bg-sky-50 rounded-2xl p-5 border-2 border-sky-200 grid grid-cols-1 md:grid-cols-2 gap-6 items-center">
+        <!-- Controles -->
+        <div>
+          <span class="text-xs font-black uppercase text-sky-700 tracking-wider">Elige una condición en el videojuego:</span>
+          <div class="flex flex-col gap-2.5 mt-3">
+            <button onclick="runConditionSim('apple')" class="btn-3d text-left p-3.5 rounded-xl bg-white hover:bg-emerald-50 border-2 border-emerald-300 flex items-center justify-between text-sm font-bold text-slate-700 transition group">
+              <span class="flex items-center gap-2"><span>🍎</span> SI el jugador atrapa la manzana</span>
+              <span class="text-xs bg-emerald-100 text-emerald-800 px-2 py-0.5 rounded-full font-kids">Probar ➔</span>
+            </button>
+            <button onclick="runConditionSim('enemy')" class="btn-3d text-left p-3.5 rounded-xl bg-white hover:bg-rose-50 border-2 border-rose-300 flex items-center justify-between text-sm font-bold text-slate-700 transition group">
+              <span class="flex items-center gap-2"><span>👾</span> SI el jugador toca al enemigo</span>
+              <span class="text-xs bg-rose-100 text-rose-800 px-2 py-0.5 rounded-full font-kids">Probar ➔</span>
+            </button>
+            <button onclick="runConditionSim('score100')" class="btn-3d text-left p-3.5 rounded-xl bg-white hover:bg-amber-50 border-2 border-amber-300 flex items-center justify-between text-sm font-bold text-slate-700 transition group">
+              <span class="flex items-center gap-2"><span>🏆</span> SI el puntaje llega a 100</span>
+              <span class="text-xs bg-amber-100 text-amber-800 px-2 py-0.5 rounded-full font-kids">Probar ➔</span>
+            </button>
+          </div>
+        </div>
+
+        <!-- Pantalla de Resultado de la Computadora -->
+        <div class="bg-slate-900 rounded-2xl p-5 border-4 border-slate-700 text-white shadow-inner flex flex-col justify-between min-h-[190px]">
+          <div class="flex items-center justify-between text-xs text-slate-400 border-b border-slate-800 pb-2 font-mono">
+            <span>PANTALLA DE JUEGO</span>
+            <span class="flex items-center gap-1"><span class="w-2 h-2 rounded-full bg-emerald-400 animate-ping"></span> ACTIVO</span>
+          </div>
+
+          <div id="conditionDisplay" class="my-4 text-center">
+            <span class="text-4xl block mb-2">🕹️</span>
+            <p class="text-slate-300 text-sm font-kids">Presiona una condición a la izquierda para ver qué ejecuta el código.</p>
+          </div>
+
+          <div id="conditionCodeFormula" class="bg-slate-800/80 p-2.5 rounded-xl border border-slate-700 text-xs font-mono text-cyan-300 text-center">
+            Estructura: SI [Condición] ➔ ENTONCES [Acción]
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- ========================================================================= -->
+    <!-- TALLER 2: SIMULADOR ATRAPA-MANZANAS (CÓDIGO IZQUIERDA - JUEGO DERECHA)     -->
+    <!-- ========================================================================= -->
+    <section class="bg-white rounded-3xl p-6 sm:p-8 shadow-md border-2 border-sky-200 mb-8 interactive-card">
+      <div class="flex items-center justify-between flex-wrap gap-2 mb-6">
+        <div class="flex items-center gap-3">
+          <span class="w-10 h-10 rounded-2xl bg-sky-600 text-white font-kids font-black flex items-center justify-center text-lg shadow">2</span>
+          <div>
+            <h2 class="text-2xl font-kids font-black text-sky-900">Simulador de Juego: Atrapa las Manzanas</h2>
+            <p class="text-xs sm:text-sm text-slate-500 font-medium">Mira a la izquierda cómo funciona el bloque de código <strong>"+ si Puntaje = 20"</strong> mientras juegas a la derecha.</p>
+          </div>
+        </div>
+        <span id="badgeSim2" class="text-xs font-bold text-sky-700 bg-sky-100 px-3 py-1 rounded-full">Atrapa manzanas</span>
+      </div>
+
+      <!-- Contenedor 2 Columnas: Código Izquierda | Simulador Derecha -->
+      <div class="grid grid-cols-1 lg:grid-cols-12 gap-6 items-stretch">
+        
+        <!-- COLUMNA IZQUIERDA: Bloque de Código Code.org -->
+        <div class="lg:col-span-6 bg-slate-900 rounded-3xl p-5 sm:p-6 text-white flex flex-col justify-between shadow-xl border-4 border-slate-800 relative overflow-hidden">
+          <div class="absolute top-0 right-0 bg-sky-500 text-slate-950 font-kids font-black text-[11px] px-3 py-1 rounded-bl-xl uppercase tracking-wider shadow">
+            💻 Código del Juego
+          </div>
+
+          <div>
+            <div class="flex items-center gap-2 mb-4">
+              <span class="w-3 h-3 rounded-full bg-rose-500 inline-block"></span>
+              <span class="w-3 h-3 rounded-full bg-amber-500 inline-block"></span>
+              <span class="w-3 h-3 rounded-full bg-emerald-500 inline-block"></span>
+              <span class="text-xs font-mono text-slate-400 ml-2">SpriteLab Workspace</span>
+            </div>
+
+            <!-- Bloque Condicional Exacto Code.org con Esquinas Redondeadas Suaves -->
+            <div class="w-full flex justify-center py-2 select-none overflow-x-auto">
+              <svg viewBox="0 0 540 250" class="w-full max-w-[520px] drop-shadow-xl">
+                
+                <!-- 1. BLOQUE PRINCIPAL AZUL CELESTE (+ si ... hacer) con Puntas Redondas -->
+                <path d="M 20 8 
+                         H 516 Q 528 8 528 20 
+                         V 38 Q 528 48 518 48 
+                         H 92 Q 84 48 84 56 
+                         V 200 Q 84 208 92 208 
+                         H 516 Q 528 208 528 218 
+                         V 230 Q 528 242 516 242 
+                         H 20 Q 8 242 8 230 
+                         V 20 Q 8 8 20 8 
+                         Z" 
+                      fill="#0094c6"/>
+
+                <!-- Texto '+ si' centrado verticalmente (Y: 33) -->
+                <text x="22" y="34" fill="#ffffff" font-family="'Fredoka', sans-serif" font-weight="900" font-size="20">+</text>
+                <text x="46" y="34" fill="#ffffff" font-family="'Fredoka', sans-serif" font-weight="700" font-size="18">si</text>
+                
+                <!-- Texto 'hacer' en el lateral -->
+                <text x="20" y="74" fill="#ffffff" font-family="'Fredoka', sans-serif" font-weight="700" font-size="16">hacer</text>
+
+                <!-- INPUT 1: Magenta [Puntaje ▼] (Centrado en Y: 15, Altura 26) -->
+                <g transform="translate(110, 15)">
+                  <rect x="0" y="0" width="96" height="26" rx="6" fill="#a8497d" stroke="#bf5890" stroke-width="1.5"/>
+                  <text x="10" y="18" fill="#ffffff" font-family="'Fredoka', sans-serif" font-weight="700" font-size="13">Puntaje</text>
+                  <text id="simScoreTextSvg" x="62" y="18" fill="#fef08a" font-family="'Fredoka', sans-serif" font-weight="900" font-size="14">0</text>
+                  <text x="78" y="17" fill="#fbcfe8" font-size="11">▼</text>
+                </g>
+
+                <!-- INPUT 2: Celeste [= ▼] (Centrado en Y: 15, Altura 26) -->
+                <g transform="translate(216, 15)">
+                  <rect x="0" y="0" width="38" height="26" rx="6" fill="#5eead4" stroke="#2dd4bf" stroke-width="1.5"/>
+                  <text x="10" y="19" fill="#0f172a" font-family="'Fredoka', sans-serif" font-weight="900" font-size="16">=</text>
+                  <text x="24" y="18" fill="#0f766e" font-size="10">▼</text>
+                </g>
+
+                <!-- INPUT 3: Azul Oscuro [20] (Centrado en Y: 15, Altura 26) -->
+                <g transform="translate(262, 15)">
+                  <rect x="0" y="0" width="42" height="26" rx="6" fill="#e2e8f0" stroke="#94a3b8" stroke-width="1.5"/>
+                  <text x="11" y="19" fill="#0f172a" font-family="'Fredoka', sans-serif" font-weight="900" font-size="15">20</text>
+                </g>
+
+
+                <!-- ============================================================== -->
+                <!-- BLOQUES ANIDADOS (mostrar pantalla de título + detiene todo)   -->
+                <!-- ============================================================== -->
+                <g id="codeBlockActions" opacity="0.45" class="transition-all duration-300">
+                  
+                  <!-- BLOQUE 2: MORADO (mostrar pantalla de título) al ras exacto sin franja de sombra -->
+                  <g transform="translate(84, 48)">
+                    <path d="M 0 0 H 434 Q 444 0 444 10 V 78 Q 444 86 434 86 H 0 Z" fill="#4f4284"/>
+
+                    <text x="16" y="22" fill="#ffffff" font-family="'Fredoka', sans-serif" font-weight="700" font-size="16">mostrar pantalla de título</text>
+
+                    <!-- Fila título -->
+                    <text x="146" y="48" fill="#ffffff" font-family="'Fredoka', sans-serif" font-weight="700" font-size="14">título</text>
+                    <g transform="translate(195, 30)">
+                      <rect x="0" y="0" width="225" height="26" rx="6" fill="#4d9b81"/>
+                      <rect x="22" y="3" width="180" height="20" rx="4" fill="#d1fae5"/>
+                      <text x="6" y="18" fill="#ffffff" font-family="'Fredoka', sans-serif" font-weight="900" font-size="16">“</text>
+                      <text x="28" y="17" fill="#065f46" font-family="'Fredoka', sans-serif" font-weight="700" font-size="12">Felicitaciones, ganaste</text>
+                      <text x="210" y="18" fill="#ffffff" font-family="'Fredoka', sans-serif" font-weight="900" font-size="16">”</text>
+                    </g>
+
+                    <!-- Fila texto -->
+                    <text x="150" y="74" fill="#ffffff" font-family="'Fredoka', sans-serif" font-weight="700" font-size="14">texto</text>
+                    <g transform="translate(195, 58)">
+                      <rect x="0" y="0" width="170" height="24" rx="6" fill="#4d9b81"/>
+                      <rect x="22" y="2" width="125" height="20" rx="4" fill="#d1fae5"/>
+                      <text x="6" y="17" fill="#ffffff" font-family="'Fredoka', sans-serif" font-weight="900" font-size="16">“</text>
+                      <text x="28" y="16" fill="#065f46" font-family="'Fredoka', sans-serif" font-weight="700" font-size="12">Buen trabajo</text>
+                      <text x="154" y="17" fill="#ffffff" font-family="'Fredoka', sans-serif" font-weight="900" font-size="16">”</text>
+                    </g>
+                  </g>
+
+                  <!-- BLOQUE 3: TURQUESA ( [🍎 ▼] detiene todo ) -->
+                  <g transform="translate(84, 134)">
+                    <path d="M 0 0 H 434 Q 444 0 444 10 V 66 Q 444 76 434 76 H 0 Z" fill="#0098a6"/>
+
+                    <!-- Caja Rosada Selector de Sprite con Manzana -->
+                    <g transform="translate(14, 11)">
+                      <rect x="0" y="0" width="72" height="54" rx="8" fill="#fbcfe8" stroke="#f472b6" stroke-width="2"/>
+                      <rect x="5" y="5" width="62" height="44" rx="6" fill="#fdf2f8"/>
+                      
+                      <!-- Manzana dentro del selector -->
+                      <g transform="translate(18, 9) scale(0.52)">
+                        <path d="M32 14 C30 8 36 4 36 4 C36 4 38 10 34 14" stroke="#78350f" stroke-width="4" stroke-linecap="round" fill="none"/>
+                        <path d="M34 8 C40 6 44 10 42 14 C38 14 36 10 34 8 Z" fill="#16a34a"/>
+                        <path d="M32 18 C20 18 14 26 14 38 C14 52 24 60 32 60 C40 60 50 52 50 38 C50 26 44 18 32 18 Z" fill="#ea580c"/>
+                        <path d="M22 28 Q26 24 30 26" stroke="#fed7aa" stroke-width="3" stroke-linecap="round" fill="none"/>
+                      </g>
+
+                      <!-- Triángulo dropdown rosado -->
+                      <polygon points="56,26 62,26 59,32" fill="#ec4899"/>
+                    </g>
+
+                    <!-- Texto 'detiene todo' -->
+                    <text x="96" y="44" fill="#ffffff" font-family="'Fredoka', sans-serif" font-weight="700" font-size="18">detiene todo</text>
+                  </g>
+
+                </g>
+              </svg>
+            </div>
+
+            <!-- Estado de Evaluación del Condicional -->
+            <div class="mt-4 bg-slate-800/80 rounded-2xl p-3 border border-slate-700">
+              <div class="text-[11px] font-bold text-slate-400 uppercase tracking-wider mb-1">Evaluación en Tiempo Real:</div>
+              <div id="conditionEvaluatorText" class="text-xs sm:text-sm font-kids text-amber-400">
+                ⚠️ ¿Puntaje (0) es igual a 20? ➔ <strong class="text-rose-400">FALSO (No se ejecuta)</strong>
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <!-- COLUMNA DERECHA: Simulador Interactivo de Juego Atrapa Manzanas -->
+        <div class="lg:col-span-6 bg-gradient-to-b from-sky-100 via-sky-50 to-emerald-50 rounded-3xl p-5 sm:p-6 border-3 border-sky-300 flex flex-col justify-between relative shadow-inner">
+          <div class="flex items-center justify-between mb-3">
+            <div class="flex items-center gap-2">
+              <span class="text-xl">🎮</span>
+              <span class="font-kids font-black text-sky-950 text-sm sm:text-base">Atrapa las Manzanas</span>
+            </div>
+            <div class="bg-white px-3 py-1 rounded-xl border-2 border-amber-300 font-kids font-black text-amber-900 text-xs shadow-sm flex items-center gap-1">
+              <span>⭐ Marcador:</span> <span id="gameScoreDisplay" class="text-base text-purple-700">0</span> / 20
+            </div>
+          </div>
+
+          <!-- Pantalla Interactiva del Juego con Canvas / Escenario -->
+          <div id="appleGameStage" class="relative w-full h-72 sm:h-80 bg-gradient-to-b from-sky-200 via-sky-100 to-emerald-200 rounded-2xl border-4 border-white shadow-inner overflow-hidden flex flex-col justify-between p-3 select-none touch-none">
+            
+            <!-- Pantalla de Inicio: Botón JUGAR -->
+            <div id="gameStartOverlay" class="absolute inset-0 bg-slate-900/70 backdrop-blur-sm rounded-xl flex flex-col items-center justify-center text-center p-4 z-30">
+              <div class="w-16 h-16 mb-2">
+                <svg viewBox="0 0 64 64" class="w-full h-full drop-shadow-md">
+                  <path d="M32 14 C30 8 36 4 36 4 C36 4 38 10 34 14" stroke="#78350f" stroke-width="3" stroke-linecap="round" fill="none"/>
+                  <path d="M34 8 C40 6 44 10 42 14 C38 14 36 10 34 8 Z" fill="#22c55e"/>
+                  <path d="M32 18 C20 18 14 26 14 38 C14 52 24 60 32 60 C40 60 50 52 50 38 C50 26 44 18 32 18 Z" fill="#ef4444"/>
+                  <path d="M22 28 Q26 24 30 26" stroke="#fca5a5" stroke-width="2" stroke-linecap="round" fill="none"/>
+                </svg>
+              </div>
+              <h3 class="font-kids font-black text-white text-xl mb-1">¿Listo para atrapar manzanas?</h3>
+              <p class="text-xs text-sky-200 mb-4 font-medium max-w-xs">Mueve la canasta con las flechas o tocando la pantalla para sumar 20 puntos.</p>
+              <button onclick="startPlayingAppleGame()" class="btn-3d px-8 py-3 bg-emerald-500 hover:bg-emerald-600 text-white font-kids font-black text-base rounded-2xl shadow-xl flex items-center gap-2 transform active:scale-95 transition">
+                <span>▶️</span> ¡JUGAR AHORA!
+              </button>
+            </div>
+
+            <!-- Manzana Cayendo Lentamente (Detrás de la Canasta) -->
+            <div id="fallingApple" class="absolute w-12 h-12 pointer-events-none transition-transform duration-75 z-10" style="top: 20px; left: 50%;">
+              <svg viewBox="0 0 64 64" class="w-full h-full drop-shadow-md">
+                <path d="M32 14 C30 8 36 4 36 4 C36 4 38 10 34 14" stroke="#78350f" stroke-width="3" stroke-linecap="round" fill="none"/>
+                <path d="M34 8 C40 6 44 10 42 14 C38 14 36 10 34 8 Z" fill="#16a34a"/>
+                <path d="M32 18 C20 18 14 26 14 38 C14 52 24 60 32 60 C40 60 50 52 50 38 C50 26 44 18 32 18 Z" fill="#dc2626"/>
+                <path d="M22 28 Q26 24 30 26" stroke="#fca5a5" stroke-width="2.5" stroke-linecap="round" fill="none"/>
+              </svg>
+            </div>
+
+            <!-- Canasta Móvil al Frente (z-20 para tapar la manzana que entra) -->
+            <div id="movableBasket" class="absolute bottom-2 cursor-grab active:cursor-grabbing flex flex-col items-center select-none z-20" style="left: calc(50% - 36px); width: 72px;">
+              <svg viewBox="0 0 80 40" class="w-full h-10 drop-shadow-lg">
+                <!-- Borde superior de la canasta -->
+                <rect x="6" y="2" width="68" height="6" rx="3" fill="#78350f"/>
+                <!-- Cuerpo de mimbre -->
+                <path d="M8 6 L18 36 Q40 40 62 36 L72 6 Z" fill="#b45309" stroke="#78350f" stroke-width="2"/>
+                <!-- Líneas verticales de tejido -->
+                <line x1="22" y1="6" x2="27" y2="37" stroke="#78350f" stroke-width="2.5"/>
+                <line x1="40" y1="6" x2="40" y2="38" stroke="#78350f" stroke-width="2.5"/>
+                <line x1="58" y1="6" x2="53" y2="37" stroke="#78350f" stroke-width="2.5"/>
+                <!-- Líneas horizontales de tejido -->
+                <path d="M11 16 Q40 21 69 16" stroke="#d97706" stroke-width="3" fill="none"/>
+                <path d="M14 26 Q40 31 66 26" stroke="#d97706" stroke-width="3" fill="none"/>
+              </svg>
+            </div>
+
+            <!-- Cartel de Victoria Overlay (Oculto hasta llegar a 20) -->
+            <div id="gameVictoryOverlay" class="absolute inset-0 bg-slate-900/85 backdrop-blur-sm rounded-xl flex flex-col items-center justify-center text-center p-4 z-30 hidden">
+              <div class="text-5xl mb-2 animate-bounce">🏆🎉</div>
+              <div class="bg-gradient-to-r from-amber-400 to-yellow-300 text-slate-950 font-kids font-black text-xl sm:text-2xl px-5 py-2.5 rounded-2xl shadow-xl border-2 border-white mb-2">
+                “ Felicitaciones, ganaste ”
+              </div>
+              <p class="text-xs sm:text-sm text-cyan-200 font-kids font-bold">
+                ¡Se cumplió la regla <strong>SI puntaje = 20</strong>! Todo se detuvo.
+              </p>
+              <button onclick="resetAppleGame()" class="mt-4 btn-3d px-6 py-2.5 bg-emerald-500 hover:bg-emerald-600 text-white font-kids font-bold text-sm rounded-xl shadow-lg">
+                🔄 Jugar de nuevo
+              </button>
+            </div>
+
+          </div>
+
+          <!-- Controles Touch en Pantalla para Celulares / Tablets -->
+          <div class="flex items-center justify-center gap-4 mt-3 sm:hidden">
+            <button onmousedown="startMoveLeft()" onmouseup="stopMove()" ontouchstart="startMoveLeft()" ontouchend="stopMove()" class="btn-3d flex-1 py-3 bg-sky-500 text-white font-kids font-black rounded-2xl text-base flex items-center justify-center gap-1">
+              ◀ Mover Izquierda
+            </button>
+            <button onmousedown="startMoveRight()" onmouseup="stopMove()" ontouchstart="startMoveRight()" ontouchend="stopMove()" class="btn-3d flex-1 py-3 bg-sky-500 text-white font-kids font-black rounded-2xl text-base flex items-center justify-center gap-1">
+              Mover Derecha ▶
+            </button>
+          </div>
+
+          <!-- Explicación Didáctica Abajo -->
+          <div class="mt-3 p-3 rounded-2xl bg-white border border-sky-200 text-xs font-medium text-slate-600 flex items-center gap-2">
+            <span class="text-xl">💡</span>
+            <span><strong>Regla de Oro:</strong> Mueve la canasta para atrapar las manzanas. Cada una vale <strong>+5 puntos</strong>. Al llegar a <strong>20</strong>, se activa la condición y ganas.</span>
+          </div>
+        </div>
+
+      </div>
+    </section>
+
+    <!-- ========================================================================= -->
+    <!-- TALLER 3: EL ARMARIO DE DISFRACES DEL MONSTRUO (100% VISUAL)               -->
+    <!-- ========================================================================= -->
+    <section class="bg-white rounded-3xl p-6 sm:p-8 shadow-md border-2 border-sky-200 mb-8 interactive-card">
+      <div class="flex items-center justify-between flex-wrap gap-2 mb-4">
+        <div class="flex items-center gap-3">
+          <span class="w-10 h-10 rounded-2xl bg-purple-600 text-white font-kids font-black flex items-center justify-center text-lg shadow">3</span>
+          <div>
+            <h2 class="text-2xl font-kids font-black text-sky-900">¿Un Sprite puede cambiar de disfraz?</h2>
+            <p class="text-xs sm:text-sm text-slate-500 font-medium">¡<strong>SÍ!</strong> Toca cada tarjeta para ver cómo se transforma el mismo personaje:</p>
+          </div>
+        </div>
+        <span id="badgeSim3" class="text-xs font-bold text-purple-700 bg-purple-100 px-3 py-1 rounded-full">Toca los disfraces</span>
+      </div>
+
+      <!-- Galería de los 4 disfraces reales del proyecto -->
+      <div class="grid grid-cols-2 md:grid-cols-4 gap-3.5 mb-6">
+        <!-- Disfraz 1: Sano -->
+        <button onclick="setCostume('sano')" id="cardCostume_sano" class="btn-3d p-4 rounded-2xl border-3 border-purple-400 bg-purple-50 text-center transition flex flex-col items-center justify-between">
+          <div class="w-16 h-16 mb-2">
+            <svg viewBox="0 0 80 80" class="w-full h-full drop-shadow">
+              <path d="M20 70 L20 40 Q20 20 40 20 Q60 20 60 40 L60 70 Z" fill="#a855f7"/>
+              <polygon points="20,28 24,14 32,22" fill="#a855f7"/>
+              <polygon points="60,28 56,14 48,22" fill="#a855f7"/>
+              <ellipse cx="40" cy="52" rx="14" ry="12" fill="#c084fc"/>
+              <circle cx="32" cy="35" r="4" fill="#1e293b"/>
+              <circle cx="33" cy="34" r="1.2" fill="#ffffff"/>
+              <circle cx="48" cy="35" r="4" fill="#1e293b"/>
+              <circle cx="49" cy="34" r="1.2" fill="#ffffff"/>
+              <ellipse cx="40" cy="42" rx="5" ry="3" fill="#e11d48"/>
+              <path d="M18 45 Q8 40 12 34" stroke="#a855f7" stroke-width="5" stroke-linecap="round" fill="none"/>
+              <path d="M62 45 Q72 40 68 34" stroke="#a855f7" stroke-width="5" stroke-linecap="round" fill="none"/>
+            </svg>
+          </div>
+          <span class="font-kids font-black text-sm text-purple-900">1. Sano</span>
+          <span class="text-[11px] text-purple-600 font-bold">Morado normal</span>
+        </button>
+
+        <!-- Disfraz 2: Enfermo -->
+        <button onclick="setCostume('enfermo')" id="cardCostume_enfermo" class="btn-3d p-4 rounded-2xl border-2 border-slate-200 bg-white hover:border-pink-300 text-center transition flex flex-col items-center justify-between">
+          <div class="w-16 h-16 mb-2">
+            <svg viewBox="0 0 80 80" class="w-full h-full drop-shadow">
+              <path d="M20 70 L20 40 Q20 20 40 20 Q60 20 60 40 L60 70 Z" fill="#ec4899"/>
+              <polygon points="20,28 24,14 32,22" fill="#ec4899"/>
+              <polygon points="60,28 56,14 48,22" fill="#ec4899"/>
+              <circle cx="28" cy="24" r="2.5" fill="#84cc16"/>
+              <circle cx="50" cy="24" r="2.5" fill="#84cc16"/>
+              <circle cx="23" cy="46" r="2.5" fill="#84cc16"/>
+              <circle cx="58" cy="46" r="2.5" fill="#84cc16"/>
+              <circle cx="38" cy="64" r="2.5" fill="#84cc16"/>
+              <ellipse cx="40" cy="52" rx="14" ry="12" fill="#fbcfe8"/>
+              <circle cx="32" cy="35" r="4" fill="#1e293b"/>
+              <circle cx="48" cy="35" r="4" fill="#1e293b"/>
+              <ellipse cx="40" cy="42" rx="6" ry="4" fill="#9d174d"/>
+              <path d="M18 45 Q8 40 12 34" stroke="#ec4899" stroke-width="5" stroke-linecap="round" fill="none"/>
+              <path d="M62 45 Q72 40 68 34" stroke="#ec4899" stroke-width="5" stroke-linecap="round" fill="none"/>
+            </svg>
+          </div>
+          <span class="font-kids font-black text-sm text-pink-700">2. Infectado</span>
+          <span class="text-[11px] text-pink-500 font-bold">Rosa con manchas</span>
+        </button>
+
+        <!-- Disfraz 3: Mascarilla -->
+        <button onclick="setCostume('mascarilla')" id="cardCostume_mascarilla" class="btn-3d p-4 rounded-2xl border-2 border-slate-200 bg-white hover:border-sky-300 text-center transition flex flex-col items-center justify-between">
+          <div class="w-16 h-16 mb-2">
+            <svg viewBox="0 0 80 80" class="w-full h-full drop-shadow">
+              <path d="M20 70 L20 40 Q20 20 40 20 Q60 20 60 40 L60 70 Z" fill="#a855f7"/>
+              <polygon points="20,28 24,14 32,22" fill="#a855f7"/>
+              <polygon points="60,28 56,14 48,22" fill="#a855f7"/>
+              <circle cx="32" cy="35" r="4" fill="#1e293b"/>
+              <circle cx="48" cy="35" r="4" fill="#1e293b"/>
+              <!-- Mascarilla blanca -->
+              <rect x="26" y="42" width="28" height="16" rx="4" fill="#ffffff" stroke="#94a3b8" stroke-width="2"/>
+              <line x1="26" y1="46" x2="16" y2="44" stroke="#ffffff" stroke-width="2"/>
+              <line x1="54" y1="46" x2="64" y2="44" stroke="#ffffff" stroke-width="2"/>
+              <path d="M18 45 Q8 40 12 34" stroke="#a855f7" stroke-width="5" stroke-linecap="round" fill="none"/>
+              <path d="M62 45 Q72 40 68 34" stroke="#a855f7" stroke-width="5" stroke-linecap="round" fill="none"/>
+            </svg>
+          </div>
+          <span class="font-kids font-black text-sm text-sky-700">3. Con Mascarilla</span>
+          <span class="text-[11px] text-sky-500 font-bold">Protegido al hacer clic</span>
+        </button>
+
+        <!-- Disfraz 4: Inmune -->
+        <button onclick="setCostume('inmune')" id="cardCostume_inmune" class="btn-3d p-4 rounded-2xl border-2 border-slate-200 bg-white hover:border-cyan-300 text-center transition flex flex-col items-center justify-between">
+          <div class="w-16 h-16 mb-2">
+            <svg viewBox="0 0 80 80" class="w-full h-full drop-shadow">
+              <path d="M20 70 L20 40 Q20 20 40 20 Q60 20 60 40 L60 70 Z" fill="#06b6d4"/>
+              <polygon points="20,28 24,14 32,22" fill="#06b6d4"/>
+              <polygon points="60,28 56,14 48,22" fill="#06b6d4"/>
+              <ellipse cx="40" cy="52" rx="14" ry="12" fill="#67e8f9"/>
+              <circle cx="32" cy="35" r="4" fill="#1e293b"/>
+              <circle cx="33" cy="34" r="1.2" fill="#ffffff"/>
+              <circle cx="48" cy="35" r="4" fill="#1e293b"/>
+              <circle cx="49" cy="34" r="1.2" fill="#ffffff"/>
+              <path d="M36 43 Q40 47 44 43" stroke="#0e7490" stroke-width="2" stroke-linecap="round" fill="none"/>
+              <!-- Escudo de protección -->
+              <circle cx="40" cy="40" r="32" stroke="#38bdf8" stroke-width="3" stroke-dasharray="4 2" fill="none"/>
+            </svg>
+          </div>
+          <span class="font-kids font-black text-sm text-cyan-700">4. Inmune</span>
+          <span class="text-[11px] text-cyan-500 font-bold">Celeste vacunado</span>
+        </button>
+      </div>
+
+      <!-- Pantalla de Demostración Grande -->
+      <div class="bg-gradient-to-r from-purple-100 to-sky-100 rounded-2xl p-5 border-2 border-purple-200 flex flex-col sm:flex-row items-center gap-5 text-center sm:text-left">
+        <div id="bigMonsterPreview" class="w-24 h-24 sm:w-28 sm:h-28 flex-shrink-0">
+          <!-- Monstruo SVG dinámico -->
+        </div>
+        <div>
+          <span class="text-xs font-black uppercase text-purple-700 bg-white px-3 py-1 rounded-full shadow-sm">Disfraz Activo</span>
+          <h3 id="bigCostumeTitle" class="text-2xl font-kids font-black text-slate-800 mt-1">Disfraz 1: Monstruo Sano (Morado)</h3>
+          <p id="bigCostumeText" class="text-slate-600 text-sm mt-1 font-medium">Este es el disfraz inicial del monstruito antes de comenzar la partida.</p>
+        </div>
+      </div>
+    </section>
+
+    <!-- ========================================================================= -->
+    <!-- TALLER 4: SIMULADOR DE EVENTOS (¡TOCA Y PRUEBA EN VIVO!)                  -->
+    <!-- ========================================================================= -->
+    <section class="bg-white rounded-3xl p-6 sm:p-8 shadow-md border-2 border-sky-200 mb-8 interactive-card">
+      <div class="flex items-center justify-between flex-wrap gap-2 mb-4">
+        <div class="flex items-center gap-3">
+          <span class="w-10 h-10 rounded-2xl bg-emerald-600 text-white font-kids font-black flex items-center justify-center text-lg shadow">4</span>
+          <div>
+            <h2 class="text-2xl font-kids font-black text-sky-900">Simulador: Evento de Clic en el Monstruo</h2>
+            <p class="text-xs sm:text-sm text-slate-500 font-medium">Haz clic directamente sobre el personaje para ponerle o quitarle la mascarilla:</p>
+          </div>
+        </div>
+        <span id="badgeSim4" class="text-xs font-bold text-emerald-700 bg-emerald-100 px-3 py-1 rounded-full">¡Haz clic en el monstruo!</span>
+      </div>
+
+      <!-- PANTALLA EN VIVO DE SIMULACIÓN Y BLOQUE CODE.ORG -->
+      <div class="bg-slate-900 rounded-3xl p-5 sm:p-6 text-white border-4 border-slate-700 shadow-2xl">
+        <div class="grid grid-cols-1 md:grid-cols-2 gap-6 items-center">
+          
+          <!-- Lado Izquierdo: El Personaje Reaccionando en Pantalla (Interactivo con clic toggle) -->
+          <div onclick="toggleMonsterMask()" title="¡Haz clic sobre el monstruo para alternar la mascarilla!" class="bg-slate-800/90 hover:bg-slate-800 rounded-2xl p-6 border-2 border-dashed border-sky-400 text-center flex flex-col items-center justify-center min-h-[220px] relative overflow-hidden cursor-pointer group transition select-none">
+            <div class="absolute top-2 left-3 text-[10px] font-mono text-sky-300 flex items-center gap-1">
+              <span>🎮 PANTALLA DEL JUEGO</span>
+              <span id="simLiveBadge" class="bg-sky-500/20 text-sky-200 px-1.5 py-0.5 rounded text-[9px] border border-sky-400/40">¡Tócame para alternar!</span>
+            </div>
+            <div id="simLiveMonster" class="w-28 h-28 mb-2 transform transition-all duration-300 group-hover:scale-110 active:scale-95">
+              <!-- SVG del monstruo vivo -->
+            </div>
+            <div id="simLiveTag" class="text-xs font-kids font-bold text-sky-300 bg-sky-900/60 px-3 py-1 rounded-full mt-1">
+              Monstruo con Mascarilla (Protegido)
+            </div>
+            <span class="text-[11px] text-slate-400 mt-2 font-kids">👆 Haz clic para poner/quitar mascarilla</span>
+          </div>
+
+          <!-- Lado Derecho: El Bloque de Programación Real que se Ejecuta -->
+          <div>
+            <span class="text-xs font-mono text-cyan-300 uppercase tracking-wider block mb-2 font-bold">Bloque de código ejecutado:</span>
+            <div id="simLiveBlock" class="p-3 bg-slate-800 rounded-2xl border border-slate-600 shadow">
+              <!-- Bloque visual generado dinámicamente -->
+            </div>
+            <p id="simLiveExplanation" class="text-xs text-slate-300 mt-3 font-medium leading-relaxed">
+              💡 <strong>Pregunta del Examen:</strong> ¿Cómo se coloca la mascarilla? ➔ <strong>Al hacerle clic</strong> (evento <code>cuando pulsado</code>).
+            </p>
+          </div>
+
+        </div>
+      </div>
+    </section>
+
+    <!-- CALL TO ACTION FINAL: IR AL EXAMEN DE PRÁCTICA -->
+    <div class="bg-gradient-to-r from-orange-500 to-amber-500 rounded-3xl p-6 sm:p-8 text-white text-center shadow-xl border-4 border-amber-300 flex flex-col sm:flex-row items-center justify-between gap-6">
+      <div class="text-center sm:text-left">
+        <span class="bg-white/20 text-white font-kids font-bold text-xs uppercase px-3 py-1 rounded-full">¡Todo Listo!</span>
+        <h3 class="text-2xl sm:text-3xl font-kids font-black mt-1">¿Listo para el Examen de Práctica?</h3>
+        <p class="text-white/90 text-sm sm:text-base mt-1 font-medium">
+          Ya experimentaste todos los conceptos. ¡Es hora de responder las 10 preguntas interactivas!
+        </p>
+      </div>
+
+      <a href="examen_practica_03.html" class="btn-3d px-8 py-4 bg-white hover:bg-amber-50 text-slate-900 font-kids font-black text-xl rounded-2xl flex items-center gap-2 shadow-lg flex-shrink-0">
+        <span>🚀</span> Iniciar Examen de Práctica
+      </a>
+    </div>
+
+  </main>
+
+  <footer class="bg-white border-t border-slate-200 py-6 text-center text-slate-500 text-xs">
+    <p class="font-bold text-slate-700">&copy; 2026 Mundo Jandra &bull; Profesor: Ronny Martinez</p>
+    <p class="text-slate-400 mt-1">Tecnología e Informática &bull; Primaria 3° Grado</p>
+  </footer>
+
+  <!-- ========================================================================= -->
+  <!-- LÓGICA DE LOS SIMULADORES Y AUDIO WEB API                                -->
+  <!-- ========================================================================= -->
+  <script>
+    // Audio Web API
+    let audioCtx = null;
+    function playChime(freq = 520, type = 'sine') {
+      try {
+        if (!audioCtx) audioCtx = new (window.AudioContext || window.webkitAudioContext)();
+        if (audioCtx.state === 'suspended') audioCtx.resume();
+        const osc = audioCtx.createOscillator();
+        const gain = audioCtx.createGain();
+        osc.type = type;
+        osc.frequency.setValueAtTime(freq, audioCtx.currentTime);
+        gain.gain.setValueAtTime(0.15, audioCtx.currentTime);
+        gain.gain.exponentialRampToValueAtTime(0.001, audioCtx.currentTime + 0.18);
+        osc.connect(gain);
+        gain.connect(audioCtx.destination);
+        osc.start();
+        osc.stop(audioCtx.currentTime + 0.2);
+      } catch (e) {}
+    }
+
+    let completedSims = new Set();
+    function trackSim(simId) {
+      completedSims.add(simId);
+      document.getElementById('completedCounter').innerText = `${completedSims.size} / 4`;
+      if (completedSims.size === 4) {
+        confetti({ particleCount: 50, spread: 60, origin: { y: 0.8 } });
+      }
+    }
+
+    // 1. Lógica Máquina de Decisiones
+    function runConditionSim(type) {
+      playChime(600, 'triangle');
+      trackSim('sim1');
+      document.getElementById('badgeSim1').className = "text-xs font-bold text-emerald-700 bg-emerald-100 px-3 py-1 rounded-full";
+      document.getElementById('badgeSim1').innerText = "¡Excelente!";
+
+      const display = document.getElementById('conditionDisplay');
+      const formula = document.getElementById('conditionCodeFormula');
+
+      if (type === 'apple') {
+        display.innerHTML = `
+          <div class="text-4xl mb-1 animate-bounce">🍎 ➔ ➕10 ⭐</div>
+          <h4 class="font-kids font-black text-emerald-400 text-lg">¡Acción: Sumar +10 Puntos!</h4>
+          <p class="text-slate-300 text-xs">Al cumplirse la condición, el juego premia al jugador.</p>
+        `;
+        formula.innerHTML = `<span class="text-orange-400 font-bold">SI</span> toca la manzana ➔ <span class="text-emerald-400 font-bold">ENTONCES</span> sumar 10 puntos`;
+      } else if (type === 'enemy') {
+        playChime(240, 'sawtooth');
+        display.innerHTML = `
+          <div class="text-4xl mb-1 animate-pulse">👾 ➔ 💥 GAME OVER</div>
+          <h4 class="font-kids font-black text-rose-400 text-lg">¡Acción: Pantalla de Fin de Juego!</h4>
+          <p class="text-slate-300 text-xs">La condición se cumplió: el jugador tocó al enemigo.</p>
+        `;
+        formula.innerHTML = `<span class="text-orange-400 font-bold">SI</span> toca al enemigo ➔ <span class="text-rose-400 font-bold">ENTONCES</span> mostrar "GAME OVER"`;
+      } else if (type === 'score100') {
+        playChime(880, 'triangle');
+        display.innerHTML = `
+          <div class="text-4xl mb-1 animate-bounce">🏆 ➔ 🚀 NIVEL 2</div>
+          <h4 class="font-kids font-black text-amber-300 text-lg">¡Acción: Pasar al Siguiente Nivel!</h4>
+          <p class="text-slate-300 text-xs">Llegó a la meta exacta de 100 puntos.</p>
+        `;
+        formula.innerHTML = `<span class="text-orange-400 font-bold">SI</span> puntaje = 100 ➔ <span class="text-cyan-300 font-bold">ENTONCES</span> cambiar a Nivel 2`;
+      }
+    }
+
+    // 2. Lógica Simulador 2: Atrapa Manzanas (Caída lenta, Canasta Ultra Suave)
+    let appleScore = 0;
+    let appleX = 50; // percentage
+    let appleY = 10; // percentage
+    let basketX = 50; // current interpolated percentage
+    let targetBasketX = 50; // target percentage for smooth lerp
+    let gameLoopId = null;
+    let isMovingLeft = false;
+    let isMovingRight = false;
+    let isDraggingBasket = false;
+
+    let isGameRunning = false;
+
+    function initAppleGame() {
+      const stage = document.getElementById('appleGameStage');
+      if (!stage) return;
+
+      // Eventos de teclado (Flechas Izquierda / Derecha, A / D)
+      window.addEventListener('keydown', (e) => {
+        if (e.key === 'ArrowLeft' || e.key === 'a' || e.key === 'A') isMovingLeft = true;
+        if (e.key === 'ArrowRight' || e.key === 'd' || e.key === 'D') isMovingRight = true;
+      });
+
+      window.addEventListener('keyup', (e) => {
+        if (e.key === 'ArrowLeft' || e.key === 'a' || e.key === 'A') isMovingLeft = false;
+        if (e.key === 'ArrowRight' || e.key === 'd' || e.key === 'D') isMovingRight = false;
+      });
+
+      // Eventos de Touch y Mouse en el área de juego con suavizado continuo
+      const handlePointerMove = (clientX) => {
+        const rect = stage.getBoundingClientRect();
+        let relativeX = ((clientX - rect.left) / rect.width) * 100;
+        targetBasketX = Math.max(12, Math.min(88, relativeX));
+      };
+
+      stage.addEventListener('pointerdown', (e) => {
+        isDraggingBasket = true;
+        handlePointerMove(e.clientX);
+      });
+
+      window.addEventListener('pointermove', (e) => {
+        if (isDraggingBasket) {
+          handlePointerMove(e.clientX);
+        }
+      });
+
+      window.addEventListener('pointerup', () => {
+        isDraggingBasket = false;
+      });
+
+      spawnNewApple();
+      updateBasketPosition();
+    }
+
+    function startPlayingAppleGame() {
+      playChime(600, 'triangle');
+      const startOverlay = document.getElementById('gameStartOverlay');
+      if (startOverlay) startOverlay.classList.add('hidden');
+      isGameRunning = true;
+      startAppleLoop();
+    }
+
+    function spawnNewApple() {
+      appleY = 8;
+      // Posición horizontal aleatoria entre 15% y 85%
+      appleX = 15 + Math.random() * 70;
+      updateApplePosition();
+    }
+
+    function updateApplePosition() {
+      const apple = document.getElementById('fallingApple');
+      if (apple) {
+        apple.style.left = `calc(${appleX}% - 24px)`;
+        apple.style.top = `${appleY}%`;
+      }
+    }
+
+    function updateBasketPosition() {
+      const basket = document.getElementById('movableBasket');
+      if (basket) {
+        basket.style.left = `calc(${basketX}% - 36px)`;
+      }
+    }
+
+    function startMoveLeft() { isMovingLeft = true; }
+    function startMoveRight() { isMovingRight = true; }
+    function stopMove() { isMovingLeft = false; isMovingRight = false; }
+
+    function startAppleLoop() {
+      if (gameLoopId) cancelAnimationFrame(gameLoopId);
+
+      function step() {
+        if (isGameRunning && appleScore < 20) {
+          // Ajuste suave de destino con teclas
+          if (isMovingLeft) {
+            targetBasketX = Math.max(12, targetBasketX - 1.2);
+          }
+          if (isMovingRight) {
+            targetBasketX = Math.min(88, targetBasketX + 1.2);
+          }
+
+          // Interpolación suave (LERP) para eliminar saltos bruscos
+          basketX += (targetBasketX - basketX) * 0.18;
+          updateBasketPosition();
+
+          // Caída lenta y suave de la manzana
+          appleY += 0.42;
+          updateApplePosition();
+
+          // Detección de Colisión con la Canasta (Cerca del fondo ~75% - 88%)
+          if (appleY >= 75 && appleY <= 88) {
+            const distance = Math.abs(appleX - basketX);
+            if (distance < 14) {
+              // ¡Manzana atrapada!
+              onAppleCaught();
+            }
+          }
+
+          // Si la manzana toca el suelo sin atraparla, reaparece arriba
+          if (appleY > 94) {
+            spawnNewApple();
+          }
+        }
+
+        if (isGameRunning) {
+          gameLoopId = requestAnimationFrame(step);
+        }
+      }
+
+      gameLoopId = requestAnimationFrame(step);
+    }
+
+    function onAppleCaught() {
+      appleScore += 5;
+      playChime(560 + appleScore * 25, 'sine');
+      
+      // Efecto visual en la canasta
+      const basket = document.getElementById('movableBasket');
+      if (basket) {
+        basket.style.transform = "scale(1.2)";
+        setTimeout(() => { basket.style.transform = "scale(1)"; }, 150);
+      }
+
+      updateSim2View();
+
+      if (appleScore < 20) {
+        spawnNewApple();
+      }
+    }
+
+    function setScoreDirect(val) {
+      appleScore = val;
+      playChime(700, 'triangle');
+      updateSim2View();
+    }
+
+    function updateSim2View() {
+      trackSim('sim2');
+      const scoreLabel = document.getElementById('simCurrentScore');
+      const svgScoreLabel = document.getElementById('simScoreTextSvg');
+      const gameScore = document.getElementById('gameScoreDisplay');
+      const actions = document.getElementById('codeBlockActions');
+      const evalText = document.getElementById('conditionEvaluatorText');
+      const victoryOverlay = document.getElementById('gameVictoryOverlay');
+      const badge = document.getElementById('badgeSim2');
+
+      if (scoreLabel) scoreLabel.innerText = appleScore;
+      if (svgScoreLabel) svgScoreLabel.textContent = appleScore;
+      if (gameScore) gameScore.innerText = appleScore;
+
+      if (appleScore >= 20) {
+        playChime(920, 'triangle');
+        if (actions) {
+          actions.setAttribute('opacity', '1');
+        }
+        if (evalText) {
+          evalText.innerHTML = `🎉 <strong>¿Puntaje (${appleScore}) = 20?</strong> ➔ <strong class="text-emerald-400">¡VERDADERO! Se activan las acciones de victoria.</strong>`;
+        }
+        if (victoryOverlay) victoryOverlay.classList.remove('hidden');
+        if (badge) {
+          badge.className = "text-xs font-bold text-emerald-700 bg-emerald-100 px-3 py-1 rounded-full";
+          badge.innerText = "¡Ganaste 20 pts!";
+        }
+      } else {
+        if (actions) {
+          actions.setAttribute('opacity', '0.45');
+        }
+        if (evalText) {
+          evalText.innerHTML = `⚠️ ¿Puntaje (${appleScore}) = 20? ➔ <strong class="text-rose-400">FALSO (Faltan ${20 - appleScore} pts para activarse)</strong>`;
+        }
+        if (victoryOverlay) victoryOverlay.classList.add('hidden');
+      }
+    }
+
+    function resetAppleGame() {
+      appleScore = 0;
+      isGameRunning = true;
+      const startOverlay = document.getElementById('gameStartOverlay');
+      if (startOverlay) startOverlay.classList.add('hidden');
+      const victoryOverlay = document.getElementById('gameVictoryOverlay');
+      if (victoryOverlay) victoryOverlay.classList.add('hidden');
+      spawnNewApple();
+      updateSim2View();
+      startAppleLoop();
+      const badge = document.getElementById('badgeSim2');
+      if (badge) {
+        badge.className = "text-xs font-bold text-sky-700 bg-sky-100 px-3 py-1 rounded-full";
+        badge.innerText = "Atrapa manzanas";
+      }
+    }
+
+    // Plantillas SVG de alta calidad para los 4 disfraces del monstruo real
+    const MONSTER_SVGS = {
+      sano: `
+        <svg viewBox="0 0 80 80" class="w-full h-full drop-shadow-md">
+          <path d="M20 70 L20 40 Q20 20 40 20 Q60 20 60 40 L60 70 Z" fill="#a855f7"/>
+          <polygon points="20,28 24,14 32,22" fill="#a855f7"/>
+          <polygon points="60,28 56,14 48,22" fill="#a855f7"/>
+          <ellipse cx="40" cy="52" rx="14" ry="12" fill="#c084fc"/>
+          <circle cx="32" cy="35" r="4" fill="#1e293b"/>
+          <circle cx="33" cy="34" r="1.2" fill="#ffffff"/>
+          <circle cx="48" cy="35" r="4" fill="#1e293b"/>
+          <circle cx="49" cy="34" r="1.2" fill="#ffffff"/>
+          <ellipse cx="40" cy="42" rx="5" ry="3" fill="#e11d48"/>
+          <path d="M18 45 Q8 40 12 34" stroke="#a855f7" stroke-width="5" stroke-linecap="round" fill="none"/>
+          <path d="M62 45 Q72 40 68 34" stroke="#a855f7" stroke-width="5" stroke-linecap="round" fill="none"/>
+        </svg>
+      `,
+      enfermo: `
+        <svg viewBox="0 0 80 80" class="w-full h-full drop-shadow-md">
+          <path d="M20 70 L20 40 Q20 20 40 20 Q60 20 60 40 L60 70 Z" fill="#ec4899"/>
+          <polygon points="20,28 24,14 32,22" fill="#ec4899"/>
+          <polygon points="60,28 56,14 48,22" fill="#ec4899"/>
+          <circle cx="28" cy="24" r="2.5" fill="#84cc16"/>
+          <circle cx="50" cy="24" r="2.5" fill="#84cc16"/>
+          <circle cx="23" cy="46" r="2.5" fill="#84cc16"/>
+          <circle cx="58" cy="46" r="2.5" fill="#84cc16"/>
+          <circle cx="38" cy="64" r="2.5" fill="#84cc16"/>
+          <ellipse cx="40" cy="52" rx="14" ry="12" fill="#fbcfe8"/>
+          <circle cx="32" cy="35" r="4" fill="#1e293b"/>
+          <circle cx="48" cy="35" r="4" fill="#1e293b"/>
+          <ellipse cx="40" cy="42" rx="6" ry="4" fill="#9d174d"/>
+          <path d="M18 45 Q8 40 12 34" stroke="#ec4899" stroke-width="5" stroke-linecap="round" fill="none"/>
+          <path d="M62 45 Q72 40 68 34" stroke="#ec4899" stroke-width="5" stroke-linecap="round" fill="none"/>
+        </svg>
+      `,
+      mascarilla: `
+        <svg viewBox="0 0 80 80" class="w-full h-full drop-shadow-md">
+          <path d="M20 70 L20 40 Q20 20 40 20 Q60 20 60 40 L60 70 Z" fill="#a855f7"/>
+          <polygon points="20,28 24,14 32,22" fill="#a855f7"/>
+          <polygon points="60,28 56,14 48,22" fill="#a855f7"/>
+          <circle cx="32" cy="35" r="4" fill="#1e293b"/>
+          <circle cx="48" cy="35" r="4" fill="#1e293b"/>
+          <rect x="26" y="42" width="28" height="16" rx="4" fill="#ffffff" stroke="#94a3b8" stroke-width="2"/>
+          <line x1="26" y1="46" x2="16" y2="44" stroke="#ffffff" stroke-width="2"/>
+          <line x1="54" y1="46" x2="64" y2="44" stroke="#ffffff" stroke-width="2"/>
+          <path d="M18 45 Q8 40 12 34" stroke="#a855f7" stroke-width="5" stroke-linecap="round" fill="none"/>
+          <path d="M62 45 Q72 40 68 34" stroke="#a855f7" stroke-width="5" stroke-linecap="round" fill="none"/>
+        </svg>
+      `,
+      inmune: `
+        <svg viewBox="0 0 80 80" class="w-full h-full drop-shadow-md">
+          <path d="M20 70 L20 40 Q20 20 40 20 Q60 20 60 40 L60 70 Z" fill="#06b6d4"/>
+          <polygon points="20,28 24,14 32,22" fill="#06b6d4"/>
+          <polygon points="60,28 56,14 48,22" fill="#06b6d4"/>
+          <ellipse cx="40" cy="52" rx="14" ry="12" fill="#67e8f9"/>
+          <circle cx="32" cy="35" r="4" fill="#1e293b"/>
+          <circle cx="33" cy="34" r="1.2" fill="#ffffff"/>
+          <circle cx="48" cy="35" r="4" fill="#1e293b"/>
+          <circle cx="49" cy="34" r="1.2" fill="#ffffff"/>
+          <path d="M36 43 Q40 47 44 43" stroke="#0e7490" stroke-width="2" stroke-linecap="round" fill="none"/>
+          <circle cx="40" cy="40" r="32" stroke="#38bdf8" stroke-width="3" stroke-dasharray="4 2" fill="none"/>
+        </svg>
+      `
+    };
+
+    // 3. Lógica Galería de Disfraces
+    function setCostume(type) {
+      playChime(650);
+      trackSim('sim3');
+      document.getElementById('badgeSim3').className = "text-xs font-bold text-emerald-700 bg-emerald-100 px-3 py-1 rounded-full";
+      document.getElementById('badgeSim3').innerText = "¡Disfraz seleccionado!";
+
+      // Resetear bordes de botones
+      ['sano', 'enfermo', 'mascarilla', 'inmune'].forEach(t => {
+        const btn = document.getElementById(`cardCostume_${t}`);
+        if (btn) {
+          btn.className = "btn-3d p-4 rounded-2xl border-2 border-slate-200 bg-white text-center transition flex flex-col items-center justify-between";
+        }
+      });
+
+      const activeBtn = document.getElementById(`cardCostume_${type}`);
+      if (activeBtn) {
+        activeBtn.className = "btn-3d p-4 rounded-2xl border-3 border-purple-500 bg-purple-50 text-center transition flex flex-col items-center justify-between ring-4 ring-purple-200";
+      }
+
+      const preview = document.getElementById('bigMonsterPreview');
+      const title = document.getElementById('bigCostumeTitle');
+      const text = document.getElementById('bigCostumeText');
+
+      preview.innerHTML = MONSTER_SVGS[type];
+
+      if (type === 'sano') {
+        title.innerText = 'Disfraz 1: Monstruo Sano (Morado)';
+        text.innerText = 'Este es el disfraz inicial y saludable del personaje antes de comenzar la partida.';
+      } else if (type === 'enfermo') {
+        title.innerText = 'Disfraz 2: Monstruo Infectado (Rosa con manchas)';
+        text.innerText = 'Cambia a este disfraz cuando entra en contacto con el virus.';
+      } else if (type === 'mascarilla') {
+        title.innerText = 'Disfraz 3: Monstruo con Mascarilla';
+        text.innerText = 'Se protege colocándose la mascarilla cuando el jugador le hace clic.';
+      } else if (type === 'inmune') {
+        title.innerText = 'Disfraz 4: Monstruo Inmune (Celeste Vacunado)';
+        text.innerText = 'Al recibir la inyección, queda protegido para siempre contra el virus.';
+      }
+    }
+
+    // 4. Lógica Simulador de Eventos en Vivo (Alternar Mascarilla con Clic)
+    let isMonsterMaskOn = false;
+
+    function toggleMonsterMask() {
+      isMonsterMaskOn = !isMonsterMaskOn;
+      trackSim('sim4');
+      
+      const badge = document.getElementById('badgeSim4');
+      const monster = document.getElementById('simLiveMonster');
+      const tag = document.getElementById('simLiveTag');
+      const block = document.getElementById('simLiveBlock');
+      const exp = document.getElementById('simLiveExplanation');
+
+      if (isMonsterMaskOn) {
+        playChime(750, 'triangle');
+        if (badge) {
+          badge.className = "text-xs font-bold text-sky-700 bg-sky-100 px-3 py-1 rounded-full";
+          badge.innerText = "¡Mascarilla puesta!";
+        }
+        monster.innerHTML = MONSTER_SVGS.mascarilla;
+        tag.innerText = "Monstruo con Mascarilla (Protegido)";
+        tag.className = "text-xs font-kids font-bold text-sky-300 bg-sky-900/60 px-3 py-1 rounded-full mt-1";
+
+        block.innerHTML = `
+          <div class="w-full flex justify-center py-1 select-none overflow-x-auto">
+            <svg viewBox="0 0 540 160" class="w-full max-w-[500px] drop-shadow-lg">
+              <!-- 1. BLOQUE PRINCIPAL VERDE C-SHAPE (— cuando [Monstruo] PULSADO) -->
+              <path d="M 20 8 
+                       H 516 Q 528 8 528 20 
+                       V 38 Q 528 48 518 48 
+                       H 42 Q 36 48 36 56 
+                       V 112 Q 36 120 42 120 
+                       H 516 Q 528 120 528 130 
+                       V 140 Q 528 152 516 152 
+                       H 20 Q 8 152 8 140 
+                       V 20 Q 8 8 20 8 
+                       Z" 
+                    fill="#059669"/>
+
+              <!-- Pill de Encabezado: '— cuando ▼' -->
+              <g transform="translate(18, 14)">
+                <rect x="0" y="0" width="102" height="28" rx="7" fill="#047857"/>
+                <text x="8" y="19" fill="#ffffff" font-family="'Fredoka', sans-serif" font-weight="700" font-size="14">— cuando</text>
+                <text x="84" y="19" fill="#a7f3d0" font-size="11">▼</text>
+              </g>
+
+              <!-- Selector de Sprite: [👾 Monstruo] -->
+              <g transform="translate(128, 14)">
+                <rect x="0" y="0" width="124" height="28" rx="7" fill="#fce7f3" stroke="#fbcfe8" stroke-width="1.5"/>
+                <text x="10" y="19" font-size="14">👾</text>
+                <text x="32" y="19" fill="#831843" font-family="'Fredoka', sans-serif" font-weight="800" font-size="14">Monstruo</text>
+              </g>
+
+              <!-- Texto 'PULSADO' -->
+              <text x="264" y="33" fill="#ffffff" font-family="'Fredoka', sans-serif" font-weight="800" font-size="15" letter-spacing="0.5">PULSADO</text>
+
+              <!-- 2. BLOQUE ANIDADO TURQUESA (cambiar pulsado disfraz a [con Mascarilla 😷]) -->
+              <g transform="translate(36, 48)">
+                <path d="M 0 0 H 472 Q 482 0 482 10 V 62 Q 482 72 472 72 H 0 Z" fill="#0098a6"/>
+
+                <text x="14" y="42" fill="#ffffff" font-family="'Fredoka', sans-serif" font-weight="700" font-size="16">cambiar</text>
+
+                <!-- Pill Rojo: [pulsado 👾] -->
+                <g transform="translate(86, 22)">
+                  <rect x="0" y="0" width="104" height="28" rx="6" fill="#f43f5e"/>
+                  <text x="8" y="19" fill="#ffffff" font-family="'Fredoka', sans-serif" font-weight="800" font-size="14">pulsado</text>
+                  <text x="78" y="19" font-size="13">👾</text>
+                </g>
+
+                <text x="198" y="42" fill="#ffffff" font-family="'Fredoka', sans-serif" font-weight="700" font-size="16">disfraz a</text>
+
+                <!-- Selector de Disfraz Celeste: [👾 con Mascarilla 😷] -->
+                <g transform="translate(272, 22)">
+                  <rect x="0" y="0" width="195" height="28" rx="7" fill="#e0f2fe" stroke="#bae6fd" stroke-width="1.5"/>
+                  <text x="8" y="19" font-size="13">👾</text>
+                  <text x="28" y="19" fill="#075985" font-family="'Fredoka', sans-serif" font-weight="800" font-size="13">con Mascarilla</text>
+                  <text x="166" y="19" font-size="13">😷</text>
+                </g>
+              </g>
+            </svg>
+          </div>
+        `;
+        exp.innerHTML = "💡 <strong>Pregunta del Examen:</strong> ¿Cómo se coloca la mascarilla? ➔ <strong>Al hacerle clic</strong> (evento <code>cuando pulsado</code>).";
+      } else {
+        playChime(480, 'sine');
+        if (badge) {
+          badge.className = "text-xs font-bold text-purple-700 bg-purple-100 px-3 py-1 rounded-full";
+          badge.innerText = "¡Mascarilla retirada!";
+        }
+        monster.innerHTML = MONSTER_SVGS.sano;
+        tag.innerText = "Monstruo Sano (Sin Mascarilla)";
+        tag.className = "text-xs font-kids font-bold text-purple-300 bg-purple-900/60 px-3 py-1 rounded-full mt-1";
+
+        block.innerHTML = `
+          <div class="w-full flex justify-center py-1 select-none overflow-x-auto">
+            <svg viewBox="0 0 540 160" class="w-full max-w-[500px] drop-shadow-lg">
+              <!-- 1. BLOQUE PRINCIPAL VERDE C-SHAPE (— cuando [Monstruo] PULSADO) -->
+              <path d="M 20 8 
+                       H 516 Q 528 8 528 20 
+                       V 38 Q 528 48 518 48 
+                       H 42 Q 36 48 36 56 
+                       V 112 Q 36 120 42 120 
+                       H 516 Q 528 120 528 130 
+                       V 140 Q 528 152 516 152 
+                       H 20 Q 8 152 8 140 
+                       V 20 Q 8 8 20 8 
+                       Z" 
+                    fill="#059669"/>
+
+              <!-- Pill de Encabezado: '— cuando ▼' -->
+              <g transform="translate(18, 14)">
+                <rect x="0" y="0" width="102" height="28" rx="7" fill="#047857"/>
+                <text x="8" y="19" fill="#ffffff" font-family="'Fredoka', sans-serif" font-weight="700" font-size="14">— cuando</text>
+                <text x="84" y="19" fill="#a7f3d0" font-size="11">▼</text>
+              </g>
+
+              <!-- Selector de Sprite: [👾 Monstruo] -->
+              <g transform="translate(128, 14)">
+                <rect x="0" y="0" width="124" height="28" rx="7" fill="#fce7f3" stroke="#fbcfe8" stroke-width="1.5"/>
+                <text x="10" y="19" font-size="14">👾</text>
+                <text x="32" y="19" fill="#831843" font-family="'Fredoka', sans-serif" font-weight="800" font-size="14">Monstruo</text>
+              </g>
+
+              <!-- Texto 'PULSADO' -->
+              <text x="264" y="33" fill="#ffffff" font-family="'Fredoka', sans-serif" font-weight="800" font-size="15" letter-spacing="0.5">PULSADO</text>
+
+              <!-- 2. BLOQUE ANIDADO TURQUESA (cambiar pulsado disfraz a [Monstruo Sano]) -->
+              <g transform="translate(36, 48)">
+                <path d="M 0 0 H 472 Q 482 0 482 10 V 62 Q 482 72 472 72 H 0 Z" fill="#0098a6"/>
+
+                <text x="14" y="42" fill="#ffffff" font-family="'Fredoka', sans-serif" font-weight="700" font-size="16">cambiar</text>
+
+                <!-- Pill Rojo: [pulsado 👾] -->
+                <g transform="translate(86, 22)">
+                  <rect x="0" y="0" width="104" height="28" rx="6" fill="#f43f5e"/>
+                  <text x="8" y="19" fill="#ffffff" font-family="'Fredoka', sans-serif" font-weight="800" font-size="14">pulsado</text>
+                  <text x="78" y="19" font-size="13">👾</text>
+                </g>
+
+                <text x="198" y="42" fill="#ffffff" font-family="'Fredoka', sans-serif" font-weight="700" font-size="16">disfraz a</text>
+
+                <!-- Selector de Disfraz Morado: [👾 Monstruo Sano] -->
+                <g transform="translate(272, 22)">
+                  <rect x="0" y="0" width="195" height="28" rx="7" fill="#f3e8ff" stroke="#e9d5ff" stroke-width="1.5"/>
+                  <text x="8" y="19" font-size="13">👾</text>
+                  <text x="28" y="19" fill="#6b21a8" font-family="'Fredoka', sans-serif" font-weight="800" font-size="13">Monstruo Sano</text>
+                  <text x="166" y="19" font-size="13">💜</text>
+                </g>
+              </g>
+            </svg>
+          </div>
+        `;
+        exp.innerHTML = "💡 Al volver a pulsar el monstruo, se ejecuta de nuevo el evento <code>cuando pulsado</code> cambiando el disfraz a su estado sano.";
+      }
+    }
+
+    // Inicializar vistas al cargar la página
+    window.addEventListener('DOMContentLoaded', () => {
+      initAppleGame();
+      setCostume('sano');
+      toggleMonsterMask(); // Inicia con mascarilla puesta
+    });
+  </script>
+</body>
+</html>

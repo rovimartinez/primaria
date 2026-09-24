@@ -97,6 +97,45 @@
     #copyToast.show {
       transform: translateY(0);
     }
+  
+    @media print {
+      body {
+        background: white !important;
+        color: #0f172a !important;
+      }
+      .violet-grid {
+        background-image: none !important;
+      }
+      .glass-nav, header, footer, #copyToast, #modalTipografia, .no-print, button, .palette-option-btn, #quizFeedbackBox, #btnNextQuestion {
+        display: none !important;
+      }
+      .tab-content {
+        display: block !important;
+        opacity: 1 !important;
+        visibility: visible !important;
+        margin-bottom: 2rem !important;
+        page-break-after: always;
+        break-after: page;
+      }
+      .tab-content.hidden {
+        display: block !important;
+      }
+      .glass-card {
+        background: white !important;
+        border: 1px solid #cbd5e1 !important;
+        box-shadow: none !important;
+        break-inside: avoid;
+        page-break-inside: avoid;
+        margin-bottom: 1.25rem !important;
+      }
+      .print-cover-header {
+        display: block !important;
+      }
+    }
+    .print-cover-header {
+      display: none;
+    }
+
   </style>
 </head>
 <body class="violet-grid min-h-screen">
@@ -129,14 +168,24 @@
     </h1>
         </div>
 
-        <!-- Botón Directo a Classroom -->
-        <a href="https://classroom.google.com/c/ODY5NDE4NzU1MzA5?cjc=l2alhs3i" target="_blank" rel="noopener noreferrer" class="inline-flex items-center gap-2.5 px-4 py-2 rounded-xl bg-emerald-600 hover:bg-emerald-700 text-white text-xs font-bold shadow-md shadow-emerald-600/20 transition-all hover:scale-[1.02] self-start md:self-auto shrink-0">
-          <svg class="w-4 h-4" viewBox="0 0 24 24" fill="currentColor">
-            <path d="M12 2C6.48 2 2 6.48 2 12s4.48 10 10 10 10-4.48 10-10S17.52 2 12 2zm-1 14.5v-9l6 4.5-6 4.5z"/>
-          </svg>
-          <span>Unirse a Classroom 10°</span>
-          <span class="text-[10px] bg-white/20 font-mono px-1.5 py-0.5 rounded">l2alhs3i</span>
-        </a>
+        <!-- Acciones de Cabecera: Descargar PDF y Classroom -->
+        <div class="flex flex-wrap items-center gap-2 self-start md:self-auto shrink-0">
+          <button type="button" onclick="descargarPDFSesiones()" class="inline-flex items-center gap-2 px-3.5 py-2 rounded-xl bg-gradient-to-r from-violet-700 to-purple-700 hover:from-violet-800 hover:to-purple-800 active:scale-95 text-white text-xs font-bold shadow-md shadow-violet-700/25 transition-all hover:scale-[1.02] cursor-pointer group">
+            <svg class="w-4 h-4 text-violet-200 group-hover:animate-bounce" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+              <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 10v6m0 0l-3-3m3 3l3-3m2 8H7a2 2 0 01-2-2V5a2 2 0 012-2h5.586a1 1 0 01.707.293l5.414 5.414a1 1 0 01.293.707V19a2 2 0 01-2 2z"></path>
+            </svg>
+            <span>Descargar Guía PDF</span>
+            <span class="text-[10px] bg-white/20 px-1.5 py-0.5 rounded font-mono">Sesiones 1, 2 y 3</span>
+          </button>
+
+          <a href="https://classroom.google.com/c/ODY5NDE4NzU1MzA5?cjc=l2alhs3i" target="_blank" rel="noopener noreferrer" class="inline-flex items-center gap-2 px-3.5 py-2 rounded-xl bg-emerald-600 hover:bg-emerald-700 text-white text-xs font-bold shadow-md shadow-emerald-600/20 transition-all hover:scale-[1.02] cursor-pointer">
+            <svg class="w-4 h-4" viewBox="0 0 24 24" fill="currentColor">
+              <path d="M12 2C6.48 2 2 6.48 2 12s4.48 10 10 10 10-4.48 10-10S17.52 2 12 2zm-1 14.5v-9l6 4.5-6 4.5z"/>
+            </svg>
+            <span>Classroom 10°</span>
+            <span class="text-[10px] bg-white/20 font-mono px-1.5 py-0.5 rounded">l2alhs3i</span>
+          </a>
+        </div>
       </div>
 
             <!-- NAV BAR ELEGANTE DE 3 SESIONES -->
@@ -1670,6 +1719,594 @@
         nextBtn.innerHTML = '<span>Siguiente Pregunta</span> ➔';
       }
       renderQuestion();
+    }
+
+    
+    // ==========================================
+    // 5. DESCARGA / GENERACIÓN DE GUÍA PDF POR SESIONES
+    // ==========================================
+    function descargarPDFSesiones() {
+      const fechaHoy = new Date().toLocaleDateString('es-CO', { year: 'numeric', month: 'long', day: 'numeric' });
+      
+      const printWindow = window.open('', '_blank');
+      if (!printWindow) {
+        alert('Por favor permite abrir ventanas emergentes para generar el PDF.');
+        return;
+      }
+
+      // Generar dinámicamente las preguntas del test con sus opciones y respuestas explicadas para estudio
+      const preguntasHTML = testPreguntas.map((q, idx) => {
+        const opcionesList = q.opciones.map((opc, opcIdx) => {
+          const esCorrecta = opcIdx === q.correcta;
+          return `
+            <div style="margin: 3px 0; padding: 4px 8px; border-radius: 6px; font-size: 8.5pt; ${esCorrecta ? 'background: #f0fdf4; border: 1px solid #86efac; font-weight: 700; color: #166534;' : 'background: #f8fafc; border: 1px solid #e2e8f0; color: #475569;'}">
+              <span style="font-weight: 800; margin-right: 4px;">${String.fromCharCode(65 + opcIdx)}.</span> ${opc} ${esCorrecta ? '✓ (Respuesta Correcta)' : ''}
+            </div>
+          `;
+        }).join('');
+
+        return `
+          <div class="card avoid-break" style="margin-bottom: 10px; padding: 10px 14px;">
+            <div style="font-weight: 800; font-size: 9.5pt; color: #0f172a; margin-bottom: 5px;">
+              <span style="display:inline-flex; width:20px; height:20px; background:#0d9488; color:white; border-radius:5px; align-items:center; justify-content:center; font-size:8.5pt; margin-right:6px;">${idx + 1}</span>
+              ${q.pregunta}
+            </div>
+            <div style="margin-left: 26px;">
+              ${opcionesList}
+              <div style="margin-top: 5px; font-size: 8pt; color: #0f766e; background: #ccfbf1; padding: 4px 8px; border-radius: 4px; line-height: 1.35;">
+                💡 <strong>Explicación:</strong> ${q.explicacion}
+              </div>
+            </div>
+          </div>
+        `;
+      }).join('');
+
+      const docHTML = `<!DOCTYPE html>
+<html lang="es">
+<head>
+  <meta charset="UTF-8">
+  <title>Grado 10° - Guía de Aprendizaje por Sesiones (Media Lab)</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Outfit:wght@400;600;700;800;900&family=Plus+Jakarta+Sans:wght@400;500;600;700;800&family=JetBrains+Mono:wght@500;700&display=swap" rel="stylesheet">
+  <style>
+    @page {
+      size: A4 portrait;
+      margin: 12mm 14mm 15mm 14mm;
+    }
+    * {
+      box-sizing: border-box;
+      margin: 0;
+      padding: 0;
+      -webkit-print-color-adjust: exact !important;
+      print-color-adjust: exact !important;
+      color-adjust: exact !important;
+    }
+    body {
+      font-family: 'Plus Jakarta Sans', sans-serif;
+      color: #0f172a;
+      background: #ffffff !important;
+      line-height: 1.45;
+      font-size: 10pt;
+      -webkit-print-color-adjust: exact !important;
+      print-color-adjust: exact !important;
+    }
+    h1, h2, h3, h4, .font-title {
+      font-family: 'Outfit', sans-serif;
+    }
+    .font-mono {
+      font-family: 'JetBrains Mono', monospace;
+    }
+    .page-break {
+      page-break-before: always;
+      break-before: page;
+    }
+    .avoid-break {
+      page-break-inside: avoid;
+      break-inside: avoid;
+    }
+    .header-box {
+      border: 2px solid #7c3aed;
+      background: #fbf8ff !important;
+      padding: 14px 18px;
+      border-radius: 12px;
+      margin-bottom: 16px;
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+    }
+    .badge {
+      display: inline-block;
+      padding: 3px 8px;
+      border-radius: 5px;
+      font-size: 8pt;
+      font-weight: 800;
+      text-transform: uppercase;
+      letter-spacing: 0.5px;
+    }
+    .badge-purple { background: #7c3aed !important; color: #ffffff !important; }
+    .badge-emerald { background: #059669 !important; color: #ffffff !important; }
+    .badge-amber { background: #d97706 !important; color: #ffffff !important; }
+    .badge-teal { background: #0d9488 !important; color: #ffffff !important; }
+
+    .session-title-box {
+      background: #f8fafc !important;
+      border-left: 5px solid #7c3aed;
+      padding: 10px 14px;
+      margin: 16px 0 12px 0;
+      border-radius: 0 8px 8px 0;
+    }
+    .session-title-box.s2 { border-left-color: #d97706; }
+    .session-title-box.s3 { border-left-color: #0d9488; }
+
+    .card {
+      border: 1px solid #cbd5e1;
+      background: #ffffff !important;
+      border-radius: 8px;
+      padding: 12px 14px;
+      margin-bottom: 10px;
+    }
+    .card-highlight {
+      border: 1.5px solid #c4b5fd;
+      background: #faf5ff !important;
+    }
+    .step-num {
+      display: inline-flex;
+      width: 22px;
+      height: 22px;
+      background: #7c3aed !important;
+      color: white !important;
+      border-radius: 5px;
+      align-items: center;
+      justify-content: center;
+      font-weight: bold;
+      font-size: 9pt;
+      margin-right: 6px;
+    }
+    .prompt-box {
+      background: #0f172a !important;
+      color: #f1f5f9 !important;
+      padding: 10px 12px;
+      border-radius: 7px;
+      font-family: 'JetBrains Mono', monospace;
+      font-size: 8.5pt;
+      margin-top: 6px;
+      line-height: 1.4;
+    }
+    .table-custom {
+      width: 100%;
+      border-collapse: collapse;
+      margin-top: 8px;
+      font-size: 8.5pt;
+    }
+    .table-custom th, .table-custom td {
+      border: 1px solid #cbd5e1;
+      padding: 6px 8px;
+      text-align: left;
+    }
+    .table-custom th {
+      background: #f1f5f9 !important;
+      font-weight: 700;
+    }
+    .color-chip {
+      display: inline-flex;
+      align-items: center;
+      gap: 6px;
+      padding: 3px 6px;
+      border-radius: 4px;
+      border: 1px solid #cbd5e1;
+      background: #ffffff !important;
+      font-family: 'JetBrains Mono', monospace;
+      font-size: 8pt;
+      font-weight: 700;
+    }
+    .swatch-box {
+      display: inline-block;
+      width: 16px;
+      height: 16px;
+      border-radius: 3px;
+      border: 1px solid rgba(0, 0, 0, 0.25);
+      flex-shrink: 0;
+    }
+    .footer-note {
+      margin-top: 18px;
+      border-top: 1px dashed #cbd5e1;
+      padding-top: 8px;
+      font-size: 8pt;
+      color: #64748b;
+      display: flex;
+      justify-content: space-between;
+    }
+    .btn-print-floating {
+      position: fixed;
+      top: 15px;
+      right: 15px;
+      background: #7c3aed;
+      color: white;
+      border: none;
+      padding: 10px 18px;
+      border-radius: 10px;
+      font-weight: bold;
+      font-size: 11pt;
+      cursor: pointer;
+      box-shadow: 0 4px 15px rgba(124, 58, 237, 0.35);
+      z-index: 1000;
+      display: flex;
+      align-items: center;
+      gap: 8px;
+    }
+    .btn-print-floating:hover { background: #6d28d9; }
+    @media print {
+      .btn-print-floating { display: none !important; }
+      * {
+        -webkit-print-color-adjust: exact !important;
+        print-color-adjust: exact !important;
+        color-adjust: exact !important;
+      }
+    }
+  </style>
+</head>
+<body>
+
+  <button class="btn-print-floating" onclick="window.print()">
+    🖨️ Imprimir / Guardar como PDF
+  </button>
+
+  <!-- ENCABEZADO INSTITUCIONAL -->
+  <div class="header-box">
+    <div>
+      <span class="badge badge-purple">Grado 10° • Media Técnica</span>
+      <h1 style="font-size: 15pt; color: #3b0764; margin-top: 3px; font-weight: 800;">
+        Media Lab: Visualización de Datos & Pitch Deck Pro
+      </h1>
+      <p style="font-size: 8.5pt; color: #581c87; margin-top: 1px;">
+        Guía Oficial Consolidada de Aprendizaje por Sesiones • 3.° Periodo
+      </p>
+    </div>
+    <div style="text-align: right; font-size: 8pt; color: #475569;">
+      <div><strong>Código Classroom:</strong> <span class="font-mono" style="background:#e9d5ff; padding:2px 6px; border-radius:4px; font-weight:bold; color:#581c87;">l2alhs3i</span></div>
+      <div style="margin-top: 2px;">Fecha: ${fechaHoy}</div>
+    </div>
+  </div>
+
+  <!-- ========================================================================= -->
+  <!-- SESIÓN 01 -->
+  <!-- ========================================================================= -->
+  <div class="session-title-box">
+    <div style="display: flex; justify-content: space-between; align-items: center;">
+      <h2 style="font-size: 12pt; color: #4c1d95; font-weight: 800;">
+        SESIÓN 01: Diagnóstico Inicial con IA y Línea Base (2 PDFs)
+      </h2>
+      <span class="badge badge-purple">Entrega en Classroom</span>
+    </div>
+    <p style="font-size: 8.5pt; color: #6b21a8; margin-top: 1px;">
+      Objetivo: Diagnosticar objetivamente las diapositivas previas para identificar sobrecarga textual, tipografías y contraste antes de rediseñar en Canva.
+    </p>
+  </div>
+
+  <div class="card avoid-break">
+    <div style="font-weight: 700; font-size: 9.5pt; margin-bottom: 3px; color: #1e293b;">
+      <span class="step-num">1</span> Paso 1: Exportar la Presentación Original a PDF
+    </div>
+    <p style="font-size: 8.5pt; color: #475569; margin-left: 28px;">
+      Descarga tu presentación monográfica o de proyecto escolar previa en formato PDF Estándar (nombrada: <strong>Presentacion_Original.pdf</strong>). No realices cambios, representa la versión "antes".
+    </p>
+  </div>
+
+  <div class="card avoid-break card-highlight">
+    <div style="font-weight: 700; font-size: 9.5pt; margin-bottom: 3px; color: #4c1d95;">
+      <span class="step-num">2</span> Paso 2: Auditoría y Diagnóstico Clínico con IA
+    </div>
+    <p style="font-size: 8.5pt; color: #475569; margin-left: 28px;">
+      Carga el archivo PDF en un modelo de IA (Gemini, Claude o ChatGPT) junto al siguiente prompt maestro de consultoría y exporta la respuesta a PDF (nombrada: <strong>Diagnostico_Auditoria_IA.pdf</strong>):
+    </p>
+    <div class="prompt-box" style="margin-left: 28px;">
+      "Actúa como consultor senior de diseño y comunicación ejecutiva. He adjuntado el PDF de mi presentación escolar de grado 10°. Realiza un diagnóstico clínico evaluando: 1) Saturación de diapositivas y asfixia textual. 2) Contraste de colores y legibilidad en proyector. 3) Jerarquía tipográfica. 4) Calidad de imágenes, logos y tablas pegadas. Entrégame un informe estructurado con los 10 errores más críticos y las recomendaciones exactas para rediseñarla en Canva."
+    </div>
+  </div>
+
+  <div class="card avoid-break" style="border-left: 4px solid #059669; background: #f0fdf4 !important;">
+    <div style="font-weight: 700; font-size: 9.5pt; color: #065f46; margin-bottom: 2px;">
+      <span class="step-num" style="background: #059669 !important;">3</span> Paso 3: Entregables de la Sesión 1 en Classroom
+    </div>
+    <p style="font-size: 8.5pt; color: #166534; margin-left: 28px;">
+      Sube a Google Classroom los dos (2) archivos PDF: <br>
+      • <strong>1. Presentacion_Original.pdf</strong> (Línea base previa)<br>
+      • <strong>2. Diagnostico_Auditoria_IA.pdf</strong> (Auditoría con las 10 mejoras)
+    </p>
+  </div>
+
+  <!-- ========================================================================= -->
+  <!-- SESIÓN 02 -->
+  <!-- ========================================================================= -->
+  <div class="page-break"></div>
+
+  <div class="session-title-box s2">
+    <div style="display: flex; justify-content: space-between; align-items: center;">
+      <h2 style="font-size: 12pt; color: #9a3412; font-weight: 800;">
+        SESIÓN 02: Colorimetría 60-30-10, Complementario 5% y Tipografía 2:1
+      </h2>
+      <span class="badge badge-amber">Color & Jerarquía</span>
+    </div>
+    <p style="font-size: 8.5pt; color: #c2410c; margin-top: 1px;">
+      Objetivo: Aplicar la regla de colorimetría armónica, el micro-acento complementario del 5% y la escala tipográfica 2:1 para eliminar la asfixia visual.
+    </p>
+  </div>
+
+  <div class="card avoid-break">
+    <h3 style="font-size: 9.5pt; font-weight: 800; color: #1e293b; margin-bottom: 5px;">
+      📐 1. La Regla de Oro 60-30-10 + 5% Micro-Acento Complementario
+    </h3>
+    <table class="table-custom">
+      <thead>
+        <tr>
+          <th style="width: 18%;">Proporción</th>
+          <th style="width: 25%;">Función en la Diapositiva</th>
+          <th>Regla de Aplicación en Canva</th>
+        </tr>
+      </thead>
+      <tbody>
+        <tr>
+          <td><strong>60% Dominante</strong></td>
+          <td>Fondo / Canvas</td>
+          <td>Tonos neutros, claros o pasteles limpios (#F8FAFC, #FAF5FF, #FFF1F2). Evita fondos negros puros.</td>
+        </tr>
+        <tr>
+          <td><strong>30% Secundario</strong></td>
+          <td>Títulos, Subtítulos y Texto</td>
+          <td>Color de alto contraste legible (Slate 900, Azul Marino, Berenjena Oscuro).</td>
+        </tr>
+        <tr>
+          <td><strong>10% Acento</strong></td>
+          <td>Identidad / Botones / KPIs</td>
+          <td>Color corporativo vibrante para resaltar datos esenciales y métricas de impacto.</td>
+        </tr>
+        <tr style="background: #fffbeb !important;">
+          <td><strong style="color: #d97706;">+5% Micro-Acento</strong></td>
+          <td>Color Complementario (Opuesto)</td>
+          <td>Dosis mínima reservada exclusivamente para badges urgentes ("Nuevo", "Alerta", "Meta").</td>
+        </tr>
+      </tbody>
+    </table>
+  </div>
+
+  <div class="card avoid-break">
+    <h3 style="font-size: 9.5pt; font-weight: 800; color: #1e293b; margin-bottom: 5px;">
+      🎨 2. Paletas de Referencia Oficiales con Muestras de Color Reales (HEX)
+    </h3>
+    <table class="table-custom">
+      <thead>
+        <tr>
+          <th style="width: 26%;">Paleta / Categoría</th>
+          <th style="width: 20%;">60% Fondo</th>
+          <th style="width: 20%;">30% Texto</th>
+          <th style="width: 17%;">10% Acento</th>
+          <th style="width: 17%;">+5% Micro-Acento</th>
+        </tr>
+      </thead>
+      <tbody>
+        <tr>
+          <td><strong>🌸 Rosa Pastel & Coquette</strong><br><span style="font-size: 7.5pt; color: #64748b;">Creativa / Emprendimiento</span></td>
+          <td>
+            <div class="color-chip">
+              <span class="swatch-box" style="background-color: #FFF1F2;"></span>
+              <span>#FFF1F2</span>
+            </div>
+          </td>
+          <td>
+            <div class="color-chip">
+              <span class="swatch-box" style="background-color: #4C0519;"></span>
+              <span>#4C0519</span>
+            </div>
+          </td>
+          <td>
+            <div class="color-chip">
+              <span class="swatch-box" style="background-color: #E11D48;"></span>
+              <span>#E11D48</span>
+            </div>
+          </td>
+          <td>
+            <div class="color-chip">
+              <span class="swatch-box" style="background-color: #0D9488;"></span>
+              <span>#0D9488</span>
+            </div>
+          </td>
+        </tr>
+        <tr>
+          <td><strong>💜 Lavanda & Ensueño Chic</strong><br><span style="font-size: 7.5pt; color: #64748b;">Psicología / Salud Mental</span></td>
+          <td>
+            <div class="color-chip">
+              <span class="swatch-box" style="background-color: #FAF5FF;"></span>
+              <span>#FAF5FF</span>
+            </div>
+          </td>
+          <td>
+            <div class="color-chip">
+              <span class="swatch-box" style="background-color: #3B0764;"></span>
+              <span>#3B0764</span>
+            </div>
+          </td>
+          <td>
+            <div class="color-chip">
+              <span class="swatch-box" style="background-color: #9333EA;"></span>
+              <span>#9333EA</span>
+            </div>
+          </td>
+          <td>
+            <div class="color-chip">
+              <span class="swatch-box" style="background-color: #F59E0B;"></span>
+              <span>#F59E0B</span>
+            </div>
+          </td>
+        </tr>
+        <tr>
+          <td><strong>⚡ Azul Tech & Negocios Pro</strong><br><span style="font-size: 7.5pt; color: #64748b;">Software / Monografía Técnica</span></td>
+          <td>
+            <div class="color-chip">
+              <span class="swatch-box" style="background-color: #F8FAFC;"></span>
+              <span>#F8FAFC</span>
+            </div>
+          </td>
+          <td>
+            <div class="color-chip">
+              <span class="swatch-box" style="background-color: #0F172A;"></span>
+              <span>#0F172A</span>
+            </div>
+          </td>
+          <td>
+            <div class="color-chip">
+              <span class="swatch-box" style="background-color: #2563EB;"></span>
+              <span>#2563EB</span>
+            </div>
+          </td>
+          <td>
+            <div class="color-chip">
+              <span class="swatch-box" style="background-color: #F97316;"></span>
+              <span>#F97316</span>
+            </div>
+          </td>
+        </tr>
+        <tr>
+          <td><strong>🌿 Menta & Salvia Botánica</strong><br><span style="font-size: 7.5pt; color: #64748b;">Ecología / Bio / Ciencias</span></td>
+          <td>
+            <div class="color-chip">
+              <span class="swatch-box" style="background-color: #F0FDF4;"></span>
+              <span>#F0FDF4</span>
+            </div>
+          </td>
+          <td>
+            <div class="color-chip">
+              <span class="swatch-box" style="background-color: #064E3B;"></span>
+              <span>#064E3B</span>
+            </div>
+          </td>
+          <td>
+            <div class="color-chip">
+              <span class="swatch-box" style="background-color: #10B981;"></span>
+              <span>#10B981</span>
+            </div>
+          </td>
+          <td>
+            <div class="color-chip">
+              <span class="swatch-box" style="background-color: #E11D48;"></span>
+              <span>#E11D48</span>
+            </div>
+          </td>
+        </tr>
+        <tr>
+          <td><strong>🍑 Melocotón & Coral Sunset</strong><br><span style="font-size: 7.5pt; color: #64748b;">Gastronomía / Social</span></td>
+          <td>
+            <div class="color-chip">
+              <span class="swatch-box" style="background-color: #FFF7ED;"></span>
+              <span>#FFF7ED</span>
+            </div>
+          </td>
+          <td>
+            <div class="color-chip">
+              <span class="swatch-box" style="background-color: #431407;"></span>
+              <span>#431407</span>
+            </div>
+          </td>
+          <td>
+            <div class="color-chip">
+              <span class="swatch-box" style="background-color: #F97316;"></span>
+              <span>#F97316</span>
+            </div>
+          </td>
+          <td>
+            <div class="color-chip">
+              <span class="swatch-box" style="background-color: #3B82F6;"></span>
+              <span>#3B82F6</span>
+            </div>
+          </td>
+        </tr>
+        <tr>
+          <td><strong>🍯 Vainilla & Ámbar Pitch</strong><br><span style="font-size: 7.5pt; color: #64748b;">Debates / Discursos / Oratoria</span></td>
+          <td>
+            <div class="color-chip">
+              <span class="swatch-box" style="background-color: #FFFBEB;"></span>
+              <span>#FFFBEB</span>
+            </div>
+          </td>
+          <td>
+            <div class="color-chip">
+              <span class="swatch-box" style="background-color: #1E293B;"></span>
+              <span>#1E293B</span>
+            </div>
+          </td>
+          <td>
+            <div class="color-chip">
+              <span class="swatch-box" style="background-color: #D97706;"></span>
+              <span>#D97706</span>
+            </div>
+          </td>
+          <td>
+            <div class="color-chip">
+              <span class="swatch-box" style="background-color: #8B5CF6;"></span>
+              <span>#8B5CF6</span>
+            </div>
+          </td>
+        </tr>
+      </tbody>
+    </table>
+  </div>
+
+  <div class="card avoid-break">
+    <h3 style="font-size: 9.5pt; font-weight: 800; color: #1e293b; margin-bottom: 4px;">
+      🔤 3. Jerarquía Tipográfica 2:1 y Auditoría de Logos
+    </h3>
+    <ul style="font-size: 8.5pt; color: #475569; margin-left: 18px; line-height: 1.5;">
+      <li><strong>H1 (Título Principal):</strong> 40px a 48px en Bold / ExtraBold (duplica el tamaño del cuerpo).</li>
+      <li><strong>H2 (Subtítulo / Idea Clave):</strong> 20px a 24px en Medium / SemiBold.</li>
+      <li><strong>Cuerpo de Texto:</strong> 14px a 18px con interlineado de 1.25 a 1.3 (máximo 4 renglones por bloque).</li>
+      <li><strong>Auditoría de Logos:</strong> Prohibido fondos blancos recortados; usar siempre logos en PNG transparente o vector SVG.</li>
+    </ul>
+  </div>
+
+  <div class="card avoid-break" style="border-left: 4px solid #059669; background: #f0fdf4 !important;">
+    <div style="font-weight: 700; font-size: 9.5pt; color: #065f46; margin-bottom: 2px;">
+      📤 Entregables de la Sesión 2 en Classroom
+    </div>
+    <p style="font-size: 8.5pt; color: #166534; margin-left: 18px;">
+      • <strong>1. Paleta_Estudiantes.pdf:</strong> Documento con nombres de integrantes, captura de la paleta seleccionada y porcentajes detallados.<br>
+      • <strong>2. Presentacion_Modificada.pdf:</strong> Versión V2 de la presentación aplicando la colorimetría 60-30-10, jerarquía tipográfica 2:1 y correcciones del diagnóstico de IA.
+    </p>
+  </div>
+
+  <!-- ========================================================================= -->
+  <!-- SESIÓN 03 -->
+  <!-- ========================================================================= -->
+  <div class="page-break"></div>
+
+  <div class="session-title-box s3">
+    <div style="display: flex; justify-content: space-between; align-items: center;">
+      <h2 style="font-size: 12pt; color: #0f766e; font-weight: 800;">
+        SESIÓN 03: Test Práctico de Conocimiento (12 Preguntas con Respuestas)
+      </h2>
+      <span class="badge badge-teal">Test de Práctica</span>
+    </div>
+    <p style="font-size: 8.5pt; color: #115e59; margin-top: 1px;">
+      Cuestionario formativo de autoevaluación para afianzar los conceptos de colorimetría 60-30-10, jerarquía 2:1 y auditoría IA.
+    </p>
+  </div>
+
+  <div style="margin-bottom: 12px;">
+    ${preguntasHTML}
+  </div>
+
+  <div class="footer-note">
+    <span>Mundo Jandra • Plataforma Educativa de Tecnología e Innovación</span>
+    <span>Grado 10° • Periodo 3 • Documento Oficial de Sesiones</span>
+  </div>
+
+</body>
+</html>
+`;
+
+      printWindow.document.open();
+      printWindow.document.write(docHTML);
+      printWindow.document.close();
+      printWindow.focus();
     }
 
     window.addEventListener('DOMContentLoaded', () => {

@@ -679,6 +679,90 @@
       </div>
     </section>
 
+    
+    <!-- 🏆 SESIÓN DE EVALUACIÓN: SÚPER TEST INTERACTIVO 3D (20 PREGUNTAS) -->
+    <section id="seccion-test-3d" class="bg-white rounded-3xl p-6 sm:p-8 border-4 border-indigo-500/30 shadow-2xl mb-12 relative overflow-hidden">
+      
+      <div class="flex flex-col sm:flex-row sm:items-center justify-between gap-4 pb-6 border-b border-slate-200">
+        <div>
+          <div class="inline-flex items-center gap-2 bg-gradient-to-r from-indigo-600 to-purple-600 text-white px-3.5 py-1 rounded-full text-xs font-kids font-black uppercase tracking-wider mb-2 shadow-sm">
+            <span>⭐ EVALUACIÓN FORMATIVA DE 8°</span>
+          </div>
+          <h3 class="text-2xl sm:text-3xl font-kids font-black text-slate-900">
+            Súper Test de Modelado 3D & Tinkercad (20 Preguntas)
+          </h3>
+          <p class="text-xs sm:text-sm text-slate-500 font-medium mt-1">
+            Demuestra tu dominio sobre atajos de teclado, primitivas, cortes con huecos, herramientas de alineación, manipuladores y misiones de clase.
+          </p>
+        </div>
+
+        <div class="bg-indigo-50 border-2 border-indigo-200 rounded-2xl p-3 sm:px-4 sm:py-3 text-center sm:text-right shrink-0">
+          <span class="text-[11px] font-bold text-indigo-600 uppercase tracking-wider block">Progreso del Test</span>
+          <span id="quizBadgeProgreso" class="font-kids font-black text-lg text-indigo-900">Pregunta 1 de 20</span>
+        </div>
+      </div>
+
+      <!-- Barra de Progreso y Marcador en Vivo -->
+      <div class="mt-6 flex flex-col sm:flex-row items-center justify-between gap-3 bg-slate-50 p-4 rounded-2xl border border-slate-200">
+        <div class="w-full sm:flex-1">
+          <div class="flex justify-between text-xs font-bold text-slate-600 mb-1">
+            <span>Avance del Cuestionario</span>
+            <span id="quizPorcentajeText" class="font-mono text-indigo-600">5%</span>
+          </div>
+          <div class="w-full bg-slate-200 rounded-full h-3 overflow-hidden">
+            <div id="quizBarraFill" class="bg-gradient-to-r from-indigo-500 via-purple-500 to-pink-500 h-full w-[5%] transition-all duration-300 rounded-full"></div>
+          </div>
+        </div>
+
+        <div class="flex items-center gap-3 shrink-0">
+          <div class="bg-emerald-100 text-emerald-900 px-3 py-1.5 rounded-xl text-xs font-bold font-mono border border-emerald-300 flex items-center gap-1.5">
+            <span>✓ Aciertos:</span>
+            <span id="quizAciertosCount" class="font-black text-sm text-emerald-700">0</span>
+          </div>
+          <div class="bg-rose-100 text-rose-900 px-3 py-1.5 rounded-xl text-xs font-bold font-mono border border-rose-300 flex items-center gap-1.5">
+            <span>✕ Errores:</span>
+            <span id="quizErroresCount" class="font-black text-sm text-rose-700">0</span>
+          </div>
+        </div>
+      </div>
+
+      <!-- Contenedor Dinámico de la Pregunta -->
+      <div id="quizCajaPregunta" class="mt-6 p-6 sm:p-8 bg-slate-900 text-white rounded-3xl border-2 border-indigo-400/40 shadow-inner">
+        
+        <div class="flex items-center gap-3 mb-4">
+          <span class="w-10 h-10 rounded-2xl bg-indigo-600 text-white font-kids font-black text-base flex items-center justify-center shrink-0 shadow-md">
+            <span id="quizIconoPregunta">Q1</span>
+          </span>
+          <h4 id="quizTituloPregunta" class="text-base sm:text-lg font-kids font-bold text-slate-100 leading-snug">
+            Cargando pregunta...
+          </h4>
+        </div>
+
+        <!-- Opciones de Respuesta -->
+        <div id="quizContenedorOpciones" class="grid grid-cols-1 gap-3 pt-2">
+          <!-- Opciones renderizadas dinámicamente -->
+        </div>
+
+        <!-- Caja de Retroalimentación / Explicación -->
+        <div id="quizFeedbackBox" class="hidden mt-5 p-4 rounded-2xl border text-xs sm:text-sm font-medium transition-all duration-200">
+          <p id="quizFeedbackTexto"></p>
+        </div>
+
+        <!-- Botón de Siguiente Pregunta -->
+        <div class="flex items-center justify-between mt-6 pt-4 border-t border-slate-800">
+          <button type="button" onclick="reiniciarQuiz8()" class="px-4 py-2 bg-slate-800 hover:bg-slate-700 text-slate-300 hover:text-white rounded-xl text-xs font-bold transition flex items-center gap-1.5 border border-slate-700">
+            <span>🔄 Reiniciar</span>
+          </button>
+
+          <button type="button" id="btnQuizSiguiente" onclick="avanzarPreguntaQuiz8()" disabled class="btn-3d px-6 py-2.5 bg-slate-700 text-slate-400 font-kids font-black text-xs sm:text-sm rounded-xl transition flex items-center gap-2 cursor-not-allowed">
+            <span>Siguiente Pregunta</span> ➔
+          </button>
+        </div>
+
+      </div>
+
+    </section>
+
     <!-- ⚠️ GALERÍA DE LOS 4 ERRORES MÁS COMUNES EN CLASE -->
     <section class="bg-amber-50 rounded-3xl p-6 sm:p-8 border-2 border-amber-200 shadow-md mb-12">
       <div class="flex items-center gap-3 mb-6">
@@ -750,8 +834,9 @@
     const ejDinamico = document.getElementById('ejemploAliasDinamico');
 
     function actualizarAlias() {
-      const nom = inputNom.value.trim().toLowerCase().normalize("NFD").replace(/[\u0300-\u036f]/g, "").replace(/\s+/g, '');
-      const ape = inputApe.value.trim().toLowerCase().normalize("NFD").replace(/[\u0300-\u036f]/g, "").replace(/\s+/g, '');
+      if (!inputNom || !inputApe) return;
+      const nom = inputNom.value.trim().toLowerCase().normalize("NFD").replace(/[̀-ͯ]/g, "").replace(/\s+/g, '');
+      const ape = inputApe.value.trim().toLowerCase().normalize("NFD").replace(/[̀-ͯ]/g, "").replace(/\s+/g, '');
       
       let aliasFinal = '';
       if (nom || ape) {
@@ -760,10 +845,8 @@
         aliasFinal = 'mariaacosta';
       }
 
-      resAlias.textContent = aliasFinal;
-      if (ejDinamico) {
-        ejDinamico.textContent = aliasFinal;
-      }
+      if (resAlias) resAlias.textContent = aliasFinal;
+      if (ejDinamico) ejDinamico.textContent = aliasFinal;
     }
 
     if (inputNom && inputApe) {
@@ -772,19 +855,23 @@
     }
 
     function copiarAlias() {
+      if (!resAlias) return;
       const alias = resAlias.textContent.trim();
       navigator.clipboard.writeText(alias);
       const btn = document.getElementById('btnCopiarTexto');
-      btn.textContent = '✅ ¡Copiado!';
-      setTimeout(() => {
-        btn.textContent = '📋 Copiar usuario';
-      }, 2000);
+      if (btn) {
+        btn.textContent = '✅ ¡Copiado!';
+        setTimeout(() => {
+          btn.textContent = '📋 Copiar usuario';
+        }, 2000);
+      }
     }
 
     // --- SIMULADOR 1: PRIMITIVAS 3D ---
     function cambiarPrimitiva(icono, nombre) {
       const fig = document.getElementById('sim1Figura');
       const lbl = document.getElementById('sim1Nombre');
+      if (!fig || !lbl) return;
       fig.style.transform = 'scale(0.5) rotate(20deg)';
       setTimeout(() => {
         fig.textContent = icono;
@@ -798,6 +885,7 @@
       const obj = document.getElementById('sim2Objeto');
       const icon = document.getElementById('sim2Icono');
       const est = document.getElementById('sim2Estado');
+      if (!obj || !icon || !est) return;
       if (esSolido) {
         obj.className = "w-16 h-16 bg-gradient-to-tr from-amber-500 to-orange-400 rounded-2xl shadow-lg border-2 border-orange-300 flex items-center justify-center transition-all duration-300";
         icon.textContent = "SÓLIDO";
@@ -820,6 +908,7 @@
       const orificio = document.getElementById('sim3Orificio');
       const btn = document.getElementById('btnSim3');
       const est = document.getElementById('sim3Estado');
+      if (!hueco || !orificio || !btn || !est) return;
 
       if (!sim3Agrupado) {
         hueco.style.display = 'none';
@@ -849,37 +938,46 @@
       if (peldanios >= 5) return;
       peldanios++;
       const contenedor = document.getElementById('sim4Contenedor');
+      if (!contenedor) return;
       const nuevo = document.createElement('div');
-      nuevo.className = `w-6 bg-amber-400 rounded-md border border-amber-200 shadow flex items-center justify-center text-[10px] font-bold text-slate-900 transition-all duration-300`;
-      nuevo.style.height = `${28 + (peldanios - 1) * 12}px`;
+      nuevo.className = 'w-6 bg-amber-400 rounded-md border border-amber-200 shadow flex items-center justify-center text-[10px] font-bold text-slate-900 transition-all duration-300';
+      nuevo.style.height = (28 + (peldanios - 1) * 12) + 'px';
       nuevo.textContent = peldanios;
       contenedor.appendChild(nuevo);
-      document.getElementById('sim4Estado').textContent = `Patrón: x${peldanios} peldaños en cadena`;
+      const est = document.getElementById('sim4Estado');
+      if (est) est.textContent = 'Patrón: x' + peldanios + ' peldaños en cadena';
     }
 
     function reiniciarDuplicado() {
       peldanios = 1;
       const contenedor = document.getElementById('sim4Contenedor');
-      contenedor.innerHTML = '<div class="w-6 h-7 bg-amber-400 rounded-md border border-amber-200 shadow flex items-center justify-center text-[10px] font-bold text-slate-900">1</div>';
-      document.getElementById('sim4Estado').textContent = 'Patrón: 1 Peldaño original';
+      if (contenedor) {
+        contenedor.innerHTML = '<div class="w-6 h-7 bg-amber-400 rounded-md border border-amber-200 shadow flex items-center justify-center text-[10px] font-bold text-slate-900">1</div>';
+      }
+      const est = document.getElementById('sim4Estado');
+      if (est) est.textContent = 'Patrón: 1 Peldaño original';
     }
 
     // --- SIMULADOR 5: ALINEAR (L) ---
     function alinearCentro() {
       const pieza = document.getElementById('sim5Pieza');
+      const est = document.getElementById('sim5Estado');
+      if (!pieza || !est) return;
       pieza.classList.remove('-translate-x-4', '-translate-y-4');
       pieza.classList.add('translate-x-0', 'translate-y-0');
-      document.getElementById('sim5Estado').textContent = 'Estado: ¡Centrado en X, Y, Z!';
-      document.getElementById('sim5Estado').className = "bg-slate-800/90 rounded-xl py-1 px-2 text-[10px] font-mono font-bold text-emerald-300 mt-1 border border-slate-700 whitespace-nowrap overflow-hidden text-ellipsis";
+      est.textContent = 'Estado: ¡Centrado en X, Y, Z!';
+      est.className = "bg-slate-800/90 rounded-xl py-1 px-2 text-[10px] font-mono font-bold text-emerald-300 mt-1 border border-slate-700 whitespace-nowrap overflow-hidden text-ellipsis";
       lanzarConfetti();
     }
 
     function desalinear() {
       const pieza = document.getElementById('sim5Pieza');
+      const est = document.getElementById('sim5Estado');
+      if (!pieza || !est) return;
       pieza.classList.remove('translate-x-0', 'translate-y-0');
       pieza.classList.add('-translate-x-4', '-translate-y-4');
-      document.getElementById('sim5Estado').textContent = 'Estado: Objetos Desalineados';
-      document.getElementById('sim5Estado').className = "bg-slate-800/90 rounded-xl py-1 px-2 text-[10px] font-mono font-bold text-rose-300 mt-1 border border-slate-700 whitespace-nowrap overflow-hidden text-ellipsis";
+      est.textContent = 'Estado: Objetos Desalineados';
+      est.className = "bg-slate-800/90 rounded-xl py-1 px-2 text-[10px] font-mono font-bold text-rose-300 mt-1 border border-slate-700 whitespace-nowrap overflow-hidden text-ellipsis";
     }
 
     // --- SIMULADOR 6: SIMETRÍA Y ESPEJO (M) ---
@@ -887,6 +985,7 @@
     function toggleEspejo() {
       const espejo = document.getElementById('sim6Espejo');
       const est = document.getElementById('sim6Estado');
+      if (!espejo || !est) return;
       if (!esReflejado) {
         espejo.style.transform = 'scaleX(-1)';
         espejo.classList.replace('bg-teal-400', 'bg-emerald-400');
@@ -900,6 +999,447 @@
         est.className = "bg-slate-800/90 rounded-xl py-1 px-2 text-[10px] font-mono font-bold text-teal-300 mt-1 border border-slate-700 whitespace-nowrap overflow-hidden text-ellipsis";
         esReflejado = false;
       }
+    }
+
+    // ==========================================
+    // SÚPER TEST INTERACTIVO DE MODELADO 3D (20 PREGUNTAS)
+    // ==========================================
+    const testPreguntas8 = [
+  {
+    "pregunta": "¿Qué es una primitiva 3D en Tinkercad?",
+    "opciones": [
+      "Un comando para exportar directamente a formato MP4.",
+      "Una figura geométrica básica predeterminada (cubo, esfera, cilindro, cono, toroide) con la que se construyen objetos complejos.",
+      "Un error que ocurre cuando se apaga la computadora.",
+      "Un tipo de letra exclusivo para títulos en 3D."
+    ],
+    "correcta": 1,
+    "explicacion": "Las primitivas son los bloques de construcción elementales de Tinkercad. Cualquier modelo complejo se obtiene sumando y restando estas formas geométricas básicas."
+  },
+  {
+    "pregunta": "¿Cuál es la diferencia fundamental entre una forma 'Sólida' y una forma en modo 'Hueco' (Hole)?",
+    "opciones": [
+      "El sólido es más pesado en megabytes que el hueco.",
+      "El sólido es la masa física que se imprimirá en 3D, mientras que el hueco actúa como una broca de corte invisible para perforar o restar material.",
+      "El sólido no se puede mover por el plano de trabajo.",
+      "El hueco solo sirve para cambiar el color de la pieza a transparente."
+    ],
+    "correcta": 1,
+    "explicacion": "Una forma en modo 'Hueco' funciona como una herramienta de corte booleano: al agruparse con un sólido, elimina la materia en la zona donde se cruzan."
+  },
+  {
+    "pregunta": "¿Qué combinación de teclas permite Agrupar / Fusionar figuras sólidas o aplicar un corte con una figura hueca?",
+    "opciones": [
+      "Ctrl + Z",
+      "Ctrl + G",
+      "Ctrl + Shift + P",
+      "Alt + F4"
+    ],
+    "correcta": 1,
+    "explicacion": "Ctrl + G es el comando de agrupación (Group). Une múltiples sólidos en una sola pieza o perfora un sólido si contiene figuras en modo hueco."
+  },
+  {
+    "pregunta": "Si agrupaste varias piezas por error y necesitas modificar una de ellas por separado, ¿qué atajo debes usar?",
+    "opciones": [
+      "Ctrl + Shift + G (Desagrupar)",
+      "Ctrl + D",
+      "Tecla L",
+      "Tecla M"
+    ],
+    "correcta": 0,
+    "explicacion": "Ctrl + Shift + G (Ungroup) deshace la agrupación previa, devolviendo los objetos a sus figuras y estados individuales para poder reeditarlos."
+  },
+  {
+    "pregunta": "¿Cuál es el 'superpoder' de la herramienta Duplicar con Memoria (Ctrl + D) frente al simple Copiar y Pegar (Ctrl + C / Ctrl + V)?",
+    "opciones": [
+      "Pinta automáticamente la figura con colores brillantes.",
+      "Memoriza el desplazamiento, rotación o escala aplicados a la copia y los repite en cadena sucesivamente cada vez que vuelves a presionar Ctrl + D.",
+      "Guarda el archivo en una memoria USB externa.",
+      "Convierte la figura en un circuito electrónico."
+    ],
+    "correcta": 1,
+    "explicacion": "Ctrl + D es un duplicado inteligente: si mueves o rotas la copia una sola vez, las siguientes pulsaciones repetirán exactamente ese patrón secuencial (ideal para escaleras, engranajes y cadenas)."
+  },
+  {
+    "pregunta": "¿Qué tecla rápida activa la herramienta de Alinear y Centrar en los ejes X, Y y Z?",
+    "opciones": [
+      "Tecla A",
+      "Tecla L",
+      "Tecla C",
+      "Tecla E"
+    ],
+    "correcta": 1,
+    "explicacion": "La tecla L (Align) despliega los 9 puntos o nodos negros que permiten alinear y centrar figuras en los extremos o en el punto medio de los 3 ejes espaciales."
+  },
+  {
+    "pregunta": "¿Qué función cumple la herramienta Simetría / Espejo activada con la tecla M (Mirror)?",
+    "opciones": [
+      "Hace que el objeto brille como un espejo de cristal.",
+      "Invierte y refleja la figura sobre un eje para crear partes opuestas perfectas (como alas de avión, orejas o llantas laterales).",
+      "Duplica la figura cien veces en el plano.",
+      "Borra todas las caras invisibles del modelo."
+    ],
+    "correcta": 1,
+    "explicacion": "La tecla M (Mirror) permite voltear cualquier diseño horizontal o verticalmente sobre flechas de reflejo, asegurando simetría anatómica o mecánica exacta."
+  },
+  {
+    "pregunta": "¿Para qué sirve el pequeño Cono Negro (▲) ubicado en la parte superior de toda figura seleccionada?",
+    "opciones": [
+      "Para cambiar la figura a color negro.",
+      "Para elevar o hundir la figura verticalmente sobre el eje Z respecto al plano de trabajo.",
+      "Para girar la cámara del visor 360 grados.",
+      "Para borrar la figura inmediatamente."
+    ],
+    "correcta": 1,
+    "explicacion": "El cono negro superior es el manipulador de elevación en el eje vertical Z: al arrastrarlo hacia arriba levanta la figura del suelo y hacia abajo la hunde bajo el plano."
+  },
+  {
+    "pregunta": "¿Qué función tienen los cuadros blancos ubicados en las esquinas de una figura 3D?",
+    "opciones": [
+      "Permiten modificar el ancho (X) y el largo/profundidad (Y) simultáneamente, y la altura con el cuadro blanco superior.",
+      "Solo sirven para cambiar la figura a color blanco.",
+      "Activan el modo de rayos X.",
+      "Bloquean la figura para que nadie la edite."
+    ],
+    "correcta": 0,
+    "explicacion": "Los cuadros blancos de las esquinas modifican dos dimensiones a la vez (ancho y profundidad), y el cuadro blanco central superior ajusta la altura de la pieza."
+  },
+  {
+    "pregunta": "¿Qué tecla debes mantener presionada al estirar una esquina para que la figura crezca proporcionalmente sin deformarse?",
+    "opciones": [
+      "Tecla Tab",
+      "Tecla Shift (Mayús)",
+      "Tecla Alt",
+      "Tecla Espacio"
+    ],
+    "correcta": 1,
+    "explicacion": "Mantener presionada la tecla Shift mientras se arrastra un manipulador de esquina conserva la relación de aspecto (proporción) uniforme en todos sus lados."
+  },
+  {
+    "pregunta": "Si tu figura quedó flotando o se hundió por debajo del plano de trabajo, ¿qué tecla la hace caer automáticamente al nivel cero del suelo?",
+    "opciones": [
+      "Tecla D (Drop)",
+      "Tecla S",
+      "Tecla F",
+      "Tecla Z"
+    ],
+    "correcta": 0,
+    "explicacion": "La tecla D (Drop / Soltar) asienta la base del objeto exactamente sobre el plano de trabajo activo (Z = 0) de forma instantánea."
+  },
+  {
+    "pregunta": "¿Cómo se orbita y rota la cámara 360° para inspeccionar un diseño tridimensional en Tinkercad?",
+    "opciones": [
+      "Haciendo doble clic en la barra espaciadora.",
+      "Manteniendo presionado el botón derecho del mouse y arrastrando el cursor.",
+      "Presionando las flechas del teclado arriba y abajo.",
+      "Haciendo clic izquierdo en el fondo de la pantalla."
+    ],
+    "correcta": 1,
+    "explicacion": "El clic derecho sostenido + movimiento del mouse orbita la cámara en 360° alrededor del plano para revisar el diseño desde cualquier perspectiva."
+  },
+  {
+    "pregunta": "¿Qué acción realiza presionar y arrastrar con la rueda central del mouse (botón central / scroll)?",
+    "opciones": [
+      "Borra el último objeto seleccionado.",
+      "Desplaza la vista lateralmente (Pan / Encuadre) sin cambiar el ángulo de rotación de la cámara.",
+      "Exporta el archivo para corte láser.",
+      "Cambia el idioma de Tinkercad a inglés."
+    ],
+    "correcta": 1,
+    "explicacion": "Presionar la rueda del ratón (clic central) activa la herramienta 'Pan' (desplazamiento de cámara), moviendo el encuadre horizontal o verticalmente sin rotar el ángulo."
+  },
+  {
+    "pregunta": "Un estudiante colocó un cilindro hueco dentro de un cubo sólido, pero dice: 'Profe, no se hace el agujero'. ¿Cuál es el error y su solución?",
+    "opciones": [
+      "El cilindro hueco tiene un virus informático.",
+      "Olvidó seleccionar AMBAS figuras al mismo tiempo (arrastrando un cuadro de selección sobre ellas) antes de presionar Agrupar (Ctrl + G).",
+      "Debe reiniciar la computadora 3 veces.",
+      "El color del cubo debe ser estrictamente azul para que funcione."
+    ],
+    "correcta": 1,
+    "explicacion": "La operación booleana de corte solo se ejecuta cuando se seleccionan conjuntamente el cuerpo sólido que recibirá el corte y el cuerpo hueco cortador, y luego se agrupan (Ctrl+G)."
+  },
+  {
+    "pregunta": "¿En qué consiste la Misión 1 de la ruta práctica de 8° ('El Puente')?",
+    "opciones": [
+      "Crear un circuito con 10 bombillos LED parpadeantes.",
+      "Construir los pilares de soporte con cubos/cilindros y utilizar un cilindro o arco hueco agrupado para perforar el paso inferior del agua.",
+      "Descargar una imagen de internet y pegarla en un documento de Word.",
+      "Pintar un paisaje con acuarelas digitales."
+    ],
+    "correcta": 1,
+    "explicacion": "La Misión del Puente entrena la elevación de piezas (Z) y la perforación del túnel de paso de agua mediante cilindros o figuras huecas agrupadas."
+  },
+  {
+    "pregunta": "¿Qué operaciones clave se practican en la Misión 2 ('Llavero Personalizado')?",
+    "opciones": [
+      "Crear una base plana de 4mm, texto 3D con tu nombre, un cilindro hueco para la argolla y centrar todo con la herramienta Alinear (L).",
+      "Hacer una animación de video en formato MP4.",
+      "Instalar un sistema operativo en una máquina virtual.",
+      "Modelar una nave espacial con 500 botones."
+    ],
+    "correcta": 0,
+    "explicacion": "El llavero personalizado combina una placa base sólida, relieve de texto 3D, perforación para argolla y alineación de precisión con la tecla L."
+  },
+  {
+    "pregunta": "¿Cómo se construye el Creeper de Minecraft en la Misión 3?",
+    "opciones": [
+      "Importando una foto de Google Imágenes sin modelar nada.",
+      "Modelando cabeza cúbica, cuerpo y 4 patas simétricas, y usando cubos huecos para tallar la boca y los ojos pixelados antes de agrupar.",
+      "Dibujando con un pincel 2D en Paint.",
+      "Escribiendo código de Python en la consola."
+    ],
+    "correcta": 1,
+    "explicacion": "El Creeper de Minecraft ejercita la precisión métrica en cuadrícula (Grid) y el vaciado de detalles faciales (ojos y boca) mediante cubos huecos milimétricos."
+  },
+  {
+    "pregunta": "¿Qué habilidad técnica se desarrolla en la Misión 4 ('El Lápiz 3D')?",
+    "opciones": [
+      "Ensamblaje multicuerpo: cuerpo prismático/hexagonal de madera, cono afilado, grafito, virola metálica y borrador en un solo eje.",
+      "Programación de inteligencia artificial en la nube.",
+      "Diseño de una página web en HTML y CSS.",
+      "Edición de pistas de audio musical."
+    ],
+    "correcta": 0,
+    "explicacion": "El lápiz 3D es un reto de ensamblaje concéntrico y multicuerpo que une diversos sólidos geométricos alineados en sus centros geométricos."
+  },
+  {
+    "pregunta": "¿Cuál es la regla para generar tu usuario / alias de ingreso oficial al aula de Tinkercad de 8°?",
+    "opciones": [
+      "Usar un apodo de videojuegos con números al azar (ej: gamer_pro_99).",
+      "Escribir tu primer nombre y tu primer apellido pegados, todo en minúsculas y sin tildes ni espacios (ej: mariaacosta).",
+      "El número de tu documento de identidad con guiones.",
+      "La fecha de tu cumpleaños al revés."
+    ],
+    "correcta": 1,
+    "explicacion": "El formato oficial de alias en el aula de Tinkercad es el primer nombre pegado al primer apellido en minúsculas (ej: mariaacosta), sin espacios ni tildes."
+  },
+  {
+    "pregunta": "¿Qué ocurre con tus diseños cuando trabajas en el aula virtual de Tinkercad?",
+    "opciones": [
+      "Se borran automáticamente cada vez que cierras el navegador.",
+      "Se guardan automáticamente en la nube de Autodesk y el docente puede revisarlos, evaluarlos y orientarte en tiempo real.",
+      "Es obligatorio llevarlos en una memoria USB clase a clase o se pierden.",
+      "Solo se guardan si pagas una suscripción mensual en dólares."
+    ],
+    "correcta": 1,
+    "explicacion": "Tinkercad es una plataforma web en la nube: guarda cada cambio al instante y el profesor tiene acceso directo para supervisar y calificar las misiones desde su panel docente."
+  }
+];
+
+    let q8Idx = 0;
+    let q8Aciertos = 0;
+    let q8Errores = 0;
+    let q8Respondida = false;
+
+    function renderizarPreguntaQuiz8() {
+      if (q8Idx >= testPreguntas8.length) {
+        mostrarResultadoFinalQuiz8();
+        return;
+      }
+
+      q8Respondida = false;
+      const q = testPreguntas8[q8Idx];
+      const total = testPreguntas8.length;
+
+      const badgeProgreso = document.getElementById('quizBadgeProgreso');
+      const porcentajeText = document.getElementById('quizPorcentajeText');
+      const barraFill = document.getElementById('quizBarraFill');
+      const iconoPregunta = document.getElementById('quizIconoPregunta');
+      const tituloPregunta = document.getElementById('quizTituloPregunta');
+      const contenedorOpciones = document.getElementById('quizContenedorOpciones');
+      const feedbackBox = document.getElementById('quizFeedbackBox');
+      const btnSiguiente = document.getElementById('btnQuizSiguiente');
+
+      if (badgeProgreso) badgeProgreso.textContent = 'Pregunta ' + (q8Idx + 1) + ' de ' + total;
+      
+      const pct = Math.round(((q8Idx + 1) / total) * 100);
+      if (porcentajeText) porcentajeText.textContent = pct + '%';
+      if (barraFill) barraFill.style.width = pct + '%';
+
+      if (iconoPregunta) iconoPregunta.textContent = 'Q' + (q8Idx + 1);
+      if (tituloPregunta) tituloPregunta.textContent = (q8Idx + 1) + '. ' + q.pregunta;
+
+      if (feedbackBox) {
+        feedbackBox.className = 'hidden mt-5 p-4 rounded-2xl border text-xs sm:text-sm font-medium transition-all duration-200';
+      }
+
+      if (btnSiguiente) {
+        btnSiguiente.disabled = true;
+        btnSiguiente.className = 'btn-3d px-6 py-2.5 bg-slate-700 text-slate-400 font-kids font-black text-xs sm:text-sm rounded-xl transition flex items-center gap-2 cursor-not-allowed';
+        btnSiguiente.innerHTML = '<span>Siguiente Pregunta</span> ➔';
+      }
+
+      if (contenedorOpciones) {
+        contenedorOpciones.innerHTML = '';
+        q.opciones.forEach((opc, idx) => {
+          const btn = document.createElement('button');
+          btn.type = 'button';
+          btn.className = 'w-full p-4 rounded-2xl border-2 border-slate-700 bg-slate-800/80 hover:bg-slate-700/80 hover:border-indigo-400 text-left font-medium text-xs sm:text-sm text-slate-200 transition-all flex items-start gap-3 shadow-md cursor-pointer';
+          btn.innerHTML = '<span class="w-6 h-6 rounded-lg bg-indigo-500/30 text-indigo-300 font-mono font-bold text-xs flex items-center justify-center shrink-0 mt-0.5 border border-indigo-400/40">' + String.fromCharCode(65 + idx) + '</span><span class="flex-1 leading-snug">' + opc + '</span>';
+          btn.onclick = () => responderQuiz8(idx);
+          contenedorOpciones.appendChild(btn);
+        });
+      }
+    }
+
+    function responderQuiz8(selectedIdx) {
+      if (q8Respondida) return;
+      q8Respondida = true;
+
+      const q = testPreguntas8[q8Idx];
+      const contenedor = document.getElementById('quizContenedorOpciones');
+      if (!contenedor) return;
+      const buttons = contenedor.querySelectorAll('button');
+      const feedbackBox = document.getElementById('quizFeedbackBox');
+      const feedbackText = document.getElementById('quizFeedbackTexto');
+      const btnSiguiente = document.getElementById('btnQuizSiguiente');
+      const aciertosEl = document.getElementById('quizAciertosCount');
+      const erroresEl = document.getElementById('quizErroresCount');
+
+      const esCorrecta = selectedIdx === q.correcta;
+
+      if (esCorrecta) {
+        q8Aciertos++;
+        if (aciertosEl) aciertosEl.textContent = q8Aciertos;
+        lanzarConfetti();
+      } else {
+        q8Errores++;
+        if (erroresEl) erroresEl.textContent = q8Errores;
+      }
+
+      buttons.forEach((btn, idx) => {
+        btn.disabled = true;
+        btn.onclick = null;
+        if (idx === q.correcta) {
+          btn.className = 'w-full p-4 rounded-2xl border-2 border-emerald-400 bg-emerald-950/80 text-emerald-100 font-bold text-xs sm:text-sm text-left flex items-start gap-3 shadow-lg';
+          btn.querySelector('span:first-child').className = 'w-6 h-6 rounded-lg bg-emerald-500 text-white font-black text-xs flex items-center justify-center shrink-0 mt-0.5';
+          btn.querySelector('span:first-child').textContent = '✓';
+        } else if (idx === selectedIdx && !esCorrecta) {
+          btn.className = 'w-full p-4 rounded-2xl border-2 border-rose-400 bg-rose-950/80 text-rose-100 font-semibold text-xs sm:text-sm text-left flex items-start gap-3 shadow-lg';
+          btn.querySelector('span:first-child').className = 'w-6 h-6 rounded-lg bg-rose-500 text-white font-black text-xs flex items-center justify-center shrink-0 mt-0.5';
+          btn.querySelector('span:first-child').textContent = '✕';
+        } else {
+          btn.className = 'w-full p-4 rounded-2xl border border-slate-800 bg-slate-900/50 opacity-40 text-left font-normal text-xs sm:text-sm text-slate-400 flex items-start gap-3';
+        }
+      });
+
+      if (feedbackBox && feedbackText) {
+        feedbackBox.classList.remove('hidden');
+        if (esCorrecta) {
+          feedbackBox.className = 'mt-5 p-4 rounded-2xl border-2 border-emerald-500/60 bg-emerald-900/40 text-emerald-200 text-xs sm:text-sm';
+          feedbackText.innerHTML = '<strong class="text-emerald-300">¡Excelente trabajo! ✓</strong> ' + q.explicacion;
+        } else {
+          feedbackBox.className = 'mt-5 p-4 rounded-2xl border-2 border-rose-500/60 bg-rose-900/40 text-rose-200 text-xs sm:text-sm';
+          feedbackText.innerHTML = '<strong class="text-rose-300">Respuesta Incorrecta:</strong> ' + q.explicacion;
+        }
+      }
+
+      if (btnSiguiente) {
+        btnSiguiente.disabled = false;
+        btnSiguiente.className = 'btn-3d px-6 py-2.5 bg-gradient-to-r from-amber-400 to-amber-500 hover:from-amber-300 hover:to-amber-400 text-slate-950 font-kids font-black text-xs sm:text-sm rounded-xl shadow-lg flex items-center gap-2 cursor-pointer';
+        if (q8Idx === testPreguntas8.length - 1) {
+          btnSiguiente.innerHTML = '<span>Ver Calificación Final</span> 🏆';
+        }
+      }
+    }
+
+    function avanzarPreguntaQuiz8() {
+      if (q8Idx < testPreguntas8.length - 1) {
+        q8Idx++;
+        renderizarPreguntaQuiz8();
+      } else {
+        mostrarResultadoFinalQuiz8();
+      }
+    }
+
+    function mostrarResultadoFinalQuiz8() {
+      const caja = document.getElementById('quizCajaPregunta');
+      const total = testPreguntas8.length;
+      const pct = Math.round((q8Aciertos / total) * 100);
+
+      lanzarConfetti();
+
+      if (caja) {
+        caja.innerHTML = `
+          <div class="text-center py-8 px-4 space-y-5 animate-in fade-in zoom-in-95">
+            <div class="w-20 h-20 rounded-3xl bg-gradient-to-tr from-amber-400 to-orange-400 text-slate-950 text-4xl flex items-center justify-center mx-auto shadow-2xl">
+              ${pct >= 70 ? '🏆' : '📚'}
+            </div>
+            <div>
+              <h3 class="font-kids font-black text-2xl sm:text-3xl text-white">¡Test de Modelado 3D Completado!</h3>
+              <p class="text-xs sm:text-sm text-slate-300 mt-1 max-w-lg mx-auto">
+                Has finalizado las 20 preguntas sobre primitivas, cortes, atajos y operaciones en Tinkercad.
+              </p>
+            </div>
+            
+            <div class="inline-block p-5 rounded-2xl bg-white/10 border border-white/20 backdrop-blur-md">
+              <span class="text-xs font-bold text-indigo-300 uppercase tracking-widest block mb-1">Tu Resultado</span>
+              <div class="font-kids font-black text-4xl text-amber-300">${q8Aciertos} / ${total}</div>
+              <span class="text-xs font-bold text-slate-300 block mt-1">(${pct}% de respuestas correctas)</span>
+            </div>
+
+            <p class="text-xs sm:text-sm text-slate-300 max-w-md mx-auto leading-relaxed">
+              ${pct >= 80 
+                ? '⭐ ¡Impresionante! Tienes nivel de Diseñador 3D Avanzado. Estás listo para dominar cualquier misión en Tinkercad.' 
+                : '💡 ¡Buen esfuerzo! Puedes reiniciar el test para repasar los atajos de teclado y conceptos clave antes de modelar.'}
+            </p>
+
+            <div class="pt-3">
+              <button onclick="reiniciarQuiz8()" class="btn-3d px-6 py-3 bg-indigo-500 hover:bg-indigo-400 text-white font-kids font-black text-sm rounded-2xl shadow-xl inline-flex items-center gap-2 cursor-pointer">
+                <span>🔄</span> Intentar el Test Nuevamente
+              </button>
+            </div>
+          </div>
+        `;
+      }
+    }
+
+    function reiniciarQuiz8() {
+      q8Idx = 0;
+      q8Aciertos = 0;
+      q8Errores = 0;
+      const aciertosEl = document.getElementById('quizAciertosCount');
+      const erroresEl = document.getElementById('quizErroresCount');
+      if (aciertosEl) aciertosEl.textContent = '0';
+      if (erroresEl) erroresEl.textContent = '0';
+      
+      const caja = document.getElementById('quizCajaPregunta');
+      if (caja) {
+        caja.innerHTML = `
+          <div class="flex items-center gap-3 mb-4">
+            <span class="w-10 h-10 rounded-2xl bg-indigo-600 text-white font-kids font-black text-base flex items-center justify-center shrink-0 shadow-md">
+              <span id="quizIconoPregunta">Q1</span>
+            </span>
+            <h4 id="quizTituloPregunta" class="text-base sm:text-lg font-kids font-bold text-slate-100 leading-snug">
+              Cargando pregunta...
+            </h4>
+          </div>
+          <div id="quizContenedorOpciones" class="grid grid-cols-1 gap-3 pt-2"></div>
+          <div id="quizFeedbackBox" class="hidden mt-5 p-4 rounded-2xl border text-xs sm:text-sm font-medium transition-all duration-200">
+            <p id="quizFeedbackTexto"></p>
+          </div>
+          <div class="flex items-center justify-between mt-6 pt-4 border-t border-slate-800">
+            <button type="button" onclick="reiniciarQuiz8()" class="px-4 py-2 bg-slate-800 hover:bg-slate-700 text-slate-300 hover:text-white rounded-xl text-xs font-bold transition flex items-center gap-1.5 border border-slate-700 cursor-pointer">
+              <span>🔄 Reiniciar</span>
+            </button>
+            <button type="button" id="btnQuizSiguiente" onclick="avanzarPreguntaQuiz8()" disabled class="btn-3d px-6 py-2.5 bg-slate-700 text-slate-400 font-kids font-black text-xs sm:text-sm rounded-xl transition flex items-center gap-2 cursor-not-allowed">
+              <span>Siguiente Pregunta</span> ➔
+            </button>
+          </div>
+        `;
+      }
+
+      renderizarPreguntaQuiz8();
+    }
+
+    // Inicialización al cargar la página
+    document.addEventListener('DOMContentLoaded', () => {
+      renderizarPreguntaQuiz8();
+    });
+
+    if (document.readyState === 'complete' || document.readyState === 'interactive') {
+      renderizarPreguntaQuiz8();
     }
   </script>
 </body>

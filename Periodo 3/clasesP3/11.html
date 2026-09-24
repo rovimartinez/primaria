@@ -130,13 +130,22 @@
         </div>
 
         <!-- Botón Directo a Classroom -->
-        <a href="https://classroom.google.com/c/ODg0NDU4ODU4MDc1?cjc=whi6guyt" target="_blank" rel="noopener noreferrer" class="inline-flex items-center gap-2.5 px-4 py-2 rounded-xl bg-emerald-600 hover:bg-emerald-700 text-white text-xs font-bold shadow-md shadow-emerald-600/20 transition-all hover:scale-[1.02] self-start md:self-auto shrink-0">
-          <svg class="w-4 h-4" viewBox="0 0 24 24" fill="currentColor">
-            <path d="M12 2C6.48 2 2 6.48 2 12s4.48 10 10 10 10-4.48 10-10S17.52 2 12 2zm-1 14.5v-9l6 4.5-6 4.5z"/>
-          </svg>
-          <span>Unirse a Classroom 11°</span>
-          <span class="text-[10px] bg-white/20 font-mono px-1.5 py-0.5 rounded">whi6guyt</span>
-        </a>
+        <div class="flex flex-wrap items-center gap-2 self-start md:self-auto shrink-0">
+          <button type="button" onclick="descargarPDFSesiones()" class="inline-flex items-center justify-center p-2 rounded-xl bg-gradient-to-r from-indigo-700 via-indigo-800 to-cyan-800 hover:from-indigo-800 hover:to-cyan-900 active:scale-95 text-white shadow-md shadow-indigo-700/30 transition-all hover:scale-[1.05] cursor-pointer group border border-indigo-500/40" title="Descargar Guía Oficial en PDF">
+            <!-- Icono distintivo que dice PDF -->
+            <span class="inline-flex items-center justify-center px-2 py-1 rounded-lg bg-rose-600 text-white font-black font-mono text-xs tracking-tight shadow-sm border border-rose-400/50 group-hover:scale-105 transition-transform">
+              PDF
+            </span>
+          </button>
+
+          <a href="https://classroom.google.com/c/ODg0NDU4ODU4MDc1?cjc=whi6guyt" target="_blank" rel="noopener noreferrer" class="inline-flex items-center gap-2 px-3.5 py-2 rounded-xl bg-emerald-600 hover:bg-emerald-700 text-white text-xs font-bold shadow-md shadow-emerald-600/20 transition-all hover:scale-[1.02] cursor-pointer">
+            <svg class="w-4 h-4" viewBox="0 0 24 24" fill="currentColor">
+              <path d="M12 2C6.48 2 2 6.48 2 12s4.48 10 10 10 10-4.48 10-10S17.52 2 12 2zm-1 14.5v-9l6 4.5-6 4.5z"/>
+            </svg>
+            <span>Classroom 11°</span>
+            <span class="text-[10px] bg-white/20 font-mono px-1.5 py-0.5 rounded">whi6guyt</span>
+          </a>
+        </div>
       </div>
 
             <!-- NAV BAR ELEGANTE DE 3 SESIONES -->
@@ -1398,136 +1407,136 @@
     // ==========================================
     const testPreguntas = [
   {
-    "pregunta": "¿Cómo se distribuye la regla base de colorimetría 60-30-10 en una diapositiva?",
+    "pregunta": "¿Cómo se distribuye la regla base de colorimetría 60-30-10 en una diapositiva ejecutiva?",
     "opciones": [
-      "60% de texto, 30% de imágenes y 10% de márgenes.",
-      "60% de color dominante de fondo, 30% de color secundario para lectura/estructuras y 10% de acento principal de marca.",
-      "60% de colores oscuros, 30% de colores brillantes y 10% de sombras.",
-      "60 minutos de diseño, 30 minutos de revisión y 10 minutos de exportación."
+      "60% de texto denso, 30% de imágenes decorativas y 10% de márgenes perimetrales.",
+      "60% de color dominante de fondo (canvas limpio), 30% de color secundario para títulos/lectura y 10% de acento principal de marca.",
+      "60% de colores oscuros, 30% de colores brillantes y 10% de sombras difuminadas.",
+      "60 minutos de diseño, 30 minutos de revisión y 10 minutos de exportación a PDF."
     ],
     "correcta": 1,
-    "explicacion": "La regla 60-30-10 distribuye: 60% color de fondo, 30% color de texto/lectura, y 10% color de acento principal para la identidad de la marca."
+    "explicacion": "La regla 60-30-10 distribuye: 60% color dominante de fondo, 30% color de lectura/estructura y 10% acento de marca o KPIs."
   },
   {
-    "pregunta": "¿Qué porcentaje y función tiene el color complementario como color adicional en una diapositiva?",
+    "pregunta": "¿Qué porcentaje y función específica tiene el color complementario en una presentación de grado o pitch senior?",
     "opciones": [
-      "Se usa en el 60% para pintar todo el fondo con colores opuestos.",
-      "Se usa en una cantidad mínima (alrededor del 5% como micro-acento) para detalles explosivos como badges de 'Nuevo', alertas o botones de llamada a la acción sin cansar la vista.",
-      "Se usa en el 100% para reemplazar todas las tipografías.",
-      "No se debe usar nunca en ninguna presentación."
+      "Se aplica en una micro-dosis aproximada del 5% reservada exclusivamente para insignias clave, alertas o llamadas a la acción sin saturar la vista.",
+      "Se usa en el 60% para pintar todo el fondo con contrastes opuestos.",
+      "Se usa en el 100% para reemplazar todas las tipografías del pitch.",
+      "No se debe usar bajo ninguna circunstancia en diapositivas."
     ],
-    "correcta": 1,
-    "explicacion": "El color complementario es un adicional que se aplica en pequeñas dosis (aprox. 5% de micro-acento) para destacar elementos puntuales de máxima urgencia o interés."
+    "correcta": 0,
+    "explicacion": "El complementario actúa como un micro-acento (~5%) para llamar la atención en puntos críticos sin generar vibración visual molesta."
   },
   {
     "pregunta": "¿Por qué NO es recomendable usar el color complementario en grandes cantidades (como 40% o 50%)?",
     "opciones": [
-      "Porque los colores opuestos en gran volumen generan ruido visual, chocan entre sí y cansan la vista del espectador.",
-      "Porque Canva cobra una suscripción extra si usas más del 10%.",
-      "Porque los proyectores no proyectan colores complementarios.",
-      "Porque los colores complementarios son invisibles en diapositivas."
-    ],
-    "correcta": 0,
-    "explicacion": "Al estar en extremos opuestos del círculo cromático, usar complementarios en gran cantidad crea una vibración visual molesta. Solo brillan cuando se usan en el 5% de micro-acento."
-  },
-  {
-    "pregunta": "Si tu presentación tiene base azul (Fondo hielo + Texto azul marino), ¿cuál es su color complementario ideal para el 5% de micro-acento?",
-    "opciones": [
-      "Azul celeste claro.",
-      "Naranja / Ámbar cálido.",
-      "Gris neutro.",
-      "Azul petróleo."
-    ],
-    "correcta": 1,
-    "explicacion": "El naranja es el opuesto directo del azul en la rueda cromática, convirtiéndose en el micro-acento complementario perfecto."
-  },
-  {
-    "pregunta": "En una diapositiva con fondo claro (#F8FAFC), ¿qué porcentaje representa ese color dominante?",
-    "opciones": [
-      "El 10% de acento.",
-      "El 30% secundario.",
-      "El 60% dominante.",
-      "El 5% complementario."
+      "Porque Canva cobra una suscripción adicional al superar el 10% de saturación.",
+      "Porque los proyectores HDMI no reconocen colores opuestos en la rueda cromática.",
+      "Porque al estar en extremos opuestos del círculo cromático, usar complementarios en gran volumen genera choque visual, ruido y fatiga ocular.",
+      "Porque las tipografías se vuelven transparentes automáticamente."
     ],
     "correcta": 2,
-    "explicacion": "El fondo o base del lienzo siempre corresponde al 60% dominante en la regla de colorimetría."
+    "explicacion": "El alto contraste simultáneo de los colores opuestos en grandes extensiones crea un efecto estroboscópico que cansa la vista del jurado."
+  },
+  {
+    "pregunta": "Si tu presentación tiene base azul corporativa (#F0F9FF + Texto #0C4A6E), ¿cuál es su color complementario ideal para el 5% de micro-acento?",
+    "opciones": [
+      "Azul petróleo oscuro.",
+      "Gris neutro apagado.",
+      "Blanco puro sin contraste.",
+      "Naranja o Ámbar cálido (#F97316)."
+    ],
+    "correcta": 3,
+    "explicacion": "El naranja es el opuesto cromático directo del azul, convirtiéndose en el micro-acento complementario óptimo."
+  },
+  {
+    "pregunta": "En una diapositiva con fondo claro (#F0F9FF), ¿qué porcentaje de la composición representa ese color dominante?",
+    "opciones": [
+      "El 10% de acento.",
+      "El 60% dominante.",
+      "El 30% secundario.",
+      "El 5% complementario."
+    ],
+    "correcta": 1,
+    "explicacion": "El fondo del lienzo siempre corresponde al 60% dominante, proporcionando aire y orden a la diapositiva."
   },
   {
     "pregunta": "¿Qué proporción visual exige la Regla de Oro de Jerarquía Tipográfica 2:1?",
     "opciones": [
-      "Que el título H1 tenga el doble de tamaño visual relativo que el cuerpo de texto.",
-      "Que se deban usar 2 tipos de letras idénticas en la misma palabra.",
-      "Que el título sea la mitad de pequeño que el párrafo.",
-      "Que cada diapositiva tenga exactamente dos palabras."
+      "Que el título principal (H1) tenga aproximadamente el doble de tamaño visual relativo que el cuerpo de texto de lectura.",
+      "Que se deban usar dos tipos de letra idénticas en la misma frase.",
+      "Que el párrafo de lectura sea el doble de grande que el título principal.",
+      "Que cada diapositiva contenga exactamente dos palabras en total."
     ],
     "correcta": 0,
-    "explicacion": "La proporción 2:1 establece que el título principal (H1: ej. 44px) debe duplicar el tamaño del texto de apoyo (Cuerpo: ej. 16px - 22px) para guiar la lectura en 3 segundos."
+    "explicacion": "La escala 2:1 asegura que el ojo del espectador identifique la idea nuclear en los primeros 3 segundos."
   },
   {
     "pregunta": "¿Cuál es el tamaño recomendado en píxeles para el cuerpo de texto en una diapositiva 16:9 en Canva?",
     "opciones": [
-      "Entre 4px y 8px.",
-      "Entre 14px y 18px con interlineado adecuado (1.25 a 1.3).",
-      "Exactamente 72px.",
-      "Menos de 6px para que quepa mucho texto."
+      "Entre 4px y 8px para que quepa todo el contenido de la monografía.",
+      "Exactamente 72px en todo el bloque de párrafo.",
+      "Entre 14px y 18px con interlineado adecuado (1.25 a 1.3) para garantizar legibilidad en pantalla y proyector.",
+      "Menos de 6px en letra cursiva decorativa."
     ],
-    "correcta": 1,
-    "explicacion": "Un cuerpo de 14px a 18px garantiza legibilidad clara tanto en pantallas individuales como proyectado en HDMI sin asfixia visual."
+    "correcta": 2,
+    "explicacion": "Un rango de 14px a 18px garantiza nitidez tanto en laptops como proyectado en HDMI sin asfixia textual."
   },
   {
-    "pregunta": "¿Qué archivos específicos se deben exportar y entregar en la Sesión 1?",
+    "pregunta": "¿Qué archivos específicos se deben exportar y entregar en la Sesión 1 de Grado 11°?",
     "opciones": [
-      "Un archivo de audio MP3 y una foto.",
-      "Dos archivos PDF: Presentacion_Original.pdf y Diagnostico_Auditoria_IA.pdf.",
-      "Un enlace de TikTok y una captura de WhatsApp.",
-      "Tres archivos ZIP comprimidos."
+      "Un archivo de audio MP3 y una captura de pantalla.",
+      "Un enlace de video de YouTube y un archivo comprimido ZIP.",
+      "Una monografía en Word de 50 páginas.",
+      "Dos archivos PDF: 1. Presentacion_Original.pdf (línea base) y 2. Diagnostico_Auditoria_IA.pdf (informe de IA)."
     ],
-    "correcta": 1,
-    "explicacion": "En la Sesión 1 se entrega la línea base (Presentacion_Original.pdf) y el informe de auditoría generado con IA (Diagnostico_Auditoria_IA.pdf)."
+    "correcta": 3,
+    "explicacion": "En la Sesión 1 se entrega la versión previa como línea base y el informe de auditoría generado por la IA."
   },
   {
-    "pregunta": "¿Para qué sirve alimentar a una IA (Gemini/ChatGPT/Claude) con el prompt de auditoría en la Sesión 1?",
+    "pregunta": "¿Para qué sirve alimentar a una IA (Gemini/ChatGPT/Claude) con el prompt maestro de consultoría en la Sesión 1?",
     "opciones": [
-      "Para que la IA haga la exposición oral por nosotros.",
-      "Para obtener un diagnóstico clínico objetivo sobre saturación, asfixia textual, contraste y jerarquía visual.",
-      "Para traducir el texto a 10 idiomas diferentes.",
-      "Para borrar la presentación original."
+      "Para que la IA redacte y exponga la presentación oral por nosotros.",
+      "Para obtener un diagnóstico clínico objetivo sobre asfixia textual, contraste, legibilidad y jerarquía visual antes de rediseñar en Canva.",
+      "Para eliminar automáticamente el fondo de todas las imágenes.",
+      "Para traducir el documento a 5 idiomas extranjeros."
     ],
     "correcta": 1,
-    "explicacion": "La IA analiza la diapositiva como un consultor de arte y comunicación, detectando errores de contraste, sobrecarga de texto y falta de jerarquía."
+    "explicacion": "La IA actúa como un auditor de comunicación ejecutiva detectando sobrecarga de texto y errores de contraste."
   },
   {
-    "pregunta": "Si el fondo de tu lámina es Violeta Pastel (#FAF5FF) y el texto es Púrpura Profundo (#3B0764), ¿cuál sería su micro-acento complementario del 5%?",
+    "pregunta": "Si el fondo de tu lámina es Azul Hielo (#F0F9FF) y el texto es Azul Medianoche (#0F172A), ¿cuál es su micro-acento complementario del 5%?",
     "opciones": [
+      "Naranja Eléctrico o Dorado (#F97316).",
       "Gris oscuro (#334155).",
-      "Amarillo Dorado / Ámbar brillante (#FBBF24).",
-      "Otro tono idéntico de violeta apagado.",
-      "Blanco puro sin contraste."
+      "Otro tono idéntico de azul apagado.",
+      "Negro puro sin matices."
     ],
-    "correcta": 1,
-    "explicacion": "El amarillo dorado es el complementario directo del violeta, ideal para un micro-acento del 5% en medallas o cifras clave."
+    "correcta": 0,
+    "explicacion": "El naranja es el complementario directo del azul, ideal para medallas, cifras clave o etiquetas urgentes."
   },
   {
-    "pregunta": "¿Cuántas familias tipográficas como máximo se recomienda combinar en una misma presentación?",
+    "pregunta": "¿Cuántas familias tipográficas como máximo se recomienda combinar en una misma presentación ejecutiva?",
     "opciones": [
-      "5 o 6 familias con diferentes adornos.",
-      "Máximo 2 familias tipográficas (una para títulos y otra con excelente legibilidad para lectura).",
-      "10 familias distintas en cada lámina.",
-      "Ninguna, solo imágenes sin texto."
+      "Entre 5 y 8 fuentes diferentes para que cada diapositiva se vea variada.",
+      "Ninguna, solo se deben usar imágenes sin texto.",
+      "Máximo 2 familias tipográficas (una para títulos con carácter y otra de alta legibilidad para lectura).",
+      "Exactamente 4 fuentes decorativas manuscritas."
     ],
-    "correcta": 1,
-    "explicacion": "Usar máximo 2 familias tipográficas (ej. Outfit para títulos e Inter para cuerpo) mantiene la coherencia, armonía y limpieza visual del diseño."
+    "correcta": 2,
+    "explicacion": "Combinar máximo 2 familias mantiene la coherencia y armonía tipográfica."
   },
   {
-    "pregunta": "¿Qué significa el término 'asfixia textual' en el diagnóstico de una diapositiva?",
+    "pregunta": "¿Qué significa el término 'asfixia textual' identificado en el diagnóstico clínico de diapositivas?",
     "opciones": [
-      "Que el proyector no tiene suficiente brillo.",
-      "Saturar la diapositiva con párrafos largos sin márgenes perimetrales ni espacio en blanco (aire visual).",
-      "Escribir en letra mayúscula sostenida.",
-      "Usar colores muy fríos."
+      "Que el proyector no tiene suficiente brillo o contraste de luz.",
+      "Escribir todo el texto en mayúscula sostenida.",
+      "Utilizar colores fríos en los títulos.",
+      "Saturar la diapositiva con bloques densos de texto sin márgenes perimetrales ni espacio en blanco (aire visual)."
     ],
-    "correcta": 1,
-    "explicacion": "La asfixia textual ocurre cuando se llena cada rincón de texto, impidiendo que el ojo descanse o identifique la idea nuclear."
+    "correcta": 3,
+    "explicacion": "La asfixia textual ocurre cuando se llena todo el espacio disponible, impidiendo que el ojo descanse o jerarquice la información."
   }
 ];
 
@@ -1670,6 +1679,172 @@
         nextBtn.innerHTML = '<span>Siguiente Pregunta</span> ➔';
       }
       renderQuestion();
+    }
+
+    
+    // ==========================================
+    // 5. DESCARGA / GENERACIÓN DE GUÍA PDF POR SESIONES
+    // ==========================================
+    function descargarPDFSesiones() {
+      const fechaHoy = new Date().toLocaleDateString('es-CO', { year: 'numeric', month: 'long', day: 'numeric' });
+      
+      const printWindow = window.open('', '_blank');
+      if (!printWindow) {
+        alert('Por favor permite abrir ventanas emergentes para generar el PDF.');
+        return;
+      }
+
+      const preguntasHTML = testPreguntas.map((q, idx) => {
+        const opcionesList = q.opciones.map((opc, opcIdx) => {
+          return `
+            <div style="margin: 3px 0; padding: 4px 8px; border-radius: 6px; font-size: 8.5pt; background: #f8fafc; border: 1px solid #e2e8f0; color: #334155;">
+              <span style="font-weight: 800; margin-right: 5px; color: #475569;">${String.fromCharCode(65 + opcIdx)})</span> ${opc}
+            </div>
+          `;
+        }).join('');
+
+        return `
+          <div class="card avoid-break" style="margin-bottom: 9px; padding: 10px 14px;">
+            <div style="font-weight: 800; font-size: 9pt; color: #0f172a; margin-bottom: 5px;">
+              <span style="display:inline-flex; width:20px; height:20px; background:#0d9488; color:white; border-radius:5px; align-items:center; justify-content:center; font-size:8pt; margin-right:6px;">${idx + 1}</span>
+              ${q.pregunta}
+            </div>
+            <div style="margin-left: 26px;">
+              ${opcionesList}
+            </div>
+          </div>
+        `;
+      }).join('');
+
+      const docHTML = `<!DOCTYPE html>
+<html lang="es">
+<head>
+  <meta charset="UTF-8">
+  <title>Grado 11° - Guía de Aprendizaje por Sesiones (Executive Pitch Senior)</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Outfit:wght@400;600;700;800;900&family=Plus+Jakarta+Sans:wght@400;500;600;700;800&family=JetBrains+Mono:wght@500;700&display=swap" rel="stylesheet">
+  <style>
+    @page { size: A4 portrait; margin: 12mm 14mm 15mm 14mm; }
+    * { box-sizing: border-box; margin: 0; padding: 0; -webkit-print-color-adjust: exact !important; print-color-adjust: exact !important; color-adjust: exact !important; }
+    body { font-family: 'Plus Jakarta Sans', sans-serif; color: #0f172a; background: #ffffff !important; line-height: 1.45; font-size: 10pt; }
+    h1, h2, h3, h4, .font-title { font-family: 'Outfit', sans-serif; }
+    .font-mono { font-family: 'JetBrains Mono', monospace; }
+    .page-break { page-break-before: always; break-before: page; }
+    .avoid-break { page-break-inside: avoid; break-inside: avoid; }
+    .header-box { border: 2px solid #4f46e5; background: #f0f9ff !important; padding: 14px 18px; border-radius: 12px; margin-bottom: 16px; display: flex; justify-content: space-between; align-items: center; }
+    .badge { display: inline-block; padding: 3px 8px; border-radius: 5px; font-size: 8pt; font-weight: 800; text-transform: uppercase; letter-spacing: 0.5px; }
+    .badge-indigo { background: #4f46e5 !important; color: #ffffff !important; }
+    .badge-teal { background: #0d9488 !important; color: #ffffff !important; }
+    .session-title-box { background: #f8fafc !important; border-left: 5px solid #4f46e5; padding: 10px 14px; margin: 16px 0 12px 0; border-radius: 0 8px 8px 0; }
+    .session-title-box.s2 { border-left-color: #d97706; }
+    .session-title-box.s3 { border-left-color: #0d9488; }
+    .card { border: 1px solid #cbd5e1; background: #ffffff !important; border-radius: 8px; padding: 12px 14px; margin-bottom: 10px; }
+    .card-highlight { border: 1.5px solid #bae6fd; background: #f0f9ff !important; }
+    .step-num { display: inline-flex; width: 22px; height: 22px; background: #4f46e5 !important; color: white !important; border-radius: 5px; align-items: center; justify-content: center; font-weight: bold; font-size: 9pt; margin-right: 6px; }
+    .prompt-box { background: #0f172a !important; color: #f1f5f9 !important; padding: 10px 12px; border-radius: 7px; font-family: 'JetBrains Mono', monospace; font-size: 8.5pt; margin-top: 6px; line-height: 1.4; }
+    .table-custom { width: 100%; border-collapse: collapse; margin-top: 8px; font-size: 8.5pt; }
+    .table-custom th, .table-custom td { border: 1px solid #cbd5e1; padding: 6px 8px; text-align: left; }
+    .table-custom th { background: #f1f5f9 !important; font-weight: 700; }
+    .color-chip { display: inline-flex; align-items: center; gap: 6px; padding: 3px 6px; border-radius: 4px; border: 1px solid #cbd5e1; background: #ffffff !important; font-family: 'JetBrains Mono', monospace; font-size: 8pt; font-weight: 700; }
+    .swatch-box { display: inline-block; width: 16px; height: 16px; border-radius: 3px; border: 1px solid rgba(0, 0, 0, 0.25); flex-shrink: 0; }
+    .footer-note { margin-top: 18px; border-top: 1px dashed #cbd5e1; padding-top: 8px; font-size: 8pt; color: #64748b; display: flex; justify-content: space-between; }
+    .btn-print-floating { position: fixed; top: 15px; right: 15px; background: #4f46e5; color: white; border: none; padding: 10px 18px; border-radius: 10px; font-weight: bold; font-size: 11pt; cursor: pointer; box-shadow: 0 4px 15px rgba(79, 70, 229, 0.35); z-index: 1000; display: flex; align-items: center; gap: 8px; }
+    @media print { .btn-print-floating { display: none !important; } }
+  </style>
+</head>
+<body>
+  <button class="btn-print-floating" onclick="window.print()">🖨️ Imprimir / Guardar como PDF</button>
+
+  <div class="header-box">
+    <div>
+      <span class="badge badge-indigo">Grado 11° • Media Técnica Senior</span>
+      <h1 style="font-size: 15pt; color: #1e1b4b; margin-top: 3px; font-weight: 800;">Executive Pitch: Branding & Canva Senior</h1>
+      <p style="font-size: 8.5pt; color: #3730a3; margin-top: 1px;">Guía Oficial Consolidada de Aprendizaje por Sesiones</p>
+    </div>
+    <div style="text-align: right; font-size: 8pt; color: #475569;">
+      <div><strong>Código Classroom:</strong> <span class="font-mono" style="background:#e0e7ff; padding:2px 6px; border-radius:4px; font-weight:bold; color:#3730a3;">whi6guyt</span></div>
+      <div style="margin-top: 2px;">Fecha: ${fechaHoy}</div>
+    </div>
+  </div>
+
+  <!-- SESIÓN 01 -->
+  <div class="session-title-box">
+    <div style="display: flex; justify-content: space-between; align-items: center;">
+      <h2 style="font-size: 12pt; color: #1e1b4b; font-weight: 800;">SESIÓN 01: Diagnóstico Inicial con IA y Línea Base (2 PDFs)</h2>
+      <span class="badge badge-indigo">Entrega en Classroom</span>
+    </div>
+    <p style="font-size: 8.5pt; color: #3730a3; margin-top: 1px;">Objetivo: Evaluar saturación, tipografías y contraste antes de rediseñar en Canva.</p>
+  </div>
+  <div class="card avoid-break">
+    <div style="font-weight: 700; font-size: 9.5pt; margin-bottom: 3px; color: #1e293b;"><span class="step-num">1</span> Paso 1: Exportar Presentación Original a PDF (Presentacion_Original.pdf)</div>
+    <p style="font-size: 8.5pt; color: #475569; margin-left: 28px;">Descarga tu presentación monográfica previa en PDF Estándar sin cambios como versión "antes".</p>
+  </div>
+  <div class="card avoid-break card-highlight">
+    <div style="font-weight: 700; font-size: 9.5pt; margin-bottom: 3px; color: #1e1b4b;"><span class="step-num">2</span> Paso 2: Auditoría y Diagnóstico Clínico con IA (Diagnostico_Auditoria_IA.pdf)</div>
+    <p style="font-size: 8.5pt; color: #475569; margin-left: 28px;">Sube el PDF a Gemini/Claude/ChatGPT con el prompt de consultoría y exporta el informe:</p>
+    <div class="prompt-box" style="margin-left: 28px;">"Actúa como consultor senior de diseño y comunicación ejecutiva. He adjuntado el PDF de mi presentación escolar de grado 11°. Realiza un diagnóstico clínico evaluando: 1) Saturación y asfixia textual. 2) Contraste y legibilidad en proyector. 3) Jerarquía tipográfica. 4) Calidad de imágenes, logos y tablas. Entrégame un informe estructurado con los 10 errores más críticos y recomendaciones exactas."</div>
+  </div>
+  <div class="card avoid-break" style="border-left: 4px solid #059669; background: #f0fdf4 !important;">
+    <div style="font-weight: 700; font-size: 9.5pt; color: #065f46; margin-bottom: 2px;"><span class="step-num" style="background:#059669 !important;">3</span> Paso 3: Entregables de la Sesión 1 en Classroom</div>
+    <p style="font-size: 8.5pt; color: #166534; margin-left: 28px;">Sube a Classroom: 1. Presentacion_Original.pdf y 2. Diagnostico_Auditoria_IA.pdf</p>
+  </div>
+
+  <!-- SESIÓN 02 -->
+  <div class="page-break"></div>
+  <div class="session-title-box s2">
+    <div style="display: flex; justify-content: space-between; align-items: center;">
+      <h2 style="font-size: 12pt; color: #9a3412; font-weight: 800;">SESIÓN 02: Colorimetría 60-30-10, Complementario 5% y Tipografía 2:1</h2>
+      <span class="badge" style="background:#d97706; color:white;">Color & Jerarquía</span>
+    </div>
+  </div>
+  <div class="card avoid-break">
+    <h3 style="font-size: 9.5pt; font-weight: 800; color: #1e293b; margin-bottom: 5px;">📐 1. Regla 60-30-10 + 5% Micro-Acento</h3>
+    <table class="table-custom">
+      <thead><tr><th style="width: 20%;">Proporción</th><th style="width: 25%;">Función</th><th>Aplicación</th></tr></thead>
+      <tbody>
+        <tr><td><strong>60% Dominante</strong></td><td>Fondo / Canvas</td><td>Tonos neutros o pasteles limpios (#F0F9FF, #F8FAFC).</td></tr>
+        <tr><td><strong>30% Secundario</strong></td><td>Títulos y Texto</td><td>Alto contraste legible (Azul Medianoche, Slate 900).</td></tr>
+        <tr><td><strong>10% Acento</strong></td><td>Identidad / KPIs</td><td>Color vibrante para destacar datos clave.</td></tr>
+        <tr style="background:#fffbeb;"><td><strong style="color:#d97706;">+5% Micro-Acento</strong></td><td>Complementario</td><td>Dosis mínima para alertas, medallas y botones de acción.</td></tr>
+      </tbody>
+    </table>
+  </div>
+  <div class="card avoid-break">
+    <h3 style="font-size: 9.5pt; font-weight: 800; color: #1e293b; margin-bottom: 5px;">🎨 2. Paletas de Referencia Oficiales (HEX)</h3>
+    <table class="table-custom">
+      <thead><tr><th>Paleta</th><th>60% Fondo</th><th>30% Texto</th><th>10% Acento</th><th>+5% Micro-Acento</th></tr></thead>
+      <tbody>
+        <tr><td><strong>⚡ Azul Tech & Negocios</strong></td><td><span class="color-chip"><span class="swatch-box" style="background:#F8FAFC;"></span>#F8FAFC</span></td><td><span class="color-chip"><span class="swatch-box" style="background:#0F172A;"></span>#0F172A</span></td><td><span class="color-chip"><span class="swatch-box" style="background:#2563EB;"></span>#2563EB</span></td><td><span class="color-chip"><span class="swatch-box" style="background:#F97316;"></span>#F97316</span></td></tr>
+        <tr><td><strong>💜 Lavanda & Ensueño Chic</strong></td><td><span class="color-chip"><span class="swatch-box" style="background:#FAF5FF;"></span>#FAF5FF</span></td><td><span class="color-chip"><span class="swatch-box" style="background:#3B0764;"></span>#3B0764</span></td><td><span class="color-chip"><span class="swatch-box" style="background:#9333EA;"></span>#9333EA</span></td><td><span class="color-chip"><span class="swatch-box" style="background:#F59E0B;"></span>#F59E0B</span></td></tr>
+        <tr><td><strong>🌿 Menta & Salvia Botánica</strong></td><td><span class="color-chip"><span class="swatch-box" style="background:#F0FDF4;"></span>#F0FDF4</span></td><td><span class="color-chip"><span class="swatch-box" style="background:#064E3B;"></span>#064E3B</span></td><td><span class="color-chip"><span class="swatch-box" style="background:#10B981;"></span>#10B981</span></td><td><span class="color-chip"><span class="swatch-box" style="background:#E11D48;"></span>#E11D48</span></td></tr>
+      </tbody>
+    </table>
+  </div>
+  <div class="card avoid-break" style="border-left: 4px solid #059669; background: #f0fdf4 !important;">
+    <div style="font-weight: 700; font-size: 9.5pt; color: #065f46; margin-bottom: 2px;">📤 Entregables Sesión 2: 1. Paleta_Estudiantes.pdf & 2. Presentacion_Modificada.pdf</div>
+  </div>
+
+  <!-- SESIÓN 03 -->
+  <div class="page-break"></div>
+  <div class="session-title-box s3">
+    <div style="display: flex; justify-content: space-between; align-items: center;">
+      <h2 style="font-size: 12pt; color: #0f766e; font-weight: 800;">SESIÓN 03: Cuestionario Formativo de Estudio (12 Preguntas)</h2>
+      <span class="badge badge-teal">Autoevaluación</span>
+    </div>
+  </div>
+  <div style="margin-bottom: 12px;">${preguntasHTML}</div>
+  <div class="footer-note">
+    <span>Mundo Jandra • Plataforma Educativa</span>
+    <span>Grado 11° • Periodo 3 • Documento Oficial</span>
+  </div>
+</body>
+</html>`;
+
+      printWindow.document.open();
+      printWindow.document.write(docHTML);
+      printWindow.document.close();
+      printWindow.focus();
     }
 
     window.addEventListener('DOMContentLoaded', () => {

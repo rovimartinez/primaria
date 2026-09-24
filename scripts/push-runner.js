@@ -272,8 +272,32 @@ async function main() {
   ${C.cyan}│${C.reset}  ${C.bright}Estado:${C.reset}       ${C.green}Sincronizado al 100%${C.reset} 🚀
   ${C.cyan}└─────────────────────────────────────────────────────────────┘${C.reset}
 `);
+
+    await waitForKeyPress(`  ${C.dim}Presiona cualquier tecla para salir...${C.reset}`);
+}
+
+function waitForKeyPress(message) {
+    if (message) process.stdout.write(message);
+    return new Promise(resolve => {
+        if (process.stdin.isTTY) {
+            process.stdin.setRawMode(true);
+            process.stdin.resume();
+            process.stdin.once('data', () => {
+                process.stdin.setRawMode(false);
+                process.stdout.write('\n\n');
+                resolve();
+            });
+        } else {
+            const rl = readline.createInterface({ input: process.stdin, output: process.stdout });
+            rl.question('', () => {
+                rl.close();
+                resolve();
+            });
+        }
+    });
 }
 
 main().catch(err => {
     console.error(`\n  ${C.red}✖ Error inesperado:${C.reset}`, err);
 });
+

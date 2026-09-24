@@ -3,7 +3,7 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Mundo Jandra | Grado 11° - Arquitectura Visual & Diseño de Presentaciones en Canva</title>
+  <title>Mundo Jandra | Grado 11° - Consultoría de Marca, Branding & Pitch de Grado</title>
   <link rel="icon" type="image/x-icon" href="../../assets/Icono.ico">
   
   <!-- Tailwind CSS CDN -->
@@ -51,88 +51,41 @@
   </script>
 
   <style>
-    /* Estilos base de alta gama Daylight/Clean */
     body {
-      background-color: #f8fafc;
-      color: #0f172a;
+      background: radial-gradient(circle at 10% 20%, rgba(6, 182, 212, 0.08) 0%, transparent 40%),
+                  radial-gradient(circle at 90% 80%, rgba(79, 70, 229, 0.08) 0%, transparent 40%),
+                  #f0f9ff;
+      color: #0c4a6e;
       font-family: 'Plus Jakarta Sans', sans-serif;
       scroll-behavior: smooth;
     }
 
-    /* Fondo sutil tipo cuadrícula técnica de diseño */
-    .blueprint-grid {
-      background-size: 32px 32px;
+    .cyan-indigo-grid {
+      background-size: 28px 28px;
       background-image: 
-        linear-gradient(to right, rgba(226, 232, 240, 0.6) 1px, transparent 1px),
-        linear-gradient(to bottom, rgba(226, 232, 240, 0.6) 1px, transparent 1px);
+        linear-gradient(to right, rgba(6, 182, 212, 0.12) 1px, transparent 1px),
+        linear-gradient(to bottom, rgba(79, 70, 229, 0.1) 1px, transparent 1px);
     }
 
-    /* Glassmorphism ultra limpio */
     .glass-card {
-      background: rgba(255, 255, 255, 0.88);
-      backdrop-filter: blur(12px);
-      -webkit-backdrop-filter: blur(12px);
-      border: 1px solid rgba(226, 232, 240, 0.9);
+      background: rgba(255, 255, 255, 0.92);
+      backdrop-filter: blur(14px);
+      -webkit-backdrop-filter: blur(14px);
+      border: 1.5px solid rgba(186, 230, 253, 0.9);
+      box-shadow: 0 10px 25px -5px rgba(6, 182, 212, 0.07), 0 8px 10px -6px rgba(79, 70, 229, 0.04);
     }
 
     .glass-nav {
-      background: rgba(255, 255, 255, 0.92);
-      backdrop-filter: blur(16px);
-      border-bottom: 1px solid rgba(226, 232, 240, 0.8);
+      background: rgba(255, 255, 255, 0.94);
+      backdrop-filter: blur(18px);
+      border-bottom: 2px solid rgba(186, 230, 253, 0.9);
+      box-shadow: 0 4px 20px rgba(6, 182, 212, 0.08);
     }
 
     .tab-content {
       scroll-margin-top: 160px;
     }
 
-    /* Teclas de atajo simuladas */
-    .kbd-shortcut {
-      display: inline-flex;
-      align-items: center;
-      justify-content: center;
-      padding: 0.25rem 0.6rem;
-      font-family: 'JetBrains Mono', monospace;
-      font-size: 0.8rem;
-      font-weight: 700;
-      color: #1e293b;
-      background: #f1f5f9;
-      border: 1px solid #cbd5e1;
-      border-bottom: 3px solid #94a3b8;
-      border-radius: 0.45rem;
-      box-shadow: 0 1px 2px rgba(0,0,0,0.05);
-      transition: all 0.15s ease;
-    }
-    .kbd-shortcut:hover {
-      transform: translateY(1px);
-      border-bottom-width: 1px;
-    }
-
-    /* Comparador Antes vs Después */
-    .split-wrapper {
-      position: relative;
-      overflow: hidden;
-      user-select: none;
-    }
-
-    /* Animaciones suaves */
-    @keyframes pulseSoft {
-      0%, 100% { opacity: 1; transform: scale(1); }
-      50% { opacity: 0.85; transform: scale(1.02); }
-    }
-    .pulse-soft {
-      animation: pulseSoft 3s infinite ease-in-out;
-    }
-
-    /* Animación de haz de proyector */
-    @keyframes projectorBeam {
-      0%, 100% { opacity: 0.15; }
-      50% { opacity: 0.3; }
-    }
-    .beam-glow {
-      animation: projectorBeam 4s infinite alternate ease-in-out;
-    }
-
-    /* Toast flotante de copiado */
     #copyToast {
       position: fixed;
       bottom: 2rem;
@@ -144,25 +97,9 @@
     #copyToast.show {
       transform: translateY(0);
     }
-
-    /* Custom Scrollbar */
-    ::-webkit-scrollbar {
-      width: 8px;
-      height: 8px;
-    }
-    ::-webkit-scrollbar-track {
-      background: #f1f5f9;
-    }
-    ::-webkit-scrollbar-thumb {
-      background: #cbd5e1;
-      border-radius: 4px;
-    }
-    ::-webkit-scrollbar-thumb:hover {
-      background: #94a3b8;
-    }
   </style>
 </head>
-<body class="blueprint-grid min-h-screen">
+<body class="cyan-indigo-grid min-h-screen">
 
   <!-- Toast Notificación de Copiado -->
   <div id="copyToast" class="bg-slate-900 text-white px-5 py-3 rounded-xl shadow-2xl flex items-center gap-3 border border-slate-700">
@@ -181,17 +118,15 @@
       <div class="flex flex-col md:flex-row md:items-center justify-between gap-3">
         <div class="flex flex-col gap-1.5">
           <div class="flex flex-wrap items-center gap-2">
-            <span class="px-2 py-0.5 rounded-md text-[10px] font-black uppercase tracking-wider bg-slate-900 text-white">
-              Grado 11° • 3.° Periodo
-            </span>
-            <span class="px-2 py-0.5 rounded-md text-[10px] font-bold bg-indigo-50 text-indigo-700 border border-indigo-200">
-              Laboratorio de Comunicación Visual & Diseño Ejecutivo
+            <span class="px-3 py-1 rounded-lg text-[10px] font-black uppercase tracking-wider bg-indigo-800 text-indigo-50 shadow-xs">💎 GRADO 11° • MEDIA TÉCNICA SENIOR</span>
+            <span class="px-2 py-0.5 rounded-md text-[10px] font-bold bg-sky-50 text-sky-700 border border-sky-200">
+              Media Técnica Senior • Branding, Identidad Corporativa & Pitch de Grado
             </span>
           </div>
           
-          <h1 class="font-display font-extrabold text-xl sm:text-2xl md:text-3xl text-slate-900 tracking-tight">
-            <span class="bg-clip-text text-transparent bg-gradient-to-r from-indigo-600 via-indigo-700 to-cyan-600">Arquitectura Visual</span> & Diseño de Presentaciones en Canva
-          </h1>
+          <h1 class="font-display font-black text-xl sm:text-2xl md:text-3xl text-slate-900 tracking-tight">
+      <span class="bg-clip-text text-transparent bg-gradient-to-r from-indigo-900 via-indigo-600 to-cyan-600">Executive Pitch:</span> Branding, Identidad & Canva Senior
+    </h1>
         </div>
 
         <!-- Botón Directo a Classroom -->
@@ -204,8 +139,8 @@
         </a>
       </div>
 
-      <!-- NAV BAR ELEGANTE DE 4 SESIONES -->
-      <nav class="grid grid-cols-2 md:grid-cols-4 gap-2.5 sm:gap-3.5 mt-3.5 pt-3 border-t border-slate-200/70" id="navTabsContainer" role="tablist">
+            <!-- NAV BAR ELEGANTE DE 3 SESIONES -->
+      <nav class="grid grid-cols-1 sm:grid-cols-3 gap-2.5 sm:gap-3.5 mt-3.5 pt-3 border-t border-slate-200/70" id="navTabsContainer" role="tablist">
         
         <!-- Tab 1 -->
         <button onclick="cambiarClase('clase1')" id="tab-clase1" role="tab" aria-selected="true" class="nav-tab active group flex flex-col sm:flex-row sm:items-center gap-2 p-2.5 sm:px-4 sm:py-3 rounded-xl font-bold text-xs transition-all duration-200 text-left border-2 bg-indigo-600 text-white border-indigo-600 shadow-md shadow-indigo-600/20">
@@ -219,35 +154,24 @@
         </button>
 
         <!-- Tab 2 -->
-        <button onclick="cambiarClase('clase2')" id="tab-clase2" role="tab" aria-selected="false" class="nav-tab group flex flex-col sm:flex-row sm:items-center gap-2 p-2.5 sm:px-4 sm:py-3 rounded-xl font-bold text-xs transition-all duration-200 text-left border bg-white/95 text-slate-700 border-slate-200 hover:bg-slate-50 hover:border-slate-300">
-          <div class="w-7 h-7 rounded-lg bg-slate-100 text-slate-700 group-hover:bg-slate-200 font-black text-xs flex items-center justify-center shrink-0">
+        <button onclick="cambiarClase('clase2')" id="tab-clase2" role="tab" aria-selected="false" class="nav-tab group flex flex-col sm:flex-row sm:items-center gap-2 p-2.5 sm:px-4 sm:py-3 rounded-xl font-bold text-xs transition-all duration-200 text-left border bg-sky-50/80 text-sky-950 border-sky-200 hover:opacity-90">
+          <div class="w-7 h-7 rounded-lg bg-white/70 text-slate-700 font-black text-xs flex items-center justify-center shrink-0 border border-slate-200">
             2
           </div>
           <div class="min-w-0">
-            <span class="block text-[10px] uppercase tracking-wider text-slate-400 font-black">Sesión 02</span>
-            <span class="block font-bold text-xs truncate sm:whitespace-normal">Paleta 60-30-10 & Tipografía</span>
+            <span class="block text-[10px] uppercase tracking-wider text-slate-500 font-black">Sesión 02</span>
+            <span class="block font-bold text-xs truncate sm:whitespace-normal">Paleta 60-30-10 & Complementarios</span>
           </div>
         </button>
 
         <!-- Tab 3 -->
-        <button onclick="cambiarClase('clase3')" id="tab-clase3" role="tab" aria-selected="false" class="nav-tab group flex flex-col sm:flex-row sm:items-center gap-2 p-2.5 sm:px-4 sm:py-3 rounded-xl font-bold text-xs transition-all duration-200 text-left border bg-white/95 text-slate-700 border-slate-200 hover:bg-slate-50 hover:border-slate-300">
-          <div class="w-7 h-7 rounded-lg bg-slate-100 text-slate-700 group-hover:bg-slate-200 font-black text-xs flex items-center justify-center shrink-0">
+        <button onclick="cambiarClase('clase3')" id="tab-clase3" role="tab" aria-selected="false" class="nav-tab group flex flex-col sm:flex-row sm:items-center gap-2 p-2.5 sm:px-4 sm:py-3 rounded-xl font-bold text-xs transition-all duration-200 text-left border bg-sky-50/80 text-sky-950 border-sky-200 hover:opacity-90">
+          <div class="w-7 h-7 rounded-lg bg-white/70 text-slate-700 font-black text-xs flex items-center justify-center shrink-0 border border-slate-200">
             3
           </div>
           <div class="min-w-0">
-            <span class="block text-[10px] uppercase tracking-wider text-slate-400 font-black">Sesión 03</span>
-            <span class="block font-bold text-xs truncate sm:whitespace-normal">Imágenes & Tablas Nativas</span>
-          </div>
-        </button>
-
-        <!-- Tab 4 -->
-        <button onclick="cambiarClase('clase4')" id="tab-clase4" role="tab" aria-selected="false" class="nav-tab group flex flex-col sm:flex-row sm:items-center gap-2 p-2.5 sm:px-4 sm:py-3 rounded-xl font-bold text-xs transition-all duration-200 text-left border bg-white/95 text-slate-700 border-slate-200 hover:bg-slate-50 hover:border-slate-300">
-          <div class="w-7 h-7 rounded-lg bg-slate-100 text-slate-700 group-hover:bg-slate-200 font-black text-xs flex items-center justify-center shrink-0">
-            4
-          </div>
-          <div class="min-w-0">
-            <span class="block text-[10px] uppercase tracking-wider text-slate-400 font-black">Sesión 04</span>
-            <span class="block font-bold text-xs truncate sm:whitespace-normal">Atajos & Entrega Final</span>
+            <span class="block text-[10px] uppercase tracking-wider text-slate-500 font-black">Sesión 03</span>
+            <span class="block font-bold text-xs truncate sm:whitespace-normal">Test Interactivo & Entrega</span>
           </div>
         </button>
 
@@ -266,12 +190,12 @@
       <!-- Encabezado de Sesión -->
       <div class="flex flex-col sm:flex-row sm:items-center justify-between gap-3 bg-white p-5 rounded-2xl border border-slate-200 shadow-xs">
         <div>
-          <span class="text-xs font-black uppercase tracking-wider text-indigo-600">Sesión de Clase 01</span>
+          <span class="text-xs font-black uppercase tracking-wider text-blue-600">Sesión de Clase 01</span>
           <h2 class="font-display text-xl sm:text-2xl font-bold text-slate-900 mt-0.5">
             Diagnóstico Inicial con IA y Doble Entrega PDF
           </h2>
         </div>
-        <div class="flex items-center gap-2 text-xs font-bold text-indigo-700 bg-indigo-50 px-3 py-1.5 rounded-lg border border-indigo-200 self-start sm:self-auto">
+        <div class="flex items-center gap-2 text-xs font-bold text-blue-700 bg-blue-50 px-3 py-1.5 rounded-lg border border-blue-200 self-start sm:self-auto">
           <span>Meta:</span>
           <span>2 Archivos PDF en Classroom</span>
         </div>
@@ -282,7 +206,7 @@
         
         <!-- PASO 1 -->
         <div class="glass-card p-5 rounded-2xl border border-slate-200 flex flex-col sm:flex-row gap-4 items-start">
-          <div class="w-10 h-10 rounded-xl bg-indigo-600 text-white font-black text-sm flex items-center justify-center shrink-0 shadow-md shadow-indigo-600/20">
+          <div class="w-10 h-10 rounded-xl bg-blue-600 text-white font-black text-sm flex items-center justify-center shrink-0 shadow-md shadow-blue-600/20">
             01
           </div>
           <div class="space-y-1.5 flex-1">
@@ -298,7 +222,7 @@
 
         <!-- PASO 2 -->
         <div class="glass-card p-5 rounded-2xl border border-slate-200 flex flex-col sm:flex-row gap-4 items-start">
-          <div class="w-10 h-10 rounded-xl bg-indigo-600 text-white font-black text-sm flex items-center justify-center shrink-0 shadow-md shadow-indigo-600/20">
+          <div class="w-10 h-10 rounded-xl bg-blue-600 text-white font-black text-sm flex items-center justify-center shrink-0 shadow-md shadow-blue-600/20">
             02
           </div>
           <div class="space-y-3 flex-1">
@@ -311,10 +235,10 @@
             </p>
 
             <!-- Bloque de Prompt -->
-            <div class="bg-slate-950 text-indigo-100 rounded-xl p-4 font-mono text-xs border border-slate-800 space-y-2.5">
+            <div class="bg-slate-950 text-blue-100 rounded-xl p-4 font-mono text-xs border border-slate-800 space-y-2.5">
               <div class="flex items-center justify-between border-b border-slate-800 pb-2">
                 <span class="text-slate-400 font-bold text-[11px]">Prompt Maestro de Diagnóstico</span>
-                <button onclick="copiarAlPortapapeles(document.getElementById('promptClase1Text').innerText, 'Prompt Copiado', 'Pégalo en Gemini, ChatGPT o Claude junto a tu PDF.')" class="px-3 py-1 rounded-lg bg-indigo-600 hover:bg-indigo-500 text-white font-bold text-[11px] transition flex items-center gap-1.5">
+                <button onclick="copiarAlPortapapeles(document.getElementById('promptClase1Text').innerText, 'Prompt Copiado', 'Pégalo en Gemini, ChatGPT o Claude junto a tu PDF.')" class="px-3 py-1 rounded-lg bg-blue-600 hover:bg-blue-500 text-white font-bold text-[11px] transition flex items-center gap-1.5">
                   <span>Copiar Prompt</span> 📋
                 </button>
               </div>
@@ -357,14 +281,14 @@
       <!-- Encabezado de Sesión -->
       <div class="flex flex-col sm:flex-row sm:items-center justify-between gap-3 bg-white p-5 rounded-2xl border border-slate-200 shadow-xs">
         <div>
-          <span class="text-xs font-black uppercase tracking-wider text-indigo-600">Sesión de Clase 02</span>
+          <span class="text-xs font-black uppercase tracking-wider text-blue-600">Sesión de Clase 02</span>
           <h2 class="font-display text-xl sm:text-2xl font-bold text-slate-900 mt-0.5">
             Colorimetría 60-30-10, Jerarquía Tipográfica y Logo con Gemini
           </h2>
         </div>
         <div class="flex items-center gap-2 text-xs font-bold text-purple-700 bg-purple-50 px-3 py-1.5 rounded-lg border border-purple-200 self-start sm:self-auto">
           <span>Meta:</span>
-          <span>Kit de Marca & Jerarquía 2:1</span>
+          <span>2 Documentos PDF en Classroom</span>
         </div>
       </div>
 
@@ -373,7 +297,7 @@
         
         <!-- PASO 1: GALERÍA INTERACTIVA DE PALETAS 60-30-10 -->
         <div class="glass-card p-5 sm:p-6 rounded-2xl border border-slate-200 flex flex-col sm:flex-row gap-4 items-start">
-          <div class="w-10 h-10 rounded-xl bg-indigo-600 text-white font-black text-sm flex items-center justify-center shrink-0 shadow-md shadow-indigo-600/20">
+          <div class="w-10 h-10 rounded-xl bg-blue-600 text-white font-black text-sm flex items-center justify-center shrink-0 shadow-md shadow-blue-600/20">
             01
           </div>
           <div class="space-y-4 flex-1 w-full">
@@ -384,8 +308,8 @@
                   Explora las paletas ejecutivas, tiernas, creativas y científicas. Haz clic en cualquiera para ver cómo se transforma la diapositiva en tiempo real y copia sus códigos HEX:
                 </p>
               </div>
-              <div class="flex items-center gap-1.5 self-start sm:self-auto shrink-0 bg-indigo-50 border border-indigo-200 text-indigo-700 px-3 py-1 rounded-xl text-xs font-bold">
-                <span class="w-2 h-2 rounded-full bg-indigo-500 animate-pulse"></span>
+              <div class="flex items-center gap-1.5 self-start sm:self-auto shrink-0 bg-blue-50 border border-blue-200 text-blue-700 px-3 py-1 rounded-xl text-xs font-bold">
+                <span class="w-2 h-2 rounded-full bg-blue-500 animate-pulse"></span>
                 <span>7 Paletas Listas</span>
               </div>
             </div>
@@ -498,7 +422,7 @@
               <div class="lg:col-span-5 space-y-2 flex flex-col justify-between">
                 <div class="text-xs font-bold text-slate-500 uppercase tracking-wider px-1 flex items-center justify-between">
                   <span>Selecciona una paleta:</span>
-                  <span class="text-[10px] text-indigo-600 font-bold font-mono">7 opciones</span>
+                  <span class="text-[10px] text-blue-600 font-bold font-mono">7 opciones</span>
                 </div>
 
                 <div class="space-y-2 overflow-y-auto pr-1">
@@ -624,9 +548,89 @@
           </div>
         </div>
 
+        
+                        <!-- PASO 1.5: EL COLOR COMPLEMENTARIO ES EL 5% EXTRA (MICRO-ACENTO) -->
+        <div class="glass-card p-5 sm:p-6 rounded-2xl border-2 border-amber-400/90 bg-gradient-to-r from-amber-50/80 via-orange-50/50 to-amber-50/80 flex flex-col sm:flex-row gap-4 items-start shadow-sm">
+          <div class="w-11 h-11 rounded-2xl bg-gradient-to-tr from-amber-500 to-orange-500 text-white font-black text-lg flex items-center justify-center shrink-0 shadow-md shadow-amber-500/30">
+            ⚡
+          </div>
+          <div class="space-y-3.5 flex-1 w-full">
+            <div class="flex flex-col sm:flex-row sm:items-center justify-between gap-2">
+              <div>
+                <h3 class="font-bold text-slate-900 text-sm sm:text-base flex items-center gap-2">
+                  <span>El Secreto Profesional: La Regla 60-30-10 + 5% Complementario (Micro-Acento)</span>
+                </h3>
+                <p class="text-xs sm:text-sm text-slate-600 leading-relaxed mt-1">
+                  En diseño de alta gama, además de tu paleta base <strong>(60% Fondo + 30% Texto + 10% Acento de Marca)</strong>, se añade un <strong>color complementario en apenas un 5% chiquito</strong>. Este micro-acento se reserva para resaltar insignias clave, alertas o llamadas a la acción sin arruinar la armonía:
+                </p>
+              </div>
+              <span class="text-[11px] font-black uppercase tracking-wider bg-amber-500 text-white px-3 py-1 rounded-xl shadow-xs shrink-0 self-start sm:self-auto">
+                El 5% = Micro-Acento
+              </span>
+            </div>
+
+            <!-- Demostración Visual 60 - 30 - 10 + 5% Micro-Acento -->
+            <div class="grid grid-cols-1 sm:grid-cols-3 gap-3.5 text-xs pt-1">
+              
+              <!-- Caso 1: Tech / Azul con Micro-Acento Naranja -->
+              <div class="p-3.5 rounded-2xl bg-white border border-blue-200 shadow-2xs space-y-2.5">
+                <div class="flex items-center justify-between">
+                  <span class="font-bold text-slate-800 text-[11px]">Paleta Tech & Corporativa</span>
+                  <span class="text-[10px] font-mono font-bold text-orange-700 bg-orange-100 px-1.5 py-0.5 rounded">+5% Naranja</span>
+                </div>
+                <!-- Barra de distribución real 60 - 30 - 10 + 5% -->
+                <div class="h-7 rounded-xl flex overflow-hidden border border-slate-200 shadow-inner text-[10px] font-bold">
+                  <div class="w-[55%] bg-slate-100 text-slate-700 flex items-center justify-center border-r border-slate-300">60% Fondo</div>
+                  <div class="w-[30%] bg-blue-900 text-white flex items-center justify-center border-r border-blue-950">30% Texto</div>
+                  <div class="w-[10%] bg-blue-500 text-white flex items-center justify-center border-r border-blue-600">10% Marca</div>
+                  <div class="w-[5%] bg-orange-500 text-white flex items-center justify-center font-black animate-pulse" title="5% Micro-Acento Complementario">5%</div>
+                </div>
+                <p class="text-[11px] text-slate-500 leading-snug">
+                  Fondo claro + Texto azul oscuro + Marca azul + <strong>5% Naranja en insignias "Nuevo" o alertas</strong>.
+                </p>
+              </div>
+
+              <!-- Caso 2: Violeta / Media Lab con Micro-Acento Amarillo Dorado -->
+              <div class="p-3.5 rounded-2xl bg-white border border-purple-200 shadow-2xs space-y-2.5">
+                <div class="flex items-center justify-between">
+                  <span class="font-bold text-slate-800 text-[11px]">Paleta Creativa & Pitch</span>
+                  <span class="text-[10px] font-mono font-bold text-amber-700 bg-amber-100 px-1.5 py-0.5 rounded">+5% Dorado</span>
+                </div>
+                <div class="h-7 rounded-xl flex overflow-hidden border border-slate-200 shadow-inner text-[10px] font-bold">
+                  <div class="w-[55%] bg-purple-50 text-purple-900 flex items-center justify-center border-r border-purple-200">60% Fondo</div>
+                  <div class="w-[30%] bg-purple-950 text-white flex items-center justify-center border-r border-purple-900">30% Texto</div>
+                  <div class="w-[10%] bg-purple-600 text-white flex items-center justify-center border-r border-purple-700">10% Marca</div>
+                  <div class="w-[5%] bg-amber-400 text-slate-950 flex items-center justify-center font-black animate-pulse" title="5% Micro-Acento Complementario">5%</div>
+                </div>
+                <p class="text-[11px] text-slate-500 leading-snug">
+                  Fondo lavanda + Texto violeta + Marca púrpura + <strong>5% Amarillo dorado en medallas o KPIs</strong>.
+                </p>
+              </div>
+
+              <!-- Caso 3: Verde / Botánica con Micro-Acento Coral / Rosa -->
+              <div class="p-3.5 rounded-2xl bg-white border border-emerald-200 shadow-2xs space-y-2.5">
+                <div class="flex items-center justify-between">
+                  <span class="font-bold text-slate-800 text-[11px]">Paleta Botánica & Salud</span>
+                  <span class="text-[10px] font-mono font-bold text-rose-700 bg-rose-100 px-1.5 py-0.5 rounded">+5% Coral</span>
+                </div>
+                <div class="h-7 rounded-xl flex overflow-hidden border border-slate-200 shadow-inner text-[10px] font-bold">
+                  <div class="w-[55%] bg-emerald-50 text-emerald-900 flex items-center justify-center border-r border-emerald-200">60% Fondo</div>
+                  <div class="w-[30%] bg-emerald-950 text-white flex items-center justify-center border-r border-emerald-900">30% Texto</div>
+                  <div class="w-[10%] bg-emerald-500 text-white flex items-center justify-center border-r border-emerald-600">10% Marca</div>
+                  <div class="w-[5%] bg-rose-500 text-white flex items-center justify-center font-black animate-pulse" title="5% Micro-Acento Complementario">5%</div>
+                </div>
+                <p class="text-[11px] text-slate-500 leading-snug">
+                  Fondo menta + Texto verde bosque + Marca esmeralda + <strong>5% Coral en botones de compra o llamada</strong>.
+                </p>
+              </div>
+
+            </div>
+          </div>
+        </div>
+
         <!-- PASO 2: JERARQUÍA TIPOGRÁFICA 2:1 -->
         <div class="glass-card p-5 sm:p-6 rounded-2xl border border-slate-200 flex flex-col sm:flex-row gap-4 items-start">
-          <div class="w-10 h-10 rounded-xl bg-indigo-600 text-white font-black text-sm flex items-center justify-center shrink-0 shadow-md shadow-indigo-600/20">
+          <div class="w-10 h-10 rounded-xl bg-blue-600 text-white font-black text-sm flex items-center justify-center shrink-0 shadow-md shadow-blue-600/20">
             02
           </div>
           <div class="space-y-4 flex-1 w-full">
@@ -637,7 +641,7 @@
                   El título principal debe tener el <strong>doble de tamaño visual</strong> que el texto de apoyo. Usa máximo 2 familias tipográficas:
                 </p>
               </div>
-              <button type="button" onclick="abrirModalTipografia()" class="self-start sm:self-auto shrink-0 px-3.5 py-2 rounded-xl bg-indigo-600 hover:bg-indigo-700 text-white text-xs font-bold transition-all shadow-sm shadow-indigo-600/20 flex items-center gap-2 hover:scale-[1.02]">
+              <button type="button" onclick="abrirModalTipografia()" class="self-start sm:self-auto shrink-0 px-3.5 py-2 rounded-xl bg-blue-600 hover:bg-blue-700 text-white text-xs font-bold transition-all shadow-sm shadow-blue-600/20 flex items-center gap-2 hover:scale-[1.02]">
                 <span>👁️ Ver Ejemplo en Vivo</span>
                 <span class="text-[10px] bg-white/20 px-1.5 py-0.5 rounded font-mono">Modal</span>
               </button>
@@ -646,7 +650,7 @@
             <div class="grid grid-cols-1 sm:grid-cols-3 gap-3 text-xs">
               <div onclick="abrirModalTipografia(1)" class="p-3.5 rounded-xl bg-white border border-slate-200 hover:border-indigo-400 hover:shadow-sm transition-all cursor-pointer group">
                 <div class="flex items-center justify-between mb-1">
-                  <span class="font-black text-indigo-600 block">H1 • Títulos</span>
+                  <span class="font-black text-blue-600 block">H1 • Títulos</span>
                   <span class="text-[10px] text-indigo-500 font-bold group-hover:underline">Probar ➔</span>
                 </div>
                 <span class="text-xs font-mono font-bold text-slate-800">36px – 44px (Bold)</span>
@@ -674,19 +678,19 @@
 
         <!-- PASO 3 -->
         <div class="glass-card p-5 rounded-2xl border border-slate-200 flex flex-col sm:flex-row gap-4 items-start">
-          <div class="w-10 h-10 rounded-xl bg-indigo-600 text-white font-black text-sm flex items-center justify-center shrink-0 shadow-md shadow-indigo-600/20">
+          <div class="w-10 h-10 rounded-xl bg-blue-600 text-white font-black text-sm flex items-center justify-center shrink-0 shadow-md shadow-blue-600/20">
             03
           </div>
           <div class="space-y-3 flex-1">
             <h3 class="font-bold text-slate-900 text-sm sm:text-base">Paso 3: Auditar tu Logo y Tipografía con Google Gemini</h3>
             <p class="text-xs sm:text-sm text-slate-600 leading-relaxed">
-              Copia este prompt en <a href="https://gemini.google.com/" target="_blank" rel="noopener noreferrer" class="text-indigo-600 font-bold underline">Google Gemini</a> adjuntando la imagen de tu logo institucional:
+              Copia este prompt en <a href="https://gemini.google.com/" target="_blank" rel="noopener noreferrer" class="text-blue-600 font-bold underline">Google Gemini</a> adjuntando la imagen de tu logo institucional:
             </p>
 
-            <div class="bg-slate-950 text-indigo-100 rounded-xl p-4 font-mono text-xs border border-slate-800 space-y-2">
+            <div class="bg-slate-950 text-blue-100 rounded-xl p-4 font-mono text-xs border border-slate-800 space-y-2">
               <div class="flex items-center justify-between border-b border-slate-800 pb-2">
                 <span class="text-slate-400 font-bold text-[11px]">Prompt de Branding y Tipografía (Clase 2)</span>
-                <button onclick="copiarAlPortapapeles(document.getElementById('promptClase2Text').innerText, 'Prompt Copiado', 'Pégalo en Gemini con la imagen de tu logo.')" class="px-3 py-1 rounded-lg bg-indigo-600 hover:bg-indigo-500 text-white font-bold text-[11px] transition flex items-center gap-1.5">
+                <button onclick="copiarAlPortapapeles(document.getElementById('promptClase2Text').innerText, 'Prompt Copiado', 'Pégalo en Gemini con la imagen de tu logo.')" class="px-3 py-1 rounded-lg bg-blue-600 hover:bg-blue-500 text-white font-bold text-[11px] transition flex items-center gap-1.5">
                   <span>Copiar Prompt</span> 📋
                 </button>
               </div>
@@ -695,201 +699,137 @@
           </div>
         </div>
 
+                <!-- PASO 4: ENTREGA OFICIAL EN GOOGLE CLASSROOM (SESIÓN 2) -->
+        <div class="glass-card p-5 sm:p-6 rounded-2xl border-2 border-emerald-400/90 bg-gradient-to-r from-emerald-50/80 via-teal-50/50 to-emerald-50/80 flex flex-col sm:flex-row gap-4 items-start shadow-sm">
+          <div class="w-11 h-11 rounded-2xl bg-emerald-600 text-white font-black text-lg flex items-center justify-center shrink-0 shadow-md shadow-emerald-600/30">
+            04
+          </div>
+          <div class="space-y-3 flex-1 w-full">
+            <div class="flex flex-wrap items-center justify-between gap-2">
+              <div>
+                <h3 class="font-bold text-slate-900 text-sm sm:text-base">Paso 4: Entrega de la Sesión 2 en Google Classroom</h3>
+                <p class="text-xs sm:text-sm text-slate-600 leading-relaxed mt-0.5">
+                  Para validar el avance de esta sesión, debes adjuntar <strong>dos documentos en formato PDF</strong>:
+                </p>
+              </div>
+              <a href="https://classroom.google.com/c/ODg0NDU4ODU4MDc1?cjc=whi6guyt" target="_blank" rel="noopener noreferrer" class="inline-flex items-center gap-1.5 text-xs font-bold bg-emerald-600 text-white px-4 py-2 rounded-xl hover:bg-emerald-700 transition-colors shadow-sm shadow-emerald-600/20 shrink-0">
+                <span>Entregar Tarea Sesión 2</span> ↗
+              </a>
+            </div>
+
+            <!-- Lista de los 2 Documentos Requeridos -->
+            <div class="grid grid-cols-1 md:grid-cols-2 gap-3 text-xs pt-1">
+              
+              <!-- Documento 1 -->
+              <div class="p-3.5 rounded-2xl bg-white border border-emerald-200 shadow-2xs space-y-1.5">
+                <div class="flex items-center justify-between">
+                  <span class="font-black text-emerald-800 text-[11px] uppercase tracking-wider">Documento 1 (PDF)</span>
+                  <span class="text-[10px] font-mono font-bold text-emerald-700 bg-emerald-50 px-2 py-0.5 rounded border border-emerald-200">Paleta & %</span>
+                </div>
+                <h4 class="font-bold text-slate-900 text-xs sm:text-sm">Captura de Colores con %</h4>
+                <p class="text-[11px] text-slate-600 leading-relaxed">
+                  PDF con el <strong>nombre de las estudiantes</strong> y la <strong>captura de pantalla</strong> de la paleta seleccionada con sus respectivos porcentajes (60% Fondo, 30% Texto, 10% Acento y 5% Complementario).
+                </p>
+              </div>
+
+              <!-- Documento 2 -->
+              <div class="p-3.5 rounded-2xl bg-white border border-emerald-200 shadow-2xs space-y-1.5">
+                <div class="flex items-center justify-between">
+                  <span class="font-black text-emerald-800 text-[11px] uppercase tracking-wider">Documento 2 (PDF)</span>
+                  <span class="text-[10px] font-mono font-bold text-emerald-700 bg-emerald-50 px-2 py-0.5 rounded border border-emerald-200">Presentación V2</span>
+                </div>
+                <h4 class="font-bold text-slate-900 text-xs sm:text-sm">Presentación Modificada</h4>
+                <p class="text-[11px] text-slate-600 leading-relaxed">
+                  PDF con la <strong>presentación modificada</strong> aplicando las correcciones sugeridas en la entrega anterior (diagnóstico IA) y las mejoras de color y tipografía actuales.
+                </p>
+              </div>
+
+            </div>
+
+            <div class="flex flex-wrap items-center justify-between pt-1 text-[11px] text-slate-500 font-mono">
+              <span>📄 Archivos: <strong>1. Paleta_Estudiantes.pdf</strong> & <strong>2. Presentacion_Modificada.pdf</strong></span>
+              <span class="font-semibold text-slate-700">Código Classroom 11°: <strong>whi6guyt</strong></span>
+            </div>
+
+          </div>
+        </div>
       </div>
     </section>
 
     <!-- ========================================================================= -->
-    <!-- CLASE 3: PASO A PASO (IMÁGENES, MOCKUPS Y TABLAS NATIVAS)                  -->
+    <!-- SESIÓN 03: TEST INTERACTIVO DE CONOCIMIENTO (SESIONES 1 Y 2)              -->
     <!-- ========================================================================= -->
     <section id="view-clase3" class="tab-content space-y-6 hidden">
       
       <!-- Encabezado de Sesión -->
       <div class="flex flex-col sm:flex-row sm:items-center justify-between gap-3 bg-white p-5 rounded-2xl border border-slate-200 shadow-xs">
         <div>
-          <span class="text-xs font-black uppercase tracking-wider text-indigo-600">Sesión de Clase 03</span>
+          <span class="text-xs font-black uppercase tracking-wider text-teal-600">Sesión de Clase 03</span>
           <h2 class="font-display text-xl sm:text-2xl font-bold text-slate-900 mt-0.5">
-            Ajuste de Imágenes, Mockups de Dispositivos y Tablas Nativas
+            Test Interactivo: Colorimetría 60-30-10, Jerarquía & Auditoría IA
           </h2>
+          <p class="text-xs sm:text-sm text-slate-500 mt-1">
+            Demuestra tu dominio sobre la regla 60-30-10, colores complementarios, jerarquía 2:1 y diagnóstico con IA.
+          </p>
         </div>
-        <div class="flex items-center gap-2 text-xs font-bold text-rose-700 bg-rose-50 px-3 py-1.5 rounded-lg border border-rose-200 self-start sm:self-auto">
-          <span>Regla de Oro:</span>
-          <span>Cero Pantallazos de Excel</span>
+        <div class="flex items-center gap-2 text-xs font-bold text-emerald-700 bg-emerald-50 px-3 py-1.5 rounded-lg border border-emerald-200 self-start sm:self-auto shrink-0">
+          <span>Evaluación:</span>
+          <span>12 Preguntas con Retroalimentación Inmediata</span>
         </div>
       </div>
 
-      <!-- Secuencia Vertical de Pasos (1 -> 2 -> 3) -->
-      <div class="space-y-4">
+      <!-- Tarjeta Principal del Test -->
+      <div class="glass-card p-6 sm:p-8 rounded-3xl border border-slate-200 shadow-sm space-y-6">
         
-        <!-- PASO 1 -->
-        <div class="glass-card p-5 rounded-2xl border border-slate-200 flex flex-col sm:flex-row gap-4 items-start">
-          <div class="w-10 h-10 rounded-xl bg-indigo-600 text-white font-black text-sm flex items-center justify-center shrink-0 shadow-md shadow-indigo-600/20">
-            01
+        <!-- Barra de Progreso y Marcador -->
+        <div class="flex flex-col sm:flex-row items-center justify-between gap-4 pb-4 border-b border-slate-200/80">
+          <div class="flex items-center gap-3 w-full sm:w-auto">
+            <span class="w-9 h-9 rounded-xl bg-teal-600 text-white font-black text-xs flex items-center justify-center shrink-0">
+              Q
+            </span>
+            <div>
+              <span id="quizQuestionNumber" class="text-xs font-bold text-slate-500 uppercase tracking-wider block">Pregunta 1 de 12</span>
+              <span id="quizScoreText" class="text-sm font-extrabold text-slate-800">Aciertos: 0 / 12</span>
+            </div>
           </div>
-          <div class="space-y-2 flex-1">
-            <h3 class="font-bold text-slate-900 text-sm sm:text-base">Paso 1: Limpieza de Fondos y Logos Transparentes (PNG)</h3>
-            <p class="text-xs sm:text-sm text-slate-600 leading-relaxed">
-              Ningún logo o escudo debe tener un cuadro blanco perimetral sobre el fondo de la diapositiva. Usa siempre formato <strong>PNG transparente</strong> o la herramienta 'Quitar Fondo' de Canva para un acabado limpio.
-            </p>
+
+          <!-- Barra de Progreso Visual -->
+          <div class="w-full sm:w-64 bg-slate-100 rounded-full h-3.5 overflow-hidden border border-slate-200">
+            <div id="quizProgressBar" class="bg-gradient-to-r from-teal-500 to-emerald-500 h-full w-[8%] transition-all duration-300"></div>
           </div>
         </div>
 
-        <!-- PASO 2 -->
-        <div class="glass-card p-5 rounded-2xl border border-rose-200 bg-rose-50/20 flex flex-col sm:flex-row gap-4 items-start">
-          <div class="w-10 h-10 rounded-xl bg-rose-600 text-white font-black text-sm flex items-center justify-center shrink-0 shadow-md shadow-rose-600/20">
-            02
+        <!-- Contenedor Dinámico de la Pregunta Actual -->
+        <div id="quizQuestionBox" class="space-y-4 min-h-[220px]">
+          <h3 id="quizQuestionTitle" class="font-display font-bold text-base sm:text-lg text-slate-900 leading-snug">
+            Cargando pregunta...
+          </h3>
+
+          <div id="quizOptionsContainer" class="grid grid-cols-1 gap-2.5 pt-2">
+            <!-- Opciones renderizadas por JS -->
           </div>
-          <div class="space-y-2.5 flex-1">
-            <div class="flex flex-wrap items-center justify-between gap-2">
-              <h3 class="font-bold text-rose-950 text-sm sm:text-base">Paso 2: Crear Tablas Nativas en Canva (Prohibido Capturas de Excel)</h3>
-              <span class="text-[11px] font-bold bg-rose-100 text-rose-800 px-2.5 py-0.5 rounded">Fallo Crítico de Proyección</span>
-            </div>
-            <p class="text-xs sm:text-sm text-slate-700 leading-relaxed">
-              Las capturas de Excel tienen letras de 4px que resultan ilegibles en proyector HDMI. En su lugar:
-            </p>
-            <div class="grid grid-cols-1 sm:grid-cols-2 gap-3 text-xs">
-              <div class="p-3 rounded-xl bg-white border border-rose-200">
-                <span class="font-bold text-slate-900 block mb-1">Opción A: Tabla Nativa</span>
-                <p class="text-slate-600">Inserta <strong>'Elementos > Tablas'</strong> en Canva con texto tipiado a mínimo 14px.</p>
-              </div>
-              <div class="p-3 rounded-xl bg-white border border-rose-200">
-                <span class="font-bold text-slate-900 block mb-1">Opción B: Tarjetas KPI</span>
-                <p class="text-slate-600">Extrae los 2 datos más importantes en números gigantes de 44px a 56px.</p>
-              </div>
-            </div>
-          </div>
+        </div>
+
+        <!-- Caja de Retroalimentación / Explicación -->
+        <div id="quizFeedbackBox" class="hidden p-4 rounded-2xl border text-xs sm:text-sm transition-all duration-200">
+          <p id="quizFeedbackText" class="font-medium leading-relaxed"></p>
+        </div>
+
+        <!-- Botones de Acción -->
+        <div class="flex items-center justify-between pt-3 border-t border-slate-200/80">
+          <button type="button" onclick="reiniciarQuiz()" class="px-4 py-2 rounded-xl border border-slate-300 hover:bg-slate-100 text-slate-700 text-xs font-bold transition flex items-center gap-1.5">
+            <span>🔄 Reiniciar Test</span>
+          </button>
+
+          <button type="button" id="btnNextQuestion" onclick="siguientePregunta()" disabled class="px-6 py-2.5 rounded-xl bg-slate-300 text-slate-500 font-bold text-xs transition flex items-center gap-2 cursor-not-allowed">
+            <span>Siguiente Pregunta</span> ➔
+          </button>
         </div>
 
       </div>
+
     </section>
-
-    <!-- ========================================================================= -->
-    <!-- CLASE 4: PASO A PASO (ATAJOS Y ENTREGA FINAL EN CLASSROOM)                -->
-    <!-- ========================================================================= -->
-    <section id="view-clase4" class="tab-content space-y-6 hidden">
-      
-      <!-- Encabezado de Sesión -->
-      <div class="flex flex-col sm:flex-row sm:items-center justify-between gap-3 bg-white p-5 rounded-2xl border border-slate-200 shadow-xs">
-        <div>
-          <span class="text-xs font-black uppercase tracking-wider text-indigo-600">Sesión de Clase 04</span>
-          <h2 class="font-display text-xl sm:text-2xl font-bold text-slate-900 mt-0.5">
-            Atajos de Teclado y Entrega Final en Classroom
-          </h2>
-        </div>
-        <div class="flex items-center gap-2 text-xs font-bold text-emerald-700 bg-emerald-50 px-3 py-1.5 rounded-lg border border-emerald-200 self-start sm:self-auto">
-          <span>Meta:</span>
-          <span>Entrega Final en Classroom</span>
-        </div>
-      </div>
-
-      <!-- Secuencia Vertical de Pasos (1 -> 2) -->
-      <div class="space-y-4">
-        
-        <!-- PASO 1: ATAJOS DE TECLADO EJECUTIVOS EN CANVA -->
-        <div class="glass-card p-5 sm:p-6 rounded-2xl border border-slate-200 flex flex-col sm:flex-row gap-4 items-start">
-          <div class="w-10 h-10 rounded-xl bg-indigo-600 text-white font-black text-sm flex items-center justify-center shrink-0 shadow-md shadow-indigo-600/20">
-            01
-          </div>
-          <div class="space-y-3 flex-1 w-full">
-            <div class="flex flex-col sm:flex-row sm:items-center justify-between gap-2">
-              <div>
-                <h3 class="font-bold text-slate-900 text-base sm:text-lg">Paso 1: Atajos de Teclado Esenciales para Diseñar en Canva</h3>
-                <p class="text-xs sm:text-sm text-slate-600 leading-relaxed mt-0.5">
-                  Usa estos 8 atajos rápidos en tu teclado para diagramar 3 veces más rápido sin buscar en los menús:
-                </p>
-              </div>
-              <span class="text-[11px] font-bold bg-indigo-50 text-indigo-700 border border-indigo-200 px-2.5 py-1 rounded-lg self-start sm:self-auto shrink-0">
-                8 Atajos Clave
-              </span>
-            </div>
-            
-            <div class="grid grid-cols-2 sm:grid-cols-4 gap-2.5 text-xs pt-1">
-              
-              <!-- Atajo 1 -->
-              <div class="p-3 rounded-xl bg-slate-50 border border-slate-200 text-center hover:bg-indigo-50/50 hover:border-indigo-200 transition-colors">
-                <span class="text-slate-500 block text-[10px] font-bold uppercase">Caja de Texto</span>
-                <kbd class="kbd-shortcut mt-1 text-sm">T</kbd>
-                <span class="text-[10px] text-slate-400 block mt-0.5">Inserta texto al instante</span>
-              </div>
-
-              <!-- Atajo 2 -->
-              <div class="p-3 rounded-xl bg-slate-50 border border-slate-200 text-center hover:bg-indigo-50/50 hover:border-indigo-200 transition-colors">
-                <span class="text-slate-500 block text-[10px] font-bold uppercase">Tarjeta / Rectángulo</span>
-                <kbd class="kbd-shortcut mt-1 text-sm">R</kbd>
-                <span class="text-[10px] text-slate-400 block mt-0.5">Crea contenedor modular</span>
-              </div>
-
-              <!-- Atajo 3 -->
-              <div class="p-3 rounded-xl bg-slate-50 border border-slate-200 text-center hover:bg-indigo-50/50 hover:border-indigo-200 transition-colors">
-                <span class="text-slate-500 block text-[10px] font-bold uppercase">Círculo / KPI</span>
-                <kbd class="kbd-shortcut mt-1 text-sm">C</kbd>
-                <span class="text-[10px] text-slate-400 block mt-0.5">Métrica o avatar</span>
-              </div>
-
-              <!-- Atajo 4 -->
-              <div class="p-3 rounded-xl bg-slate-50 border border-slate-200 text-center hover:bg-indigo-50/50 hover:border-indigo-200 transition-colors">
-                <span class="text-slate-500 block text-[10px] font-bold uppercase">Línea Divisoria</span>
-                <kbd class="kbd-shortcut mt-1 text-sm">L</kbd>
-                <span class="text-[10px] text-slate-400 block mt-0.5">Separador sutil</span>
-              </div>
-
-              <!-- Atajo 5 -->
-              <div class="p-3 rounded-xl bg-slate-50 border border-slate-200 text-center hover:bg-indigo-50/50 hover:border-indigo-200 transition-colors">
-                <span class="text-slate-500 block text-[10px] font-bold uppercase">Reglas & Margen 10%</span>
-                <div class="flex justify-center gap-1 mt-1"><kbd class="kbd-shortcut">Shift</kbd><kbd class="kbd-shortcut">R</kbd></div>
-                <span class="text-[10px] text-slate-400 block mt-0.5">Guías perimetrales</span>
-              </div>
-
-              <!-- Atajo 6 -->
-              <div class="p-3 rounded-xl bg-slate-50 border border-slate-200 text-center hover:bg-indigo-50/50 hover:border-indigo-200 transition-colors">
-                <span class="text-slate-500 block text-[10px] font-bold uppercase">Agrupar Elementos</span>
-                <div class="flex justify-center gap-1 mt-1"><kbd class="kbd-shortcut">Ctrl</kbd><kbd class="kbd-shortcut">G</kbd></div>
-                <span class="text-[10px] text-slate-400 block mt-0.5">Bloque consolidado</span>
-              </div>
-
-              <!-- Atajo 7 -->
-              <div class="p-3 rounded-xl bg-slate-50 border border-slate-200 text-center hover:bg-indigo-50/50 hover:border-indigo-200 transition-colors">
-                <span class="text-slate-500 block text-[10px] font-bold uppercase">Duplicar Objeto</span>
-                <div class="flex justify-center gap-1 mt-1"><kbd class="kbd-shortcut">Ctrl</kbd><kbd class="kbd-shortcut">D</kbd></div>
-                <span class="text-[10px] text-slate-400 block mt-0.5">Copia en posición exacta</span>
-              </div>
-
-              <!-- Atajo 8 -->
-              <div class="p-3 rounded-xl bg-slate-50 border border-slate-200 text-center hover:bg-indigo-50/50 hover:border-indigo-200 transition-colors">
-                <span class="text-slate-500 block text-[10px] font-bold uppercase">Duplicar Rápido</span>
-                <div class="flex justify-center gap-1 mt-1"><kbd class="kbd-shortcut">Alt</kbd><kbd class="kbd-shortcut">Arrastrar</kbd></div>
-                <span class="text-[10px] text-slate-400 block mt-0.5">Clona al mover el ratón</span>
-              </div>
-
-            </div>
-          </div>
-        </div>
-
-        <!-- PASO 2: ENTREGA FINAL EN CLASSROOM -->
-        <div class="glass-card p-5 rounded-2xl border border-emerald-200 bg-gradient-to-r from-white to-emerald-50/40 flex flex-col sm:flex-row gap-4 items-start">
-          <div class="w-10 h-10 rounded-xl bg-emerald-600 text-white font-black text-sm flex items-center justify-center shrink-0 shadow-md shadow-emerald-600/20">
-            02
-          </div>
-          <div class="space-y-2.5 flex-1">
-            <div class="flex flex-wrap items-center justify-between gap-2">
-              <h3 class="font-bold text-slate-900 text-sm sm:text-base">Paso 2: Entrega Final en Classroom</h3>
-              <a href="https://classroom.google.com/c/ODg0NDU4ODU4MDc1?cjc=whi6guyt" target="_blank" rel="noopener noreferrer" class="inline-flex items-center gap-1.5 text-xs font-bold bg-emerald-600 text-white px-3.5 py-1.5 rounded-xl hover:bg-emerald-700 transition-colors shadow-sm shadow-emerald-600/20">
-                <span>Entregar en Classroom 11°</span> ↗
-              </a>
-            </div>
-            <p class="text-xs sm:text-sm text-slate-600 leading-relaxed">
-              Entrega en Classroom el <strong>enlace público de lectura de Canva</strong> junto con el <strong>PDF de alta calidad</strong> de tu presentación final.
-            </p>
-            <div class="flex flex-wrap items-center gap-2 pt-1 text-xs">
-              <span class="px-2.5 py-1 rounded-lg bg-white border border-slate-200 font-mono text-slate-700 font-bold">🔗 Enlace de Lectura Canva</span>
-              <span class="px-2.5 py-1 rounded-lg bg-white border border-slate-200 font-mono text-slate-700 font-bold">📄 Presentacion_Final.pdf</span>
-              <span class="text-[11px] text-slate-500 font-mono font-semibold ml-auto">Código: <strong>whi6guyt</strong></span>
-            </div>
-          </div>
-        </div>
-
-      </div>
-    </section>
-
+  
   </main>
 
   <!-- MODAL INTERACTIVO DE JERARQUÍA TIPOGRÁFICA 2:1 -->
@@ -897,9 +837,9 @@
     <div class="bg-white w-full max-w-3xl rounded-3xl shadow-2xl border border-slate-200 overflow-hidden flex flex-col max-h-[90vh] animate-in fade-in zoom-in-95 duration-200" onclick="event.stopPropagation()">
       
       <!-- Cabecera del Modal -->
-      <div class="px-6 py-4 bg-gradient-to-r from-slate-900 to-indigo-950 text-white flex items-center justify-between border-b border-slate-800">
+      <div class="px-6 py-4 bg-gradient-to-r from-slate-900 to-blue-950 text-white flex items-center justify-between border-b border-slate-800">
         <div class="flex items-center gap-2.5">
-          <div class="w-8 h-8 rounded-lg bg-indigo-500/30 border border-indigo-400/40 flex items-center justify-center text-indigo-300 text-sm font-black">
+          <div class="w-8 h-8 rounded-lg bg-blue-500/30 border border-indigo-400/40 flex items-center justify-center text-cyan-300 text-sm font-black">
             Aa
           </div>
           <div>
@@ -921,7 +861,7 @@
             <label class="block text-[11px] font-bold text-slate-500 uppercase tracking-wider mb-1">
               Familia Tipográfica Recomendada:
             </label>
-            <select id="selectFontFamily" onchange="aplicarFuenteModal(this.value)" class="w-full bg-white border border-slate-300 rounded-xl px-3 py-2 text-xs font-bold text-slate-800 focus:ring-2 focus:ring-indigo-500 focus:outline-none">
+            <select id="selectFontFamily" onchange="aplicarFuenteModal(this.value)" class="w-full bg-white border border-slate-300 rounded-xl px-3 py-2 text-xs font-bold text-slate-800 focus:ring-2 focus:ring-blue-500 focus:outline-none">
               <option value="'Outfit', sans-serif">Outfit (Moderna & Ejecutiva • Recomendada)</option>
               <option value="'Plus Jakarta Sans', sans-serif">Plus Jakarta Sans (Tecnológica & Limpia)</option>
               <option value="'Montserrat', sans-serif">Montserrat (Geométrica & Corp)</option>
@@ -935,7 +875,7 @@
               Ajuste de Escala Visual:
             </label>
             <div class="grid grid-cols-3 gap-1">
-              <button type="button" onclick="setEscalaModal('estandar')" id="btnEscalaEstandar" class="py-2 px-1 rounded-xl border-2 font-bold text-[11px] bg-indigo-50 border-indigo-600 text-indigo-700 text-center transition-all truncate">
+              <button type="button" onclick="setEscalaModal('estandar')" id="btnEscalaEstandar" class="py-2 px-1 rounded-xl border-2 font-bold text-[11px] bg-blue-50 border-blue-600 text-blue-700 text-center transition-all truncate">
                 2:1 Pro
               </button>
               <button type="button" onclick="setEscalaModal('impacto')" id="btnEscalaImpacto" class="py-2 px-1 rounded-xl border font-bold text-[11px] bg-white border-slate-200 hover:border-slate-300 text-slate-700 text-center transition-all truncate">
@@ -952,7 +892,7 @@
             <label class="block text-[11px] font-bold text-slate-500 uppercase tracking-wider mb-1">
               Tamaño:
             </label>
-            <button type="button" onclick="toggleEtiquetasModal()" id="btnToggleEtiquetas" class="w-full py-2 px-3 rounded-xl border-2 font-bold text-xs bg-indigo-600 border-indigo-600 text-white flex items-center justify-center gap-1.5 shadow-xs transition-all hover:bg-indigo-700">
+            <button type="button" onclick="toggleEtiquetasModal()" id="btnToggleEtiquetas" class="w-full py-2 px-3 rounded-xl border-2 font-bold text-xs bg-blue-600 border-blue-600 text-white flex items-center justify-center gap-1.5 shadow-xs transition-all hover:bg-blue-700">
               <span id="toggleIcon">👁️</span>
               <span id="toggleText">Ocultar</span>
             </button>
@@ -964,7 +904,7 @@
           
           <!-- Badge Indicador de Sección -->
           <div class="flex items-center justify-between">
-            <span class="inline-flex items-center gap-1.5 px-2.5 py-1 rounded-md text-[11px] font-bold bg-indigo-100 text-indigo-700 border border-indigo-200">
+            <span class="inline-flex items-center gap-1.5 px-2.5 py-1 rounded-md text-[11px] font-bold bg-indigo-100 text-blue-700 border border-blue-200">
               <span>●</span>
               <span>Diapositiva en Escala Real</span>
             </span>
@@ -974,10 +914,10 @@
           </div>
 
           <!-- Nivel 1: TÍTULO PRINCIPAL (H1) -->
-          <div class="space-y-1 p-3 rounded-2xl bg-white/70 border border-indigo-100 shadow-2xs transition-all">
-            <div class="etiqueta-tamano flex items-center justify-between text-[11px] text-indigo-600 font-bold font-mono transition-all">
+          <div class="space-y-1 p-3 rounded-2xl bg-white/70 border border-blue-100 shadow-2xs transition-all">
+            <div class="etiqueta-tamano flex items-center justify-between text-[11px] text-blue-600 font-bold font-mono transition-all">
               <span>H1 • TÍTULO PRINCIPAL</span>
-              <span id="modalH1SizeBadge" class="bg-indigo-600 text-white px-2 py-0.5 rounded text-[10px]">44px (Bold)</span>
+              <span id="modalH1SizeBadge" class="bg-blue-600 text-white px-2 py-0.5 rounded text-[10px]">44px (Bold)</span>
             </div>
             <h1 id="modalH1Preview" class="font-black text-slate-900 leading-tight tracking-tight text-3xl sm:text-4xl">
               Transformación Digital e Inteligencia Artificial en el Sector Salud
@@ -1022,14 +962,14 @@
   </div>
 
   <!-- FOOTER INSTITUCIONAL -->
-  <footer class="mt-16 border-t border-slate-200 bg-white/80 py-8 px-4 md:px-8 text-center text-xs text-slate-500">
+  <footer class="mt-16 border-t border-sky-200 bg-sky-50/80 py-8 px-4 md:px-8 text-center text-xs text-sky-800">
     <div class="max-w-7xl mx-auto flex flex-col sm:flex-row items-center justify-between gap-4">
       <div class="flex items-center gap-2 font-bold text-slate-700">
         <img src="../../assets/jandra/J1.svg" alt="Jandra" class="w-6 h-6 rounded-full object-cover">
         <span>Mundo Jandra • Plataforma Académica</span>
       </div>
       <p>3.° Periodo Académico • Grado 11° • Arquitectura Visual & Diseño de Presentaciones en Canva</p>
-      <a href="../periodo3.html" class="text-indigo-600 font-bold hover:underline">
+      <a href="../periodo3.html" class="text-blue-600 font-bold hover:underline">
         Volver a la selección de grados ➔
       </a>
     </div>
@@ -1065,13 +1005,13 @@
     }
 
     // ==========================================
-    // 2. SISTEMA DE NAVEGACIÓN POR PESTAÑAS (4 SESIONES)
+    // 2. SISTEMA DE NAVEGACIÓN POR PESTAÑAS (3 SESIONES)
     // ==========================================
+
     const clases = {
       'clase1': { btn: 'tab-clase1', view: 'view-clase1' },
       'clase2': { btn: 'tab-clase2', view: 'view-clase2' },
-      'clase3': { btn: 'tab-clase3', view: 'view-clase3' },
-      'clase4': { btn: 'tab-clase4', view: 'view-clase4' }
+      'clase3': { btn: 'tab-clase3', view: 'view-clase3' }
     };
 
     function cambiarClase(claseKey) {
@@ -1086,13 +1026,13 @@
         if (viewEl) viewEl.classList.add('hidden');
         if (tabEl) {
           tabEl.setAttribute('aria-selected', 'false');
-          tabEl.className = 'nav-tab group flex flex-col sm:flex-row sm:items-center gap-2 p-2.5 sm:px-4 sm:py-3 rounded-xl font-bold text-xs transition-all duration-200 text-left border bg-white/95 text-slate-700 border-slate-200 hover:bg-slate-50 hover:border-slate-300';
+          tabEl.className = 'nav-tab group flex flex-col sm:flex-row sm:items-center gap-2 p-2.5 sm:px-4 sm:py-3 rounded-xl font-bold text-xs transition-all duration-200 text-left border bg-sky-50/80 text-sky-950 border-sky-200 hover:opacity-90';
           
           const badge = tabEl.querySelector('div:first-child');
-          if (badge) badge.className = 'w-7 h-7 rounded-lg bg-slate-100 text-slate-700 group-hover:bg-slate-200 font-black text-xs flex items-center justify-center shrink-0';
+          if (badge) badge.className = 'w-7 h-7 rounded-lg bg-white/70 text-slate-700 font-black text-xs flex items-center justify-center shrink-0 border border-slate-200';
           
           const sub = tabEl.querySelector('span:first-child');
-          if (sub) sub.className = 'block text-[10px] uppercase tracking-wider text-slate-400 font-black';
+          if (sub) sub.className = 'block text-[10px] uppercase tracking-wider text-slate-500 font-black';
         }
       });
 
@@ -1113,10 +1053,9 @@
         if (sub) sub.className = 'block text-[10px] uppercase tracking-wider opacity-80 font-black';
       }
 
-      // Mantener la vista en la parte superior limpia sin ocultar contenido
       window.scrollTo({ top: 0, behavior: 'smooth' });
     }
-
+  
     // ==========================================
     // 3. GALERÍA INTERACTIVA DE PALETAS 60-30-10
     // ==========================================
@@ -1393,7 +1332,7 @@
       });
 
       if (tipo === 'impacto') {
-        if (btnImp) btnImp.className = 'py-2 px-2 rounded-xl border-2 font-bold text-[11px] bg-indigo-50 border-indigo-600 text-indigo-700 text-center transition-all';
+        if (btnImp) btnImp.className = 'py-2 px-2 rounded-xl border-2 font-bold text-[11px] bg-blue-50 border-blue-600 text-blue-700 text-center transition-all';
         if (h1) h1.className = 'font-black text-slate-900 leading-tight tracking-tight text-4xl sm:text-5xl';
         if (h2) h2.className = 'font-semibold text-slate-700 leading-snug text-xl sm:text-2xl';
         if (body) body.className = 'text-slate-600 leading-relaxed text-sm sm:text-base font-normal';
@@ -1402,7 +1341,7 @@
         if (badgeBody) badgeBody.textContent = '15px (Regular)';
         if (ratioLabel) ratioLabel.textContent = 'Relación H1 / Cuerpo = 3.4x (Máximo Impacto)';
       } else if (tipo === 'compacta') {
-        if (btnCom) btnCom.className = 'py-2 px-2 rounded-xl border-2 font-bold text-[11px] bg-indigo-50 border-indigo-600 text-indigo-700 text-center transition-all';
+        if (btnCom) btnCom.className = 'py-2 px-2 rounded-xl border-2 font-bold text-[11px] bg-blue-50 border-blue-600 text-blue-700 text-center transition-all';
         if (h1) h1.className = 'font-black text-slate-900 leading-tight tracking-tight text-2xl sm:text-3xl';
         if (h2) h2.className = 'font-semibold text-slate-700 leading-snug text-base sm:text-lg';
         if (body) body.className = 'text-slate-600 leading-relaxed text-xs sm:text-sm font-normal';
@@ -1411,7 +1350,7 @@
         if (badgeBody) badgeBody.textContent = '14px (Regular)';
         if (ratioLabel) ratioLabel.textContent = 'Relación H1 / Cuerpo = 2.4x (Tablas & Reportes)';
       } else {
-        if (btnEst) btnEst.className = 'py-2 px-2 rounded-xl border-2 font-bold text-[11px] bg-indigo-50 border-indigo-600 text-indigo-700 text-center transition-all';
+        if (btnEst) btnEst.className = 'py-2 px-2 rounded-xl border-2 font-bold text-[11px] bg-blue-50 border-blue-600 text-blue-700 text-center transition-all';
         if (h1) h1.className = 'font-black text-slate-900 leading-tight tracking-tight text-3xl sm:text-4xl';
         if (h2) h2.className = 'font-semibold text-slate-700 leading-snug text-lg sm:text-xl';
         if (body) body.className = 'text-slate-600 leading-relaxed text-sm sm:text-base font-normal';
@@ -1441,7 +1380,7 @@
 
       if (btn && icon && text) {
         if (etiquetasVisibles) {
-          btn.className = 'w-full py-2 px-3 rounded-xl border-2 font-bold text-xs bg-indigo-600 border-indigo-600 text-white flex items-center justify-center gap-1.5 shadow-xs transition-all hover:bg-indigo-700';
+          btn.className = 'w-full py-2 px-3 rounded-xl border-2 font-bold text-xs bg-blue-600 border-blue-600 text-white flex items-center justify-center gap-1.5 shadow-xs transition-all hover:bg-blue-700';
           icon.textContent = '👁️';
           text.textContent = 'Ocultar';
         } else {
@@ -1453,13 +1392,295 @@
     }
 
     // Inicializar primera paleta y escuchar Escape para modal
+    
+    // ==========================================
+    // 5. MOTOR DEL TEST INTERACTIVO (SESIÓN 3)
+    // ==========================================
+    const testPreguntas = [
+  {
+    "pregunta": "¿Cómo se distribuye la regla base de colorimetría 60-30-10 en una diapositiva?",
+    "opciones": [
+      "60% de texto, 30% de imágenes y 10% de márgenes.",
+      "60% de color dominante de fondo, 30% de color secundario para lectura/estructuras y 10% de acento principal de marca.",
+      "60% de colores oscuros, 30% de colores brillantes y 10% de sombras.",
+      "60 minutos de diseño, 30 minutos de revisión y 10 minutos de exportación."
+    ],
+    "correcta": 1,
+    "explicacion": "La regla 60-30-10 distribuye: 60% color de fondo, 30% color de texto/lectura, y 10% color de acento principal para la identidad de la marca."
+  },
+  {
+    "pregunta": "¿Qué porcentaje y función tiene el color complementario como color adicional en una diapositiva?",
+    "opciones": [
+      "Se usa en el 60% para pintar todo el fondo con colores opuestos.",
+      "Se usa en una cantidad mínima (alrededor del 5% como micro-acento) para detalles explosivos como badges de 'Nuevo', alertas o botones de llamada a la acción sin cansar la vista.",
+      "Se usa en el 100% para reemplazar todas las tipografías.",
+      "No se debe usar nunca en ninguna presentación."
+    ],
+    "correcta": 1,
+    "explicacion": "El color complementario es un adicional que se aplica en pequeñas dosis (aprox. 5% de micro-acento) para destacar elementos puntuales de máxima urgencia o interés."
+  },
+  {
+    "pregunta": "¿Por qué NO es recomendable usar el color complementario en grandes cantidades (como 40% o 50%)?",
+    "opciones": [
+      "Porque los colores opuestos en gran volumen generan ruido visual, chocan entre sí y cansan la vista del espectador.",
+      "Porque Canva cobra una suscripción extra si usas más del 10%.",
+      "Porque los proyectores no proyectan colores complementarios.",
+      "Porque los colores complementarios son invisibles en diapositivas."
+    ],
+    "correcta": 0,
+    "explicacion": "Al estar en extremos opuestos del círculo cromático, usar complementarios en gran cantidad crea una vibración visual molesta. Solo brillan cuando se usan en el 5% de micro-acento."
+  },
+  {
+    "pregunta": "Si tu presentación tiene base azul (Fondo hielo + Texto azul marino), ¿cuál es su color complementario ideal para el 5% de micro-acento?",
+    "opciones": [
+      "Azul celeste claro.",
+      "Naranja / Ámbar cálido.",
+      "Gris neutro.",
+      "Azul petróleo."
+    ],
+    "correcta": 1,
+    "explicacion": "El naranja es el opuesto directo del azul en la rueda cromática, convirtiéndose en el micro-acento complementario perfecto."
+  },
+  {
+    "pregunta": "En una diapositiva con fondo claro (#F8FAFC), ¿qué porcentaje representa ese color dominante?",
+    "opciones": [
+      "El 10% de acento.",
+      "El 30% secundario.",
+      "El 60% dominante.",
+      "El 5% complementario."
+    ],
+    "correcta": 2,
+    "explicacion": "El fondo o base del lienzo siempre corresponde al 60% dominante en la regla de colorimetría."
+  },
+  {
+    "pregunta": "¿Qué proporción visual exige la Regla de Oro de Jerarquía Tipográfica 2:1?",
+    "opciones": [
+      "Que el título H1 tenga el doble de tamaño visual relativo que el cuerpo de texto.",
+      "Que se deban usar 2 tipos de letras idénticas en la misma palabra.",
+      "Que el título sea la mitad de pequeño que el párrafo.",
+      "Que cada diapositiva tenga exactamente dos palabras."
+    ],
+    "correcta": 0,
+    "explicacion": "La proporción 2:1 establece que el título principal (H1: ej. 44px) debe duplicar el tamaño del texto de apoyo (Cuerpo: ej. 16px - 22px) para guiar la lectura en 3 segundos."
+  },
+  {
+    "pregunta": "¿Cuál es el tamaño recomendado en píxeles para el cuerpo de texto en una diapositiva 16:9 en Canva?",
+    "opciones": [
+      "Entre 4px y 8px.",
+      "Entre 14px y 18px con interlineado adecuado (1.25 a 1.3).",
+      "Exactamente 72px.",
+      "Menos de 6px para que quepa mucho texto."
+    ],
+    "correcta": 1,
+    "explicacion": "Un cuerpo de 14px a 18px garantiza legibilidad clara tanto en pantallas individuales como proyectado en HDMI sin asfixia visual."
+  },
+  {
+    "pregunta": "¿Qué archivos específicos se deben exportar y entregar en la Sesión 1?",
+    "opciones": [
+      "Un archivo de audio MP3 y una foto.",
+      "Dos archivos PDF: Presentacion_Original.pdf y Diagnostico_Auditoria_IA.pdf.",
+      "Un enlace de TikTok y una captura de WhatsApp.",
+      "Tres archivos ZIP comprimidos."
+    ],
+    "correcta": 1,
+    "explicacion": "En la Sesión 1 se entrega la línea base (Presentacion_Original.pdf) y el informe de auditoría generado con IA (Diagnostico_Auditoria_IA.pdf)."
+  },
+  {
+    "pregunta": "¿Para qué sirve alimentar a una IA (Gemini/ChatGPT/Claude) con el prompt de auditoría en la Sesión 1?",
+    "opciones": [
+      "Para que la IA haga la exposición oral por nosotros.",
+      "Para obtener un diagnóstico clínico objetivo sobre saturación, asfixia textual, contraste y jerarquía visual.",
+      "Para traducir el texto a 10 idiomas diferentes.",
+      "Para borrar la presentación original."
+    ],
+    "correcta": 1,
+    "explicacion": "La IA analiza la diapositiva como un consultor de arte y comunicación, detectando errores de contraste, sobrecarga de texto y falta de jerarquía."
+  },
+  {
+    "pregunta": "Si el fondo de tu lámina es Violeta Pastel (#FAF5FF) y el texto es Púrpura Profundo (#3B0764), ¿cuál sería su micro-acento complementario del 5%?",
+    "opciones": [
+      "Gris oscuro (#334155).",
+      "Amarillo Dorado / Ámbar brillante (#FBBF24).",
+      "Otro tono idéntico de violeta apagado.",
+      "Blanco puro sin contraste."
+    ],
+    "correcta": 1,
+    "explicacion": "El amarillo dorado es el complementario directo del violeta, ideal para un micro-acento del 5% en medallas o cifras clave."
+  },
+  {
+    "pregunta": "¿Cuántas familias tipográficas como máximo se recomienda combinar en una misma presentación?",
+    "opciones": [
+      "5 o 6 familias con diferentes adornos.",
+      "Máximo 2 familias tipográficas (una para títulos y otra con excelente legibilidad para lectura).",
+      "10 familias distintas en cada lámina.",
+      "Ninguna, solo imágenes sin texto."
+    ],
+    "correcta": 1,
+    "explicacion": "Usar máximo 2 familias tipográficas (ej. Outfit para títulos e Inter para cuerpo) mantiene la coherencia, armonía y limpieza visual del diseño."
+  },
+  {
+    "pregunta": "¿Qué significa el término 'asfixia textual' en el diagnóstico de una diapositiva?",
+    "opciones": [
+      "Que el proyector no tiene suficiente brillo.",
+      "Saturar la diapositiva con párrafos largos sin márgenes perimetrales ni espacio en blanco (aire visual).",
+      "Escribir en letra mayúscula sostenida.",
+      "Usar colores muy fríos."
+    ],
+    "correcta": 1,
+    "explicacion": "La asfixia textual ocurre cuando se llena cada rincón de texto, impidiendo que el ojo descanse o identifique la idea nuclear."
+  }
+];
+
+    let currentQuestionIdx = 0;
+    let puntajeQuiz = 0;
+    let respondidoActual = false;
+
+    function renderQuestion() {
+      const q = testPreguntas[currentQuestionIdx];
+      const total = testPreguntas.length;
+
+      respondidoActual = false;
+      const numLabel = document.getElementById('quizQuestionNumber');
+      const scoreLabel = document.getElementById('quizScoreText');
+      const progressBar = document.getElementById('quizProgressBar');
+      const titleEl = document.getElementById('quizQuestionTitle');
+      const containerEl = document.getElementById('quizOptionsContainer');
+      const feedbackBox = document.getElementById('quizFeedbackBox');
+      const nextBtn = document.getElementById('btnNextQuestion');
+
+      if (numLabel) numLabel.textContent = 'Pregunta ' + (currentQuestionIdx + 1) + ' de ' + total;
+      if (scoreLabel) scoreLabel.textContent = 'Aciertos: ' + puntajeQuiz + ' / ' + total;
+      if (progressBar) progressBar.style.width = (((currentQuestionIdx + 1) / total) * 100) + '%';
+      if (titleEl) titleEl.textContent = (currentQuestionIdx + 1) + '. ' + q.pregunta;
+
+      if (feedbackBox) {
+        feedbackBox.className = 'hidden p-4 rounded-2xl border text-xs sm:text-sm transition-all duration-200';
+      }
+
+      if (nextBtn) {
+        nextBtn.disabled = true;
+        nextBtn.className = 'px-6 py-2.5 rounded-xl bg-slate-200 text-slate-400 font-bold text-xs transition flex items-center gap-2 cursor-not-allowed';
+      }
+
+      if (containerEl) {
+        containerEl.innerHTML = '';
+        q.opciones.forEach((opc, idx) => {
+          const btn = document.createElement('button');
+          btn.type = 'button';
+          btn.className = 'w-full p-3.5 rounded-2xl border border-slate-200 bg-white hover:bg-slate-50 hover:border-slate-300 text-left font-semibold text-xs sm:text-sm text-slate-700 transition flex items-start gap-3 shadow-2xs';
+          btn.innerHTML = '<span class="w-6 h-6 rounded-lg bg-slate-100 text-slate-600 font-bold text-xs flex items-center justify-center shrink-0 mt-0.5">' + String.fromCharCode(65 + idx) + '</span><span class="flex-1 leading-snug">' + opc + '</span>';
+          btn.onclick = () => responderPregunta(idx);
+          containerEl.appendChild(btn);
+        });
+      }
+    }
+
+    function responderPregunta(selectedIdx) {
+      if (respondidoActual) return;
+      respondidoActual = true;
+
+      const q = testPreguntas[currentQuestionIdx];
+      const containerEl = document.getElementById('quizOptionsContainer');
+      const buttons = containerEl.querySelectorAll('button');
+      const feedbackBox = document.getElementById('quizFeedbackBox');
+      const feedbackText = document.getElementById('quizFeedbackText');
+      const nextBtn = document.getElementById('btnNextQuestion');
+
+      const esCorrecta = selectedIdx === q.correcta;
+      if (esCorrecta) {
+        puntajeQuiz++;
+        const scoreLabel = document.getElementById('quizScoreText');
+        if (scoreLabel) scoreLabel.textContent = 'Aciertos: ' + puntajeQuiz + ' / ' + testPreguntas.length;
+      }
+
+      buttons.forEach((btn, idx) => {
+        btn.disabled = true;
+        btn.onclick = null;
+        if (idx === q.correcta) {
+          btn.className = 'w-full p-3.5 rounded-2xl border-2 border-emerald-500 bg-emerald-50 text-emerald-950 font-bold text-xs sm:text-sm text-left flex items-start gap-3 shadow-xs';
+          btn.querySelector('span:first-child').className = 'w-6 h-6 rounded-lg bg-emerald-600 text-white font-black text-xs flex items-center justify-center shrink-0 mt-0.5';
+          btn.querySelector('span:first-child').textContent = '✓';
+        } else if (idx === selectedIdx && !esCorrecta) {
+          btn.className = 'w-full p-3.5 rounded-2xl border-2 border-rose-400 bg-rose-50 text-rose-950 font-semibold text-xs sm:text-sm text-left flex items-start gap-3 shadow-xs';
+          btn.querySelector('span:first-child').className = 'w-6 h-6 rounded-lg bg-rose-500 text-white font-black text-xs flex items-center justify-center shrink-0 mt-0.5';
+          btn.querySelector('span:first-child').textContent = '✕';
+        } else {
+          btn.className = 'w-full p-3.5 rounded-2xl border border-slate-200 bg-slate-50/70 opacity-60 text-left font-normal text-xs sm:text-sm text-slate-500 flex items-start gap-3';
+        }
+      });
+
+      if (feedbackBox && feedbackText) {
+        feedbackBox.classList.remove('hidden');
+        if (esCorrecta) {
+          feedbackBox.className = 'p-4 rounded-2xl border border-emerald-300 bg-emerald-50/80 text-emerald-900 text-xs sm:text-sm';
+          feedbackText.innerHTML = '<strong>¡Excelente! ✓</strong> ' + q.explicacion;
+        } else {
+          feedbackBox.className = 'p-4 rounded-2xl border border-rose-300 bg-rose-50/80 text-rose-900 text-xs sm:text-sm';
+          feedbackText.innerHTML = '<strong>Respuesta Incorrecta:</strong> ' + q.explicacion;
+        }
+      }
+
+      if (nextBtn) {
+        nextBtn.disabled = false;
+        nextBtn.className = 'px-6 py-2.5 rounded-xl bg-teal-600 hover:bg-teal-700 text-white font-bold text-xs transition flex items-center gap-2 shadow-sm shadow-teal-600/20 cursor-pointer';
+        if (currentQuestionIdx === testPreguntas.length - 1) {
+          nextBtn.innerHTML = '<span>Ver Resultado Final</span> 🏆';
+        }
+      }
+    }
+
+    function siguientePregunta() {
+      if (currentQuestionIdx < testPreguntas.length - 1) {
+        currentQuestionIdx++;
+        renderQuestion();
+      } else {
+        mostrarResultadoFinalQuiz();
+      }
+    }
+
+    function mostrarResultadoFinalQuiz() {
+      const containerEl = document.getElementById('quizQuestionBox');
+      const feedbackBox = document.getElementById('quizFeedbackBox');
+      const nextBtn = document.getElementById('btnNextQuestion');
+      const total = testPreguntas.length;
+      const porcentaje = Math.round((puntajeQuiz / total) * 100);
+
+      if (feedbackBox) feedbackBox.classList.add('hidden');
+      if (nextBtn) nextBtn.classList.add('hidden');
+
+      if (containerEl) {
+        containerEl.innerHTML = '<div class="text-center py-6 space-y-4 animate-in fade-in zoom-in-95">' +
+          '<div class="w-16 h-16 rounded-full bg-emerald-100 text-emerald-600 text-3xl flex items-center justify-center mx-auto shadow-inner">' +
+          (porcentaje >= 70 ? '🎉' : '📚') +
+          '</div>' +
+          '<div><h3 class="font-display font-black text-2xl text-slate-900">¡Test Completado!</h3><p class="text-xs sm:text-sm text-slate-600 mt-1">Has demostrado tus conocimientos sobre colorimetría y diseño.</p></div>' +
+          '<div class="inline-block p-4 rounded-2xl bg-slate-50 border border-slate-200"><span class="text-xs font-bold text-slate-500 uppercase tracking-wider block">Puntaje Obtenido</span><span class="font-display font-black text-3xl text-emerald-600">' + puntajeQuiz + ' / ' + total + '</span><span class="text-xs font-bold text-slate-600 block mt-0.5">(' + porcentaje + '% de aciertos)</span></div>' +
+          '<p class="text-xs text-slate-500 max-w-md mx-auto">' +
+          (porcentaje >= 80 ? '¡Dominas a la perfección la regla 60-30-10, jerarquía tipográfica y colores complementarios para Canva!' : '¡Buen intento! Puedes reiniciar el test para reforzar los conceptos clave de la sesión.') +
+          '</p></div>';
+      }
+    }
+
+    function reiniciarQuiz() {
+      currentQuestionIdx = 0;
+      puntajeQuiz = 0;
+      const nextBtn = document.getElementById('btnNextQuestion');
+      if (nextBtn) {
+        nextBtn.classList.remove('hidden');
+        nextBtn.innerHTML = '<span>Siguiente Pregunta</span> ➔';
+      }
+      renderQuestion();
+    }
+
     window.addEventListener('DOMContentLoaded', () => {
       seleccionarPaleta(0);
+      renderQuestion();
     });
 
     window.addEventListener('keydown', (e) => {
       if (e.key === 'Escape') cerrarModalTipografia();
     });
-  </script>
+  
+    </script>
 </body>
 </html>

@@ -1,0 +1,906 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Mundo Jandra | 8° Grado - Diseño 3D con Tinkercad</title>
+  <link rel="icon" type="image/x-icon" href="../../assets/Icono.ico">
+
+  <!-- Tailwind CSS CDN -->
+  <script src="https://cdn.tailwindcss.com"></script>
+
+  <!-- Google Fonts: Outfit, Plus Jakarta Sans, Fredoka & JetBrains Mono -->
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Fredoka:wght@500;600;700;800&family=JetBrains+Mono:wght@400;600;700&family=Outfit:wght@400;600;700;800;900&family=Plus+Jakarta+Sans:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+
+  <!-- Canvas Confetti -->
+  <script src="https://cdn.jsdelivr.net/npm/canvas-confetti@1.6.0/dist/confetti.browser.min.js"></script>
+
+  <script>
+    tailwind.config = {
+      theme: {
+        extend: {
+          fontFamily: {
+            sans: ['"Plus Jakarta Sans"', 'sans-serif'],
+            display: ['Outfit', 'sans-serif'],
+            kids: ['Fredoka', 'sans-serif'],
+            mono: ['"JetBrains Mono"', 'monospace']
+          }
+        }
+      }
+    }
+  </script>
+
+  <style>
+    body {
+      background-color: #f8fafc;
+      background-image: 
+        radial-gradient(at 0% 0%, rgba(99, 102, 241, 0.08) 0px, transparent 50%),
+        radial-gradient(at 100% 0%, rgba(244, 63, 94, 0.08) 0px, transparent 50%),
+        radial-gradient(at 50% 100%, rgba(14, 165, 233, 0.08) 0px, transparent 50%);
+      color: #0f172a;
+      font-family: 'Plus Jakarta Sans', sans-serif;
+    }
+
+    .btn-3d {
+      transition: all 0.2s cubic-bezier(0.165, 0.84, 0.44, 1);
+      box-shadow: 0 5px 0 rgba(0, 0, 0, 0.1);
+    }
+    .btn-3d:hover {
+      transform: translateY(-2px);
+      box-shadow: 0 7px 0 rgba(0, 0, 0, 0.1);
+    }
+    .btn-3d:active {
+      transform: translateY(3px);
+      box-shadow: 0 1px 0 rgba(0, 0, 0, 0.1);
+    }
+
+    .glass-card {
+      background: rgba(255, 255, 255, 0.94);
+      backdrop-filter: blur(12px);
+      border: 2px solid rgba(226, 232, 240, 0.9);
+    }
+
+    .concept-card {
+      transition: all 0.25s ease;
+    }
+    .concept-card:hover {
+      transform: translateY(-4px);
+    }
+  </style>
+</head>
+<body class="p-3 sm:p-6 lg:p-8 min-h-screen flex flex-col justify-between">
+
+  <div class="max-w-6xl mx-auto w-full flex-1">
+
+    <!-- HEADER TOP -->
+    <header class="bg-gradient-to-r from-indigo-700 via-purple-600 to-pink-500 rounded-3xl p-5 sm:px-8 sm:py-6 text-white shadow-xl border-4 border-white mb-8 relative overflow-hidden flex flex-col sm:flex-row items-center justify-between gap-4">
+      <div class="absolute -right-10 -top-10 w-48 h-48 bg-white/10 rounded-full blur-2xl pointer-events-none"></div>
+      <div class="absolute -left-10 -bottom-10 w-48 h-48 bg-pink-400/20 rounded-full blur-2xl pointer-events-none"></div>
+
+      <!-- Botón Volver -->
+      <a href="../periodo3.html" class="btn-3d px-5 py-3 bg-white text-indigo-900 font-kids font-black text-sm sm:text-base rounded-2xl shadow-lg flex items-center gap-2 relative z-10 hover:bg-pink-100">
+        <span class="text-xl">⬅️</span>
+        <span>Volver al Periodo 3</span>
+      </a>
+
+      <!-- Título Grado 8° -->
+      <div class="text-center relative z-10">
+        <div class="inline-flex items-center gap-2 bg-white/20 backdrop-blur-md px-3 py-1 rounded-full text-xs font-kids font-black text-indigo-100 uppercase tracking-wider mb-1 border border-white/20 shadow-sm">
+          <span>⚙️ PROTOTIPADO E INGENIERÍA 3D</span>
+        </div>
+        <h1 class="text-3xl sm:text-5xl font-kids font-black leading-tight drop-shadow-md">
+          Grado 8° &bull; Tinkercad 3D
+        </h1>
+      </div>
+
+      <!-- Badge 3D -->
+      <div class="hidden sm:flex items-center gap-2 bg-white/15 backdrop-blur-md px-4 py-2.5 rounded-2xl border border-white/20 shadow-inner relative z-10">
+        <span class="text-3xl">⚙️</span>
+        <span class="font-kids font-bold text-sm text-white">Autodesk</span>
+      </div>
+    </header>
+
+    <!-- BANNER HERO INGRESO A LA CLASE DE TINKERCAD (8°) -->
+    <section class="bg-gradient-to-br from-slate-900 via-indigo-950 to-slate-900 text-white rounded-3xl p-6 sm:p-8 shadow-2xl border-4 border-indigo-500/30 mb-10 relative overflow-hidden">
+      <div class="absolute right-0 top-0 w-96 h-96 bg-indigo-500/10 rounded-full blur-3xl pointer-events-none"></div>
+
+      <div class="grid grid-cols-1 lg:grid-cols-12 gap-6 items-center relative z-10">
+        <div class="lg:col-span-8">
+          <div class="inline-flex items-center gap-2 bg-indigo-500/20 text-indigo-300 px-3 py-1 rounded-xl text-xs font-kids font-bold mb-3 border border-indigo-500/30">
+            <span>🚀 AULA VIRTUAL OFICIAL DE 8°</span>
+          </div>
+          <h2 class="text-2xl sm:text-4xl font-kids font-black leading-tight mb-3">
+            ¡Únete a tu clase en <span class="text-indigo-400">Tinkercad</span>!
+          </h2>
+          <p class="text-slate-300 text-sm sm:text-base leading-relaxed font-medium">
+            Ingresa a tu laboratorio 3D para diseñar ensamblajes mecánicos, piezas complejas, circuitos y prototipos de modelado para impresión tridimensional.
+          </p>
+        </div>
+
+        <!-- Tarjeta de Código de Clase -->
+        <div class="lg:col-span-4 bg-white/10 backdrop-blur-md rounded-2xl p-5 border border-white/20 text-center shadow-inner">
+          <span class="text-xs font-bold text-indigo-200 uppercase tracking-widest block mb-1">Código de Aula</span>
+          <div class="font-mono font-black text-3xl sm:text-4xl text-amber-300 tracking-wider py-2 select-all bg-black/30 rounded-xl border border-white/10 my-2">
+            TNKWXP9XG
+          </div>
+          <p class="text-xs text-slate-300 mt-2 font-medium">
+            Haz clic en el botón naranja para ingresar directamente con este enlace.
+          </p>
+        </div>
+      </div>
+    </section>
+
+    <!-- BANNER DESTACADO: CENTRO DE APRENDIZAJE & TUTORIALES OBLIGATORIOS -->
+    <section class="bg-gradient-to-r from-indigo-700 via-purple-600 to-pink-600 text-white rounded-3xl p-6 sm:p-7 shadow-xl border-4 border-white mb-12 relative overflow-hidden flex flex-col md:flex-row items-center justify-between gap-6">
+      <div class="flex items-center gap-5 text-center md:text-left">
+        <div class="w-16 h-16 bg-white/20 backdrop-blur-md rounded-2xl flex items-center justify-center text-4xl flex-shrink-0 shadow-inner border border-white/30 animate-pulse">
+          🎯
+        </div>
+        <div>
+          <div class="inline-flex items-center gap-1.5 bg-white/20 px-3 py-0.5 rounded-full text-[11px] font-kids font-black uppercase tracking-wider mb-1">
+            <span>⭐ ACTIVIDAD PRÁCTICA GUIADA</span>
+          </div>
+          <h3 class="text-xl sm:text-2xl font-kids font-black">Centro de Aprendizaje de Tinkercad (Tutoriales)</h3>
+          <p class="text-xs sm:text-sm text-indigo-50 font-medium max-w-2xl mt-0.5">
+            Una vez dentro de tu cuenta, debes ingresar a la sección <strong>Aprender (Learn)</strong> y completar los tutoriales oficiales paso a paso para dominar las herramientas y operaciones 3D.
+          </p>
+        </div>
+      </div>
+      <a href="https://www.tinkercad.com/learn" target="_blank" class="btn-3d px-6 py-3 bg-amber-400 hover:bg-amber-300 text-slate-950 font-kids font-black text-sm sm:text-base rounded-2xl shadow-lg flex items-center gap-2 whitespace-nowrap">
+        <span>🚀</span> Abrir Tutoriales Oficiales ➔
+      </a>
+    </section>
+
+    <!-- GENERADOR INTERACTIVO DE USUARIO / ALIAS EN VIVO -->
+    <section class="bg-white rounded-3xl p-6 sm:p-8 border-2 border-indigo-200 shadow-xl mb-12">
+      <div class="flex flex-col md:flex-row items-center justify-between gap-6">
+        <div class="md:w-1/2">
+          <div class="inline-flex items-center gap-2 bg-indigo-100 text-indigo-800 text-xs font-kids font-bold px-3 py-1 rounded-full uppercase mb-2">
+            <span>🏷️ Asistente de Ingreso</span>
+          </div>
+          <h3 class="text-2xl font-kids font-black text-slate-900 mb-2">¿Cuál es tu usuario de Tinkercad?</h3>
+          <p class="text-xs sm:text-sm text-slate-500 font-medium mb-4">
+            Escribe tu nombre y apellido para ver exactamente cómo debes escribirlo en la plataforma:
+          </p>
+          <div class="grid grid-cols-2 gap-3">
+            <input type="text" id="inputNombre" placeholder="Tu primer nombre..." class="w-full px-4 py-2.5 border-2 border-slate-200 rounded-xl text-sm font-semibold focus:outline-none focus:border-indigo-500">
+            <input type="text" id="inputApellido" placeholder="Tu primer apellido..." class="w-full px-4 py-2.5 border-2 border-slate-200 rounded-xl text-sm font-semibold focus:outline-none focus:border-indigo-500">
+          </div>
+        </div>
+
+        <div class="md:w-1/2 w-full bg-slate-900 text-white p-6 rounded-2xl border-2 border-indigo-400/40 text-center shadow-inner flex flex-col items-center justify-center">
+          <span class="text-xs text-indigo-300 font-bold uppercase tracking-wider mb-1">Tu usuario generado es:</span>
+          <div id="resultadoAlias" class="text-2xl sm:text-3xl font-mono font-black text-amber-300 py-1 tracking-wider select-all">
+            mariaacosta
+          </div>
+          <button onclick="copiarAlias()" class="mt-3 px-4 py-2 bg-white/10 hover:bg-white/20 text-xs font-bold rounded-xl border border-white/20 flex items-center gap-1.5 transition text-indigo-100">
+            <span id="btnCopiarTexto">📋 Copiar usuario</span>
+          </button>
+        </div>
+      </div>
+    </section>
+
+    <!-- GUÍA PASO A PASO PARA INGRESAR -->
+    <section class="mb-12">
+      <div class="text-center mb-6">
+        <h3 class="text-2xl sm:text-3xl font-kids font-black text-slate-900">¿Cómo ingresar como estudiante?</h3>
+        <p class="text-xs sm:text-sm text-slate-500 font-medium">Sigue estos 3 sencillos pasos para acceder con tu usuario:</p>
+      </div>
+
+      <div class="grid grid-cols-1 md:grid-cols-3 gap-6">
+        
+        <!-- Paso 1 -->
+        <div class="glass-card rounded-3xl p-6 relative overflow-hidden flex flex-col justify-between">
+          <div>
+            <div class="w-12 h-12 bg-indigo-100 text-indigo-700 font-kids font-black text-xl rounded-2xl flex items-center justify-center mb-4 shadow-sm">
+              1
+            </div>
+            <h4 class="font-kids font-black text-lg text-slate-900 mb-2">Abre el enlace de la clase</h4>
+            <p class="text-xs text-slate-600 font-medium leading-relaxed mb-4">
+              Haz clic en el enlace oficial <a href="https://www.tinkercad.com/joinclass/TNKWXP9XG" target="_blank" class="text-indigo-600 font-bold underline">tinkercad.com/joinclass/TNKWXP9XG</a>.
+            </p>
+          </div>
+          <div class="bg-indigo-50 text-indigo-800 text-[11px] font-bold p-2.5 rounded-xl border border-indigo-200">
+            📌 Se abrirá la página oficial de Autodesk Tinkercad.
+          </div>
+        </div>
+
+        <!-- Paso 2 -->
+        <div class="glass-card rounded-3xl p-6 relative overflow-hidden flex flex-col justify-between">
+          <div>
+            <div class="w-12 h-12 bg-amber-100 text-amber-800 font-kids font-black text-xl rounded-2xl flex items-center justify-center mb-4 shadow-sm">
+              2
+            </div>
+            <h4 class="font-kids font-black text-lg text-slate-900 mb-2">Ingresa tu Alias / Usuario</h4>
+            <p class="text-xs text-slate-600 font-medium leading-relaxed mb-4">
+              Escribe tu <strong>primer nombre</strong> y tu <strong>primer apellido</strong> pegados y todo en minúsculas.
+            </p>
+          </div>
+          <div class="bg-amber-50 text-amber-900 text-[11px] font-bold p-2.5 rounded-xl border border-amber-200 font-mono">
+            💡 Ejemplo: <span id="ejemploAliasDinamico" class="bg-amber-200 px-1.5 py-0.5 rounded text-slate-950 font-bold">mariaacosta</span>
+          </div>
+        </div>
+
+        <!-- Paso 3 -->
+        <div class="glass-card rounded-3xl p-6 relative overflow-hidden flex flex-col justify-between">
+          <div>
+            <div class="w-12 h-12 bg-emerald-100 text-emerald-800 font-kids font-black text-xl rounded-2xl flex items-center justify-center mb-4 shadow-sm">
+              3
+            </div>
+            <h4 class="font-kids font-black text-lg text-slate-900 mb-2">¡Listo para Modelar!</h4>
+            <p class="text-xs text-slate-600 font-medium leading-relaxed mb-4">
+              Presiona <strong>"Soy yo"</strong> y entrarás a tu panel personal de proyectos 3D donde el docente podrá calificar tus diseños.
+            </p>
+          </div>
+          <div class="bg-emerald-50 text-emerald-900 text-[11px] font-bold p-2.5 rounded-xl border border-emerald-200">
+            ✨ Tus proyectos se guardan automáticamente en la nube.
+          </div>
+        </div>
+
+      </div>
+    </section>
+
+    <!-- 🗺️ RUTA DE APRENDIZAJE POR MISIONES (GAMIFICACIÓN) -->
+    <section class="mb-12">
+      <div class="text-center mb-8">
+        <div class="inline-flex items-center gap-2 bg-amber-100 text-amber-800 px-3.5 py-1 rounded-full text-xs font-kids font-black uppercase tracking-wider mb-2">
+          <span>🏆 RETOS PRÁCTICOS DE CLASE</span>
+        </div>
+        <h3 class="text-3xl sm:text-4xl font-kids font-black text-slate-900">Ruta de Misiones 3D</h3>
+        <p class="text-xs sm:text-sm text-slate-500 font-medium max-w-2xl mx-auto mt-1">
+          Supera cada reto en orden para dominar el modelado tridimensional como un verdadero diseñador:
+        </p>
+      </div>
+
+      <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-5">
+        
+        <!-- Misión 1: Puente -->
+        <div class="bg-white rounded-3xl p-5 border-2 border-indigo-200 shadow-md flex flex-col justify-between relative overflow-hidden">
+          <div class="absolute top-0 right-0 bg-indigo-500 text-white font-kids font-black text-[10px] px-3 py-1 rounded-bl-xl uppercase">Misión 1</div>
+          <div>
+            <div class="w-12 h-12 bg-indigo-100 text-indigo-700 rounded-2xl flex items-center justify-center text-2xl mb-3 shadow-inner mt-2">
+              🌉
+            </div>
+            <h4 class="font-kids font-black text-lg text-slate-900 mb-1">El Puente</h4>
+            <p class="text-xs text-slate-500 font-medium leading-relaxed mb-3">
+              Construye pilares con cubos y cilindros, y utiliza un <strong>cilindro o arco hueco</strong> para perforar el paso inferior por donde pasa el río.
+            </p>
+          </div>
+          <span class="text-[11px] font-bold text-indigo-700 bg-indigo-50 px-2.5 py-1 rounded-xl border border-indigo-100">Habilidad: Huecos y Elevación (Z)</span>
+        </div>
+
+        <!-- Misión 2: Llavero -->
+        <div class="bg-white rounded-3xl p-5 border-2 border-emerald-200 shadow-md flex flex-col justify-between relative overflow-hidden">
+          <div class="absolute top-0 right-0 bg-emerald-500 text-white font-kids font-black text-[10px] px-3 py-1 rounded-bl-xl uppercase">Misión 2</div>
+          <div>
+            <div class="w-12 h-12 bg-emerald-100 text-emerald-700 rounded-2xl flex items-center justify-center text-2xl mb-3 shadow-inner mt-2">
+              🏷️
+            </div>
+            <h4 class="font-kids font-black text-lg text-slate-900 mb-1">Llavero Personalizado</h4>
+            <p class="text-xs text-slate-500 font-medium leading-relaxed mb-3">
+              Diseña una placa base de 4mm de alto, añade texto 3D con tu nombre, un cilindro hueco para la argolla y centra todo con <strong>Alinear (L)</strong>.
+            </p>
+          </div>
+          <span class="text-[11px] font-bold text-emerald-700 bg-emerald-50 px-2.5 py-1 rounded-xl border border-emerald-100">Habilidad: Alineación (L) y Texto 3D</span>
+        </div>
+
+        <!-- Misión 3: Creeper -->
+        <div class="bg-white rounded-3xl p-5 border-2 border-green-200 shadow-md flex flex-col justify-between relative overflow-hidden">
+          <div class="absolute top-0 right-0 bg-green-600 text-white font-kids font-black text-[10px] px-3 py-1 rounded-bl-xl uppercase">Misión 3</div>
+          <div>
+            <div class="w-12 h-12 bg-green-100 text-green-700 rounded-2xl flex items-center justify-center text-2xl mb-3 shadow-inner mt-2">
+              👾
+            </div>
+            <h4 class="font-kids font-black text-lg text-slate-900 mb-1">Creeper (Minecraft)</h4>
+            <p class="text-xs text-slate-500 font-medium leading-relaxed mb-3">
+              Modela la cabeza cúbica, cuerpo y 4 patas simétricas. Usa cubos huecos para tallar los ojos y la boca pixelada antes de <strong>Agrupar (Ctrl+G)</strong>.
+            </p>
+          </div>
+          <span class="text-[11px] font-bold text-green-700 bg-green-50 px-2.5 py-1 rounded-xl border border-green-100">Habilidad: Precisión y Cortes</span>
+        </div>
+
+        <!-- Misión 4: Lápiz -->
+        <div class="bg-white rounded-3xl p-5 border-2 border-amber-200 shadow-md flex flex-col justify-between relative overflow-hidden">
+          <div class="absolute top-0 right-0 bg-amber-500 text-white font-kids font-black text-[10px] px-3 py-1 rounded-bl-xl uppercase">Misión 4</div>
+          <div>
+            <div class="w-12 h-12 bg-amber-100 text-amber-700 rounded-2xl flex items-center justify-center text-2xl mb-3 shadow-inner mt-2">
+              ✏️
+            </div>
+            <h4 class="font-kids font-black text-lg text-slate-900 mb-1">El Lápiz 3D</h4>
+            <p class="text-xs text-slate-500 font-medium leading-relaxed mb-3">
+              Crea un cuerpo hexagonal de madera, añade un cono en la punta, la mina de grafito, el anillo metálico y el borrador cilíndrico en el extremo.
+            </p>
+          </div>
+          <span class="text-[11px] font-bold text-amber-700 bg-amber-50 px-2.5 py-1 rounded-xl border border-amber-100">Habilidad: Ensamblaje Multicuerpo</span>
+        </div>
+
+      </div>
+    </section>
+
+    <!-- 🎮 GUÍA INTERACTIVA: LOS 6 CONCEPTOS FUNDAMENTALES CON SIMULADOR EN VIVO -->
+    <section class="mb-12">
+      <div class="text-center mb-8">
+        <div class="inline-flex items-center gap-2 bg-indigo-100 text-indigo-800 px-3.5 py-1 rounded-full text-xs font-kids font-black uppercase tracking-wider mb-2">
+          <span>🧪 LABORATORIO INTERACTIVO 3D</span>
+        </div>
+        <h3 class="text-3xl sm:text-4xl font-kids font-black text-slate-900">Conceptos Fundamentales con Simuladores en Vivo</h3>
+        <p class="text-xs sm:text-sm text-slate-500 font-medium max-w-2xl mx-auto mt-1">
+          ¡Interactúa con cada tarjeta! Presiona los botones para ver y entender cómo funciona el modelado 3D en tiempo real:
+        </p>
+      </div>
+
+      <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
+        
+        <!-- 1. Primitivas 3D (Simulador de Catálogo de Primitivas) -->
+        <div class="concept-card bg-white rounded-3xl p-5 sm:p-6 border-2 border-indigo-200 shadow-md hover:border-indigo-400 flex flex-col justify-between">
+          <div class="flex flex-col flex-1">
+            <div class="flex items-center mb-3">
+              <span class="text-2xl p-2.5 bg-indigo-100 rounded-2xl">🧊</span>
+            </div>
+            <h4 class="font-kids font-black text-lg text-slate-900 mb-2 h-7 flex items-center">1. ¿Qué es una Primitiva 3D?</h4>
+            <div class="min-h-[48px] text-xs text-slate-600 font-medium leading-relaxed mb-3">
+              Las <strong>primitivas</strong> son las figuras geométricas básicas de fábrica: cubo, esfera, cilindro, cono, pirámide y dona.
+            </div>
+
+            <!-- Mini Simulador 1: Selector de Primitiva -->
+            <div class="bg-slate-900 rounded-2xl p-3 text-center border-2 border-slate-800 my-2">
+              <div class="h-24 flex items-center justify-center relative">
+                <div id="sim1Figura" class="sim-shape text-5xl transition-all duration-300 transform scale-110 drop-shadow-[0_10px_10px_rgba(99,102,241,0.4)]">📦</div>
+              </div>
+              <div class="bg-slate-800/90 rounded-xl py-1 px-2 text-[11px] font-mono font-bold text-indigo-300 mt-1 border border-slate-700" id="sim1Nombre">
+                Primitiva: Cubo (Box)
+              </div>
+            </div>
+
+            <!-- Botonera selector -->
+            <div class="grid grid-cols-4 gap-1.5 mt-2">
+              <button onclick="cambiarPrimitiva('📦', 'Cubo (Box)')" class="btn-3d text-xs py-1.5 bg-indigo-50 hover:bg-indigo-100 text-indigo-900 font-bold rounded-lg border border-indigo-200">📦 Cubo</button>
+              <button onclick="cambiarPrimitiva('🔮', 'Esfera (Sphere)')" class="btn-3d text-xs py-1.5 bg-indigo-50 hover:bg-indigo-100 text-indigo-900 font-bold rounded-lg border border-indigo-200">🔮 Esfera</button>
+              <button onclick="cambiarPrimitiva('🛢️', 'Cilindro (Cylinder)')" class="btn-3d text-xs py-1.5 bg-indigo-50 hover:bg-indigo-100 text-indigo-900 font-bold rounded-lg border border-indigo-200">🛢️ Cilindro</button>
+              <button onclick="cambiarPrimitiva('🍩', 'Toroide (Torus)')" class="btn-3d text-xs py-1.5 bg-indigo-50 hover:bg-indigo-100 text-indigo-900 font-bold rounded-lg border border-indigo-200">🍩 Dona</button>
+            </div>
+          </div>
+          
+          <div class="bg-indigo-50 text-indigo-900 text-[11px] font-semibold p-2.5 rounded-xl border border-indigo-100 mt-3 min-h-[44px] flex items-center">
+            <span>🎯 <strong>Regla de Oro:</strong> Todo objeto complejo se construye sumando y restando primitivas.</span>
+          </div>
+        </div>
+
+        <!-- 2. Sólidos vs Huecos (Simulador de Rayos X / Antimateria) -->
+        <div class="concept-card bg-white rounded-3xl p-5 sm:p-6 border-2 border-emerald-200 shadow-md hover:border-emerald-400 flex flex-col justify-between">
+          <div class="flex flex-col flex-1">
+            <div class="flex items-center mb-3">
+              <span class="text-2xl p-2.5 bg-emerald-100 rounded-2xl">🧱</span>
+            </div>
+            <h4 class="font-kids font-black text-lg text-slate-900 mb-2 h-7 flex items-center">2. Sólido vs. Hueco (Hole)</h4>
+            <div class="min-h-[48px] text-xs text-slate-600 font-medium leading-relaxed mb-3">
+              <strong>Sólido:</strong> Masa que se imprimirá en 3D. <br>
+              <strong>Hueco:</strong> Broca cortadora invisible de antimateria.
+            </div>
+
+            <!-- Mini Simulador 2 -->
+            <div class="bg-slate-900 rounded-2xl p-3 text-center border-2 border-slate-800 my-2">
+              <div class="h-24 flex items-center justify-center relative">
+                <div id="sim2Objeto" class="w-16 h-16 bg-gradient-to-tr from-amber-500 to-orange-400 rounded-2xl shadow-lg border-2 border-orange-300 flex items-center justify-center transition-all duration-300">
+                  <span id="sim2Icono" class="text-white text-xs font-black">SÓLIDO</span>
+                </div>
+              </div>
+              <div class="bg-slate-800/90 rounded-xl py-1 px-2 text-[11px] font-mono font-bold text-emerald-300 mt-1 border border-slate-700" id="sim2Estado">
+                Estado: Sólido (Ocupa volumen real)
+              </div>
+            </div>
+
+            <!-- Botón Toggle Estado -->
+            <div class="grid grid-cols-2 gap-2 mt-2">
+              <button onclick="setModoSolido(true)" class="btn-3d text-xs py-2 bg-amber-500 hover:bg-amber-400 text-slate-950 font-black rounded-xl shadow-sm">🧱 Modo Sólido</button>
+              <button onclick="setModoSolido(false)" class="btn-3d text-xs py-2 bg-sky-400 hover:bg-sky-300 text-slate-950 font-black rounded-xl shadow-sm">👻 Modo Hueco</button>
+            </div>
+          </div>
+          
+          <div class="bg-emerald-50 text-emerald-900 text-[11px] font-semibold p-2.5 rounded-xl border border-emerald-100 mt-3 min-h-[44px] flex items-center">
+            <span>✂️ <strong>Uso clave:</strong> Para crear puertas, ventanas, agujeros de tornillos, tazas y túneles.</span>
+          </div>
+        </div>
+
+        <!-- 3. Agrupar, Unir y Desagrupar (Simulador Booleano Ctrl+G) -->
+        <div class="concept-card bg-white rounded-3xl p-5 sm:p-6 border-2 border-purple-200 shadow-md hover:border-purple-400 flex flex-col justify-between">
+          <div class="flex flex-col flex-1">
+            <div class="flex items-center mb-3">
+              <span class="text-2xl p-2.5 bg-purple-100 rounded-2xl">🔗</span>
+            </div>
+            <h4 class="font-kids font-black text-lg text-slate-900 mb-2 h-7 flex items-center">3. Agrupar / Unir y Desagrupar</h4>
+            <div class="min-h-[48px] text-xs text-slate-600 font-medium leading-relaxed mb-3">
+              <strong>Agrupar / Unir (Ctrl + G):</strong> Fusiona formas o corta. <br>
+              <strong>Desagrupar (Ctrl + Shift + G):</strong> Separa para reeditar.
+            </div>
+
+            <!-- Mini Simulador 3 -->
+            <div class="bg-slate-900 rounded-2xl p-3 text-center border-2 border-slate-800 my-2">
+              <div class="h-24 flex items-center justify-center relative">
+                <!-- Cubo base -->
+                <div id="sim3Cubo" class="w-16 h-16 bg-gradient-to-tr from-amber-500 to-orange-400 rounded-xl shadow-lg relative flex items-center justify-center transition-all duration-300">
+                  <div id="sim3Orificio" class="w-8 h-8 bg-slate-900 rounded-full border border-slate-700 hidden"></div>
+                </div>
+                <!-- Hueco superpuesto -->
+                <div id="sim3Hueco" class="w-9 h-9 bg-sky-400/40 border-2 border-dashed border-sky-300 rounded-full absolute flex items-center justify-center backdrop-blur-sm transition-all duration-300">
+                  <span class="text-[8px] font-bold text-sky-100">Hueco</span>
+                </div>
+              </div>
+              <div class="bg-slate-800/90 rounded-xl py-1 px-2 text-[11px] font-mono font-bold text-purple-300 mt-1 border border-slate-700" id="sim3Estado">
+                Estado: Sólido + Hueco separados
+              </div>
+            </div>
+
+            <!-- Botón Agrupar -->
+            <button id="btnSim3" onclick="toggleSim3Agrupar()" class="btn-3d w-full mt-2 py-2 bg-gradient-to-r from-purple-500 to-indigo-500 hover:from-purple-400 hover:to-indigo-400 text-white font-kids font-black text-xs rounded-xl shadow-sm flex items-center justify-center gap-1.5">
+              <span>🔗</span> Agrupar / Unir (Ctrl + G)
+            </button>
+          </div>
+          
+          <div class="bg-purple-50 text-purple-900 text-[11px] font-semibold p-2.5 rounded-xl border border-purple-100 mt-3 font-mono min-h-[44px] flex items-center justify-between">
+            <span>⌨️ Atajo:</span> <span class="bg-purple-200 px-2 py-0.5 rounded text-slate-950 font-bold">Ctrl + G</span>
+          </div>
+        </div>
+
+        <!-- 4. Copiar vs Duplicar con Memoria (Simulador Ctrl+D) -->
+        <div class="concept-card bg-white rounded-3xl p-5 sm:p-6 border-2 border-amber-200 shadow-md hover:border-amber-400 flex flex-col justify-between">
+          <div class="flex flex-col flex-1">
+            <div class="flex items-center mb-3">
+              <span class="text-2xl p-2.5 bg-amber-100 rounded-2xl">✨</span>
+            </div>
+            <h4 class="font-kids font-black text-lg text-slate-900 mb-2 h-7 flex items-center">4. Copiar vs. Duplicar (Ctrl+D)</h4>
+            <div class="min-h-[48px] text-xs text-slate-600 font-medium leading-relaxed mb-3">
+              <strong>Duplicar Inteligente:</strong> Recuerda el movimiento y crea patrones en cadena con un solo clic sucesivo.
+            </div>
+
+            <!-- Mini Simulador 4 -->
+            <div class="bg-slate-900 rounded-2xl p-3 text-center border-2 border-slate-800 my-2">
+              <div id="sim4Contenedor" class="h-24 flex items-end justify-center gap-1.5 pb-2 overflow-hidden relative">
+                <div class="w-6 h-7 bg-amber-400 rounded-md border border-amber-200 shadow flex items-center justify-center text-[10px] font-bold text-slate-900 transition-all duration-300">1</div>
+              </div>
+              <div class="bg-slate-800/90 rounded-xl py-1 px-2 text-[11px] font-mono font-bold text-amber-300 mt-1 border border-slate-700" id="sim4Estado">
+                Patrón: 1 Peldaño original
+              </div>
+            </div>
+
+            <!-- Botones Duplicar / Reiniciar -->
+            <div class="grid grid-cols-2 gap-2 mt-2">
+              <button onclick="duplicarConMemoria()" class="btn-3d text-xs py-2 bg-amber-500 hover:bg-amber-400 text-slate-950 font-black rounded-xl shadow-sm">✨ Ctrl + D (+1)</button>
+              <button onclick="reiniciarDuplicado()" class="btn-3d text-xs py-2 bg-slate-200 hover:bg-slate-300 text-slate-800 font-bold rounded-xl shadow-sm">🔄 Reiniciar</button>
+            </div>
+          </div>
+          
+          <div class="bg-amber-50 text-amber-900 text-[11px] font-semibold p-2.5 rounded-xl border border-amber-100 mt-3 font-mono min-h-[44px] flex items-center justify-between">
+            <span>🪄 Poder supremo:</span> <span class="bg-amber-200 px-2 py-0.5 rounded text-slate-950 font-bold">Ctrl + D</span>
+          </div>
+        </div>
+
+        <!-- 5. Herramienta Alinear y Centrar (Simulador Tecla L) -->
+        <div class="concept-card bg-white rounded-3xl p-5 sm:p-6 border-2 border-rose-200 shadow-md hover:border-rose-400 flex flex-col justify-between">
+          <div class="flex flex-col flex-1">
+            <div class="flex items-center mb-3">
+              <span class="text-2xl p-2.5 bg-rose-100 rounded-2xl">🎯</span>
+            </div>
+            <h4 class="font-kids font-black text-lg text-slate-900 mb-2 h-7 flex items-center">5. Herramienta Alinear / Centrar (L)</h4>
+            <div class="min-h-[48px] text-xs text-slate-600 font-medium leading-relaxed mb-3">
+              Activa los 9 nodos guía para alinear y centrar perfectamente dos o más figuras en los ejes X, Y y Z.
+            </div>
+
+            <!-- Mini Simulador 5 -->
+            <div class="bg-slate-900 rounded-2xl p-3 text-center border-2 border-slate-800 my-2 relative">
+              <div class="h-24 relative flex items-center justify-center">
+                <!-- Base Grande -->
+                <div class="w-20 h-20 bg-rose-500/30 border-2 border-dashed border-rose-400 rounded-2xl flex items-center justify-center">
+                  <!-- Objeto Desplazado / Centrado -->
+                  <div id="sim5Pieza" class="w-8 h-8 bg-rose-500 rounded-xl shadow-lg transform -translate-x-4 -translate-y-4 transition-all duration-500 flex items-center justify-center text-white text-[10px] font-black">
+                    🎯
+                  </div>
+                </div>
+              </div>
+              <div class="bg-slate-800/90 rounded-xl py-1 px-2 text-[11px] font-mono font-bold text-rose-300 mt-1 border border-slate-700" id="sim5Estado">
+                Estado: Objetos Desalineados
+              </div>
+            </div>
+
+            <!-- Botones Alinear -->
+            <div class="grid grid-cols-2 gap-2 mt-2">
+              <button onclick="alinearCentro()" class="btn-3d text-xs py-2 bg-rose-500 hover:bg-rose-400 text-white font-black rounded-xl shadow-sm">🎯 Alinear / Centrar (L)</button>
+              <button onclick="desalinear()" class="btn-3d text-xs py-2 bg-slate-200 hover:bg-slate-300 text-slate-800 font-bold rounded-xl shadow-sm">🔀 Desordenar</button>
+            </div>
+          </div>
+          
+          <div class="bg-rose-50 text-rose-900 text-[11px] font-semibold p-2.5 rounded-xl border border-rose-100 mt-3 font-mono min-h-[44px] flex items-center justify-between">
+            <span>⌨️ Tecla rápida:</span> <span class="bg-rose-200 px-2 py-0.5 rounded text-slate-950 font-bold">L</span>
+          </div>
+        </div>
+
+        <!-- 6. Simetría y Espejo (Simulador Tecla M) -->
+        <div class="concept-card bg-white rounded-3xl p-5 sm:p-6 border-2 border-teal-200 shadow-md hover:border-teal-400 flex flex-col justify-between">
+          <div class="flex flex-col flex-1">
+            <div class="flex items-center mb-3">
+              <span class="text-2xl p-2.5 bg-teal-100 rounded-2xl">🪞</span>
+            </div>
+            <h4 class="font-kids font-black text-lg text-slate-900 mb-2 h-7 flex items-center">6. Simetría y Espejo (Tecla M)</h4>
+            <div class="min-h-[48px] text-xs text-slate-600 font-medium leading-relaxed mb-3">
+              Refleja e invierte cualquier figura para crear alas opuestas, orejas o llantas laterales idénticas.
+            </div>
+
+            <!-- Mini Simulador 6 -->
+            <div class="bg-slate-900 rounded-2xl p-3 text-center border-2 border-slate-800 my-2">
+              <div class="h-24 flex items-center justify-center gap-4 relative">
+                <!-- Eje de Espejo Central -->
+                <div class="absolute inset-y-2 w-0.5 bg-teal-400/40 border-l border-dashed border-teal-300"></div>
+                
+                <!-- Figura Original -->
+                <div class="w-10 h-12 bg-teal-600 rounded-r-2xl border-2 border-teal-300 flex items-center justify-center text-white text-xs font-black shadow-md">
+                  R
+                </div>
+                
+                <!-- Figura Reflejada Simulación -->
+                <div id="sim6Espejo" class="w-10 h-12 bg-teal-400 rounded-r-2xl border-2 border-teal-200 flex items-center justify-center text-slate-950 text-xs font-black shadow-md transition-all duration-500">
+                  R
+                </div>
+              </div>
+              <div class="bg-slate-800/90 rounded-xl py-1 px-2 text-[11px] font-mono font-bold text-teal-300 mt-1 border border-slate-700" id="sim6Estado">
+                Lado: Mismo sentido (Copia normal)
+              </div>
+            </div>
+
+            <!-- Botón Espejo -->
+            <button onclick="toggleEspejo()" class="btn-3d w-full mt-2 py-2 bg-gradient-to-r from-teal-500 to-emerald-500 hover:from-teal-400 hover:to-emerald-400 text-slate-950 font-kids font-black text-xs rounded-xl shadow-sm flex items-center justify-center gap-1.5">
+              <span>🪞</span> Invertir con Espejo (Tecla M)
+            </button>
+          </div>
+          
+          <div class="bg-teal-50 text-teal-900 text-[11px] font-semibold p-2.5 rounded-xl border border-teal-100 mt-3 font-mono min-h-[44px] flex items-center justify-between">
+            <span>⌨️ Tecla rápida:</span> <span class="bg-teal-200 px-2 py-0.5 rounded text-slate-950 font-bold">M</span>
+          </div>
+        </div>
+
+      </div>
+    </section>
+
+    <!-- GUÍA DE MANIPULADORES Y EJES (X, Y, Z + ELEVACIÓN) -->
+    <section class="bg-white rounded-3xl p-6 sm:p-8 border-2 border-slate-200 shadow-lg mb-10">
+      <h3 class="text-2xl font-kids font-black text-slate-900 mb-4 flex items-center gap-2">
+        <span>🧭</span> Los 4 Controles de Manipulación en cada Figura
+      </h3>
+
+      <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-4 text-xs font-medium text-slate-700">
+        
+        <div class="bg-slate-50 p-4 rounded-2xl border border-slate-200">
+          <div class="text-2xl mb-2">⬜</div>
+          <strong class="text-slate-900 font-bold block text-sm mb-1">Cuadros Blancos (Esquinas)</strong>
+          Permiten estirar el ancho y el largo al mismo tiempo, así como la altura en el nodo superior.
+        </div>
+
+        <div class="bg-slate-50 p-4 rounded-2xl border border-slate-200">
+          <div class="text-2xl mb-2">⬛</div>
+          <strong class="text-slate-900 font-bold block text-sm mb-1">Cuadros Negros (Lados)</strong>
+          Permiten estirar la figura en una sola dirección (solo ancho o solo profundidad).
+        </div>
+
+        <div class="bg-slate-50 p-4 rounded-2xl border border-slate-200">
+          <div class="text-2xl mb-2">▲</div>
+          <strong class="text-slate-900 font-bold block text-sm mb-1">Cono Negro Superior (Elevación)</strong>
+          Levanta o hunde la figura sobre el plano de trabajo en el eje vertical <strong>Z</strong>.
+        </div>
+
+        <div class="bg-slate-50 p-4 rounded-2xl border border-slate-200">
+          <div class="text-2xl mb-2">🔄</div>
+          <strong class="text-slate-900 font-bold block text-sm mb-1">Flechas Curvas (Rotación)</strong>
+          Giran la figura en ángulos de 45° o de 1° sobre los ejes X, Y y Z.
+        </div>
+
+      </div>
+    </section>
+
+    <!-- HERRAMIENTAS Y CONTROLES BÁSICOS DEL MOUSE -->
+    <section class="bg-gradient-to-br from-slate-900 to-indigo-950 text-white rounded-3xl p-6 sm:p-8 shadow-xl mb-10">
+      <h3 class="text-xl sm:text-2xl font-kids font-black mb-6 flex items-center gap-2">
+        <span>🎮</span> Controles del Mouse y Navegación 3D
+      </h3>
+
+      <div class="grid grid-cols-1 md:grid-cols-3 gap-4 text-xs font-medium text-slate-200">
+        <div class="bg-white/10 p-4 rounded-2xl border border-white/10 flex items-start gap-3 backdrop-blur-sm">
+          <span class="text-2xl">🖱️</span>
+          <div>
+            <strong class="text-white font-bold block text-sm mb-0.5">Clic Derecho + Arrastrar</strong>
+            Orbita y rota la cámara 360° para inspeccionar tu modelo desde arriba, abajo y los lados.
+          </div>
+        </div>
+
+        <div class="bg-white/10 p-4 rounded-2xl border border-white/10 flex items-start gap-3 backdrop-blur-sm">
+          <span class="text-2xl">🔍</span>
+          <div>
+            <strong class="text-white font-bold block text-sm mb-0.5">Rueda del Mouse (Scroll)</strong>
+            Zoom In / Zoom Out. Acércate a los detalles finos o aléjate para ver todo el plano.
+          </div>
+        </div>
+
+        <div class="bg-white/10 p-4 rounded-2xl border border-white/10 flex items-start gap-3 backdrop-blur-sm">
+          <span class="text-2xl">🖐️</span>
+          <div>
+            <strong class="text-white font-bold block text-sm mb-0.5">Presionar Rueda (Pan / Desplazar)</strong>
+            Mueve la pantalla hacia los lados sin cambiar el ángulo de giro de la cámara.
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- ⌨️ CHULETA / CHEAT-SHEET VISUAL DE TECLAS RÁPIDAS -->
+    <section class="bg-white rounded-3xl p-6 sm:p-8 border-2 border-slate-200 shadow-xl mb-12">
+      <div class="flex items-center gap-3 mb-6">
+        <span class="text-3xl">⌨️</span>
+        <div>
+          <h3 class="text-2xl font-kids font-black text-slate-900">Atajos de Teclado Esenciales</h3>
+          <p class="text-xs text-slate-500 font-medium">Memoriza estos comandos para diseñar 5 veces más rápido en el aula:</p>
+        </div>
+      </div>
+
+      <div class="grid grid-cols-2 sm:grid-cols-3 lg:grid-cols-6 gap-3">
+        <div class="bg-slate-50 p-3.5 rounded-2xl border border-slate-200 text-center">
+          <kbd>L</kbd>
+          <strong class="block text-slate-800 text-xs mt-2 font-bold">Alinear</strong>
+          <span class="text-[10px] text-slate-500">Centra figuras</span>
+        </div>
+
+        <div class="bg-slate-50 p-3.5 rounded-2xl border border-slate-200 text-center">
+          <kbd>M</kbd>
+          <strong class="block text-slate-800 text-xs mt-2 font-bold">Espejo</strong>
+          <span class="text-[10px] text-slate-500">Invierte piezas</span>
+        </div>
+
+        <div class="bg-slate-50 p-3.5 rounded-2xl border border-slate-200 text-center">
+          <kbd>Ctrl+G</kbd>
+          <strong class="block text-slate-800 text-xs mt-2 font-bold">Agrupar</strong>
+          <span class="text-[10px] text-slate-500">Une o corta</span>
+        </div>
+
+        <div class="bg-slate-50 p-3.5 rounded-2xl border border-slate-200 text-center">
+          <kbd>Ctrl+D</kbd>
+          <strong class="block text-slate-800 text-xs mt-2 font-bold">Duplicar</strong>
+          <span class="text-[10px] text-slate-500">Con memoria</span>
+        </div>
+
+        <div class="bg-slate-50 p-3.5 rounded-2xl border border-slate-200 text-center">
+          <kbd>W</kbd>
+          <strong class="block text-slate-800 text-xs mt-2 font-bold">Plano Trabajo</strong>
+          <span class="text-[10px] text-slate-500">Cambia el suelo</span>
+        </div>
+
+        <div class="bg-slate-50 p-3.5 rounded-2xl border border-slate-200 text-center">
+          <kbd>D</kbd>
+          <strong class="block text-slate-800 text-xs mt-2 font-bold">Al Piso</strong>
+          <span class="text-[10px] text-slate-500">Cae al nivel cero</span>
+        </div>
+      </div>
+    </section>
+
+    <!-- ⚠️ GALERÍA DE LOS 4 ERRORES MÁS COMUNES EN CLASE -->
+    <section class="bg-amber-50 rounded-3xl p-6 sm:p-8 border-2 border-amber-200 shadow-md mb-12">
+      <div class="flex items-center gap-3 mb-6">
+        <span class="text-3xl">⚠️</span>
+        <div>
+          <h3 class="text-2xl font-kids font-black text-amber-950">Los 4 Errores Más Frecuentes (Y cómo resolverlos)</h3>
+          <p class="text-xs text-amber-800 font-medium">Si te trabas durante el diseño, consulta estas soluciones rápidas:</p>
+        </div>
+      </div>
+
+      <div class="grid grid-cols-1 sm:grid-cols-2 gap-4 text-xs">
+        <div class="bg-white p-4 rounded-2xl border border-amber-200 shadow-sm">
+          <strong class="text-red-600 font-bold block text-sm mb-1">❌ "Profe, no hace el hueco"</strong>
+          <p class="text-slate-600 font-medium leading-relaxed">
+            👉 <strong>Solución:</strong> Debes seleccionar <em>ambas figuras al tiempo</em> (la sólida y la hueca) arrastrando un cuadro sobre ellas antes de presionar <kbd>Ctrl+G</kbd>.
+          </p>
+        </div>
+
+        <div class="bg-white p-4 rounded-2xl border border-amber-200 shadow-sm">
+          <strong class="text-red-600 font-bold block text-sm mb-1">❌ "Mi figura se hundió debajo del plano"</strong>
+          <p class="text-slate-600 font-medium leading-relaxed">
+            👉 <strong>Solución:</strong> Selecciona la figura y presiona la tecla <kbd>D</kbd> para que aterrice automáticamente sobre el suelo.
+          </p>
+        </div>
+
+        <div class="bg-white p-4 rounded-2xl border border-amber-200 shadow-sm">
+          <strong class="text-red-600 font-bold block text-sm mb-1">❌ "Se deforma toda cuando la agrando"</strong>
+          <p class="text-slate-600 font-medium leading-relaxed">
+            👉 <strong>Solución:</strong> Mantén presionada la tecla <kbd>Shift</kbd> mientras arrastras cualquier esquina blanca para mantener las proporciones exactas.
+          </p>
+        </div>
+
+        <div class="bg-white p-4 rounded-2xl border border-amber-200 shadow-sm">
+          <strong class="text-red-600 font-bold block text-sm mb-1">❌ "No puedo rotar la cámara libremente"</strong>
+          <p class="text-slate-600 font-medium leading-relaxed">
+            👉 <strong>Solución:</strong> Mantén presionado el <strong>botón derecho del mouse</strong> (no el izquierdo) y mueve el ratón para orbitar 360°.
+          </p>
+        </div>
+      </div>
+    </section>
+
+    <!-- FOOTER -->
+    <footer class="bg-white/80 backdrop-blur-md rounded-2xl py-4 px-6 border border-slate-200 text-center text-slate-500 text-xs flex flex-col sm:flex-row items-center justify-center gap-2 shadow-sm">
+      <div class="flex items-center gap-2">
+        <span class="text-lg">🤖</span>
+        <span class="font-bold text-slate-700">&copy; 2026 Mundo Jandra &bull; Prof. Ronny Martinez</span>
+        <span class="text-slate-300 hidden sm:inline">&bull;</span>
+        <span class="text-slate-400 font-medium">Tecnología e Informática &bull; Grado 8°</span>
+      </div>
+    </footer>
+
+  </div>
+
+  <script>
+    function lanzarConfetti() {
+      try {
+        confetti({
+          particleCount: 90,
+          spread: 80,
+          origin: { y: 0.6 }
+        });
+      } catch(e) {}
+    }
+
+    // Generador de Alias en Vivo y sincronización con el Paso 2
+    const inputNom = document.getElementById('inputNombre');
+    const inputApe = document.getElementById('inputApellido');
+    const resAlias = document.getElementById('resultadoAlias');
+    const ejDinamico = document.getElementById('ejemploAliasDinamico');
+
+    function actualizarAlias() {
+      const nom = inputNom.value.trim().toLowerCase().normalize("NFD").replace(/[\u0300-\u036f]/g, "").replace(/\s+/g, '');
+      const ape = inputApe.value.trim().toLowerCase().normalize("NFD").replace(/[\u0300-\u036f]/g, "").replace(/\s+/g, '');
+      
+      let aliasFinal = '';
+      if (nom || ape) {
+        aliasFinal = nom + ape;
+      } else {
+        aliasFinal = 'mariaacosta';
+      }
+
+      resAlias.textContent = aliasFinal;
+      if (ejDinamico) {
+        ejDinamico.textContent = aliasFinal;
+      }
+    }
+
+    if (inputNom && inputApe) {
+      inputNom.addEventListener('input', actualizarAlias);
+      inputApe.addEventListener('input', actualizarAlias);
+    }
+
+    function copiarAlias() {
+      const alias = resAlias.textContent.trim();
+      navigator.clipboard.writeText(alias);
+      const btn = document.getElementById('btnCopiarTexto');
+      btn.textContent = '✅ ¡Copiado!';
+      setTimeout(() => {
+        btn.textContent = '📋 Copiar usuario';
+      }, 2000);
+    }
+
+    // --- SIMULADOR 1: PRIMITIVAS 3D ---
+    function cambiarPrimitiva(icono, nombre) {
+      const fig = document.getElementById('sim1Figura');
+      const lbl = document.getElementById('sim1Nombre');
+      fig.style.transform = 'scale(0.5) rotate(20deg)';
+      setTimeout(() => {
+        fig.textContent = icono;
+        lbl.textContent = 'Primitiva: ' + nombre;
+        fig.style.transform = 'scale(1.1) rotate(0deg)';
+      }, 150);
+    }
+
+    // --- SIMULADOR 2: SÓLIDO VS HUECO ---
+    function setModoSolido(esSolido) {
+      const obj = document.getElementById('sim2Objeto');
+      const icon = document.getElementById('sim2Icono');
+      const est = document.getElementById('sim2Estado');
+      if (esSolido) {
+        obj.className = "w-16 h-16 bg-gradient-to-tr from-amber-500 to-orange-400 rounded-2xl shadow-lg border-2 border-orange-300 flex items-center justify-center transition-all duration-300";
+        icon.textContent = "SÓLIDO";
+        icon.className = "text-white text-xs font-black";
+        est.textContent = "Estado: Sólido (Materia real)";
+        est.className = "bg-slate-800/90 rounded-xl py-1 px-2 text-[10px] font-mono font-bold text-amber-300 mt-1 border border-slate-700 whitespace-nowrap overflow-hidden text-ellipsis";
+      } else {
+        obj.className = "w-16 h-16 bg-sky-400/30 rounded-2xl shadow-lg border-2 border-dashed border-sky-300 flex items-center justify-center backdrop-blur-sm transition-all duration-300";
+        icon.textContent = "HUECO";
+        icon.className = "text-sky-200 text-xs font-black";
+        est.textContent = "Estado: Hueco (Corte invisible)";
+        est.className = "bg-slate-800/90 rounded-xl py-1 px-2 text-[10px] font-mono font-bold text-sky-300 mt-1 border border-slate-700 whitespace-nowrap overflow-hidden text-ellipsis";
+      }
+    }
+
+    // --- SIMULADOR 3: AGRUPAR / DESAGRUPAR (Ctrl+G) ---
+    let sim3Agrupado = false;
+    function toggleSim3Agrupar() {
+      const hueco = document.getElementById('sim3Hueco');
+      const orificio = document.getElementById('sim3Orificio');
+      const btn = document.getElementById('btnSim3');
+      const est = document.getElementById('sim3Estado');
+
+      if (!sim3Agrupado) {
+        hueco.style.display = 'none';
+        orificio.classList.remove('hidden');
+        est.textContent = '¡Agrupado! El hueco cortó la pieza';
+        est.className = "bg-slate-800/90 rounded-xl py-1 px-2 text-[10px] font-mono font-bold text-emerald-300 mt-1 border border-slate-700 whitespace-nowrap overflow-hidden text-ellipsis";
+        btn.innerHTML = '<span>🔄</span> Desagrupar (Ctrl+Shift+G)';
+        btn.classList.replace('from-purple-500', 'from-rose-500');
+        btn.classList.replace('to-indigo-500', 'to-orange-400');
+        lanzarConfetti();
+        sim3Agrupado = true;
+      } else {
+        hueco.style.display = 'flex';
+        orificio.classList.add('hidden');
+        est.textContent = 'Estado: Sólido + Hueco separados';
+        est.className = "bg-slate-800/90 rounded-xl py-1 px-2 text-[10px] font-mono font-bold text-purple-300 mt-1 border border-slate-700 whitespace-nowrap overflow-hidden text-ellipsis";
+        btn.innerHTML = '<span>🔗</span> Agrupar (Ctrl + G)';
+        btn.classList.replace('from-rose-500', 'from-purple-500');
+        btn.classList.replace('to-orange-400', 'to-indigo-500');
+        sim3Agrupado = false;
+      }
+    }
+
+    // --- SIMULADOR 4: DUPLICAR CON MEMORIA (Ctrl+D) ---
+    let peldanios = 1;
+    function duplicarConMemoria() {
+      if (peldanios >= 5) return;
+      peldanios++;
+      const contenedor = document.getElementById('sim4Contenedor');
+      const nuevo = document.createElement('div');
+      nuevo.className = `w-6 bg-amber-400 rounded-md border border-amber-200 shadow flex items-center justify-center text-[10px] font-bold text-slate-900 transition-all duration-300`;
+      nuevo.style.height = `${28 + (peldanios - 1) * 12}px`;
+      nuevo.textContent = peldanios;
+      contenedor.appendChild(nuevo);
+      document.getElementById('sim4Estado').textContent = `Patrón: x${peldanios} peldaños en cadena`;
+    }
+
+    function reiniciarDuplicado() {
+      peldanios = 1;
+      const contenedor = document.getElementById('sim4Contenedor');
+      contenedor.innerHTML = '<div class="w-6 h-7 bg-amber-400 rounded-md border border-amber-200 shadow flex items-center justify-center text-[10px] font-bold text-slate-900">1</div>';
+      document.getElementById('sim4Estado').textContent = 'Patrón: 1 Peldaño original';
+    }
+
+    // --- SIMULADOR 5: ALINEAR (L) ---
+    function alinearCentro() {
+      const pieza = document.getElementById('sim5Pieza');
+      pieza.classList.remove('-translate-x-4', '-translate-y-4');
+      pieza.classList.add('translate-x-0', 'translate-y-0');
+      document.getElementById('sim5Estado').textContent = 'Estado: ¡Centrado en X, Y, Z!';
+      document.getElementById('sim5Estado').className = "bg-slate-800/90 rounded-xl py-1 px-2 text-[10px] font-mono font-bold text-emerald-300 mt-1 border border-slate-700 whitespace-nowrap overflow-hidden text-ellipsis";
+      lanzarConfetti();
+    }
+
+    function desalinear() {
+      const pieza = document.getElementById('sim5Pieza');
+      pieza.classList.remove('translate-x-0', 'translate-y-0');
+      pieza.classList.add('-translate-x-4', '-translate-y-4');
+      document.getElementById('sim5Estado').textContent = 'Estado: Objetos Desalineados';
+      document.getElementById('sim5Estado').className = "bg-slate-800/90 rounded-xl py-1 px-2 text-[10px] font-mono font-bold text-rose-300 mt-1 border border-slate-700 whitespace-nowrap overflow-hidden text-ellipsis";
+    }
+
+    // --- SIMULADOR 6: SIMETRÍA Y ESPEJO (M) ---
+    let esReflejado = false;
+    function toggleEspejo() {
+      const espejo = document.getElementById('sim6Espejo');
+      const est = document.getElementById('sim6Estado');
+      if (!esReflejado) {
+        espejo.style.transform = 'scaleX(-1)';
+        espejo.classList.replace('bg-teal-400', 'bg-emerald-400');
+        est.textContent = 'Lado: ¡Reflejado invertido!';
+        est.className = "bg-slate-800/90 rounded-xl py-1 px-2 text-[10px] font-mono font-bold text-emerald-300 mt-1 border border-slate-700 whitespace-nowrap overflow-hidden text-ellipsis";
+        esReflejado = true;
+      } else {
+        espejo.style.transform = 'scaleX(1)';
+        espejo.classList.replace('bg-emerald-400', 'bg-teal-400');
+        est.textContent = 'Lado: Copia normal';
+        est.className = "bg-slate-800/90 rounded-xl py-1 px-2 text-[10px] font-mono font-bold text-teal-300 mt-1 border border-slate-700 whitespace-nowrap overflow-hidden text-ellipsis";
+        esReflejado = false;
+      }
+    }
+  </script>
+</body>
+</html>

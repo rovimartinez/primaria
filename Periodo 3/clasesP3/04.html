@@ -390,50 +390,85 @@
           <div class="mt-6 bg-amber-50/70 border-2 border-dashed border-amber-300 rounded-2xl p-4 flex flex-col items-center justify-center relative min-h-[160px]">
             <div class="relative w-52 h-36 flex items-center justify-center">
               <!-- Caja 3D de Cartón Realista con Solapas Abiertas -->
-              <svg viewBox="0 0 220 160" class="w-full h-full drop-shadow-xl" style="overflow: visible;">
+              <svg viewBox="0 0 240 180" class="w-full h-full drop-shadow-xl" style="overflow: visible;">
                 <defs>
-                  <linearGradient id="cardboardFront1" x1="0%" y1="0%" x2="0%" y2="100%">
-                    <stop offset="0%" stop-color="#d49959" />
-                    <stop offset="100%" stop-color="#b67a39" />
+                  <!-- Sombra y degradados de cartón realista -->
+                  <linearGradient id="boxInsideBack" x1="0%" y1="0%" x2="0%" y2="100%">
+                    <stop offset="0%" stop-color="#4a2608" />
+                    <stop offset="100%" stop-color="#6e3c12" />
                   </linearGradient>
-                  <linearGradient id="cardboardSide1" x1="0%" y1="0%" x2="100%" y2="100%">
-                    <stop offset="0%" stop-color="#9e662e" />
-                    <stop offset="100%" stop-color="#7d4e1e" />
+                  <linearGradient id="boxInsideLeft" x1="0%" y1="0%" x2="100%" y2="0%">
+                    <stop offset="0%" stop-color="#552c0a" />
+                    <stop offset="100%" stop-color="#3d1d04" />
                   </linearGradient>
-                  <linearGradient id="cardboardInside1" x1="0%" y1="0%" x2="0%" y2="100%">
-                    <stop offset="0%" stop-color="#422006" />
-                    <stop offset="100%" stop-color="#60310c" />
+                  <linearGradient id="boxInsideBottom" x1="0%" y1="0%" x2="0%" y2="100%">
+                    <stop offset="0%" stop-color="#2d1402" />
+                    <stop offset="100%" stop-color="#421f06" />
                   </linearGradient>
-                  <linearGradient id="flapTop1" x1="0%" y1="0%" x2="100%" y2="100%">
-                    <stop offset="0%" stop-color="#e2a768" />
-                    <stop offset="100%" stop-color="#c18343" />
+                  <linearGradient id="boxFrontSide" x1="0%" y1="0%" x2="0%" y2="100%">
+                    <stop offset="0%" stop-color="#d99349" />
+                    <stop offset="100%" stop-color="#b67329" />
+                  </linearGradient>
+                  <linearGradient id="boxLeftSide" x1="0%" y1="0%" x2="100%" y2="100%">
+                    <stop offset="0%" stop-color="#a86726" />
+                    <stop offset="100%" stop-color="#804b16" />
+                  </linearGradient>
+                  <linearGradient id="boxFlapLight" x1="0%" y1="0%" x2="100%" y2="100%">
+                    <stop offset="0%" stop-color="#e8a864" />
+                    <stop offset="100%" stop-color="#c98539" />
+                  </linearGradient>
+                  <linearGradient id="boxFlapDark" x1="0%" y1="0%" x2="0%" y2="100%">
+                    <stop offset="0%" stop-color="#9a5a1e" />
+                    <stop offset="100%" stop-color="#733f0e" />
                   </linearGradient>
                 </defs>
 
-                <!-- Sombra en el suelo -->
-                <ellipse cx="110" cy="144" rx="80" ry="12" fill="#000000" opacity="0.2" />
+                <!-- Sombra proyectada en el suelo -->
+                <ellipse cx="120" cy="160" rx="90" ry="14" fill="#0f172a" opacity="0.22" />
 
-                <!-- Solapa trasera -->
-                <polygon points="78,54 100,22 152,26 142,54" fill="#a4682f" stroke="#714217" stroke-width="0.8" />
-                <!-- Solapa izquierda trasera -->
-                <polygon points="42,66 14,48 50,30 78,54" fill="#c6894b" stroke="#714217" stroke-width="0.8" />
-                <!-- Cavidad Interior Oscura -->
-                <polygon points="42,66 78,54 142,54 178,66 152,86 66,86" fill="url(#cardboardInside1)" />
-                <!-- Solapa derecha trasera -->
-                <polygon points="142,54 182,30 210,50 178,66" fill="url(#flapTop1)" stroke="#8b5321" stroke-width="0.8" />
-                <!-- Solapa frontal izquierda abierta -->
-                <polygon points="42,66 16,80 44,94 72,78" fill="#d99c5c" stroke="#8b5321" stroke-width="0.8" />
-                <!-- Solapa frontal derecha abierta -->
-                <polygon points="178,66 206,80 176,96 146,78" fill="#d99c5c" stroke="#8b5321" stroke-width="0.8" />
-                <!-- Cara lateral izquierda exterior (en sombra) -->
-                <polygon points="42,66 72,78 72,136 42,122" fill="url(#cardboardSide1)" stroke="#714217" stroke-width="0.8" />
-                <!-- Cara frontal exterior principal -->
-                <polygon points="72,78 178,66 178,124 72,136" fill="url(#cardboardFront1)" stroke="#8b5321" stroke-width="0.8" />
-                <!-- Borde luminoso de pliegue central -->
-                <line x1="72" y1="78" x2="72" y2="136" stroke="#fed7aa" stroke-width="1" opacity="0.6" />
+                <!-- 1. SOLAPAS TRASERAS (Detrás del interior) -->
+                <!-- Solapa trasera superior -->
+                <polygon points="76,68 98,28 162,32 140,68" fill="url(#boxFlapDark)" stroke="#592f08" stroke-width="1" />
+                <line x1="76" y1="68" x2="140" y2="68" stroke="#3d1d04" stroke-width="1.5" opacity="0.6" />
 
-                <!-- Letrero en la caja: Pelotas (Negrita cursiva como la original) -->
-                <text x="125" y="108" font-family="'Outfit', sans-serif" font-weight="900" font-style="italic" font-size="20" fill="#1c1917" text-anchor="middle" transform="rotate(-3 125 108)">Pelotas</text>
+                <!-- Solapa lateral izquierda trasera -->
+                <polygon points="36,90 12,62 52,42 76,68" fill="url(#boxFlapDark)" stroke="#592f08" stroke-width="1" />
+
+                <!-- Solapa lateral derecha trasera -->
+                <polygon points="140,68 184,40 220,62 184,86" fill="url(#boxFlapLight)" stroke="#804b16" stroke-width="1" />
+
+                <!-- 2. CAVIDAD INTERIOR DE LA CAJA (Paredes interiores y fondo) -->
+                <!-- Pared interior trasera -->
+                <polygon points="76,68 140,68 140,105 76,105" fill="url(#boxInsideBack)" />
+                <!-- Pared interior derecha -->
+                <polygon points="140,68 184,86 184,124 140,105" fill="url(#boxInsideLeft)" opacity="0.8" />
+                <!-- Fondo interior oscuro -->
+                <polygon points="76,105 140,105 158,118 94,118" fill="url(#boxInsideBottom)" />
+                <!-- Sombra de profundidad interior -->
+                <polygon points="36,90 76,68 76,105 36,128" fill="url(#boxInsideLeft)" />
+
+                <!-- 3. CARAS EXTERIORES DEL CUERPO DE LA CAJA -->
+                <!-- Cara exterior lateral izquierda (sombreada) -->
+                <polygon points="36,90 94,114 94,158 36,134" fill="url(#boxLeftSide)" stroke="#592f08" stroke-width="1" />
+                
+                <!-- Cara exterior frontal principal (con luz y letrero) -->
+                <polygon points="94,114 184,86 184,130 94,158" fill="url(#boxFrontSide)" stroke="#804b16" stroke-width="1" />
+                
+                <!-- Línea de borde / bisel central -->
+                <line x1="94" y1="114" x2="94" y2="158" stroke="#fed7aa" stroke-width="1.5" opacity="0.7" />
+
+                <!-- 4. SOLAPAS DELANTERAS ABIERTAS (Hacia afuera/abajo) -->
+                <!-- Solapa delantera izquierda doblada hacia afuera -->
+                <polygon points="36,90 10,108 42,122 74,104" fill="url(#boxFlapLight)" stroke="#804b16" stroke-width="1" />
+                <!-- Solapa delantera derecha doblada hacia afuera -->
+                <polygon points="94,114 130,138 214,104 184,86" fill="url(#boxFlapLight)" stroke="#804b16" stroke-width="1" />
+
+                <!-- Textura de doblez y letrero "Pelotas" en la cara frontal -->
+                <!-- Cinta de embalaje o texto estilo marcador -->
+                <g transform="rotate(-9.5 139 122)">
+                  <rect x="105" y="112" width="68" height="20" rx="3" fill="#ffffff" opacity="0.12" />
+                  <text x="139" y="127" font-family="'Outfit', sans-serif" font-weight="900" font-style="italic" font-size="16" fill="#1c1917" text-anchor="middle" letter-spacing="0.5">Pelotas</text>
+                </g>
               </svg>
             </div>
             <span class="text-xs font-bold text-amber-900 mt-2">Caja vacía: Pelotas = 0</span>
@@ -460,66 +495,71 @@
           <!-- Ilustración de la caja con pelotas adentro y afuera -->
           <div class="mt-6 bg-sky-50/70 border-2 border-dashed border-sky-300 rounded-2xl p-4 flex flex-col items-center justify-center relative min-h-[160px]">
             <div class="relative w-56 h-36 flex items-center justify-center">
-              <svg viewBox="0 0 240 160" class="w-full h-full drop-shadow-xl" style="overflow: visible;">
-                <!-- Sombra en el suelo -->
-                <ellipse cx="115" cy="144" rx="90" ry="13" fill="#000000" opacity="0.2" />
+              <svg viewBox="0 0 240 180" class="w-full h-full drop-shadow-xl" style="overflow: visible;">
+                <!-- Sombra proyectada en el suelo -->
+                <ellipse cx="120" cy="160" rx="90" ry="14" fill="#0f172a" opacity="0.22" />
 
-                <!-- Solapas traseras -->
-                <polygon points="78,54 100,22 152,26 142,54" fill="#a4682f" stroke="#714217" stroke-width="0.8" />
-                <polygon points="42,66 14,48 50,30 78,54" fill="#c6894b" stroke="#714217" stroke-width="0.8" />
-                <!-- Cavidad Interior Oscura -->
-                <polygon points="42,66 78,54 142,54 178,66 152,86 66,86" fill="url(#cardboardInside1)" />
-                <polygon points="142,54 182,30 210,50 178,66" fill="url(#flapTop1)" stroke="#8b5321" stroke-width="0.8" />
+                <!-- 1. SOLAPAS TRASERAS -->
+                <polygon points="76,68 98,28 162,32 140,68" fill="url(#boxFlapDark)" stroke="#592f08" stroke-width="1" />
+                <polygon points="36,90 12,62 52,42 76,68" fill="url(#boxFlapDark)" stroke="#592f08" stroke-width="1" />
+                <polygon points="140,68 184,40 220,62 184,86" fill="url(#boxFlapLight)" stroke="#804b16" stroke-width="1" />
 
-                <!-- PELOTAS DENTRO DE LA CAJA (asomándose con realismo) -->
-                <!-- Balón de Básquetbol naranja con líneas -->
-                <g transform="translate(68, 38)">
-                  <circle cx="16" cy="16" r="16" fill="#ea580c" stroke="#9a3412" stroke-width="1.2" />
-                  <ellipse cx="16" cy="16" rx="15" ry="7" fill="none" stroke="#431407" stroke-width="1.2" />
-                  <line x1="16" y1="0" x2="16" y2="32" stroke="#431407" stroke-width="1.2" />
-                  <text x="16" y="19" font-family="'Outfit', sans-serif" font-weight="900" font-size="6" fill="#1c1917" text-anchor="middle">NBA</text>
+                <!-- 2. CAVIDAD INTERIOR -->
+                <polygon points="76,68 140,68 140,105 76,105" fill="url(#boxInsideBack)" />
+                <polygon points="140,68 184,86 184,124 140,105" fill="url(#boxInsideLeft)" opacity="0.8" />
+                <polygon points="76,105 140,105 158,118 94,118" fill="url(#boxInsideBottom)" />
+                <polygon points="36,90 76,68 76,105 36,128" fill="url(#boxInsideLeft)" />
+
+                <!-- 3. PELOTAS DENTRO DE LA CAJA (asomándose desde la cavidad) -->
+                <!-- Básquetbol -->
+                <g transform="translate(62, 54)">
+                  <circle cx="15" cy="15" r="15" fill="#ea580c" stroke="#9a3412" stroke-width="1.2" />
+                  <ellipse cx="15" cy="15" rx="14" ry="7" fill="none" stroke="#431407" stroke-width="1.2" />
+                  <line x1="15" y1="0" x2="15" y2="30" stroke="#431407" stroke-width="1.2" />
+                  <text x="15" y="18" font-family="'Outfit', sans-serif" font-weight="900" font-size="5" fill="#1c1917" text-anchor="middle">NBA</text>
                 </g>
 
-                <!-- Balón de Fútbol blanco y negro -->
-                <g transform="translate(98, 32)">
-                  <circle cx="18" cy="18" r="18" fill="#ffffff" stroke="#0f172a" stroke-width="1.5" />
-                  <!-- Manchas pentagonales del balón -->
-                  <polygon points="18,12 24,16 22,23 14,23 12,16" fill="#0f172a" />
-                  <polygon points="18,3 22,7 18,9 14,7" fill="#0f172a" />
-                  <polygon points="31,14 34,19 30,22 27,18" fill="#0f172a" />
-                  <polygon points="5,14 2,19 6,22 9,18" fill="#0f172a" />
+                <!-- Fútbol -->
+                <g transform="translate(90, 48)">
+                  <circle cx="17" cy="17" r="17" fill="#ffffff" stroke="#0f172a" stroke-width="1.5" />
+                  <polygon points="17,11 23,15 21,22 13,22 11,15" fill="#0f172a" />
+                  <polygon points="17,3 21,6 18,8 14,6" fill="#0f172a" />
                 </g>
 
-                <!-- Balón de Voleibol blanco con curvas -->
-                <g transform="translate(134, 38)">
-                  <circle cx="15" cy="15" r="15" fill="#f1f5f9" stroke="#64748b" stroke-width="1.2" />
-                  <path d="M 5,5 Q 15,15 25,5" fill="none" stroke="#0284c7" stroke-width="1.2" />
-                  <path d="M 5,25 Q 15,15 25,25" fill="none" stroke="#eab308" stroke-width="1.2" />
-                  <line x1="15" y1="0" x2="15" y2="30" stroke="#64748b" stroke-width="1" />
+                <!-- Voleibol -->
+                <g transform="translate(124, 54)">
+                  <circle cx="14" cy="14" r="14" fill="#f1f5f9" stroke="#64748b" stroke-width="1.2" />
+                  <path d="M 4,4 Q 14,14 24,4" fill="none" stroke="#0284c7" stroke-width="1.2" />
+                  <path d="M 4,24 Q 14,14 24,24" fill="none" stroke="#eab308" stroke-width="1.2" />
                 </g>
 
-                <!-- Frente de la caja y solapas delanteras (cubren la parte baja de los balones) -->
-                <polygon points="42,66 16,80 44,94 72,78" fill="#d99c5c" stroke="#8b5321" stroke-width="0.8" />
-                <polygon points="178,66 206,80 176,96 146,78" fill="#d99c5c" stroke="#8b5321" stroke-width="0.8" />
-                <polygon points="42,66 72,78 72,136 42,122" fill="url(#cardboardSide1)" stroke="#714217" stroke-width="0.8" />
-                <polygon points="72,78 178,66 178,124 72,136" fill="url(#cardboardFront1)" stroke="#8b5321" stroke-width="0.8" />
-                <line x1="72" y1="78" x2="72" y2="136" stroke="#fed7aa" stroke-width="1" opacity="0.6" />
-                <text x="125" y="108" font-family="'Outfit', sans-serif" font-weight="900" font-style="italic" font-size="20" fill="#1c1917" text-anchor="middle" transform="rotate(-3 125 108)">Pelotas</text>
+                <!-- 4. CARAS EXTERIORES DEL CUERPO -->
+                <polygon points="36,90 94,114 94,158 36,134" fill="url(#boxLeftSide)" stroke="#592f08" stroke-width="1" />
+                <polygon points="94,114 184,86 184,130 94,158" fill="url(#boxFrontSide)" stroke="#804b16" stroke-width="1" />
+                <line x1="94" y1="114" x2="94" y2="158" stroke="#fed7aa" stroke-width="1.5" opacity="0.7" />
 
-                <!-- Pelotas afuera en el piso (igual que la diapositiva oficial) -->
-                <!-- Balón de Básquet en el suelo a la derecha -->
-                <g transform="translate(195, 96)">
-                  <ellipse cx="14" cy="24" rx="12" ry="4" fill="#000000" opacity="0.2" />
+                <!-- 5. SOLAPAS DELANTERAS ABIERTAS -->
+                <polygon points="36,90 10,108 42,122 74,104" fill="url(#boxFlapLight)" stroke="#804b16" stroke-width="1" />
+                <polygon points="94,114 130,138 214,104 184,86" fill="url(#boxFlapLight)" stroke="#804b16" stroke-width="1" />
+
+                <!-- Letrero "Pelotas" en la cara frontal -->
+                <g transform="rotate(-9.5 139 122)">
+                  <rect x="105" y="112" width="68" height="20" rx="3" fill="#ffffff" opacity="0.12" />
+                  <text x="139" y="127" font-family="'Outfit', sans-serif" font-weight="900" font-style="italic" font-size="16" fill="#1c1917" text-anchor="middle" letter-spacing="0.5">Pelotas</text>
+                </g>
+
+                <!-- 6. PELOTAS AFUERA EN EL PISO -->
+                <!-- Balón de Básquet en el piso -->
+                <g transform="translate(196, 118)">
+                  <ellipse cx="14" cy="24" rx="13" ry="5" fill="#000000" opacity="0.25" />
                   <circle cx="14" cy="14" r="14" fill="#ea580c" stroke="#9a3412" stroke-width="1.2" />
                   <ellipse cx="14" cy="14" rx="13" ry="6" fill="none" stroke="#431407" stroke-width="1" />
-                  <text x="14" y="16" font-family="'Outfit'" font-weight="900" font-size="5" fill="#1c1917" text-anchor="middle">NBA</text>
                 </g>
-
-                <!-- Pelota de vóley y fútbol en el suelo -->
-                <g transform="translate(160, 118)">
-                  <ellipse cx="12" cy="20" rx="10" ry="3" fill="#000000" opacity="0.15" />
-                  <circle cx="12" cy="12" r="12" fill="#ffffff" stroke="#0f172a" stroke-width="1.2" />
-                  <polygon points="12,8 15,10 14,14 10,14 9,10" fill="#0f172a" />
+                <!-- Pelota de vóley en el piso -->
+                <g transform="translate(164, 134)">
+                  <ellipse cx="11" cy="19" rx="10" ry="4" fill="#000000" opacity="0.2" />
+                  <circle cx="11" cy="11" r="11" fill="#f8fafc" stroke="#64748b" stroke-width="1.2" />
+                  <path d="M 3,3 Q 11,11 19,3" fill="none" stroke="#0284c7" stroke-width="1" />
                 </g>
               </svg>
             </div>
@@ -556,27 +596,39 @@
           <div class="bg-white p-5 rounded-2xl border-2 border-slate-300 flex flex-col items-center text-center shadow-sm">
             <span class="font-display font-black text-lg text-slate-700 uppercase tracking-wide mb-2">Antes</span>
             <div class="w-48 h-36 flex items-center justify-center">
-              <svg viewBox="0 0 220 160" class="w-full h-full drop-shadow-md" style="overflow: visible;">
-                <ellipse cx="110" cy="144" rx="80" ry="12" fill="#000000" opacity="0.2" />
-                <polygon points="78,54 100,22 152,26 142,54" fill="#a4682f" stroke="#714217" stroke-width="0.8" />
-                <polygon points="42,66 14,48 50,30 78,54" fill="#c6894b" stroke="#714217" stroke-width="0.8" />
-                <polygon points="42,66 78,54 142,54 178,66 152,86 66,86" fill="url(#cardboardInside1)" />
-                <polygon points="142,54 182,30 210,50 178,66" fill="url(#flapTop1)" stroke="#8b5321" stroke-width="0.8" />
-                
-                <!-- 1 pelota dentro (fútbol clásico) -->
-                <g transform="translate(95, 34)">
+              <svg viewBox="0 0 240 180" class="w-full h-full drop-shadow-md" style="overflow: visible;">
+                <ellipse cx="120" cy="160" rx="90" ry="14" fill="#0f172a" opacity="0.22" />
+                <!-- Solapas traseras -->
+                <polygon points="76,68 98,28 162,32 140,68" fill="url(#boxFlapDark)" stroke="#592f08" stroke-width="1" />
+                <polygon points="36,90 12,62 52,42 76,68" fill="url(#boxFlapDark)" stroke="#592f08" stroke-width="1" />
+                <polygon points="140,68 184,40 220,62 184,86" fill="url(#boxFlapLight)" stroke="#804b16" stroke-width="1" />
+                <!-- Cavidad Interior -->
+                <polygon points="76,68 140,68 140,105 76,105" fill="url(#boxInsideBack)" />
+                <polygon points="140,68 184,86 184,124 140,105" fill="url(#boxInsideLeft)" opacity="0.8" />
+                <polygon points="76,105 140,105 158,118 94,118" fill="url(#boxInsideBottom)" />
+                <polygon points="36,90 76,68 76,105 36,128" fill="url(#boxInsideLeft)" />
+
+                <!-- 1 pelota dentro (fútbol) -->
+                <g transform="translate(90, 48)">
                   <circle cx="17" cy="17" r="17" fill="#ffffff" stroke="#0f172a" stroke-width="1.5" />
                   <polygon points="17,11 23,15 21,22 13,22 11,15" fill="#0f172a" />
                   <polygon points="17,3 21,6 18,8 14,6" fill="#0f172a" />
                   <polygon points="29,13 32,18 28,21 25,17" fill="#0f172a" />
                 </g>
 
-                <polygon points="42,66 16,80 44,94 72,78" fill="#d99c5c" stroke="#8b5321" stroke-width="0.8" />
-                <polygon points="178,66 206,80 176,96 146,78" fill="#d99c5c" stroke="#8b5321" stroke-width="0.8" />
-                <polygon points="42,66 72,78 72,136 42,122" fill="url(#cardboardSide1)" stroke="#714217" stroke-width="0.8" />
-                <polygon points="72,78 178,66 178,124 72,136" fill="url(#cardboardFront1)" stroke="#8b5321" stroke-width="0.8" />
-                <line x1="72" y1="78" x2="72" y2="136" stroke="#fed7aa" stroke-width="1" opacity="0.6" />
-                <text x="125" y="108" font-family="'Outfit', sans-serif" font-weight="900" font-style="italic" font-size="20" fill="#1c1917" text-anchor="middle" transform="rotate(-3 125 108)">Pelotas</text>
+                <!-- Caras exteriores -->
+                <polygon points="36,90 94,114 94,158 36,134" fill="url(#boxLeftSide)" stroke="#592f08" stroke-width="1" />
+                <polygon points="94,114 184,86 184,130 94,158" fill="url(#boxFrontSide)" stroke="#804b16" stroke-width="1" />
+                <line x1="94" y1="114" x2="94" y2="158" stroke="#fed7aa" stroke-width="1.5" opacity="0.7" />
+                <!-- Solapas delanteras -->
+                <polygon points="36,90 10,108 42,122 74,104" fill="url(#boxFlapLight)" stroke="#804b16" stroke-width="1" />
+                <polygon points="94,114 130,138 214,104 184,86" fill="url(#boxFlapLight)" stroke="#804b16" stroke-width="1" />
+
+                <!-- Letrero -->
+                <g transform="rotate(-9.5 139 122)">
+                  <rect x="105" y="112" width="68" height="20" rx="3" fill="#ffffff" opacity="0.12" />
+                  <text x="139" y="127" font-family="'Outfit', sans-serif" font-weight="900" font-style="italic" font-size="16" fill="#1c1917" text-anchor="middle" letter-spacing="0.5">Pelotas</text>
+                </g>
               </svg>
             </div>
             <span class="mt-2 text-xs font-bold text-slate-500">Valor inicial: 1 pelota</span>
@@ -586,37 +638,46 @@
           <div class="bg-white p-5 rounded-2xl border-2 border-emerald-400 flex flex-col items-center text-center shadow-sm">
             <span class="font-display font-black text-lg text-emerald-800 uppercase tracking-wide mb-2">Después</span>
             <div class="w-48 h-36 flex items-center justify-center">
-              <svg viewBox="0 0 220 160" class="w-full h-full drop-shadow-md" style="overflow: visible;">
-                <ellipse cx="110" cy="144" rx="80" ry="12" fill="#000000" opacity="0.2" />
-                <polygon points="78,54 100,22 152,26 142,54" fill="#a4682f" stroke="#714217" stroke-width="0.8" />
-                <polygon points="42,66 14,48 50,30 78,54" fill="#c6894b" stroke="#714217" stroke-width="0.8" />
-                <polygon points="42,66 78,54 142,54 178,66 152,86 66,86" fill="url(#cardboardInside1)" />
-                <polygon points="142,54 182,30 210,50 178,66" fill="url(#flapTop1)" stroke="#8b5321" stroke-width="0.8" />
+              <svg viewBox="0 0 240 180" class="w-full h-full drop-shadow-md" style="overflow: visible;">
+                <ellipse cx="120" cy="160" rx="90" ry="14" fill="#0f172a" opacity="0.22" />
+                <!-- Solapas traseras -->
+                <polygon points="76,68 98,28 162,32 140,68" fill="url(#boxFlapDark)" stroke="#592f08" stroke-width="1" />
+                <polygon points="36,90 12,62 52,42 76,68" fill="url(#boxFlapDark)" stroke="#592f08" stroke-width="1" />
+                <polygon points="140,68 184,40 220,62 184,86" fill="url(#boxFlapLight)" stroke="#804b16" stroke-width="1" />
+                <!-- Cavidad Interior -->
+                <polygon points="76,68 140,68 140,105 76,105" fill="url(#boxInsideBack)" />
+                <polygon points="140,68 184,86 184,124 140,105" fill="url(#boxInsideLeft)" opacity="0.8" />
+                <polygon points="76,105 140,105 158,118 94,118" fill="url(#boxInsideBottom)" />
+                <polygon points="36,90 76,68 76,105 36,128" fill="url(#boxInsideLeft)" />
 
-                <!-- 3 pelotas dentro (básquet, fútbol, vóley) -->
-                <!-- Básquet -->
-                <g transform="translate(68, 38)">
+                <!-- 3 pelotas dentro -->
+                <g transform="translate(62, 54)">
                   <circle cx="15" cy="15" r="15" fill="#ea580c" stroke="#9a3412" stroke-width="1.2" />
                   <ellipse cx="15" cy="15" rx="14" ry="7" fill="none" stroke="#431407" stroke-width="1.2" />
                   <text x="15" y="18" font-family="'Outfit'" font-weight="900" font-size="5" fill="#1c1917" text-anchor="middle">NBA</text>
                 </g>
-                <!-- Fútbol -->
-                <g transform="translate(96, 32)">
+                <g transform="translate(90, 48)">
                   <circle cx="17" cy="17" r="17" fill="#ffffff" stroke="#0f172a" stroke-width="1.5" />
                   <polygon points="17,11 23,15 21,22 13,22 11,15" fill="#0f172a" />
                 </g>
-                <!-- Vóley -->
-                <g transform="translate(130, 38)">
+                <g transform="translate(124, 54)">
                   <circle cx="14" cy="14" r="14" fill="#f1f5f9" stroke="#64748b" stroke-width="1.2" />
                   <path d="M 4,4 Q 14,14 24,4" fill="none" stroke="#0284c7" stroke-width="1.2" />
                 </g>
 
-                <polygon points="42,66 16,80 44,94 72,78" fill="#d99c5c" stroke="#8b5321" stroke-width="0.8" />
-                <polygon points="178,66 206,80 176,96 146,78" fill="#d99c5c" stroke="#8b5321" stroke-width="0.8" />
-                <polygon points="42,66 72,78 72,136 42,122" fill="url(#cardboardSide1)" stroke="#714217" stroke-width="0.8" />
-                <polygon points="72,78 178,66 178,124 72,136" fill="url(#cardboardFront1)" stroke="#8b5321" stroke-width="0.8" />
-                <line x1="72" y1="78" x2="72" y2="136" stroke="#fed7aa" stroke-width="1" opacity="0.6" />
-                <text x="125" y="108" font-family="'Outfit', sans-serif" font-weight="900" font-style="italic" font-size="20" fill="#1c1917" text-anchor="middle" transform="rotate(-3 125 108)">Pelotas</text>
+                <!-- Caras exteriores -->
+                <polygon points="36,90 94,114 94,158 36,134" fill="url(#boxLeftSide)" stroke="#592f08" stroke-width="1" />
+                <polygon points="94,114 184,86 184,130 94,158" fill="url(#boxFrontSide)" stroke="#804b16" stroke-width="1" />
+                <line x1="94" y1="114" x2="94" y2="158" stroke="#fed7aa" stroke-width="1.5" opacity="0.7" />
+                <!-- Solapas delanteras -->
+                <polygon points="36,90 10,108 42,122 74,104" fill="url(#boxFlapLight)" stroke="#804b16" stroke-width="1" />
+                <polygon points="94,114 130,138 214,104 184,86" fill="url(#boxFlapLight)" stroke="#804b16" stroke-width="1" />
+
+                <!-- Letrero -->
+                <g transform="rotate(-9.5 139 122)">
+                  <rect x="105" y="112" width="68" height="20" rx="3" fill="#ffffff" opacity="0.12" />
+                  <text x="139" y="127" font-family="'Outfit', sans-serif" font-weight="900" font-style="italic" font-size="16" fill="#1c1917" text-anchor="middle" letter-spacing="0.5">Pelotas</text>
+                </g>
               </svg>
             </div>
             <span class="mt-2 text-xs font-bold text-emerald-700">Valor final: 3 pelotas</span>
@@ -686,19 +747,31 @@
           <div class="bg-slate-50 border-2 border-dashed border-emerald-300 rounded-2xl p-4 flex flex-col items-center min-h-[160px]">
             <span class="font-display font-bold text-xs text-slate-500 uppercase">Caja Vacía</span>
             <div class="w-48 h-36 my-2 flex items-center justify-center">
-              <svg viewBox="0 0 220 160" class="w-full h-full drop-shadow-md" style="overflow: visible;">
-                <ellipse cx="110" cy="144" rx="80" ry="12" fill="#000000" opacity="0.2" />
-                <polygon points="78,54 100,22 152,26 142,54" fill="#a4682f" stroke="#714217" stroke-width="0.8" />
-                <polygon points="42,66 14,48 50,30 78,54" fill="#c6894b" stroke="#714217" stroke-width="0.8" />
-                <polygon points="42,66 78,54 142,54 178,66 152,86 66,86" fill="url(#cardboardInside1)" />
-                <polygon points="142,54 182,30 210,50 178,66" fill="url(#flapTop1)" stroke="#8b5321" stroke-width="0.8" />
+              <svg viewBox="0 0 240 180" class="w-full h-full drop-shadow-md" style="overflow: visible;">
+                <ellipse cx="120" cy="160" rx="90" ry="14" fill="#0f172a" opacity="0.22" />
+                <!-- Solapas traseras -->
+                <polygon points="76,68 98,28 162,32 140,68" fill="url(#boxFlapDark)" stroke="#592f08" stroke-width="1" />
+                <polygon points="36,90 12,62 52,42 76,68" fill="url(#boxFlapDark)" stroke="#592f08" stroke-width="1" />
+                <polygon points="140,68 184,40 220,62 184,86" fill="url(#boxFlapLight)" stroke="#804b16" stroke-width="1" />
+                <!-- Cavidad Interior -->
+                <polygon points="76,68 140,68 140,105 76,105" fill="url(#boxInsideBack)" />
+                <polygon points="140,68 184,86 184,124 140,105" fill="url(#boxInsideLeft)" opacity="0.8" />
+                <polygon points="76,105 140,105 158,118 94,118" fill="url(#boxInsideBottom)" />
+                <polygon points="36,90 76,68 76,105 36,128" fill="url(#boxInsideLeft)" />
 
-                <polygon points="42,66 16,80 44,94 72,78" fill="#d99c5c" stroke="#8b5321" stroke-width="0.8" />
-                <polygon points="178,66 206,80 176,96 146,78" fill="#d99c5c" stroke="#8b5321" stroke-width="0.8" />
-                <polygon points="42,66 72,78 72,136 42,122" fill="url(#cardboardSide1)" stroke="#714217" stroke-width="0.8" />
-                <polygon points="72,78 178,66 178,124 72,136" fill="url(#cardboardFront1)" stroke="#8b5321" stroke-width="0.8" />
-                <line x1="72" y1="78" x2="72" y2="136" stroke="#fed7aa" stroke-width="1" opacity="0.6" />
-                <text x="125" y="108" font-family="'Outfit', sans-serif" font-weight="900" font-style="italic" font-size="20" fill="#1c1917" text-anchor="middle" transform="rotate(-3 125 108)">Pelotas</text>
+                <!-- Caras exteriores -->
+                <polygon points="36,90 94,114 94,158 36,134" fill="url(#boxLeftSide)" stroke="#592f08" stroke-width="1" />
+                <polygon points="94,114 184,86 184,130 94,158" fill="url(#boxFrontSide)" stroke="#804b16" stroke-width="1" />
+                <line x1="94" y1="114" x2="94" y2="158" stroke="#fed7aa" stroke-width="1.5" opacity="0.7" />
+                <!-- Solapas delanteras -->
+                <polygon points="36,90 10,108 42,122 74,104" fill="url(#boxFlapLight)" stroke="#804b16" stroke-width="1" />
+                <polygon points="94,114 130,138 214,104 184,86" fill="url(#boxFlapLight)" stroke="#804b16" stroke-width="1" />
+
+                <!-- Letrero -->
+                <g transform="rotate(-9.5 139 122)">
+                  <rect x="105" y="112" width="68" height="20" rx="3" fill="#ffffff" opacity="0.12" />
+                  <text x="139" y="127" font-family="'Outfit', sans-serif" font-weight="900" font-style="italic" font-size="16" fill="#1c1917" text-anchor="middle" letter-spacing="0.5">Pelotas</text>
+                </g>
               </svg>
             </div>
             <div class="scratch-block">
@@ -722,44 +795,51 @@
           <div class="bg-rose-50/70 border-2 border-dashed border-rose-300 rounded-2xl p-4 flex flex-col items-center min-h-[160px]">
             <span class="font-display font-bold text-xs text-rose-700 uppercase">❌ No puede suceder</span>
             <div class="w-48 h-36 my-2 flex items-center justify-center">
-              <svg viewBox="0 0 220 160" class="w-full h-full drop-shadow-md" style="overflow: visible;">
-                <ellipse cx="110" cy="144" rx="80" ry="12" fill="#000000" opacity="0.2" />
-                <polygon points="78,54 100,22 152,26 142,54" fill="#a4682f" stroke="#714217" stroke-width="0.8" />
-                <polygon points="42,66 14,48 50,30 78,54" fill="#c6894b" stroke="#714217" stroke-width="0.8" />
-                <polygon points="42,66 78,54 142,54 178,66 152,86 66,86" fill="url(#cardboardInside1)" />
-                <polygon points="142,54 182,30 210,50 178,66" fill="url(#flapTop1)" stroke="#8b5321" stroke-width="0.8" />
+              <svg viewBox="0 0 240 180" class="w-full h-full drop-shadow-md" style="overflow: visible;">
+                <ellipse cx="120" cy="160" rx="90" ry="14" fill="#0f172a" opacity="0.22" />
+                <!-- Solapas traseras -->
+                <polygon points="76,68 98,28 162,32 140,68" fill="url(#boxFlapDark)" stroke="#592f08" stroke-width="1" />
+                <polygon points="36,90 12,62 52,42 76,68" fill="url(#boxFlapDark)" stroke="#592f08" stroke-width="1" />
+                <polygon points="140,68 184,40 220,62 184,86" fill="url(#boxFlapLight)" stroke="#804b16" stroke-width="1" />
+                <!-- Cavidad Interior -->
+                <polygon points="76,68 140,68 140,105 76,105" fill="url(#boxInsideBack)" />
+                <polygon points="140,68 184,86 184,124 140,105" fill="url(#boxInsideLeft)" opacity="0.8" />
+                <polygon points="76,105 140,105 158,118 94,118" fill="url(#boxInsideBottom)" />
+                <polygon points="36,90 76,68 76,105 36,128" fill="url(#boxInsideLeft)" />
 
                 <!-- Pelotas dentro -->
-                <circle cx="75" cy="52" r="14" fill="#ea580c" stroke="#9a3412" stroke-width="1.2" />
-                <circle cx="95" cy="48" r="15" fill="#ffffff" stroke="#0f172a" stroke-width="1.2" />
+                <circle cx="68" cy="68" r="14" fill="#ea580c" stroke="#9a3412" stroke-width="1.2" />
+                <circle cx="92" cy="62" r="15" fill="#ffffff" stroke="#0f172a" stroke-width="1.2" />
 
-                <!-- Serrucho con mango naranja (fiel a la diapositiva) -->
-                <g transform="translate(110, 15) rotate(-5)">
-                  <!-- Hoja metálica -->
+                <!-- Serrucho con mango naranja asomándose de la caja -->
+                <g transform="translate(108, 25) rotate(-8)">
                   <polygon points="6,35 18,35 16,5 8,12 8,35" fill="#e2e8f0" stroke="#94a3b8" stroke-width="0.8" />
-                  <!-- Dientes del serrucho -->
                   <polygon points="6,35 4,32 6,29 4,26 6,23 4,20 6,17 4,14 6,11 8,12" fill="#cbd5e1" />
-                  <!-- Mango naranja ergonómico -->
                   <path d="M 8,20 Q 22,18 20,38 Q 8,40 8,28 Z" fill="#ea580c" stroke="#9a3412" stroke-width="1" />
                   <circle cx="14" cy="30" r="3" fill="#ffffff" />
                 </g>
 
-                <!-- Martillo con cabeza gris (fiel a la diapositiva) -->
-                <g transform="translate(138, 12) rotate(10)">
-                  <!-- Mango de madera/metal -->
+                <!-- Martillo con cabeza gris asomándose de la caja -->
+                <g transform="translate(136, 22) rotate(12)">
                   <rect x="12" y="16" width="5" height="42" rx="1.5" fill="#64748b" stroke="#334155" stroke-width="0.8" />
-                  <!-- Cabeza metálica de martillo -->
                   <rect x="3" y="12" width="23" height="9" rx="2" fill="#334155" />
                   <polygon points="3,12 0,14 0,19 3,21" fill="#475569" />
                   <path d="M 26,13 Q 31,16 29,22 L 26,20 Z" fill="#475569" />
                 </g>
 
-                <polygon points="42,66 16,80 44,94 72,78" fill="#d99c5c" stroke="#8b5321" stroke-width="0.8" />
-                <polygon points="178,66 206,80 176,96 146,78" fill="#d99c5c" stroke="#8b5321" stroke-width="0.8" />
-                <polygon points="42,66 72,78 72,136 42,122" fill="url(#cardboardSide1)" stroke="#714217" stroke-width="0.8" />
-                <polygon points="72,78 178,66 178,124 72,136" fill="url(#cardboardFront1)" stroke="#8b5321" stroke-width="0.8" />
-                <line x1="72" y1="78" x2="72" y2="136" stroke="#fed7aa" stroke-width="1" opacity="0.6" />
-                <text x="125" y="108" font-family="'Outfit', sans-serif" font-weight="900" font-style="italic" font-size="20" fill="#1c1917" text-anchor="middle" transform="rotate(-3 125 108)">Pelotas</text>
+                <!-- Caras exteriores -->
+                <polygon points="36,90 94,114 94,158 36,134" fill="url(#boxLeftSide)" stroke="#592f08" stroke-width="1" />
+                <polygon points="94,114 184,86 184,130 94,158" fill="url(#boxFrontSide)" stroke="#804b16" stroke-width="1" />
+                <line x1="94" y1="114" x2="94" y2="158" stroke="#fed7aa" stroke-width="1.5" opacity="0.7" />
+                <!-- Solapas delanteras -->
+                <polygon points="36,90 10,108 42,122 74,104" fill="url(#boxFlapLight)" stroke="#804b16" stroke-width="1" />
+                <polygon points="94,114 130,138 214,104 184,86" fill="url(#boxFlapLight)" stroke="#804b16" stroke-width="1" />
+
+                <!-- Letrero -->
+                <g transform="rotate(-9.5 139 122)">
+                  <rect x="105" y="112" width="68" height="20" rx="3" fill="#ffffff" opacity="0.12" />
+                  <text x="139" y="127" font-family="'Outfit', sans-serif" font-weight="900" font-style="italic" font-size="16" fill="#1c1917" text-anchor="middle" letter-spacing="0.5">Pelotas</text>
+                </g>
               </svg>
             </div>
             <span class="text-xs font-bold text-rose-700 bg-white px-3 py-1 rounded-full border border-rose-200">
@@ -802,27 +882,38 @@
             <div class="relative w-64 h-48 flex items-center justify-center">
               
               <!-- Capa trasera e interior de la caja (Fondo y solapas traseras) -->
-              <svg viewBox="0 0 220 160" class="absolute inset-0 w-full h-full" style="overflow: visible;">
-                <ellipse cx="110" cy="144" rx="80" ry="12" fill="#000000" opacity="0.2" />
-                <polygon points="78,54 100,22 152,26 142,54" fill="#a4682f" stroke="#714217" stroke-width="0.8" />
-                <polygon points="42,66 14,48 50,30 78,54" fill="#c6894b" stroke="#714217" stroke-width="0.8" />
-                <polygon points="42,66 78,54 142,54 178,66 152,86 66,86" fill="url(#cardboardInside1)" />
-                <polygon points="142,54 182,30 210,50 178,66" fill="url(#flapTop1)" stroke="#8b5321" stroke-width="0.8" />
+              <svg viewBox="0 0 240 180" class="absolute inset-0 w-full h-full" style="overflow: visible;">
+                <ellipse cx="120" cy="160" rx="90" ry="14" fill="#0f172a" opacity="0.22" />
+                <polygon points="76,68 98,28 162,32 140,68" fill="url(#boxFlapDark)" stroke="#592f08" stroke-width="1" />
+                <polygon points="36,90 12,62 52,42 76,68" fill="url(#boxFlapDark)" stroke="#592f08" stroke-width="1" />
+                <polygon points="140,68 184,40 220,62 184,86" fill="url(#boxFlapLight)" stroke="#804b16" stroke-width="1" />
+                <!-- Cavidad Interior -->
+                <polygon points="76,68 140,68 140,105 76,105" fill="url(#boxInsideBack)" />
+                <polygon points="140,68 184,86 184,124 140,105" fill="url(#boxInsideLeft)" opacity="0.8" />
+                <polygon points="76,105 140,105 158,118 94,118" fill="url(#boxInsideBottom)" />
+                <polygon points="36,90 76,68 76,105 36,128" fill="url(#boxInsideLeft)" />
               </svg>
 
               <!-- Contenedor animado de pelotas dentro de la cavidad de la caja -->
-              <div id="balls-inside-container" class="absolute top-12 left-10 right-10 h-16 flex flex-wrap justify-center items-center gap-1 z-10 overflow-hidden pointer-events-none">
+              <div id="balls-inside-container" class="absolute top-14 left-12 right-12 h-16 flex flex-wrap justify-center items-center gap-1.5 z-10 overflow-hidden pointer-events-none">
                 <!-- Las pelotas se agregan dinámicamente aquí -->
               </div>
 
               <!-- Capa frontal de la caja (Solapas delanteras y cara frontal con "Pelotas") -->
-              <svg viewBox="0 0 220 160" class="absolute inset-0 w-full h-full z-20 pointer-events-none" style="overflow: visible;">
-                <polygon points="42,66 16,80 44,94 72,78" fill="#d99c5c" stroke="#8b5321" stroke-width="0.8" />
-                <polygon points="178,66 206,80 176,96 146,78" fill="#d99c5c" stroke="#8b5321" stroke-width="0.8" />
-                <polygon points="42,66 72,78 72,136 42,122" fill="url(#cardboardSide1)" stroke="#714217" stroke-width="0.8" />
-                <polygon points="72,78 178,66 178,124 72,136" fill="url(#cardboardFront1)" stroke="#8b5321" stroke-width="0.8" />
-                <line x1="72" y1="78" x2="72" y2="136" stroke="#fed7aa" stroke-width="1" opacity="0.6" />
-                <text x="125" y="108" font-family="'Outfit', sans-serif" font-weight="900" font-style="italic" font-size="20" fill="#1c1917" text-anchor="middle" transform="rotate(-3 125 108)">Pelotas</text>
+              <svg viewBox="0 0 240 180" class="absolute inset-0 w-full h-full z-20 pointer-events-none" style="overflow: visible;">
+                <!-- Caras exteriores -->
+                <polygon points="36,90 94,114 94,158 36,134" fill="url(#boxLeftSide)" stroke="#592f08" stroke-width="1" />
+                <polygon points="94,114 184,86 184,130 94,158" fill="url(#boxFrontSide)" stroke="#804b16" stroke-width="1" />
+                <line x1="94" y1="114" x2="94" y2="158" stroke="#fed7aa" stroke-width="1.5" opacity="0.7" />
+                <!-- Solapas delanteras -->
+                <polygon points="36,90 10,108 42,122 74,104" fill="url(#boxFlapLight)" stroke="#804b16" stroke-width="1" />
+                <polygon points="94,114 130,138 214,104 184,86" fill="url(#boxFlapLight)" stroke="#804b16" stroke-width="1" />
+
+                <!-- Letrero -->
+                <g transform="rotate(-9.5 139 122)">
+                  <rect x="105" y="112" width="68" height="20" rx="3" fill="#ffffff" opacity="0.12" />
+                  <text x="139" y="127" font-family="'Outfit', sans-serif" font-weight="900" font-style="italic" font-size="16" fill="#1c1917" text-anchor="middle" letter-spacing="0.5">Pelotas</text>
+                </g>
               </svg>
             </div>
 

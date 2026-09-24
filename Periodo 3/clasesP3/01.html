@@ -82,18 +82,26 @@
     <div class="max-w-6xl mx-auto px-4 py-2.5 flex flex-wrap items-center justify-between gap-3">
       
       <!-- Volver y Grado -->
-      <div class="flex items-center space-x-3">
-        <a href="../periodo3.html" class="inline-flex items-center gap-1.5 bg-emerald-950/80 hover:bg-emerald-950 border-2 border-white/40 text-white text-xs sm:text-sm font-black px-3.5 py-1.5 rounded-2xl transition shadow transform active:scale-95" title="Volver al menú de Periodo 3">
+      <div class="flex items-center space-x-2 sm:space-x-3">
+        <!-- Volver a Periodo 3 (cuando estás en menú de módulos) -->
+        <a id="header-btn-p3" href="../periodo3.html" class="inline-flex items-center gap-1.5 bg-emerald-950/80 hover:bg-emerald-950 border-2 border-white/40 text-white text-xs sm:text-sm font-black px-3.5 py-1.5 rounded-2xl transition shadow transform active:scale-95" title="Volver al menú de Periodo 3">
           <span>🏠</span> <span>← Volver al Periodo 3</span>
         </a>
+
+        <!-- Volver a Módulos (cuando estás dentro de un módulo) -->
+        <button id="header-btn-modules" onclick="backToModules()" class="hidden items-center gap-1.5 bg-amber-400 hover:bg-amber-300 text-slate-900 border-2 border-white text-xs sm:text-sm font-black px-3.5 py-1.5 rounded-2xl transition shadow transform active:scale-95" title="Volver a la selección de Módulos">
+          <span>← Volver a los Módulos</span>
+        </button>
+
         <div class="bg-amber-400 text-slate-900 border-2 border-white px-3 py-0.5 rounded-xl shadow-inner flex items-center font-black">
           <span class="text-[11px] sm:text-xs uppercase tracking-wider">1° GRADO &bull; P3</span>
         </div>
-        <div>
+        <div class="flex items-center gap-2">
           <h1 class="font-display font-extrabold text-base sm:text-xl text-white tracking-wide flex items-center gap-2">
             <img src="../../assets/jandra/J1.svg" alt="Jandra" class="w-7 h-7 rounded-full bg-white/20 p-0.5 object-cover">
             <span>Mundo Jandra</span>
           </h1>
+          <span id="header-module-badge" class="hidden text-xs font-black bg-white/20 border border-white/30 px-2.5 py-0.5 rounded-lg text-amber-200"></span>
         </div>
       </div>
 
@@ -138,149 +146,221 @@
         </p>
       </div>
 
-      <!-- TARJETA DE MÓDULO (MÓDULO 1: BLOQUES DE DIRECCIÓN) -->
-      <div class="flex justify-center w-full max-w-xl">
+      <!-- TARJETAS DE LOS 2 MÓDULOS (PRIMERA Y SEGUNDA MITAD DEL PERIODO) -->
+      <div class="grid grid-cols-1 md:grid-cols-2 gap-6 w-full max-w-4xl">
 
-        <!-- TARJETA MÓDULO 1: BLOQUES DE DIRECCIÓN -->
-        <div onclick="openModule(1)" class="module-card cursor-pointer bg-white rounded-3xl p-6 sm:p-8 border-4 border-emerald-500 shadow-xl flex flex-col justify-between relative overflow-hidden group w-full">
-          <div class="absolute top-4 right-4 bg-emerald-100 text-emerald-800 font-black text-xs px-3 py-1 rounded-full border border-emerald-300">
-            ✨ Habilitado &bull; 4 Clases
+        <!-- TARJETA MÓDULO 1: PRIMERA MITAD (HABILITADO) -->
+        <div onclick="openModule(1)" class="module-card cursor-pointer bg-white rounded-3xl p-6 sm:p-7 border-4 border-emerald-500 shadow-xl flex flex-col justify-between relative overflow-hidden group hover:border-emerald-600 transition">
+          <div class="absolute top-4 right-4 bg-emerald-100 text-emerald-800 font-black text-xs px-3 py-1 rounded-full border border-emerald-300 flex items-center gap-1">
+            <span>✨</span> <span>1ª Mitad &bull; 2 Sesiones</span>
           </div>
           
           <div>
-            <div class="w-20 h-20 bg-emerald-100 rounded-3xl flex items-center justify-center text-5xl mb-4 group-hover:scale-110 transition border-2 border-emerald-300 shadow-inner">
+            <div class="w-16 h-16 bg-emerald-100 rounded-2xl flex items-center justify-center text-4xl mb-3 group-hover:scale-110 transition border-2 border-emerald-300 shadow-inner">
               🧭
             </div>
-            <span class="text-xs font-black uppercase text-emerald-600 tracking-wider">MÓDULO 1</span>
-            <h3 class="font-display font-black text-2xl sm:text-3xl text-slate-800 mt-1">
-              Bloques de Dirección
+            <span class="text-xs font-black uppercase text-emerald-600 tracking-wider">MÓDULO 1 &bull; PRIMERA MITAD</span>
+            <h3 class="font-display font-black text-2xl text-slate-800 mt-0.5">
+              Primeros Pasos con Flechas
             </h3>
             <p class="text-slate-600 text-xs sm:text-sm mt-2 leading-relaxed">
-              Aprende a programar los pasos de los animales con flechas: <strong>Coty la Llama</strong>, <strong>Duba el Puma</strong>, <strong>Lita la Mulita</strong> y resolución de problemas.
+              Aprende a guiar a nuestros amigos animales paso a paso usando las flechas de dirección y el botón pintar.
             </p>
+
+            <!-- Mini desglose de sesiones y conceptos para 1° -->
+            <div class="mt-4 space-y-2 bg-emerald-50/70 p-3 rounded-2xl border border-emerald-200 text-xs">
+              <div class="flex items-center gap-2">
+                <span class="text-lg">🦙</span>
+                <div>
+                  <span class="font-black text-emerald-950">Sesión 1: Coty, la Llama</span>
+                  <p class="text-[11px] text-slate-600">Concepto: Flechas de dirección ⬆️⬇️➡️⬅️ y Pintar 🎨</p>
+                </div>
+              </div>
+              <div class="flex items-center gap-2 pt-2 border-t border-emerald-100">
+                <span class="text-lg">🐆</span>
+                <div>
+                  <span class="font-black text-emerald-950">Sesión 2: Duba, el Puma</span>
+                  <p class="text-[11px] text-slate-600">Concepto: Secuencias ordenadas y comer churrasco 🥩</p>
+                </div>
+              </div>
+            </div>
           </div>
 
-          <div class="mt-6 pt-4 border-t border-emerald-100 flex items-center justify-between">
-            <span class="text-xs font-bold text-emerald-800 flex items-center gap-1.5">
-              <span>🦙</span> <span>Clase activa: Coty la Llama</span>
+          <div class="mt-5 pt-3 border-t border-emerald-100 flex items-center justify-between">
+            <span class="text-xs font-bold text-emerald-700 flex items-center gap-1">
+              <span>🌟</span> <span>Sesión activa: Coty</span>
             </span>
             <span class="bg-emerald-600 group-hover:bg-emerald-700 text-white font-display font-black text-xs px-4 py-2 rounded-xl shadow transition inline-flex items-center gap-1">
-              <span>Entrar al Módulo</span> ➜
+              <span>Entrar al Módulo 1</span> ➜
             </span>
           </div>
         </div>
 
-        <!-- TARJETA MÓDULO 2: PATRONES (Oculto temporalmente) -->
-        <!--
-        <div onclick="openModule(2)" class="module-card cursor-pointer bg-white rounded-3xl p-6 sm:p-8 border-4 border-amber-400 shadow-xl flex flex-col justify-between relative overflow-hidden group">
-          <div class="absolute top-4 right-4 bg-amber-100 text-amber-900 font-black text-xs px-3 py-1 rounded-full border border-amber-300">
-            🔒 3 Clases
+        <!-- TARJETA MÓDULO 2: SEGUNDA MITAD (PRÓXIMAMENTE) -->
+        <div onclick="openModule(2)" class="module-card cursor-pointer bg-white rounded-3xl p-6 sm:p-7 border-4 border-amber-400 shadow-xl flex flex-col justify-between relative overflow-hidden group hover:border-amber-500 transition">
+          <div class="absolute top-4 right-4 bg-amber-100 text-amber-900 font-black text-xs px-3 py-1 rounded-full border border-amber-300 flex items-center gap-1">
+            <span>🔒</span> <span>2ª Mitad &bull; 2 Sesiones</span>
           </div>
+          
           <div>
-            <div class="w-20 h-20 bg-amber-100 rounded-3xl flex items-center justify-center text-5xl mb-4 group-hover:scale-110 transition border-2 border-amber-300 shadow-inner">
-              🧩
+            <div class="w-16 h-16 bg-amber-100 rounded-2xl flex items-center justify-center text-4xl mb-3 group-hover:scale-110 transition border-2 border-amber-300 shadow-inner">
+              🏆
             </div>
-            <span class="text-xs font-black uppercase text-amber-700 tracking-wider">MÓDULO 2</span>
-            <h3 class="font-display font-black text-2xl sm:text-3xl text-slate-800 mt-1">
-              Patrones
+            <span class="text-xs font-black uppercase text-amber-700 tracking-wider">MÓDULO 2 &bull; SEGUNDA MITAD</span>
+            <h3 class="font-display font-black text-2xl text-slate-800 mt-0.5">
+              Misiones y Retos Finales
             </h3>
             <p class="text-slate-600 text-xs sm:text-sm mt-2 leading-relaxed">
-              Descubre qué figura o color sigue en una secuencia lógica: <strong>Patrones</strong>, <strong>Mensajes Secretos</strong> y el <strong>Código Murciélago</strong>.
+              ¡Conviértete en un súper explorador! Esquiva obstáculos en el camino y resuelve grandes acertijos.
             </p>
+
+            <!-- Mini desglose de sesiones y conceptos para 1° -->
+            <div class="mt-4 space-y-2 bg-amber-50/70 p-3 rounded-2xl border border-amber-200 text-xs">
+              <div class="flex items-center gap-2">
+                <span class="text-lg">🦔</span>
+                <div>
+                  <span class="font-black text-amber-950">Sesión 3: Lita, la Mulita</span>
+                  <p class="text-[11px] text-slate-600">Concepto: Esquivar obstáculos y recolectar comida 🪨</p>
+                </div>
+              </div>
+              <div class="flex items-center gap-2 pt-2 border-t border-amber-100">
+                <span class="text-lg">🧩</span>
+                <div>
+                  <span class="font-black text-amber-950">Sesión 4: Gran Desafío Final</span>
+                  <p class="text-[11px] text-slate-600">Concepto: Resolver problemas y laberintos completos 🧠</p>
+                </div>
+              </div>
+            </div>
           </div>
-          <div class="mt-6 pt-4 border-t border-amber-100 flex items-center justify-between">
-            <span class="text-xs font-bold text-amber-800 flex items-center gap-1.5">
-              <span>🔍</span> <span>3 Clases preparadas</span>
+
+          <div class="mt-5 pt-3 border-t border-amber-100 flex items-center justify-between">
+            <span class="text-xs font-bold text-amber-800 flex items-center gap-1">
+              <span>⏳</span> <span>Disponible en la 2ª mitad</span>
             </span>
             <span class="bg-amber-500 group-hover:bg-amber-600 text-white font-display font-black text-xs px-4 py-2 rounded-xl shadow transition inline-flex items-center gap-1">
-              <span>Entrar</span> ➜
+              <span>Ver Módulo 2</span> ➜
             </span>
           </div>
         </div>
-        -->
 
       </div>
 
     </div>
 
     <!-- ======================================================================= -->
-    <!-- VISTA 2: DENTRO DE MÓDULO 1: BLOQUES DE DIRECCIÓN (4 CLASES)             -->
+    <!-- VISTA 2: DENTRO DE MÓDULO 1: PRIMERA MITAD (2 SESIONES)                 -->
     <!-- ======================================================================= -->
     <div id="view-module-1" class="w-full hidden flex-col items-center animate-pop">
-      
-      <!-- Barra de Navegación del Módulo 1 -->
-      <div class="w-full max-w-4xl flex items-center justify-between gap-3 mb-6 bg-white/90 p-3 rounded-2xl border-2 border-emerald-300 shadow-sm">
-        <button onclick="backToModules()" class="bg-emerald-100 hover:bg-emerald-200 text-emerald-950 font-display font-black text-xs sm:text-sm px-4 py-2 rounded-xl transition flex items-center gap-1.5 shadow-sm">
-          <span>← Volver a los Módulos</span>
-        </button>
-        <div class="font-display font-black text-xs sm:text-sm text-emerald-900 flex items-center gap-1.5">
-          <span>🧭 MÓDULO 1:</span> <span class="text-slate-700">BLOQUES DE DIRECCIÓN</span>
-        </div>
-      </div>
 
-      <!-- Selector de las 4 Clases de Módulo 1 -->
+      <!-- Selector de las 2 Sesiones de Módulo 1 -->
       <div class="w-full max-w-4xl mb-6">
         <div class="text-xs uppercase font-extrabold text-slate-500 tracking-wider mb-2 flex items-center justify-between">
-          <span class="flex items-center gap-1.5"><span>📚</span> <span>Selecciona una Clase:</span></span>
-          <span class="text-emerald-700 font-bold">4 Clases</span>
+          <span class="flex items-center gap-1.5"><span>📚</span> <span>Selecciona la Sesión de la 1ª Mitad:</span></span>
+          <span class="text-emerald-700 font-bold">2 Sesiones</span>
         </div>
 
-        <div class="grid grid-cols-2 sm:grid-cols-4 gap-2.5 sm:gap-3">
+        <div class="grid grid-cols-1 sm:grid-cols-2 gap-3">
           
-          <!-- Botón Clase 1: Coty -->
-          <button id="btn-m1-class-coty" onclick="switchM1Class('coty')" class="class-card active-class bg-white border-2 border-emerald-500 text-emerald-950 p-3 rounded-2xl shadow-md transition flex flex-col items-center text-center">
-            <span class="text-2xl mb-1">🦙</span>
-            <span class="font-display font-black text-xs">CLASE 1</span>
-            <span class="text-[11px] text-slate-800 font-bold">Coty, la Llama</span>
-            <span class="mt-1 bg-emerald-100 text-emerald-800 text-[9px] font-black px-2 py-0.5 rounded-full">✨ Habilitada</span>
+          <!-- Botón Sesión 1: Coty -->
+          <button id="btn-m1-class-coty" onclick="switchM1Class('coty')" class="class-card active-class bg-white border-2 border-emerald-500 text-emerald-950 p-4 rounded-2xl shadow-md transition flex flex-col items-center text-center">
+            <span class="text-3xl mb-1">🦙</span>
+            <span class="font-display font-black text-xs uppercase text-emerald-700">SESIÓN 1</span>
+            <span class="text-sm text-slate-800 font-black">Coty, la Llama</span>
+            <span class="text-[11px] text-slate-500 font-semibold mt-0.5">Flechas de Dirección y Pintar 🎨</span>
+            <span class="mt-2 bg-emerald-100 text-emerald-800 text-[10px] font-black px-2.5 py-0.5 rounded-full">✨ Habilitada</span>
           </button>
 
-          <!-- Botón Clase 2: Duba -->
-          <button id="btn-m1-class-duba" onclick="switchM1Class('duba')" class="class-card bg-white/80 border-2 border-slate-200 text-slate-700 p-3 rounded-2xl shadow-sm hover:border-amber-400 hover:bg-white transition flex flex-col items-center text-center">
-            <span class="text-2xl mb-1">🐆</span>
-            <span class="font-display font-black text-xs">CLASE 2</span>
-            <span class="text-[11px] text-slate-700 font-bold">Duba, el Puma</span>
-            <span class="mt-1 bg-slate-100 text-slate-500 text-[9px] font-bold px-2 py-0.5 rounded-full">🔒 Próximamente</span>
-          </button>
-
-          <!-- Botón Clase 3: Lita -->
-          <button id="btn-m1-class-lita" onclick="switchM1Class('lita')" class="class-card bg-white/80 border-2 border-slate-200 text-slate-700 p-3 rounded-2xl shadow-sm hover:border-teal-400 hover:bg-white transition flex flex-col items-center text-center">
-            <span class="text-2xl mb-1">🦔</span>
-            <span class="font-display font-black text-xs">CLASE 3</span>
-            <span class="text-[11px] text-slate-700 font-bold">Lita, la Mulita</span>
-            <span class="mt-1 bg-slate-100 text-slate-500 text-[9px] font-bold px-2 py-0.5 rounded-full">🔒 Próximamente</span>
-          </button>
-
-          <!-- Botón Clase 4: Problemas -->
-          <button id="btn-m1-class-problemas" onclick="switchM1Class('problemas')" class="class-card bg-white/80 border-2 border-slate-200 text-slate-700 p-3 rounded-2xl shadow-sm hover:border-indigo-400 hover:bg-white transition flex flex-col items-center text-center">
-            <span class="text-2xl mb-1">🧩</span>
-            <span class="font-display font-black text-xs">CLASE 4</span>
-            <span class="text-[11px] text-slate-700 font-bold">Problemas</span>
-            <span class="mt-1 bg-slate-100 text-slate-500 text-[9px] font-bold px-2 py-0.5 rounded-full">🔒 Próximamente</span>
+          <!-- Botón Sesión 2: Duba el Puma -->
+          <button id="btn-m1-class-duba" onclick="switchM1Class('duba')" class="class-card bg-white/80 border-2 border-slate-200 text-slate-700 p-4 rounded-2xl shadow-sm hover:border-amber-400 hover:bg-white transition flex flex-col items-center text-center">
+            <span class="text-3xl mb-1">🐆</span>
+            <span class="font-display font-black text-xs uppercase text-amber-700">SESIÓN 2</span>
+            <span class="text-sm text-slate-800 font-black">Duba, el Puma</span>
+            <span class="text-[11px] text-slate-500 font-semibold mt-0.5">Secuencias y Comer Churrasco 🥩</span>
+            <span class="mt-2 bg-amber-100 text-amber-900 text-[10px] font-black px-2.5 py-0.5 rounded-full">✨ Habilitada</span>
           </button>
 
         </div>
       </div>
 
-      <!-- CONTENIDO DE LAS CLASES DE MÓDULO 1 -->
+      <!-- CONTENIDO DE LAS SESIONES DE MÓDULO 1 -->
       <div class="w-full max-w-4xl">
 
         <!-- =================================================================== -->
-        <!-- CONTENIDO CLASE 1: COTY, LA LLAMA (LOS 7 EJERCICIOS)                -->
+        <!-- CONTENIDO SESIÓN 1: COTY, LA LLAMA (LOS 7 EJERCICIOS)               -->
         <!-- =================================================================== -->
         <div id="m1-content-coty" class="m1-content-view block w-full">
           
-          <div class="bg-white/95 rounded-3xl p-5 sm:p-8 border-4 border-emerald-400 shadow-xl">
+          <div class="bg-white/95 rounded-3xl p-5 sm:p-8 border-4 border-emerald-400 shadow-xl space-y-6">
             
-            <div class="text-center mb-6">
+            <!-- Encabezado de la Sesión -->
+            <div class="text-center">
               <div class="inline-flex items-center gap-2 bg-emerald-100 text-emerald-800 font-black text-xs uppercase px-3.5 py-1 rounded-full border border-emerald-300 mb-2">
-                <span>🦙 CLASE 1</span> &bull; <span>PILAS BLOQUES</span>
+                <span>🦙 SESIÓN 1</span> &bull; <span>PILAS BLOQUES</span>
               </div>
-              <h2 class="title-ejercicios text-5xl sm:text-7xl font-bold tracking-wider mb-2">
-                EJERCICIOS:
+              <h2 class="title-ejercicios text-4xl sm:text-6xl font-bold tracking-wider mb-2">
+                COTY, LA LLAMA QUE PINTA
               </h2>
-              <p class="text-slate-600 font-display font-semibold text-sm sm:text-base max-w-lg mx-auto">
-                Ayuda a <strong>Coty la llama</strong> a pintar y resolver cada uno de sus 7 retos con bloques de dirección en Pilas Bloques.
+              <p class="text-slate-600 font-display font-semibold text-sm sm:text-base max-w-2xl mx-auto">
+                Aprende a programar guiando a <strong>Coty la llama</strong> con bloques de dirección y pintura para completar cada uno de sus 7 desafíos.
+              </p>
+            </div>
+
+            <!-- EXPLICACIÓN: ¿QUÉ ES PILAS BLOQUES Y CÓMO FUNCIONA? -->
+            <div class="bg-gradient-to-r from-emerald-50 via-teal-50 to-sky-50 border-2 border-emerald-300 rounded-3xl p-4 sm:p-6 shadow-sm">
+              <div class="flex flex-col sm:flex-row items-start sm:items-center justify-between gap-3 border-b border-emerald-200/80 pb-3 mb-4">
+                <div class="flex items-center gap-3">
+                  <div class="w-12 h-12 rounded-2xl bg-emerald-500 text-white flex items-center justify-center text-2xl shadow-md">
+                    🧩
+                  </div>
+                  <div>
+                    <h3 class="font-display font-black text-slate-800 text-base sm:text-lg">
+                      ¿Qué es Pilas Bloques y qué hacemos hoy?
+                    </h3>
+                    <p class="text-xs text-slate-600 font-medium">
+                      Guía visual para estudiantes de 1° Grado
+                    </p>
+                  </div>
+                </div>
+                <span class="bg-emerald-200/70 text-emerald-900 text-[11px] font-black px-3 py-1 rounded-xl uppercase tracking-wider">
+                  Aprende Jugando 🎮
+                </span>
+              </div>
+
+              <!-- Pasos para jugar -->
+              <div class="grid grid-cols-1 sm:grid-cols-3 gap-3">
+                <div class="bg-white/90 p-3.5 rounded-2xl border border-emerald-200 shadow-sm flex items-start gap-3">
+                  <span class="w-7 h-7 rounded-full bg-amber-400 text-slate-900 font-black flex items-center justify-center text-xs flex-shrink-0 shadow-sm">1</span>
+                  <div>
+                    <strong class="text-xs text-slate-800 block font-bold">1. Arrastra los Bloques</strong>
+                    <span class="text-[11px] text-slate-600 leading-tight block mt-0.5">Usa las flechas ⬆️⬇️➡️⬅️ para dar pasos y el bloque <strong>Pintar</strong> 🎨.</span>
+                  </div>
+                </div>
+
+                <div class="bg-white/90 p-3.5 rounded-2xl border border-emerald-200 shadow-sm flex items-start gap-3">
+                  <span class="w-7 h-7 rounded-full bg-amber-400 text-slate-900 font-black flex items-center justify-center text-xs flex-shrink-0 shadow-sm">2</span>
+                  <div>
+                    <strong class="text-xs text-slate-800 block font-bold">2. Únelos en Orden</strong>
+                    <span class="text-[11px] text-slate-600 leading-tight block mt-0.5">Encastra los bloques de arriba hacia abajo debajo del bloque verde <em>«Al empezar a ejecutar»</em>.</span>
+                  </div>
+                </div>
+
+                <div class="bg-white/90 p-3.5 rounded-2xl border border-emerald-200 shadow-sm flex items-start gap-3">
+                  <span class="w-7 h-7 rounded-full bg-amber-400 text-slate-900 font-black flex items-center justify-center text-xs flex-shrink-0 shadow-sm">3</span>
+                  <div>
+                    <strong class="text-xs text-slate-800 block font-bold">3. Presiona Ejecutar ▶️</strong>
+                    <span class="text-[11px] text-slate-600 leading-tight block mt-0.5">Mira a Coty moverse por la cuadrícula y colorear las casillas para ganar estrellas ⭐.</span>
+                  </div>
+                </div>
+              </div>
+            </div>
+
+            <!-- TÍTULO DE SECCIÓN DESAFÍOS -->
+            <div class="text-center pt-2">
+              <h3 class="font-display font-black text-2xl sm:text-3xl text-slate-800">
+                Elige un Desafío para Practicar:
+              </h3>
+              <p class="text-xs sm:text-sm text-slate-500 font-medium">
+                Haz clic en cualquier tarjeta para abrir la actividad interactiva de Pilas Bloques
               </p>
             </div>
 
@@ -291,190 +371,183 @@
               <div class="grid grid-cols-1 sm:grid-cols-3 gap-4 sm:gap-6 justify-center">
                 
                 <!-- Desafío 1 -->
-                <div class="challenge-card bg-white p-2.5 rounded-2xl border-4 border-amber-300/80 cursor-pointer relative group" onclick="openChallenge(1)">
+                <div class="challenge-card bg-white p-2.5 rounded-2xl border-4 border-amber-300/80 cursor-pointer relative group flex flex-col justify-between" onclick="openChallenge(1)">
                   <div id="badge-completed-1" class="hidden absolute top-3 right-3 z-20 bg-emerald-500 text-white text-[10px] font-black px-2.5 py-0.5 rounded-full shadow-md flex items-center gap-1">
                     ✓ ¡LISTO!
                   </div>
-                  <div class="relative w-full h-44 sm:h-48 rounded-xl overflow-hidden bg-gradient-to-b from-[#e8bb72] via-[#e2aa58] to-[#c78b39] flex items-center justify-center border border-amber-300/40">
+                  <div class="relative w-full h-36 sm:h-40 rounded-xl overflow-hidden bg-gradient-to-b from-[#e8bb72] via-[#e2aa58] to-[#c78b39] flex items-center justify-center border border-amber-300/40">
                     <svg class="absolute inset-0 w-full h-full pointer-events-none" viewBox="0 0 200 160" preserveAspectRatio="none">
                       <ellipse cx="160" cy="30" rx="40" ry="12" fill="#fff" opacity="0.3" />
                       <polygon points="0,100 60,60 140,110" fill="#d99b43" opacity="0.6" />
                       <polygon points="80,110 150,55 200,105" fill="#cf8e36" opacity="0.6" />
                       <path d="M0,120 Q60,95 120,115 T200,105 L200,160 L0,160 Z" fill="#b97c2a" />
                       <rect x="10" y="105" width="45" height="15" fill="#a16223" rx="2" />
-                      <rect x="15" y="90" width="35" height="15" fill="#b26f29" rx="2" />
                       <g transform="translate(15, 30)">
                         <path d="M20,50 Q10,25 0,35" stroke="#4ade80" stroke-width="4" fill="none" stroke-linecap="round" />
                         <path d="M20,50 Q20,15 15,20" stroke="#22c55e" stroke-width="4" fill="none" stroke-linecap="round" />
-                        <path d="M20,50 Q30,15 35,25" stroke="#16a34a" stroke-width="4" fill="none" stroke-linecap="round" />
                       </g>
                     </svg>
                     <div class="relative z-10 flex items-center justify-center w-full h-full">
-                      <div class="absolute left-6 bottom-3 transform scale-90 sm:scale-100">
-                        <span class="text-5xl drop-shadow-md select-none">🦙</span>
-                        <span class="absolute -top-1 -right-2 text-2xl select-none">🖌️</span>
+                      <div class="absolute left-4 bottom-2 transform scale-90">
+                        <span class="text-4xl drop-shadow-md select-none">🦙</span>
+                        <span class="absolute -top-1 -right-2 text-xl select-none">🖌️</span>
                       </div>
-                      <span class="font-display font-black text-white text-8xl sm:text-9xl number-shadow select-none ml-8">
+                      <span class="font-display font-black text-white text-7xl sm:text-8xl number-shadow select-none ml-6">
                         1
                       </span>
                     </div>
                   </div>
-                  <div class="bg-slate-100/90 text-slate-700 font-display font-black text-xs sm:text-sm py-2 rounded-lg text-center mt-2 group-hover:bg-amber-100 group-hover:text-amber-900 transition flex items-center justify-center gap-1.5">
-                    <span>🎨 DESAFÍO 1</span>
+                  <div class="bg-slate-50 text-slate-700 p-2 rounded-xl mt-2 group-hover:bg-amber-100/80 group-hover:text-amber-950 transition border border-slate-100">
+                    <span class="font-display font-black text-xs sm:text-sm block text-center text-slate-800 group-hover:text-amber-900">🎨 Desafío 1: La Línea</span>
+                    <p class="text-[11px] text-slate-500 group-hover:text-slate-700 text-center leading-tight mt-0.5 font-medium">Mueve a Coty hacia la derecha pintando una fila horizontal.</p>
                   </div>
                 </div>
 
                 <!-- Desafío 2 -->
-                <div class="challenge-card bg-white p-2.5 rounded-2xl border-4 border-amber-300/80 cursor-pointer relative group" onclick="openChallenge(2)">
+                <div class="challenge-card bg-white p-2.5 rounded-2xl border-4 border-amber-300/80 cursor-pointer relative group flex flex-col justify-between" onclick="openChallenge(2)">
                   <div id="badge-completed-2" class="hidden absolute top-3 right-3 z-20 bg-emerald-500 text-white text-[10px] font-black px-2.5 py-0.5 rounded-full shadow-md flex items-center gap-1">
                     ✓ ¡LISTO!
                   </div>
-                  <div class="relative w-full h-44 sm:h-48 rounded-xl overflow-hidden bg-gradient-to-b from-[#e8bb72] via-[#e2aa58] to-[#c78b39] flex items-center justify-center border border-amber-300/40">
+                  <div class="relative w-full h-36 sm:h-40 rounded-xl overflow-hidden bg-gradient-to-b from-[#e8bb72] via-[#e2aa58] to-[#c78b39] flex items-center justify-center border border-amber-300/40">
                     <svg class="absolute inset-0 w-full h-full pointer-events-none" viewBox="0 0 200 160" preserveAspectRatio="none">
                       <ellipse cx="40" cy="25" rx="35" ry="10" fill="#fff" opacity="0.3" />
                       <polygon points="10,110 70,70 150,115" fill="#d99b43" opacity="0.6" />
-                      <polygon points="90,105 160,60 200,100" fill="#cf8e36" opacity="0.6" />
                       <path d="M0,125 Q80,100 140,120 T200,110 L200,160 L0,160 Z" fill="#b97c2a" />
                       <rect x="25" y="100" width="40" height="18" fill="#a16223" rx="2" />
-                      <g transform="translate(140, 45)">
-                        <path d="M20,50 Q10,25 0,35" stroke="#4ade80" stroke-width="4" fill="none" stroke-linecap="round" />
-                        <path d="M20,50 Q20,15 15,20" stroke="#22c55e" stroke-width="4" fill="none" stroke-linecap="round" />
-                        <path d="M20,50 Q30,15 35,25" stroke="#16a34a" stroke-width="4" fill="none" stroke-linecap="round" />
-                      </g>
                     </svg>
                     <div class="relative z-10 flex items-center justify-center w-full h-full">
-                      <div class="absolute left-6 bottom-3 transform scale-90 sm:scale-100">
-                        <span class="text-5xl drop-shadow-md select-none">🦙</span>
-                        <span class="absolute -top-1 -right-2 text-2xl select-none">🎨</span>
+                      <div class="absolute left-4 bottom-2 transform scale-90">
+                        <span class="text-4xl drop-shadow-md select-none">🦙</span>
+                        <span class="absolute -top-1 -right-2 text-xl select-none">🎨</span>
                       </div>
-                      <span class="font-display font-black text-white text-8xl sm:text-9xl number-shadow select-none ml-8">
+                      <span class="font-display font-black text-white text-7xl sm:text-8xl number-shadow select-none ml-6">
                         2
                       </span>
                     </div>
                   </div>
-                  <div class="bg-slate-100/90 text-slate-700 font-display font-black text-xs sm:text-sm py-2 rounded-lg text-center mt-2 group-hover:bg-amber-100 group-hover:text-amber-900 transition flex items-center justify-center gap-1.5">
-                    <span>🎨 DESAFÍO 2</span>
+                  <div class="bg-slate-50 text-slate-700 p-2 rounded-xl mt-2 group-hover:bg-amber-100/80 group-hover:text-amber-950 transition border border-slate-100">
+                    <span class="font-display font-black text-xs sm:text-sm block text-center text-slate-800 group-hover:text-amber-900">🎨 Desafío 2: La Esquina</span>
+                    <p class="text-[11px] text-slate-500 group-hover:text-slate-700 text-center leading-tight mt-0.5 font-medium">Pinta a la derecha y dobla hacia arriba formando una "L".</p>
                   </div>
                 </div>
 
                 <!-- Desafío 3 -->
-                <div class="challenge-card bg-white p-2.5 rounded-2xl border-4 border-amber-300/80 cursor-pointer relative group" onclick="openChallenge(3)">
+                <div class="challenge-card bg-white p-2.5 rounded-2xl border-4 border-amber-300/80 cursor-pointer relative group flex flex-col justify-between" onclick="openChallenge(3)">
                   <div id="badge-completed-3" class="hidden absolute top-3 right-3 z-20 bg-emerald-500 text-white text-[10px] font-black px-2.5 py-0.5 rounded-full shadow-md flex items-center gap-1">
                     ✓ ¡LISTO!
                   </div>
-                  <div class="relative w-full h-44 sm:h-48 rounded-xl overflow-hidden bg-gradient-to-b from-[#e8bb72] via-[#e2aa58] to-[#c78b39] flex items-center justify-center border border-amber-300/40">
+                  <div class="relative w-full h-36 sm:h-40 rounded-xl overflow-hidden bg-gradient-to-b from-[#e8bb72] via-[#e2aa58] to-[#c78b39] flex items-center justify-center border border-amber-300/40">
                     <svg class="absolute inset-0 w-full h-full pointer-events-none" viewBox="0 0 200 160" preserveAspectRatio="none">
                       <ellipse cx="100" cy="20" rx="50" ry="14" fill="#fff" opacity="0.35" />
                       <polygon points="0,95 80,50 160,105" fill="#d99b43" opacity="0.6" />
                       <path d="M0,115 Q70,90 130,110 T200,100 L200,160 L0,160 Z" fill="#b97c2a" />
-                      <rect x="15" y="95" width="50" height="20" fill="#a16223" rx="2" />
-                      <g transform="translate(145, 35)">
-                        <path d="M20,50 Q10,25 0,35" stroke="#4ade80" stroke-width="4" fill="none" stroke-linecap="round" />
-                        <path d="M20,50 Q20,15 15,20" stroke="#22c55e" stroke-width="4" fill="none" stroke-linecap="round" />
-                        <path d="M20,50 Q30,15 35,25" stroke="#16a34a" stroke-width="4" fill="none" stroke-linecap="round" />
-                      </g>
                     </svg>
                     <div class="relative z-10 flex items-center justify-center w-full h-full">
-                      <div class="absolute left-6 bottom-3 transform scale-90 sm:scale-100">
-                        <span class="text-5xl drop-shadow-md select-none">🦙</span>
-                        <span class="absolute -top-1 -right-2 text-2xl select-none">✨</span>
+                      <div class="absolute left-4 bottom-2 transform scale-90">
+                        <span class="text-4xl drop-shadow-md select-none">🦙</span>
+                        <span class="absolute -top-1 -right-2 text-xl select-none">✨</span>
                       </div>
-                      <span class="font-display font-black text-white text-8xl sm:text-9xl number-shadow select-none ml-8">
+                      <span class="font-display font-black text-white text-7xl sm:text-8xl number-shadow select-none ml-6">
                         3
                       </span>
                     </div>
                   </div>
-                  <div class="bg-slate-100/90 text-slate-700 font-display font-black text-xs sm:text-sm py-2 rounded-lg text-center mt-2 group-hover:bg-amber-100 group-hover:text-amber-900 transition flex items-center justify-center gap-1.5">
-                    <span>🎨 DESAFÍO 3</span>
+                  <div class="bg-slate-50 text-slate-700 p-2 rounded-xl mt-2 group-hover:bg-amber-100/80 group-hover:text-amber-950 transition border border-slate-100">
+                    <span class="font-display font-black text-xs sm:text-sm block text-center text-slate-800 group-hover:text-amber-900">🎨 Desafío 3: El Escalón</span>
+                    <p class="text-[11px] text-slate-500 group-hover:text-slate-700 text-center leading-tight mt-0.5 font-medium">Avanza y sube varias veces para crear una escalera de color.</p>
                   </div>
                 </div>
 
               </div>
 
               <!-- Fila inferior: Desafíos 4, 5, 6, 7 -->
-              <div class="grid grid-cols-2 sm:grid-cols-4 gap-3 sm:gap-4 justify-center">
+              <div class="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-4 gap-3 sm:gap-4 justify-center">
                 
                 <!-- Desafío 4 -->
-                <div class="challenge-card bg-white p-2 rounded-2xl border-4 border-amber-300/80 cursor-pointer relative group" onclick="openChallenge(4)">
+                <div class="challenge-card bg-white p-2 rounded-2xl border-4 border-amber-300/80 cursor-pointer relative group flex flex-col justify-between" onclick="openChallenge(4)">
                   <div id="badge-completed-4" class="hidden absolute top-2 right-2 z-20 bg-emerald-500 text-white text-[9px] font-black px-2 py-0.5 rounded-full shadow-md flex items-center gap-1">
                     ✓ LISTO
                   </div>
-                  <div class="relative w-full h-36 sm:h-40 rounded-xl overflow-hidden bg-gradient-to-b from-[#e8bb72] via-[#e2aa58] to-[#c78b39] flex items-center justify-center border border-amber-300/40">
+                  <div class="relative w-full h-28 sm:h-32 rounded-xl overflow-hidden bg-gradient-to-b from-[#e8bb72] via-[#e2aa58] to-[#c78b39] flex items-center justify-center border border-amber-300/40">
                     <div class="relative z-10 flex items-center justify-center w-full h-full">
-                      <div class="absolute left-3 bottom-2 transform scale-75 sm:scale-90">
-                        <span class="text-4xl drop-shadow select-none">🦙</span>
-                        <span class="absolute -top-1 -right-2 text-xl select-none">🖌️</span>
+                      <div class="absolute left-3 bottom-2 transform scale-75">
+                        <span class="text-3xl drop-shadow select-none">🦙</span>
+                        <span class="absolute -top-1 -right-2 text-base select-none">🖌️</span>
                       </div>
-                      <span class="font-display font-black text-white text-7xl sm:text-8xl number-shadow select-none ml-8">
+                      <span class="font-display font-black text-white text-6xl sm:text-7xl number-shadow select-none ml-6">
                         4
                       </span>
                     </div>
                   </div>
-                  <div class="bg-slate-100/90 text-slate-700 font-display font-black text-xs py-1.5 rounded-lg text-center mt-1.5 group-hover:bg-amber-100 group-hover:text-amber-900 transition flex items-center justify-center gap-1">
-                    <span>🎨 DESAFÍO 4</span>
+                  <div class="bg-slate-50 text-slate-700 p-2 rounded-lg mt-1.5 group-hover:bg-amber-100/80 transition border border-slate-100">
+                    <span class="font-display font-black text-xs block text-center text-slate-800 group-hover:text-amber-900">🎨 Desafío 4: El Cuadrado</span>
+                    <p class="text-[10px] text-slate-500 group-hover:text-slate-700 text-center leading-tight mt-0.5 font-medium">Recorre los cuatro bordes para cerrar el marco.</p>
                   </div>
                 </div>
 
                 <!-- Desafío 5 -->
-                <div class="challenge-card bg-white p-2 rounded-2xl border-4 border-amber-300/80 cursor-pointer relative group" onclick="openChallenge(5)">
+                <div class="challenge-card bg-white p-2 rounded-2xl border-4 border-amber-300/80 cursor-pointer relative group flex flex-col justify-between" onclick="openChallenge(5)">
                   <div id="badge-completed-5" class="hidden absolute top-2 right-2 z-20 bg-emerald-500 text-white text-[9px] font-black px-2 py-0.5 rounded-full shadow-md flex items-center gap-1">
                     ✓ LISTO
                   </div>
-                  <div class="relative w-full h-36 sm:h-40 rounded-xl overflow-hidden bg-gradient-to-b from-[#e8bb72] via-[#e2aa58] to-[#c78b39] flex items-center justify-center border border-amber-300/40">
+                  <div class="relative w-full h-28 sm:h-32 rounded-xl overflow-hidden bg-gradient-to-b from-[#e8bb72] via-[#e2aa58] to-[#c78b39] flex items-center justify-center border border-amber-300/40">
                     <div class="relative z-10 flex items-center justify-center w-full h-full">
-                      <div class="absolute left-3 bottom-2 transform scale-75 sm:scale-90">
-                        <span class="text-4xl drop-shadow select-none">🦙</span>
-                        <span class="absolute -top-1 -right-2 text-xl select-none">🎨</span>
+                      <div class="absolute left-3 bottom-2 transform scale-75">
+                        <span class="text-3xl drop-shadow select-none">🦙</span>
+                        <span class="absolute -top-1 -right-2 text-base select-none">🎨</span>
                       </div>
-                      <span class="font-display font-black text-white text-7xl sm:text-8xl number-shadow select-none ml-8">
+                      <span class="font-display font-black text-white text-6xl sm:text-7xl number-shadow select-none ml-6">
                         5
                       </span>
                     </div>
                   </div>
-                  <div class="bg-slate-100/90 text-slate-700 font-display font-black text-xs py-1.5 rounded-lg text-center mt-1.5 group-hover:bg-amber-100 group-hover:text-amber-900 transition flex items-center justify-center gap-1">
-                    <span>🎨 DESAFÍO 5</span>
+                  <div class="bg-slate-50 text-slate-700 p-2 rounded-lg mt-1.5 group-hover:bg-amber-100/80 transition border border-slate-100">
+                    <span class="font-display font-black text-xs block text-center text-slate-800 group-hover:text-amber-900">🎨 Desafío 5: Saltear</span>
+                    <p class="text-[10px] text-slate-500 group-hover:text-slate-700 text-center leading-tight mt-0.5 font-medium">Avanza casillas sin pintar y colorea solo donde se pide.</p>
                   </div>
                 </div>
 
                 <!-- Desafío 6 -->
-                <div class="challenge-card bg-white p-2 rounded-2xl border-4 border-amber-300/80 cursor-pointer relative group" onclick="openChallenge(6)">
+                <div class="challenge-card bg-white p-2 rounded-2xl border-4 border-amber-300/80 cursor-pointer relative group flex flex-col justify-between" onclick="openChallenge(6)">
                   <div id="badge-completed-6" class="hidden absolute top-2 right-2 z-20 bg-emerald-500 text-white text-[9px] font-black px-2 py-0.5 rounded-full shadow-md flex items-center gap-1">
                     ✓ LISTO
                   </div>
-                  <div class="relative w-full h-36 sm:h-40 rounded-xl overflow-hidden bg-gradient-to-b from-[#e8bb72] via-[#e2aa58] to-[#c78b39] flex items-center justify-center border border-amber-300/40">
+                  <div class="relative w-full h-28 sm:h-32 rounded-xl overflow-hidden bg-gradient-to-b from-[#e8bb72] via-[#e2aa58] to-[#c78b39] flex items-center justify-center border border-amber-300/40">
                     <div class="relative z-10 flex items-center justify-center w-full h-full">
-                      <div class="absolute left-3 bottom-2 transform scale-75 sm:scale-90">
-                        <span class="text-4xl drop-shadow select-none">🦙</span>
-                        <span class="absolute -top-1 -right-2 text-xl select-none">⭐</span>
+                      <div class="absolute left-3 bottom-2 transform scale-75">
+                        <span class="text-3xl drop-shadow select-none">🦙</span>
+                        <span class="absolute -top-1 -right-2 text-base select-none">⭐</span>
                       </div>
-                      <span class="font-display font-black text-white text-7xl sm:text-8xl number-shadow select-none ml-8">
+                      <span class="font-display font-black text-white text-6xl sm:text-7xl number-shadow select-none ml-6">
                         6
                       </span>
                     </div>
                   </div>
-                  <div class="bg-slate-100/90 text-slate-700 font-display font-black text-xs py-1.5 rounded-lg text-center mt-1.5 group-hover:bg-amber-100 group-hover:text-amber-900 transition flex items-center justify-center gap-1">
-                    <span>🎨 DESAFÍO 6</span>
+                  <div class="bg-slate-50 text-slate-700 p-2 rounded-lg mt-1.5 group-hover:bg-amber-100/80 transition border border-slate-100">
+                    <span class="font-display font-black text-xs block text-center text-slate-800 group-hover:text-amber-900">🎨 Desafío 6: La Cruz</span>
+                    <p class="text-[10px] text-slate-500 group-hover:text-slate-700 text-center leading-tight mt-0.5 font-medium">Planifica regresar sobre casillas para pintar las 4 puntas.</p>
                   </div>
                 </div>
 
                 <!-- Desafío 7 -->
-                <div class="challenge-card bg-white p-2 rounded-2xl border-4 border-amber-300/80 cursor-pointer relative group" onclick="openChallenge(7)">
+                <div class="challenge-card bg-white p-2 rounded-2xl border-4 border-amber-300/80 cursor-pointer relative group flex flex-col justify-between" onclick="openChallenge(7)">
                   <div id="badge-completed-7" class="hidden absolute top-2 right-2 z-20 bg-emerald-500 text-white text-[9px] font-black px-2 py-0.5 rounded-full shadow-md flex items-center gap-1">
                     ✓ LISTO
                   </div>
-                  <div class="relative w-full h-36 sm:h-40 rounded-xl overflow-hidden bg-gradient-to-b from-[#e8bb72] via-[#e2aa58] to-[#c78b39] flex items-center justify-center border border-amber-300/40">
+                  <div class="relative w-full h-28 sm:h-32 rounded-xl overflow-hidden bg-gradient-to-b from-[#e8bb72] via-[#e2aa58] to-[#c78b39] flex items-center justify-center border border-amber-300/40">
                     <div class="relative z-10 flex items-center justify-center w-full h-full">
-                      <div class="absolute left-3 bottom-2 transform scale-75 sm:scale-90">
-                        <span class="text-4xl drop-shadow select-none">🦙</span>
-                        <span class="absolute -top-1 -right-2 text-xl select-none">🏆</span>
+                      <div class="absolute left-3 bottom-2 transform scale-75">
+                        <span class="text-3xl drop-shadow select-none">🦙</span>
+                        <span class="absolute -top-1 -right-2 text-base select-none">🏆</span>
                       </div>
-                      <span class="font-display font-black text-white text-7xl sm:text-8xl number-shadow select-none ml-8">
+                      <span class="font-display font-black text-white text-6xl sm:text-7xl number-shadow select-none ml-6">
                         7
                       </span>
                     </div>
                   </div>
-                  <div class="bg-slate-100/90 text-slate-700 font-display font-black text-xs py-1.5 rounded-lg text-center mt-1.5 group-hover:bg-amber-100 group-hover:text-amber-900 transition flex items-center justify-center gap-1">
-                    <span>🎨 DESAFÍO 7</span>
+                  <div class="bg-slate-50 text-slate-700 p-2 rounded-lg mt-1.5 group-hover:bg-amber-100/80 transition border border-slate-100">
+                    <span class="font-display font-black text-xs block text-center text-slate-800 group-hover:text-amber-900">🎨 Desafío 7: Gran Maestro</span>
+                    <p class="text-[10px] text-slate-500 group-hover:text-slate-700 text-center leading-tight mt-0.5 font-medium">El reto final combinando todos los movimientos de Coty.</p>
                   </div>
                 </div>
 
@@ -482,21 +555,43 @@
 
             </div>
 
-            <!-- Guía rápida de flechas -->
-            <div class="w-full max-w-3xl mx-auto mt-8 bg-emerald-50 border-2 border-emerald-300 rounded-2xl p-4 sm:p-5 shadow-sm">
-              <div class="flex flex-col sm:flex-row items-center gap-3 text-center sm:text-left">
-                <div class="text-3xl">🧭</div>
-                <div class="flex-1">
-                  <h4 class="font-display font-black text-emerald-950 text-sm sm:text-base">
-                    ¿Qué bloques usarás con Coty la Llama?
-                  </h4>
-                  <p class="text-xs text-slate-700 mt-0.5">
-                    Las flechas <strong>Mover Arriba ⬆️</strong>, <strong>Abajo ⬇️</strong>, <strong>Derecha ➡️</strong>, <strong>Izquierda ⬅️</strong> y el bloque <strong>Pintar 🎨</strong>. Luego presiona <strong>"Ejecutar"</strong>.
-                  </p>
+            <!-- Glosario de Conceptos Clave para 1° Grado -->
+            <div class="w-full max-w-3xl mx-auto mt-6 bg-emerald-50/90 border-2 border-emerald-300 rounded-3xl p-5 sm:p-6 shadow-sm">
+              <div class="flex items-center gap-2 mb-3">
+                <span class="text-2xl">💡</span>
+                <h4 class="font-display font-black text-emerald-950 text-base sm:text-lg">
+                  Conceptos Mágicos para 1° Grado (1ª Mitad):
+                </h4>
+              </div>
+              <div class="grid grid-cols-1 sm:grid-cols-2 gap-3 text-xs">
+                <div class="bg-white p-3 rounded-xl border border-emerald-200 flex items-start gap-2.5">
+                  <span class="text-2xl">🧭</span>
+                  <div>
+                    <strong class="text-slate-800 font-bold block">1. Flechas de Dirección</strong>
+                    <span class="text-slate-600">⬆️ Arriba, ⬇️ Abajo, ➡️ Derecha, ⬅️ Izquierda. Le dicen al personaje hacia dónde dar un paso.</span>
+                  </div>
                 </div>
-                <button onclick="openChallenge(1)" class="bg-emerald-600 hover:bg-emerald-700 text-white font-display font-black text-xs px-4 py-2.5 rounded-xl shadow transition whitespace-nowrap inline-flex items-center gap-1">
-                  <span>Comenzar Reto 1</span> ➜
-                </button>
+                <div class="bg-white p-3 rounded-xl border border-emerald-200 flex items-start gap-2.5">
+                  <span class="text-2xl">🎨</span>
+                  <div>
+                    <strong class="text-slate-800 font-bold block">2. Bloque Pintar</strong>
+                    <span class="text-slate-600">Pinta el cuadrado del piso sobre el que está parada la llama.</span>
+                  </div>
+                </div>
+                <div class="bg-white p-3 rounded-xl border border-emerald-200 flex items-start gap-2.5">
+                  <span class="text-2xl">🐾</span>
+                  <div>
+                    <strong class="text-slate-800 font-bold block">3. Secuencia (Paso a Paso)</strong>
+                    <span class="text-slate-600">Colocar los bloques en orden de arriba hacia abajo para no equivocarse.</span>
+                  </div>
+                </div>
+                <div class="bg-white p-3 rounded-xl border border-emerald-200 flex items-start gap-2.5">
+                  <span class="text-2xl">▶️</span>
+                  <div>
+                    <strong class="text-slate-800 font-bold block">4. Botón Ejecutar</strong>
+                    <span class="text-slate-600">El botón verde que pone en marcha todos los bloques que programaste.</span>
+                  </div>
+                </div>
               </div>
             </div>
 
@@ -505,90 +600,221 @@
         </div>
 
         <!-- =================================================================== -->
-        <!-- CONTENIDO CLASE 2: DUBA, EL PUMA (PRÓXIMAMENTE)                     -->
+        <!-- CONTENIDO SESIÓN 2: DUBA, EL PUMA (DESAFÍOS HABILITADOS)            -->
         <!-- =================================================================== -->
         <div id="m1-content-duba" class="m1-content-view hidden w-full">
-          <div class="bg-white rounded-3xl p-8 sm:p-10 border-4 border-amber-400 shadow-xl text-center space-y-4">
-            <div class="w-24 h-24 bg-amber-100 rounded-3xl flex items-center justify-center text-5xl mx-auto shadow-inner border-2 border-amber-300">
-              🐆
-            </div>
-            <div>
-              <span class="bg-amber-100 text-amber-900 text-xs font-black uppercase px-3.5 py-1 rounded-full border border-amber-300">
-                Módulo 1 &bull; Clase 2
-              </span>
-              <h3 class="font-display font-black text-2xl sm:text-3xl text-slate-800 mt-2">
-                CLASE 2 - DUBA, EL PUMA
-              </h3>
-              <p class="text-slate-600 text-sm sm:text-base max-w-md mx-auto mt-2">
-                En esta clase guiaremos a <strong>Duba el puma</strong> por el laberinto utilizando secuencias de bloques de dirección para buscar sus alimentos en Pilas Bloques.
+          
+          <div class="bg-white/95 rounded-3xl p-5 sm:p-8 border-4 border-amber-400 shadow-xl space-y-6">
+            
+            <!-- Encabezado de la Sesión de Duba -->
+            <div class="text-center">
+              <div class="inline-flex items-center gap-2 bg-amber-100 text-amber-900 font-black text-xs uppercase px-3.5 py-1 rounded-full border border-amber-300 mb-2">
+                <span>🐆 SESIÓN 2</span> &bull; <span>PILAS BLOQUES</span>
+              </div>
+              <h2 class="title-ejercicios text-4xl sm:text-6xl font-bold tracking-wider mb-2 text-amber-800">
+                DUBA, EL PUMA COME CHURRASCO
+              </h2>
+              <p class="text-slate-600 font-display font-semibold text-sm sm:text-base max-w-2xl mx-auto">
+                Guía a <strong>Duba el puma</strong> a través de caminos y laberintos para alcanzar su comida favorita: ¡el delicioso churrasco de carne! 🥩
               </p>
             </div>
-            <div class="p-4 bg-amber-50 rounded-2xl border-2 border-dashed border-amber-300 max-w-md mx-auto">
-              <span class="text-amber-800 font-extrabold text-sm block">🔒 Próxima Sesión</span>
-              <span class="text-xs text-slate-500">Los desafíos interactivos de Duba se publicarán en esta sección para la siguiente clase.</span>
-            </div>
-            <button onclick="switchM1Class('coty')" class="bg-emerald-600 hover:bg-emerald-700 text-white font-display font-bold text-xs sm:text-sm px-6 py-2.5 rounded-xl shadow transition inline-flex items-center gap-2">
-              <span>← Ir a Clase 1: Coty, la Llama</span>
-            </button>
-          </div>
-        </div>
 
-        <!-- =================================================================== -->
-        <!-- CONTENIDO CLASE 3: LITA, LA MULITA (PRÓXIMAMENTE)                   -->
-        <!-- =================================================================== -->
-        <div id="m1-content-lita" class="m1-content-view hidden w-full">
-          <div class="bg-white rounded-3xl p-8 sm:p-10 border-4 border-teal-400 shadow-xl text-center space-y-4">
-            <div class="w-24 h-24 bg-teal-100 rounded-3xl flex items-center justify-center text-5xl mx-auto shadow-inner border-2 border-teal-300">
-              🦔
-            </div>
-            <div>
-              <span class="bg-teal-100 text-teal-900 text-xs font-black uppercase px-3.5 py-1 rounded-full border border-teal-300">
-                Módulo 1 &bull; Clase 3
-              </span>
-              <h3 class="font-display font-black text-2xl sm:text-3xl text-slate-800 mt-2">
-                CLASE 3 - LITA, LA MULITA
-              </h3>
-              <p class="text-slate-600 text-sm sm:text-base max-w-md mx-auto mt-2">
-                ¡Lita la mulita necesita recolectar comida! Programaremos paso a paso sus movimientos para esquivar obstáculos con los bloques de dirección.
-              </p>
-            </div>
-            <div class="p-4 bg-teal-50 rounded-2xl border-2 border-dashed border-teal-300 max-w-md mx-auto">
-              <span class="text-teal-800 font-extrabold text-sm block">🔒 Próxima Sesión</span>
-              <span class="text-xs text-slate-500">Los desafíos de Lita la mulita se habilitarán en la siguiente sesión programada.</span>
-            </div>
-            <button onclick="switchM1Class('coty')" class="bg-emerald-600 hover:bg-emerald-700 text-white font-display font-bold text-xs sm:text-sm px-6 py-2.5 rounded-xl shadow transition inline-flex items-center gap-2">
-              <span>← Ir a Clase 1: Coty, la Llama</span>
-            </button>
-          </div>
-        </div>
+            <!-- EXPLICACIÓN: ¿QUÉ HACE DUBA EN PILAS BLOQUES? -->
+            <div class="bg-gradient-to-r from-amber-50 via-orange-50 to-yellow-50 border-2 border-amber-300 rounded-3xl p-4 sm:p-6 shadow-sm">
+              <div class="flex flex-col sm:flex-row items-start sm:items-center justify-between gap-3 border-b border-amber-200/80 pb-3 mb-4">
+                <div class="flex items-center gap-3">
+                  <div class="w-12 h-12 rounded-2xl bg-amber-500 text-white flex items-center justify-center text-2xl shadow-md">
+                    🥩
+                  </div>
+                  <div>
+                    <h3 class="font-display font-black text-slate-800 text-base sm:text-lg">
+                      ¿Cómo ayudar a Duba a comer su churrasco?
+                    </h3>
+                    <p class="text-xs text-slate-600 font-medium">
+                      Aprende el bloque de acción «Comer churrasco» y el orden exacto de los pasos
+                    </p>
+                  </div>
+                </div>
+                <span class="bg-amber-200/80 text-amber-950 text-[11px] font-black px-3 py-1 rounded-xl uppercase tracking-wider">
+                  Misión de Duba 🐆
+                </span>
+              </div>
 
-        <!-- =================================================================== -->
-        <!-- CONTENIDO CLASE 4: PROBLEMAS (PRÓXIMAMENTE)                         -->
-        <!-- =================================================================== -->
-        <div id="m1-content-problemas" class="m1-content-view hidden w-full">
-          <div class="bg-white rounded-3xl p-8 sm:p-10 border-4 border-indigo-400 shadow-xl text-center space-y-4">
-            <div class="w-24 h-24 bg-indigo-100 rounded-3xl flex items-center justify-center text-5xl mx-auto shadow-inner border-2 border-indigo-300">
-              🧩
+              <!-- Pasos para jugar con Duba -->
+              <div class="grid grid-cols-1 sm:grid-cols-3 gap-3">
+                <div class="bg-white/90 p-3.5 rounded-2xl border border-amber-200 shadow-sm flex items-start gap-3">
+                  <span class="w-7 h-7 rounded-full bg-amber-500 text-white font-black flex items-center justify-center text-xs flex-shrink-0 shadow-sm">1</span>
+                  <div>
+                    <strong class="text-xs text-slate-800 block font-bold">1. Mira el Camino</strong>
+                    <span class="text-[11px] text-slate-600 leading-tight block mt-0.5">Cuenta cuántas casillas debe caminar Duba con las flechas ⬆️⬇️➡️⬅️ hasta llegar a la carne.</span>
+                  </div>
+                </div>
+
+                <div class="bg-white/90 p-3.5 rounded-2xl border border-amber-200 shadow-sm flex items-start gap-3">
+                  <span class="w-7 h-7 rounded-full bg-amber-500 text-white font-black flex items-center justify-center text-xs flex-shrink-0 shadow-sm">2</span>
+                  <div>
+                    <strong class="text-xs text-slate-800 block font-bold">2. Bloque Comer Churrasco</strong>
+                    <span class="text-[11px] text-slate-600 leading-tight block mt-0.5">Cuando Duba llegue a la casilla con la carne 🥩, añade al final el bloque <strong>«Comer churrasco»</strong>.</span>
+                  </div>
+                </div>
+
+                <div class="bg-white/90 p-3.5 rounded-2xl border border-amber-200 shadow-sm flex items-start gap-3">
+                  <span class="w-7 h-7 rounded-full bg-amber-500 text-white font-black flex items-center justify-center text-xs flex-shrink-0 shadow-sm">3</span>
+                  <div>
+                    <strong class="text-xs text-slate-800 block font-bold">3. ¡Comer y Festejar! ▶️</strong>
+                    <span class="text-[11px] text-slate-600 leading-tight block mt-0.5">Pulsa <strong>Ejecutar</strong>. Si calculaste bien los pasos, ¡Duba comerá su comida y ganarás estrellas ⭐!</span>
+                  </div>
+                </div>
+              </div>
             </div>
-            <div>
-              <span class="bg-indigo-100 text-indigo-900 text-xs font-black uppercase px-3.5 py-1 rounded-full border border-indigo-300">
-                Módulo 1 &bull; Clase 4
-              </span>
-              <h3 class="font-display font-black text-2xl sm:text-3xl text-slate-800 mt-2">
-                CLASE 4 - PROBLEMAS
+
+            <!-- TÍTULO DE SECCIÓN DESAFÍOS DE DUBA -->
+            <div class="text-center pt-2">
+              <h3 class="font-display font-black text-2xl sm:text-3xl text-slate-800">
+                Desafíos de Duba el Puma:
               </h3>
-              <p class="text-slate-600 text-sm sm:text-base max-w-md mx-auto mt-2">
-                ¡El gran reto del módulo! Desafíos integrales y resolución de problemas algorítmicos combinando todas las direcciones y acciones aprendidas.
+              <p class="text-xs sm:text-sm text-slate-500 font-medium">
+                Haz clic en una tarjeta para abrir la misión interactiva en Pilas Bloques
               </p>
             </div>
-            <div class="p-4 bg-indigo-50 rounded-2xl border-2 border-dashed border-indigo-300 max-w-md mx-auto">
-              <span class="text-indigo-800 font-extrabold text-sm block">🔒 Próxima Sesión</span>
-              <span class="text-xs text-slate-500">Los problemas y acertijos de integración estarán disponibles al finalizar las clases anteriores.</span>
+
+            <!-- TABLERO DE DESAFÍOS DE DUBA (4 DESAFÍOS) -->
+            <div class="w-full max-w-3xl mx-auto">
+              <div class="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-4 gap-3 sm:gap-4 justify-center">
+                
+                <!-- Duba Desafío 1 -->
+                <div class="challenge-card bg-white p-2.5 rounded-2xl border-4 border-amber-300/80 cursor-pointer relative group flex flex-col justify-between" onclick="openDubaChallenge(1)">
+                  <div id="badge-duba-completed-1" class="hidden absolute top-2 right-2 z-20 bg-emerald-500 text-white text-[9px] font-black px-2 py-0.5 rounded-full shadow-md flex items-center gap-1">
+                    ✓ LISTO
+                  </div>
+                  <div class="relative w-full h-32 sm:h-36 rounded-xl overflow-hidden bg-gradient-to-b from-[#fcd34d] via-[#f59e0b] to-[#b45309] flex items-center justify-center border border-amber-300/40">
+                    <div class="relative z-10 flex items-center justify-center w-full h-full">
+                      <div class="absolute left-3 bottom-2 transform scale-90">
+                        <span class="text-4xl drop-shadow select-none">🐆</span>
+                        <span class="absolute -top-1 -right-2 text-xl select-none">🥩</span>
+                      </div>
+                      <span class="font-display font-black text-white text-6xl sm:text-7xl number-shadow select-none ml-6">
+                        1
+                      </span>
+                    </div>
+                  </div>
+                  <div class="bg-slate-50 text-slate-700 p-2 rounded-lg mt-1.5 group-hover:bg-amber-100/80 transition border border-slate-100">
+                    <span class="font-display font-black text-xs block text-center text-slate-800 group-hover:text-amber-900">🥩 Desafío 1: El Camino Directo</span>
+                    <p class="text-[10px] text-slate-500 group-hover:text-slate-700 text-center leading-tight mt-0.5 font-medium">Avanza a la derecha en línea recta y come el churrasco.</p>
+                  </div>
+                </div>
+
+                <!-- Duba Desafío 2 -->
+                <div class="challenge-card bg-white p-2.5 rounded-2xl border-4 border-amber-300/80 cursor-pointer relative group flex flex-col justify-between" onclick="openDubaChallenge(2)">
+                  <div id="badge-duba-completed-2" class="hidden absolute top-2 right-2 z-20 bg-emerald-500 text-white text-[9px] font-black px-2 py-0.5 rounded-full shadow-md flex items-center gap-1">
+                    ✓ LISTO
+                  </div>
+                  <div class="relative w-full h-32 sm:h-36 rounded-xl overflow-hidden bg-gradient-to-b from-[#fcd34d] via-[#f59e0b] to-[#b45309] flex items-center justify-center border border-amber-300/40">
+                    <div class="relative z-10 flex items-center justify-center w-full h-full">
+                      <div class="absolute left-3 bottom-2 transform scale-90">
+                        <span class="text-4xl drop-shadow select-none">🐆</span>
+                        <span class="absolute -top-1 -right-2 text-xl select-none">🍖</span>
+                      </div>
+                      <span class="font-display font-black text-white text-6xl sm:text-7xl number-shadow select-none ml-6">
+                        2
+                      </span>
+                    </div>
+                  </div>
+                  <div class="bg-slate-50 text-slate-700 p-2 rounded-lg mt-1.5 group-hover:bg-amber-100/80 transition border border-slate-100">
+                    <span class="font-display font-black text-xs block text-center text-slate-800 group-hover:text-amber-900">🥩 Desafío 2: Doblar la Esquina</span>
+                    <p class="text-[10px] text-slate-500 group-hover:text-slate-700 text-center leading-tight mt-0.5 font-medium">Camina a la derecha y luego sube o baja para alcanzar la carne.</p>
+                  </div>
+                </div>
+
+                <!-- Duba Desafío 3 -->
+                <div class="challenge-card bg-white p-2.5 rounded-2xl border-4 border-amber-300/80 cursor-pointer relative group flex flex-col justify-between" onclick="openDubaChallenge(3)">
+                  <div id="badge-duba-completed-3" class="hidden absolute top-2 right-2 z-20 bg-emerald-500 text-white text-[9px] font-black px-2 py-0.5 rounded-full shadow-md flex items-center gap-1">
+                    ✓ LISTO
+                  </div>
+                  <div class="relative w-full h-32 sm:h-36 rounded-xl overflow-hidden bg-gradient-to-b from-[#fcd34d] via-[#f59e0b] to-[#b45309] flex items-center justify-center border border-amber-300/40">
+                    <div class="relative z-10 flex items-center justify-center w-full h-full">
+                      <div class="absolute left-3 bottom-2 transform scale-90">
+                        <span class="text-4xl drop-shadow select-none">🐆</span>
+                        <span class="absolute -top-1 -right-2 text-xl select-none">⭐</span>
+                      </div>
+                      <span class="font-display font-black text-white text-6xl sm:text-7xl number-shadow select-none ml-6">
+                        3
+                      </span>
+                    </div>
+                  </div>
+                  <div class="bg-slate-50 text-slate-700 p-2 rounded-lg mt-1.5 group-hover:bg-amber-100/80 transition border border-slate-100">
+                    <span class="font-display font-black text-xs block text-center text-slate-800 group-hover:text-amber-900">🥩 Desafío 3: El Zigzag</span>
+                    <p class="text-[10px] text-slate-500 group-hover:text-slate-700 text-center leading-tight mt-0.5 font-medium">Sigue el sendero con curvas paso a paso hasta el premio.</p>
+                  </div>
+                </div>
+
+                <!-- Duba Desafío 4 -->
+                <div class="challenge-card bg-white p-2.5 rounded-2xl border-4 border-amber-300/80 cursor-pointer relative group flex flex-col justify-between" onclick="openDubaChallenge(4)">
+                  <div id="badge-duba-completed-4" class="hidden absolute top-2 right-2 z-20 bg-emerald-500 text-white text-[9px] font-black px-2 py-0.5 rounded-full shadow-md flex items-center gap-1">
+                    ✓ LISTO
+                  </div>
+                  <div class="relative w-full h-32 sm:h-36 rounded-xl overflow-hidden bg-gradient-to-b from-[#fcd34d] via-[#f59e0b] to-[#b45309] flex items-center justify-center border border-amber-300/40">
+                    <div class="relative z-10 flex items-center justify-center w-full h-full">
+                      <div class="absolute left-3 bottom-2 transform scale-90">
+                        <span class="text-4xl drop-shadow select-none">🐆</span>
+                        <span class="absolute -top-1 -right-2 text-xl select-none">🏆</span>
+                      </div>
+                      <span class="font-display font-black text-white text-6xl sm:text-7xl number-shadow select-none ml-6">
+                        4
+                      </span>
+                    </div>
+                  </div>
+                  <div class="bg-slate-50 text-slate-700 p-2 rounded-lg mt-1.5 group-hover:bg-amber-100/80 transition border border-slate-100">
+                    <span class="font-display font-black text-xs block text-center text-slate-800 group-hover:text-amber-900">🥩 Desafío 4: El Gran Banquete</span>
+                    <p class="text-[10px] text-slate-500 group-hover:text-slate-700 text-center leading-tight mt-0.5 font-medium">Laberinto largo: recoge y come varios churrascos en orden.</p>
+                  </div>
+                </div>
+
+              </div>
             </div>
-            <button onclick="switchM1Class('coty')" class="bg-emerald-600 hover:bg-emerald-700 text-white font-display font-bold text-xs sm:text-sm px-6 py-2.5 rounded-xl shadow transition inline-flex items-center gap-2">
-              <span>← Ir a Clase 1: Coty, la Llama</span>
-            </button>
+
+            <!-- Glosario de Conceptos Clave para Sesión 2 -->
+            <div class="w-full max-w-3xl mx-auto mt-6 bg-amber-50/90 border-2 border-amber-300 rounded-3xl p-5 sm:p-6 shadow-sm">
+              <div class="flex items-center gap-2 mb-3">
+                <span class="text-2xl">💡</span>
+                <h4 class="font-display font-black text-amber-950 text-base sm:text-lg">
+                  Conceptos Mágicos de la Sesión de Duba:
+                </h4>
+              </div>
+              <div class="grid grid-cols-1 sm:grid-cols-2 gap-3 text-xs">
+                <div class="bg-white p-3 rounded-xl border border-amber-200 flex items-start gap-2.5">
+                  <span class="text-2xl">🥩</span>
+                  <div>
+                    <strong class="text-slate-800 font-bold block">1. Bloque Comer Churrasco</strong>
+                    <span class="text-slate-600">Acción que se ejecuta únicamente cuando Duba ya llegó a la misma casilla que la comida.</span>
+                  </div>
+                </div>
+                <div class="bg-white p-3 rounded-xl border border-amber-200 flex items-start gap-2.5">
+                  <span class="text-2xl">🐾</span>
+                  <div>
+                    <strong class="text-slate-800 font-bold block">2. Secuencia Finita</strong>
+                    <span class="text-slate-600">Contar con exactitud el número de pasos: ni uno más ni uno menos.</span>
+                  </div>
+                </div>
+                <div class="bg-white p-3 rounded-xl border border-amber-200 flex items-start gap-2.5">
+                  <span class="text-2xl">🧭</span>
+                  <div>
+                    <strong class="text-slate-800 font-bold block">3. Cambios de Sentido</strong>
+                    <span class="text-slate-600">Girar en esquinas combinando flechas horizontales y verticales.</span>
+                  </div>
+                </div>
+                <div class="bg-white p-3 rounded-xl border border-amber-200 flex items-start gap-2.5">
+                  <span class="text-2xl">🔍</span>
+                  <div>
+                    <strong class="text-slate-800 font-bold block">4. Probar y Corregir</strong>
+                    <span class="text-slate-600">Si Duba no llega, mirar en qué paso se quedó y añadir la flecha que falta.</span>
+                  </div>
+                </div>
+              </div>
+            </div>
+
           </div>
+
         </div>
 
       </div>
@@ -596,81 +822,94 @@
     </div>
 
     <!-- ======================================================================= -->
-    <!-- VISTA 3: DENTRO DE MÓDULO 2: PATRONES (3 CLASES)                        -->
+    <!-- VISTA 3: DENTRO DE MÓDULO 2: SEGUNDA MITAD (2 SESIONES)                 -->
     <!-- ======================================================================= -->
     <div id="view-module-2" class="w-full hidden flex-col items-center animate-pop">
-      
-      <!-- Barra de Navegación del Módulo 2 -->
-      <div class="w-full max-w-4xl flex items-center justify-between gap-3 mb-6 bg-white/90 p-3 rounded-2xl border-2 border-amber-300 shadow-sm">
-        <button onclick="backToModules()" class="bg-amber-100 hover:bg-amber-200 text-amber-950 font-display font-black text-xs sm:text-sm px-4 py-2 rounded-xl transition flex items-center gap-1.5 shadow-sm">
-          <span>← Volver a los Módulos</span>
-        </button>
-        <div class="font-display font-black text-xs sm:text-sm text-amber-900 flex items-center gap-1.5">
-          <span>🧩 MÓDULO 2:</span> <span class="text-slate-700">PATRONES</span>
-        </div>
-      </div>
 
-      <!-- Selector de las 3 Clases de Módulo 2 -->
+      <!-- Selector de las 2 Sesiones de Módulo 2 -->
       <div class="w-full max-w-4xl mb-6">
         <div class="text-xs uppercase font-extrabold text-slate-500 tracking-wider mb-2 flex items-center justify-between">
-          <span class="flex items-center gap-1.5"><span>📚</span> <span>Selecciona una Clase:</span></span>
-          <span class="text-amber-800 font-bold">3 Clases</span>
+          <span class="flex items-center gap-1.5"><span>📚</span> <span>Selecciona la Sesión de la 2ª Mitad:</span></span>
+          <span class="text-amber-800 font-bold">2 Sesiones</span>
         </div>
 
-        <div class="grid grid-cols-1 sm:grid-cols-3 gap-3">
+        <div class="grid grid-cols-1 sm:grid-cols-2 gap-3">
           
-          <!-- Botón Clase 1: Patrones -->
-          <button id="btn-m2-class-patrones" onclick="switchM2Class('patrones')" class="class-card active-class bg-white border-2 border-amber-500 text-amber-950 p-4 rounded-2xl shadow-md transition flex flex-col items-center text-center">
+          <!-- Botón Sesión 3: Lita -->
+          <button id="btn-m2-class-lita" onclick="switchM2Class('lita')" class="class-card active-class bg-white border-2 border-teal-500 text-teal-950 p-4 rounded-2xl shadow-md transition flex flex-col items-center text-center">
+            <span class="text-3xl mb-1">🦔</span>
+            <span class="font-display font-black text-xs uppercase text-teal-700">SESIÓN 3</span>
+            <span class="text-sm text-slate-800 font-black">Lita, la Mulita</span>
+            <span class="text-[11px] text-slate-500 font-semibold mt-0.5">Esquivar obstáculos y recolectar 🪨</span>
+            <span class="mt-2 bg-amber-100 text-amber-900 text-[10px] font-black px-2.5 py-0.5 rounded-full">🔒 Próximamente</span>
+          </button>
+
+          <!-- Botón Sesión 4: Gran Desafío -->
+          <button id="btn-m2-class-problemas" onclick="switchM2Class('problemas')" class="class-card bg-white/80 border-2 border-slate-200 text-slate-700 p-4 rounded-2xl shadow-sm hover:border-indigo-400 hover:bg-white transition flex flex-col items-center text-center">
             <span class="text-3xl mb-1">🧩</span>
-            <span class="font-display font-black text-xs">CLASE 1</span>
-            <span class="text-xs text-slate-800 font-bold">Patrones</span>
-            <span class="mt-1 bg-amber-100 text-amber-900 text-[9px] font-black px-2 py-0.5 rounded-full">🔒 Próximamente</span>
-          </button>
-
-          <!-- Botón Clase 2: Mensajes Secretos -->
-          <button id="btn-m2-class-mensajes" onclick="switchM2Class('mensajes')" class="class-card bg-white/80 border-2 border-slate-200 text-slate-700 p-4 rounded-2xl shadow-sm hover:border-sky-400 hover:bg-white transition flex flex-col items-center text-center">
-            <span class="text-3xl mb-1">🔍</span>
-            <span class="font-display font-black text-xs">CLASE 2</span>
-            <span class="text-xs text-slate-800 font-bold">Mensajes Secretos</span>
-            <span class="mt-1 bg-slate-100 text-slate-500 text-[9px] font-bold px-2 py-0.5 rounded-full">🔒 Próximamente</span>
-          </button>
-
-          <!-- Botón Clase 3: Código Murciélago -->
-          <button id="btn-m2-class-murcielago" onclick="switchM2Class('murcielago')" class="class-card bg-white/80 border-2 border-slate-200 text-slate-700 p-4 rounded-2xl shadow-sm hover:border-purple-400 hover:bg-white transition flex flex-col items-center text-center">
-            <span class="text-3xl mb-1">🦇</span>
-            <span class="font-display font-black text-xs">CLASE 3</span>
-            <span class="text-xs text-slate-800 font-bold">Código Murciélago</span>
-            <span class="mt-1 bg-slate-100 text-slate-500 text-[9px] font-bold px-2 py-0.5 rounded-full">🔒 Próximamente</span>
+            <span class="font-display font-black text-xs uppercase text-slate-500">SESIÓN 4</span>
+            <span class="text-sm text-slate-800 font-black">Gran Reto Final</span>
+            <span class="text-[11px] text-slate-500 font-semibold mt-0.5">Resolver problemas completos 🧠</span>
+            <span class="mt-2 bg-slate-100 text-slate-500 text-[10px] font-bold px-2.5 py-0.5 rounded-full">🔒 Próximamente</span>
           </button>
 
         </div>
       </div>
 
-      <!-- CONTENIDO DE LAS CLASES DE MÓDULO 2 -->
+      <!-- CONTENIDO DE LAS SESIONES DE MÓDULO 2 -->
       <div class="w-full max-w-4xl">
 
         <!-- =================================================================== -->
-        <!-- CONTENIDO CLASE 1: PATRONES                                         -->
+        <!-- CONTENIDO SESIÓN 3: LITA, LA MULITA                                 -->
         <!-- =================================================================== -->
-        <div id="m2-content-patrones" class="m2-content-view block w-full">
-          <div class="bg-white rounded-3xl p-8 sm:p-10 border-4 border-amber-400 shadow-xl text-center space-y-4">
-            <div class="w-24 h-24 bg-amber-100 rounded-3xl flex items-center justify-center text-5xl mx-auto shadow-inner border-2 border-amber-300">
+        <div id="m2-content-lita" class="m2-content-view block w-full">
+          <div class="bg-white rounded-3xl p-8 sm:p-10 border-4 border-teal-400 shadow-xl text-center space-y-4">
+            <div class="w-24 h-24 bg-teal-100 rounded-3xl flex items-center justify-center text-5xl mx-auto shadow-inner border-2 border-teal-300">
+              🦔
+            </div>
+            <div>
+              <span class="bg-teal-100 text-teal-900 text-xs font-black uppercase px-3.5 py-1 rounded-full border border-teal-300">
+                Módulo 2 &bull; Sesión 3 (2ª Mitad)
+              </span>
+              <h3 class="font-display font-black text-2xl sm:text-3xl text-slate-800 mt-2">
+                SESIÓN 3 - LITA, LA MULITA
+              </h3>
+              <p class="text-slate-600 text-sm sm:text-base max-w-md mx-auto mt-2">
+                ¡Lita la mulita necesita recolectar comida! Programaremos paso a paso sus movimientos para esquivar obstáculos y piedras con bloques de dirección.
+              </p>
+            </div>
+            <div class="p-4 bg-teal-50 rounded-2xl border-2 border-dashed border-teal-300 max-w-md mx-auto">
+              <span class="text-teal-800 font-extrabold text-sm block">🔒 Segunda Mitad del Periodo</span>
+              <span class="text-xs text-slate-500">Los desafíos de Lita la mulita se habilitarán al comenzar el segundo corte.</span>
+            </div>
+            <button onclick="backToModules()" class="bg-emerald-600 hover:bg-emerald-700 text-white font-display font-bold text-xs sm:text-sm px-6 py-2.5 rounded-xl shadow transition inline-flex items-center gap-2">
+              <span>← Volver a los Módulos</span>
+            </button>
+          </div>
+        </div>
+
+        <!-- =================================================================== -->
+        <!-- CONTENIDO SESIÓN 4: GRAN RETO FINAL                                 -->
+        <!-- =================================================================== -->
+        <div id="m2-content-problemas" class="m2-content-view hidden w-full">
+          <div class="bg-white rounded-3xl p-8 sm:p-10 border-4 border-indigo-400 shadow-xl text-center space-y-4">
+            <div class="w-24 h-24 bg-indigo-100 rounded-3xl flex items-center justify-center text-5xl mx-auto shadow-inner border-2 border-indigo-300">
               🧩
             </div>
             <div>
-              <span class="bg-amber-100 text-amber-900 text-xs font-black uppercase px-3.5 py-1 rounded-full border border-amber-300">
-                Módulo 2 &bull; Clase 1
+              <span class="bg-indigo-100 text-indigo-900 text-xs font-black uppercase px-3.5 py-1 rounded-full border border-indigo-300">
+                Módulo 2 &bull; Sesión 4 (2ª Mitad)
               </span>
               <h3 class="font-display font-black text-2xl sm:text-3xl text-slate-800 mt-2">
-                CLASE 1 - PATRONES
+                SESIÓN 4 - GRAN RETO FINAL
               </h3>
               <p class="text-slate-600 text-sm sm:text-base max-w-md mx-auto mt-2">
-                Aprenderemos a descubrir y crear secuencias lógicas y patrones visuales con colores, formas y figuras divertidas adaptadas a 1° grado.
+                ¡El gran reto de cierre del periodo! Desafíos integrales y resolución de problemas algorítmicos combinando todas las direcciones y decisiones aprendidas.
               </p>
             </div>
-            <div class="p-4 bg-amber-50 rounded-2xl border-2 border-dashed border-amber-300 max-w-md mx-auto">
-              <span class="text-amber-800 font-extrabold text-sm block">🔒 Próxima Sesión</span>
-              <span class="text-xs text-slate-500">El contenido y las actividades interactivas de esta clase se publicarán próximamente.</span>
+            <div class="p-4 bg-indigo-50 rounded-2xl border-2 border-dashed border-indigo-300 max-w-md mx-auto">
+              <span class="text-indigo-800 font-extrabold text-sm block">🔒 Segunda Mitad del Periodo</span>
+              <span class="text-xs text-slate-500">Los acertijos y retos de integración final se publicarán para el cierre del periodo.</span>
             </div>
             <button onclick="backToModules()" class="bg-emerald-600 hover:bg-emerald-700 text-white font-display font-bold text-xs sm:text-sm px-6 py-2.5 rounded-xl shadow transition inline-flex items-center gap-2">
               <span>← Volver a los Módulos</span>
@@ -678,64 +917,46 @@
           </div>
         </div>
 
-        <!-- =================================================================== -->
-        <!-- CONTENIDO CLASE 2: MENSAJES SECRETOS                                -->
-        <!-- =================================================================== -->
-        <div id="m2-content-mensajes" class="m2-content-view hidden w-full">
-          <div class="bg-white rounded-3xl p-8 sm:p-10 border-4 border-sky-400 shadow-xl text-center space-y-4">
-            <div class="w-24 h-24 bg-sky-100 rounded-3xl flex items-center justify-center text-5xl mx-auto shadow-inner border-2 border-sky-300">
-              🔍
-            </div>
+      </div>
+
+      <!-- Glosario de Conceptos Clave para 1° Grado (2ª Mitad) -->
+      <div class="w-full max-w-4xl mt-6 bg-amber-50/90 border-2 border-amber-300 rounded-3xl p-5 sm:p-6 shadow-sm">
+        <div class="flex items-center gap-2 mb-3">
+          <span class="text-2xl">🏆</span>
+          <h4 class="font-display font-black text-amber-950 text-base sm:text-lg">
+            Conceptos de Reto para 1° Grado (2ª Mitad):
+          </h4>
+        </div>
+        <div class="grid grid-cols-1 sm:grid-cols-2 gap-3 text-xs">
+          <div class="bg-white p-3 rounded-xl border border-amber-200 flex items-start gap-2.5">
+            <span class="text-2xl">🪨</span>
             <div>
-              <span class="bg-sky-100 text-sky-900 text-xs font-black uppercase px-3.5 py-1 rounded-full border border-sky-300">
-                Módulo 2 &bull; Clase 2
-              </span>
-              <h3 class="font-display font-black text-2xl sm:text-3xl text-slate-800 mt-2">
-                CLASE 2 - MENSAJES SECRETOS
-              </h3>
-              <p class="text-slate-600 text-sm sm:text-base max-w-md mx-auto mt-2">
-                ¡Conviértete en detective! Aprenderemos a descifrar pistas, códigos ocultos y mensajes secretos siguiendo patrones lógicos.
-              </p>
+              <strong class="text-slate-800 font-bold block">1. Obstáculo</strong>
+              <span class="text-slate-600">Piedras o paredes en el camino que no podemos pisar y debemos rodear.</span>
             </div>
-            <div class="p-4 bg-sky-50 rounded-2xl border-2 border-dashed border-sky-300 max-w-md mx-auto">
-              <span class="text-sky-800 font-extrabold text-sm block">🔒 Próxima Sesión</span>
-              <span class="text-xs text-slate-500">Los retos de detectives y pistas secretas se publicarán para esta clase.</span>
-            </div>
-            <button onclick="backToModules()" class="bg-emerald-600 hover:bg-emerald-700 text-white font-display font-bold text-xs sm:text-sm px-6 py-2.5 rounded-xl shadow transition inline-flex items-center gap-2">
-              <span>← Volver a los Módulos</span>
-            </button>
           </div>
-        </div>
-
-        <!-- =================================================================== -->
-        <!-- CONTENIDO CLASE 3: CÓDIGO MURCIÉLAGO                                -->
-        <!-- =================================================================== -->
-        <div id="m2-content-murcielago" class="m2-content-view hidden w-full">
-          <div class="bg-white rounded-3xl p-8 sm:p-10 border-4 border-purple-400 shadow-xl text-center space-y-4">
-            <div class="w-24 h-24 bg-purple-100 rounded-3xl flex items-center justify-center text-5xl mx-auto shadow-inner border-2 border-purple-300">
-              🦇
-            </div>
+          <div class="bg-white p-3 rounded-xl border border-amber-200 flex items-start gap-2.5">
+            <span class="text-2xl">🎯</span>
             <div>
-              <span class="bg-purple-100 text-purple-900 text-xs font-black uppercase px-3.5 py-1 rounded-full border border-purple-300">
-                Módulo 2 &bull; Clase 3
-              </span>
-              <h3 class="font-display font-black text-2xl sm:text-3xl text-slate-800 mt-2">
-                CLASE 3 - CÓDIGO MURCIÉLAGO
-              </h3>
-              <p class="text-slate-600 text-sm sm:text-base max-w-md mx-auto mt-2">
-                ¡El legendario código murciélago! Aprenderemos cómo reemplazar letras por números usando la palabra clave <strong>M-U-R-C-I-E-L-A-G-O</strong> para escribir mensajes cifrados.
-              </p>
+              <strong class="text-slate-800 font-bold block">2. Meta / Objetivo</strong>
+              <span class="text-slate-600">El lugar final al que debe llegar nuestro personaje para ganar.</span>
             </div>
-            <div class="p-4 bg-purple-50 rounded-2xl border-2 border-dashed border-purple-300 max-w-md mx-auto">
-              <span class="text-purple-800 font-extrabold text-sm block">🔒 Próxima Sesión</span>
-              <span class="text-xs text-slate-500">El codificador del murciélago y las actividades se publicarán para esta clase.</span>
+          </div>
+          <div class="bg-white p-3 rounded-xl border border-amber-200 flex items-start gap-2.5">
+            <span class="text-2xl">🔍</span>
+            <div>
+              <strong class="text-slate-800 font-bold block">3. Corregir / Depurar</strong>
+              <span class="text-slate-600">Si el animal choca, cambiamos la flecha incorrecta por la correcta.</span>
             </div>
-            <button onclick="backToModules()" class="bg-emerald-600 hover:bg-emerald-700 text-white font-display font-bold text-xs sm:text-sm px-6 py-2.5 rounded-xl shadow transition inline-flex items-center gap-2">
-              <span>← Volver a los Módulos</span>
-            </button>
+          </div>
+          <div class="bg-white p-3 rounded-xl border border-amber-200 flex items-start gap-2.5">
+            <span class="text-2xl">🧠</span>
+            <div>
+              <strong class="text-slate-800 font-bold block">4. Mente Brillante (Algoritmo)</strong>
+              <span class="text-slate-600">Pensar el camino completo en la cabeza antes de colocar los bloques.</span>
+            </div>
           </div>
         </div>
-
       </div>
 
     </div>
@@ -772,6 +993,18 @@
           <button onclick="closeModal()" class="bg-rose-500 hover:bg-rose-600 text-white font-black text-sm w-8 h-8 rounded-xl transition flex items-center justify-center shadow" title="Cerrar ventana">
             ✕
           </button>
+        </div>
+      </div>
+
+      <!-- Barra de Misión y Ayuda Rápida -->
+      <div class="bg-amber-50 border-b border-amber-200 px-4 py-2 flex items-center justify-between text-xs text-amber-950">
+        <div class="flex items-center gap-2">
+          <span class="text-base">🎯</span>
+          <span class="font-bold">Misión:</span>
+          <span id="modal-challenge-mission" class="font-medium text-slate-700">Mueve a Coty hacia la derecha y pinta cada cuadro con tu pincel.</span>
+        </div>
+        <div class="hidden md:flex items-center gap-1 text-[11px] bg-white px-2.5 py-0.5 rounded-lg border border-amber-200 text-slate-600">
+          <span>💡</span> <span>Recuerda presionar <strong>Ejecutar ▶️</strong></span>
         </div>
       </div>
 
@@ -863,12 +1096,30 @@
       document.getElementById('view-module-1').classList.add('hidden');
       document.getElementById('view-module-2').classList.add('hidden');
 
+      const btnP3 = document.getElementById('header-btn-p3');
+      const btnModules = document.getElementById('header-btn-modules');
+      const badge = document.getElementById('header-module-badge');
+
+      if (btnP3) btnP3.classList.add('hidden');
+      if (btnModules) {
+        btnModules.classList.remove('hidden');
+        btnModules.classList.add('inline-flex');
+      }
+
       if (num === 1) {
         document.getElementById('view-module-1').classList.remove('hidden');
+        if (badge) {
+          badge.textContent = "🧭 MÓDULO 1: 1ª MITAD";
+          badge.classList.remove('hidden');
+        }
         switchM1Class('coty');
       } else if (num === 2) {
         document.getElementById('view-module-2').classList.remove('hidden');
-        switchM2Class('patrones');
+        if (badge) {
+          badge.textContent = "🏆 MÓDULO 2: 2ª MITAD";
+          badge.classList.remove('hidden');
+        }
+        switchM2Class('lita');
       }
       window.scrollTo({ top: 0, behavior: 'smooth' });
     }
@@ -878,14 +1129,26 @@
       document.getElementById('view-module-1').classList.add('hidden');
       document.getElementById('view-module-2').classList.add('hidden');
       document.getElementById('view-modules').classList.remove('hidden');
+
+      const btnP3 = document.getElementById('header-btn-p3');
+      const btnModules = document.getElementById('header-btn-modules');
+      const badge = document.getElementById('header-module-badge');
+
+      if (btnModules) {
+        btnModules.classList.add('hidden');
+        btnModules.classList.remove('inline-flex');
+      }
+      if (btnP3) btnP3.classList.remove('hidden');
+      if (badge) badge.classList.add('hidden');
+
       window.scrollTo({ top: 0, behavior: 'smooth' });
     }
 
-    // --- NAVEGACIÓN DE CLASES EN MÓDULO 1 ---
+    // --- NAVEGACIÓN DE SESIONES EN MÓDULO 1 (1ª MITAD) ---
     function switchM1Class(key) {
       playPopSound();
       document.querySelectorAll('.m1-content-view').forEach(el => el.classList.add('hidden'));
-      const buttons = ['coty', 'duba', 'lita', 'problemas'];
+      const buttons = ['coty', 'duba'];
       buttons.forEach(b => {
         const btn = document.getElementById(`btn-m1-class-${b}`);
         if (btn) {
@@ -904,15 +1167,15 @@
       }
     }
 
-    // --- NAVEGACIÓN DE CLASES EN MÓDULO 2 ---
+    // --- NAVEGACIÓN DE SESIONES EN MÓDULO 2 (2ª MITAD) ---
     function switchM2Class(key) {
       playPopSound();
       document.querySelectorAll('.m2-content-view').forEach(el => el.classList.add('hidden'));
-      const buttons = ['patrones', 'mensajes', 'murcielago'];
+      const buttons = ['lita', 'problemas'];
       buttons.forEach(b => {
         const btn = document.getElementById(`btn-m2-class-${b}`);
         if (btn) {
-          btn.classList.remove('active-class', 'border-amber-500', 'bg-white');
+          btn.classList.remove('active-class', 'border-teal-500', 'border-amber-500', 'bg-white');
           btn.classList.add('bg-white/80', 'border-slate-200');
         }
       });
@@ -922,72 +1185,152 @@
 
       const activeBtn = document.getElementById(`btn-m2-class-${key}`);
       if (activeBtn) {
-        activeBtn.classList.add('active-class', 'border-amber-500', 'bg-white');
+        activeBtn.classList.add('active-class', 'border-teal-500', 'bg-white');
         activeBtn.classList.remove('bg-white/80', 'border-slate-200');
       }
     }
 
-    // --- LÓGICA DE PILAS BLOQUES (MÓDULO 1) ---
-    const CHALLENGE_URLS = {
-      1: "https://pilasbloques.program.ar/online/#/desafio/207?no_redirect=1",
-      2: "https://pilasbloques.program.ar/online/#/desafio/208?no_redirect=1",
-      3: "https://pilasbloques.program.ar/online/#/desafio/209?no_redirect=1",
-      4: "https://pilasbloques.program.ar/online/#/desafio/210?no_redirect=1",
-      5: "https://pilasbloques.program.ar/online/#/desafio/211?no_redirect=1",
-      6: "https://pilasbloques.program.ar/online/#/desafio/212?no_redirect=1",
-      7: "https://pilasbloques.program.ar/online/#/desafio/213?no_redirect=1"
+    // --- LÓGICA DE PILAS BLOQUES (MÓDULO 1: COTY Y DUBA) ---
+    const COTY_DATA = {
+      1: {
+        url: "https://pilasbloques.program.ar/online/#/desafio/207?no_redirect=1",
+        title: "Desafío 1: La Línea Horizontal",
+        mission: "Mueve a Coty hacia la derecha (➡️) y usa el bloque Pintar (🎨) para dibujar una línea de baldosas."
+      },
+      2: {
+        url: "https://pilasbloques.program.ar/online/#/desafio/208?no_redirect=1",
+        title: "Desafío 2: La Esquina en L",
+        mission: "Avanza hacia la derecha pintando y luego sube (⬆️) para formar una esquina con tu camino."
+      },
+      3: {
+        url: "https://pilasbloques.program.ar/online/#/desafio/209?no_redirect=1",
+        title: "Desafío 3: El Escalón",
+        mission: "Combina pasos hacia la derecha y hacia arriba alternados para dibujar una escalera de colores."
+      },
+      4: {
+        url: "https://pilasbloques.program.ar/online/#/desafio/210?no_redirect=1",
+        title: "Desafío 4: El Cuadrado Completo",
+        mission: "Recorre los cuatro bordes (➡️, ⬆️, ⬅️, ⬇️) pintando cada casilla hasta cerrar el cuadro."
+      },
+      5: {
+        url: "https://pilasbloques.program.ar/online/#/desafio/211?no_redirect=1",
+        title: "Desafío 5: Saltear Casillas",
+        mission: "Da pasos sin pintar cuando corresponda y pinta solo las baldosas indicadas en el tablero."
+      },
+      6: {
+        url: "https://pilasbloques.program.ar/online/#/desafio/212?no_redirect=1",
+        title: "Desafío 6: La Cruz de Colores",
+        mission: "Planifica ir al centro y moverte a las cuatro puntas para completar una cruz perfecta."
+      },
+      7: {
+        url: "https://pilasbloques.program.ar/online/#/desafio/213?no_redirect=1",
+        title: "Desafío 7: Gran Maestro de Pintura",
+        mission: "¡El reto final de Coty! Conecta todo el dibujo paso a paso sin salirte del mapa."
+      }
     };
 
-    let currentOpenChallenge = 1;
-    const STORAGE_KEY = "mundo_jandra_coty_completed_1p3";
+    const DUBA_DATA = {
+      1: {
+        url: "https://pilasbloques.program.ar/online/#/desafio/201?no_redirect=1",
+        title: "Duba 1: El Camino Directo al Churrasco",
+        mission: "Camina con Duba el puma hacia la derecha (➡️) hasta el churrasco y usa el bloque «Comer churrasco» (🥩)."
+      },
+      2: {
+        url: "https://pilasbloques.program.ar/online/#/desafio/202?no_redirect=1",
+        title: "Duba 2: Doblar la Esquina",
+        mission: "Avanza hacia la derecha y luego sube o baja (⬆️/⬇️) para alcanzar la carne y comerla."
+      },
+      3: {
+        url: "https://pilasbloques.program.ar/online/#/desafio/203?no_redirect=1",
+        title: "Duba 3: El Sendero en Zigzag",
+        mission: "Sigue las curvas del sendero paso a paso sin caerte y alcanza tu comida favorita."
+      },
+      4: {
+        url: "https://pilasbloques.program.ar/online/#/desafio/204?no_redirect=1",
+        title: "Duba 4: El Gran Banquete",
+        mission: "Recorre el laberinto largo y asegúrate de comer todos los churrascos usando la secuencia correcta."
+      }
+    };
 
-    function getCompletedList() {
+    let activeCharacter = 'coty'; // 'coty' o 'duba'
+    let currentOpenChallenge = 1;
+    const STORAGE_KEY_COTY = "mundo_jandra_coty_completed_1p3";
+    const STORAGE_KEY_DUBA = "mundo_jandra_duba_completed_1p3";
+
+    function getCompletedList(char = activeCharacter) {
+      const key = (char === 'duba') ? STORAGE_KEY_DUBA : STORAGE_KEY_COTY;
       try {
-        const stored = localStorage.getItem(STORAGE_KEY);
+        const stored = localStorage.getItem(key);
         return stored ? JSON.parse(stored) : [];
       } catch (e) { return []; }
     }
 
-    function saveCompletedList(list) {
-      try { localStorage.setItem(STORAGE_KEY, JSON.stringify(list)); } catch (e) {}
+    function saveCompletedList(list, char = activeCharacter) {
+      const key = (char === 'duba') ? STORAGE_KEY_DUBA : STORAGE_KEY_COTY;
+      try { localStorage.setItem(key, JSON.stringify(list)); } catch (e) {}
     }
 
     function updateProgressBadges() {
-      const completed = getCompletedList();
+      // Badges de Coty (1 a 7)
+      const completedCoty = getCompletedList('coty');
       for (let i = 1; i <= 7; i++) {
         const badge = document.getElementById(`badge-completed-${i}`);
         if (badge) {
-          if (completed.includes(i)) badge.classList.remove('hidden');
+          if (completedCoty.includes(i)) badge.classList.remove('hidden');
+          else badge.classList.add('hidden');
+        }
+      }
+
+      // Badges de Duba (1 a 4)
+      const completedDuba = getCompletedList('duba');
+      for (let i = 1; i <= 4; i++) {
+        const badge = document.getElementById(`badge-duba-completed-${i}`);
+        if (badge) {
+          if (completedDuba.includes(i)) badge.classList.remove('hidden');
           else badge.classList.add('hidden');
         }
       }
     }
 
     function openChallenge(num) {
+      activeCharacter = 'coty';
       currentOpenChallenge = num;
-      const url = CHALLENGE_URLS[num];
-      if (!url) return;
+      const data = COTY_DATA[num];
+      if (!data) return;
+      launchModal(data, num, 7, '🦙');
+    }
 
+    function openDubaChallenge(num) {
+      activeCharacter = 'duba';
+      currentOpenChallenge = num;
+      const data = DUBA_DATA[num];
+      if (!data) return;
+      launchModal(data, num, 4, '🐆');
+    }
+
+    function launchModal(data, num, total, emoji) {
       const modal = document.getElementById('player-modal');
       const iframe = document.getElementById('challenge-iframe');
       const loader = document.getElementById('iframe-loader');
       const title = document.getElementById('modal-challenge-title');
+      const mission = document.getElementById('modal-challenge-mission');
       const openTabBtn = document.getElementById('modal-btn-open-tab');
       const fallbackLink = document.getElementById('fallback-link');
       const footerInfo = document.getElementById('modal-footer-info');
 
-      title.textContent = `Desafío ${num}: Coty la Llama (Pilas Bloques)`;
-      openTabBtn.href = url;
-      fallbackLink.href = url;
-      footerInfo.textContent = `Desafío ${num} de 7`;
+      title.innerHTML = `<span>${emoji}</span> <span>${data.title} (Pilas Bloques)</span>`;
+      if (mission) mission.textContent = data.mission;
+      openTabBtn.href = data.url;
+      fallbackLink.href = data.url;
+      footerInfo.textContent = `Desafío ${num} de ${total}`;
 
       document.getElementById('btn-prev-challenge').disabled = (num <= 1);
-      document.getElementById('btn-next-challenge').disabled = (num >= 7);
+      document.getElementById('btn-next-challenge').disabled = (num >= total);
 
       updateModalCompleteBtn();
 
       loader.classList.remove('hidden');
-      iframe.src = url;
+      iframe.src = data.url;
 
       iframe.onload = function() {
         loader.classList.add('hidden');
@@ -1009,11 +1352,15 @@
 
     function navChallenge(step) {
       const target = currentOpenChallenge + step;
-      if (target >= 1 && target <= 7) openChallenge(target);
+      const max = (activeCharacter === 'duba') ? 4 : 7;
+      if (target >= 1 && target <= max) {
+        if (activeCharacter === 'duba') openDubaChallenge(target);
+        else openChallenge(target);
+      }
     }
 
     function updateModalCompleteBtn() {
-      const completed = getCompletedList();
+      const completed = getCompletedList(activeCharacter);
       const isDone = completed.includes(currentOpenChallenge);
       const btn = document.getElementById('modal-btn-complete');
       const icon = document.getElementById('complete-icon');
@@ -1031,7 +1378,7 @@
     }
 
     function toggleCurrentChallengeComplete() {
-      let completed = getCompletedList();
+      let completed = getCompletedList(activeCharacter);
       if (completed.includes(currentOpenChallenge)) {
         completed = completed.filter(id => id !== currentOpenChallenge);
       } else {
@@ -1039,7 +1386,7 @@
         addPoints(10);
         playSuccessSound();
       }
-      saveCompletedList(completed);
+      saveCompletedList(completed, activeCharacter);
       updateModalCompleteBtn();
       updateProgressBadges();
     }

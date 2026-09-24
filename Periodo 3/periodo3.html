@@ -7,318 +7,352 @@
     <link rel="icon" type="image/x-icon" href="../assets/Icono.ico">
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-    <link href="https://fonts.googleapis.com/css2?family=Outfit:wght@300;400;600;800&family=Plus+Jakarta+Sans:wght@400;500;700&display=swap" rel="stylesheet">
-    <link rel="stylesheet" href="../css/style.css">
+    <link href="https://fonts.googleapis.com/css2?family=Fredoka:wght@400;600;700;800&family=Outfit:wght@400;600;700;800;900&family=Plus+Jakarta+Sans:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+    <script src="https://cdn.tailwindcss.com"></script>
     <style>
-        .back-nav-btn {
-            display: inline-flex;
-            align-items: center;
-            gap: 0.5rem;
-            padding: 0.6rem 1.2rem;
-            border-radius: 12px;
-            background: rgba(255, 255, 255, 0.85);
-            backdrop-filter: blur(8px);
-            border: 1px solid rgba(226, 232, 240, 0.8);
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+            font-family: 'Plus Jakarta Sans', sans-serif;
+        }
+
+        .font-kids {
+            font-family: 'Fredoka', cursive, sans-serif;
+        }
+
+        .font-title {
+            font-family: 'Outfit', sans-serif;
+        }
+
+        body {
+            background-color: #f8fafc;
+            background-image: 
+                radial-gradient(at 0% 0%, rgba(16, 185, 129, 0.12) 0px, transparent 50%),
+                radial-gradient(at 100% 0%, rgba(6, 182, 212, 0.12) 0px, transparent 50%),
+                radial-gradient(at 50% 100%, rgba(99, 102, 241, 0.08) 0px, transparent 50%);
             color: #0f172a;
-            font-weight: 700;
-            font-size: 0.9rem;
-            text-decoration: none;
-            transition: all 0.2s ease;
-            box-shadow: 0 2px 4px rgba(0, 0, 0, 0.04);
-            margin-bottom: 1.5rem;
+            min-height: 100vh;
+            overflow-x: hidden;
+            display: flex;
+            flex-direction: column;
+            user-select: none;
         }
-        .back-nav-btn:hover {
-            background: #ffffff;
-            color: #10b981;
-            transform: translateX(-4px);
-            box-shadow: 0 4px 12px rgba(16, 185, 129, 0.15);
-        }
-        .bg-grad-p3 {
-            background: linear-gradient(135deg, #059669 0%, #10b981 50%, #06b6d4 100%);
-        }
-        .bg-grad-locked {
-            background: linear-gradient(135deg, #94a3b8 0%, #cbd5e1 100%);
-        }
-        .card-active-p3 {
-            border: 2px solid #10b981 !important;
-            box-shadow: 0 10px 25px -5px rgba(16, 185, 129, 0.25) !important;
-            position: relative;
-        }
-        .pulse-badge {
-            display: inline-block;
-            animation: pulseGlow 2s infinite;
-        }
-        @keyframes pulseGlow {
-            0%, 100% { transform: scale(1); }
-            50% { transform: scale(1.05); }
-        }
-        .action-chip {
-            margin-top: 0.8rem;
-            display: inline-block;
-            background: #ecfdf5;
-            color: #047857;
-            font-weight: 700;
-            font-size: 0.75rem;
-            padding: 0.35rem 0.8rem;
-            border-radius: 9999px;
-            border: 1px solid #a7f3d0;
-        }
-        #custom-alert {
+
+        /* Floating Blobs */
+        .ambient-blob {
             position: fixed;
-            top: 0;
-            left: 0;
-            width: 100%;
-            height: 100%;
-            background: rgba(15, 23, 42, 0.6);
-            backdrop-filter: blur(4px);
-            display: none;
-            align-items: center;
-            justify-content: center;
-            z-index: 1000;
+            border-radius: 50%;
+            filter: blur(90px);
+            z-index: -1;
+            pointer-events: none;
+            animation: floatSlow 22s infinite alternate ease-in-out;
         }
-        #custom-alert .modal-content {
-            background: white;
-            border-radius: 1.5rem;
-            padding: 2rem;
-            max-width: 400px;
-            text-align: center;
-            box-shadow: 0 20px 25px -5px rgba(0, 0, 0, 0.2);
-            animation: popIn 0.3s cubic-bezier(0.175, 0.885, 0.32, 1.275);
+
+        .blob-a { width: 450px; height: 450px; background: #a7f3d0; top: -100px; right: -50px; opacity: 0.5; }
+        .blob-b { width: 380px; height: 380px; background: #bae6fd; bottom: -80px; left: -60px; opacity: 0.55; animation-delay: -6s; }
+
+        @keyframes floatSlow {
+            0% { transform: translate(0, 0) scale(1); }
+            50% { transform: translate(35px, 25px) scale(1.06); }
+            100% { transform: translate(-25px, 40px) scale(0.95); }
         }
-        @keyframes popIn {
-            0% { transform: scale(0.9); opacity: 0; }
-            100% { transform: scale(1); opacity: 1; }
+
+        /* 3D Button and Card Effects */
+        .btn-3d {
+            transition: all 0.22s cubic-bezier(0.165, 0.84, 0.44, 1);
+            box-shadow: 0 6px 0 rgba(0, 0, 0, 0.08);
         }
-        .modal-btn {
-            background: #10b981;
-            color: white;
-            border: none;
-            padding: 0.6rem 1.5rem;
-            border-radius: 0.75rem;
-            font-weight: 700;
-            cursor: pointer;
-            margin-top: 1.2rem;
-            width: 100%;
-            transition: all 0.2s;
+        .btn-3d:hover {
+            transform: translateY(-3px);
+            box-shadow: 0 9px 0 rgba(0, 0, 0, 0.08);
         }
-        .modal-btn:hover {
-            background: #059669;
+        .btn-3d:active {
+            transform: translateY(3px);
+            box-shadow: 0 2px 0 rgba(0, 0, 0, 0.08);
+        }
+
+        .grade-card {
+            transition: all 0.3s cubic-bezier(0.165, 0.84, 0.44, 1);
+        }
+        .grade-card:hover {
+            transform: translateY(-6px);
+        }
+        .grade-card:hover .grade-icon {
+            transform: scale(1.18) rotate(4deg);
+        }
+        .grade-icon {
+            transition: transform 0.35s cubic-bezier(0.175, 0.885, 0.32, 1.275);
         }
     </style>
 </head>
-<body>
-    <div class="background-blobs">
-        <div class="blob blob-1" style="background: #a7f3d0;"></div>
-        <div class="blob blob-2" style="background: #bae6fd;"></div>
-        <div class="blob blob-3" style="background: #fed7aa;"></div>
-    </div>
+<body class="p-3 sm:p-6 lg:p-8">
 
-    <!-- Modal de Alerta -->
-    <div id="custom-alert">
-        <div class="modal-content">
-            <h2 style="margin-bottom: 0.5rem; font-family: 'Outfit'; color: #0f172a;">Próximamente</h2>
-            <p id="alert-message" style="color: #64748b; font-size: 0.9rem;"></p>
-            <button class="modal-btn" onclick="closeAlert()">Entendido</button>
-        </div>
-    </div>
+    <!-- Ambient Blobs -->
+    <div class="ambient-blob blob-a"></div>
+    <div class="ambient-blob blob-b"></div>
 
-    <div class="app-container">
-        <header class="main-header">
-            <div>
-                <a href="../index.html" class="back-nav-btn">
-                    <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round">
-                        <line x1="19" y1="12" x2="5" y2="12"></line>
-                        <polyline points="12 19 5 12 12 5"></polyline>
-                    </svg>
-                    Volver a Periodos
-                </a>
-                <div class="title-text">
-                    <h1 style="color: #065f46;">Periodo 3</h1>
-                    <p>Resúmenes y Actividades de Computación</p>
-                </div>
-            </div>
-            
-            <div class="search-box">
-                <input type="text" placeholder="Buscar por grado o tema..." id="searchInput">
+    <div class="max-w-6xl mx-auto w-full flex-1 flex flex-col justify-between">
+        
+        <!-- HEADER HERO INFANTIL (PERIODO 3) -->
+        <header class="bg-gradient-to-r from-emerald-600 via-teal-600 to-sky-600 rounded-3xl p-5 sm:px-8 sm:py-6 text-white shadow-xl border-4 border-white mb-8 relative overflow-hidden flex items-center justify-between">
+            <!-- Glows decorativos -->
+            <div class="absolute -right-10 -top-10 w-48 h-48 bg-white/10 rounded-full blur-2xl pointer-events-none"></div>
+            <div class="absolute -left-10 -bottom-10 w-48 h-48 bg-emerald-400/20 rounded-full blur-2xl pointer-events-none"></div>
+
+            <!-- Botón Volver Infantil 3D -->
+            <a href="../index.html" class="btn-3d px-5 py-3 bg-amber-400 hover:bg-amber-300 text-slate-950 font-kids font-black text-sm sm:text-base rounded-2xl shadow-lg flex items-center gap-2 relative z-10">
+                <span class="text-xl">⬅️</span>
+                <span>Volver al Inicio</span>
+            </a>
+
+            <!-- Título Periodo 3 -->
+            <div class="text-right sm:text-center flex-1 sm:pr-24 relative z-10">
+                <h1 class="text-3xl sm:text-5xl font-kids font-black leading-tight drop-shadow-md">
+                    Periodo 3
+                </h1>
             </div>
         </header>
 
-        <main class="content-grid" style="margin-top: 2.5rem;">
-            <div class="cards-container" id="cardsContainer" style="display: grid; grid-template-columns: repeat(auto-fit, minmax(320px, 1fr)); max-width: 1080px; margin: 0 auto; gap: 1.5rem; width: 100%;">
+        <!-- CARDS GRID (GRADOS) -->
+        <main class="mb-8">
+            <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-5 sm:gap-6" id="cardsGrid">
                 
-                <!-- Grado 1° - HABILITADO EN PERIODO 3: MÓDULOS BLOQUES DE DIRECCIÓN Y PATRONES -->
-                <div class="summary-card card-active-p3" onclick="window.location.href='clasesP3/01.html'">
-                    <div class="card-image bg-grad-p3">
-                        <span class="subject-tag pulse-badge" style="background: #ecfdf5; color: #065f46; font-weight: 800;">
-                            ✨ Habilitado
-                        </span>
-                        <div class="card-icon">🦙</div>
+                <!-- Grado 1° -->
+                <div onclick="window.location.href='clasesP3/01.html'" 
+                     class="grade-card bg-white/95 backdrop-blur-sm rounded-3xl p-5 border-2 border-emerald-300 hover:border-emerald-500 shadow-lg hover:shadow-xl hover:shadow-emerald-500/10 flex flex-col justify-between cursor-pointer group">
+                    <div class="h-40 rounded-2xl bg-gradient-to-tr from-emerald-600 via-emerald-500 to-teal-400 p-4 flex flex-col justify-between relative overflow-hidden shadow-inner mb-4">
+                        <div class="flex justify-between items-start">
+                            <span class="bg-white/90 backdrop-blur-md text-emerald-900 text-[11px] font-kids font-black px-3 py-1 rounded-xl uppercase tracking-wide shadow-sm">
+                                Bloques de Dirección
+                            </span>
+                            <span class="text-xs bg-emerald-900/30 text-white font-bold px-2 py-0.5 rounded-lg">Clases 1-4</span>
+                        </div>
+                        <div class="flex items-center justify-between mt-auto">
+                            <span class="grade-icon text-6xl filter drop-shadow-md">🦙</span>
+                            <span class="font-title font-black text-5xl text-white/95 drop-shadow-sm">1°</span>
+                        </div>
                     </div>
-                    <div class="card-info">
-                        <h3 style="color: #065f46;">Grado 1°</h3>
-                        <p><strong>Módulo 1: Bloques de Dirección</strong> (Clases 1 a 4) &bull; Coty la Llama, Duba el Puma, Lita la Mulita y retos lógicos.</p>
-                        <div class="action-chip">🚀 Entrar al módulo</div>
-                    </div>
+                    <button class="btn-3d w-full py-3 bg-emerald-500 hover:bg-emerald-600 text-white font-kids font-bold text-sm rounded-xl shadow flex items-center justify-center gap-1.5">
+                        <span>🚀</span> Entrar al módulo
+                    </button>
                 </div>
 
-                <!-- Grado 2° - HABILITADO EN PERIODO 3: MÓDULO PATRONES Y BUCLES -->
-                <div class="summary-card card-active-p3" onclick="window.location.href='clasesP3/02.html'">
-                    <div class="card-image bg-grad-p3">
-                        <span class="subject-tag pulse-badge" style="background: #ecfdf5; color: #065f46; font-weight: 800;">
-                            ✨ Habilitado
-                        </span>
-                        <div class="card-icon">🧩</div>
+                <!-- Grado 2° -->
+                <div onclick="window.location.href='clasesP3/02.html'" 
+                     class="grade-card bg-white/95 backdrop-blur-sm rounded-3xl p-5 border-2 border-teal-300 hover:border-teal-500 shadow-lg hover:shadow-xl hover:shadow-teal-500/10 flex flex-col justify-between cursor-pointer group">
+                    <div class="h-40 rounded-2xl bg-gradient-to-tr from-teal-600 via-teal-500 to-cyan-400 p-4 flex flex-col justify-between relative overflow-hidden shadow-inner mb-4">
+                        <div class="flex justify-between items-start">
+                            <span class="bg-white/90 backdrop-blur-md text-teal-900 text-[11px] font-kids font-black px-3 py-1 rounded-xl uppercase tracking-wide shadow-sm">
+                                Patrones y Bucles
+                            </span>
+                            <span class="text-xs bg-teal-900/30 text-white font-bold px-2 py-0.5 rounded-lg">Clases 1-4</span>
+                        </div>
+                        <div class="flex items-center justify-between mt-auto">
+                            <span class="grade-icon text-6xl filter drop-shadow-md">🧩</span>
+                            <span class="font-title font-black text-5xl text-white/95 drop-shadow-sm">2°</span>
+                        </div>
                     </div>
-                    <div class="card-info">
-                        <h3 style="color: #065f46;">Grado 2°</h3>
-                        <p><strong>Módulo: Patrones y Bucles</strong> (Clases 1 a 4) &bull; 1. Patrones &bull; 2. Bucles con Capy y Guyra &bull; 3. Bucles Anidados &bull; 4. Bucles Anidados con Mañic.</p>
-                        <div class="action-chip">🚀 Entrar al módulo</div>
-                    </div>
+                    <button class="btn-3d w-full py-3 bg-teal-500 hover:bg-teal-600 text-white font-kids font-bold text-sm rounded-xl shadow flex items-center justify-center gap-1.5">
+                        <span>🚀</span> Entrar al módulo
+                    </button>
                 </div>
 
-                <!-- Grado 3° - HABILITADO EN PERIODO 3: VIDEOJUEGOS EN SPRITELAB -->
-                <div class="summary-card" onclick="window.location.href='clasesP3/03.html'" style="border: 2px solid #00b4d8 !important; box-shadow: 0 10px 25px -5px rgba(0, 180, 216, 0.25) !important; cursor: pointer;">
-                    <div class="card-image" style="background: linear-gradient(135deg, #0077b6 0%, #00b4d8 50%, #f97316 100%);">
-                        <span class="subject-tag pulse-badge" style="background: #e0f2fe; color: #0369a1; font-weight: 800;">
-                            ✨ Habilitado • SpriteLab
-                        </span>
-                        <div class="card-icon">🎮</div>
+                <!-- Grado 3° -->
+                <div onclick="window.location.href='clasesP3/03.html'" 
+                     class="grade-card bg-white/95 backdrop-blur-sm rounded-3xl p-5 border-2 border-sky-300 hover:border-sky-500 shadow-lg hover:shadow-xl hover:shadow-sky-500/10 flex flex-col justify-between cursor-pointer group">
+                    <div class="h-40 rounded-2xl bg-gradient-to-tr from-sky-600 via-cyan-500 to-amber-400 p-4 flex flex-col justify-between relative overflow-hidden shadow-inner mb-4">
+                        <div class="flex justify-between items-start">
+                            <span class="bg-white/90 backdrop-blur-md text-sky-900 text-[11px] font-kids font-black px-3 py-1 rounded-xl uppercase tracking-wide shadow-sm">
+                                SpriteLab & Videojuegos
+                            </span>
+                            <span class="text-xs bg-sky-900/30 text-white font-bold px-2 py-0.5 rounded-lg">Misión Activa</span>
+                        </div>
+                        <div class="flex items-center justify-between mt-auto">
+                            <span class="grade-icon text-6xl filter drop-shadow-md">🎮</span>
+                            <span class="font-title font-black text-5xl text-white/95 drop-shadow-sm">3°</span>
+                        </div>
                     </div>
-                    <div class="card-info">
-                        <h3 style="color: #0077b6;">Grado 3°</h3>
-                        <p><strong>Misión: Condicionales y Sprites</strong> &bull; Accede a la <strong>Guía de Estudio</strong> o presenta el <strong>Examen de Práctica</strong> interactivo.</p>
-                        <div class="action-chip" style="background: #e0f7fa; color: #0077b6; border-color: #b2ebf2;">🚀 Entrar al módulo</div>
-                    </div>
+                    <button class="btn-3d w-full py-3 bg-sky-500 hover:bg-sky-600 text-white font-kids font-bold text-sm rounded-xl shadow flex items-center justify-center gap-1.5">
+                        <span>🚀</span> Entrar al módulo
+                    </button>
                 </div>
 
-                <!-- Grado 4° - HABILITADO EN PERIODO 3: USO DE VARIABLES -->
-                <div class="summary-card" onclick="window.location.href='clasesP3/04.html'" style="border: 2px solid #0284c7 !important; box-shadow: 0 10px 25px -5px rgba(2, 132, 199, 0.25) !important; cursor: pointer;">
-                    <div class="card-image" style="background: linear-gradient(135deg, #0284c7 0%, #0ea5e9 50%, #38bdf8 100%);">
-                        <span class="subject-tag pulse-badge" style="background: #e0f2fe; color: #0369a1; font-weight: 800;">
-                            ✨ Habilitado • Programación
-                        </span>
-                        <div class="card-icon">📦</div>
+                <!-- Grado 4° -->
+                <div onclick="window.location.href='clasesP3/04.html'" 
+                     class="grade-card bg-white/95 backdrop-blur-sm rounded-3xl p-5 border-2 border-blue-300 hover:border-blue-500 shadow-lg hover:shadow-xl hover:shadow-blue-500/10 flex flex-col justify-between cursor-pointer group">
+                    <div class="h-40 rounded-2xl bg-gradient-to-tr from-blue-600 via-indigo-500 to-sky-400 p-4 flex flex-col justify-between relative overflow-hidden shadow-inner mb-4">
+                        <div class="flex justify-between items-start">
+                            <span class="bg-white/90 backdrop-blur-md text-blue-900 text-[11px] font-kids font-black px-3 py-1 rounded-xl uppercase tracking-wide shadow-sm">
+                                Uso de Variables
+                            </span>
+                            <span class="text-xs bg-blue-900/30 text-white font-bold px-2 py-0.5 rounded-lg">4 Retos</span>
+                        </div>
+                        <div class="flex items-center justify-between mt-auto">
+                            <span class="grade-icon text-6xl filter drop-shadow-md">📦</span>
+                            <span class="font-title font-black text-5xl text-white/95 drop-shadow-sm">4°</span>
+                        </div>
                     </div>
-                    <div class="card-info">
-                        <h3 style="color: #0369a1;">Grado 4°</h3>
-                        <p><strong>Módulo: Uso de Variables</strong>: 1. Introducción al uso de variables &bull; 2. Fruit Ninja &bull; 3. Reciclando &bull; 4. Explotando Globos.</p>
-                        <div class="action-chip" style="background: #e0f2fe; color: #0369a1; border-color: #bae6fd;">🚀 Entrar al módulo</div>
-                    </div>
+                    <button class="btn-3d w-full py-3 bg-blue-600 hover:bg-blue-700 text-white font-kids font-bold text-sm rounded-xl shadow flex items-center justify-center gap-1.5">
+                        <span>🚀</span> Entrar al módulo
+                    </button>
                 </div>
 
-                <!-- Grado 5° - HABILITADO EN PERIODO 3: HARVARD CS50 SCRATCH -->
-                <div class="summary-card" onclick="window.location.href='clasesP3/05.html'" style="border: 2px solid #ea580c !important; box-shadow: 0 10px 25px -5px rgba(234, 88, 12, 0.25) !important; cursor: pointer;">
-                    <div class="card-image" style="background: linear-gradient(135deg, #c2410c 0%, #ea580c 50%, #f59e0b 100%);">
-                        <span class="subject-tag pulse-badge" style="background: #fff7ed; color: #c2410c; font-weight: 800;">
-                            ✨ Habilitado • Harvard CS50
-                        </span>
-                        <div class="card-icon">🐱</div>
+                <!-- Grado 5° -->
+                <div onclick="window.location.href='clasesP3/05.html'" 
+                     class="grade-card bg-white/95 backdrop-blur-sm rounded-3xl p-5 border-2 border-orange-300 hover:border-orange-500 shadow-lg hover:shadow-xl hover:shadow-orange-500/10 flex flex-col justify-between cursor-pointer group">
+                    <div class="h-40 rounded-2xl bg-gradient-to-tr from-orange-600 via-amber-500 to-yellow-400 p-4 flex flex-col justify-between relative overflow-hidden shadow-inner mb-4">
+                        <div class="flex justify-between items-start">
+                            <span class="bg-white/90 backdrop-blur-md text-orange-950 text-[11px] font-kids font-black px-3 py-1 rounded-xl uppercase tracking-wide shadow-sm">
+                                Harvard CS50
+                            </span>
+                            <span class="text-xs bg-orange-900/30 text-white font-bold px-2 py-0.5 rounded-lg">9 Proyectos</span>
+                        </div>
+                        <div class="flex items-center justify-between mt-auto">
+                            <span class="grade-icon text-6xl filter drop-shadow-md">🐱</span>
+                            <span class="font-title font-black text-5xl text-white/95 drop-shadow-sm">5°</span>
+                        </div>
                     </div>
-                    <div class="card-info">
-                        <h3 style="color: #c2410c;">Grado 5°</h3>
-                        <p><strong>Harvard CS50 Scratch</strong>: Primeros pasos e inscripción (edX / GitHub) y catálogo de los 9 proyectos oficiales de programación.</p>
-                        <div class="action-chip" style="background: #fff7ed; color: #c2410c; border-color: #ffedd5;">🚀 Entrar al módulo</div>
-                    </div>
+                    <button class="btn-3d w-full py-3 bg-orange-500 hover:bg-orange-600 text-white font-kids font-bold text-sm rounded-xl shadow flex items-center justify-center gap-1.5">
+                        <span>🚀</span> Entrar al módulo
+                    </button>
                 </div>
 
-                <!-- Grado 6° - HABILITADO EN PERIODO 3: HARVARD CS50 SCRATCH -->
-                <div class="summary-card" onclick="window.location.href='clasesP3/06.html'" style="border: 2px solid #a51c30 !important; box-shadow: 0 10px 25px -5px rgba(165, 28, 48, 0.25) !important; cursor: pointer;">
-                    <div class="card-image" style="background: linear-gradient(135deg, #a51c30 0%, #e11d48 50%, #f59e0b 100%);">
-                        <span class="subject-tag pulse-badge" style="background: #fff1f2; color: #a51c30; font-weight: 800;">
-                            ✨ Habilitado • Harvard CS50
-                        </span>
-                        <div class="card-icon">🐱</div>
+                <!-- Grado 6° -->
+                <div onclick="window.location.href='clasesP3/06.html'" 
+                     class="grade-card bg-white/95 backdrop-blur-sm rounded-3xl p-5 border-2 border-rose-300 hover:border-rose-500 shadow-lg hover:shadow-xl hover:shadow-rose-500/10 flex flex-col justify-between cursor-pointer group">
+                    <div class="h-40 rounded-2xl bg-gradient-to-tr from-rose-700 via-red-600 to-amber-500 p-4 flex flex-col justify-between relative overflow-hidden shadow-inner mb-4">
+                        <div class="flex justify-between items-start">
+                            <span class="bg-white/90 backdrop-blur-md text-rose-950 text-[11px] font-kids font-black px-3 py-1 rounded-xl uppercase tracking-wide shadow-sm">
+                                Harvard CS50
+                            </span>
+                            <span class="text-xs bg-rose-900/30 text-white font-bold px-2 py-0.5 rounded-lg">Avanzado</span>
+                        </div>
+                        <div class="flex items-center justify-between mt-auto">
+                            <span class="grade-icon text-6xl filter drop-shadow-md">🐱</span>
+                            <span class="font-title font-black text-5xl text-white/95 drop-shadow-sm">6°</span>
+                        </div>
                     </div>
-                    <div class="card-info">
-                        <h3 style="color: #a51c30;">Grado 6°</h3>
-                        <p><strong>Harvard CS50 Scratch</strong>: Primeros pasos e inscripción (edX / GitHub) y catálogo de los 9 proyectos oficiales de programación.</p>
-                        <div class="action-chip" style="background: #fff1f2; color: #a51c30; border-color: #fecdd3;">🚀 Entrar al módulo</div>
-                    </div>
+                    <button class="btn-3d w-full py-3 bg-rose-600 hover:bg-rose-700 text-white font-kids font-bold text-sm rounded-xl shadow flex items-center justify-center gap-1.5">
+                        <span>🚀</span> Entrar al módulo
+                    </button>
                 </div>
 
-                <!-- Grado 9° - HABILITADO EN PERIODO 3: ARQUITECTURA VISUAL & DISEÑO DE PRESENTACIONES EN CANVA -->
-                <div class="summary-card" onclick="window.location.href='clasesP3/09.html'" style="border: 2px solid #0d9488 !important; box-shadow: 0 10px 25px -5px rgba(13, 148, 136, 0.25) !important; cursor: pointer;">
-                    <div class="card-image" style="background: linear-gradient(135deg, #134e4a 0%, #0f766e 50%, #14b8a6 100%);">
-                        <span class="subject-tag pulse-badge" style="background: #f0fdf4; color: #0f766e; font-weight: 800;">
-                            ✨ Habilitado • Secundaria
-                        </span>
-                        <div class="card-icon">🎨</div>
+                <!-- Grado 7° (TINKERCAD 3D) -->
+                <div onclick="window.location.href='clasesP3/07.html'" 
+                     class="grade-card bg-white/95 backdrop-blur-sm rounded-3xl p-5 border-2 border-blue-400 hover:border-blue-600 shadow-lg hover:shadow-xl hover:shadow-blue-500/10 flex flex-col justify-between cursor-pointer group">
+                    <div class="h-40 rounded-2xl bg-gradient-to-tr from-blue-700 via-sky-500 to-amber-400 p-4 flex flex-col justify-between relative overflow-hidden shadow-inner mb-4">
+                        <div class="flex justify-between items-start">
+                            <span class="bg-white/90 backdrop-blur-md text-blue-950 text-[11px] font-kids font-black px-3 py-1 rounded-xl uppercase tracking-wide shadow-sm">
+                                Tinkercad 3D
+                            </span>
+                            <span class="text-xs bg-blue-900/30 text-white font-bold px-2 py-0.5 rounded-lg">Secundaria</span>
+                        </div>
+                        <div class="flex items-center justify-between mt-auto">
+                            <span class="grade-icon text-6xl filter drop-shadow-md">🧊</span>
+                            <span class="font-title font-black text-5xl text-white/95 drop-shadow-sm">7°</span>
+                        </div>
                     </div>
-                    <div class="card-info">
-                        <h3 style="color: #0f766e;">Grado 9°</h3>
-                        <p><strong>Arquitectura Visual & Diseño de Presentaciones en Canva</strong>: Erradicación de vicios gráficos, regla 60-30-10, jerarquía 2:1 y entrega final en Classroom.</p>
-                        <div class="action-chip" style="background: #f0fdfa; color: #0f766e; border-color: #99f6e4;">🚀 Entrar al laboratorio</div>
-                    </div>
+                    <button class="btn-3d w-full py-3 bg-blue-600 hover:bg-blue-700 text-white font-kids font-bold text-sm rounded-xl shadow flex items-center justify-center gap-1.5">
+                        <span>🚀</span> Entrar al laboratorio
+                    </button>
                 </div>
 
-                <!-- Grado 10° - HABILITADO EN PERIODO 3: ARQUITECTURA VISUAL & DISEÑO DE PRESENTACIONES EN CANVA -->
-                <div class="summary-card" onclick="window.location.href='clasesP3/10.html'" style="border: 2px solid #8b5cf6 !important; box-shadow: 0 10px 25px -5px rgba(139, 92, 246, 0.25) !important; cursor: pointer;">
-                    <div class="card-image" style="background: linear-gradient(135deg, #4c1d95 0%, #6d28d9 50%, #8b5cf6 100%);">
-                        <span class="subject-tag pulse-badge" style="background: #f5f3ff; color: #5b21b6; font-weight: 800;">
-                            ✨ Habilitado • Media Técnica
-                        </span>
-                        <div class="card-icon">📈</div>
+                <!-- Grado 8° (TINKERCAD 3D) -->
+                <div onclick="window.location.href='clasesP3/08.html'" 
+                     class="grade-card bg-white/95 backdrop-blur-sm rounded-3xl p-5 border-2 border-indigo-400 hover:border-indigo-600 shadow-lg hover:shadow-xl hover:shadow-indigo-500/10 flex flex-col justify-between cursor-pointer group">
+                    <div class="h-40 rounded-2xl bg-gradient-to-tr from-indigo-700 via-purple-600 to-pink-500 p-4 flex flex-col justify-between relative overflow-hidden shadow-inner mb-4">
+                        <div class="flex justify-between items-start">
+                            <span class="bg-white/90 backdrop-blur-md text-indigo-950 text-[11px] font-kids font-black px-3 py-1 rounded-xl uppercase tracking-wide shadow-sm">
+                                Tinkercad 3D
+                            </span>
+                            <span class="text-xs bg-indigo-900/30 text-white font-bold px-2 py-0.5 rounded-lg">Secundaria</span>
+                        </div>
+                        <div class="flex items-center justify-between mt-auto">
+                            <span class="grade-icon text-6xl filter drop-shadow-md">⚙️</span>
+                            <span class="font-title font-black text-5xl text-white/95 drop-shadow-sm">8°</span>
+                        </div>
                     </div>
-                    <div class="card-info">
-                        <h3 style="color: #5b21b6;">Grado 10°</h3>
-                        <p><strong>Arquitectura Visual & Diseño de Presentaciones en Canva</strong>: Erradicación de vicios gráficos, regla 60-30-10, jerarquía 2:1 y entrega final en Classroom.</p>
-                        <div class="action-chip" style="background: #f5f3ff; color: #5b21b6; border-color: #ddd6fe;">🚀 Entrar al laboratorio</div>
-                    </div>
+                    <button class="btn-3d w-full py-3 bg-indigo-600 hover:bg-indigo-700 text-white font-kids font-bold text-sm rounded-xl shadow flex items-center justify-center gap-1.5">
+                        <span>🚀</span> Entrar al laboratorio
+                    </button>
                 </div>
 
-                <!-- Grado 11° - HABILITADO EN PERIODO 3: ARQUITECTURA VISUAL & DISEÑO DE PRESENTACIONES EN CANVA -->
-                <div class="summary-card" onclick="window.location.href='clasesP3/11.html'" style="border: 2px solid #6366f1 !important; box-shadow: 0 10px 25px -5px rgba(99, 102, 241, 0.25) !important; cursor: pointer;">
-                    <div class="card-image" style="background: linear-gradient(135deg, #3730a3 0%, #4f46e5 50%, #06b6d4 100%);">
-                        <span class="subject-tag pulse-badge" style="background: #e0e7ff; color: #3730a3; font-weight: 800;">
-                            ✨ Habilitado • Media Técnica
-                        </span>
-                        <div class="card-icon">📊</div>
+                <!-- Grado 9° -->
+                <div onclick="window.location.href='clasesP3/09.html'" 
+                     class="grade-card bg-white/95 backdrop-blur-sm rounded-3xl p-5 border-2 border-teal-300 hover:border-teal-500 shadow-lg hover:shadow-xl hover:shadow-teal-500/10 flex flex-col justify-between cursor-pointer group">
+                    <div class="h-40 rounded-2xl bg-gradient-to-tr from-teal-800 via-teal-600 to-emerald-400 p-4 flex flex-col justify-between relative overflow-hidden shadow-inner mb-4">
+                        <div class="flex justify-between items-start">
+                            <span class="bg-white/90 backdrop-blur-md text-teal-950 text-[11px] font-kids font-black px-3 py-1 rounded-xl uppercase tracking-wide shadow-sm">
+                                Canva & Visual
+                            </span>
+                            <span class="text-xs bg-teal-950/30 text-white font-bold px-2 py-0.5 rounded-lg">Secundaria</span>
+                        </div>
+                        <div class="flex items-center justify-between mt-auto">
+                            <span class="grade-icon text-6xl filter drop-shadow-md">🎨</span>
+                            <span class="font-title font-black text-5xl text-white/95 drop-shadow-sm">9°</span>
+                        </div>
                     </div>
-                    <div class="card-info">
-                        <h3 style="color: #4338ca;">Grado 11°</h3>
-                        <p><strong>Arquitectura Visual & Diseño de Presentaciones en Canva</strong>: Erradicación de vicios gráficos, regla 60-30-10, jerarquía 2:1 y entrega final en Classroom.</p>
-                        <div class="action-chip" style="background: #eef2ff; color: #4338ca; border-color: #c7d2fe;">🚀 Entrar al laboratorio</div>
+                    <button class="btn-3d w-full py-3 bg-teal-600 hover:bg-teal-700 text-white font-kids font-bold text-sm rounded-xl shadow flex items-center justify-center gap-1.5">
+                        <span>🚀</span> Entrar al laboratorio
+                    </button>
+                </div>
+
+                <!-- Grado 10° -->
+                <div onclick="window.location.href='clasesP3/10.html'" 
+                     class="grade-card bg-white/95 backdrop-blur-sm rounded-3xl p-5 border-2 border-violet-300 hover:border-violet-500 shadow-lg hover:shadow-xl hover:shadow-violet-500/10 flex flex-col justify-between cursor-pointer group">
+                    <div class="h-40 rounded-2xl bg-gradient-to-tr from-violet-800 via-purple-600 to-fuchsia-400 p-4 flex flex-col justify-between relative overflow-hidden shadow-inner mb-4">
+                        <div class="flex justify-between items-start">
+                            <span class="bg-white/90 backdrop-blur-md text-purple-950 text-[11px] font-kids font-black px-3 py-1 rounded-xl uppercase tracking-wide shadow-sm">
+                                Canva Pro
+                            </span>
+                            <span class="text-xs bg-purple-950/30 text-white font-bold px-2 py-0.5 rounded-lg">Media Técnica</span>
+                        </div>
+                        <div class="flex items-center justify-between mt-auto">
+                            <span class="grade-icon text-6xl filter drop-shadow-md">📈</span>
+                            <span class="font-title font-black text-5xl text-white/95 drop-shadow-sm">10°</span>
+                        </div>
                     </div>
+                    <button class="btn-3d w-full py-3 bg-violet-600 hover:bg-violet-700 text-white font-kids font-bold text-sm rounded-xl shadow flex items-center justify-center gap-1.5">
+                        <span>🚀</span> Entrar al laboratorio
+                    </button>
+                </div>
+
+                <!-- Grado 11° -->
+                <div onclick="window.location.href='clasesP3/11.html'" 
+                     class="grade-card bg-white/95 backdrop-blur-sm rounded-3xl p-5 border-2 border-indigo-300 hover:border-indigo-500 shadow-lg hover:shadow-xl hover:shadow-indigo-500/10 flex flex-col justify-between cursor-pointer group">
+                    <div class="h-40 rounded-2xl bg-gradient-to-tr from-indigo-900 via-indigo-600 to-cyan-400 p-4 flex flex-col justify-between relative overflow-hidden shadow-inner mb-4">
+                        <div class="flex justify-between items-start">
+                            <span class="bg-white/90 backdrop-blur-md text-indigo-950 text-[11px] font-kids font-black px-3 py-1 rounded-xl uppercase tracking-wide shadow-sm">
+                                Canva Pro
+                            </span>
+                            <span class="text-xs bg-indigo-950/30 text-white font-bold px-2 py-0.5 rounded-lg">Media Técnica</span>
+                        </div>
+                        <div class="flex items-center justify-between mt-auto">
+                            <span class="grade-icon text-6xl filter drop-shadow-md">📊</span>
+                            <span class="font-title font-black text-5xl text-white/95 drop-shadow-sm">11°</span>
+                        </div>
+                    </div>
+                    <button class="btn-3d w-full py-3 bg-indigo-600 hover:bg-indigo-700 text-white font-kids font-bold text-sm rounded-xl shadow flex items-center justify-center gap-1.5">
+                        <span>🚀</span> Entrar al laboratorio
+                    </button>
                 </div>
 
             </div>
         </main>
 
-        <footer class="main-footer">
-            <p>Mundo Jandra | Profesor: Ronny Martinez</p>
+        <!-- FOOTER -->
+        <footer class="bg-white/80 backdrop-blur-md rounded-2xl py-4 px-6 border border-slate-200 text-center text-slate-500 text-xs flex flex-col sm:flex-row items-center justify-center gap-2 shadow-sm">
+            <div class="flex items-center gap-2">
+                <span class="text-lg">🤖</span>
+                <span class="font-bold text-slate-700">&copy; 2026 Mundo Jandra &bull; Prof. Ronny Martinez</span>
+                <span class="text-slate-300 hidden sm:inline">&bull;</span>
+                <span class="text-slate-400 font-medium">Tecnología e Informática</span>
+            </div>
         </footer>
+
     </div>
 
-    <script>
-        function customAlert(message) {
-            document.getElementById('alert-message').textContent = message;
-            document.getElementById('custom-alert').style.display = 'flex';
-        }
 
-        function closeAlert() {
-            document.getElementById('custom-alert').style.display = 'none';
-        }
-
-        window.onclick = function(event) {
-            const modal = document.getElementById('custom-alert');
-            if (event.target == modal) closeAlert();
-        }
-
-        // Búsqueda en tarjetas
-        const searchInput = document.getElementById('searchInput');
-        searchInput.addEventListener('input', (e) => {
-            const term = e.target.value.toLowerCase();
-            const cards = document.querySelectorAll('.summary-card');
-            cards.forEach(card => {
-                const title = card.querySelector('h3').textContent.toLowerCase();
-                const desc = card.querySelector('p').textContent.toLowerCase();
-                if (title.includes(term) || desc.includes(term)) {
-                    card.style.display = 'block';
-                } else {
-                    card.style.display = 'none';
-                }
-            });
-        });
-    </script>
 </body>
 </html>

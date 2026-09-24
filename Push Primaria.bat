@@ -1,5 +1,5 @@
 @echo off
-title Sincronizador GitHub - Mundo Jandra
+title Push Primaria - GitHub Cockpit
 cd /d "%~dp0"
 cls
 

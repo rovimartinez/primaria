@@ -1,0 +1,166 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Descarga PDF Guía Harvard CS50 Scratch - 6° Grado</title>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/jspdf/2.5.1/jspdf.umd.min.js"></script>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/jspdf-autotable/3.8.2/jspdf.plugin.autotable.min.js"></script>
+  <style>
+    body {
+      font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+      background: #f1f5f9;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      justify-content: center;
+      min-height: 100vh;
+      margin: 0;
+      padding: 20px;
+    }
+    .card {
+      background: white;
+      padding: 40px;
+      border-radius: 24px;
+      box-shadow: 0 10px 25px rgba(0,0,0,0.1);
+      max-width: 550px;
+      text-align: center;
+    }
+    h1 {
+      color: #a51c30;
+      font-size: 24px;
+      margin-bottom: 10px;
+    }
+    p {
+      color: #475569;
+      font-size: 14px;
+      line-height: 1.5;
+      margin-bottom: 25px;
+    }
+    .btn {
+      background: linear-gradient(135deg, #a51c30 0%, #dc2626 100%);
+      color: white;
+      border: none;
+      padding: 16px 32px;
+      font-size: 16px;
+      font-weight: bold;
+      border-radius: 12px;
+      cursor: pointer;
+      box-shadow: 0 4px 14px rgba(165, 28, 48, 0.4);
+      transition: all 0.2s ease;
+    }
+    .btn:hover {
+      transform: translateY(-2px);
+      box-shadow: 0 6px 20px rgba(165, 28, 48, 0.5);
+    }
+  </style>
+</head>
+<body>
+
+  <div class="card">
+    <h1>📄 Generador PDF Guía Sexto Grado</h1>
+    <p>Haz clic abajo para descargar automáticamente el PDF con los 4 Pasos de Cuentas y los 9 Proyectos Oficiales de Harvard CS50 Scratch con sus enlaces activos.</p>
+    <button class="btn" onclick="generarPDF()">📥 Descargar Guía PDF Completa</button>
+  </div>
+
+  <script>
+    function generarPDF() {
+      const { jsPDF } = window.jspdf;
+      const doc = new jsPDF();
+
+      // Encabezado
+      doc.setFillColor(165, 28, 48); // Rojo Harvard
+      doc.rect(0, 0, 210, 28, 'F');
+      
+      doc.setTextColor(255, 255, 255);
+      doc.setFont("helvetica", "bold");
+      doc.setFontSize(16);
+      doc.text("MUNDO JANDRA - GUÍA HARVARD CS50 SCRATCH", 14, 12);
+      doc.setFontSize(11);
+      doc.setFont("helvetica", "normal");
+      doc.text("Grado 6° - 4 Pasos de Cuentas y 9 Proyectos Oficiales", 14, 20);
+
+      // Sección 1: 4 Pasos
+      doc.setTextColor(15, 23, 42);
+      doc.setFont("helvetica", "bold");
+      doc.setFontSize(13);
+      doc.text("1. PRIMEROS PASOS: CREACIÓN DE CUENTAS (4 PASOS)", 14, 38);
+
+      const pasosData = [
+        ["Paso 1: Crear edX", "Registrarse con correo institucional", "https://www.edx.org", "https://youtu.be/5pGgowAZIFY"],
+        ["Paso 2: Inscribir CS50", "Inscribirse gratis (Audit Course)", "https://www.edx.org/learn/scratch/harvard-university-cs50-s-introduction-to-programming-with-scratch", "https://youtu.be/_DZRRudfHKI"],
+        ["Paso 3: Crear GitHub", "Registro en GitHub con correo", "https://github.com/signup", "https://youtu.be/jeDTRA7poYw"],
+        ["Paso 4: Conectar cs50.me", "Vincular edX con GitHub", "https://cs50.me/cs50s", "https://youtu.be/rm5KK80ODn4"]
+      ];
+
+      doc.autoTable({
+        startY: 42,
+        head: [['Paso', 'Descripción', 'Enlace Directo', 'Video Tutorial']],
+        body: pasosData,
+        headStyles: { fillColor: [15, 23, 42], textColor: 255, fontStyle: 'bold' },
+        styles: { fontSize: 8, cellPadding: 3 },
+        columnStyles: {
+          0: { cellWidth: 35, fontStyle: 'bold' },
+          1: { cellWidth: 50 },
+          2: { cellWidth: 55, textColor: [37, 99, 235] },
+          3: { cellWidth: 40, textColor: [225, 29, 72] }
+        },
+        didParseCell: function(data) {
+          if (data.section === 'body' && (data.column.index === 2 || data.column.index === 3)) {
+            data.cell.text = data.cell.raw;
+          }
+        }
+      });
+
+      // Sección 2: 9 Proyectos
+      let finalY = doc.lastAutoTable.finalY + 10;
+      doc.setTextColor(15, 23, 42);
+      doc.setFont("helvetica", "bold");
+      doc.setFontSize(13);
+      doc.text("2. LOS 9 PROYECTOS OFICIALES DE CERTIFICACIÓN HARVARD CS50", 14, finalY);
+
+      const proyectosData = [
+        ["P1: Sprites & Fondos", "https://scratch.mit.edu/projects/1125580414/", "https://submit.cs50.io/upload/cs50/problems/2024/scratch/sprites"],
+        ["P2: Movimiento & Sonido", "https://scratch.mit.edu/projects/1125676644/", "https://submit.cs50.io/upload/cs50/problems/2024/scratch/functions"],
+        ["P3: Eventos & Teclado", "https://scratch.mit.edu/projects/1125676879/", "https://submit.cs50.io/upload/cs50/problems/2024/scratch/events"],
+        ["P4: Valores & Preguntas", "https://scratch.mit.edu/projects/1125810379/", "https://submit.cs50.io/upload/cs50/problems/2024/scratch/values"],
+        ["P5: Condiciones & Lógica", "https://scratch.mit.edu/projects/1125824332/", "https://submit.cs50.io/upload/cs50/problems/2024/scratch/conditions"],
+        ["P6: Bucles & Repetición", "https://scratch.mit.edu/projects/1126037123/", "https://submit.cs50.io/upload/cs50/problems/2024/scratch/loops"],
+        ["P7: Videojuego Puntaje", "https://scratch.mit.edu/projects/1126069522/", "https://submit.cs50.io/upload/cs50/problems/2024/scratch/variables"],
+        ["P8: Bloques Propios", "https://scratch.mit.edu/projects/1126079492/", "https://submit.cs50.io/upload/cs50/problems/2024/scratch/abstraction"],
+        ["P9: Desafío Final Integrador", "https://scratch.mit.edu/projects/1126573729/", "https://submit.cs50.io/upload/cs50/problems/2024/scratch/build"]
+      ];
+
+      doc.autoTable({
+        startY: finalY + 4,
+        head: [['Proyecto (6° Grado)', '1. Remix / Plantilla Scratch', '2. Cargar (.sb3) a Harvard CS50']],
+        body: proyectosData,
+        headStyles: { fillColor: [165, 28, 48], textColor: 255, fontStyle: 'bold' },
+        styles: { fontSize: 8, cellPadding: 3 },
+        columnStyles: {
+          0: { cellWidth: 50, fontStyle: 'bold' },
+          1: { cellWidth: 65, textColor: [79, 70, 229] },
+          2: { cellWidth: 65, textColor: [225, 29, 72] }
+        }
+      });
+
+      // Pie de página
+      let pageCount = doc.internal.getNumberOfPages();
+      for (let i = 1; i <= pageCount; i++) {
+        doc.setPage(i);
+        doc.setFontSize(8);
+        doc.setTextColor(148, 163, 184);
+        doc.text("Verificar calificaciones globales en: https://cs50.me/cs50s", 14, 287);
+        doc.text("Página " + i + " de " + pageCount, 180, 287);
+      }
+
+      doc.save("Guia_Harvard_CS50_Scratch_6to_Grado.pdf");
+    }
+
+    // Generar automáticamente al cargar
+    window.onload = function() {
+      generarPDF();
+    };
+  </script>
+</body>
+</html>

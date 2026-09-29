@@ -1487,7 +1487,7 @@
           <div>
             <span class="bg-white/20 text-white font-bold px-3 py-1 rounded-full text-xs uppercase tracking-wider">Evaluación Formativa &bull; 2° Grado</span>
             <h3 class="font-display font-black text-xl sm:text-2xl mt-1">Súper Test de Bucles con Capy y Guyra</h3>
-            <p class="text-amber-100 text-xs sm:text-sm mt-0.5">Responde 10 preguntas interactivas y gana hasta 100 estrellas ⭐</p>
+            <p class="text-amber-100 text-xs sm:text-sm mt-0.5">Responde 10 preguntas interactivas y demuestra todo lo que aprendiste 🧠</p>
           </div>
         </div>
 
@@ -2636,7 +2636,12 @@
       if (el) el.textContent = totalScore;
     }
 
+    function pointsEnabledForCurrentClass() {
+      return currentActiveThemeClass !== 2;
+    }
+
     function addPoints(pts) {
+      if (!pointsEnabledForCurrentClass()) return;
       totalScore += pts;
       saveStars(totalScore);
       updateStarsDisplay();
@@ -3498,7 +3503,7 @@
               playSuccessSound();
               addPoints(10);
               fb.className = "p-3 rounded-2xl text-center text-xs sm:text-sm font-bold max-w-md mx-auto bg-emerald-100 text-emerald-950 border-2 border-emerald-400 block animate-fadeIn";
-              fb.innerHTML = "🎉 ¡EXCELENTE! Con <strong>Repetir 4 veces</strong> Capy dio los 4 pasos exactos y comió la rica sandía. ¡Ganaste +10 estrellas! ⭐";
+              fb.innerHTML = "🎉 ¡EXCELENTE! Con <strong>Repetir 4 veces</strong> Capy dio los 4 pasos exactos y comió la rica sandía. ⭐";
             } else {
               playErrorSound();
               fb.className = "p-3 rounded-2xl text-center text-xs sm:text-sm font-bold max-w-md mx-auto bg-amber-100 text-amber-950 border-2 border-amber-400 block animate-fadeIn";
@@ -4220,6 +4225,9 @@
         headerThemeBadge.classList.remove('inline-flex');
       }
 
+      const starBadgeBack = document.getElementById('star-badge-container');
+      if (starBadgeBack) starBadgeBack.classList.remove('hidden');
+
       // Limpiar hash de la URL para permanecer en la pantalla principal
       if (window.location.hash) {
         try {
@@ -4286,6 +4294,9 @@
 
       if (headerThemeIcon) headerThemeIcon.textContent = meta.icon;
       if (headerThemeText) headerThemeText.textContent = meta.title;
+
+      const starBadge = document.getElementById('star-badge-container');
+      if (starBadge) starBadge.classList.toggle('hidden', classNum === 2);
 
       // Si es Clase 3 (Bucles Anidados), activar pestaña de Clase 3
       if (classNum === 3) {

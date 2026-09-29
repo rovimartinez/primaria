@@ -97,6 +97,14 @@
     #copyToast.show {
       transform: translateY(0);
     }
+
+    /* ===== Aula Virtual a pantalla completa (Módulo 2) ===== */
+    body.aula-activa {
+      height: 100vh;
+      overflow: hidden;
+    }
+    body.aula-activa > header,
+    body.aula-activa > footer { display: none; }
   
     @media print {
       body {
@@ -138,7 +146,7 @@
 
   </style>
 </head>
-<body class="violet-grid min-h-screen">
+<body class="violet-grid min-h-screen flex flex-col">
 
   <!-- Toast Notificación de Copiado -->
   <div id="copyToast" class="bg-slate-900 text-white px-5 py-3 rounded-xl shadow-2xl flex items-center gap-3 border border-slate-700">
@@ -153,7 +161,7 @@
   <header class="glass-nav sticky top-0 z-50 shadow-md border-b border-slate-200/90">
     
     <!-- Título y Subtítulo Central en el Header -->
-    <div class="max-w-7xl mx-auto px-4 md:px-8 py-3.5">
+    <div id="header-canva-detail" class="hidden max-w-7xl mx-auto px-4 md:px-8 py-3.5">
       <div class="flex flex-col md:flex-row md:items-center justify-between gap-3">
         <div class="flex flex-col gap-1.5">
           <div class="flex flex-wrap items-center gap-2">
@@ -187,6 +195,26 @@
         </div>
       </div>
 
+      <!-- ╔══════════════════════════════════════╗ -->
+      <!-- ║   MÓDULO SWITCHER: INICIO / CANVA / RECURSOS ║ -->
+      <!-- ╚══════════════════════════════════════╝ -->
+      <div class="flex items-center gap-2 mt-3 pt-3 border-t border-slate-200/70 overflow-x-auto pb-1 sm:pb-0">
+        <button onclick="cambiarModulo('inicio')" id="btn-modulo-inicio"
+          class="inline-flex items-center gap-1.5 px-3.5 py-2 rounded-xl bg-slate-900 text-white font-black text-xs shadow-sm border border-slate-900 transition-all hover:scale-[1.03]">
+          🏠 Selección de Módulos
+        </button>
+        <button onclick="cambiarModulo('canva')" id="btn-modulo-canva"
+          class="inline-flex items-center gap-1.5 px-4 py-2 rounded-xl bg-slate-100 text-slate-600 hover:bg-slate-200 font-bold text-xs transition-all border border-slate-200">
+          🎨 Canva
+        </button>
+        <button onclick="cambiarModulo('recursos-web')" id="btn-modulo-recursos"
+          class="inline-flex items-center gap-1.5 px-4 py-2 rounded-xl bg-slate-100 text-slate-600 hover:bg-slate-200 font-bold text-xs transition-all border border-slate-200">
+          🌐 Recursos Web
+        </button>
+      </div>
+
+      <!-- NAV SESIONES (visible solo en módulo Canva) -->
+      <div id="nav-sesiones-wrapper">
             <!-- NAV BAR ELEGANTE DE 3 SESIONES -->
       <nav class="grid grid-cols-1 sm:grid-cols-3 gap-2.5 sm:gap-3.5 mt-3.5 pt-3 border-t border-slate-200/70" id="navTabsContainer" role="tablist">
         
@@ -224,11 +252,144 @@
         </button>
 
       </nav>
+      </div><!-- /nav-sesiones-wrapper -->
     </div>
   </header>
 
   <!-- CONTENEDOR PRINCIPAL -->
-  <main class="max-w-7xl mx-auto px-4 md:px-8 py-6 space-y-8">
+  <!-- ╔══════════════════════════════════════╗ -->
+  <!-- ║   PANTALLA DE SELECCIÓN DE MÓDULOS   ║ -->
+  <!-- ╚══════════════════════════════════════╝ -->
+  <div id="view-inicio-modulos" class="max-w-7xl mx-auto px-4 md:px-8 py-10 space-y-8">
+    
+    <!-- Hero / Encabezado del Grado -->
+    <div class="text-center max-w-3xl mx-auto space-y-3">
+      <span class="inline-flex items-center gap-2 px-3.5 py-1.5 rounded-full bg-violet-100/80 text-violet-800 text-xs font-black tracking-wider uppercase border border-violet-200 shadow-xs">
+        ✨ Grado 10° • Periodo 3
+      </span>
+      <h2 class="text-2xl sm:text-4xl font-extrabold text-slate-900 tracking-tight font-display">
+        ¿A qué módulo deseas ingresar hoy?
+      </h2>
+      <p class="text-xs sm:text-sm text-slate-600 leading-relaxed font-medium">
+        Selecciona una de las opciones para acceder al contenido de clase o a las herramientas web de apoyo.
+      </p>
+    </div>
+
+    <!-- Grid de 2 Módulos Principales -->
+    <div class="grid grid-cols-1 md:grid-cols-2 gap-6 max-w-4xl mx-auto pt-2">
+
+      <!-- Módulo 1: Canva -->
+      <div onclick="cambiarModulo('canva')" 
+        class="group relative bg-white rounded-3xl p-7 border-2 border-slate-200 hover:border-violet-500 shadow-lg hover:shadow-2xl hover:shadow-violet-500/10 transition-all duration-300 cursor-pointer flex flex-col justify-between overflow-hidden">
+        <div class="absolute -right-6 -bottom-6 w-32 h-32 bg-violet-500/10 rounded-full blur-2xl group-hover:bg-violet-500/20 transition-all"></div>
+        <div class="space-y-4 relative z-10">
+          <div class="w-14 h-14 rounded-2xl bg-violet-600 text-white text-3xl flex items-center justify-center shadow-md shadow-violet-600/30 group-hover:scale-110 transition-transform">
+            🎨
+          </div>
+          <div>
+            <span class="text-[11px] font-black text-violet-600 uppercase tracking-widest">Módulo 01</span>
+            <h3 class="text-xl font-bold text-slate-900 mt-0.5 group-hover:text-violet-700 transition-colors">
+              Canva & Presentaciones
+            </h3>
+            <p class="text-xs text-slate-500 mt-2 leading-relaxed font-medium">
+              Accede a las 3 sesiones de clase: Diagnóstico inicial con IA, regla de color 60-30-10 y la prueba interactiva con entrega final.
+            </p>
+          </div>
+        </div>
+        <div class="pt-6 mt-6 border-t border-slate-100 flex items-center justify-between relative z-10">
+          <span class="text-xs font-bold text-violet-600 group-hover:translate-x-1 transition-transform inline-flex items-center gap-1.5">
+            Ingresar al módulo ➔
+          </span>
+          <span class="text-[10px] font-extrabold bg-violet-50 text-violet-700 px-2.5 py-1 rounded-lg border border-violet-200">
+            3 Sesiones
+          </span>
+        </div>
+      </div>
+
+      <!-- Módulo 2: Recursos Web -->
+      <div onclick="cambiarModulo('recursos-web')" 
+        class="group relative bg-white rounded-3xl p-7 border-2 border-slate-200 hover:border-purple-500 shadow-lg hover:shadow-2xl hover:shadow-purple-500/10 transition-all duration-300 cursor-pointer flex flex-col justify-between overflow-hidden">
+        <div class="absolute -right-6 -bottom-6 w-32 h-32 bg-purple-500/10 rounded-full blur-2xl group-hover:bg-purple-500/20 transition-all"></div>
+        <div class="space-y-4 relative z-10">
+          <div class="w-14 h-14 rounded-2xl bg-purple-600 text-white text-3xl flex items-center justify-center shadow-md shadow-purple-600/30 group-hover:scale-110 transition-transform">
+            🎛️
+          </div>
+          <div>
+            <span class="text-[11px] font-black text-purple-600 uppercase tracking-widest">Módulo 02</span>
+            <h3 class="text-xl font-bold text-slate-900 mt-0.5 group-hover:text-purple-700 transition-colors">
+              Diseño de Experiencias Interactivas
+            </h3>
+            <p class="text-xs text-slate-500 mt-2 leading-relaxed font-medium">
+              Aula virtual de 5 módulos sobre los 10 componentes interactivos de aprendizaje, con demostraciones en vivo y creador de prompts para IA.
+            </p>
+          </div>
+        </div>
+        <div class="pt-6 mt-6 border-t border-slate-100 flex items-center justify-between relative z-10">
+          <span class="text-xs font-bold text-purple-600 group-hover:translate-x-1 transition-transform inline-flex items-center gap-1.5">
+            Entrar al Aula Virtual ➔
+          </span>
+          <span class="text-[10px] font-extrabold bg-purple-50 text-purple-700 px-2.5 py-1 rounded-lg border border-purple-200">
+            5 Módulos
+          </span>
+        </div>
+      </div>
+
+    </div>
+  </div><!-- /view-inicio-modulos -->
+
+  <!-- CONTENEDOR PRINCIPAL: MÓDULO CANVA -->
+  <main id="main-canva" class="hidden max-w-7xl mx-auto px-4 md:px-8 py-6 space-y-6">
+
+    <!-- Barra de Control del Módulo: Volver + Navegación de Sesiones -->
+    <div class="bg-white p-4 rounded-2xl border border-slate-200 shadow-xs space-y-3">
+      <div class="flex items-center justify-between">
+        <button onclick="cambiarModulo('inicio')" 
+          class="inline-flex items-center gap-1.5 px-3.5 py-1.5 rounded-xl bg-slate-100 hover:bg-slate-200 text-slate-700 font-bold text-xs border border-slate-200 transition-all hover:-translate-x-0.5">
+          ← Volver a Selección de Módulos
+        </button>
+        <span class="text-xs font-black text-violet-600 bg-violet-50 border border-violet-200 px-3 py-1 rounded-lg">
+          🎨 Módulo Canva
+        </span>
+      </div>
+
+      <!-- NAV BAR ELEGANTE DE 3 SESIONES -->
+      <nav class="grid grid-cols-1 sm:grid-cols-3 gap-2.5 sm:gap-3.5 pt-2 border-t border-slate-100" id="navTabsContainer" role="tablist">
+        
+        <!-- Tab 1 -->
+        <button onclick="cambiarClase('clase1')" id="tab-clase1" role="tab" aria-selected="true" class="nav-tab active group flex flex-col sm:flex-row sm:items-center gap-2 p-2.5 sm:px-4 sm:py-3 rounded-xl font-bold text-xs transition-all duration-200 text-left border-2 bg-violet-600 text-white border-violet-600 shadow-md shadow-violet-600/20">
+          <div class="w-7 h-7 rounded-lg bg-white/20 text-white font-black text-xs flex items-center justify-center shrink-0">
+            1
+          </div>
+          <div class="min-w-0">
+            <span class="block text-[10px] uppercase tracking-wider opacity-80 font-black">Sesión 01</span>
+            <span class="block font-bold text-xs truncate sm:whitespace-normal">Diagnóstico IA &amp; 2 PDFs</span>
+          </div>
+        </button>
+
+        <!-- Tab 2 -->
+        <button onclick="cambiarClase('clase2')" id="tab-clase2" role="tab" aria-selected="false" class="nav-tab group flex flex-col sm:flex-row sm:items-center gap-2 p-2.5 sm:px-4 sm:py-3 rounded-xl font-bold text-xs transition-all duration-200 text-left border bg-purple-50/80 text-purple-950 border-purple-200 hover:opacity-90">
+          <div class="w-7 h-7 rounded-lg bg-white/70 text-slate-700 font-black text-xs flex items-center justify-center shrink-0 border border-slate-200">
+            2
+          </div>
+          <div class="min-w-0">
+            <span class="block text-[10px] uppercase tracking-wider text-slate-500 font-black">Sesión 02</span>
+            <span class="block font-bold text-xs truncate sm:whitespace-normal">Paleta 60-30-10 &amp; Complementarios</span>
+          </div>
+        </button>
+
+        <!-- Tab 3 -->
+        <button onclick="cambiarClase('clase3')" id="tab-clase3" role="tab" aria-selected="false" class="nav-tab group flex flex-col sm:flex-row sm:items-center gap-2 p-2.5 sm:px-4 sm:py-3 rounded-xl font-bold text-xs transition-all duration-200 text-left border bg-purple-50/80 text-purple-950 border-purple-200 hover:opacity-90">
+          <div class="w-7 h-7 rounded-lg bg-white/70 text-slate-700 font-black text-xs flex items-center justify-center shrink-0 border border-slate-200">
+            3
+          </div>
+          <div class="min-w-0">
+            <span class="block text-[10px] uppercase tracking-wider text-slate-500 font-black">Sesión 03</span>
+            <span class="block font-bold text-xs truncate sm:whitespace-normal">Test Interactivo &amp; Entrega</span>
+          </div>
+        </button>
+
+      </nav>
+    </div>
 
     <!-- ========================================================================= -->
     <!-- CLASE 1: PASO A PASO (DIAGNÓSTICO INICIAL Y DOBLE ENTREGA PDF)             -->
@@ -880,6 +1041,19 @@
   
   </main>
 
+  <!-- ╔══════════════════════════════════════╗ -->
+  <!-- ║  MÓDULO: DISEÑO DE EXPERIENCIAS       ║ -->
+  <!-- ╚══════════════════════════════════════╝ -->
+  <div id="view-recursos-web" class="hidden flex-1 min-h-0 flex flex-col">
+
+    <!-- Aula Virtual a pantalla completa, pegada al borde izquierdo -->
+    <div class="flex-1 min-h-0 overflow-hidden flex">
+      <iframe src="09-recursos-web.html?grado=10" title="Diseño de Experiencias Interactivas"
+        class="w-full h-full flex-1 block border-0"></iframe>
+    </div>
+
+  </div><!-- /view-recursos-web -->
+
   <!-- MODAL INTERACTIVO DE JERARQUÍA TIPOGRÁFICA 2:1 -->
   <div id="modalTipografia" class="fixed inset-0 z-50 flex items-center justify-center p-3 sm:p-4 bg-slate-950/70 backdrop-blur-sm hidden opacity-0 transition-opacity duration-300" onclick="cerrarModalTipografia(event)">
     <div class="bg-white w-full max-w-3xl rounded-3xl shadow-2xl border border-slate-200 overflow-hidden flex flex-col max-h-[90vh] animate-in fade-in zoom-in-95 duration-200" onclick="event.stopPropagation()">
@@ -1025,6 +1199,77 @@
 
   <!-- SCRIPTING REACTIVO E INTERACTIVO -->
   <script>
+    // ==========================================
+    // SISTEMA DE MÓDULOS (CANVA / RECURSOS WEB)
+    // ==========================================
+    const MODULO_KEY = 'p3_grado10_modulo_activo';
+    const MARCADOR_PESTANA = 'p3_grado10';
+    const MODULOS_VALIDOS = ['inicio', 'canva', 'recursos-web'];
+
+    function guardarModuloActivo(modulo) {
+      try {
+        sessionStorage.setItem(MODULO_KEY, modulo);
+      } catch (e) { /* modo privado o storage bloqueado */ }
+    }
+
+    // window.name sobrevive a las recargas de la pestaña, pero está vacío al abrirla de nuevo.
+    function esRecargaDeEstaPestana() {
+      if (window.name === MARCADOR_PESTANA) return true;
+      window.name = MARCADOR_PESTANA;
+      return false;
+    }
+
+    function leerModuloActivo() {
+      // Al abrir la página siempre se muestra la selección de módulos.
+      if (!esRecargaDeEstaPestana()) return 'inicio';
+      try {
+        // Recarga dentro de la misma pestaña: recuperar el módulo en el que se estaba.
+        const guardado = sessionStorage.getItem(MODULO_KEY);
+        return MODULOS_VALIDOS.includes(guardado) ? guardado : 'inicio';
+      } catch (e) {
+        return 'inicio';
+      }
+    }
+
+    function cambiarModulo(modulo, opciones) {
+      const persistir = !opciones || opciones.persistir !== false;
+      const inicioModulos = document.getElementById('view-inicio-modulos');
+      const mainCanva     = document.getElementById('main-canva');
+      const recursosWeb   = document.getElementById('view-recursos-web');
+      const headerDetail  = document.getElementById('header-canva-detail');
+
+      if (modulo === 'inicio') {
+        if (inicioModulos) inicioModulos.classList.remove('hidden');
+        if (mainCanva)     mainCanva.classList.add('hidden');
+        if (recursosWeb)   recursosWeb.classList.add('hidden');
+        if (headerDetail)  headerDetail.classList.add('hidden');
+      } else if (modulo === 'canva') {
+        if (inicioModulos) inicioModulos.classList.add('hidden');
+        if (mainCanva)     mainCanva.classList.remove('hidden');
+        if (recursosWeb)   recursosWeb.classList.add('hidden');
+        if (headerDetail)  headerDetail.classList.remove('hidden');
+      } else if (modulo === 'recursos-web') {
+        if (inicioModulos) inicioModulos.classList.add('hidden');
+        if (mainCanva)     mainCanva.classList.add('hidden');
+        if (recursosWeb)   recursosWeb.classList.remove('hidden');
+        if (headerDetail)  headerDetail.classList.add('hidden');
+      }
+      document.body.classList.toggle('aula-activa', modulo === 'recursos-web');
+      if (persistir) guardarModuloActivo(modulo);
+      window.scrollTo({ top: 0, behavior: 'smooth' });
+    }
+
+    // El Aula Virtual pide volver a la selección de módulos
+    window.addEventListener('message', (evento) => {
+      if (evento.data && evento.data.tipo === 'volver-a-clase') {
+        cambiarModulo('inicio');
+      }
+    });
+
+    document.addEventListener('DOMContentLoaded', () => {
+      // Al abrir siempre se muestra la selección de módulos; al recargar se conserva
+      cambiarModulo(leerModuloActivo());
+    });
     // ==========================================
     // 1. SISTEMA DE COPIADO CON FEEDBACK TOAST
     // ==========================================

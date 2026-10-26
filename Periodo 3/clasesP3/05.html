@@ -221,6 +221,9 @@
         <button type="button" id="tabBtn-proyectos" class="nav-tab-btn bg-black/25 hover:bg-black/40 text-white/90 border border-white/20 px-3.5 sm:px-4 py-2 rounded-xl text-xs sm:text-sm font-bold inline-flex items-center gap-1.5 transition cursor-pointer" onclick="showTab('proyectos')">
           <span>🎮</span> <span>Proyectos Oficiales (1 - 9)</span>
         </button>
+        <button type="button" id="tabBtn-prueba" class="nav-tab-btn bg-black/25 hover:bg-black/40 text-white/90 border border-white/20 px-3.5 sm:px-4 py-2 rounded-xl text-xs sm:text-sm font-bold inline-flex items-center gap-1.5 transition cursor-pointer" onclick="showTab('prueba')">
+          <span>📝</span> <span>Prueba (10 preguntas)</span>
+        </button>
       </nav>
 
     </div>
@@ -494,6 +497,30 @@
   </section>
 
   <!-- ========================================================================= -->
+  <!-- PRUEBA DE OPCIÓN MÚLTIPLE                                                 -->
+  <!-- ========================================================================= -->
+  <section id="prueba" class="tab-content hidden max-w-7xl mx-auto px-4 py-8 w-full">
+    <div class="bg-white rounded-3xl p-5 sm:p-8 border border-slate-200 shadow-md">
+      <div class="flex flex-wrap items-center justify-between gap-3 mb-6">
+        <div>
+          <span class="inline-flex items-center gap-1.5 px-3 py-1 rounded-full bg-rose-100 text-harvard-crimson text-[11px] font-black uppercase tracking-wider">🎯 Comprueba lo aprendido</span>
+          <h2 class="font-display font-black text-2xl sm:text-3xl text-slate-900 mt-2">Prueba de Scratch y Harvard CS50</h2>
+          <p class="text-sm text-slate-600 mt-1">Responde las 10 preguntas seleccionando una opción en cada una y luego revisa tu resultado.</p>
+        </div>
+        <span class="bg-amber-100 text-amber-900 border border-amber-300 text-xs font-black px-3 py-2 rounded-xl">10 preguntas · Opción múltiple</span>
+      </div>
+      <form id="quizForm" class="space-y-4" novalidate>
+        <div id="quizQuestions" class="space-y-4"></div>
+        <div class="flex flex-wrap items-center gap-3 pt-2">
+          <button type="submit" id="quizSubmit" class="bg-harvard-crimson hover:bg-rose-800 text-white font-black px-5 py-3 rounded-xl transition shadow-sm">Revisar mis respuestas</button>
+          <button type="button" id="quizRetry" class="hidden bg-slate-100 hover:bg-slate-200 text-slate-800 font-bold px-5 py-3 rounded-xl transition border border-slate-300" onclick="resetQuiz()">Intentar de nuevo</button>
+          <p id="quizResult" class="text-sm font-bold" role="status" aria-live="polite"></p>
+        </div>
+      </form>
+    </div>
+  </section>
+
+  <!-- ========================================================================= -->
   <!-- MODAL DE REPRODUCCIÓN DE VIDEO                                            -->
   <!-- ========================================================================= -->
   <div id="videoModal" class="fixed inset-0 bg-slate-950/80 backdrop-blur-sm z-50 flex items-center justify-center p-4 hidden opacity-0 pointer-events-none transition-opacity duration-300">
@@ -556,6 +583,19 @@
     const TASKS = [
       'step-1', 'step-2', 'step-3', 'step-4',
       'proj-1', 'proj-2', 'proj-3', 'proj-4', 'proj-5', 'proj-6', 'proj-7', 'proj-8', 'proj-9'
+    ];
+
+    const QUIZ_QUESTIONS = [
+      { question: '¿Cuál es la calificación mínima para cada proyecto de Harvard CS50 Scratch?', options: ['50%', '60%', '70%', '100%'], answer: 2 },
+      { question: '¿Cuántos proyectos oficiales se deben completar para la certificación?', options: ['5 proyectos', '7 proyectos', '9 proyectos', '12 proyectos'], answer: 2 },
+      { question: '¿Cuáles son las dos fases principales para obtener el certificado?', options: ['Crear las cuentas oficiales y desarrollar/subir los proyectos', 'Ver videos y jugar en Scratch', 'Imprimir la guía y enviar un correo', 'Crear una cuenta y completar una sola actividad'], answer: 0 },
+      { question: '¿Cuál de estas plataformas se usa para crear y compartir proyectos de programación por bloques?', options: ['Scratch MIT', 'Una hoja de cálculo', 'Un editor de imágenes', 'Un reproductor de video'], answer: 0 },
+      { question: '¿Qué tipo de archivo se descarga de Scratch para entregar un proyecto?', options: ['.jpg', '.sb3', '.mp3', '.pdf'], answer: 1 },
+      { question: '¿En qué sitio se verifica la calificación de los proyectos de CS50 Scratch?', options: ['scratch.mit.edu', 'edx.org', 'cs50.me/cs50s', 'github.com'], answer: 2 },
+      { question: 'En Scratch, ¿qué es un clon?', options: ['Una copia de un objeto o sprite', 'Un sonido de fondo', 'Un tipo de variable', 'Un escenario nuevo'], answer: 0 },
+      { question: '¿Qué evento puede iniciar un programa al hacer clic en la bandera verde?', options: ['Al presionar tecla espacio', 'Al hacer clic en la bandera verde', 'Al tocar el borde', 'Al cambiar el volumen'], answer: 1 },
+      { question: '¿Para qué sirve una variable en un proyecto?', options: ['Para guardar un dato que puede cambiar', 'Para dibujar un fondo automáticamente', 'Para cerrar el proyecto', 'Para descargar un video'], answer: 0 },
+      { question: '¿Qué permite hacer un bloque de repetición?', options: ['Repetir instrucciones varias veces', 'Cambiar el nombre del usuario', 'Subir el proyecto a edX', 'Borrar todos los sprites'], answer: 0 }
     ];
 
     // =========================================================================
@@ -820,7 +860,7 @@
     // GESTIÓN DE PESTAÑAS (SOLO MUESTRA EL CONTENIDO DE LA PESTAÑA ACTIVA)
     // =========================================================================
     function showTab(tabId, smoothScroll = true) {
-      const tabs = ['primeros-pasos', 'proyectos'];
+      const tabs = ['primeros-pasos', 'proyectos', 'prueba'];
       if (!tabs.includes(tabId)) tabId = 'primeros-pasos';
 
       // Ocultar todas las secciones y mostrar únicamente la seleccionada
@@ -917,6 +957,82 @@
       });
 
       container.innerHTML = html;
+    }
+
+    function renderQuiz() {
+      const container = document.getElementById('quizQuestions');
+      if (!container) return;
+
+      container.innerHTML = QUIZ_QUESTIONS.map((item, questionIndex) => `
+        <fieldset class="quiz-question bg-slate-50 rounded-2xl p-4 sm:p-5 border-2 border-slate-200" data-question="${questionIndex}">
+          <legend class="font-display font-black text-sm sm:text-base text-slate-900 px-1">${questionIndex + 1}. ${item.question}</legend>
+          <div class="grid sm:grid-cols-2 gap-2 mt-3">
+            ${item.options.map((option, optionIndex) => `
+              <label class="quiz-option flex items-start gap-2.5 bg-white border border-slate-200 rounded-xl p-3 text-sm text-slate-700 cursor-pointer hover:border-rose-300 transition">
+                <input type="radio" name="question-${questionIndex}" value="${optionIndex}" class="mt-0.5 accent-rose-700 shrink-0">
+                <span>${String.fromCharCode(65 + optionIndex)}. ${option}</span>
+              </label>
+            `).join('')}
+          </div>
+        </fieldset>
+      `).join('');
+    }
+
+    function submitQuiz(event) {
+      event.preventDefault();
+      const result = document.getElementById('quizResult');
+      const answers = QUIZ_QUESTIONS.map((_, index) => {
+        const selected = document.querySelector(`input[name="question-${index}"]:checked`);
+        return selected ? Number(selected.value) : null;
+      });
+      const unanswered = answers.filter(answer => answer === null).length;
+
+      if (unanswered > 0) {
+        result.textContent = `Te faltan ${unanswered} pregunta${unanswered === 1 ? '' : 's'}. Selecciona una opción en cada pregunta.`;
+        result.className = 'text-sm font-bold text-amber-700';
+        const firstUnanswered = answers.indexOf(null);
+        document.querySelector(`input[name="question-${firstUnanswered}"]`)?.focus();
+        return;
+      }
+
+      let score = 0;
+      QUIZ_QUESTIONS.forEach((item, questionIndex) => {
+        const question = document.querySelector(`.quiz-question[data-question="${questionIndex}"]`);
+        const selectedAnswer = answers[questionIndex];
+        const isCorrect = selectedAnswer === item.answer;
+        if (isCorrect) score++;
+
+        question.classList.remove('border-slate-200');
+        question.classList.add(isCorrect ? 'border-emerald-400' : 'border-rose-300');
+        question.querySelectorAll('.quiz-option').forEach((option, optionIndex) => {
+          if (optionIndex === item.answer) option.classList.add('!border-emerald-400', '!bg-emerald-50');
+          else if (optionIndex === selectedAnswer) option.classList.add('!border-rose-300', '!bg-rose-50');
+        });
+      });
+
+      document.querySelectorAll('#quizQuestions input').forEach(input => { input.disabled = true; });
+      document.getElementById('quizSubmit').classList.add('hidden');
+      document.getElementById('quizRetry').classList.remove('hidden');
+      result.textContent = `Obtuviste ${score} de ${QUIZ_QUESTIONS.length} respuestas correctas. ${score === QUIZ_QUESTIONS.length ? '¡Excelente, contestaste todo correctamente!' : 'Revisa las respuestas resaltadas y vuelve a intentarlo cuando quieras.'}`;
+      result.className = `text-sm font-bold ${score === QUIZ_QUESTIONS.length ? 'text-emerald-700' : 'text-slate-700'}`;
+      if (score === QUIZ_QUESTIONS.length) triggerConfettiMini();
+    }
+
+    function resetQuiz() {
+      document.getElementById('quizForm').reset();
+      document.querySelectorAll('#quizQuestions input').forEach(input => { input.disabled = false; });
+      document.querySelectorAll('.quiz-question').forEach(question => {
+        question.classList.remove('border-emerald-400', 'border-rose-300');
+        question.classList.add('border-slate-200');
+      });
+      document.querySelectorAll('.quiz-option').forEach(option => {
+        option.classList.remove('!border-emerald-400', '!bg-emerald-50', '!border-rose-300', '!bg-rose-50');
+      });
+      document.getElementById('quizSubmit').classList.remove('hidden');
+      document.getElementById('quizRetry').classList.add('hidden');
+      const result = document.getElementById('quizResult');
+      result.textContent = '';
+      result.className = 'text-sm font-bold';
     }
 
     // =========================================================================
@@ -1180,10 +1296,12 @@
     document.addEventListener('DOMContentLoaded', () => {
       loadProgress();
       renderAllProjects();
+      renderQuiz();
+      document.getElementById('quizForm').addEventListener('submit', submitQuiz);
 
-      // Detectar hash inicial (#primeros-pasos, #proyectos)
+      // Detectar hash inicial (#primeros-pasos, #proyectos, #prueba)
       const hash = window.location.hash ? window.location.hash.replace('#', '') : 'primeros-pasos';
-      if (['primeros-pasos', 'proyectos'].includes(hash)) {
+      if (['primeros-pasos', 'proyectos', 'prueba'].includes(hash)) {
         showTab(hash, false);
       } else {
         showTab('primeros-pasos', false);
@@ -1192,7 +1310,7 @@
 
     window.addEventListener('hashchange', () => {
       const hash = window.location.hash ? window.location.hash.replace('#', '') : 'primeros-pasos';
-      if (['primeros-pasos', 'proyectos'].includes(hash)) {
+      if (['primeros-pasos', 'proyectos', 'prueba'].includes(hash)) {
         showTab(hash, false);
       }
     });

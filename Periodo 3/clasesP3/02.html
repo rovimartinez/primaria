@@ -244,13 +244,11 @@
 
       </div>
 
-      <!-- Barra de herramientas Derecha (Estrellas y Sonido) -->
+      <!-- Barra de herramientas Derecha (Sonido) -->
       <div class="flex items-center space-x-2 sm:space-x-3">
-        <!-- Marcador de estrellas -->
-        <div id="star-badge-container" class="bg-[#0a3556]/60 backdrop-blur-sm border border-white/30 px-4 py-1.5 rounded-full flex items-center gap-1.5 text-xs sm:text-sm font-black text-amber-300 shadow-inner cursor-pointer select-none transition-transform duration-300" title="Estrellas acumuladas guardadas. (Doble clic si deseas reiniciar a 0)" ondblclick="resetStars()">
-          <span>⭐</span>
-          <span id="starScore" class="text-white font-bold text-sm">0</span>
-          <span class="text-amber-200 font-bold text-xs">estrellas</span>
+        <!-- Marcador de estrellas (Oculto) -->
+        <div id="star-badge-container" class="hidden">
+          <span id="starScore">0</span>
         </div>
 
         <!-- Botón Audio -->
@@ -2735,6 +2733,7 @@
                 <th class="p-3 text-center">Calificación</th>
                 <th class="p-3 text-center">Porcentaje</th>
                 <th class="p-3">Fecha y Hora</th>
+                <th class="p-3 text-center">Acciones</th>
               </tr>
             </thead>
             <tbody id="docente-table-body" class="divide-y divide-slate-100 font-medium">
@@ -4632,7 +4631,7 @@
       }
 
       const starBadge = document.getElementById('star-badge-container');
-      if (starBadge) starBadge.classList.toggle('hidden', classNum === 2);
+      if (starBadge) starBadge.classList.add('hidden');
 
       // Si es Clase 3 (Bucles Anidados), activar pestaña de Clase 3
       if (classNum === 3) {
@@ -5417,30 +5416,31 @@
     const STORAGE_KEY_LESSONS_HIDDEN = 'ilm_p3_grado2_lessons_hidden';
 
     // BANCO INTEGRADO DE 10 PREGUNTAS (Patrones + Capy & Guyra + Bucles Anidados)
+    // Con posiciones variadas y barajadas para que NUNCA sean todas la misma opción
     const integratedExamQuestions = [
-      // 1. Patrones
+      // 1. Patrones (Correcta en B)
       {
         badge: "Pregunta #1 • Patrones",
         question: "¿Qué es un patrón en el mundo real y en la programación?",
         options: [
-          { text: "Una regla o grupito de cosas que se repite una y otra vez en el mismo orden 🔁", isCorrect: true },
           { text: "Una mancha de pintura en la hoja de papel 🎨", isCorrect: false },
+          { text: "Una regla o grupito de cosas que se repite una y otra vez en el mismo orden 🔁", isCorrect: true },
           { text: "Un botón para apagar la computadora 🔌", isCorrect: false }
         ],
         explanation: "¡Correcto! Un patrón es una secuencia lógica que sigue siempre la misma regla repetida."
       },
-      // 2. Patrones
+      // 2. Patrones (Correcta en C)
       {
         badge: "Pregunta #2 • Patrones",
         question: "Observa esta secuencia de la naturaleza: Sol ☀️, Luna 🌙, Sol ☀️, Luna 🌙, Sol ☀️... ¿Cuál sigue?",
         options: [
-          { text: "La Luna 🌙", isCorrect: true },
           { text: "El Sol ☀️", isCorrect: false },
-          { text: "Una Estrella 🌟", isCorrect: false }
+          { text: "Una Estrella 🌟", isCorrect: false },
+          { text: "La Luna 🌙", isCorrect: true }
         ],
         explanation: "¡Muy bien! El patrón alterna Sol y Luna. Después del Sol le toca a la Luna 🌙."
       },
-      // 3. Patrones
+      // 3. Patrones (Correcta en A)
       {
         badge: "Pregunta #3 • Patrones",
         question: "¡Ojo de Detective! En la fila: [🚗, 🚗, ✈️, 🚗, 🚗, 🐱, 🚗], ¿cuál es el intruso que no pertenece?",
@@ -5451,29 +5451,29 @@
         ],
         explanation: "¡Buen ojo! Todos son vehículos de transporte; el Gatito 🐱 es el intruso."
       },
-      // 4. Capy y Guyra
+      // 4. Capy y Guyra (Correcta en B)
       {
         badge: "Pregunta #4 • Bucles Simples",
         question: "¿Qué es un bucle en el mundo de la programación?",
         options: [
-          { text: "Una orden que repite una acción varias veces de forma automática 🔁", isCorrect: true },
           { text: "Un nudo que se le hace a los cables de la computadora 🧶", isCorrect: false },
+          { text: "Una orden que repite una acción varias veces de forma automática 🔁", isCorrect: true },
           { text: "Un botón para romper el teclado ⌨️", isCorrect: false }
         ],
         explanation: "¡Exacto! El bucle le enseña a la máquina a repetir acciones sin tener que escribir lo mismo muchas veces."
       },
-      // 5. Capy y Guyra
+      // 5. Capy y Guyra (Correcta en C)
       {
         badge: "Pregunta #5 • Bucles Simples",
         question: "Si pones la acción 'Comer fruta 🍎' dentro de un bucle de 'Repetir 3 veces', ¿cuántas frutas comerá?",
         options: [
-          { text: "Exactamente 3 frutas 🍎🍎🍎", isCorrect: true },
           { text: "Solo 1 fruta 🍎", isCorrect: false },
-          { text: "Ninguna fruta ❌", isCorrect: false }
+          { text: "Ninguna fruta ❌", isCorrect: false },
+          { text: "Exactamente 3 frutas 🍎🍎🍎", isCorrect: true }
         ],
         explanation: "¡Genial! La instrucción se ejecuta 3 veces seguidas de manera exacta."
       },
-      // 6. Capy y Guyra
+      // 6. Capy y Guyra (Correcta en A)
       {
         badge: "Pregunta #6 • Pilas Bloques",
         question: "En la plataforma Pilas Bloques, ¿de qué color suele ser el bloque 'Repetir'?",
@@ -5484,29 +5484,29 @@
         ],
         explanation: "¡Muy bien! Los bloques de control y repetición en Pilas Bloques son de color verde."
       },
-      // 7. Capy y Guyra
+      // 7. Capy y Guyra (Correcta en B)
       {
         badge: "Pregunta #7 • Algoritmos",
         question: "¿Por qué los programadores usamos bucles en vez de repetir el mismo bloque una y otra vez?",
         options: [
-          { text: "Para ahorrar tiempo, escribir menos código y evitar errores 💡", isCorrect: true },
           { text: "Porque a la computadora le da sueño leer mucho 💤", isCorrect: false },
+          { text: "Para ahorrar tiempo, escribir menos código y evitar errores 💡", isCorrect: true },
           { text: "Porque los bucles hacen que el juego sea más aburrido 🥱", isCorrect: false }
         ],
         explanation: "¡Así es! Con bucles programamos más rápido, con código limpio y sin equivocaciones."
       },
-      // 8. Bucles Anidados
+      // 8. Bucles Anidados (Correcta en C)
       {
         badge: "Pregunta #8 • Bucles Anidados",
         question: "¿Qué es un bucle anidado?",
         options: [
-          { text: "Un bucle que está colocado dentro de otro bucle 🔄🔁", isCorrect: true },
           { text: "Un nido donde duermen los pájaros en el bosque 🪺", isCorrect: false },
-          { text: "Un programa que solo funciona los fines de semana 📅", isCorrect: false }
+          { text: "Un programa que solo funciona los fines de semana 📅", isCorrect: false },
+          { text: "Un bucle que está colocado dentro de otro bucle 🔄🔁", isCorrect: true }
         ],
         explanation: "¡Excelente! Un bucle anidado es tener una tarea repetitiva colocada adentro de otra."
       },
-      // 9. Bucles Anidados
+      // 9. Bucles Anidados (Correcta en A)
       {
         badge: "Pregunta #9 • Bucles Anidados",
         question: "Al bucle que envuelve todo se le llama bucle externo. ¿Cómo se le llama al que está adentro?",
@@ -5517,13 +5517,13 @@
         ],
         explanation: "¡Correcto! El bucle de adentro es el Bucle Interno."
       },
-      // 10. Bucles Anidados
+      // 10. Bucles Anidados (Correcta en B)
       {
         badge: "Pregunta #10 • Gran Desafío",
         question: "Si el bucle externo se repite 2 veces, y el interno repite [Avanzar] 3 veces, ¿cuántos pasos da en total?",
         options: [
-          { text: "Da 6 pasos en total (2 × 3 = 6) 🚀", isCorrect: true },
           { text: "Da solo 2 pasos ✌️", isCorrect: false },
+          { text: "Da 6 pasos en total (2 × 3 = 6) 🚀", isCorrect: true },
           { text: "Da 5 pasos 🖐️", isCorrect: false }
         ],
         explanation: "🎉 ¡FELICITACIONES! Multiplicas el bucle externo por el interno: 2 veces 3 pasos = ¡6 pasos en total!"
@@ -5739,6 +5739,7 @@
       evalStudentName = studentName;
       evalStudentCode = studentCode;
       evalAnswersDetail = [];
+      integratedExamQuestions.forEach(q => { delete q._shuffledOptions; });
 
       // Ocultar selección y mostrar runner
       document.getElementById('eval-selection-screen').classList.add('hidden');
@@ -5790,7 +5791,13 @@
 
       if (optsContainer) {
         optsContainer.innerHTML = '';
-        q.options.forEach((opt, idx) => {
+        
+        // Barajar aleatoriamente las opciones para cada estudiante en cada pregunta
+        if (!q._shuffledOptions) {
+          q._shuffledOptions = [...q.options].sort(() => Math.random() - 0.5);
+        }
+
+        q._shuffledOptions.forEach((opt, idx) => {
           const btn = document.createElement('button');
           btn.className = "eval-opt-btn p-4 rounded-2xl border-2 border-slate-200 bg-white hover:border-amber-400 hover:bg-amber-50 text-left font-display font-bold text-sm sm:text-base text-slate-800 transition flex items-center justify-between shadow-sm active:scale-98 cursor-pointer";
           btn.innerHTML = `
@@ -6148,9 +6155,70 @@
             <td class="p-3 text-center">${scoreBadge}</td>
             <td class="p-3 text-center font-bold text-slate-700">${percText}</td>
             <td class="p-3 text-[11px] text-slate-500">${r.fecha ? new Date(r.fecha).toLocaleString('es-CO') : 'Reciente'}</td>
+            <td class="p-3 text-center">
+              <button onclick="eliminarRegistroEstudiante('${r.codigo}', '${r.nombre.replace(/'/g, "\\'")}')" class="bg-rose-50 hover:bg-rose-100 text-rose-700 hover:text-rose-900 border border-rose-300 font-bold px-2.5 py-1 rounded-lg text-[11px] transition inline-flex items-center gap-1 cursor-pointer shadow-sm active:scale-95" title="Eliminar resultado y permitir que vuelva a presentar el examen">
+                <span>🔄</span> <span>Habilitar Reintento</span>
+              </button>
+            </td>
           </tr>
         `;
       }).join('');
+    }
+
+    // --- ELIMINAR O REINICIAR REGISTRO DESDE EL ADMIN ---
+    async function eliminarRegistroEstudiante(codigo, nombre) {
+      const confirmDelete = confirm(`¿Estás seguro de que deseas eliminar el resultado de "${nombre}" (${codigo})?\n\nAl hacerlo, se borrará su calificación de la base de datos y se le permitirá presentar el examen nuevamente.`);
+      if (!confirmDelete) return;
+
+      playPopSound();
+
+      // 1. Si coincide con el resultado guardado en este equipo, limpiarlo
+      const localSaved = localStorage.getItem(STORAGE_KEY_OFFICIAL_RESULT);
+      if (localSaved) {
+        try {
+          const localObj = JSON.parse(localSaved);
+          if (localObj.codigo === codigo || localObj.nombre === nombre) {
+            localStorage.removeItem(STORAGE_KEY_OFFICIAL_RESULT);
+            // Restaurar el botón original de examen en la vista
+            const entryContainer = document.getElementById('official-exam-entry-container');
+            if (entryContainer) {
+              entryContainer.innerHTML = `
+                <button onclick="promptOfficialLogin()" id="btn-start-official" class="w-full bg-gradient-to-r from-amber-500 to-orange-500 hover:from-amber-600 hover:to-orange-600 text-white font-display font-black text-base py-3.5 rounded-2xl shadow-lg hover:shadow-xl transition flex items-center justify-center gap-2 cursor-pointer active:scale-98">
+                  <span>📝 Presentar Examen Oficial</span>
+                </button>
+              `;
+            }
+          }
+        } catch (e) {}
+      }
+
+      // 2. Eliminar de Cloudflare D1
+      try {
+        const resp = await fetch(`${CF_WORKER_URL}/api/estudiantes/${encodeURIComponent(codigo)}`, {
+          method: 'DELETE'
+        });
+        if (resp.ok) {
+          playSuccessSound();
+          alert(`✓ El examen de "${nombre}" fue eliminado correctamente. El estudiante ya puede presentar la prueba otra vez.`);
+        } else {
+          alert(`Registro local eliminado. En la nube respondió con estado: ${resp.status}`);
+        }
+      } catch (err) {
+        console.warn("Error eliminando en Cloudflare D1:", err);
+        alert(`Se limpió el registro en este equipo. Revisa la conexión a internet para la nube.`);
+      }
+
+      // 3. Refrescar tabla del panel docente
+      refreshDocenteData();
+    }
+
+    // Reiniciar también los intentos de práctica de este equipo (si el docente lo requiere)
+    function resetPracticeAttemptsFromAdmin() {
+      if (confirm("¿Deseas reiniciar a 0 el contador de prácticas en este equipo?")) {
+        localStorage.removeItem(STORAGE_KEY_PRACTICE_COUNT);
+        initEvaluationModuleView();
+        alert("✓ Contador de prácticas reiniciado a 0.");
+      }
     }
 
     function exportDocenteCSV() {

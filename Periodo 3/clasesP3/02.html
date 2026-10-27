@@ -304,41 +304,55 @@
 
       <!-- Selector de las 4 Tarjetas de Temas (SOLO ESTO VISIBLE AL ENTRAR) -->
       <div class="w-full max-w-4xl mb-6">
-        <div class="text-xs uppercase font-extrabold text-slate-500 tracking-wider mb-2 flex items-center justify-between">
-          <span class="flex items-center gap-1.5"><span>📚</span> <span>Selecciona un Tema:</span></span>
-          <span class="text-sky-700 font-bold">4 Temas</span>
+        <div class="text-xs uppercase font-extrabold text-slate-500 tracking-wider mb-2 flex flex-wrap items-center justify-between gap-2">
+          <span class="flex items-center gap-1.5"><span>📚</span> <span>Selecciona un Tema o Evaluación:</span></span>
+          <div class="flex items-center gap-2">
+            <!-- Botón de ojito para Ocultar / Mostrar Lecciones -->
+            <button id="btn-toggle-lessons" onclick="toggleLessonsVisibility()" class="bg-sky-100 hover:bg-sky-200 text-sky-900 border border-sky-300 font-display font-bold text-xs px-3 py-1 rounded-xl transition flex items-center gap-1.5 shadow-sm cursor-pointer" title="Mostrar u Ocultar Lecciones de Clase">
+              <span id="toggle-lessons-icon">👁️</span>
+              <span id="toggle-lessons-text">Lecciones Visibles</span>
+            </button>
+            <span class="text-sky-700 font-bold bg-sky-50 px-2 py-0.5 rounded-lg border border-sky-200">2° Grado &bull; P3</span>
+          </div>
         </div>
 
         <div class="grid grid-cols-2 sm:grid-cols-4 gap-2.5 sm:gap-3">
           
-          <!-- Botón: Patrones -->
-          <button id="btn-class-1" onclick="switchClass(1)" class="class-card bg-white border-2 border-sky-400 hover:border-sky-500 hover:shadow-lg text-sky-950 p-4 rounded-2xl shadow-md transition flex flex-col items-center text-center hover:scale-[1.02] cursor-pointer">
+          <!-- Botón: Patrones (Lección 1) -->
+          <button id="btn-class-1" onclick="switchClass(1)" class="lesson-card-item class-card bg-white border-2 border-sky-400 hover:border-sky-500 hover:shadow-lg text-sky-950 p-4 rounded-2xl shadow-md transition flex flex-col items-center text-center hover:scale-[1.02] cursor-pointer">
             <span class="text-3xl mb-1.5">🧩</span>
             <span class="font-display font-black text-xs sm:text-sm text-slate-800">Patrones</span>
-            <span class="mt-2 bg-sky-100 text-sky-800 text-[9px] font-black px-2 py-0.5 rounded-full">✨ Habilitada</span>
+            <span class="mt-2 bg-sky-100 text-sky-800 text-[9px] font-black px-2 py-0.5 rounded-full">✨ Lección 1</span>
           </button>
 
-          <!-- Botón: Capy y Guyra -->
-          <button id="btn-class-2" onclick="switchClass(2)" class="class-card bg-white border-2 border-emerald-400 hover:border-emerald-500 hover:shadow-lg text-emerald-950 p-4 rounded-2xl shadow-md transition flex flex-col items-center text-center hover:scale-[1.02] cursor-pointer">
+          <!-- Botón: Capy y Guyra (Lección 2) -->
+          <button id="btn-class-2" onclick="switchClass(2)" class="lesson-card-item class-card bg-white border-2 border-emerald-400 hover:border-emerald-500 hover:shadow-lg text-emerald-950 p-4 rounded-2xl shadow-md transition flex flex-col items-center text-center hover:scale-[1.02] cursor-pointer">
             <span class="text-3xl mb-1.5">🐾</span>
             <span class="font-display font-black text-xs sm:text-sm text-slate-800">Capy y Guyra</span>
-            <span class="mt-2 bg-emerald-100 text-emerald-800 text-[9px] font-black px-2 py-0.5 rounded-full">✨ Habilitada</span>
+            <span class="mt-2 bg-emerald-100 text-emerald-800 text-[9px] font-black px-2 py-0.5 rounded-full">✨ Lección 2</span>
           </button>
 
-          <!-- Botón: Bucles Anidados -->
-          <button id="btn-class-3" onclick="switchClass(3)" class="class-card bg-white border-2 border-teal-400 hover:border-teal-500 hover:shadow-lg text-teal-950 p-4 rounded-2xl shadow-md transition flex flex-col items-center text-center hover:scale-[1.02] cursor-pointer">
+          <!-- Botón: Bucles Anidados (Lección 3) -->
+          <button id="btn-class-3" onclick="switchClass(3)" class="lesson-card-item class-card bg-white border-2 border-teal-400 hover:border-teal-500 hover:shadow-lg text-teal-950 p-4 rounded-2xl shadow-md transition flex flex-col items-center text-center hover:scale-[1.02] cursor-pointer">
             <span class="text-3xl mb-1.5">🔄</span>
             <span class="font-display font-black text-xs sm:text-sm text-slate-800">Bucles Anidados</span>
-            <span class="mt-2 bg-teal-100 text-teal-800 text-[9px] font-black px-2 py-0.5 rounded-full">✨ Habilitada</span>
+            <span class="mt-2 bg-teal-100 text-teal-800 text-[9px] font-black px-2 py-0.5 rounded-full">✨ Lección 3</span>
           </button>
 
-          <!-- Botón: Bucles con Mañic -->
-          <button id="btn-class-4" onclick="switchClass(4)" class="class-card bg-white/90 border-2 border-slate-200 text-slate-700 p-4 rounded-2xl shadow-sm hover:border-indigo-400 hover:bg-white hover:shadow-md transition flex flex-col items-center text-center hover:scale-[1.02] cursor-pointer">
-            <span class="text-3xl mb-1.5">🦥</span>
-            <span class="font-display font-black text-xs sm:text-sm text-slate-800">Bucles con Mañic</span>
-            <span class="mt-2 bg-slate-100 text-slate-500 text-[9px] font-bold px-2 py-0.5 rounded-full">🔒 Próxima</span>
+          <!-- Botón: Examen y Práctica (Reemplazo de Mañic) -->
+          <button id="btn-class-4" onclick="switchClass(4)" class="class-card bg-gradient-to-tr from-amber-500 via-orange-500 to-amber-600 border-2 border-amber-300 text-white p-4 rounded-2xl shadow-lg hover:shadow-xl hover:scale-[1.03] transition flex flex-col items-center text-center cursor-pointer relative overflow-hidden group">
+            <span class="absolute -top-2 -right-2 bg-red-600 text-white text-[9px] font-black px-2.5 py-0.5 rounded-full shadow border border-white animate-pulse">OFICIAL</span>
+            <span class="text-3xl mb-1.5 group-hover:scale-110 transition">📝</span>
+            <span class="font-display font-black text-xs sm:text-sm text-white drop-shadow">Examen & Práctica</span>
+            <span class="mt-2 bg-white/20 text-white text-[9px] font-black px-2.5 py-0.5 rounded-full border border-white/30 backdrop-blur-sm">⚡ 10 Preguntas</span>
           </button>
 
+        </div>
+
+        <!-- Alerta cuando las lecciones están ocultas -->
+        <div id="lessons-hidden-alert" class="hidden mt-3 p-3 bg-amber-50 border-2 border-dashed border-amber-300 rounded-2xl text-center text-amber-900 font-display text-xs sm:text-sm flex items-center justify-center gap-2 animate-fadeIn">
+          <span>🙈</span>
+          <span><strong>Modo Examen:</strong> Las 3 lecciones teóricas están ocultas temporalmente. Haz clic en <strong>"👁️‍🗨️ Ocultas (clic para ver)"</strong> para mostrarlas.</span>
         </div>
       </div>
 
@@ -2385,33 +2399,351 @@
   </div> <!-- Fin content-class-3 -->
 
   <!-- ======================================================================= -->
-  <!-- CONTENIDO CLASE 4: BUCLES ANIDADOS CON MAÑIC                            -->
+  <!-- CONTENIDO EVALUACIÓN: EXAMEN OFICIAL & PRÁCTICA (2° GRADO P3)            -->
   <!-- ======================================================================= -->
   <div id="content-class-4" class="class-content-view hidden w-full space-y-6">
-    <div class="bg-white rounded-3xl p-8 sm:p-10 border-4 border-indigo-400 shadow-xl text-center space-y-4">
-      <div class="w-24 h-24 bg-indigo-100 rounded-3xl flex items-center justify-center text-5xl mx-auto shadow-inner border-2 border-indigo-300">
-        🦥
+    
+    <!-- Encabezado del Módulo de Evaluación -->
+    <div class="bg-gradient-to-r from-amber-500 via-orange-500 to-amber-600 text-white rounded-3xl p-6 sm:p-8 shadow-xl border-4 border-white/40 flex flex-col sm:flex-row items-center justify-between gap-4">
+      <div class="flex items-center gap-4 text-center sm:text-left">
+        <div class="w-16 h-16 sm:w-20 sm:h-20 bg-white/20 rounded-2xl border-2 border-white/40 flex items-center justify-center text-3xl sm:text-4xl flex-shrink-0 shadow-inner">
+          📝
+        </div>
+        <div>
+          <div class="flex flex-wrap items-center gap-2 justify-center sm:justify-start">
+            <span class="bg-white/20 text-white font-bold px-3 py-0.5 rounded-full text-xs uppercase tracking-wider">Periodo 3 &bull; Grado 2°</span>
+            <span class="bg-amber-950/40 text-amber-200 font-bold px-3 py-0.5 rounded-full text-xs uppercase">10 Preguntas Integradas</span>
+          </div>
+          <h3 class="font-display font-black text-2xl sm:text-3xl mt-1">Centro de Evaluaciones</h3>
+          <p class="text-amber-100 text-xs sm:text-sm mt-0.5">Evalúa lo aprendido en Patrones, Bucles con Capy & Guyra y Bucles Anidados.</p>
+        </div>
       </div>
-      <div>
-        <span class="bg-indigo-100 text-indigo-900 text-xs font-black uppercase px-3.5 py-1 rounded-full border border-indigo-300">
-          Módulo de Bucles &bull; Clase 4
-        </span>
-        <h3 class="font-display font-black text-2xl sm:text-3xl text-slate-800 mt-2">
-          CLASE 4 - BUCLES ANIDADOS CON MAÑIC
-        </h3>
-        <p class="text-slate-600 text-sm sm:text-base max-w-md mx-auto mt-2">
-          ¡El gran reto de integración! Ayudaremos a <strong>Mañic</strong> a resolver rompecabezas complejos combinando bucles anidados y toma de decisiones en Pilas Bloques.
-        </p>
-      </div>
-      <div class="p-4 bg-indigo-50 rounded-2xl border-2 border-dashed border-indigo-300 max-w-md mx-auto">
-        <span class="text-indigo-800 font-extrabold text-sm block">🔒 Próxima Sesión</span>
-        <span class="text-xs text-slate-500">Los problemas y desafíos avanzados de Mañic estarán disponibles al finalizar las clases anteriores.</span>
-      </div>
-      <div class="flex flex-wrap justify-center gap-3 pt-2">
-        <button onclick="backToThemes()" class="bg-sky-600 hover:bg-sky-700 text-white font-display font-bold text-xs sm:text-sm px-6 py-2.5 rounded-xl shadow transition inline-flex items-center gap-2 cursor-pointer">
-          <span>← Volver a los Temas</span>
+      <div class="flex flex-wrap gap-2 justify-center">
+        <button onclick="backToThemes()" class="bg-white/20 hover:bg-white/30 text-white font-display font-bold text-xs sm:text-sm px-4 py-2.5 rounded-xl border border-white/40 transition flex items-center gap-1.5 cursor-pointer">
+          <span>← Volver a Temas</span>
+        </button>
+        <button onclick="openDocenteModal()" class="bg-amber-950/70 hover:bg-amber-950 text-amber-200 font-display font-bold text-xs sm:text-sm px-4 py-2.5 rounded-xl border border-amber-300/40 transition flex items-center gap-1.5 cursor-pointer shadow-sm">
+          <span>👩‍🏫 Panel Docente</span>
         </button>
       </div>
+    </div>
+
+    <!-- PANTALLA INICIAL: SELECCIÓN ENTRE PRÁCTICA Y EXAMEN FINAL -->
+    <div id="eval-selection-screen" class="grid grid-cols-1 md:grid-cols-2 gap-6">
+      
+      <!-- TARJETA 1: EXAMEN DE PRÁCTICA -->
+      <div class="bg-white rounded-3xl p-6 sm:p-8 border-4 border-emerald-400 shadow-xl flex flex-col justify-between space-y-5 relative overflow-hidden">
+        <div class="absolute top-0 right-0 bg-emerald-500 text-white text-[11px] font-black px-4 py-1 rounded-bl-2xl uppercase tracking-wider">
+          Entrenamiento
+        </div>
+        <div class="space-y-3">
+          <div class="w-16 h-16 bg-emerald-100 rounded-2xl flex items-center justify-center text-3xl shadow-inner border border-emerald-200">
+            🎯
+          </div>
+          <div>
+            <h4 class="font-display font-black text-2xl text-slate-800">Examen de Práctica</h4>
+            <p class="text-slate-600 text-sm mt-1">
+              Practica con las 10 preguntas antes del examen oficial. Aprenderás de tus errores y podrás revisar cada explicación paso a paso.
+            </p>
+          </div>
+          <div class="bg-emerald-50 border border-emerald-200 rounded-2xl p-3.5 space-y-1.5 text-xs text-emerald-900 font-medium">
+            <div class="flex items-center justify-between">
+              <span>🔑 Acceso:</span>
+              <span class="font-black bg-emerald-100 text-emerald-950 px-2 py-0.5 rounded border border-emerald-300">Requiere clave</span>
+            </div>
+            <div class="flex items-center justify-between">
+              <span>🔄 Intentos permitidos:</span>
+              <span class="font-black">Máximo 3 prácticas</span>
+            </div>
+            <div class="flex items-center justify-between pt-1 border-t border-emerald-200/60 font-bold">
+              <span>Tus intentos usados:</span>
+              <span id="practice-attempts-count" class="text-emerald-700 bg-white px-2 py-0.5 rounded-lg border border-emerald-300">0 / 3</span>
+            </div>
+          </div>
+        </div>
+        <button onclick="promptPracticeLogin()" id="btn-start-practice" class="w-full bg-emerald-500 hover:bg-emerald-600 text-white font-display font-black text-base py-3.5 rounded-2xl shadow-lg hover:shadow-xl transition flex items-center justify-center gap-2 cursor-pointer active:scale-98">
+          <span>🚀 Entrar a la Práctica</span>
+        </button>
+      </div>
+
+      <!-- TARJETA 2: EXAMEN FINAL OFICIAL -->
+      <div class="bg-white rounded-3xl p-6 sm:p-8 border-4 border-amber-400 shadow-xl flex flex-col justify-between space-y-5 relative overflow-hidden">
+        <div class="absolute top-0 right-0 bg-red-600 text-white text-[11px] font-black px-4 py-1 rounded-bl-2xl uppercase tracking-wider animate-pulse">
+          Calificación Oficial
+        </div>
+        <div class="space-y-3">
+          <div class="w-16 h-16 bg-amber-100 rounded-2xl flex items-center justify-center text-3xl shadow-inner border border-amber-200">
+            🏆
+          </div>
+          <div>
+            <h4 class="font-display font-black text-2xl text-slate-800">Examen Final Oficial</h4>
+            <p class="text-slate-600 text-sm mt-1">
+              Evaluación sumativa de 10 preguntas. Los resultados se guardan de forma inmutable en la base de datos para la calificación del docente.
+            </p>
+          </div>
+          <div class="bg-amber-50 border border-amber-200 rounded-2xl p-3.5 space-y-1.5 text-xs text-amber-950 font-medium">
+            <div class="flex items-center justify-between">
+              <span>🔑 Acceso:</span>
+              <span class="font-black bg-amber-100 text-amber-950 px-2 py-0.5 rounded border border-amber-300">Requiere clave</span>
+            </div>
+            <div class="flex items-center justify-between">
+              <span>👤 Requiere:</span>
+              <span class="font-black">Nombre y Apellido</span>
+            </div>
+            <div class="flex items-center justify-between pt-1 border-t border-amber-200/60 font-bold text-rose-800">
+              <span>🔒 Seguridad:</span>
+              <span>Sin opción a borrar o reiniciar</span>
+            </div>
+          </div>
+        </div>
+        
+        <div id="official-exam-entry-container">
+          <button onclick="promptOfficialLogin()" id="btn-start-official" class="w-full bg-gradient-to-r from-amber-500 to-orange-500 hover:from-amber-600 hover:to-orange-600 text-white font-display font-black text-base py-3.5 rounded-2xl shadow-lg hover:shadow-xl transition flex items-center justify-center gap-2 cursor-pointer active:scale-98">
+            <span>📝 Presentar Examen Oficial</span>
+          </button>
+        </div>
+      </div>
+
+    </div>
+
+    <!-- CONTENEDOR INTERACTIVO DEL EXAMEN (PRÁCTICA O FINAL) -->
+    <div id="eval-runner-container" class="hidden space-y-6">
+      
+      <!-- Barra superior de estado del examen -->
+      <div class="bg-white rounded-3xl p-5 border-2 border-slate-200 shadow-md flex flex-wrap items-center justify-between gap-4">
+        <div class="flex items-center gap-3">
+          <div id="runner-badge-mode" class="px-3.5 py-1.5 rounded-xl font-display font-black text-xs uppercase tracking-wider bg-emerald-100 text-emerald-900 border border-emerald-300">
+            Modo Práctica
+          </div>
+          <div>
+            <div id="runner-student-name" class="font-display font-black text-slate-800 text-base sm:text-lg leading-tight">Estudiante</div>
+            <span class="text-[11px] text-slate-500 font-medium">Periodo 3 &bull; Grado 2°</span>
+          </div>
+        </div>
+        
+        <div class="flex items-center gap-3">
+          <div class="text-right">
+            <span class="text-[10px] uppercase font-bold text-slate-400 block">Progreso</span>
+            <span id="runner-progress-text" class="font-display font-black text-slate-800 text-sm sm:text-base">Pregunta 1 de 10</span>
+          </div>
+          <button onclick="exitEvaluationRunner()" id="btn-cancel-eval" class="text-xs bg-slate-100 hover:bg-slate-200 text-slate-700 font-bold px-3 py-2 rounded-xl transition cursor-pointer">
+            ✕ Salir
+          </button>
+        </div>
+      </div>
+
+      <!-- Tarjeta de Pregunta Activa -->
+      <div id="eval-question-card" class="bg-white rounded-3xl p-6 sm:p-8 border-4 border-amber-400 shadow-xl space-y-6">
+        
+        <!-- Barra de Progreso Visual -->
+        <div class="w-full bg-slate-100 h-3 rounded-full overflow-hidden border border-slate-200">
+          <div id="eval-progress-bar" class="bg-gradient-to-r from-amber-400 to-orange-500 h-full w-[10%] transition-all duration-300 rounded-full"></div>
+        </div>
+
+        <!-- Enunciado -->
+        <div class="space-y-2">
+          <div class="flex items-center gap-2">
+            <span id="eval-question-badge" class="bg-amber-100 text-amber-900 border border-amber-300 text-xs font-black px-3 py-1 rounded-full uppercase">
+              Pregunta #1 &bull; Patrones
+            </span>
+          </div>
+          <h4 id="eval-question-text" class="font-display font-black text-lg sm:text-2xl text-slate-800 leading-snug">
+            ¿Qué es un patrón en el mundo real y en la programación?
+          </h4>
+        </div>
+
+        <!-- Opciones de Respuesta -->
+        <div id="eval-options-container" class="grid grid-cols-1 gap-3 pt-2">
+          <!-- Inyectadas por JS -->
+        </div>
+
+        <!-- Feedback (solo visible en práctica o tras responder) -->
+        <div id="eval-feedback-panel" class="hidden p-4 rounded-2xl border-2 flex flex-col sm:flex-row items-center justify-between gap-3 animate-fadeIn">
+          <div class="flex items-center gap-3">
+            <span id="eval-feedback-icon" class="text-3xl">🎉</span>
+            <div>
+              <strong id="eval-feedback-title" class="font-display font-bold text-sm sm:text-base block">¡Excelente!</strong>
+              <p id="eval-feedback-explanation" class="text-xs sm:text-sm font-medium mt-0.5 text-slate-700"></p>
+            </div>
+          </div>
+          <button id="eval-next-btn" onclick="nextEvalQuestion()" class="bg-sky-600 hover:bg-sky-700 text-white font-display font-black text-xs sm:text-sm px-6 py-2.5 rounded-xl shadow transition flex-shrink-0 inline-flex items-center gap-1.5 active:scale-95 cursor-pointer">
+            <span>Siguiente Pregunta</span> ➜
+          </button>
+        </div>
+
+      </div>
+
+      <!-- Pantalla de Resultados Finales del Examen -->
+      <div id="eval-results-screen" class="hidden bg-white rounded-3xl p-8 sm:p-12 border-4 border-amber-400 shadow-2xl text-center space-y-6 animate-pop">
+        <div class="w-28 h-28 bg-gradient-to-tr from-amber-400 to-yellow-300 rounded-full flex items-center justify-center text-6xl mx-auto shadow-xl border-4 border-white animate-bounce">
+          🏆
+        </div>
+        
+        <div>
+          <span id="eval-results-badge" class="bg-emerald-100 text-emerald-900 text-xs font-black uppercase px-4 py-1.5 rounded-full border border-emerald-300">
+            ¡Evaluación Finalizada!
+          </span>
+          <h3 id="eval-results-title" class="font-display font-black text-3xl sm:text-4xl text-slate-800 mt-3">
+            ¡Felicitaciones!
+          </h3>
+          <p id="eval-results-subtitle" class="text-slate-600 text-sm sm:text-base max-w-md mx-auto mt-2 font-medium">
+            Has completado las 10 preguntas de la evaluación.
+          </p>
+        </div>
+
+        <!-- Tarjeta de Puntuación -->
+        <div class="bg-amber-50 border-2 border-amber-300 rounded-3xl p-6 max-w-xs mx-auto shadow-inner space-y-2">
+          <span class="text-xs text-amber-800 font-bold uppercase tracking-wider block">Calificación Obtenida</span>
+          <div id="eval-final-score" class="font-display font-black text-5xl text-amber-600">10 / 10</div>
+          <span id="eval-final-percentage" class="text-xs font-black text-emerald-700 bg-emerald-100 px-3 py-1 rounded-full inline-block">100% de Aciertos</span>
+        </div>
+
+        <!-- Estado de sincronización en la nube (Cloudflare D1) -->
+        <div id="eval-cloud-status" class="p-3 rounded-2xl max-w-md mx-auto text-xs font-bold bg-slate-100 text-slate-700 border border-slate-300">
+          Sincronizando con base de datos...
+        </div>
+
+        <!-- Acciones posteriores -->
+        <div class="flex flex-wrap justify-center gap-3 pt-3">
+          <button onclick="exitEvaluationRunner()" class="bg-sky-600 hover:bg-sky-700 text-white font-display font-black text-xs sm:text-sm px-6 py-3 rounded-2xl shadow-md transition inline-flex items-center gap-2 cursor-pointer">
+            <span>← Volver al Menú de Evaluaciones</span>
+          </button>
+        </div>
+      </div>
+
+    </div>
+
+  </div> <!-- Fin content-class-4 -->
+
+  <!-- MODAL: INGRESO A PRÁCTICA (CLAVE 'entrar') -->
+  <div id="modal-practice-login" class="fixed inset-0 z-50 bg-slate-950/70 hidden items-center justify-center p-4 backdrop-blur-sm">
+    <div class="bg-white rounded-3xl p-6 sm:p-8 max-w-md w-full border-4 border-emerald-400 shadow-2xl space-y-5 animate-pop">
+      <div class="text-center space-y-2">
+        <div class="w-14 h-14 bg-emerald-100 rounded-2xl flex items-center justify-center text-3xl mx-auto shadow-inner border border-emerald-300">
+          🎯
+        </div>
+        <h4 class="font-display font-black text-2xl text-slate-800">Acceso a la Práctica</h4>
+        <p class="text-xs text-slate-600">Ingresa la clave autorizada por el docente (máximo 3 prácticas).</p>
+      </div>
+
+      <div class="space-y-3">
+        <div>
+          <label class="block text-xs font-black text-slate-700 uppercase mb-1">Clave de Acceso:</label>
+          <input type="password" id="practice-code-input" placeholder="••••••••" class="w-full px-4 py-3 rounded-xl border-2 border-slate-300 focus:border-emerald-500 focus:outline-none font-display font-bold text-base text-center tracking-widest">
+        </div>
+        <div id="practice-login-error" class="hidden text-xs text-rose-600 font-bold text-center bg-rose-50 p-2 rounded-xl border border-rose-200"></div>
+      </div>
+
+      <div class="flex gap-3">
+        <button onclick="closePracticeModal()" class="flex-1 bg-slate-100 hover:bg-slate-200 text-slate-700 font-display font-bold text-sm py-3 rounded-xl transition cursor-pointer">
+          Cancelar
+        </button>
+        <button onclick="confirmPracticeLogin()" class="flex-1 bg-emerald-500 hover:bg-emerald-600 text-white font-display font-black text-sm py-3 rounded-xl transition shadow-md cursor-pointer">
+          Entrar ➜
+        </button>
+      </div>
+    </div>
+  </div>
+
+  <!-- MODAL: INGRESO A EXAMEN FINAL (CLAVE '12345' + NOMBRE Y APELLIDO) -->
+  <div id="modal-official-login" class="fixed inset-0 z-50 bg-slate-950/70 hidden items-center justify-center p-4 backdrop-blur-sm">
+    <div class="bg-white rounded-3xl p-6 sm:p-8 max-w-md w-full border-4 border-amber-400 shadow-2xl space-y-5 animate-pop">
+      <div class="text-center space-y-2">
+        <div class="w-14 h-14 bg-amber-100 rounded-2xl flex items-center justify-center text-3xl mx-auto shadow-inner border border-amber-300">
+          🏆
+        </div>
+        <h4 class="font-display font-black text-2xl text-slate-800">Examen Final Oficial</h4>
+        <p class="text-xs text-slate-600">Ingresa la clave proporcionada por el docente y tus datos completos. Tu resultado quedará guardado de forma permanente.</p>
+      </div>
+
+      <div class="space-y-3">
+        <div>
+          <label class="block text-xs font-black text-slate-700 uppercase mb-1">Código del Examen:</label>
+          <input type="password" id="official-code-input" placeholder="••••••••" class="w-full px-4 py-3 rounded-xl border-2 border-slate-300 focus:border-amber-500 focus:outline-none font-display font-bold text-base text-center tracking-widest">
+        </div>
+        <div>
+          <label class="block text-xs font-black text-slate-700 uppercase mb-1">Nombre y Apellido del Estudiante:</label>
+          <input type="text" id="official-student-name-input" placeholder="Nombre y Apellido" class="w-full px-4 py-3 rounded-xl border-2 border-slate-300 focus:border-amber-500 focus:outline-none font-display font-bold text-sm">
+        </div>
+        <div id="official-login-error" class="hidden text-xs text-rose-600 font-bold text-center bg-rose-50 p-2 rounded-xl border border-rose-200"></div>
+      </div>
+
+      <div class="flex gap-3">
+        <button onclick="closeOfficialModal()" class="flex-1 bg-slate-100 hover:bg-slate-200 text-slate-700 font-display font-bold text-sm py-3 rounded-xl transition cursor-pointer">
+          Cancelar
+        </button>
+        <button onclick="confirmOfficialLogin()" class="flex-1 bg-gradient-to-r from-amber-500 to-orange-500 hover:from-amber-600 hover:to-orange-600 text-white font-display font-black text-sm py-3 rounded-xl transition shadow-md cursor-pointer">
+          Comenzar Examen ➜
+        </button>
+      </div>
+    </div>
+  </div>
+
+  <!-- MODAL: PANEL DOCENTE (CONSULTA DE CALIFICACIONES EN CLOUDFLARE D1) -->
+  <div id="modal-docente-panel" class="fixed inset-0 z-50 bg-slate-950/75 hidden items-center justify-center p-3 sm:p-5 backdrop-blur-sm">
+    <div class="bg-white rounded-3xl p-6 sm:p-8 max-w-4xl w-full border-4 border-indigo-400 shadow-2xl space-y-5 animate-pop max-h-[92vh] flex flex-col overflow-hidden">
+      
+      <!-- Cabecera del Panel Docente -->
+      <div class="flex items-center justify-between border-b-2 border-slate-100 pb-3 flex-shrink-0">
+        <div class="flex items-center gap-3">
+          <div class="w-12 h-12 bg-indigo-100 rounded-2xl flex items-center justify-center text-2xl">
+            👩‍🏫
+          </div>
+          <div>
+            <h4 class="font-display font-black text-xl text-slate-800">Panel Docente &bull; Calificaciones</h4>
+            <span class="text-xs text-slate-500 font-medium">Resultados sincronizados con Cloudflare D1</span>
+          </div>
+        </div>
+        <button onclick="closeDocenteModal()" class="w-9 h-9 rounded-xl bg-slate-100 hover:bg-slate-200 text-slate-600 font-bold flex items-center justify-center transition cursor-pointer">
+          ✕
+        </button>
+      </div>
+
+      <!-- Login del Docente si no está autenticado -->
+      <div id="docente-login-view" class="py-6 max-w-sm mx-auto text-center space-y-4">
+        <p class="text-xs text-slate-600">Ingresa la clave de docente para visualizar y descargar las calificaciones.</p>
+        <input type="password" id="docente-pass-input" placeholder="Clave docente" class="w-full px-4 py-3 rounded-xl border-2 border-slate-300 focus:border-indigo-500 font-display font-bold text-center">
+        <div id="docente-pass-error" class="hidden text-xs text-rose-600 font-bold">Clave incorrecta</div>
+        <button onclick="authDocente()" class="w-full bg-indigo-600 hover:bg-indigo-700 text-white font-display font-bold py-3 rounded-xl transition shadow cursor-pointer">
+          Acceder al Registro
+        </button>
+      </div>
+
+      <!-- Contenido de Calificaciones (Visible tras autenticarse) -->
+      <div id="docente-content-view" class="hidden flex-col flex-1 overflow-hidden space-y-4">
+        <div class="flex flex-wrap items-center justify-between gap-2 flex-shrink-0">
+          <div class="flex items-center gap-2">
+            <span class="text-xs font-bold text-slate-600">Total Exámenes Registrados:</span>
+            <span id="docente-total-count" class="bg-indigo-100 text-indigo-900 font-black text-xs px-2.5 py-0.5 rounded-full">0</span>
+          </div>
+          <div class="flex gap-2">
+            <button onclick="refreshDocenteData()" class="bg-slate-100 hover:bg-slate-200 text-slate-700 text-xs font-bold px-3 py-1.5 rounded-xl transition flex items-center gap-1 cursor-pointer">
+              🔄 Actualizar
+            </button>
+            <button onclick="exportDocenteCSV()" class="bg-emerald-600 hover:bg-emerald-700 text-white text-xs font-bold px-3 py-1.5 rounded-xl transition flex items-center gap-1 cursor-pointer shadow">
+              📥 Descargar CSV / Excel
+            </button>
+          </div>
+        </div>
+
+        <div class="flex-1 overflow-y-auto border-2 border-slate-200 rounded-2xl">
+          <table class="w-full text-left text-xs border-collapse">
+            <thead class="bg-slate-100 text-slate-700 font-display font-black uppercase text-[10px] sticky top-0 border-b border-slate-200">
+              <tr>
+                <th class="p-3">Estudiante</th>
+                <th class="p-3">Código</th>
+                <th class="p-3 text-center">Calificación</th>
+                <th class="p-3 text-center">Porcentaje</th>
+                <th class="p-3">Fecha y Hora</th>
+              </tr>
+            </thead>
+            <tbody id="docente-table-body" class="divide-y divide-slate-100 font-medium">
+              <!-- Inyectado dinámicamente -->
+            </tbody>
+          </table>
+        </div>
+      </div>
+
     </div>
   </div>
 
@@ -4289,11 +4621,15 @@
         1: { title: 'TEMA: PATRONES', icon: '🧩' },
         2: { title: 'TEMA: CAPY Y GUYRA', icon: '🐾' },
         3: { title: 'TEMA: BUCLES ANIDADOS', icon: '🔄' },
-        4: { title: 'TEMA: BUCLES CON MAÑIC', icon: '🦥' }
+        4: { title: 'EVALUACIÓN: EXAMEN & PRÁCTICA', icon: '📝' }
       }[classNum] || { title: 'TEMA', icon: '📚' };
 
       if (headerThemeIcon) headerThemeIcon.textContent = meta.icon;
       if (headerThemeText) headerThemeText.textContent = meta.title;
+
+      if (classNum === 4) {
+        initEvaluationModuleView();
+      }
 
       const starBadge = document.getElementById('star-badge-container');
       if (starBadge) starBadge.classList.toggle('hidden', classNum === 2);
@@ -5071,8 +5407,799 @@
       renderQuizQuestion();
     }
 
+    // =========================================================================
+    // MÓDULO DE EVALUACIÓN OFICIAL Y PRÁCTICA (2° GRADO P3) & CLOUDFLARE D1
+    // =========================================================================
+
+    const CF_WORKER_URL = 'https://orientacion-vocacional-milagrosa.rovimartinez.workers.dev';
+    const STORAGE_KEY_OFFICIAL_RESULT = 'ilm_p3_grado2_official_result';
+    const STORAGE_KEY_PRACTICE_COUNT = 'ilm_p3_grado2_practice_count';
+    const STORAGE_KEY_LESSONS_HIDDEN = 'ilm_p3_grado2_lessons_hidden';
+
+    // BANCO INTEGRADO DE 10 PREGUNTAS (Patrones + Capy & Guyra + Bucles Anidados)
+    const integratedExamQuestions = [
+      // 1. Patrones
+      {
+        badge: "Pregunta #1 • Patrones",
+        question: "¿Qué es un patrón en el mundo real y en la programación?",
+        options: [
+          { text: "Una regla o grupito de cosas que se repite una y otra vez en el mismo orden 🔁", isCorrect: true },
+          { text: "Una mancha de pintura en la hoja de papel 🎨", isCorrect: false },
+          { text: "Un botón para apagar la computadora 🔌", isCorrect: false }
+        ],
+        explanation: "¡Correcto! Un patrón es una secuencia lógica que sigue siempre la misma regla repetida."
+      },
+      // 2. Patrones
+      {
+        badge: "Pregunta #2 • Patrones",
+        question: "Observa esta secuencia de la naturaleza: Sol ☀️, Luna 🌙, Sol ☀️, Luna 🌙, Sol ☀️... ¿Cuál sigue?",
+        options: [
+          { text: "La Luna 🌙", isCorrect: true },
+          { text: "El Sol ☀️", isCorrect: false },
+          { text: "Una Estrella 🌟", isCorrect: false }
+        ],
+        explanation: "¡Muy bien! El patrón alterna Sol y Luna. Después del Sol le toca a la Luna 🌙."
+      },
+      // 3. Patrones
+      {
+        badge: "Pregunta #3 • Patrones",
+        question: "¡Ojo de Detective! En la fila: [🚗, 🚗, ✈️, 🚗, 🚗, 🐱, 🚗], ¿cuál es el intruso que no pertenece?",
+        options: [
+          { text: "El Gatito 🐱", isCorrect: true },
+          { text: "El Auto 🚗", isCorrect: false },
+          { text: "El Avión ✈️", isCorrect: false }
+        ],
+        explanation: "¡Buen ojo! Todos son vehículos de transporte; el Gatito 🐱 es el intruso."
+      },
+      // 4. Capy y Guyra
+      {
+        badge: "Pregunta #4 • Bucles Simples",
+        question: "¿Qué es un bucle en el mundo de la programación?",
+        options: [
+          { text: "Una orden que repite una acción varias veces de forma automática 🔁", isCorrect: true },
+          { text: "Un nudo que se le hace a los cables de la computadora 🧶", isCorrect: false },
+          { text: "Un botón para romper el teclado ⌨️", isCorrect: false }
+        ],
+        explanation: "¡Exacto! El bucle le enseña a la máquina a repetir acciones sin tener que escribir lo mismo muchas veces."
+      },
+      // 5. Capy y Guyra
+      {
+        badge: "Pregunta #5 • Bucles Simples",
+        question: "Si pones la acción 'Comer fruta 🍎' dentro de un bucle de 'Repetir 3 veces', ¿cuántas frutas comerá?",
+        options: [
+          { text: "Exactamente 3 frutas 🍎🍎🍎", isCorrect: true },
+          { text: "Solo 1 fruta 🍎", isCorrect: false },
+          { text: "Ninguna fruta ❌", isCorrect: false }
+        ],
+        explanation: "¡Genial! La instrucción se ejecuta 3 veces seguidas de manera exacta."
+      },
+      // 6. Capy y Guyra
+      {
+        badge: "Pregunta #6 • Pilas Bloques",
+        question: "En la plataforma Pilas Bloques, ¿de qué color suele ser el bloque 'Repetir'?",
+        options: [
+          { text: "Verde brillante 🟢", isCorrect: true },
+          { text: "Negro oscuro ⚫", isCorrect: false },
+          { text: "Transparente ⚪", isCorrect: false }
+        ],
+        explanation: "¡Muy bien! Los bloques de control y repetición en Pilas Bloques son de color verde."
+      },
+      // 7. Capy y Guyra
+      {
+        badge: "Pregunta #7 • Algoritmos",
+        question: "¿Por qué los programadores usamos bucles en vez de repetir el mismo bloque una y otra vez?",
+        options: [
+          { text: "Para ahorrar tiempo, escribir menos código y evitar errores 💡", isCorrect: true },
+          { text: "Porque a la computadora le da sueño leer mucho 💤", isCorrect: false },
+          { text: "Porque los bucles hacen que el juego sea más aburrido 🥱", isCorrect: false }
+        ],
+        explanation: "¡Así es! Con bucles programamos más rápido, con código limpio y sin equivocaciones."
+      },
+      // 8. Bucles Anidados
+      {
+        badge: "Pregunta #8 • Bucles Anidados",
+        question: "¿Qué es un bucle anidado?",
+        options: [
+          { text: "Un bucle que está colocado dentro de otro bucle 🔄🔁", isCorrect: true },
+          { text: "Un nido donde duermen los pájaros en el bosque 🪺", isCorrect: false },
+          { text: "Un programa que solo funciona los fines de semana 📅", isCorrect: false }
+        ],
+        explanation: "¡Excelente! Un bucle anidado es tener una tarea repetitiva colocada adentro de otra."
+      },
+      // 9. Bucles Anidados
+      {
+        badge: "Pregunta #9 • Bucles Anidados",
+        question: "Al bucle que envuelve todo se le llama bucle externo. ¿Cómo se le llama al que está adentro?",
+        options: [
+          { text: "Bucle Interno 📦", isCorrect: true },
+          { text: "Bucle Escondido 🙈", isCorrect: false },
+          { text: "Bucle Apagado 🛑", isCorrect: false }
+        ],
+        explanation: "¡Correcto! El bucle de adentro es el Bucle Interno."
+      },
+      // 10. Bucles Anidados
+      {
+        badge: "Pregunta #10 • Gran Desafío",
+        question: "Si el bucle externo se repite 2 veces, y el interno repite [Avanzar] 3 veces, ¿cuántos pasos da en total?",
+        options: [
+          { text: "Da 6 pasos en total (2 × 3 = 6) 🚀", isCorrect: true },
+          { text: "Da solo 2 pasos ✌️", isCorrect: false },
+          { text: "Da 5 pasos 🖐️", isCorrect: false }
+        ],
+        explanation: "🎉 ¡FELICITACIONES! Multiplicas el bucle externo por el interno: 2 veces 3 pasos = ¡6 pasos en total!"
+      }
+    ];
+
+    // ESTADO DE LA EVALUACIÓN
+    let currentEvalMode = 'practice'; // 'practice' | 'official'
+    let currentEvalIndex = 0;
+    let evalScore = 0;
+    let evalAnswered = false;
+    let evalStudentName = 'Estudiante';
+    let evalStudentCode = '';
+    let evalAnswersDetail = [];
+
+    // --- FUNCIÓN DEL OJITO (MOSTRAR / OCULTAR LECCIONES 1, 2 Y 3) ---
+    function toggleLessonsVisibility() {
+      playPopSound();
+      const isCurrentlyHidden = localStorage.getItem(STORAGE_KEY_LESSONS_HIDDEN) === 'true';
+      const newState = !isCurrentlyHidden;
+      localStorage.setItem(STORAGE_KEY_LESSONS_HIDDEN, newState ? 'true' : 'false');
+      applyLessonsVisibility(newState);
+    }
+
+    function applyLessonsVisibility(shouldHide) {
+      const lessonCards = document.querySelectorAll('.lesson-card-item');
+      const iconSpan = document.getElementById('toggle-lessons-icon');
+      const textSpan = document.getElementById('toggle-lessons-text');
+      const alertBox = document.getElementById('lessons-hidden-alert');
+      const toggleBtn = document.getElementById('btn-toggle-lessons');
+
+      lessonCards.forEach(card => {
+        if (shouldHide) {
+          card.classList.add('hidden');
+        } else {
+          card.classList.remove('hidden');
+        }
+      });
+
+      if (shouldHide) {
+        if (iconSpan) iconSpan.textContent = '👁️‍🗨️';
+        if (textSpan) textSpan.textContent = 'Ocultas (clic para ver)';
+        if (alertBox) alertBox.classList.remove('hidden');
+        if (toggleBtn) {
+          toggleBtn.classList.replace('bg-sky-100', 'bg-amber-100');
+          toggleBtn.classList.replace('text-sky-900', 'text-amber-950');
+          toggleBtn.classList.replace('border-sky-300', 'border-amber-400');
+        }
+      } else {
+        if (iconSpan) iconSpan.textContent = '👁️';
+        if (textSpan) textSpan.textContent = 'Lecciones Visibles';
+        if (alertBox) alertBox.classList.add('hidden');
+        if (toggleBtn) {
+          toggleBtn.classList.replace('bg-amber-100', 'bg-sky-100');
+          toggleBtn.classList.replace('text-amber-950', 'text-sky-900');
+          toggleBtn.classList.replace('border-amber-400', 'border-sky-300');
+        }
+      }
+    }
+
+    // --- INICIALIZAR VISTA DEL MÓDULO 4 (EVALUACIÓN) ---
+    function initEvaluationModuleView() {
+      // 1. Cargar intentos de práctica usados
+      const practiceCount = parseInt(localStorage.getItem(STORAGE_KEY_PRACTICE_COUNT) || '0', 10);
+      const practiceBadge = document.getElementById('practice-attempts-count');
+      const btnPractice = document.getElementById('btn-start-practice');
+      if (practiceBadge) practiceBadge.textContent = `${practiceCount} / 3`;
+
+      if (practiceCount >= 3 && btnPractice) {
+        btnPractice.disabled = true;
+        btnPractice.className = "w-full bg-slate-300 text-slate-500 font-display font-bold text-sm py-3.5 rounded-2xl cursor-not-allowed text-center";
+        btnPractice.innerHTML = "🚫 Límite alcanzado (3 de 3 prácticas usadas)";
+      }
+
+      // 2. Verificar si el examen oficial ya fue completado de manera inmutable
+      checkOfficialExamCompletedStatus();
+
+      // Asegurar que se muestre el selector de evaluación
+      const selScreen = document.getElementById('eval-selection-screen');
+      const runScreen = document.getElementById('eval-runner-container');
+      if (selScreen) selScreen.classList.remove('hidden');
+      if (runScreen) runScreen.classList.add('hidden');
+    }
+
+    function checkOfficialExamCompletedStatus() {
+      const savedOfficial = localStorage.getItem(STORAGE_KEY_OFFICIAL_RESULT);
+      const entryContainer = document.getElementById('official-exam-entry-container');
+      if (!entryContainer) return;
+
+      if (savedOfficial) {
+        try {
+          const data = JSON.parse(savedOfficial);
+          entryContainer.innerHTML = `
+            <div class="p-4 bg-emerald-50 border-2 border-emerald-400 rounded-2xl text-center space-y-2">
+              <span class="text-xs uppercase font-black text-emerald-800 tracking-wider block">✓ EXAMEN FINAL ENTREGADO</span>
+              <div class="text-xs text-slate-700">
+                <strong>Estudiante:</strong> ${data.nombre}
+              </div>
+              <div class="font-display font-black text-2xl text-emerald-700">
+                Calificación: ${data.puntaje} / 10
+              </div>
+              <div class="text-[11px] text-slate-500 font-medium">
+                Registrado el ${new Date(data.fecha).toLocaleString('es-CO')}
+              </div>
+              <div class="text-[11px] font-black text-emerald-900 bg-white p-2 rounded-xl border border-emerald-200 mt-2 shadow-sm">
+                🔒 Resultado final inmutable guardado en la base de datos.
+              </div>
+            </div>
+          `;
+        } catch (e) {
+          console.warn("Error leyendo resultado previo:", e);
+        }
+      }
+    }
+
+    // --- ACCESO A PRÁCTICA (CLAVE 'entrar', MÁX 3 INTENTOS) ---
+    function promptPracticeLogin() {
+      const practiceCount = parseInt(localStorage.getItem(STORAGE_KEY_PRACTICE_COUNT) || '0', 10);
+      if (practiceCount >= 3) {
+        alert("Ya has completado tus 3 prácticas permitidas. ¡Ahora puedes presentar el Examen Final Oficial!");
+        return;
+      }
+      const modal = document.getElementById('modal-practice-login');
+      const err = document.getElementById('practice-login-error');
+      const inp = document.getElementById('practice-code-input');
+      if (err) err.classList.add('hidden');
+      if (inp) { inp.value = ''; setTimeout(() => inp.focus(), 150); }
+      if (modal) { modal.classList.remove('hidden'); modal.classList.add('flex'); }
+    }
+
+    function closePracticeModal() {
+      const modal = document.getElementById('modal-practice-login');
+      if (modal) { modal.classList.add('hidden'); modal.classList.remove('flex'); }
+    }
+
+    function confirmPracticeLogin() {
+      const inp = document.getElementById('practice-code-input');
+      const err = document.getElementById('practice-login-error');
+      const val = (inp ? inp.value.trim().toLowerCase() : '');
+
+      if (val !== 'entrar') {
+        playErrorSound();
+        if (err) {
+          err.textContent = "Clave de práctica incorrecta. Solicítala a tu profesor.";
+          err.classList.remove('hidden');
+        }
+        return;
+      }
+
+      closePracticeModal();
+      startEvaluation('practice', 'Práctica de Entrenamiento', 'PRACTICA');
+    }
+
+    // --- ACCESO A EXAMEN OFICIAL ---
+    function promptOfficialLogin() {
+      if (localStorage.getItem(STORAGE_KEY_OFFICIAL_RESULT)) {
+        alert("Ya has presentado y entregado tu Examen Oficial. La calificación es definitiva y no puede repetirse.");
+        return;
+      }
+      const modal = document.getElementById('modal-official-login');
+      const err = document.getElementById('official-login-error');
+      const codeInp = document.getElementById('official-code-input');
+      const nameInp = document.getElementById('official-student-name-input');
+      if (err) err.classList.add('hidden');
+      if (codeInp) codeInp.value = '';
+      if (nameInp) nameInp.value = '';
+      if (modal) { modal.classList.remove('hidden'); modal.classList.add('flex'); setTimeout(() => codeInp.focus(), 150); }
+    }
+
+    function closeOfficialModal() {
+      const modal = document.getElementById('modal-official-login');
+      if (modal) { modal.classList.add('hidden'); modal.classList.remove('flex'); }
+    }
+
+    function confirmOfficialLogin() {
+      const codeInp = document.getElementById('official-code-input');
+      const nameInp = document.getElementById('official-student-name-input');
+      const err = document.getElementById('official-login-error');
+
+      const codeVal = codeInp ? codeInp.value.trim() : '';
+      const nameVal = nameInp ? nameInp.value.trim() : '';
+
+      if (codeVal !== '12345') {
+        playErrorSound();
+        if (err) {
+          err.textContent = "Código de examen incorrecto. Consulta con tu profesor.";
+          err.classList.remove('hidden');
+        }
+        return;
+      }
+
+      if (nameVal.length < 3 || !nameVal.includes(' ')) {
+        playErrorSound();
+        if (err) {
+          err.textContent = "Por favor ingresa tu Nombre y Apellido completo.";
+          err.classList.remove('hidden');
+        }
+        return;
+      }
+
+      closeOfficialModal();
+      const studentCode = 'G2P3-' + nameVal.replace(/[^a-zA-Z0-9]/g, '').slice(0, 10).toUpperCase() + '-' + Math.floor(100 + Math.random() * 900);
+      startEvaluation('official', nameVal, studentCode);
+    }
+
+    // --- INICIAR EL RUNNER DE EVALUACIÓN ---
+    function startEvaluation(mode, studentName, studentCode) {
+      playSuccessSound();
+      currentEvalMode = mode;
+      currentEvalIndex = 0;
+      evalScore = 0;
+      evalAnswered = false;
+      evalStudentName = studentName;
+      evalStudentCode = studentCode;
+      evalAnswersDetail = [];
+
+      // Ocultar selección y mostrar runner
+      document.getElementById('eval-selection-screen').classList.add('hidden');
+      const runner = document.getElementById('eval-runner-container');
+      runner.classList.remove('hidden');
+      document.getElementById('eval-question-card').classList.remove('hidden');
+      document.getElementById('eval-results-screen').classList.add('hidden');
+
+      // Configurar insignias de cabecera
+      const modeBadge = document.getElementById('runner-badge-mode');
+      const nameEl = document.getElementById('runner-student-name');
+      const cancelBtn = document.getElementById('btn-cancel-eval');
+
+      if (nameEl) nameEl.textContent = studentName;
+
+      if (mode === 'official') {
+        if (modeBadge) {
+          modeBadge.textContent = "🏆 Examen Oficial";
+          modeBadge.className = "px-3.5 py-1.5 rounded-xl font-display font-black text-xs uppercase tracking-wider bg-rose-100 text-rose-900 border border-rose-300";
+        }
+        if (cancelBtn) cancelBtn.classList.add('hidden'); // En el examen oficial no hay botón de salir a mitad
+      } else {
+        if (modeBadge) {
+          modeBadge.textContent = "🎯 Modo Práctica";
+          modeBadge.className = "px-3.5 py-1.5 rounded-xl font-display font-black text-xs uppercase tracking-wider bg-emerald-100 text-emerald-900 border border-emerald-300";
+        }
+        if (cancelBtn) cancelBtn.classList.remove('hidden');
+      }
+
+      renderEvalQuestion();
+      window.scrollTo({ top: 0, behavior: 'smooth' });
+    }
+
+    function renderEvalQuestion() {
+      evalAnswered = false;
+      const q = integratedExamQuestions[currentEvalIndex];
+
+      const progText = document.getElementById('runner-progress-text');
+      const progBar = document.getElementById('eval-progress-bar');
+      const badge = document.getElementById('eval-question-badge');
+      const qText = document.getElementById('eval-question-text');
+      const optsContainer = document.getElementById('eval-options-container');
+      const fbPanel = document.getElementById('eval-feedback-panel');
+
+      if (progText) progText.textContent = `Pregunta ${currentEvalIndex + 1} de 10`;
+      if (progBar) progBar.style.width = `${((currentEvalIndex + 1) / 10) * 100}%`;
+      if (badge) badge.textContent = q.badge;
+      if (qText) qText.textContent = q.question;
+
+      if (optsContainer) {
+        optsContainer.innerHTML = '';
+        q.options.forEach((opt, idx) => {
+          const btn = document.createElement('button');
+          btn.className = "eval-opt-btn p-4 rounded-2xl border-2 border-slate-200 bg-white hover:border-amber-400 hover:bg-amber-50 text-left font-display font-bold text-sm sm:text-base text-slate-800 transition flex items-center justify-between shadow-sm active:scale-98 cursor-pointer";
+          btn.innerHTML = `
+            <span>${opt.text}</span>
+            <span class="eval-opt-indicator text-slate-300 ml-2 text-sm">⚪</span>
+          `;
+          btn.onclick = () => selectEvalOption(opt, btn);
+          optsContainer.appendChild(btn);
+        });
+      }
+
+      if (fbPanel) fbPanel.classList.add('hidden');
+    }
+
+    function selectEvalOption(selectedOpt, btnElement) {
+      if (evalAnswered) return;
+      evalAnswered = true;
+
+      const q = integratedExamQuestions[currentEvalIndex];
+      const fbPanel = document.getElementById('eval-feedback-panel');
+      const fbIcon = document.getElementById('eval-feedback-icon');
+      const fbTitle = document.getElementById('eval-feedback-title');
+      const fbExp = document.getElementById('eval-feedback-explanation');
+      const nextBtn = document.getElementById('eval-next-btn');
+      const allBtns = document.querySelectorAll('.eval-opt-btn');
+
+      allBtns.forEach(b => b.classList.add('pointer-events-none'));
+
+      const isCorrect = Boolean(selectedOpt.isCorrect);
+      if (isCorrect) {
+        playSuccessSound();
+        addPoints(10);
+        evalScore++;
+      } else {
+        playErrorSound();
+      }
+
+      // Guardar detalle de respuesta
+      evalAnswersDetail.push({
+        preguntaNum: currentEvalIndex + 1,
+        pregunta: q.question,
+        respuestaSeleccionada: selectedOpt.text,
+        esCorrecta: isCorrect
+      });
+
+      // Si está en modo práctica, feedback inmediato educativo
+      if (currentEvalMode === 'practice') {
+        if (isCorrect) {
+          btnElement.classList.replace('border-slate-200', 'border-emerald-500');
+          btnElement.classList.replace('bg-white', 'bg-emerald-50');
+          btnElement.querySelector('.eval-opt-indicator').innerHTML = "🟢";
+
+          fbPanel.className = "p-3.5 rounded-2xl border-2 border-emerald-400 bg-emerald-50 text-emerald-950 flex flex-col sm:flex-row items-center justify-between gap-3 animate-fadeIn shadow-sm";
+          fbIcon.textContent = "🎉";
+          fbTitle.textContent = "¡CORRECTO!";
+        } else {
+          btnElement.classList.replace('border-slate-200', 'border-rose-500');
+          btnElement.classList.replace('bg-white', 'bg-rose-50');
+          btnElement.querySelector('.eval-opt-indicator').innerHTML = "❌";
+
+          allBtns.forEach(b => {
+            if (b.textContent.includes(q.options.find(o => o.isCorrect).text)) {
+              b.classList.replace('border-slate-200', 'border-emerald-500');
+              b.classList.replace('bg-white', 'bg-emerald-50');
+              b.querySelector('.eval-opt-indicator').innerHTML = "🟢";
+            }
+          });
+
+          fbPanel.className = "p-3.5 rounded-2xl border-2 border-amber-400 bg-amber-50 text-amber-950 flex flex-col sm:flex-row items-center justify-between gap-3 animate-fadeIn shadow-sm";
+          fbIcon.textContent = "💡";
+          fbTitle.textContent = "¡Mira la explicación:";
+        }
+
+        fbExp.innerHTML = q.explanation;
+        fbPanel.classList.remove('hidden');
+
+        if (nextBtn) {
+          nextBtn.innerHTML = currentEvalIndex === integratedExamQuestions.length - 1
+            ? `<span>Ver Calificación Final</span> 🏆`
+            : `<span>Siguiente Pregunta</span> ➜`;
+        }
+      } else {
+        // En modo oficial, marcar selección discretamente y avanzar
+        btnElement.classList.replace('border-slate-200', 'border-amber-500');
+        btnElement.classList.replace('bg-white', 'bg-amber-50');
+        btnElement.querySelector('.eval-opt-indicator').innerHTML = "🔘";
+
+        setTimeout(() => {
+          nextEvalQuestion();
+        }, 550);
+      }
+    }
+
+    function nextEvalQuestion() {
+      playPopSound();
+      if (currentEvalIndex < integratedExamQuestions.length - 1) {
+        currentEvalIndex++;
+        renderEvalQuestion();
+      } else {
+        finishEvaluation();
+      }
+    }
+
+    // --- FINALIZAR EVALUACIÓN ---
+    async function finishEvaluation() {
+      document.getElementById('eval-question-card').classList.add('hidden');
+      const resultsScreen = document.getElementById('eval-results-screen');
+      resultsScreen.classList.remove('hidden');
+
+      const badgeEl = document.getElementById('eval-results-badge');
+      const titleEl = document.getElementById('eval-results-title');
+      const subEl = document.getElementById('eval-results-subtitle');
+      const scoreEl = document.getElementById('eval-final-score');
+      const percEl = document.getElementById('eval-final-percentage');
+      const cloudStatusEl = document.getElementById('eval-cloud-status');
+
+      const percentage = Math.round((evalScore / 10) * 100);
+      if (scoreEl) scoreEl.textContent = `${evalScore} / 10`;
+      if (percEl) percEl.textContent = `${percentage}% de Aciertos`;
+
+      if (currentEvalMode === 'practice') {
+        playSuccessSound();
+        // Aumentar contador de prácticas
+        const used = parseInt(localStorage.getItem(STORAGE_KEY_PRACTICE_COUNT) || '0', 10) + 1;
+        localStorage.setItem(STORAGE_KEY_PRACTICE_COUNT, used.toString());
+        const practiceBadge = document.getElementById('practice-attempts-count');
+        if (practiceBadge) practiceBadge.textContent = `${used} / 3`;
+
+        if (badgeEl) badgeEl.textContent = `🎯 Práctica #${used} Finalizada`;
+        if (titleEl) titleEl.textContent = "¡Excelente Entrenamiento!";
+        if (subEl) subEl.textContent = `Has completado la práctica. Llevas ${used} de 3 intentos permitidos.`;
+        if (cloudStatusEl) {
+          cloudStatusEl.className = "p-3 rounded-2xl max-w-md mx-auto text-xs font-bold bg-emerald-50 text-emerald-900 border border-emerald-300";
+          cloudStatusEl.innerHTML = `💡 Tus resultados son formativos. ¡Cuando estés listo presenta el <strong>Examen Oficial</strong>!`;
+        }
+      } else {
+        // MODO OFICIAL: GUARDADO INMUTABLE
+        playSuccessSound();
+        if (badgeEl) badgeEl.textContent = "🏆 Examen Oficial Finalizado";
+        if (titleEl) titleEl.textContent = `¡Felicitaciones, ${evalStudentName}!`;
+        if (subEl) subEl.textContent = "Tu evaluación ha sido registrada de manera definitiva e inmutable.";
+
+        const officialData = {
+          codigo: evalStudentCode,
+          nombre: evalStudentName,
+          curso: "Grado 2° - Periodo 3",
+          puntaje: evalScore,
+          porcentaje: percentage,
+          fecha: new Date().toISOString(),
+          detalles: evalAnswersDetail
+        };
+
+        // 1. Guardar de forma inmutable en LocalStorage (sin opción de borrado)
+        localStorage.setItem(STORAGE_KEY_OFFICIAL_RESULT, JSON.stringify(officialData));
+
+        // 2. Guardar en Base de Datos de Cloudflare D1
+        if (cloudStatusEl) {
+          cloudStatusEl.innerHTML = "⏳ Guardando nota en la Base de Datos Cloudflare D1...";
+        }
+
+        try {
+          const payload = {
+            estudiante: {
+              codigo: evalStudentCode,
+              nombre: evalStudentName,
+              curso: "Grado 2° - Periodo 3"
+            },
+            resultadosCalculados: {
+              codigoHolland: `${evalScore}/10`,
+              puntajes: { R: evalScore, I: 10, A: 0, S: 0, E: 0, C: 0 },
+              dimensionPrimaria: { nombre: `${evalScore} de 10` },
+              dimensionSecundaria: { nombre: `${percentage}%` },
+              dimensionTerciaria: { nombre: evalScore >= 6 ? "Aprobado" : "Por Mejorar" },
+              detalles: evalAnswersDetail,
+              carrerasRecomendadas: []
+            },
+            respuestas: {
+              puntaje: evalScore,
+              total: 10,
+              porcentaje: percentage,
+              evalAnswersDetail
+            }
+          };
+
+          const resp = await fetch(`${CF_WORKER_URL}/api/resultados`, {
+            method: 'POST',
+            headers: { 'Content-Type': 'application/json' },
+            body: JSON.stringify(payload)
+          });
+
+          if (resp.ok) {
+            if (cloudStatusEl) {
+              cloudStatusEl.className = "p-3 rounded-2xl max-w-md mx-auto text-xs font-bold bg-emerald-100 text-emerald-950 border border-emerald-400";
+              cloudStatusEl.innerHTML = "☁️ ¡Guardado exitosamente en la Base de Datos del Docente! 🔒";
+            }
+          } else {
+            throw new Error(`Status ${resp.status}`);
+          }
+        } catch (err) {
+          console.warn("Error enviando a Cloudflare D1:", err);
+          if (cloudStatusEl) {
+            cloudStatusEl.className = "p-3 rounded-2xl max-w-md mx-auto text-xs font-bold bg-amber-100 text-amber-950 border border-amber-400";
+            cloudStatusEl.innerHTML = "💾 Guardado localmente en este equipo. El docente podrá consultarlo en su panel.";
+          }
+        }
+
+        // Actualizar tarjeta del examen oficial
+        checkOfficialExamCompletedStatus();
+      }
+
+      window.scrollTo({ top: 0, behavior: 'smooth' });
+    }
+
+    function exitEvaluationRunner() {
+      playPopSound();
+      document.getElementById('eval-runner-container').classList.add('hidden');
+      document.getElementById('eval-selection-screen').classList.remove('hidden');
+      initEvaluationModuleView();
+      window.scrollTo({ top: 0, behavior: 'smooth' });
+    }
+
+    // --- PANEL DOCENTE (CONSULTA Y DESCARGA CSV) ---
+    let isDocenteAuthenticated = false;
+
+    function openDocenteModal() {
+      playPopSound();
+      const modal = document.getElementById('modal-docente-panel');
+      const loginView = document.getElementById('docente-login-view');
+      const contentView = document.getElementById('docente-content-view');
+      const passInp = document.getElementById('docente-pass-input');
+      const err = document.getElementById('docente-pass-error');
+
+      if (err) err.classList.add('hidden');
+      if (modal) { modal.classList.remove('hidden'); modal.classList.add('flex'); }
+
+      if (isDocenteAuthenticated) {
+        if (loginView) loginView.classList.add('hidden');
+        if (contentView) { contentView.classList.remove('hidden'); contentView.classList.add('flex'); }
+        refreshDocenteData();
+      } else {
+        if (loginView) loginView.classList.remove('hidden');
+        if (contentView) { contentView.classList.add('hidden'); contentView.classList.remove('flex'); }
+        if (passInp) { passInp.value = ''; setTimeout(() => passInp.focus(), 150); }
+      }
+    }
+
+    function closeDocenteModal() {
+      const modal = document.getElementById('modal-docente-panel');
+      if (modal) { modal.classList.add('hidden'); modal.classList.remove('flex'); }
+    }
+
+    function authDocente() {
+      const passInp = document.getElementById('docente-pass-input');
+      const err = document.getElementById('docente-pass-error');
+      const val = passInp ? passInp.value.trim() : '';
+
+      if (val !== 'admin123' && val !== '12345') {
+        playErrorSound();
+        if (err) err.classList.remove('hidden');
+        return;
+      }
+
+      playSuccessSound();
+      isDocenteAuthenticated = true;
+      document.getElementById('docente-login-view').classList.add('hidden');
+      const contentView = document.getElementById('docente-content-view');
+      contentView.classList.remove('hidden');
+      contentView.classList.add('flex');
+      refreshDocenteData();
+    }
+
+    let currentDocenteList = [];
+
+    async function refreshDocenteData() {
+      const tbody = document.getElementById('docente-table-body');
+      const countEl = document.getElementById('docente-total-count');
+      if (tbody) tbody.innerHTML = `<tr><td colspan="5" class="p-6 text-center text-slate-400">Cargando registros desde la nube...</td></tr>`;
+
+      let combinedResults = [];
+
+      // 1. Obtener de Cloudflare D1
+      try {
+        const resp = await fetch(`${CF_WORKER_URL}/api/resultados`, {
+          method: 'GET',
+          headers: { 'Accept': 'application/json' }
+        });
+        if (resp.ok) {
+          const data = await resp.json();
+          if (Array.isArray(data.resultados)) {
+            // Filtrar los de Grado 2 o Periodo 3
+            combinedResults = data.resultados.filter(r => (r.curso && r.curso.includes('Grado 2')) || (r.codigo && r.codigo.startsWith('G2P3')));
+          }
+        }
+      } catch (e) {
+        console.warn("No se pudo obtener resultados de Cloudflare D1:", e);
+      }
+
+      // 2. Incluir resultado local si existe y no está en la nube
+      const localSaved = localStorage.getItem(STORAGE_KEY_OFFICIAL_RESULT);
+      if (localSaved) {
+        try {
+          const localObj = JSON.parse(localSaved);
+          if (!combinedResults.some(r => r.codigo === localObj.codigo)) {
+            combinedResults.unshift({
+              codigo: localObj.codigo,
+              nombre: localObj.nombre,
+              curso: localObj.curso,
+              fecha: localObj.fecha,
+              codigo_holland: `${localObj.puntaje}/10`,
+              puntaje_r: localObj.puntaje,
+              dimension_secundaria: `${localObj.porcentaje}%`
+            });
+          }
+        } catch (e) {}
+      }
+
+      currentDocenteList = combinedResults;
+      if (countEl) countEl.textContent = combinedResults.length.toString();
+
+      if (!tbody) return;
+      if (combinedResults.length === 0) {
+        tbody.innerHTML = `<tr><td colspan="5" class="p-6 text-center text-slate-400">No hay exámenes registrados aún para Grado 2° Periodo 3.</td></tr>`;
+        return;
+      }
+
+      tbody.innerHTML = combinedResults.map(r => {
+        // En Cloudflare D1, el puntaje viene en puntajes.R o en codigoHolland (ej: "2/10") o en puntaje_r
+        let scoreNum = 0;
+        if (r.puntajes && typeof r.puntajes.R === 'number') {
+          scoreNum = r.puntajes.R;
+        } else if (typeof r.puntaje_r === 'number') {
+          scoreNum = r.puntaje_r;
+        } else if (r.codigoHolland) {
+          scoreNum = parseInt(r.codigoHolland.split('/')[0], 10) || 0;
+        } else if (r.codigo_holland) {
+          scoreNum = parseInt(r.codigo_holland.split('/')[0], 10) || 0;
+        }
+
+        // El porcentaje viene en dimensionSecundaria.nombre o dimension_secundaria o calculado
+        let percText = `${scoreNum * 10}%`;
+        if (r.dimensionSecundaria && r.dimensionSecundaria.nombre) {
+          percText = r.dimensionSecundaria.nombre;
+        } else if (typeof r.dimension_secundaria === 'string' && r.dimension_secundaria.includes('%')) {
+          percText = r.dimension_secundaria;
+        }
+
+        const scoreBadge = scoreNum >= 7 
+          ? `<span class="bg-emerald-100 text-emerald-800 font-black px-2.5 py-0.5 rounded-full">${scoreNum} / 10</span>`
+          : `<span class="bg-amber-100 text-amber-800 font-black px-2.5 py-0.5 rounded-full">${scoreNum} / 10</span>`;
+
+        return `
+          <tr class="hover:bg-slate-50 transition">
+            <td class="p-3 font-bold text-slate-800">${r.nombre}</td>
+            <td class="p-3 font-mono text-[11px] text-slate-500">${r.codigo}</td>
+            <td class="p-3 text-center">${scoreBadge}</td>
+            <td class="p-3 text-center font-bold text-slate-700">${percText}</td>
+            <td class="p-3 text-[11px] text-slate-500">${r.fecha ? new Date(r.fecha).toLocaleString('es-CO') : 'Reciente'}</td>
+          </tr>
+        `;
+      }).join('');
+    }
+
+    function exportDocenteCSV() {
+      if (!currentDocenteList || currentDocenteList.length === 0) {
+        alert("No hay datos para exportar.");
+        return;
+      }
+
+      let csv = "Estudiante,Codigo,Curso,Calificacion,Porcentaje,Fecha\n";
+      currentDocenteList.forEach(r => {
+        let scoreNum = 0;
+        if (r.puntajes && typeof r.puntajes.R === 'number') {
+          scoreNum = r.puntajes.R;
+        } else if (typeof r.puntaje_r === 'number') {
+          scoreNum = r.puntaje_r;
+        } else if (r.codigoHolland) {
+          scoreNum = parseInt(r.codigoHolland.split('/')[0], 10) || 0;
+        } else if (r.codigo_holland) {
+          scoreNum = parseInt(r.codigo_holland.split('/')[0], 10) || 0;
+        }
+
+        let perc = `${scoreNum * 10}%`;
+        if (r.dimensionSecundaria && r.dimensionSecundaria.nombre) {
+          perc = r.dimensionSecundaria.nombre;
+        } else if (typeof r.dimension_secundaria === 'string' && r.dimension_secundaria.includes('%')) {
+          perc = r.dimension_secundaria;
+        }
+
+        const fecha = r.fecha ? new Date(r.fecha).toLocaleString('es-CO').replace(',', '') : '';
+        csv += `"${r.nombre}","${r.codigo}","${r.curso || 'Grado 2° P3'}","${scoreNum} / 10","${perc}","${fecha}"\n`;
+      });
+
+      const blob = new Blob([csv], { type: 'text/csv;charset=utf-8;' });
+      const url = URL.createObjectURL(blob);
+      const a = document.createElement('a');
+      a.href = url;
+      a.download = `Calificaciones_Grado2_Periodo3_${new Date().toISOString().slice(0, 10)}.csv`;
+      document.body.appendChild(a);
+      a.click();
+      document.body.removeChild(a);
+    }
+
     // --- INICIALIZACIÓN ---
     window.addEventListener('DOMContentLoaded', () => {
+      // Aplicar estado del ojito (ocultar/mostrar lecciones 1-3)
+      const isLessonsHidden = localStorage.getItem(STORAGE_KEY_LESSONS_HIDDEN) === 'true';
+      applyLessonsVisibility(isLessonsHidden);
+
+      // Cargar componentes existentes
       updateTrafficDisplay();
       loadTrainLevel(1);
       renderQuizQuestion();
@@ -5087,6 +6214,9 @@
         if (e.key === 'Escape') {
           closeCapyModal();
           closeHowToUseModal();
+          closePracticeModal();
+          closeOfficialModal();
+          closeDocenteModal();
         }
       });
 
@@ -5112,7 +6242,7 @@
         switchClass(2);
       } else if (window.location.hash === '#clase-3' || window.location.hash === '#tema-3') {
         switchClass(3);
-      } else if (window.location.hash === '#clase-4' || window.location.hash === '#tema-4') {
+      } else if (window.location.hash === '#clase-4' || window.location.hash === '#tema-4' || window.location.hash === '#examen') {
         switchClass(4);
       } else if (window.location.hash === '#clase-1' || window.location.hash === '#tema-1' || window.location.hash === '#patrones') {
         switchClass(1);

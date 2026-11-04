@@ -195,20 +195,24 @@
         </div>
       </div>
 
-      <!-- ╔══════════════════════════════════════╗ -->
-      <!-- ║   MÓDULO SWITCHER: INICIO / CANVA / RECURSOS ║ -->
-      <!-- ╚══════════════════════════════════════╝ -->
+      <!-- ╔══════════════════════════════════════════════════════════════╗ -->
+      <!-- ║ MÓDULO SWITCHER: INICIO / EXAMEN OFICIAL / CANVA / RECURSOS  ║ -->
+      <!-- ╚══════════════════════════════════════════════════════════════╝ -->
       <div class="flex items-center gap-2 mt-3 pt-3 border-t border-slate-200/70 overflow-x-auto pb-1 sm:pb-0">
         <button onclick="cambiarModulo('inicio')" id="btn-modulo-inicio"
           class="inline-flex items-center gap-1.5 px-3.5 py-2 rounded-xl bg-slate-900 text-white font-black text-xs shadow-sm border border-slate-900 transition-all hover:scale-[1.03]">
-          🏠 Selección de Módulos
+          🏠 Inicio
+        </button>
+        <button onclick="cambiarModulo('examen')" id="btn-modulo-examen"
+          class="inline-flex items-center gap-1.5 px-4 py-2 rounded-xl bg-gradient-to-r from-amber-500 to-orange-500 hover:from-amber-600 hover:to-orange-600 text-white font-black text-xs shadow-sm border border-amber-500 transition-all hover:scale-[1.03]">
+          📝 Examen Oficial
         </button>
         <button onclick="cambiarModulo('canva')" id="btn-modulo-canva"
-          class="inline-flex items-center gap-1.5 px-4 py-2 rounded-xl bg-slate-100 text-slate-600 hover:bg-slate-200 font-bold text-xs transition-all border border-slate-200">
+          class="hidden items-center gap-1.5 px-4 py-2 rounded-xl bg-slate-100 text-slate-600 hover:bg-slate-200 font-bold text-xs transition-all border border-slate-200">
           🎨 Canva
         </button>
         <button onclick="cambiarModulo('recursos-web')" id="btn-modulo-recursos"
-          class="inline-flex items-center gap-1.5 px-4 py-2 rounded-xl bg-slate-100 text-slate-600 hover:bg-slate-200 font-bold text-xs transition-all border border-slate-200">
+          class="hidden items-center gap-1.5 px-4 py-2 rounded-xl bg-slate-100 text-slate-600 hover:bg-slate-200 font-bold text-xs transition-all border border-slate-200">
           🌐 Recursos Web
         </button>
       </div>
@@ -275,65 +279,65 @@
       </p>
     </div>
 
-    <!-- Grid de 2 Módulos Principales -->
-    <div class="grid grid-cols-1 md:grid-cols-2 gap-6 max-w-4xl mx-auto pt-2">
-
-      <!-- Módulo 1: Canva -->
-      <div onclick="cambiarModulo('canva')" 
-        class="group relative bg-white rounded-3xl p-7 border-2 border-slate-200 hover:border-violet-500 shadow-lg hover:shadow-2xl hover:shadow-violet-500/10 transition-all duration-300 cursor-pointer flex flex-col justify-between overflow-hidden">
-        <div class="absolute -right-6 -bottom-6 w-32 h-32 bg-violet-500/10 rounded-full blur-2xl group-hover:bg-violet-500/20 transition-all"></div>
-        <div class="space-y-4 relative z-10">
-          <div class="w-14 h-14 rounded-2xl bg-violet-600 text-white text-3xl flex items-center justify-center shadow-md shadow-violet-600/30 group-hover:scale-110 transition-transform">
-            🎨
+    <!-- Tarjeta Principal: Examen Oficial Periodo 3 (Módulos de Canva y Experiencias Interactivas ocultos) -->
+    <div class="max-w-3xl mx-auto pt-2">
+      <div onclick="cambiarModulo('examen')"
+        class="group relative bg-white rounded-3xl p-8 sm:p-10 border-4 border-amber-400 hover:border-amber-500 shadow-2xl hover:shadow-amber-500/20 transition-all duration-300 cursor-pointer flex flex-col justify-between overflow-hidden">
+        <div class="absolute -right-8 -bottom-8 w-48 h-48 bg-amber-400/20 rounded-full blur-3xl group-hover:bg-amber-400/30 transition-all"></div>
+        
+        <div class="space-y-5 relative z-10">
+          <div class="flex items-center justify-between">
+            <div class="w-16 h-16 rounded-2xl bg-gradient-to-tr from-amber-500 to-orange-500 text-white text-3xl flex items-center justify-center shadow-lg shadow-amber-500/30 group-hover:scale-110 transition-transform">
+              📝
+            </div>
+            <span class="px-3 py-1 rounded-full text-xs font-black uppercase tracking-wider bg-amber-100 text-amber-900 border border-amber-300">
+              Evaluación Oficial Activa
+            </span>
           </div>
+
           <div>
-            <span class="text-[11px] font-black text-violet-600 uppercase tracking-widest">Módulo 01</span>
-            <h3 class="text-xl font-bold text-slate-900 mt-0.5 group-hover:text-violet-700 transition-colors">
-              Canva & Presentaciones
+            <span class="text-xs font-black text-amber-600 uppercase tracking-widest block">Periodo 3 • Grado 10°</span>
+            <h3 class="text-2xl sm:text-3xl font-extrabold text-slate-900 mt-1 group-hover:text-amber-700 transition-colors font-display">
+              Examen Oficial: Diseño de Experiencias Interactivas & Arquitectura Web
             </h3>
-            <p class="text-xs text-slate-500 mt-2 leading-relaxed font-medium">
-              Accede a las 3 sesiones de clase: Diagnóstico inicial con IA, regla de color 60-30-10 y la prueba interactiva con entrega final.
+            <p class="text-sm text-slate-600 mt-2.5 leading-relaxed font-medium">
+              Evaluación formativa y sumativa de 10 preguntas de selección múltiple con tiempo límite de 30 segundos por pregunta y autoevaluación reflexiva. Conectado a la base de datos de calificaciones en la nube.
             </p>
           </div>
+
+          <div class="grid grid-cols-2 sm:grid-cols-4 gap-2.5 pt-2 text-center text-xs">
+            <div class="bg-amber-50/80 p-3 rounded-2xl border border-amber-200">
+              <span class="text-xl block mb-0.5">⏱️</span>
+              <strong class="text-slate-800 block text-xs">30 Segundos</strong>
+              <span class="text-[10px] text-slate-500">Por pregunta</span>
+            </div>
+            <div class="bg-amber-50/80 p-3 rounded-2xl border border-amber-200">
+              <span class="text-xl block mb-0.5">🎯</span>
+              <strong class="text-slate-800 block text-xs">10 Puntos</strong>
+              <span class="text-[10px] text-slate-500">1 pt / correcta</span>
+            </div>
+            <div class="bg-amber-50/80 p-3 rounded-2xl border border-amber-200">
+              <span class="text-xl block mb-0.5">💡</span>
+              <strong class="text-slate-800 block text-xs">Autoevaluación</strong>
+              <span class="text-[10px] text-slate-500">Sin puntuar</span>
+            </div>
+            <div class="bg-amber-50/80 p-3 rounded-2xl border border-amber-200">
+              <span class="text-xl block mb-0.5">☁️</span>
+              <strong class="text-slate-800 block text-xs">Sincronizado</strong>
+              <span class="text-[10px] text-slate-500">Registro seguro</span>
+            </div>
+          </div>
         </div>
-        <div class="pt-6 mt-6 border-t border-slate-100 flex items-center justify-between relative z-10">
-          <span class="text-xs font-bold text-violet-600 group-hover:translate-x-1 transition-transform inline-flex items-center gap-1.5">
-            Ingresar al módulo ➔
+
+        <div class="pt-6 mt-6 border-t border-amber-100 flex items-center justify-between relative z-10">
+          <span class="text-sm font-black text-amber-600 group-hover:translate-x-1 transition-transform inline-flex items-center gap-2">
+            Ingresar a la Evaluación Oficial ➔
           </span>
-          <span class="text-[10px] font-extrabold bg-violet-50 text-violet-700 px-2.5 py-1 rounded-lg border border-violet-200">
-            3 Sesiones
+          <span class="text-xs font-black bg-gradient-to-r from-amber-500 to-orange-500 text-white px-3 py-1.5 rounded-xl shadow-sm">
+            Presentar Ahora
           </span>
         </div>
       </div>
-
-      <!-- Módulo 2: Recursos Web -->
-      <div onclick="cambiarModulo('recursos-web')" 
-        class="group relative bg-white rounded-3xl p-7 border-2 border-slate-200 hover:border-purple-500 shadow-lg hover:shadow-2xl hover:shadow-purple-500/10 transition-all duration-300 cursor-pointer flex flex-col justify-between overflow-hidden">
-        <div class="absolute -right-6 -bottom-6 w-32 h-32 bg-purple-500/10 rounded-full blur-2xl group-hover:bg-purple-500/20 transition-all"></div>
-        <div class="space-y-4 relative z-10">
-          <div class="w-14 h-14 rounded-2xl bg-purple-600 text-white text-3xl flex items-center justify-center shadow-md shadow-purple-600/30 group-hover:scale-110 transition-transform">
-            🎛️
-          </div>
-          <div>
-            <span class="text-[11px] font-black text-purple-600 uppercase tracking-widest">Módulo 02</span>
-            <h3 class="text-xl font-bold text-slate-900 mt-0.5 group-hover:text-purple-700 transition-colors">
-              Diseño de Experiencias Interactivas
-            </h3>
-            <p class="text-xs text-slate-500 mt-2 leading-relaxed font-medium">
-              Aula virtual de 5 módulos sobre los 10 componentes interactivos de aprendizaje, con demostraciones en vivo y creador de prompts para IA.
-            </p>
-          </div>
-        </div>
-        <div class="pt-6 mt-6 border-t border-slate-100 flex items-center justify-between relative z-10">
-          <span class="text-xs font-bold text-purple-600 group-hover:translate-x-1 transition-transform inline-flex items-center gap-1.5">
-            Entrar al Aula Virtual ➔
-          </span>
-          <span class="text-[10px] font-extrabold bg-purple-50 text-purple-700 px-2.5 py-1 rounded-lg border border-purple-200">
-            5 Módulos
-          </span>
-        </div>
-      </div>
-
     </div>
   </div><!-- /view-inicio-modulos -->
 
@@ -1054,6 +1058,420 @@
 
   </div><!-- /view-recursos-web -->
 
+  <!-- ╔═════════════════════════════════════════════════════════════════════════╗ -->
+  <!-- ║   MÓDULO: EXAMEN OFICIAL GRADO 10° - PERIODO 3                          ║ -->
+  <!-- ╚═════════════════════════════════════════════════════════════════════════╝ -->
+  <main id="main-examen" class="hidden max-w-5xl mx-auto px-4 md:px-8 py-6 space-y-6">
+
+    <!-- Barra de Control del Examen -->
+    <div class="bg-white p-4 rounded-2xl border border-amber-200 shadow-sm flex items-center justify-between">
+      <button onclick="cambiarModulo('inicio')" 
+        class="inline-flex items-center gap-1.5 px-3.5 py-1.5 rounded-xl bg-slate-100 hover:bg-slate-200 text-slate-700 font-bold text-xs border border-slate-200 transition-all hover:-translate-x-0.5 cursor-pointer">
+        ← Volver al Inicio
+      </button>
+      <div class="flex items-center gap-2">
+        <span class="text-xs font-black text-amber-800 bg-amber-50 border border-amber-300 px-3 py-1 rounded-lg">
+          📝 Examen Oficial • Grado 10°
+        </span>
+        <button onclick="openDocenteModal10()" class="inline-flex items-center gap-1.5 px-3 py-1 rounded-lg bg-indigo-600 hover:bg-indigo-700 text-white text-xs font-bold transition shadow-sm cursor-pointer">
+          👨‍🏫 Panel Docente
+        </button>
+      </div>
+    </div>
+
+    <!-- PANTALLA 1: PRESENTACIÓN DEL EXAMEN Y BOTONES DE ENTRADA -->
+    <div id="eval10-selection-screen" class="space-y-6">
+      
+      <div class="text-center space-y-2">
+        <div class="inline-flex items-center gap-2 bg-amber-100 text-amber-900 font-black text-xs uppercase px-4 py-1.5 rounded-full border border-amber-300 shadow-xs">
+          <span>✨ EVALUACIÓN OFICIAL</span> • <span>GRADO 10° • PERIODO 3</span>
+        </div>
+        <h2 class="font-display text-2xl sm:text-4xl font-black tracking-tight text-slate-900">
+          Diseño de Experiencias Interactivas & Arquitectura Web
+        </h2>
+        <p class="text-slate-600 text-xs sm:text-sm max-w-2xl mx-auto font-medium leading-relaxed">
+          Demuestra tus conocimientos sobre fundamentos pedagógicos del aprendizaje activo, componentes interactivos web, rol de JavaScript y buenas prácticas con IA generativa.
+        </p>
+      </div>
+
+      <!-- Tarjeta Principal del Examen -->
+      <div class="max-w-2xl mx-auto bg-gradient-to-b from-amber-50/60 to-orange-50/60 border-2 border-amber-300 rounded-3xl p-6 sm:p-8 shadow-md space-y-6">
+        
+        <div class="grid grid-cols-2 sm:grid-cols-4 gap-3 text-center text-xs">
+          <div class="bg-white p-3.5 rounded-2xl border border-amber-200 shadow-xs">
+            <span class="text-2xl block mb-1">⏱️</span>
+            <strong class="text-slate-800 block text-xs">30 Segundos</strong>
+            <span class="text-[10px] text-slate-500">Por pregunta</span>
+          </div>
+          <div class="bg-white p-3.5 rounded-2xl border border-amber-200 shadow-xs">
+            <span class="text-2xl block mb-1">🎯</span>
+            <strong class="text-slate-800 block text-xs">10 Pts + Auto</strong>
+            <span class="text-[10px] text-slate-500">11 Reactivos</span>
+          </div>
+          <div class="bg-white p-3.5 rounded-2xl border border-amber-200 shadow-xs">
+            <span class="text-2xl block mb-1">🔒</span>
+            <strong class="text-slate-800 block text-xs">Clave de Acceso</strong>
+            <span class="text-[10px] text-slate-500">Requerida</span>
+          </div>
+          <div class="bg-white p-3.5 rounded-2xl border border-amber-200 shadow-xs">
+            <span class="text-2xl block mb-1">☁️</span>
+            <strong class="text-slate-800 block text-xs">Cloudflare D1</strong>
+            <span class="text-[10px] text-slate-500">Guardado Oficial</span>
+          </div>
+        </div>
+
+        <div class="bg-white rounded-2xl p-4 border border-amber-200 text-xs text-slate-600 space-y-1.5">
+          <div class="font-bold text-slate-800 flex items-center gap-1.5">
+            <span>📌</span> Instrucciones para Estudiantes:
+          </div>
+          <ul class="list-disc list-inside space-y-1 text-slate-600 pl-1">
+            <li>Para ingresar, pulsa el botón naranja, escribe tu <strong>Nombre y Apellido</strong> y la clave asignada por tu docente.</li>
+            <li>Cada pregunta de opción múltiple tiene un temporizador de <strong>30 segundos</strong> (1 punto c/u).</li>
+            <li>La pregunta 11 es tu <strong>autoevaluación reflexiva</strong> (3 minutos, sin puntaje numérico).</li>
+            <li>Al finalizar, tu calificación y autoevaluación se enviarán automáticamente a la base de datos oficial.</li>
+          </ul>
+        </div>
+
+        <!-- Botón de Entrada al Examen -->
+        <div id="official10-exam-entry-container" class="space-y-4 pt-2">
+          <button onclick="promptOfficialLogin10()" id="btn-start-official10" 
+            class="w-full bg-gradient-to-r from-amber-500 via-orange-500 to-amber-600 hover:from-amber-600 hover:to-orange-700 text-white font-display font-black text-base sm:text-lg py-4 px-6 rounded-2xl shadow-lg hover:shadow-xl transition transform active:scale-95 flex items-center justify-center gap-3 cursor-pointer">
+            <span class="text-2xl">📝</span>
+            <span>PRESENTAR EXAMEN OFICIAL</span>
+            <span class="text-xl">➔</span>
+          </button>
+          <p class="text-xs text-center text-slate-500 font-medium">
+            Ingresa con tu <strong>Nombre y Apellido</strong> y la clave proporcionada por el docente.
+          </p>
+        </div>
+
+        <!-- Botón Docente -->
+        <div class="pt-4 border-t border-amber-200 flex flex-wrap items-center justify-between gap-3 text-xs">
+          <span class="text-slate-500 flex items-center gap-1.5 font-medium">
+            <span>👨‍🏫</span> <span>¿Eres docente? Consulta o gestiona las notas:</span>
+          </span>
+          <button onclick="openDocenteModal10()" class="bg-indigo-600 hover:bg-indigo-700 text-white font-display font-bold px-4 py-2 rounded-xl transition shadow flex items-center gap-1.5 cursor-pointer">
+            <span>📋</span> <span>Panel Docente</span>
+          </button>
+        </div>
+
+      </div>
+
+    </div>
+
+    <!-- PANTALLA 2: RUNNER DEL EXAMEN ACTIVO -->
+    <div id="eval10-runner-container" class="hidden space-y-6 max-w-3xl mx-auto">
+      
+      <!-- Top Bar del Runner -->
+      <div class="bg-white border-2 border-amber-300 rounded-2xl p-4 flex flex-col sm:flex-row items-center justify-between gap-3 shadow-sm">
+        <div class="flex items-center gap-3">
+          <span class="w-10 h-10 rounded-xl bg-amber-500 text-white flex items-center justify-center text-xl font-black shadow-sm shrink-0">
+            🎓
+          </span>
+          <div>
+            <span id="runner10-student-name" class="font-display font-black text-sm sm:text-base text-slate-900 block">Estudiante</span>
+            <span class="text-[11px] text-amber-700 font-bold uppercase tracking-wider">Examen Oficial • Grado 10° • Periodo 3</span>
+          </div>
+        </div>
+
+        <div class="flex items-center gap-4">
+          <!-- Temporizador -->
+          <div id="runner10-timer-container" class="flex items-center gap-2 px-3 py-1.5 rounded-xl bg-amber-50 border border-amber-300 text-amber-900 font-mono font-black text-sm">
+            <span>⏱️</span>
+            <span id="runner10-timer">30s</span>
+          </div>
+
+          <div class="text-right">
+            <div class="text-xs font-black text-slate-700">
+              Pregunta <span id="runner10-current-num" class="text-amber-600 text-base">1</span> de <span id="runner10-total-num">11</span>
+            </div>
+            <div class="text-[10px] text-slate-500 font-bold">
+              Puntos: <span id="runner10-score" class="text-emerald-600 font-black">0</span> / 10
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <!-- Barra de Progreso Superior -->
+      <div class="w-full bg-slate-200 rounded-full h-2.5 overflow-hidden">
+        <div id="eval10-progress-bar" class="bg-gradient-to-r from-amber-500 to-orange-500 h-2.5 rounded-full transition-all duration-300" style="width: 9%;"></div>
+      </div>
+
+      <!-- TARJETA DE PREGUNTA TIPO OPCIÓN MÚLTIPLE (1 - 10) -->
+      <div id="eval10-question-card" class="bg-white rounded-3xl p-6 sm:p-8 border-2 border-slate-200 shadow-md space-y-6">
+        
+        <div class="flex items-center justify-between gap-2 pb-3 border-b border-slate-100">
+          <span id="eval10-q-badge" class="bg-amber-100 text-amber-800 text-[11px] font-black uppercase px-3 py-1 rounded-lg">
+            Pregunta #1 • Opción Múltiple
+          </span>
+          <span id="eval10-q-meta" class="text-xs font-bold text-slate-500">
+            30 segundos • 1 pt
+          </span>
+        </div>
+
+        <h3 id="eval10-q-title" class="font-display font-bold text-lg sm:text-xl text-slate-900 leading-snug">
+          Cargando pregunta...
+        </h3>
+
+        <!-- Opciones -->
+        <div id="eval10-options-container" class="space-y-3">
+          <!-- Generadas dinámicamente -->
+        </div>
+
+        <!-- Retroalimentación Inmediata -->
+        <div id="eval10-feedback-box" class="hidden p-4 rounded-2xl border text-xs sm:text-sm transition-all duration-200">
+          <div id="eval10-feedback-text"></div>
+        </div>
+
+        <!-- Barra Inferior de Acción -->
+        <div class="pt-4 border-t border-slate-100 flex items-center justify-between">
+          <button type="button" onclick="exitEvaluationRunner10()" class="text-xs font-bold text-slate-400 hover:text-slate-600 transition">
+            ✕ Salir del examen
+          </button>
+          <button id="eval10-next-btn" onclick="nextEvalQuestion10()" disabled
+            class="px-6 py-2.5 rounded-xl bg-slate-200 text-slate-400 font-bold text-xs transition flex items-center gap-2 cursor-not-allowed">
+            <span>Siguiente Pregunta</span> ➔
+          </button>
+        </div>
+
+      </div>
+
+      <!-- TARJETA DE PREGUNTA ABIERTA (PREGUNTA 11 - AUTOEVALUACIÓN) -->
+      <div id="eval10-open-question-card" class="hidden bg-white rounded-3xl p-6 sm:p-8 border-2 border-amber-300 shadow-md space-y-6">
+        
+        <div class="flex items-center justify-between gap-2 pb-3 border-b border-slate-100">
+          <span class="bg-purple-100 text-purple-900 text-[11px] font-black uppercase px-3 py-1 rounded-lg">
+            Pregunta #11 • Respuestas Abiertas
+          </span>
+          <span class="text-xs font-bold text-slate-500">
+            3 minutos • Sin puntuar
+          </span>
+        </div>
+
+        <div class="space-y-2">
+          <h3 class="font-display font-bold text-xl text-slate-900">
+            Escribe tu autoevaluación
+          </h3>
+          <p class="text-xs sm:text-sm text-slate-600">
+            Reflexiona sobre tu aprendizaje durante este módulo de experiencias interactivas y arquitectura web: ¿Qué conceptos comprendiste mejor? ¿Qué componente interactivo te pareció más útil y cómo aplicarías la IA como copiloto técnico?
+          </p>
+        </div>
+
+        <!-- Control de Evaluación con IA -->
+        <div class="p-3.5 rounded-2xl bg-slate-50 border border-slate-200 flex items-center justify-between">
+          <span class="text-xs font-bold text-slate-700">Evaluar respuestas usando IA:</span>
+          <span class="px-2.5 py-1 rounded-lg bg-slate-200 text-slate-700 text-xs font-mono font-black border border-slate-300">
+            OFF
+          </span>
+        </div>
+
+        <!-- Textarea de Autoevaluación -->
+        <div class="space-y-2">
+          <label class="block text-xs font-black text-slate-700 uppercase">Tu reflexión personal:</label>
+          <textarea id="eval10-open-textarea" rows="5" placeholder="Escribe aquí tu autoevaluación reflexiva sobre el módulo..."
+            class="w-full p-4 rounded-2xl border-2 border-slate-200 focus:border-amber-500 focus:outline-none text-xs sm:text-sm text-slate-800 leading-relaxed resize-y"></textarea>
+          <span class="text-[11px] text-slate-400 block text-right font-medium">Mínimo 10 caracteres</span>
+        </div>
+
+        <!-- Barra Inferior -->
+        <div class="pt-4 border-t border-slate-100 flex items-center justify-between">
+          <button type="button" onclick="exitEvaluationRunner10()" class="text-xs font-bold text-slate-400 hover:text-slate-600 transition">
+            ✕ Cancelar
+          </button>
+          <button id="eval10-finish-btn" onclick="finishEvaluation10()"
+            class="px-8 py-3 rounded-xl bg-gradient-to-r from-emerald-600 to-teal-600 hover:from-emerald-700 hover:to-teal-700 text-white font-display font-black text-xs sm:text-sm shadow-md hover:shadow-lg transition transform active:scale-95 flex items-center gap-2 cursor-pointer">
+            <span>Finalizar y Enviar Examen</span> ➔
+          </button>
+        </div>
+
+      </div>
+
+    </div>
+
+    <!-- PANTALLA 3: RESULTADOS FINALES -->
+    <div id="eval10-results-screen" class="hidden space-y-6 max-w-2xl mx-auto animate-in fade-in zoom-in-95">
+      <div class="bg-white rounded-3xl p-6 sm:p-8 border-2 border-slate-200 shadow-xl text-center space-y-6">
+        
+        <div class="w-20 h-20 rounded-3xl bg-gradient-to-tr from-emerald-500 to-teal-400 text-white text-4xl flex items-center justify-center mx-auto shadow-lg shadow-emerald-500/30">
+          🏆
+        </div>
+
+        <div>
+          <span id="eval10-results-badge" class="bg-emerald-100 text-emerald-800 text-xs font-black uppercase px-3 py-1 rounded-full border border-emerald-300">
+            Examen Oficial Finalizado
+          </span>
+          <h3 id="eval10-results-title" class="font-display font-black text-2xl sm:text-3xl text-slate-900 mt-2">
+            ¡Felicitaciones!
+          </h3>
+          <p id="eval10-results-subtitle" class="text-xs sm:text-sm text-slate-600 mt-1">
+            Tu evaluación ha sido registrada de manera definitiva e inmutable.
+          </p>
+        </div>
+
+        <!-- Marcador de Calificación -->
+        <div class="grid grid-cols-2 gap-3 max-w-sm mx-auto">
+          <div class="p-4 rounded-2xl bg-slate-50 border border-slate-200">
+            <span class="text-[10px] font-bold text-slate-500 uppercase tracking-wider block">Calificación</span>
+            <span id="eval10-final-score" class="font-display font-black text-3xl text-emerald-600">0 / 10</span>
+          </div>
+          <div class="p-4 rounded-2xl bg-slate-50 border border-slate-200">
+            <span class="text-[10px] font-bold text-slate-500 uppercase tracking-wider block">Porcentaje</span>
+            <span id="eval10-final-percentage" class="font-display font-black text-3xl text-slate-800">0%</span>
+          </div>
+        </div>
+
+        <!-- Estado de Sincronización en Cloudflare -->
+        <div id="eval10-cloud-status" class="p-3.5 rounded-2xl bg-emerald-50 border border-emerald-200 text-xs text-emerald-800 font-bold flex items-center justify-center gap-2">
+          <span>☁️</span>
+          <span>Sincronizando nota con la base de datos oficial...</span>
+        </div>
+
+        <!-- Resumen de Autoevaluación -->
+        <div id="eval10-autoeval-summary" class="hidden text-left bg-slate-50 p-4 rounded-2xl border border-slate-200 text-xs space-y-1">
+          <strong class="text-slate-800 block font-display">Tu autoevaluación registrada:</strong>
+          <p id="eval10-autoeval-text" class="text-slate-600 italic leading-relaxed"></p>
+        </div>
+
+        <!-- Botones de Acción -->
+        <div class="pt-4 border-t border-slate-100 flex flex-col sm:flex-row gap-3">
+          <button onclick="cambiarModulo('inicio')" 
+            class="flex-1 bg-slate-900 hover:bg-slate-800 text-white font-bold text-xs py-3 rounded-xl transition cursor-pointer">
+            Volver a Selección de Módulos
+          </button>
+          <button onclick="openDocenteModal10()" 
+            class="bg-indigo-50 hover:bg-indigo-100 text-indigo-700 font-bold text-xs py-3 px-4 rounded-xl border border-indigo-200 transition cursor-pointer">
+            Ver Registro en Panel Docente
+          </button>
+        </div>
+
+      </div>
+    </div>
+
+  </main>
+
+  <!-- MODAL: INGRESO A EXAMEN OFICIAL (CLAVE ESTUDIANTE 'entrar123' O DOCENTE 'Entrar123*' + APELLIDO Y NOMBRE) -->
+  <div id="modal-official-login10" class="fixed inset-0 z-50 bg-slate-950/70 hidden items-center justify-center p-4 backdrop-blur-sm">
+    <div class="bg-white rounded-3xl p-6 sm:p-8 max-w-md w-full border-4 border-amber-400 shadow-2xl space-y-5 animate-in fade-in zoom-in-95">
+      
+      <div class="flex items-center justify-between border-b border-slate-100 pb-3">
+        <div class="flex items-center gap-2.5">
+          <div class="w-10 h-10 rounded-xl bg-amber-500 text-white flex items-center justify-center text-xl font-black">
+            📝
+          </div>
+          <div>
+            <h4 class="font-display font-black text-lg text-slate-800">Ingreso al Examen Oficial</h4>
+            <span class="text-[11px] text-amber-700 font-bold">Grado 10° • Periodo 3</span>
+          </div>
+        </div>
+        <button onclick="closeOfficialModal10()" class="w-8 h-8 rounded-xl bg-slate-100 hover:bg-slate-200 text-slate-600 font-bold flex items-center justify-center transition cursor-pointer">
+          ✕
+        </button>
+      </div>
+
+      <p class="text-xs text-slate-600 leading-relaxed">
+        Ingresa tus <strong>Apellidos y Nombres</strong> completos y la clave de acceso para iniciar tu evaluación oficial.
+      </p>
+
+      <div class="space-y-3">
+        <div>
+          <label class="block text-xs font-black text-slate-700 uppercase mb-1">Apellidos y Nombres:</label>
+          <input type="text" id="official10-student-name-input" placeholder="Ej: Gómez Pérez Juan Carlos" 
+            class="w-full px-4 py-3 rounded-xl border-2 border-slate-300 focus:border-amber-500 focus:outline-none font-bold text-sm text-slate-800">
+        </div>
+
+        <div>
+          <label class="block text-xs font-black text-slate-700 uppercase mb-1">Clave de Acceso:</label>
+          <input type="password" id="official10-code-input" placeholder="Clave de acceso" 
+            class="w-full px-4 py-3 rounded-xl border-2 border-slate-300 focus:border-amber-500 focus:outline-none font-display font-bold text-base text-center tracking-widest">
+        </div>
+      </div>
+
+      <div id="official10-login-error" class="hidden text-xs text-rose-600 font-bold text-center bg-rose-50 p-2.5 rounded-xl border border-rose-200"></div>
+
+      <div class="flex gap-3 pt-2">
+        <button onclick="closeOfficialModal10()" class="flex-1 bg-slate-100 hover:bg-slate-200 text-slate-700 font-bold text-xs py-3 rounded-xl transition cursor-pointer">
+          Cancelar
+        </button>
+        <button onclick="confirmOfficialLogin10()" class="flex-1 bg-gradient-to-r from-amber-500 to-orange-500 hover:from-amber-600 hover:to-orange-600 text-white font-display font-black text-xs py-3 rounded-xl transition shadow-md cursor-pointer">
+          Comenzar Examen ➔
+        </button>
+      </div>
+
+    </div>
+  </div>
+
+  <!-- MODAL: PANEL DOCENTE GRADO 10° (CLAVE 'Entrar123*') -->
+  <div id="modal-docente-panel10" class="fixed inset-0 z-50 bg-slate-950/75 hidden items-center justify-center p-3 sm:p-5 backdrop-blur-sm">
+    <div class="bg-white rounded-3xl p-6 sm:p-8 max-w-4xl w-full border-4 border-indigo-400 shadow-2xl space-y-5 animate-in fade-in zoom-in-95 max-h-[92vh] flex flex-col overflow-hidden">
+      
+      <div class="flex items-center justify-between border-b-2 border-slate-100 pb-3 flex-shrink-0">
+        <div class="flex items-center gap-3">
+          <div class="w-12 h-12 bg-indigo-100 rounded-2xl flex items-center justify-center text-2xl">
+            👨‍🏫
+          </div>
+          <div>
+            <h4 class="font-display font-black text-xl text-slate-800">Panel Docente • Grado 10° P3</h4>
+            <span class="text-xs text-slate-500 font-medium">Resultados sincronizados con Cloudflare D1</span>
+          </div>
+        </div>
+        <button onclick="closeDocenteModal10()" class="w-9 h-9 rounded-xl bg-slate-100 hover:bg-slate-200 text-slate-600 font-bold flex items-center justify-center transition cursor-pointer">
+          ✕
+        </button>
+      </div>
+
+      <!-- Vista de Login Docente -->
+      <div id="docente10-login-view" class="py-6 max-w-sm mx-auto text-center space-y-4">
+        <p class="text-xs text-slate-600">Ingresa la clave docente para visualizar y descargar las calificaciones.</p>
+        <input type="password" id="docente10-pass-input" placeholder="Clave docente" class="w-full px-4 py-3 rounded-xl border-2 border-slate-300 focus:border-indigo-500 font-display font-bold text-center">
+        <div id="docente10-pass-error" class="hidden text-xs text-rose-600 font-bold">Clave incorrecta</div>
+        <button onclick="authDocente10()" class="w-full bg-indigo-600 hover:bg-indigo-700 text-white font-display font-bold py-3 rounded-xl transition shadow cursor-pointer">
+          Acceder al Registro
+        </button>
+      </div>
+
+      <!-- Vista de Contenido Docente -->
+      <div id="docente10-content-view" class="hidden flex-col flex-1 overflow-hidden space-y-4">
+        <div class="flex flex-wrap items-center justify-between gap-2 flex-shrink-0">
+          <div class="flex items-center gap-2">
+            <span class="text-xs font-bold text-slate-600">Total Exámenes Registrados:</span>
+            <span id="docente10-total-count" class="bg-indigo-100 text-indigo-900 font-black text-xs px-2.5 py-0.5 rounded-full">0</span>
+          </div>
+          <div class="flex gap-2">
+            <button onclick="refreshDocenteData10()" class="bg-slate-100 hover:bg-slate-200 text-slate-700 text-xs font-bold px-3 py-1.5 rounded-xl transition flex items-center gap-1 cursor-pointer">
+              🔄 Actualizar
+            </button>
+            <button onclick="exportDocenteCSV10()" class="bg-emerald-600 hover:bg-emerald-700 text-white text-xs font-bold px-3 py-1.5 rounded-xl transition flex items-center gap-1 cursor-pointer shadow">
+              📥 Descargar CSV / Excel
+            </button>
+          </div>
+        </div>
+
+        <div class="flex-1 overflow-y-auto border-2 border-slate-200 rounded-2xl">
+          <table class="w-full text-left text-xs border-collapse">
+            <thead class="bg-slate-100 text-slate-700 font-display font-black uppercase text-[10px] sticky top-0 border-b border-slate-200">
+              <tr>
+                <th class="p-3">Estudiante</th>
+                <th class="p-3">Código</th>
+                <th class="p-3">Nota</th>
+                <th class="p-3">%</th>
+                <th class="p-3">Autoevaluación</th>
+                <th class="p-3">Fecha</th>
+                <th class="p-3 text-center">Acción</th>
+              </tr>
+            </thead>
+            <tbody id="docente10-table-body" class="divide-y divide-slate-100 font-medium">
+              <tr>
+                <td colspan="7" class="p-6 text-center text-slate-400">Cargando registros...</td>
+              </tr>
+            </tbody>
+          </table>
+        </div>
+      </div>
+
+    </div>
+  </div>
+
+
   <!-- MODAL INTERACTIVO DE JERARQUÍA TIPOGRÁFICA 2:1 -->
   <div id="modalTipografia" class="fixed inset-0 z-50 flex items-center justify-center p-3 sm:p-4 bg-slate-950/70 backdrop-blur-sm hidden opacity-0 transition-opacity duration-300" onclick="cerrarModalTipografia(event)">
     <div class="bg-white w-full max-w-3xl rounded-3xl shadow-2xl border border-slate-200 overflow-hidden flex flex-col max-h-[90vh] animate-in fade-in zoom-in-95 duration-200" onclick="event.stopPropagation()">
@@ -1204,7 +1622,7 @@
     // ==========================================
     const MODULO_KEY = 'p3_grado10_modulo_activo';
     const MARCADOR_PESTANA = 'p3_grado10';
-    const MODULOS_VALIDOS = ['inicio', 'canva', 'recursos-web'];
+    const MODULOS_VALIDOS = ['inicio', 'examen', 'canva', 'recursos-web'];
 
     function guardarModuloActivo(modulo) {
       try {
@@ -1236,30 +1654,35 @@
       const inicioModulos = document.getElementById('view-inicio-modulos');
       const mainCanva     = document.getElementById('main-canva');
       const recursosWeb   = document.getElementById('view-recursos-web');
+      const mainExamen    = document.getElementById('main-examen');
       const headerDetail  = document.getElementById('header-canva-detail');
+      const navSesiones   = document.getElementById('nav-sesiones-wrapper');
+
+      // Normalizar ocultamiento de todas las vistas
+      if (inicioModulos) inicioModulos.classList.add('hidden');
+      if (mainCanva)     mainCanva.classList.add('hidden');
+      if (recursosWeb)   recursosWeb.classList.add('hidden');
+      if (mainExamen)    mainExamen.classList.add('hidden');
+      if (headerDetail)  headerDetail.classList.add('hidden');
+      if (navSesiones)   navSesiones.classList.add('hidden');
 
       if (modulo === 'inicio') {
         if (inicioModulos) inicioModulos.classList.remove('hidden');
-        if (mainCanva)     mainCanva.classList.add('hidden');
-        if (recursosWeb)   recursosWeb.classList.add('hidden');
-        if (headerDetail)  headerDetail.classList.add('hidden');
+      } else if (modulo === 'examen') {
+        if (mainExamen) mainExamen.classList.remove('hidden');
+        checkOfficialExamCompletedStatus10();
       } else if (modulo === 'canva') {
-        if (inicioModulos) inicioModulos.classList.add('hidden');
-        if (mainCanva)     mainCanva.classList.remove('hidden');
-        if (recursosWeb)   recursosWeb.classList.add('hidden');
-        if (headerDetail)  headerDetail.classList.remove('hidden');
+        if (mainCanva)    mainCanva.classList.remove('hidden');
+        if (headerDetail) headerDetail.classList.remove('hidden');
+        if (navSesiones)  navSesiones.classList.remove('hidden');
       } else if (modulo === 'recursos-web') {
-        if (inicioModulos) inicioModulos.classList.add('hidden');
-        if (mainCanva)     mainCanva.classList.add('hidden');
-        if (recursosWeb)   recursosWeb.classList.remove('hidden');
-        if (headerDetail)  headerDetail.classList.add('hidden');
+        if (recursosWeb)  recursosWeb.classList.remove('hidden');
       }
       document.body.classList.toggle('aula-activa', modulo === 'recursos-web');
       if (persistir) guardarModuloActivo(modulo);
       window.scrollTo({ top: 0, behavior: 'smooth' });
     }
 
-    // El Aula Virtual pide volver a la selección de módulos
     window.addEventListener('message', (evento) => {
       if (evento.data && evento.data.tipo === 'volver-a-clase') {
         cambiarModulo('inicio');
@@ -2548,6 +2971,772 @@
       printWindow.document.close();
       printWindow.focus();
     }
+
+
+      // =========================================================================
+      // MOTOR EXAMEN OFICIAL GRADO 10° - PERIODO 3 (CLOUDFLARE D1 + TEMPORIZADOR)
+      // =========================================================================
+      const CF_WORKER_URL_G10 = 'https://orientacion-vocacional-milagrosa.rovimartinez.workers.dev';
+      const STORAGE_KEY_OFFICIAL_RESULT_G10 = 'ilm_p3_grado10_official_result';
+
+      const examQuestionsG10 = [
+        {
+          tipo: 'multiple',
+          tiempoSegundos: 30,
+          puntos: 1,
+          pregunta: "Un docente desea transformar una guía en PDF de 20 páginas sobre historia en una experiencia de aprendizaje interactiva. Según los fundamentos pedagógicos del aprendizaje activo, ¿cuál es el cambio esencial que define a un componente interactivo frente al material tradicional?",
+          opciones: [
+            "La incorporación de tipografías legibles y una paleta de colores moderna.",
+            "La capacidad del estudiante de modificar variables, tomar decisiones y recibir retroalimentación inmediata.",
+            "La digitalización del documento para ser leído en dispositivos móviles sin necesidad de imprimirlo.",
+            "La inclusión de hipervínculos que redirigen a videos explicativos en plataformas externas."
+          ],
+          correcta: 1,
+          explicacion: "El aprendizaje activo se fundamenta en la agencia del estudiante: manipular variables, tomar decisiones fundamentadas y recibir feedback inmediato para ajustar su razonamiento en tiempo real."
+        },
+        {
+          tipo: 'multiple',
+          tiempoSegundos: 30,
+          puntos: 1,
+          pregunta: "En la arquitectura web (HTML, CSS y JavaScript) de una lección interactiva, ¿qué rol técnico y pedagógico desempeña específicamente JavaScript?",
+          opciones: [
+            "Definir la semántica y jerarquía de los contenidos textuales.",
+            "Aplicar estilos visuales, animaciones de transición y tipografías responsivas.",
+            "Controlar la lógica de interacción, procesar las acciones del usuario y disparar el feedback dinámico.",
+            "Alojar y desplegar el sitio en servidores de producción como Netlify."
+          ],
+          correcta: 2,
+          explicacion: "Mientras HTML estructura y CSS maqueta la interfaz, JavaScript es el motor que procesa las interacciones del estudiante y genera retroalimentación pedagógica instantánea."
+        },
+        {
+          tipo: 'multiple',
+          tiempoSegundos: 30,
+          puntos: 1,
+          pregunta: "En una actividad de laboratorio digital, se implementa un control deslizante que permite al estudiante variar la temperatura de un recipiente y observar en tiempo real la evaporación del agua. ¿Qué valor pedagógico aporta este componente frente a una imagen estática con una gráfica de fases?",
+          opciones: [
+            "Facilita la memorización pasiva de los puntos de ebullición de diferentes sustancias.",
+            "Reduce la carga cognitiva al eliminar por completo la necesidad de instrucción teórica previa.",
+            "Permite la formulación y comprobación inmediata de hipótesis mediante la manipulación directa de variables.",
+            "Garantiza que el estudiante obtenga automáticamente una calificación cuantitativa sin intervención docente."
+          ],
+          correcta: 2,
+          explicacion: "La manipulación directa de parámetros mediante controles deslizantes fomenta el método científico: formular conjeturas y observar la causa-efecto de manera inmediata."
+        },
+        {
+          tipo: 'multiple',
+          tiempoSegundos: 30,
+          puntos: 1,
+          pregunta: "En el caso práctico \"Misión Sistema Solar\", se implementan tarjetas giratorias en 3D (flashcards) para presentar datos curiosos de cada planeta. Desde la perspectiva del diseño instruccional, ¿cuál es la función cognitiva principal del mecanismo de revelación (volteo)?",
+          opciones: [
+            "Evaluar formalmente con una nota sumativa los conocimientos previos del alumno.",
+            "Estimular la curiosidad y activar la recuperación activa de información mediante la dosificación deliberada del contenido.",
+            "Evitar que el estudiante deba leer conceptos complejos resumiendo todo a imágenes animadas.",
+            "Reemplazar la necesidad de estructurar el contenido en módulos temáticos."
+          ],
+          correcta: 1,
+          explicacion: "El volteo de tarjetas implementa la técnica de recuperación activa (active recall) dosificando la información para maximizar la retención y la curiosidad epistémica."
+        },
+        {
+          tipo: 'multiple',
+          tiempoSegundos: 30,
+          puntos: 1,
+          pregunta: "Si se requiere que los estudiantes organicen cronológicamente los periodos de la historia de la computación, ¿cuál de los siguientes componentes interactivos es el más idóneo para evidenciar la comprensión de secuencias y jerarquías?",
+          opciones: [
+            "Un contenedor con pestañas de navegación horizontal (Tabs).",
+            "Una caja de texto libre para redacción de ensayos cortos.",
+            "Una actividad de arrastrar y soltar (Drag and Drop) o tarjetas reordenables con validación de posición.",
+            "Un botón desplegable con efecto de acordeón (Accordion FAQ)."
+          ],
+          correcta: 2,
+          explicacion: "El componente Drag and Drop / Reordenamiento táctil es el estándar pedagógico para evidenciar la comprensión de secuencias cronológicas, fases o jerarquías procedurales."
+        },
+        {
+          tipo: 'multiple',
+          tiempoSegundos: 30,
+          puntos: 1,
+          pregunta: "Al utilizar Inteligencia Artificial generativa como copiloto para diseñar recursos educativos interactivos en código web, ¿cuál es el enfoque técnico más riguroso y eficiente para solicitar la construcción de un componente?",
+          opciones: [
+            "Pedir a la IA \"una página bonita sobre ciencias\" sin detalles estructurales.",
+            "Especificar el objetivo de aprendizaje, la estructura semántica en HTML, las interacciones requeridas en JavaScript y los criterios de retroalimentación inmediata.",
+            "Solicitar únicamente el código CSS para que la interfaz se vea moderna, omitiendo la lógica de eventos.",
+            "Pedirle que busque plantillas completas de WordPress y las descargue automáticamente."
+          ],
+          correcta: 1,
+          explicacion: "El prompt engineering pedagógico eficaz combina objetivos didácticos, arquitectura semántica, manejo de eventos y reglas claras de retroalimentación constructiva."
+        },
+        {
+          tipo: 'multiple',
+          tiempoSegundos: 30,
+          puntos: 1,
+          pregunta: "En una lección digital modular, el uso de pestañas temáticas (Tabs) o acordeones interactivos responde principalmente al principio pedagógico de:",
+          opciones: [
+            "Fragmentación y gestión de la carga cognitiva (chunking), evitando la sobrecarga visual de textos extensos.",
+            "Evaluación diagnóstica automática antes de iniciar la lectura.",
+            "Gamificación competitiva entre estudiantes del mismo curso.",
+            "Verificación de identidad para el registro de asistencia del estudiante."
+          ],
+          correcta: 0,
+          explicacion: "El principio de chunking (fragmentación) reduce la sobrecarga cognitiva intrínseca permitiendo que el estudiante procese una unidad de sentido a la vez sin abrumarse."
+        },
+        {
+          tipo: 'multiple',
+          tiempoSegundos: 30,
+          puntos: 1,
+          pregunta: "En un quiz formativo digital, un estudiante selecciona una respuesta incorrecta. Para que la herramienta cumpla un rol pedagógicamente constructivo, el sistema debe:",
+          opciones: [
+            "Bloquear el acceso a la lección de inmediato y reiniciar el navegador.",
+            "Mostrar únicamente un icono rojo de error sin explicaciones para fomentar la autosuficiencia.",
+            "Brindar retroalimentación explicativa inmediata indicando por qué es incorrecta y orientando hacia el razonamiento adecuado.",
+            "Restar puntos de la calificación definitiva sin ofrecer oportunidad de reintento o análisis."
+          ],
+          correcta: 2,
+          explicacion: "El error es una oportunidad de aprendizaje; la retroalimentación formativa debe explicar el porqué del fallo y guiar hacia la comprensión conceptual correcta."
+        },
+        {
+          tipo: 'multiple',
+          tiempoSegundos: 30,
+          puntos: 1,
+          pregunta: "Al desplegar una experiencia interactiva educativa en una plataforma como Netlify, el archivo central que actúa como punto de entrada predeterminado en la raíz del proyecto para renderizar la interfaz es:",
+          opciones: [
+            "style.css",
+            "main.js",
+            "index.html",
+            "readme.txt"
+          ],
+          correcta: 2,
+          explicacion: "Por convención universal de servidores web y plataformas de hosting estático (Netlify, Vercel, GitHub Pages), index.html es el archivo raíz ejecutado por defecto."
+        },
+        {
+          tipo: 'multiple',
+          tiempoSegundos: 30,
+          puntos: 1,
+          pregunta: "En una interfaz educativa gamificada, la inclusión de una barra de progreso porcentual y un diploma digital al completar todas las etapas tiene como propósito principal:",
+          opciones: [
+            "Reemplazar el rol orientador y evaluador del docente en el aula.",
+            "Reforzar la motivación intrínseca y la metacognición al visibilizar el avance y el logro del objetivo de aprendizaje.",
+            "Aumentar el consumo de ancho de banda y recursos computacionales del dispositivo.",
+            "Asegurar que el código fuente no pueda ser inspeccionado desde el navegador."
+          ],
+          correcta: 1,
+          explicacion: "Los indicadores de avance y reconocimientos estimulan la metacognición, brindando al alumno un sentido de autorregulación, progreso y cierre exitoso del aprendizaje."
+        },
+        {
+          tipo: 'abierta',
+          tiempoSegundos: 180,
+          puntos: 0,
+          pregunta: "Escribe tu autoevaluación",
+          evaluarConIA: false
+        }
+      ];
+
+      let currentEvalIdx10 = 0;
+      let evalScore10 = 0;
+      let evalStudentName10 = 'Estudiante';
+      let evalStudentCode10 = '';
+      let evalStudentRole10 = 'estudiante'; // 'estudiante' o 'docente'
+      let evalAnswersDetail10 = [];
+      let evalTimerInterval10 = null;
+      let evalSecondsLeft10 = 30;
+      let evalAnswered10 = false;
+      let evalAutoevalText10 = '';
+
+      function promptOfficialLogin10() {
+        const modal = document.getElementById('modal-official-login10');
+        const err = document.getElementById('official10-login-error');
+        const nameInp = document.getElementById('official10-student-name-input');
+        const codeInp = document.getElementById('official10-code-input');
+
+        if (err) err.classList.add('hidden');
+        if (codeInp) codeInp.value = '';
+        if (nameInp) nameInp.value = '';
+
+        if (modal) {
+          modal.classList.remove('hidden');
+          modal.classList.add('flex');
+          setTimeout(() => { if (nameInp) nameInp.focus(); }, 150);
+        }
+      }
+
+      function closeOfficialModal10() {
+        const modal = document.getElementById('modal-official-login10');
+        if (modal) { modal.classList.add('hidden'); modal.classList.remove('flex'); }
+      }
+
+      function confirmOfficialLogin10() {
+        const nameInp = document.getElementById('official10-student-name-input');
+        const codeInp = document.getElementById('official10-code-input');
+        const err = document.getElementById('official10-login-error');
+
+        const nameVal = nameInp ? nameInp.value.trim() : '';
+        const codeVal = codeInp ? codeInp.value.trim() : '';
+
+        // Validación de Apellidos y Nombres
+        if (nameVal.length < 4 || !nameVal.includes(' ')) {
+          if (err) {
+            err.textContent = "Por favor ingresa tu Apellido y Nombre completos.";
+            err.classList.remove('hidden');
+          }
+          return;
+        }
+
+        // Validación de Clave (Docente: Entrar123* | Estudiante: entrar123)
+        let role = '';
+        if (codeVal === 'Entrar123*') {
+          role = 'docente';
+        } else if (codeVal === 'entrar123') {
+          role = 'estudiante';
+        } else {
+          if (err) {
+            err.textContent = "Clave de acceso incorrecta. Verifica tu contraseña autorizada.";
+            err.classList.remove('hidden');
+          }
+          return;
+        }
+
+        closeOfficialModal10();
+        evalStudentRole10 = role;
+        const studentCode = 'G10P3-' + nameVal.replace(/[^a-zA-Z0-9]/g, '').slice(0, 10).toUpperCase() + '-' + Math.floor(100 + Math.random() * 900);
+        startEvaluation10(nameVal, studentCode);
+      }
+
+      function startEvaluation10(studentName, studentCode) {
+        currentEvalIdx10 = 0;
+        evalScore10 = 0;
+        evalAnswered10 = false;
+        evalStudentName10 = studentName;
+        evalStudentCode10 = studentCode;
+        evalAnswersDetail10 = [];
+        evalAutoevalText10 = '';
+
+        document.getElementById('eval10-selection-screen').classList.add('hidden');
+        document.getElementById('eval10-results-screen').classList.add('hidden');
+        document.getElementById('eval10-runner-container').classList.remove('hidden');
+
+        const runnerName = document.getElementById('runner10-student-name');
+        if (runnerName) runnerName.textContent = studentName + (evalStudentRole10 === 'docente' ? ' (Modo Docente)' : '');
+
+        renderEvalQuestion10();
+        window.scrollTo({ top: 0, behavior: 'smooth' });
+      }
+
+      function renderEvalQuestion10() {
+        clearInterval(evalTimerInterval10);
+        evalAnswered10 = false;
+        const q = examQuestionsG10[currentEvalIdx10];
+        const total = examQuestionsG10.length;
+
+        // Actualizar encabezados
+        const curNumEl = document.getElementById('runner10-current-num');
+        const totalNumEl = document.getElementById('runner10-total-num');
+        const scoreEl = document.getElementById('runner10-score');
+        const progBar = document.getElementById('eval10-progress-bar');
+
+        if (curNumEl) curNumEl.textContent = (currentEvalIdx10 + 1);
+        if (totalNumEl) totalNumEl.textContent = total;
+        if (scoreEl) scoreEl.textContent = evalScore10;
+        if (progBar) progBar.style.width = (((currentEvalIdx10 + 1) / total) * 100) + '%';
+
+        const multipleCard = document.getElementById('eval10-question-card');
+        const openCard = document.getElementById('eval10-open-question-card');
+
+        if (q.tipo === 'multiple') {
+          if (multipleCard) multipleCard.classList.remove('hidden');
+          if (openCard) openCard.classList.add('hidden');
+
+          const qBadge = document.getElementById('eval10-q-badge');
+          const qTitle = document.getElementById('eval10-q-title');
+          const optionsBox = document.getElementById('eval10-options-container');
+          const feedbackBox = document.getElementById('eval10-feedback-box');
+          const nextBtn = document.getElementById('eval10-next-btn');
+
+          if (qBadge) qBadge.textContent = 'Pregunta #' + (currentEvalIdx10 + 1) + ' • Opción Múltiple';
+          if (qTitle) qTitle.textContent = (currentEvalIdx10 + 1) + '. ' + q.pregunta;
+          if (feedbackBox) feedbackBox.classList.add('hidden');
+
+          if (nextBtn) {
+            nextBtn.disabled = true;
+            nextBtn.className = 'px-6 py-2.5 rounded-xl bg-slate-200 text-slate-400 font-bold text-xs transition flex items-center gap-2 cursor-not-allowed';
+            if (currentEvalIdx10 === 9) {
+              nextBtn.innerHTML = '<span>Pasar a Autoevaluación</span> ➔';
+            } else {
+              nextBtn.innerHTML = '<span>Siguiente Pregunta</span> ➔';
+            }
+          }
+
+          if (optionsBox) {
+            optionsBox.innerHTML = '';
+            q.opciones.forEach((opcText, idx) => {
+              const btn = document.createElement('button');
+              btn.type = 'button';
+              btn.className = 'w-full p-4 rounded-2xl border-2 border-slate-200 bg-white hover:bg-amber-50/60 hover:border-amber-300 text-left font-semibold text-xs sm:text-sm text-slate-700 transition flex items-start gap-3 shadow-xs cursor-pointer';
+              btn.innerHTML = '<span class="w-6 h-6 rounded-lg bg-slate-100 text-slate-700 font-black text-xs flex items-center justify-center shrink-0 border border-slate-300">' +
+                String.fromCharCode(65 + idx) +
+                '</span><span class="flex-1">' + opcText + '</span>';
+              btn.onclick = () => selectEvalOption10(idx);
+              optionsBox.appendChild(btn);
+            });
+          }
+
+          startEvalTimer10(30, () => {
+            // Tiempo agotado para opción múltiple
+            if (!evalAnswered10) {
+              selectEvalOption10(-1); // -1 indica no respondida / tiempo expirado
+            }
+          });
+
+        } else if (q.tipo === 'abierta') {
+          if (multipleCard) multipleCard.classList.add('hidden');
+          if (openCard) openCard.classList.remove('hidden');
+
+          const textarea = document.getElementById('eval10-open-textarea');
+          if (textarea) textarea.value = '';
+
+          startEvalTimer10(180, () => {
+            // Tiempo agotado en autoevaluación: finalizar automáticamente
+            finishEvaluation10();
+          });
+        }
+      }
+
+      function startEvalTimer10(seconds, onTimeUp) {
+        clearInterval(evalTimerInterval10);
+        evalSecondsLeft10 = seconds;
+        updateTimerDisplay10();
+
+        evalTimerInterval10 = setInterval(() => {
+          evalSecondsLeft10--;
+          updateTimerDisplay10();
+          if (evalSecondsLeft10 <= 0) {
+            clearInterval(evalTimerInterval10);
+            if (typeof onTimeUp === 'function') onTimeUp();
+          }
+        }, 1000);
+      }
+
+      function updateTimerDisplay10() {
+        const timerEl = document.getElementById('runner10-timer');
+        if (!timerEl) return;
+        if (evalSecondsLeft10 >= 60) {
+          const m = Math.floor(evalSecondsLeft10 / 60);
+          const s = evalSecondsLeft10 % 60;
+          timerEl.textContent = m + 'm ' + (s < 10 ? '0' : '') + s + 's';
+        } else {
+          timerEl.textContent = evalSecondsLeft10 + 's';
+        }
+
+        if (evalSecondsLeft10 <= 5) {
+          timerEl.className = 'text-rose-600 font-mono font-black animate-pulse';
+        } else {
+          timerEl.className = 'font-mono font-black text-amber-900';
+        }
+      }
+
+      function selectEvalOption10(selectedIdx) {
+        if (evalAnswered10) return;
+        evalAnswered10 = true;
+        clearInterval(evalTimerInterval10);
+
+        const q = examQuestionsG10[currentEvalIdx10];
+        const isTimeout = selectedIdx === -1;
+        const isCorrect = selectedIdx === q.correcta;
+
+        if (isCorrect) {
+          evalScore10++;
+          const scoreEl = document.getElementById('runner10-score');
+          if (scoreEl) scoreEl.textContent = evalScore10;
+        }
+
+        evalAnswersDetail10.push({
+          pregunta: q.pregunta,
+          seleccionada: isTimeout ? 'Tiempo agotado' : q.opciones[selectedIdx],
+          correcta: q.opciones[q.correcta],
+          esCorrecta: isCorrect,
+          tiempoUsado: 30 - evalSecondsLeft10
+        });
+
+        const optionsBox = document.getElementById('eval10-options-container');
+        if (optionsBox) {
+          const buttons = optionsBox.querySelectorAll('button');
+          buttons.forEach((btn, idx) => {
+            btn.disabled = true;
+            btn.classList.remove('cursor-pointer');
+            if (idx === q.correcta) {
+              btn.className = 'w-full p-4 rounded-2xl border-2 border-emerald-500 bg-emerald-50 text-emerald-950 font-bold text-xs sm:text-sm flex items-start gap-3 shadow-xs';
+              const badge = btn.querySelector('span:first-child');
+              if (badge) badge.className = 'w-6 h-6 rounded-lg bg-emerald-600 text-white font-black text-xs flex items-center justify-center shrink-0';
+            } else if (idx === selectedIdx) {
+              btn.className = 'w-full p-4 rounded-2xl border-2 border-rose-400 bg-rose-50 text-rose-950 font-bold text-xs sm:text-sm flex items-start gap-3 shadow-xs';
+              const badge = btn.querySelector('span:first-child');
+              if (badge) badge.className = 'w-6 h-6 rounded-lg bg-rose-600 text-white font-black text-xs flex items-center justify-center shrink-0';
+            } else {
+              btn.className = 'w-full p-4 rounded-2xl border border-slate-200 bg-slate-50 text-slate-400 font-normal text-xs sm:text-sm flex items-start gap-3 opacity-60';
+            }
+          });
+        }
+
+        const feedbackBox = document.getElementById('eval10-feedback-box');
+        const feedbackText = document.getElementById('eval10-feedback-text');
+        if (feedbackBox && feedbackText) {
+          feedbackBox.classList.remove('hidden');
+          if (isCorrect) {
+            feedbackBox.className = 'p-4 rounded-2xl border border-emerald-300 bg-emerald-50 text-emerald-900 text-xs sm:text-sm';
+            feedbackText.innerHTML = '<strong>¡Respuesta Correcta! ✓</strong> ' + q.explicacion;
+          } else if (isTimeout) {
+            feedbackBox.className = 'p-4 rounded-2xl border border-amber-300 bg-amber-50 text-amber-900 text-xs sm:text-sm';
+            feedbackText.innerHTML = '<strong>⏱️ ¡Tiempo agotado!</strong> La opción correcta era: <em>' + q.opciones[q.correcta] + '</em>. ' + q.explicacion;
+          } else {
+            feedbackBox.className = 'p-4 rounded-2xl border border-rose-300 bg-rose-50 text-rose-900 text-xs sm:text-sm';
+            feedbackText.innerHTML = '<strong>Respuesta Incorrecta:</strong> La opción adecuada es: <em>' + q.opciones[q.correcta] + '</em>. ' + q.explicacion;
+          }
+        }
+
+        const nextBtn = document.getElementById('eval10-next-btn');
+        if (nextBtn) {
+          nextBtn.disabled = false;
+          nextBtn.className = 'px-6 py-2.5 rounded-xl bg-amber-500 hover:bg-amber-600 text-white font-bold text-xs transition flex items-center gap-2 cursor-pointer shadow';
+        }
+      }
+
+      function nextEvalQuestion10() {
+        if (currentEvalIdx10 < examQuestionsG10.length - 1) {
+          currentEvalIdx10++;
+          renderEvalQuestion10();
+        } else {
+          finishEvaluation10();
+        }
+      }
+
+      async function finishEvaluation10() {
+        clearInterval(evalTimerInterval10);
+
+        const openTextarea = document.getElementById('eval10-open-textarea');
+        evalAutoevalText10 = openTextarea ? openTextarea.value.trim() : '';
+        if (!evalAutoevalText10) {
+          evalAutoevalText10 = 'Sin texto registrado.';
+        }
+
+        evalAnswersDetail10.push({
+          pregunta: "Escribe tu autoevaluación",
+          autoevaluacion: evalAutoevalText10,
+          evaluarConIA: "OFF"
+        });
+
+        document.getElementById('eval10-runner-container').classList.add('hidden');
+        const resultsScreen = document.getElementById('eval10-results-screen');
+        resultsScreen.classList.remove('hidden');
+
+        const badgeEl = document.getElementById('eval10-results-badge');
+        const titleEl = document.getElementById('eval10-results-title');
+        const subEl = document.getElementById('eval10-results-subtitle');
+        const scoreEl = document.getElementById('eval10-final-score');
+        const percEl = document.getElementById('eval10-final-percentage');
+        const cloudStatusEl = document.getElementById('eval10-cloud-status');
+        const autoevalSummary = document.getElementById('eval10-autoeval-summary');
+        const autoevalText = document.getElementById('eval10-autoeval-text');
+
+        const percentage = Math.round((evalScore10 / 10) * 100);
+        if (scoreEl) scoreEl.textContent = evalScore10 + ' / 10';
+        if (percEl) percEl.textContent = percentage + '%';
+
+        if (badgeEl) badgeEl.textContent = "📝 Examen Oficial Finalizado";
+        if (titleEl) titleEl.textContent = '¡Felicitaciones, ' + evalStudentName10 + '!';
+        if (subEl) subEl.textContent = "Tu evaluación y autoevaluación han sido registradas oficialmente.";
+
+        if (autoevalSummary && autoevalText) {
+          autoevalSummary.classList.remove('hidden');
+          autoevalText.textContent = evalAutoevalText10;
+        }
+
+        const officialData = {
+          codigo: evalStudentCode10,
+          nombre: evalStudentName10,
+          curso: "Grado 10° - Periodo 3 (Experiencias Interactivas)",
+          puntaje: evalScore10,
+          porcentaje: percentage,
+          autoevaluacion: evalAutoevalText10,
+          fecha: new Date().toISOString(),
+          detalles: evalAnswersDetail10
+        };
+
+        localStorage.setItem(STORAGE_KEY_OFFICIAL_RESULT_G10, JSON.stringify(officialData));
+
+        if (cloudStatusEl) {
+          cloudStatusEl.innerHTML = "<span>☁️</span> <span>Guardando nota en la Base de Datos Cloudflare D1...</span>";
+        }
+
+        try {
+          const payload = {
+            estudiante: {
+              codigo: evalStudentCode10,
+              nombre: evalStudentName10,
+              curso: "Grado 10° - Periodo 3"
+            },
+            resultadosCalculados: {
+              codigoHolland: evalScore10 + '/10',
+              puntajes: { R: evalScore10, I: 10, A: 0, S: 0, E: 0, C: 0 },
+              dimensionPrimaria: { nombre: evalScore10 + ' de 10' },
+              dimensionSecundaria: { nombre: percentage + '%' },
+              dimensionTerciaria: { nombre: evalScore10 >= 6 ? "Aprobado" : "Por Mejorar" },
+              autoevaluacion: evalAutoevalText10,
+              detalles: evalAnswersDetail10,
+              evaluarConIA: false
+            }
+          };
+
+          const resp = await fetch(CF_WORKER_URL_G10 + '/api/respuestas', {
+            method: 'POST',
+            headers: { 'Content-Type': 'application/json' },
+            body: JSON.stringify(payload)
+          });
+
+          if (resp.ok) {
+            if (cloudStatusEl) {
+              cloudStatusEl.className = "p-3.5 rounded-2xl bg-emerald-50 border border-emerald-300 text-xs text-emerald-800 font-bold flex items-center justify-center gap-2";
+              cloudStatusEl.innerHTML = "<span>☁️🔒</span> <span>¡Nota guardada y sincronizada exitosamente en la nube!</span>";
+            }
+          } else {
+            throw new Error("HTTP " + resp.status);
+          }
+        } catch (err) {
+          if (cloudStatusEl) {
+            cloudStatusEl.className = "p-3.5 rounded-2xl bg-amber-50 border border-amber-300 text-xs text-amber-900 font-bold flex items-center justify-center gap-2";
+            cloudStatusEl.innerHTML = "<span>💾</span> <span>Guardado localmente en este equipo (sin conexión al servidor).</span>";
+          }
+        }
+
+        window.scrollTo({ top: 0, behavior: 'smooth' });
+      }
+
+      function exitEvaluationRunner10() {
+        clearInterval(evalTimerInterval10);
+        document.getElementById('eval10-runner-container').classList.add('hidden');
+        document.getElementById('eval10-selection-screen').classList.remove('hidden');
+        checkOfficialExamCompletedStatus10();
+        window.scrollTo({ top: 0, behavior: 'smooth' });
+      }
+
+      function checkOfficialExamCompletedStatus10() {
+        const saved = localStorage.getItem(STORAGE_KEY_OFFICIAL_RESULT_G10);
+        const container = document.getElementById('official10-exam-entry-container');
+        if (!container) return;
+
+        if (saved) {
+          try {
+            const data = JSON.parse(saved);
+            container.innerHTML = `
+              <div class="bg-emerald-50 border-2 border-emerald-400 rounded-2xl p-5 text-center space-y-2 animate-in fade-in">
+                <span class="text-3xl block">🏆</span>
+                <strong class="font-display font-black text-base text-emerald-950 block">¡Examen Presentado con Éxito!</strong>
+                <p class="text-xs text-slate-600 font-medium">Estudiante: <strong>${data.nombre}</strong> (${data.codigo})</p>
+                <div class="inline-block bg-emerald-100 text-emerald-900 font-black text-sm px-4 py-1.5 rounded-full border border-emerald-300 mt-1">
+                  Nota: ${data.puntaje} / 10 &bull; ${data.porcentaje}%
+                </div>
+                <p class="text-[11px] text-emerald-700 font-bold mt-2">🔒 Tu calificación ya fue sincronizada y guardada.</p>
+              </div>
+            `;
+          } catch (e) {}
+        }
+      }
+
+      // --- PANEL DOCENTE GRADO 10° ---
+      let isDocenteAuthenticated10 = false;
+      let currentDocenteList10 = [];
+
+      function openDocenteModal10() {
+        const modal = document.getElementById('modal-docente-panel10');
+        const loginView = document.getElementById('docente10-login-view');
+        const contentView = document.getElementById('docente10-content-view');
+        const passInp = document.getElementById('docente10-pass-input');
+        const err = document.getElementById('docente10-pass-error');
+
+        if (err) err.classList.add('hidden');
+        if (modal) { modal.classList.remove('hidden'); modal.classList.add('flex'); }
+
+        if (isDocenteAuthenticated10 || evalStudentRole10 === 'docente') {
+          isDocenteAuthenticated10 = true;
+          if (loginView) loginView.classList.add('hidden');
+          if (contentView) { contentView.classList.remove('hidden'); contentView.classList.add('flex'); }
+          refreshDocenteData10();
+        } else {
+          if (loginView) loginView.classList.remove('hidden');
+          if (contentView) { contentView.classList.add('hidden'); contentView.classList.remove('flex'); }
+          if (passInp) { passInp.value = ''; setTimeout(() => passInp.focus(), 150); }
+        }
+      }
+
+      function closeDocenteModal10() {
+        const modal = document.getElementById('modal-docente-panel10');
+        if (modal) { modal.classList.add('hidden'); modal.classList.remove('flex'); }
+      }
+
+      function authDocente10() {
+        const passInp = document.getElementById('docente10-pass-input');
+        const err = document.getElementById('docente10-pass-error');
+        const val = passInp ? passInp.value.trim() : '';
+
+        if (val !== 'Entrar123*') {
+          if (err) err.classList.remove('hidden');
+          return;
+        }
+
+        isDocenteAuthenticated10 = true;
+        document.getElementById('docente10-login-view').classList.add('hidden');
+        const contentView = document.getElementById('docente10-content-view');
+        contentView.classList.remove('hidden');
+        contentView.classList.add('flex');
+        refreshDocenteData10();
+      }
+
+      async function refreshDocenteData10() {
+        const tbody = document.getElementById('docente10-table-body');
+        const countEl = document.getElementById('docente10-total-count');
+        if (tbody) tbody.innerHTML = '<tr><td colspan="7" class="p-6 text-center text-slate-400">Cargando registros desde la nube...</td></tr>';
+
+        let combinedResults = [];
+
+        try {
+          const resp = await fetch(CF_WORKER_URL_G10 + '/api/resultados', {
+            method: 'GET',
+            headers: { 'Accept': 'application/json' }
+          });
+          if (resp.ok) {
+            const data = await resp.json();
+            if (Array.isArray(data.resultados)) {
+              combinedResults = data.resultados.filter(r => 
+                (r.curso && (r.curso.includes('Grado 10') || r.curso.includes('10°') || r.curso.includes('10'))) || 
+                (r.codigo && r.codigo.startsWith('G10P3'))
+              );
+            }
+          }
+        } catch (e) {
+          console.warn("No se pudo obtener resultados de Cloudflare D1:", e);
+        }
+
+        const localSaved = localStorage.getItem(STORAGE_KEY_OFFICIAL_RESULT_G10);
+        if (localSaved) {
+          try {
+            const localObj = JSON.parse(localSaved);
+            if (!combinedResults.some(r => r.codigo === localObj.codigo)) {
+              combinedResults.unshift({
+                codigo: localObj.codigo,
+                nombre: localObj.nombre,
+                curso: localObj.curso,
+                puntajes: { R: localObj.puntaje },
+                dimensionSecundaria: { nombre: localObj.porcentaje + '%' },
+                autoevaluacion: localObj.autoevaluacion,
+                fecha: localObj.fecha
+              });
+            }
+          } catch (e) {}
+        }
+
+        currentDocenteList10 = combinedResults;
+        if (countEl) countEl.textContent = combinedResults.length;
+
+        if (!tbody) return;
+        if (combinedResults.length === 0) {
+          tbody.innerHTML = '<tr><td colspan="7" class="p-6 text-center text-slate-400">No hay evaluaciones registradas para Grado 10° aún.</td></tr>';
+          return;
+        }
+
+        tbody.innerHTML = combinedResults.map(r => {
+          let scoreNum = 0;
+          if (r.puntajes && typeof r.puntajes.R === 'number') scoreNum = r.puntajes.R;
+          else if (typeof r.puntaje_r === 'number') scoreNum = r.puntaje_r;
+          else if (r.codigoHolland) scoreNum = parseInt(r.codigoHolland.split('/')[0], 10) || 0;
+
+          let perc = (scoreNum * 10) + '%';
+          if (r.dimensionSecundaria && r.dimensionSecundaria.nombre) perc = r.dimensionSecundaria.nombre;
+          else if (typeof r.dimension_secundaria === 'string') perc = r.dimension_secundaria;
+
+          const autoeval = r.autoevaluacion || (r.detalles && r.detalles.find(d => d.autoevaluacion)?.autoevaluacion) || '—';
+          const fechaStr = r.fecha ? new Date(r.fecha).toLocaleString('es-CO') : 'Reciente';
+
+          return `
+            <tr class="hover:bg-slate-50 transition">
+              <td class="p-3 font-bold text-slate-800">${r.nombre}</td>
+              <td class="p-3 font-mono text-[11px] text-slate-500">${r.codigo}</td>
+              <td class="p-3 font-bold text-emerald-600">${scoreNum} / 10</td>
+              <td class="p-3 font-bold text-slate-700">${perc}</td>
+              <td class="p-3 text-[11px] text-slate-600 max-w-xs truncate" title="${autoeval}">${autoeval}</td>
+              <td class="p-3 text-[11px] text-slate-400">${fechaStr}</td>
+              <td class="p-3 text-center">
+                <button onclick="eliminarResultadoDocente10('${r.codigo}', '${r.nombre}')" class="text-rose-500 hover:text-rose-700 font-bold text-[11px] p-1 rounded hover:bg-rose-50 transition cursor-pointer" title="Eliminar para reintento">
+                  🗑️ Borrar
+                </button>
+              </td>
+            </tr>
+          `;
+        }).join('');
+      }
+
+      async function eliminarResultadoDocente10(codigo, nombre) {
+        if (!confirm('¿Deseas eliminar la evaluación de ' + nombre + ' (' + codigo + ') para permitirle volver a presentar?')) {
+          return;
+        }
+
+        const localSaved = localStorage.getItem(STORAGE_KEY_OFFICIAL_RESULT_G10);
+        if (localSaved) {
+          try {
+            const localObj = JSON.parse(localSaved);
+            if (localObj.codigo === codigo || localObj.nombre === nombre) {
+              localStorage.removeItem(STORAGE_KEY_OFFICIAL_RESULT_G10);
+              const container = document.getElementById('official10-exam-entry-container');
+              if (container) {
+                container.innerHTML = `
+                  <button onclick="promptOfficialLogin10()" id="btn-start-official10" class="w-full bg-gradient-to-r from-amber-500 via-orange-500 to-amber-600 hover:from-amber-600 hover:to-orange-700 text-white font-display font-black text-base sm:text-lg py-4 px-6 rounded-2xl shadow-lg hover:shadow-xl transition transform active:scale-95 flex items-center justify-center gap-3 cursor-pointer">
+                    <span class="text-2xl">📝</span>
+                    <span>PRESENTAR EXAMEN OFICIAL</span>
+                    <span class="text-xl">➔</span>
+                  </button>
+                  <p class="text-xs text-center text-slate-500 font-medium">
+                    Ingresa con tu <strong>Nombre y Apellido</strong> y la clave proporcionada por el docente.
+                  </p>
+                `;
+              }
+            }
+          } catch (e) {}
+        }
+
+        try {
+          await fetch(CF_WORKER_URL_G10 + '/api/estudiantes/' + encodeURIComponent(codigo), { method: 'DELETE' });
+        } catch (err) {}
+
+        refreshDocenteData10();
+      }
+
+      function exportDocenteCSV10() {
+        if (!currentDocenteList10 || currentDocenteList10.length === 0) {
+          alert("No hay datos para exportar.");
+          return;
+        }
+
+        let csv = "Estudiante,Codigo,Curso,Calificacion,Porcentaje,Autoevaluacion,Fecha\n";
+        currentDocenteList10.forEach(r => {
+          let scoreNum = 0;
+          if (r.puntajes && typeof r.puntajes.R === 'number') scoreNum = r.puntajes.R;
+          else if (typeof r.puntaje_r === 'number') scoreNum = r.puntaje_r;
+          else if (r.codigoHolland) scoreNum = parseInt(r.codigoHolland.split('/')[0], 10) || 0;
+
+          let perc = (scoreNum * 10) + '%';
+          if (r.dimensionSecundaria && r.dimensionSecundaria.nombre) perc = r.dimensionSecundaria.nombre;
+          else if (typeof r.dimension_secundaria === 'string') perc = r.dimension_secundaria;
+
+          const autoeval = (r.autoevaluacion || (r.detalles && r.detalles.find(d => d.autoevaluacion)?.autoevaluacion) || '').replace(/"/g, '""');
+          const fecha = r.fecha ? new Date(r.fecha).toLocaleString('es-CO').replace(',', '') : '';
+          csv += `"${r.nombre}","${r.codigo}","${r.curso || 'Grado 10° P3'}","${scoreNum} / 10","${perc}","${autoeval}","${fecha}"\n`;
+        });
+
+        const blob = new Blob([csv], { type: 'text/csv;charset=utf-8;' });
+        const url = URL.createObjectURL(blob);
+        const a = document.createElement('a');
+        a.href = url;
+        a.download = `Calificaciones_Grado10_P3_${new Date().toISOString().slice(0, 10)}.csv`;
+        document.body.appendChild(a);
+        a.click();
+        document.body.removeChild(a);
+        URL.revokeObjectURL(url);
+      }
 
     window.addEventListener('DOMContentLoaded', () => {
       seleccionarPaleta(0);

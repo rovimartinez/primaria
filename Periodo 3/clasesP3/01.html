@@ -152,7 +152,7 @@
         <!-- TARJETA MÓDULO 1: PRIMERA MITAD (HABILITADO) -->
         <div onclick="openModule(1)" class="module-card cursor-pointer bg-white rounded-3xl p-6 sm:p-7 border-4 border-emerald-500 shadow-xl flex flex-col justify-between relative overflow-hidden group hover:border-emerald-600 transition">
           <div class="absolute top-4 right-4 bg-emerald-100 text-emerald-800 font-black text-xs px-3 py-1 rounded-full border border-emerald-300 flex items-center gap-1">
-            <span>✨</span> <span>1ª Mitad &bull; 2 Sesiones</span>
+            <span>✨</span> <span>1ª Mitad &bull; 2 Sesiones + Examen</span>
           </div>
           
           <div>
@@ -181,6 +181,13 @@
                 <div>
                   <span class="font-black text-emerald-950">Sesión 2: Duba, el Puma</span>
                   <p class="text-[11px] text-slate-600">Concepto: Secuencias ordenadas y comer churrasco 🥩</p>
+                </div>
+              </div>
+              <div class="flex items-center gap-2 pt-2 border-t border-emerald-100">
+                <span class="text-lg">📝</span>
+                <div>
+                  <span class="font-black text-amber-900">Examen Oficial (1ª Mitad)</span>
+                  <p class="text-[11px] text-slate-600">10 preguntas • Clave 123 • Conectado a Base de Datos ☁️</p>
                 </div>
               </div>
             </div>
@@ -252,31 +259,41 @@
     <!-- ======================================================================= -->
     <div id="view-module-1" class="w-full hidden flex-col items-center animate-pop">
 
-      <!-- Selector de las 2 Sesiones de Módulo 1 -->
+      <!-- Selector de las Sesiones y Examen de Módulo 1 -->
       <div class="w-full max-w-4xl mb-6">
         <div class="text-xs uppercase font-extrabold text-slate-500 tracking-wider mb-2 flex items-center justify-between">
-          <span class="flex items-center gap-1.5"><span>📚</span> <span>Selecciona la Sesión de la 1ª Mitad:</span></span>
-          <span class="text-emerald-700 font-bold">2 Sesiones</span>
+          <span class="flex items-center gap-1.5"><span>📚</span> <span>Selecciona la Sesión o Evaluación de la 1ª Mitad:</span></span>
+          <span class="text-emerald-700 font-bold">2 Sesiones + Examen</span>
         </div>
 
-        <div class="grid grid-cols-1 sm:grid-cols-2 gap-3">
+        <div class="grid grid-cols-1 sm:grid-cols-3 gap-3">
           
           <!-- Botón Sesión 1: Coty -->
-          <button id="btn-m1-class-coty" onclick="switchM1Class('coty')" class="class-card active-class bg-white border-2 border-emerald-500 text-emerald-950 p-4 rounded-2xl shadow-md transition flex flex-col items-center text-center">
+          <button id="btn-m1-class-coty" onclick="switchM1Class('coty')" class="class-card active-class bg-white border-2 border-emerald-500 text-emerald-950 p-4 rounded-2xl shadow-md transition flex flex-col items-center text-center cursor-pointer">
             <span class="text-3xl mb-1">🦙</span>
             <span class="font-display font-black text-xs uppercase text-emerald-700">SESIÓN 1</span>
             <span class="text-sm text-slate-800 font-black">Coty, la Llama</span>
-            <span class="text-[11px] text-slate-500 font-semibold mt-0.5">Flechas de Dirección y Pintar 🎨</span>
+            <span class="text-[11px] text-slate-500 font-semibold mt-0.5">Flechas y Pintar 🎨</span>
             <span class="mt-2 bg-emerald-100 text-emerald-800 text-[10px] font-black px-2.5 py-0.5 rounded-full">✨ Habilitada</span>
           </button>
 
           <!-- Botón Sesión 2: Duba el Puma -->
-          <button id="btn-m1-class-duba" onclick="switchM1Class('duba')" class="class-card bg-white/80 border-2 border-slate-200 text-slate-700 p-4 rounded-2xl shadow-sm hover:border-amber-400 hover:bg-white transition flex flex-col items-center text-center">
+          <button id="btn-m1-class-duba" onclick="switchM1Class('duba')" class="class-card bg-white/80 border-2 border-slate-200 text-slate-700 p-4 rounded-2xl shadow-sm hover:border-amber-400 hover:bg-white transition flex flex-col items-center text-center cursor-pointer">
             <span class="text-3xl mb-1">🐆</span>
             <span class="font-display font-black text-xs uppercase text-amber-700">SESIÓN 2</span>
             <span class="text-sm text-slate-800 font-black">Duba, el Puma</span>
-            <span class="text-[11px] text-slate-500 font-semibold mt-0.5">Secuencias y Comer Churrasco 🥩</span>
+            <span class="text-[11px] text-slate-500 font-semibold mt-0.5">Secuencias y Churrasco 🥩</span>
             <span class="mt-2 bg-amber-100 text-amber-900 text-[10px] font-black px-2.5 py-0.5 rounded-full">✨ Habilitada</span>
+          </button>
+
+          <!-- Botón Sesión 3: Examen Oficial (Conectado a BD) -->
+          <button id="btn-m1-class-examen" onclick="switchM1Class('examen')" class="class-card bg-gradient-to-tr from-amber-500 via-orange-500 to-amber-600 border-2 border-amber-300 text-white p-4 rounded-2xl shadow-lg hover:shadow-xl hover:scale-[1.02] transition flex flex-col items-center text-center cursor-pointer relative overflow-hidden group">
+            <span class="absolute -top-2 -right-2 bg-red-600 text-white text-[9px] font-black px-2.5 py-0.5 rounded-full shadow border border-white animate-pulse">OFICIAL</span>
+            <span class="text-3xl mb-1 group-hover:scale-110 transition">📝</span>
+            <span class="font-display font-black text-xs uppercase text-amber-100">EVALUACIÓN</span>
+            <span class="text-sm text-white font-black drop-shadow">Examen Oficial</span>
+            <span class="text-[11px] text-amber-100 font-semibold mt-0.5">1ª Mitad: Coty y Duba 🦙🐆</span>
+            <span class="mt-2 bg-white/20 text-white text-[10px] font-black px-2.5 py-0.5 rounded-full border border-white/30 backdrop-blur-sm">⚡ 10 Preguntas</span>
           </button>
 
         </div>
@@ -817,6 +834,160 @@
 
         </div>
 
+        <!-- =================================================================== -->
+        <!-- CONTENIDO: EXAMEN OFICIAL DE LA 1ª MITAD (CONECTADO A BD)           -->
+        <!-- =================================================================== -->
+        <div id="m1-content-examen" class="m1-content-view hidden w-full">
+          
+          <div class="bg-white/95 rounded-3xl p-5 sm:p-8 border-4 border-amber-400 shadow-xl space-y-6">
+
+            <!-- PANTALLA INICIAL DEL EXAMEN -->
+            <div id="eval-selection-screen" class="space-y-6">
+              
+              <div class="text-center">
+                <div class="inline-flex items-center gap-2 bg-amber-100 text-amber-900 font-black text-xs uppercase px-3.5 py-1 rounded-full border border-amber-300 mb-2">
+                  <span>🏆 EVALUACIÓN OFICIAL</span> &bull; <span>1° GRADO &bull; 1ª MITAD</span>
+                </div>
+                <h2 class="title-ejercicios text-3xl sm:text-5xl font-bold tracking-wider mb-2 text-amber-800">
+                  EXAMEN OFICIAL DE LA 1ª MITAD
+                </h2>
+                <p class="text-slate-600 font-display font-semibold text-sm sm:text-base max-w-2xl mx-auto">
+                  Demuestra todo lo aprendido con <strong>Coty la llama</strong> y <strong>Duba el puma</strong> en Pilas Bloques. 
+                  Tu calificación quedará guardada de forma permanente en la base de datos del docente. ☁️🔒
+                </p>
+              </div>
+
+              <!-- Tarjeta Principal del Examen -->
+              <div class="max-w-2xl mx-auto bg-gradient-to-b from-amber-50 to-orange-50 border-2 border-amber-300 rounded-3xl p-6 sm:p-8 shadow-sm space-y-6">
+                
+                <div class="grid grid-cols-2 sm:grid-cols-4 gap-2 text-center text-xs">
+                  <div class="bg-white p-3 rounded-2xl border border-amber-200 shadow-xs">
+                    <span class="text-2xl block mb-1">⚡</span>
+                    <strong class="text-slate-800 block">10 Preguntas</strong>
+                    <span class="text-[10px] text-slate-500">Selección múltiple</span>
+                  </div>
+                  <div class="bg-white p-3 rounded-2xl border border-amber-200 shadow-xs">
+                    <span class="text-2xl block mb-1">🔑</span>
+                    <strong class="text-slate-800 block">Clave: 123</strong>
+                    <span class="text-[10px] text-slate-500">Autorizada por profe</span>
+                  </div>
+                  <div class="bg-white p-3 rounded-2xl border border-amber-200 shadow-xs">
+                    <span class="text-2xl block mb-1">🎯</span>
+                    <strong class="text-slate-800 block">1 Solo Intento</strong>
+                    <span class="text-[10px] text-slate-500">Sin práctica</span>
+                  </div>
+                  <div class="bg-white p-3 rounded-2xl border border-amber-200 shadow-xs">
+                    <span class="text-2xl block mb-1">☁️</span>
+                    <strong class="text-slate-800 block">Base de Datos</strong>
+                    <span class="text-[10px] text-slate-500">Cloudflare D1</span>
+                  </div>
+                </div>
+
+                <!-- Botón de Entrada al Examen -->
+                <div id="official-exam-entry-container" class="space-y-4 pt-2">
+                  <button onclick="promptOfficialLogin()" id="btn-start-official" class="w-full bg-gradient-to-r from-amber-500 via-orange-500 to-amber-600 hover:from-amber-600 hover:to-orange-700 text-white font-display font-black text-base sm:text-lg py-4 px-6 rounded-2xl shadow-lg hover:shadow-xl transition transform active:scale-95 flex items-center justify-center gap-3 cursor-pointer">
+                    <span class="text-2xl">📝</span>
+                    <span>PRESENTAR EXAMEN OFICIAL</span>
+                    <span class="text-xl">➜</span>
+                  </button>
+                  <p class="text-xs text-center text-slate-500 font-medium">
+                    Te pedirá tu <strong>Nombre Completo</strong> y la clave <strong>123</strong>.
+                  </p>
+                </div>
+
+                <!-- Botón Docente -->
+                <div class="pt-4 border-t border-amber-200 flex flex-wrap items-center justify-between gap-3 text-xs">
+                  <span class="text-slate-500 flex items-center gap-1.5 font-medium">
+                    <span>👩‍🏫</span> <span>¿Eres el profesor? Consulta las calificaciones:</span>
+                  </span>
+                  <button onclick="openDocenteModal()" class="bg-indigo-600 hover:bg-indigo-700 text-white font-display font-bold px-4 py-2 rounded-xl transition shadow flex items-center gap-1.5 cursor-pointer">
+                    <span>📋</span> <span>Panel Docente</span>
+                  </button>
+                </div>
+
+              </div>
+
+            </div>
+
+            <!-- RUNNER DEL EXAMEN -->
+            <div id="eval-runner-container" class="hidden space-y-6 max-w-2xl mx-auto">
+              
+              <div class="bg-amber-100/80 border-2 border-amber-300 rounded-2xl p-3 sm:p-4 flex items-center justify-between gap-3">
+                <div class="flex items-center gap-2.5">
+                  <span class="w-9 h-9 rounded-xl bg-amber-500 text-white flex items-center justify-center text-lg font-black shadow-sm">
+                    👤
+                  </span>
+                  <div>
+                    <span id="runner-student-name" class="font-display font-black text-xs sm:text-sm text-slate-800 block">Estudiante</span>
+                    <span class="text-[10px] text-amber-900 font-bold uppercase tracking-wider">Examen Oficial &bull; 1° Grado</span>
+                  </div>
+                </div>
+
+                <div class="text-right">
+                  <div class="text-xs font-black text-slate-700">
+                    Pregunta <span id="runner-current-num" class="text-amber-600 text-base">1</span> de <span id="runner-total-num">10</span>
+                  </div>
+                  <div class="w-28 sm:w-36 h-2.5 bg-white rounded-full overflow-hidden border border-amber-300 mt-1">
+                    <div id="eval-progress-bar" class="h-full bg-gradient-to-r from-amber-500 to-orange-500 transition-all duration-300" style="width: 10%;"></div>
+                  </div>
+                </div>
+              </div>
+
+              <!-- Tarjeta de Pregunta -->
+              <div id="eval-question-card" class="bg-white rounded-3xl p-5 sm:p-8 border-2 border-slate-200 shadow-md space-y-5 animate-pop">
+                <div>
+                  <span id="eval-q-badge" class="bg-amber-100 text-amber-900 text-[11px] font-black uppercase px-3 py-1 rounded-full border border-amber-300">
+                    Pregunta #1
+                  </span>
+                  <h3 id="eval-q-title" class="font-display font-black text-lg sm:text-2xl text-slate-800 mt-3 leading-snug">
+                    ¿Pregunta?
+                  </h3>
+                </div>
+
+                <div id="eval-options-container" class="space-y-3"></div>
+              </div>
+
+              <!-- Pantalla de Resultados -->
+              <div id="eval-results-screen" class="hidden bg-white rounded-3xl p-6 sm:p-10 border-4 border-amber-400 shadow-2xl text-center space-y-6 animate-pop">
+                <div class="w-20 h-20 bg-amber-100 rounded-3xl flex items-center justify-center text-5xl mx-auto shadow-inner border-2 border-amber-300">
+                  🏆
+                </div>
+                
+                <div>
+                  <span id="eval-results-badge" class="bg-emerald-100 text-emerald-900 text-xs font-black uppercase px-4 py-1.5 rounded-full border border-emerald-300">
+                    ¡Examen Finalizado!
+                  </span>
+                  <h3 id="eval-results-title" class="font-display font-black text-2xl sm:text-4xl text-slate-800 mt-3">
+                    ¡Felicitaciones!
+                  </h3>
+                  <p id="eval-results-subtitle" class="text-slate-600 text-xs sm:text-sm max-w-md mx-auto mt-2 font-medium">
+                    Has completado las 10 preguntas de la evaluación oficial.
+                  </p>
+                </div>
+
+                <div class="bg-amber-50 border-2 border-amber-300 rounded-3xl p-6 max-w-xs mx-auto shadow-inner space-y-2">
+                  <span class="text-xs text-amber-800 font-bold uppercase tracking-wider block">Calificación Obtenida</span>
+                  <div id="eval-final-score" class="font-display font-black text-5xl text-amber-600">10 / 10</div>
+                  <span id="eval-final-percentage" class="text-xs font-black text-emerald-700 bg-emerald-100 px-3 py-1 rounded-full inline-block">100% de Aciertos</span>
+                </div>
+
+                <div id="eval-cloud-status" class="p-3 rounded-2xl max-w-md mx-auto text-xs font-bold bg-slate-100 text-slate-700 border border-slate-300">
+                  Sincronizando con base de datos...
+                </div>
+
+                <div class="flex flex-wrap justify-center gap-3 pt-2">
+                  <button onclick="exitEvaluationRunner()" class="bg-sky-600 hover:bg-sky-700 text-white font-display font-black text-xs sm:text-sm px-6 py-3 rounded-2xl shadow-md transition inline-flex items-center gap-2 cursor-pointer">
+                    <span>← Volver al Módulo 1</span>
+                  </button>
+                </div>
+              </div>
+
+            </div>
+
+          </div>
+
+        </div>
+
       </div>
 
     </div>
@@ -1036,6 +1207,104 @@
     </div>
   </div>
 
+  <!-- MODAL: INGRESO A EXAMEN FINAL (CLAVE '123' + NOMBRE Y APELLIDO) -->
+  <div id="modal-official-login" class="fixed inset-0 z-50 bg-slate-950/70 hidden items-center justify-center p-4 backdrop-blur-sm">
+    <div class="bg-white rounded-3xl p-6 sm:p-8 max-w-md w-full border-4 border-amber-400 shadow-2xl space-y-5 animate-pop">
+      <div class="text-center space-y-2">
+        <div class="w-14 h-14 bg-amber-100 rounded-2xl flex items-center justify-center text-3xl mx-auto shadow-inner border border-amber-300">
+          🏆
+        </div>
+        <h4 class="font-display font-black text-2xl text-slate-800">Examen Oficial (1ª Mitad)</h4>
+        <p class="text-xs text-slate-600">Ingresa la clave autorizada por el profesor y tu nombre completo. Tu resultado se guardará en la base de datos.</p>
+      </div>
+
+      <div class="space-y-3">
+        <div>
+          <label class="block text-xs font-black text-slate-700 uppercase mb-1">Clave de Acceso:</label>
+          <input type="password" id="official-code-input" placeholder="Clave (123)" class="w-full px-4 py-3 rounded-xl border-2 border-slate-300 focus:border-amber-500 focus:outline-none font-display font-bold text-base text-center tracking-widest">
+        </div>
+        <div>
+          <label class="block text-xs font-black text-slate-700 uppercase mb-1">Nombre y Apellido del Estudiante:</label>
+          <input type="text" id="official-student-name-input" placeholder="Ej: Valentina Gómez" class="w-full px-4 py-3 rounded-xl border-2 border-slate-300 focus:border-amber-500 focus:outline-none font-display font-bold text-sm">
+        </div>
+        <div id="official-login-error" class="hidden text-xs text-rose-600 font-bold text-center bg-rose-50 p-2 rounded-xl border border-rose-200"></div>
+      </div>
+
+      <div class="flex gap-3">
+        <button onclick="closeOfficialModal()" class="flex-1 bg-slate-100 hover:bg-slate-200 text-slate-700 font-display font-bold text-sm py-3 rounded-xl transition cursor-pointer">
+          Cancelar
+        </button>
+        <button onclick="confirmOfficialLogin()" class="flex-1 bg-gradient-to-r from-amber-500 to-orange-500 hover:from-amber-600 hover:to-orange-600 text-white font-display font-black text-sm py-3 rounded-xl transition shadow-md cursor-pointer">
+          Comenzar Examen ➜
+        </button>
+      </div>
+    </div>
+  </div>
+
+  <!-- MODAL: PANEL DOCENTE (CONSULTA DE CALIFICACIONES EN CLOUDFLARE D1) -->
+  <div id="modal-docente-panel" class="fixed inset-0 z-50 bg-slate-950/75 hidden items-center justify-center p-3 sm:p-5 backdrop-blur-sm">
+    <div class="bg-white rounded-3xl p-6 sm:p-8 max-w-4xl w-full border-4 border-indigo-400 shadow-2xl space-y-5 animate-pop max-h-[92vh] flex flex-col overflow-hidden">
+      
+      <div class="flex items-center justify-between border-b-2 border-slate-100 pb-3 flex-shrink-0">
+        <div class="flex items-center gap-3">
+          <div class="w-12 h-12 bg-indigo-100 rounded-2xl flex items-center justify-center text-2xl">
+            👩‍🏫
+          </div>
+          <div>
+            <h4 class="font-display font-black text-xl text-slate-800">Panel Docente &bull; 1° Grado P3</h4>
+            <span class="text-xs text-slate-500 font-medium">Resultados sincronizados con Cloudflare D1</span>
+          </div>
+        </div>
+        <button onclick="closeDocenteModal()" class="w-9 h-9 rounded-xl bg-slate-100 hover:bg-slate-200 text-slate-600 font-bold flex items-center justify-center transition cursor-pointer">
+          ✕
+        </button>
+      </div>
+
+      <div id="docente-login-view" class="py-6 max-w-sm mx-auto text-center space-y-4">
+        <p class="text-xs text-slate-600">Ingresa la clave de docente para visualizar y descargar las calificaciones.</p>
+        <input type="password" id="docente-pass-input" placeholder="Clave docente" class="w-full px-4 py-3 rounded-xl border-2 border-slate-300 focus:border-indigo-500 font-display font-bold text-center">
+        <div id="docente-pass-error" class="hidden text-xs text-rose-600 font-bold">Clave incorrecta</div>
+        <button onclick="authDocente()" class="w-full bg-indigo-600 hover:bg-indigo-700 text-white font-display font-bold py-3 rounded-xl transition shadow cursor-pointer">
+          Acceder al Registro
+        </button>
+      </div>
+
+      <div id="docente-content-view" class="hidden flex-col flex-1 overflow-hidden space-y-4">
+        <div class="flex flex-wrap items-center justify-between gap-2 flex-shrink-0">
+          <div class="flex items-center gap-2">
+            <span class="text-xs font-bold text-slate-600">Total Exámenes Registrados:</span>
+            <span id="docente-total-count" class="bg-indigo-100 text-indigo-900 font-black text-xs px-2.5 py-0.5 rounded-full">0</span>
+          </div>
+          <div class="flex gap-2">
+            <button onclick="refreshDocenteData()" class="bg-slate-100 hover:bg-slate-200 text-slate-700 text-xs font-bold px-3 py-1.5 rounded-xl transition flex items-center gap-1 cursor-pointer">
+              🔄 Actualizar
+            </button>
+            <button onclick="exportDocenteCSV()" class="bg-emerald-600 hover:bg-emerald-700 text-white text-xs font-bold px-3 py-1.5 rounded-xl transition flex items-center gap-1 cursor-pointer shadow">
+              📥 Descargar CSV / Excel
+            </button>
+          </div>
+        </div>
+
+        <div class="flex-1 overflow-y-auto border-2 border-slate-200 rounded-2xl">
+          <table class="w-full text-left text-xs border-collapse">
+            <thead class="bg-slate-100 text-slate-700 font-display font-black uppercase text-[10px] sticky top-0 border-b border-slate-200">
+              <tr>
+                <th class="p-3">Estudiante</th>
+                <th class="p-3">Código</th>
+                <th class="p-3 text-center">Calificación</th>
+                <th class="p-3 text-center">Porcentaje</th>
+                <th class="p-3">Fecha y Hora</th>
+                <th class="p-3 text-center">Acciones</th>
+              </tr>
+            </thead>
+            <tbody id="docente-table-body" class="divide-y divide-slate-100 font-medium"></tbody>
+          </table>
+        </div>
+      </div>
+
+    </div>
+  </div>
+
   <!-- Footer -->
   <footer class="bg-white/90 border-t border-slate-200 py-3 text-center text-xs text-slate-500 mt-auto">
     <p>Mundo Jandra &bull; 1° Grado de Primaria &bull; Profesor: Ronny Martinez</p>
@@ -1148,12 +1417,16 @@
     function switchM1Class(key) {
       playPopSound();
       document.querySelectorAll('.m1-content-view').forEach(el => el.classList.add('hidden'));
-      const buttons = ['coty', 'duba'];
+      const buttons = ['coty', 'duba', 'examen'];
       buttons.forEach(b => {
         const btn = document.getElementById(`btn-m1-class-${b}`);
         if (btn) {
-          btn.classList.remove('active-class', 'border-emerald-500', 'bg-white');
-          btn.classList.add('bg-white/80', 'border-slate-200');
+          if (b === 'examen') {
+            btn.classList.remove('ring-4', 'ring-amber-400');
+          } else {
+            btn.classList.remove('active-class', 'border-emerald-500', 'bg-white');
+            btn.classList.add('bg-white/80', 'border-slate-200');
+          }
         }
       });
 
@@ -1162,8 +1435,13 @@
 
       const activeBtn = document.getElementById(`btn-m1-class-${key}`);
       if (activeBtn) {
-        activeBtn.classList.add('active-class', 'border-emerald-500', 'bg-white');
-        activeBtn.classList.remove('bg-white/80', 'border-slate-200');
+        if (key === 'examen') {
+          activeBtn.classList.add('ring-4', 'ring-amber-400');
+          checkOfficialExamCompletedStatus();
+        } else {
+          activeBtn.classList.add('active-class', 'border-emerald-500', 'bg-white');
+          activeBtn.classList.remove('bg-white/80', 'border-slate-200');
+        }
       }
     }
 
@@ -1391,18 +1669,633 @@
       updateProgressBadges();
     }
 
+    // =========================================================================
+    // MÓDULO DE EVALUACIÓN OFICIAL (1° GRADO P3 - 1ª MITAD) & CLOUDFLARE D1
+    // =========================================================================
+    const CF_WORKER_URL = 'https://orientacion-vocacional-milagrosa.rovimartinez.workers.dev';
+    const STORAGE_KEY_OFFICIAL_RESULT = 'ilm_p3_grado1_official_result';
+
+    function playErrorSound() {
+      if (!soundEnabled) return;
+      playTone(220, 'sawtooth', 0.2);
+    }
+
+    // BANCO INTEGRADO DE 10 PREGUNTAS (1° Grado: Coty + Duba + Flechas + Pilas Bloques)
+    const integratedExamQuestions1P3 = [
+      {
+        badge: "Pregunta #1 • Coty la Llama",
+        question: "¿Qué bloque o botón usamos en Pilas Bloques para que Coty pinte de color una baldosa?",
+        options: [
+          { text: "🎨 El bloque «Pintar»", isCorrect: true },
+          { text: "💤 El bloque «Dormir»", isCorrect: false },
+          { text: "🍎 El bloque «Comer manzana»", isCorrect: false }
+        ],
+        explanation: "¡Correcto! Coty la llama usa el bloque Pintar 🎨 para colorear cada casilla del camino."
+      },
+      {
+        badge: "Pregunta #2 • Flechas de Dirección",
+        question: "Si queremos que Coty o Duba den un paso hacia ARRIBA, ¿cuál flecha debemos elegir?",
+        options: [
+          { text: "⬇️ Flecha hacia abajo", isCorrect: false },
+          { text: "⬆️ Flecha hacia arriba", isCorrect: true },
+          { text: "➡️ Flecha hacia la derecha", isCorrect: false }
+        ],
+        explanation: "¡Muy bien! La flecha ⬆️ apunta hacia arriba para subir por el tablero."
+      },
+      {
+        badge: "Pregunta #3 • Flechas de Dirección",
+        question: "Coty necesita avanzar hacia la DERECHA. ¿Cuál es la flecha correcta?",
+        options: [
+          { text: "⬅️ Flecha hacia la izquierda", isCorrect: false },
+          { text: "➡️ Flecha hacia la derecha", isCorrect: true },
+          { text: "⬆️ Flecha hacia arriba", isCorrect: false }
+        ],
+        explanation: "¡Excelente! La flecha ➡️ apunta hacia la derecha."
+      },
+      {
+        badge: "Pregunta #4 • Duba el Puma",
+        question: "¿Cuál es la comida favorita de Duba el puma en sus desafíos?",
+        options: [
+          { text: "🥩 Un delicioso churrasco de carne", isCorrect: true },
+          { text: "🍦 Un helado de vainilla", isCorrect: false },
+          { text: "🥕 Una zanahoria crujiente", isCorrect: false }
+        ],
+        explanation: "¡Genial! A Duba el puma le encanta comer su sabroso churrasco 🥩."
+      },
+      {
+        badge: "Pregunta #5 • Duba el Puma",
+        question: "Cuando Duba llega a la casilla donde está la carne 🥩, ¿qué bloque debe ejecutar para ganar?",
+        options: [
+          { text: "🎨 Pintar la casilla", isCorrect: false },
+          { text: "🥩 El bloque «Comer churrasco»", isCorrect: true },
+          { text: "🛑 Apagar la computadora", isCorrect: false }
+        ],
+        explanation: "¡Así es! Al llegar a la comida, Duba usa el bloque «Comer churrasco» 🥩 para completar la misión."
+      },
+      {
+        badge: "Pregunta #6 • Secuencias y Pasos",
+        question: "Si el churrasco está a 2 casillas a la derecha de Duba, ¿cuántos pasos debe dar antes de comer?",
+        options: [
+          { text: "1 paso ➡️", isCorrect: false },
+          { text: "2 pasos hacia la derecha ➡️➡️", isCorrect: true },
+          { text: "10 pasos gigantescos ➡️➡️➡️", isCorrect: false }
+        ],
+        explanation: "¡Perfecto! Duba debe avanzar exactamente 2 pasos hacia la derecha ➡️➡️ para alcanzar su comida."
+      },
+      {
+        badge: "Pregunta #7 • Pilas Bloques",
+        question: "¿Debajo de qué bloque verde encastramos nuestras órdenes para que comiencen a funcionar?",
+        options: [
+          { text: "🟢 Debajo de «Al empezar a ejecutar»", isCorrect: true },
+          { text: "🗑️ Adentro de la papelera", isCorrect: false },
+          { text: "🪟 En la barra de cerrar ventana", isCorrect: false }
+        ],
+        explanation: "¡Exacto! El bloque verde «Al empezar a ejecutar» es la cabeza donde unimos nuestros bloques en orden."
+      },
+      {
+        badge: "Pregunta #8 • El Botón Mágico",
+        question: "¿Qué botón verde debemos pulsar para que nuestro personaje empiece a moverse?",
+        options: [
+          { text: "▶️ El botón «Ejecutar»", isCorrect: true },
+          { text: "❌ El botón «Borrar todo»", isCorrect: false },
+          { text: "⏸️ El botón «Pausa»", isCorrect: false }
+        ],
+        explanation: "¡Muy bien! Al presionar Ejecutar ▶️ la computadora lee tus bloques y anima a tu personaje."
+      },
+      {
+        badge: "Pregunta #9 • Flechas de Dirección",
+        question: "Si Coty pintó a la derecha y ahora necesita volver hacia la IZQUIERDA, ¿cuál flecha debe usar?",
+        options: [
+          { text: "⬇️ Flecha hacia abajo", isCorrect: false },
+          { text: "⬆️ Flecha hacia arriba", isCorrect: false },
+          { text: "⬅️ Flecha hacia la izquierda", isCorrect: true }
+        ],
+        explanation: "¡Correcto! La flecha ⬅️ señala hacia la izquierda para regresar o doblar."
+      },
+      {
+        badge: "Pregunta #10 • Superprogramador",
+        question: "Si tu personaje comete un error y no llega al objetivo, ¿qué hace un buen programador?",
+        options: [
+          { text: "Enojarse y no volver a jugar nunca 😡", isCorrect: false },
+          { text: "Revisar los bloques, cambiar la flecha y probar de nuevo 💡", isCorrect: true },
+          { text: "Tapar la pantalla con las manos 🙈", isCorrect: false }
+        ],
+        explanation: "🎉 ¡FELICITACIONES! Los programadores aprendemos de los errores y mejoramos nuestros pasos hasta triunfar."
+      }
+    ];
+
+    let currentEvalIndex = 0;
+    let evalScore = 0;
+    let evalAnswered = false;
+    let evalStudentName = 'Estudiante';
+    let evalStudentCode = '';
+    let evalAnswersDetail = [];
+
+    // --- MODAL DE INGRESO ---
+    function promptOfficialLogin() {
+      playPopSound();
+      const modal = document.getElementById('modal-official-login');
+      const err = document.getElementById('official-login-error');
+      const codeInp = document.getElementById('official-code-input');
+      const nameInp = document.getElementById('official-student-name-input');
+
+      if (err) err.classList.add('hidden');
+      if (codeInp) codeInp.value = '';
+      if (nameInp) nameInp.value = '';
+
+      if (modal) {
+        modal.classList.remove('hidden');
+        modal.classList.add('flex');
+        setTimeout(() => { if (codeInp) codeInp.focus(); }, 150);
+      }
+    }
+
+    function closeOfficialModal() {
+      const modal = document.getElementById('modal-official-login');
+      if (modal) { modal.classList.add('hidden'); modal.classList.remove('flex'); }
+    }
+
+    function confirmOfficialLogin() {
+      const codeInp = document.getElementById('official-code-input');
+      const nameInp = document.getElementById('official-student-name-input');
+      const err = document.getElementById('official-login-error');
+
+      const codeVal = codeInp ? codeInp.value.trim() : '';
+      const nameVal = nameInp ? nameInp.value.trim() : '';
+
+      if (codeVal !== '123') {
+        playErrorSound();
+        if (err) {
+          err.textContent = "Clave de examen incorrecta. La clave autorizada es 123.";
+          err.classList.remove('hidden');
+        }
+        return;
+      }
+
+      if (nameVal.length < 3) {
+        playErrorSound();
+        if (err) {
+          err.textContent = "Por favor ingresa tu Nombre y Apellido.";
+          err.classList.remove('hidden');
+        }
+        return;
+      }
+
+      closeOfficialModal();
+      const studentCode = 'G1P3-' + nameVal.replace(/[^a-zA-Z0-9]/g, '').slice(0, 10).toUpperCase() + '-' + Math.floor(100 + Math.random() * 900);
+      startEvaluation(nameVal, studentCode);
+    }
+
+    function startEvaluation(studentName, studentCode) {
+      playSuccessSound();
+      currentEvalIndex = 0;
+      evalScore = 0;
+      evalAnswered = false;
+      evalStudentName = studentName;
+      evalStudentCode = studentCode;
+      evalAnswersDetail = [];
+
+      document.getElementById('eval-selection-screen').classList.add('hidden');
+      const runner = document.getElementById('eval-runner-container');
+      runner.classList.remove('hidden');
+      document.getElementById('eval-question-card').classList.remove('hidden');
+      document.getElementById('eval-results-screen').classList.add('hidden');
+
+      const runnerName = document.getElementById('runner-student-name');
+      if (runnerName) runnerName.textContent = studentName;
+
+      renderEvalQuestion();
+      window.scrollTo({ top: 0, behavior: 'smooth' });
+    }
+
+    function renderEvalQuestion() {
+      evalAnswered = false;
+      const q = integratedExamQuestions1P3[currentEvalIndex];
+
+      const curNumEl = document.getElementById('runner-current-num');
+      const totalNumEl = document.getElementById('runner-total-num');
+      const progBar = document.getElementById('eval-progress-bar');
+      const qBadge = document.getElementById('eval-q-badge');
+      const qTitle = document.getElementById('eval-q-title');
+      const optionsBox = document.getElementById('eval-options-container');
+
+      if (curNumEl) curNumEl.textContent = (currentEvalIndex + 1);
+      if (totalNumEl) totalNumEl.textContent = integratedExamQuestions1P3.length;
+      if (progBar) progBar.style.width = `${((currentEvalIndex + 1) / integratedExamQuestions1P3.length) * 100}%`;
+
+      if (qBadge) qBadge.textContent = q.badge;
+      if (qTitle) qTitle.textContent = q.question;
+
+      if (!q._shuffledOptions) {
+        q._shuffledOptions = [...q.options].sort(() => Math.random() - 0.5);
+      }
+
+      const letters = ['A', 'B', 'C'];
+      optionsBox.innerHTML = q._shuffledOptions.map((opt, i) => `
+        <button onclick="selectEvalOption(${i})" class="eval-opt-btn w-full p-4 rounded-2xl border-2 border-slate-200 bg-white hover:border-amber-400 hover:bg-amber-50/70 transition flex items-center justify-between gap-3 text-left shadow-xs cursor-pointer group active:scale-98">
+          <div class="flex items-center gap-3">
+            <span class="w-8 h-8 rounded-xl bg-slate-100 group-hover:bg-amber-500 group-hover:text-white text-slate-700 font-display font-black text-xs flex items-center justify-center transition shadow-inner">
+              ${letters[i]}
+            </span>
+            <span class="font-display font-bold text-sm sm:text-base text-slate-800 leading-snug">
+              ${opt.text}
+            </span>
+          </div>
+          <span class="eval-opt-indicator text-lg text-slate-300">⚪</span>
+        </button>
+      `).join('');
+    }
+
+    function selectEvalOption(index) {
+      if (evalAnswered) return;
+      evalAnswered = true;
+
+      const q = integratedExamQuestions1P3[currentEvalIndex];
+      const opt = q._shuffledOptions[index];
+      const allBtns = document.querySelectorAll('.eval-opt-btn');
+      const btnElement = allBtns[index];
+
+      const isCorrect = opt.isCorrect;
+      if (isCorrect) evalScore++;
+
+      evalAnswersDetail.push({
+        pregunta: q.question,
+        respuestaSeleccionada: opt.text,
+        esCorrecta: isCorrect
+      });
+
+      if (btnElement) {
+        btnElement.classList.replace('border-slate-200', 'border-amber-500');
+        btnElement.classList.replace('bg-white', 'bg-amber-50');
+        const indicator = btnElement.querySelector('.eval-opt-indicator');
+        if (indicator) indicator.textContent = '🔘';
+      }
+
+      playPopSound();
+
+      setTimeout(() => {
+        nextEvalQuestion();
+      }, 500);
+    }
+
+    function nextEvalQuestion() {
+      if (currentEvalIndex < integratedExamQuestions1P3.length - 1) {
+        currentEvalIndex++;
+        renderEvalQuestion();
+      } else {
+        finishEvaluation();
+      }
+    }
+
+    async function finishEvaluation() {
+      document.getElementById('eval-question-card').classList.add('hidden');
+      const resultsScreen = document.getElementById('eval-results-screen');
+      resultsScreen.classList.remove('hidden');
+
+      const badgeEl = document.getElementById('eval-results-badge');
+      const titleEl = document.getElementById('eval-results-title');
+      const subEl = document.getElementById('eval-results-subtitle');
+      const scoreEl = document.getElementById('eval-final-score');
+      const percEl = document.getElementById('eval-final-percentage');
+      const cloudStatusEl = document.getElementById('eval-cloud-status');
+
+      const percentage = Math.round((evalScore / 10) * 100);
+      if (scoreEl) scoreEl.textContent = `${evalScore} / 10`;
+      if (percEl) percEl.textContent = `${percentage}% de Aciertos`;
+
+      playSuccessSound();
+      if (badgeEl) badgeEl.textContent = "🏆 Examen Oficial Finalizado";
+      if (titleEl) titleEl.textContent = `¡Felicitaciones, ${evalStudentName}!`;
+      if (subEl) subEl.textContent = "Tu evaluación ha sido registrada de manera definitiva e inmutable.";
+
+      const officialData = {
+        codigo: evalStudentCode,
+        nombre: evalStudentName,
+        curso: "Grado 1° - Periodo 3 (1ª Mitad)",
+        puntaje: evalScore,
+        porcentaje: percentage,
+        fecha: new Date().toISOString(),
+        detalles: evalAnswersDetail
+      };
+
+      localStorage.setItem(STORAGE_KEY_OFFICIAL_RESULT, JSON.stringify(officialData));
+
+      if (cloudStatusEl) {
+        cloudStatusEl.innerHTML = "⏳ Guardando nota en la Base de Datos Cloudflare D1...";
+      }
+
+      try {
+        const payload = {
+          estudiante: {
+            codigo: evalStudentCode,
+            nombre: evalStudentName,
+            curso: "Grado 1° - Periodo 3"
+          },
+          resultadosCalculados: {
+            codigoHolland: `${evalScore}/10`,
+            puntajes: { R: evalScore, I: 10, A: 0, S: 0, E: 0, C: 0 },
+            dimensionPrimaria: { nombre: `${evalScore} de 10` },
+            dimensionSecundaria: { nombre: `${percentage}%` },
+            dimensionTerciaria: { nombre: evalScore >= 6 ? "Aprobado" : "Por Mejorar" },
+            detalles: evalAnswersDetail,
+            carrerasRecomendadas: []
+          },
+          respuestas: {
+            puntaje: evalScore,
+            total: 10,
+            porcentaje: percentage,
+            evalAnswersDetail
+          }
+        };
+
+        const resp = await fetch(`${CF_WORKER_URL}/api/resultados`, {
+          method: 'POST',
+          headers: { 'Content-Type': 'application/json' },
+          body: JSON.stringify(payload)
+        });
+
+        if (resp.ok) {
+          if (cloudStatusEl) {
+            cloudStatusEl.className = "p-3 rounded-2xl max-w-md mx-auto text-xs font-bold bg-emerald-100 text-emerald-950 border border-emerald-400";
+            cloudStatusEl.innerHTML = "☁️ ¡Guardado exitosamente en la Base de Datos del Docente! 🔒";
+          }
+        } else {
+          throw new Error(`Status ${resp.status}`);
+        }
+      } catch (err) {
+        console.warn("Error enviando a Cloudflare D1:", err);
+        if (cloudStatusEl) {
+          cloudStatusEl.className = "p-3 rounded-2xl max-w-md mx-auto text-xs font-bold bg-amber-100 text-amber-950 border border-amber-400";
+          cloudStatusEl.innerHTML = "💾 Guardado localmente en este equipo. El docente podrá consultarlo en su panel.";
+        }
+      }
+
+      checkOfficialExamCompletedStatus();
+      window.scrollTo({ top: 0, behavior: 'smooth' });
+    }
+
+    function exitEvaluationRunner() {
+      playPopSound();
+      document.getElementById('eval-runner-container').classList.add('hidden');
+      document.getElementById('eval-selection-screen').classList.remove('hidden');
+      checkOfficialExamCompletedStatus();
+      window.scrollTo({ top: 0, behavior: 'smooth' });
+    }
+
+    function checkOfficialExamCompletedStatus() {
+      const saved = localStorage.getItem(STORAGE_KEY_OFFICIAL_RESULT);
+      const container = document.getElementById('official-exam-entry-container');
+      if (!container) return;
+
+      if (saved) {
+        try {
+          const data = JSON.parse(saved);
+          container.innerHTML = `
+            <div class="bg-emerald-50 border-2 border-emerald-400 rounded-2xl p-5 text-center space-y-2 animate-fadeIn">
+              <span class="text-3xl block">🏆</span>
+              <strong class="font-display font-black text-base text-emerald-950 block">¡Examen Presentado con Éxito!</strong>
+              <p class="text-xs text-slate-600 font-medium">Estudiante: <strong>${data.nombre}</strong> (${data.codigo})</p>
+              <div class="inline-block bg-emerald-100 text-emerald-900 font-black text-sm px-4 py-1.5 rounded-full border border-emerald-300 mt-1">
+                Nota: ${data.puntaje} / 10 &bull; ${data.porcentaje}%
+              </div>
+              <p class="text-[11px] text-emerald-700 font-bold mt-2">🔒 Tu calificación ya fue sincronizada y guardada.</p>
+            </div>
+          `;
+        } catch (e) {}
+      }
+    }
+
+    // --- PANEL DOCENTE ---
+    let isDocenteAuthenticated = false;
+    let currentDocenteList = [];
+
+    function openDocenteModal() {
+      playPopSound();
+      const modal = document.getElementById('modal-docente-panel');
+      const loginView = document.getElementById('docente-login-view');
+      const contentView = document.getElementById('docente-content-view');
+      const passInp = document.getElementById('docente-pass-input');
+      const err = document.getElementById('docente-pass-error');
+
+      if (err) err.classList.add('hidden');
+      if (modal) { modal.classList.remove('hidden'); modal.classList.add('flex'); }
+
+      if (isDocenteAuthenticated) {
+        if (loginView) loginView.classList.add('hidden');
+        if (contentView) { contentView.classList.remove('hidden'); contentView.classList.add('flex'); }
+        refreshDocenteData();
+      } else {
+        if (loginView) loginView.classList.remove('hidden');
+        if (contentView) { contentView.classList.add('hidden'); contentView.classList.remove('flex'); }
+        if (passInp) { passInp.value = ''; setTimeout(() => passInp.focus(), 150); }
+      }
+    }
+
+    function closeDocenteModal() {
+      const modal = document.getElementById('modal-docente-panel');
+      if (modal) { modal.classList.add('hidden'); modal.classList.remove('flex'); }
+    }
+
+    function authDocente() {
+      const passInp = document.getElementById('docente-pass-input');
+      const err = document.getElementById('docente-pass-error');
+      const val = passInp ? passInp.value.trim() : '';
+
+      if (val !== 'admin123' && val !== '123') {
+        playErrorSound();
+        if (err) err.classList.remove('hidden');
+        return;
+      }
+
+      playSuccessSound();
+      isDocenteAuthenticated = true;
+      document.getElementById('docente-login-view').classList.add('hidden');
+      const contentView = document.getElementById('docente-content-view');
+      contentView.classList.remove('hidden');
+      contentView.classList.add('flex');
+      refreshDocenteData();
+    }
+
+    async function refreshDocenteData() {
+      const tbody = document.getElementById('docente-table-body');
+      const countEl = document.getElementById('docente-total-count');
+      if (tbody) tbody.innerHTML = `<tr><td colspan="6" class="p-6 text-center text-slate-400">Cargando registros desde la nube...</td></tr>`;
+
+      let combinedResults = [];
+
+      try {
+        const resp = await fetch(`${CF_WORKER_URL}/api/resultados`, {
+          method: 'GET',
+          headers: { 'Accept': 'application/json' }
+        });
+        if (resp.ok) {
+          const data = await resp.json();
+          if (Array.isArray(data.resultados)) {
+            combinedResults = data.resultados.filter(r => 
+              (r.curso && (r.curso.includes('Grado 1') || r.curso.includes('1°'))) || 
+              (r.codigo && r.codigo.startsWith('G1P3'))
+            );
+          }
+        }
+      } catch (e) {
+        console.warn("No se pudo obtener resultados de Cloudflare D1:", e);
+      }
+
+      const localSaved = localStorage.getItem(STORAGE_KEY_OFFICIAL_RESULT);
+      if (localSaved) {
+        try {
+          const localObj = JSON.parse(localSaved);
+          if (!combinedResults.some(r => r.codigo === localObj.codigo)) {
+            combinedResults.unshift({
+              codigo: localObj.codigo,
+              nombre: localObj.nombre,
+              curso: localObj.curso,
+              puntajes: { R: localObj.puntaje },
+              dimensionSecundaria: { nombre: `${localObj.porcentaje}%` },
+              fecha: localObj.fecha,
+              _isLocalOnly: true
+            });
+          }
+        } catch (e) {}
+      }
+
+      currentDocenteList = combinedResults;
+      if (countEl) countEl.textContent = combinedResults.length;
+
+      if (!tbody) return;
+
+      if (combinedResults.length === 0) {
+        tbody.innerHTML = `<tr><td colspan="6" class="p-6 text-center text-slate-400">No hay exámenes registrados aún para 1° Grado.</td></tr>`;
+        return;
+      }
+
+      tbody.innerHTML = combinedResults.map(r => {
+        let scoreNum = 0;
+        if (r.puntajes && typeof r.puntajes.R === 'number') {
+          scoreNum = r.puntajes.R;
+        } else if (typeof r.puntaje_r === 'number') {
+          scoreNum = r.puntaje_r;
+        } else if (r.codigoHolland) {
+          scoreNum = parseInt(r.codigoHolland.split('/')[0], 10) || 0;
+        } else if (r.codigo_holland) {
+          scoreNum = parseInt(r.codigo_holland.split('/')[0], 10) || 0;
+        }
+
+        let percText = `${scoreNum * 10}%`;
+        if (r.dimensionSecundaria && r.dimensionSecundaria.nombre) {
+          percText = r.dimensionSecundaria.nombre;
+        } else if (typeof r.dimension_secundaria === 'string' && r.dimension_secundaria.includes('%')) {
+          percText = r.dimension_secundaria;
+        }
+
+        const scoreBadge = scoreNum >= 7 
+          ? `<span class="bg-emerald-100 text-emerald-800 font-black px-2.5 py-0.5 rounded-full">${scoreNum} / 10</span>`
+          : `<span class="bg-amber-100 text-amber-800 font-black px-2.5 py-0.5 rounded-full">${scoreNum} / 10</span>`;
+
+        return `
+          <tr class="hover:bg-slate-50 transition">
+            <td class="p-3 font-bold text-slate-800">${r.nombre}</td>
+            <td class="p-3 font-mono text-[11px] text-slate-500">${r.codigo}</td>
+            <td class="p-3 text-center">${scoreBadge}</td>
+            <td class="p-3 text-center font-bold text-slate-700">${percText}</td>
+            <td class="p-3 text-[11px] text-slate-500">${r.fecha ? new Date(r.fecha).toLocaleString('es-CO') : 'Reciente'}</td>
+            <td class="p-3 text-center">
+              <button onclick="eliminarRegistroEstudiante('${r.codigo}', '${r.nombre.replace(/'/g, "\\'")}')" class="bg-rose-50 hover:bg-rose-100 text-rose-700 border border-rose-300 font-bold px-2 py-1 rounded-lg text-[11px] transition inline-flex items-center gap-1 cursor-pointer shadow-xs active:scale-95" title="Eliminar y permitir nuevo intento">
+                <span>🔄</span> <span>Habilitar Reintento</span>
+              </button>
+            </td>
+          </tr>
+        `;
+      }).join('');
+    }
+
+    async function eliminarRegistroEstudiante(codigo, nombre) {
+      if (!confirm(`¿Eliminar calificación de "${nombre}" (${codigo})?\nSe le permitirá presentar el examen nuevamente.`)) return;
+
+      playPopSound();
+
+      const localSaved = localStorage.getItem(STORAGE_KEY_OFFICIAL_RESULT);
+      if (localSaved) {
+        try {
+          const localObj = JSON.parse(localSaved);
+          if (localObj.codigo === codigo || localObj.nombre === nombre) {
+            localStorage.removeItem(STORAGE_KEY_OFFICIAL_RESULT);
+            const container = document.getElementById('official-exam-entry-container');
+            if (container) {
+              container.innerHTML = `
+                <button onclick="promptOfficialLogin()" id="btn-start-official" class="w-full bg-gradient-to-r from-amber-500 via-orange-500 to-amber-600 hover:from-amber-600 hover:to-orange-700 text-white font-display font-black text-base sm:text-lg py-4 px-6 rounded-2xl shadow-lg hover:shadow-xl transition transform active:scale-95 flex items-center justify-center gap-3 cursor-pointer">
+                  <span class="text-2xl">📝</span>
+                  <span>PRESENTAR EXAMEN OFICIAL</span>
+                  <span class="text-xl">➜</span>
+                </button>
+                <p class="text-xs text-center text-slate-500 font-medium">
+                  Te pedirá tu <strong>Nombre Completo</strong> y la clave <strong>123</strong>.
+                </p>
+              `;
+            }
+          }
+        } catch (e) {}
+      }
+
+      try {
+        await fetch(`${CF_WORKER_URL}/api/estudiantes/${encodeURIComponent(codigo)}`, { method: 'DELETE' });
+      } catch (err) {}
+
+      refreshDocenteData();
+    }
+
+    function exportDocenteCSV() {
+      if (!currentDocenteList || currentDocenteList.length === 0) {
+        alert("No hay datos para exportar.");
+        return;
+      }
+
+      let csv = "Estudiante,Codigo,Curso,Calificacion,Porcentaje,Fecha\n";
+      currentDocenteList.forEach(r => {
+        let scoreNum = 0;
+        if (r.puntajes && typeof r.puntajes.R === 'number') scoreNum = r.puntajes.R;
+        else if (typeof r.puntaje_r === 'number') scoreNum = r.puntaje_r;
+        else if (r.codigoHolland) scoreNum = parseInt(r.codigoHolland.split('/')[0], 10) || 0;
+        else if (r.codigo_holland) scoreNum = parseInt(r.codigo_holland.split('/')[0], 10) || 0;
+
+        let perc = `${scoreNum * 10}%`;
+        if (r.dimensionSecundaria && r.dimensionSecundaria.nombre) perc = r.dimensionSecundaria.nombre;
+        else if (typeof r.dimension_secundaria === 'string' && r.dimension_secundaria.includes('%')) perc = r.dimension_secundaria;
+
+        const fecha = r.fecha ? new Date(r.fecha).toLocaleString('es-CO').replace(',', '') : '';
+        csv += `"${r.nombre}","${r.codigo}","${r.curso || 'Grado 1° P3'}","${scoreNum} / 10","${perc}","${fecha}"\n`;
+      });
+
+      const blob = new Blob([csv], { type: 'text/csv;charset=utf-8;' });
+      const url = URL.createObjectURL(blob);
+      const a = document.createElement('a');
+      a.href = url;
+      a.download = `Calificaciones_Grado1_Periodo3_${new Date().toISOString().slice(0, 10)}.csv`;
+      document.body.appendChild(a);
+      a.click();
+    }
+
     window.onclick = function(event) {
       const pModal = document.getElementById('player-modal');
       if (event.target === pModal) closeModal();
+      const offModal = document.getElementById('modal-official-login');
+      if (event.target === offModal) closeOfficialModal();
+      const docModal = document.getElementById('modal-docente-panel');
+      if (event.target === docModal) closeDocenteModal();
     };
 
     window.addEventListener('keydown', (e) => {
-      if (e.key === 'Escape') closeModal();
+      if (e.key === 'Escape') {
+        closeModal();
+        closeOfficialModal();
+        closeDocenteModal();
+      }
     });
 
     // --- INICIALIZACIÓN ---
     window.addEventListener('DOMContentLoaded', () => {
       updateProgressBadges();
+      checkOfficialExamCompletedStatus();
 
       // Comprobar hash en la URL si se desea entrar directo a un módulo
       if (window.location.hash === '#modulo-1') {

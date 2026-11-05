@@ -333,8 +333,176 @@
         return [...mcqs, ...openQs];
       }
 
-      function startEvaluation8(studentName, studentCode) {
-        activeExamQuestionsG8 = prepareExamQuestionsG8();
+      
+    // 🛡️ MOTOR ANTITRAMPA & PANTALLA COMPLETA (GRADO 8°)
+    let anticheatStrikes8 = 0;
+    const MAX_ANTICHEAT_STRIKES8 = 3;
+    let isAnticheatActive8 = false;
+    let anticheatModalOpen8 = false;
+    let examBlockedByCheating8 = false;
+
+    function requestExamFullscreen8() {
+      try {
+        const el = document.documentElement;
+        if (el.requestFullscreen) {
+          el.requestFullscreen().catch(() => {});
+        } else if (el.webkitRequestFullscreen) {
+          el.webkitRequestFullscreen();
+        } else if (el.msRequestFullscreen) {
+          el.msRequestFullscreen();
+        }
+      } catch (e) {}
+    }
+
+    function exitExamFullscreen8() {
+      try {
+        if (document.fullscreenElement || document.webkitFullscreenElement) {
+          if (document.exitFullscreen) {
+            document.exitFullscreen().catch(() => {});
+          } else if (document.webkitExitFullscreen) {
+            document.webkitExitFullscreen();
+          }
+        }
+      } catch (e) {}
+    }
+
+    function triggerAnticheatViolation8(reason) {
+      if (!isAnticheatActive8 || evalStudentRole8 === 'docente' || anticheatModalOpen8 || examBlockedByCheating8) {
+        return;
+      }
+
+      anticheatStrikes8++;
+      clearInterval(evalTimerInterval8);
+      anticheatModalOpen8 = true;
+
+      const modal = document.getElementById('modal-anticheat-warning8');
+      const badge = document.getElementById('anticheat8-badge');
+      const title = document.getElementById('anticheat8-title');
+      const msg = document.getElementById('anticheat8-msg');
+      const counter = document.getElementById('anticheat8-strike-count');
+      const btn = document.getElementById('anticheat8-resume-btn');
+      const icon = document.getElementById('anticheat8-icon');
+
+      if (counter) counter.textContent = anticheatStrikes8;
+
+      if (anticheatStrikes8 === 1) {
+        if (badge) {
+          badge.className = "px-3 py-1 rounded-full text-xs font-kids font-black uppercase tracking-wider bg-amber-100 text-amber-900 border border-amber-300";
+          badge.textContent = "Advertencia 1 de 3";
+        }
+        if (icon) {
+          icon.className = "w-16 h-16 rounded-2xl bg-amber-100 text-amber-600 text-3xl font-black flex items-center justify-center mx-auto shadow-inner";
+          icon.textContent = "⚠️";
+        }
+        if (title) title.textContent = "¡Atención: Salida de Pantalla Detectada!";
+        if (msg) msg.textContent = "Saliste de la ventana del examen (" + reason + "). Recuerda que no puedes cambiar de pestaña ni consultar fuentes externas. Esta es tu primera advertencia.";
+        if (btn) btn.innerHTML = "<span>Entendido, volver en Pantalla Completa</span> ➔";
+      } else if (anticheatStrikes8 === 2) {
+        if (badge) {
+          badge.className = "px-3 py-1 rounded-full text-xs font-kids font-black uppercase tracking-wider bg-orange-100 text-orange-900 border border-orange-300";
+          badge.textContent = "Advertencia 2 de 3 • ¡ÚLTIMA OPORTUNIDAD!";
+        }
+        if (icon) {
+          icon.className = "w-16 h-16 rounded-2xl bg-orange-100 text-orange-600 text-3xl font-black flex items-center justify-center mx-auto shadow-inner";
+          icon.textContent = "⚠️⚠️";
+        }
+        if (title) title.textContent = "¡Segunda Advertencia de Seguridad!";
+        if (msg) msg.textContent = "Detectamos una nueva salida no autorizada (" + reason + "). Si sales o cambias de pestaña una vez más, TU EXAMEN SE BLOQUEARÁ Y CERRARÁ DE INMEDIATO.";
+        if (btn) btn.innerHTML = "<span>Reanudar examen en Pantalla Completa</span> ➔";
+      } else {
+        // 3er intento: BLOQUEO DEFINITIVO
+        examBlockedByCheating8 = true;
+        isAnticheatActive8 = false;
+        if (badge) {
+          badge.className = "px-3 py-1 rounded-full text-xs font-kids font-black uppercase tracking-wider bg-rose-100 text-rose-900 border border-rose-300";
+          badge.textContent = "🛑 Examen Bloqueado";
+        }
+        if (icon) {
+          icon.className = "w-16 h-16 rounded-2xl bg-rose-100 text-rose-600 text-3xl font-black flex items-center justify-center mx-auto shadow-inner";
+          icon.textContent = "🛑";
+        }
+        if (title) title.textContent = "¡Examen Finalizado por Infracciones!";
+        if (msg) msg.textContent = "Alcanzaste el límite de 3 advertencias por salir del examen. Tu prueba ha sido cerrada y enviada automáticamente con la calificación acumulada hasta el momento.";
+        if (btn) {
+          btn.className = "btn-3d w-full py-3.5 px-6 rounded-2xl bg-slate-900 hover:bg-slate-800 text-white font-kids font-black text-xs sm:text-sm shadow-lg transition cursor-pointer flex items-center justify-center gap-2";
+          btn.innerHTML = "<span>Ver Resultados Finales</span> ➔";
+        }
+      }
+
+      if (modal) {
+        modal.classList.remove('hidden');
+        modal.classList.add('flex');
+      }
+    }
+
+    function resumeExamFromAnticheat8() {
+      const modal = document.getElementById('modal-anticheat-warning8');
+      if (modal) {
+        modal.classList.add('hidden');
+        modal.classList.remove('flex');
+      }
+      anticheatModalOpen8 = false;
+
+      if (examBlockedByCheating8) {
+        finishEvaluation8();
+        return;
+      }
+
+      requestExamFullscreen8();
+
+      const q = activeExamQuestionsG8[currentEvalIdx8];
+      if (q && q.tipo === 'multiple') {
+        startEvalTimer8(evalSecondsLeft8 > 0 ? evalSecondsLeft8 : 30, () => {
+          if (!evalAnswered8) selectEvalOption8(-1);
+        });
+      } else if (q && q.tipo === 'abierta') {
+        startEvalTimer8(evalSecondsLeft8 > 0 ? evalSecondsLeft8 : 180, () => {
+          finishEvaluation8();
+        });
+      }
+    }
+
+    // Listeners Globales de Seguridad Antitrampa
+    window.addEventListener('visibilitychange', () => {
+      if (document.hidden && isAnticheatActive8 && evalStudentRole8 !== 'docente') {
+        triggerAnticheatViolation8('Cambio de pestaña o navegador en segundo plano');
+      }
+    });
+
+    window.addEventListener('blur', () => {
+      if (isAnticheatActive8 && evalStudentRole8 !== 'docente') {
+        triggerAnticheatViolation8('Pérdida de foco de la ventana');
+      }
+    });
+
+    document.addEventListener('fullscreenchange', () => {
+      if (!document.fullscreenElement && isAnticheatActive8 && evalStudentRole8 !== 'docente' && !anticheatModalOpen8) {
+        triggerAnticheatViolation8('Salida del modo pantalla completa');
+      }
+    });
+
+    window.addEventListener('keydown', (e) => {
+      if (!isAnticheatActive8 || evalStudentRole8 === 'docente') return;
+
+      if (
+        e.key === 'F12' ||
+        (e.ctrlKey && (e.key === 'u' || e.key === 'U')) ||
+        (e.ctrlKey && e.shiftKey && (e.key === 'i' || e.key === 'I')) ||
+        (e.ctrlKey && (e.key === 'c' || e.key === 'C'))
+      ) {
+        e.preventDefault();
+        triggerAnticheatViolation8('Intento de copia o apertura de herramientas del navegador');
+      }
+    });
+
+    window.addEventListener('contextmenu', (e) => {
+      if (isAnticheatActive8 && evalStudentRole8 !== 'docente') {
+        e.preventDefault();
+      }
+    });
+
+    function startEvaluation8(studentName, studentCode) {
+      activeExamQuestionsG8 = prepareExamQuestionsG8();
       currentEvalIdx8 = 0;
       evalScore8 = 0;
       evalAnswered8 = false;
@@ -342,6 +510,14 @@
       evalStudentCode8 = studentCode;
       evalAnswersDetail8 = [];
       evalAutoevalText8 = '';
+      anticheatStrikes8 = 0;
+      anticheatModalOpen8 = false;
+      examBlockedByCheating8 = false;
+      isAnticheatActive8 = (evalStudentRole8 !== 'docente');
+
+      if (isAnticheatActive8) {
+        requestExamFullscreen8();
+      }
 
       document.getElementById('eval8-selection-screen').classList.add('hidden');
       document.getElementById('eval8-results-screen').classList.add('hidden');
@@ -540,6 +716,8 @@
 
     async function finishEvaluation8() {
       clearInterval(evalTimerInterval8);
+      isAnticheatActive8 = false;
+      exitExamFullscreen8();
 
       const openTextarea = document.getElementById('eval8-open-textarea');
       evalAutoevalText8 = openTextarea ? openTextarea.value.trim() : '';
@@ -612,9 +790,13 @@
             puntajes: { R: evalScore8, I: 10, A: 0, S: 0, E: 0, C: 0 },
             dimensionPrimaria: { nombre: evalScore8 + ' de 10' },
             dimensionSecundaria: { nombre: percentage + '%' },
-            dimensionTerciaria: { nombre: evalScore8 >= 6 ? "Aprobado" : "Por Mejorar" },
+            dimensionTerciaria: { nombre: examBlockedByCheating8 ? "Bloqueado por Infracciones" : (evalScore8 >= 6 ? "Aprobado" : "Por Mejorar") },
             autoevaluacion: evalAutoevalText8,
-            detalles: evalAnswersDetail8,
+            intentos_fraude: anticheatStrikes8,
+            detalles: [
+              ...evalAnswersDetail8,
+              { intentos_fraude: anticheatStrikes8, examBlocked: examBlockedByCheating8 }
+            ],
             evaluarConIA: false
           }
         };
@@ -726,7 +908,7 @@
     async function refreshDocenteData8() {
       const tbody = document.getElementById('docente8-table-body');
       const countEl = document.getElementById('docente8-total-count');
-      if (tbody) tbody.innerHTML = '<tr><td colspan="7" class="p-6 text-center text-slate-400">Cargando registros desde la nube...</td></tr>';
+      if (tbody) tbody.innerHTML = '<tr><td colspan="8" class="p-6 text-center text-slate-400">Cargando registros desde la nube...</td></tr>';
 
       let combinedResults = [];
 
@@ -865,6 +1047,10 @@
         const bgCol = idx % 2 === 0 ? '#ffffff' : '#f8fafc';
         const scoreCol = scoreNum >= 7 ? '#059669' : (scoreNum >= 6 ? '#d97706' : '#dc2626');
 
+        const strikes = r.intentos_fraude || (r.detalles && r.detalles.find(d => typeof d.intentos_fraude === 'number')?.intentos_fraude) || 0;
+        const strikeBadge = strikes >= 3 ? 'BLOQUEADO (3)' : (strikes > 0 ? strikes + ' advertencias' : 'Limpio (0)');
+        const strikeColor = strikes >= 3 ? '#dc2626' : (strikes > 0 ? '#d97706' : '#059669');
+
         tableRows += `
           <tr style="background-color: ${bgCol};">
             <td style="padding: 10px 12px; border: 1px solid #cbd5e1; text-align: center; font-weight: bold; color: #64748b;">${idx + 1}</td>
@@ -873,6 +1059,7 @@
             <td style="padding: 10px 12px; border: 1px solid #cbd5e1; text-align: center; color: #475569;">${r.curso || 'Grado 8° P3'}</td>
             <td style="padding: 10px 12px; border: 1px solid #cbd5e1; text-align: center; font-weight: bold; color: ${scoreCol};">${scoreNum} / 10</td>
             <td style="padding: 10px 12px; border: 1px solid #cbd5e1; text-align: center; font-weight: bold; color: #334155;">${perc}</td>
+            <td style="padding: 10px 12px; border: 1px solid #cbd5e1; text-align: center; font-weight: bold; color: ${strikeColor};">${strikeBadge}</td>
             <td style="padding: 10px 12px; border: 1px solid #cbd5e1; color: #334155; font-style: italic;">${autoeval}</td>
             <td style="padding: 10px 12px; border: 1px solid #cbd5e1; text-align: center; color: #64748b;">${fecha}</td>
           </tr>`;
@@ -912,6 +1099,7 @@
               <th style="padding: 12px 14px; border: 1px solid #94a3b8; width: 110px;">Curso / Periodo</th>
               <th style="padding: 12px 14px; border: 1px solid #94a3b8; width: 110px;">Calificación</th>
               <th style="padding: 12px 14px; border: 1px solid #94a3b8; width: 95px;">Porcentaje</th>
+              <th style="padding: 12px 14px; border: 1px solid #94a3b8; width: 140px;">Seguridad Antitrampa</th>
               <th style="padding: 12px 14px; border: 1px solid #94a3b8; min-width: 320px; text-align: left;">Autoevaluación</th>
               <th style="padding: 12px 14px; border: 1px solid #94a3b8; min-width: 160px;">Fecha y Hora</th>
             </tr>
@@ -2165,6 +2353,34 @@
 
     </main>
 
+    
+    <!-- MODAL DE ADVERTENCIA ANTITRAMPA (GRADO 8°) -->
+    <div id="modal-anticheat-warning8" class="fixed inset-0 z-[100] bg-slate-950/80 backdrop-blur-md hidden items-center justify-center p-4">
+      <div class="bg-white rounded-3xl p-6 sm:p-8 max-w-md w-full border-4 border-rose-500 shadow-2xl space-y-5 animate-in fade-in zoom-in-95 text-center">
+        <div id="anticheat8-icon" class="w-16 h-16 rounded-2xl bg-rose-100 text-rose-600 text-3xl font-black flex items-center justify-center mx-auto shadow-inner">
+          ⚠️
+        </div>
+        <div class="space-y-1.5">
+          <span id="anticheat8-badge" class="px-3 py-1 rounded-full text-xs font-kids font-black uppercase tracking-wider bg-rose-100 text-rose-800 border border-rose-300">
+            Advertencia 1 de 3
+          </span>
+          <h3 id="anticheat8-title" class="font-kids font-black text-xl text-slate-900 mt-2">
+            ¡Actividad no autorizada detectada!
+          </h3>
+          <p id="anticheat8-msg" class="text-xs sm:text-sm text-slate-600 leading-relaxed font-medium">
+            Detectamos que saliste del examen o cambiaste de ventana. Recuerda que la prueba se realiza en pantalla completa y sin consultar otras fuentes.
+          </p>
+        </div>
+        <div id="anticheat8-counter-box" class="p-3 rounded-2xl bg-slate-50 border border-slate-200 text-xs font-kids font-bold text-slate-700">
+          Infracciones registradas: <span id="anticheat8-strike-count" class="text-rose-600 font-black">1</span> de 3 permitidas
+        </div>
+        <button id="anticheat8-resume-btn" onclick="resumeExamFromAnticheat8()"
+          class="btn-3d w-full py-3.5 px-6 rounded-2xl bg-gradient-to-r from-rose-600 to-red-600 hover:from-rose-700 hover:to-red-700 text-white font-kids font-black text-xs sm:text-sm shadow-lg hover:shadow-xl transition transform active:scale-95 cursor-pointer flex items-center justify-center gap-2">
+          <span>Volver al Examen en Pantalla Completa</span> ➔
+        </button>
+      </div>
+    </div>
+
     <!-- MODAL: INGRESO A EXAMEN OFICIAL (CLAVE ESTUDIANTE 'entrar123' O DOCENTE 'Entrar123*' + APELLIDO Y NOMBRE) -->
     <div id="modal-official-login8" class="fixed inset-0 z-50 bg-slate-950/70 hidden items-center justify-center p-4 backdrop-blur-sm">
       <div class="bg-white rounded-3xl p-6 sm:p-8 max-w-md w-full border-4 border-amber-400 shadow-2xl space-y-5 animate-in fade-in zoom-in-95">
@@ -2187,6 +2403,18 @@
         <p class="text-xs text-slate-600 leading-relaxed font-medium">
           Ingresa tus <strong>Apellidos y Nombres</strong> completos y la clave autorizada para iniciar tu evaluación oficial.
         </p>
+
+        <!-- AVISO PROTOCOLO ANTITRAMPA -->
+        <div class="p-3.5 rounded-2xl bg-amber-50 border-2 border-amber-300 text-[11px] text-amber-950 space-y-1.5 shadow-xs font-medium">
+          <div class="font-kids font-black flex items-center gap-1.5 text-amber-900 uppercase">
+            <span>🛡️ Protocolo Antitrampa Activado</span>
+          </div>
+          <ul class="list-disc list-inside space-y-0.5 text-amber-900/90 leading-relaxed">
+            <li>El examen se realiza en <strong>pantalla completa obligatoria</strong>.</li>
+            <li>No cambies de pestaña, no minimices ni abras otras aplicaciones.</li>
+            <li>Límite estricto de <strong>3 advertencias</strong>: al 3er intento no autorizado el examen <strong>se bloqueará y cerrará automáticamente</strong>.</li>
+          </ul>
+        </div>
 
         <div class="space-y-3">
           <div>

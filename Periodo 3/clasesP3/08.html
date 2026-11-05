@@ -90,7 +90,7 @@
     const examQuestionsG8 = [
       {
         tipo: 'multiple',
-        tiempoSegundos: 30,
+        tiempoSegundos: 120,
         puntos: 1,
         pregunta: "En Tinkercad, ¿qué herramienta debes utilizar para cambiar el tamaño de un cubo y hacerlo más ancho?",
         opciones: [
@@ -104,7 +104,7 @@
       },
       {
         tipo: 'multiple',
-        tiempoSegundos: 30,
+        tiempoSegundos: 120,
         puntos: 1,
         pregunta: "¿Cuál es uno de los usos principales de Tinkercad?",
         opciones: [
@@ -118,7 +118,7 @@
       },
       {
         tipo: 'multiple',
-        tiempoSegundos: 30,
+        tiempoSegundos: 120,
         puntos: 1,
         pregunta: "Para observar un modelo desde diferentes ángulos en Tinkercad, ¿qué acción debes realizar?",
         opciones: [
@@ -132,7 +132,7 @@
       },
       {
         tipo: 'multiple',
-        tiempoSegundos: 30,
+        tiempoSegundos: 120,
         puntos: 1,
         pregunta: "¿Qué sucede cuando agrupas dos o más objetos en Tinkercad?",
         opciones: [
@@ -146,7 +146,7 @@
       },
       {
         tipo: 'multiple',
-        tiempoSegundos: 30,
+        tiempoSegundos: 120,
         puntos: 1,
         pregunta: "Si necesitas crear cinco objetos iguales rápidamente, ¿qué herramienta o acción es la más adecuada?",
         opciones: [
@@ -160,7 +160,7 @@
       },
       {
         tipo: 'multiple',
-        tiempoSegundos: 30,
+        tiempoSegundos: 120,
         puntos: 1,
         pregunta: "Quieres construir una torre con tres cilindros del mismo tamaño, colocados uno encima de otro. ¿Cuál es la mejor secuencia de acciones?",
         opciones: [
@@ -174,7 +174,7 @@
       },
       {
         tipo: 'multiple',
-        tiempoSegundos: 30,
+        tiempoSegundos: 120,
         puntos: 1,
         pregunta: "Un estudiante quiere crear una ventana en una pared usando un cubo configurado como “agujero”. ¿Qué debe hacer para que la ventana se forme correctamente?",
         opciones: [
@@ -188,7 +188,7 @@
       },
       {
         tipo: 'multiple',
-        tiempoSegundos: 30,
+        tiempoSegundos: 120,
         puntos: 1,
         pregunta: "¿Es posible desagrupar dos objetos?",
         opciones: [
@@ -201,7 +201,7 @@
       },
       {
         tipo: 'multiple',
-        tiempoSegundos: 30,
+        tiempoSegundos: 120,
         puntos: 1,
         pregunta: "Si agrego un cubo solido, no puedo convertirlo en hueco.",
         opciones: [
@@ -213,7 +213,7 @@
       },
       {
         tipo: 'multiple',
-        tiempoSegundos: 30,
+        tiempoSegundos: 120,
         puntos: 1,
         pregunta: "En el plano de trabajo predeterminado de Tinkercad, ¿qué dimensión del objeto se controla a lo largo del eje Z?",
         opciones: [
@@ -241,7 +241,7 @@
     let evalStudentRole8 = 'estudiante';
     let evalAnswersDetail8 = [];
     let evalTimerInterval8 = null;
-    let evalSecondsLeft8 = 30;
+    let evalSecondsLeft8 = 120;
     let evalAnswered8 = false;
     let evalAutoevalText8 = '';
 
@@ -454,7 +454,7 @@
 
       const q = activeExamQuestionsG8[currentEvalIdx8];
       if (q && q.tipo === 'multiple') {
-        startEvalTimer8(evalSecondsLeft8 > 0 ? evalSecondsLeft8 : 30, () => {
+        startEvalTimer8(evalSecondsLeft8 > 0 ? evalSecondsLeft8 : 120, () => {
           if (!evalAnswered8) selectEvalOption8(-1);
         });
       } else if (q && q.tipo === 'abierta') {
@@ -590,7 +590,7 @@
           });
         }
 
-        startEvalTimer8(30, () => {
+        startEvalTimer8(120, () => {
           if (!evalAnswered8) {
             selectEvalOption8(-1);
           }
@@ -662,7 +662,7 @@
         seleccionada: isTimeout ? 'Tiempo agotado' : q.opciones[selectedIdx],
         correcta: q.opciones[q.correcta],
         esCorrecta: isCorrect,
-        tiempoUsado: 30 - evalSecondsLeft8
+        tiempoUsado: 120 - evalSecondsLeft8
       });
 
       const optionsBox = document.getElementById('eval8-options-container');
@@ -720,6 +720,12 @@
     async function finishEvaluation8() {
       clearInterval(evalTimerInterval8);
       isAnticheatActive8 = false;
+      anticheatModalOpen8 = false;
+      const anticheatModal = document.getElementById('modal-anticheat-warning8');
+      if (anticheatModal) {
+        anticheatModal.classList.add('hidden');
+        anticheatModal.classList.remove('flex');
+      }
       exitExamFullscreen8();
 
       const openTextarea = document.getElementById('eval8-open-textarea');
@@ -804,21 +810,33 @@
             puntajes: { R: evalScore8, I: 10, A: 0, S: 0, E: 0, C: 0 },
             dimensionPrimaria: { nombre: evalScore8 + ' de 10' },
             dimensionSecundaria: { nombre: percentage + '%' },
-          dimensionTerciaria: { nombre: examBlockedByCheating8 ? "Bloqueado (3 Infracciones)" : (evalScore8 >= 6 ? "Aprobado" : "Por Mejorar") },
-          autoevaluacion: (anticheatStrikes8 > 0 ? ('[Alertas: ' + anticheatStrikes8 + ' - ' + anticheatReasons8.join(', ') + '] ') : '') + evalAutoevalText8,
-          intentos_fraude: anticheatStrikes8,
-          razones_infraccion: anticheatReasons8.join(' | '),
-            autoevaluacion: evalAutoevalText8,
+            dimensionTerciaria: { nombre: examBlockedByCheating8 ? "Bloqueado (3 Infracciones)" : (evalScore8 >= 6 ? "Aprobado" : "Por Mejorar") },
+            autoevaluacion: (anticheatStrikes8 > 0 ? ('[Alertas: ' + anticheatStrikes8 + ' - ' + anticheatReasons8.join(', ') + '] ') : '') + evalAutoevalText8,
             intentos_fraude: anticheatStrikes8,
+            razones_infraccion: anticheatReasons8.join(' | '),
             detalles: [
               ...evalAnswersDetail8,
-              { intentos_fraude: anticheatStrikes8, examBlocked: examBlockedByCheating8 }
+              { 
+                tipo: 'auditoria_seguridad',
+                intentos_fraude: anticheatStrikes8, 
+                razones: anticheatReasons8,
+                bloqueado: examBlockedByCheating8 
+              }
             ],
-            evaluarConIA: false
+            carrerasRecomendadas: []
+          },
+          respuestas: {
+            puntaje: evalScore8,
+            total: 10,
+            porcentaje: percentage,
+            autoevaluacion: evalAutoevalText8,
+            intentos_fraude: anticheatStrikes8,
+            razones_infraccion: anticheatReasons8.join(' | '),
+            evalAnswersDetail: evalAnswersDetail8
           }
         };
 
-        const resp = await fetch(CF_WORKER_URL_G8 + '/api/respuestas', {
+        const resp = await fetch(CF_WORKER_URL_G8 + '/api/resultados', {
           method: 'POST',
           headers: { 'Content-Type': 'application/json' },
           body: JSON.stringify(payload)
@@ -2154,7 +2172,7 @@
           <div class="grid grid-cols-2 gap-3 text-center text-xs">
             <div class="bg-white p-3.5 rounded-2xl border border-amber-200 shadow-xs">
               <span class="text-2xl block mb-1">⏱️</span>
-              <strong class="text-slate-800 block text-xs">30 Segundos</strong>
+              <strong class="text-slate-800 block text-xs">2 Minutos</strong>
               <span class="text-[10px] text-slate-500">Por pregunta</span>
             </div>
             <div class="bg-white p-3.5 rounded-2xl border border-amber-200 shadow-xs">
@@ -2171,7 +2189,7 @@
             </div>
             <ul class="list-disc list-inside space-y-1 text-slate-600 pl-1 font-medium">
               <li>Haz clic en el botón naranja, digita tu <strong>Apellido y Nombre</strong> y la clave autorizada.</li>
-              <li>Cada pregunta de opción múltiple tiene un temporizador de <strong>30 segundos</strong> (1 punto c/u).</li>
+              <li>Cada pregunta de opción múltiple tiene un temporizador de <strong>2 minutos</strong> (1 punto c/u).</li>
               <li>La pregunta 11 es tu <strong>autoevaluación reflexiva</strong> (3 minutos, sin puntaje numérico).</li>
               <li>Al finalizar, tu nota y tu reflexión se sincronizarán directamente en la nube.</li>
             </ul>
@@ -2223,7 +2241,7 @@
             <!-- Temporizador -->
             <div id="runner8-timer-container" class="flex items-center gap-2 px-3 py-1.5 rounded-xl bg-amber-50 border border-amber-300 text-amber-900 font-mono font-black text-sm">
               <span>⏱️</span>
-              <span id="runner8-timer">30s</span>
+              <span id="runner8-timer">2m 00s</span>
             </div>
 
             <div class="text-right">
@@ -2250,7 +2268,7 @@
               Pregunta #1 • Opción Múltiple
             </span>
             <span id="eval8-q-meta" class="text-xs font-bold text-slate-500 font-mono">
-              30 segundos • 1 pt
+              2 minutos • 1 pt
             </span>
           </div>
 

@@ -18,6 +18,830 @@
   <script src="https://cdn.jsdelivr.net/npm/canvas-confetti@1.6.0/dist/confetti.browser.min.js"></script>
 
   <script>
+    // ==========================================
+    // SISTEMA DE MÓDULOS (INICIO / LECCIÓN / EXAMEN) - GRADO 8°
+    // ==========================================
+    const MODULO_KEY_8 = 'p3_grado8_modulo_activo';
+    const MARCADOR_PESTANA_8 = 'p3_grado8';
+    const MODULOS_VALIDOS_8 = ['inicio', 'leccion', 'examen'];
+
+    function guardarModuloActivo8(modulo) {
+      try {
+        sessionStorage.setItem(MODULO_KEY_8, modulo);
+      } catch (e) {}
+    }
+
+    function esRecargaDeEstaPestana8() {
+      if (window.name === MARCADOR_PESTANA_8) return true;
+      window.name = MARCADOR_PESTANA_8;
+      return false;
+    }
+
+    function leerModuloActivo8() {
+      if (!esRecargaDeEstaPestana8()) return 'inicio';
+      try {
+        const guardado = sessionStorage.getItem(MODULO_KEY_8);
+        return MODULOS_VALIDOS_8.includes(guardado) ? guardado : 'inicio';
+      } catch (e) {
+        return 'inicio';
+      }
+    }
+
+    function cambiarModulo8(modulo, opciones) {
+      const persistir = !opciones || opciones.persistir !== false;
+      const viewInicio  = document.getElementById('view-inicio-modulos8');
+      const viewLeccion = document.getElementById('view-leccion8');
+      const viewExamen  = document.getElementById('view-examen8');
+
+      const btnInicio   = document.getElementById('btn-mod-inicio8');
+      const btnLeccion  = document.getElementById('btn-mod-leccion8');
+      const btnExamen   = document.getElementById('btn-mod-examen8');
+
+      if (viewInicio)  viewInicio.classList.add('hidden');
+      if (viewLeccion) viewLeccion.classList.add('hidden');
+      if (viewExamen)  viewExamen.classList.add('hidden');
+
+      if (btnInicio)  btnInicio.className = 'inline-flex items-center gap-1.5 px-4 py-2 rounded-xl bg-white/20 hover:bg-white/30 text-white font-kids font-bold text-xs sm:text-sm transition cursor-pointer';
+      if (btnLeccion) btnLeccion.className = 'inline-flex items-center gap-1.5 px-4 py-2 rounded-xl bg-white/20 hover:bg-white/30 text-white font-kids font-bold text-xs sm:text-sm transition cursor-pointer';
+      if (btnExamen)  btnExamen.className = 'inline-flex items-center gap-1.5 px-4 py-2 rounded-xl bg-white/20 hover:bg-white/30 text-white font-kids font-bold text-xs sm:text-sm transition cursor-pointer';
+
+      if (modulo === 'inicio') {
+        if (viewInicio) viewInicio.classList.remove('hidden');
+        if (btnInicio) btnInicio.className = 'inline-flex items-center gap-1.5 px-4 py-2 rounded-xl bg-white text-indigo-950 font-kids font-black text-xs sm:text-sm shadow-md transition transform hover:scale-105 cursor-pointer';
+      } else if (modulo === 'leccion') {
+        if (viewLeccion) viewLeccion.classList.remove('hidden');
+        if (btnLeccion) btnLeccion.className = 'inline-flex items-center gap-1.5 px-4 py-2 rounded-xl bg-white text-indigo-950 font-kids font-black text-xs sm:text-sm shadow-md transition transform hover:scale-105 cursor-pointer';
+      } else if (modulo === 'examen') {
+        if (viewExamen) viewExamen.classList.remove('hidden');
+        if (btnExamen) btnExamen.className = 'inline-flex items-center gap-1.5 px-4 py-2 rounded-xl bg-gradient-to-r from-amber-400 to-orange-400 text-slate-950 font-kids font-black text-xs sm:text-sm shadow-md transition transform hover:scale-105 cursor-pointer';
+        checkOfficialExamCompletedStatus8();
+      }
+
+      if (persistir) guardarModuloActivo8(modulo);
+      window.scrollTo({ top: 0, behavior: 'smooth' });
+    }
+
+    // =========================================================================
+    // MOTOR EXAMEN OFICIAL GRADO 8° - TINKERCAD (CLOUDFLARE D1 + TEMPORIZADOR)
+    // =========================================================================
+    const CF_WORKER_URL_G8 = 'https://orientacion-vocacional-milagrosa.rovimartinez.workers.dev';
+    const STORAGE_KEY_OFFICIAL_RESULT_G8 = 'ilm_p3_grado8_official_result';
+
+    const examQuestionsG8 = [
+      {
+        tipo: 'multiple',
+        tiempoSegundos: 30,
+        puntos: 1,
+        pregunta: "En Tinkercad, ¿qué herramienta debes utilizar para cambiar el tamaño de un cubo y hacerlo más ancho?",
+        opciones: [
+          "La herramienta de texto",
+          "Los controladores de escala del objeto",
+          "La herramienta de agrupación",
+          "El botón de deshacer"
+        ],
+        correcta: 1,
+        explicacion: "Los controladores de escala (pequeños cubos blancos y negros en el perímetro de la figura) permiten modificar el ancho, largo y altura del objeto."
+      },
+      {
+        tipo: 'multiple',
+        tiempoSegundos: 30,
+        puntos: 1,
+        pregunta: "¿Cuál es uno de los usos principales de Tinkercad?",
+        opciones: [
+          "Editar videos profesionales",
+          "Diseñar modelos en 3D de forma sencilla",
+          "Crear hojas de cálculo",
+          "Escuchar música en línea"
+        ],
+        correcta: 1,
+        explicacion: "Tinkercad de Autodesk es una aplicación web gratuita e intuitiva especializada en diseño y modelado 3D para impresión tridimensional y circuitos."
+      },
+      {
+        tipo: 'multiple',
+        tiempoSegundos: 30,
+        puntos: 1,
+        pregunta: "Para observar un modelo desde diferentes ángulos en Tinkercad, ¿qué acción debes realizar?",
+        opciones: [
+          "Cambiar el color del fondo",
+          "Girar la vista utilizando los controles de navegación",
+          "Agrupar todos los objetos",
+          "Eliminar el modelo"
+        ],
+        correcta: 1,
+        explicacion: "El cubo de vistas (ViewCube) y el botón secundario del ratón permiten orbitar y girar la perspectiva tridimensional desde cualquier ángulo."
+      },
+      {
+        tipo: 'multiple',
+        tiempoSegundos: 30,
+        puntos: 1,
+        pregunta: "¿Qué sucede cuando agrupas dos o más objetos en Tinkercad?",
+        opciones: [
+          "Se convierten en un solo objeto que puede moverse conjuntamente",
+          "Se eliminan automáticamente",
+          "Cambian siempre a color rojo",
+          "Se colocan fuera del área de trabajo"
+        ],
+        correcta: 0,
+        explicacion: "La agrupación (Ctrl + G) fusiona las formas en una única pieza continua que se manipula, escala y desplaza como un solo cuerpo."
+      },
+      {
+        tipo: 'multiple',
+        tiempoSegundos: 30,
+        puntos: 1,
+        pregunta: "Si necesitas crear cinco objetos iguales rápidamente, ¿qué herramienta o acción es la más adecuada?",
+        opciones: [
+          "Duplicar",
+          "Desagrupar",
+          "Ocultar la cuadrícula",
+          "Cambiar el idioma"
+        ],
+        correcta: 0,
+        explicacion: "La herramienta Duplicar y Repetir (Ctrl + D) genera copias idénticas conservando e incluso replicando desplazamientos y transformaciones."
+      },
+      {
+        tipo: 'multiple',
+        tiempoSegundos: 30,
+        puntos: 1,
+        pregunta: "Quieres construir una torre con tres cilindros del mismo tamaño, colocados uno encima de otro. ¿Cuál es la mejor secuencia de acciones?",
+        opciones: [
+          "Crear un cilindro, duplicarlo dos veces y mover cada copia verticalmente",
+          "Crear tres cubos, cambiarles el color y eliminarlos",
+          "Agrupar el espacio de trabajo y cambiar el fondo",
+          "Girar la vista y utilizar solamente la herramienta de texto"
+        ],
+        correcta: 0,
+        explicacion: "Crear la figura base, duplicarla (Ctrl + D) y elevar verticalmente a lo largo del eje Z mediante el cono negro es la forma más rápida y precisa."
+      },
+      {
+        tipo: 'multiple',
+        tiempoSegundos: 30,
+        puntos: 1,
+        pregunta: "Un estudiante quiere crear una ventana en una pared usando un cubo configurado como “agujero”. ¿Qué debe hacer para que la ventana se forme correctamente?",
+        opciones: [
+          "Colocar el agujero dentro de la pared y agrupar ambos objetos",
+          "Cambiar el agujero a color sólido y dejarlo separado",
+          "Duplicar la pared sin modificarla",
+          "Ocultar el agujero antes de colocarlo"
+        ],
+        correcta: 0,
+        explicacion: "En Tinkercad las sustracciones booleanas se logran insertando un objeto hueco (agujero) que intercepte al sólido y agrupando ambos."
+      },
+      {
+        tipo: 'multiple',
+        tiempoSegundos: 30,
+        puntos: 1,
+        pregunta: "¿Es posible desagrupar dos objetos?",
+        opciones: [
+          "Si",
+          "No",
+          "Depende del diseño"
+        ],
+        correcta: 0,
+        explicacion: "Sí, mediante el botón Desagrupar (Ctrl + Shift + G) cualquier grupo creado previamente puede separarse en sus figuras originales."
+      },
+      {
+        tipo: 'multiple',
+        tiempoSegundos: 30,
+        puntos: 1,
+        pregunta: "Si agrego un cubo solido, no puedo convertirlo en hueco.",
+        opciones: [
+          "Falso",
+          "Verdadero"
+        ],
+        correcta: 0,
+        explicacion: "Es falso: en cualquier momento se puede seleccionar el cubo sólido y alternar su propiedad a 'Hueco' (Agujero) en el panel inspector."
+      },
+      {
+        tipo: 'multiple',
+        tiempoSegundos: 30,
+        puntos: 1,
+        pregunta: "En el plano de trabajo predeterminado de Tinkercad, ¿qué dimensión del objeto se controla a lo largo del eje Z?",
+        opciones: [
+          "Altura",
+          "Profundidad",
+          "Ancho",
+          "Radio"
+        ],
+        correcta: 0,
+        explicacion: "En el plano cartesiano 3D de Tinkercad, el eje X define el ancho, el eje Y define la profundidad y el eje vertical Z define la altura."
+      },
+      {
+        tipo: 'abierta',
+        tiempoSegundos: 180,
+        puntos: 0,
+        pregunta: "Escribe tu autoevaluación",
+        evaluarConIA: false
+      }
+    ];
+
+    let currentEvalIdx8 = 0;
+    let evalScore8 = 0;
+    let evalStudentName8 = 'Estudiante';
+    let evalStudentCode8 = '';
+    let evalStudentRole8 = 'estudiante';
+    let evalAnswersDetail8 = [];
+    let evalTimerInterval8 = null;
+    let evalSecondsLeft8 = 30;
+    let evalAnswered8 = false;
+    let evalAutoevalText8 = '';
+
+    function promptOfficialLogin8() {
+      const modal = document.getElementById('modal-official-login8');
+      const err = document.getElementById('official8-login-error');
+      const nameInp = document.getElementById('official8-student-name-input');
+      const codeInp = document.getElementById('official8-code-input');
+
+      if (err) err.classList.add('hidden');
+      if (codeInp) codeInp.value = '';
+      if (nameInp) nameInp.value = '';
+
+      if (modal) {
+        modal.classList.remove('hidden');
+        modal.classList.add('flex');
+        setTimeout(() => { if (nameInp) nameInp.focus(); }, 150);
+      }
+    }
+
+    function closeOfficialModal8() {
+      const modal = document.getElementById('modal-official-login8');
+      if (modal) { modal.classList.add('hidden'); modal.classList.remove('flex'); }
+    }
+
+    function confirmOfficialLogin8() {
+      const nameInp = document.getElementById('official8-student-name-input');
+      const codeInp = document.getElementById('official8-code-input');
+      const err = document.getElementById('official8-login-error');
+
+      const nameVal = nameInp ? nameInp.value.trim() : '';
+      const codeVal = codeInp ? codeInp.value.trim() : '';
+
+      if (nameVal.length < 4 || !nameVal.includes(' ')) {
+        if (err) {
+          err.textContent = "Por favor ingresa tu Apellido y Nombre completos.";
+          err.classList.remove('hidden');
+        }
+        return;
+      }
+
+      let role = '';
+      if (codeVal === 'Entrar123*') {
+        role = 'docente';
+      } else if (codeVal === 'entrar123') {
+        role = 'estudiante';
+      } else {
+        if (err) {
+          err.textContent = "Clave de acceso incorrecta. Verifica tu contraseña autorizada.";
+          err.classList.remove('hidden');
+        }
+        return;
+      }
+
+      closeOfficialModal8();
+      evalStudentRole8 = role;
+      const studentCode = 'G8P3-' + nameVal.replace(/[^a-zA-Z0-9]/g, '').slice(0, 10).toUpperCase() + '-' + Math.floor(100 + Math.random() * 900);
+      startEvaluation8(nameVal, studentCode);
+    }
+
+    function startEvaluation8(studentName, studentCode) {
+      currentEvalIdx8 = 0;
+      evalScore8 = 0;
+      evalAnswered8 = false;
+      evalStudentName8 = studentName;
+      evalStudentCode8 = studentCode;
+      evalAnswersDetail8 = [];
+      evalAutoevalText8 = '';
+
+      document.getElementById('eval8-selection-screen').classList.add('hidden');
+      document.getElementById('eval8-results-screen').classList.add('hidden');
+      document.getElementById('eval8-runner-container').classList.remove('hidden');
+
+      const runnerName = document.getElementById('runner8-student-name');
+      if (runnerName) runnerName.textContent = studentName + (evalStudentRole8 === 'docente' ? ' (Modo Docente)' : '');
+
+      renderEvalQuestion8();
+      window.scrollTo({ top: 0, behavior: 'smooth' });
+    }
+
+    function renderEvalQuestion8() {
+      clearInterval(evalTimerInterval8);
+      evalAnswered8 = false;
+      const q = examQuestionsG8[currentEvalIdx8];
+      const total = examQuestionsG8.length;
+
+      const curNumEl = document.getElementById('runner8-current-num');
+      const totalNumEl = document.getElementById('runner8-total-num');
+      const scoreEl = document.getElementById('runner8-score');
+      const progBar = document.getElementById('eval8-progress-bar');
+
+      if (curNumEl) curNumEl.textContent = (currentEvalIdx8 + 1);
+      if (totalNumEl) totalNumEl.textContent = total;
+      if (scoreEl) scoreEl.textContent = evalScore8;
+      if (progBar) progBar.style.width = (((currentEvalIdx8 + 1) / total) * 100) + '%';
+
+      const multipleCard = document.getElementById('eval8-question-card');
+      const openCard = document.getElementById('eval8-open-question-card');
+
+      if (q.tipo === 'multiple') {
+        if (multipleCard) multipleCard.classList.remove('hidden');
+        if (openCard) openCard.classList.add('hidden');
+
+        const qBadge = document.getElementById('eval8-q-badge');
+        const qTitle = document.getElementById('eval8-q-title');
+        const optionsBox = document.getElementById('eval8-options-container');
+        const feedbackBox = document.getElementById('eval8-feedback-box');
+        const nextBtn = document.getElementById('eval8-next-btn');
+
+        if (qBadge) qBadge.textContent = 'Pregunta #' + (currentEvalIdx8 + 1) + ' • Opción Múltiple';
+        if (qTitle) qTitle.textContent = (currentEvalIdx8 + 1) + '. ' + q.pregunta;
+        if (feedbackBox) feedbackBox.classList.add('hidden');
+
+        if (nextBtn) {
+          nextBtn.disabled = true;
+          nextBtn.className = 'px-6 py-2.5 rounded-xl bg-slate-200 text-slate-400 font-kids font-black text-xs transition flex items-center gap-2 cursor-not-allowed';
+          if (currentEvalIdx8 === 9) {
+            nextBtn.innerHTML = '<span>Pasar a Autoevaluación</span> ➔';
+          } else {
+            nextBtn.innerHTML = '<span>Siguiente Pregunta</span> ➔';
+          }
+        }
+
+        if (optionsBox) {
+          optionsBox.innerHTML = '';
+          q.opciones.forEach((opcText, idx) => {
+            const btn = document.createElement('button');
+            btn.type = 'button';
+            btn.className = 'w-full p-4 rounded-2xl border-2 border-slate-200 bg-white hover:bg-amber-50/60 hover:border-amber-300 text-left font-semibold text-xs sm:text-sm text-slate-700 transition flex items-start gap-3 shadow-xs cursor-pointer';
+            btn.innerHTML = '<span class="w-6 h-6 rounded-lg bg-slate-100 text-slate-700 font-mono font-black text-xs flex items-center justify-center shrink-0 border border-slate-300">' +
+              String.fromCharCode(65 + idx) +
+              '</span><span class="flex-1">' + opcText + '</span>';
+            btn.onclick = () => selectEvalOption8(idx);
+            optionsBox.appendChild(btn);
+          });
+        }
+
+        startEvalTimer8(30, () => {
+          if (!evalAnswered8) {
+            selectEvalOption8(-1);
+          }
+        });
+
+      } else if (q.tipo === 'abierta') {
+        if (multipleCard) multipleCard.classList.add('hidden');
+        if (openCard) openCard.classList.remove('hidden');
+
+        const textarea = document.getElementById('eval8-open-textarea');
+        if (textarea) textarea.value = '';
+
+        startEvalTimer8(180, () => {
+          finishEvaluation8();
+        });
+      }
+    }
+
+    function startEvalTimer8(seconds, onTimeUp) {
+      clearInterval(evalTimerInterval8);
+      evalSecondsLeft8 = seconds;
+      updateTimerDisplay8();
+
+      evalTimerInterval8 = setInterval(() => {
+        evalSecondsLeft8--;
+        updateTimerDisplay8();
+        if (evalSecondsLeft8 <= 0) {
+          clearInterval(evalTimerInterval8);
+          if (typeof onTimeUp === 'function') onTimeUp();
+        }
+      }, 1000);
+    }
+
+    function updateTimerDisplay8() {
+      const timerEl = document.getElementById('runner8-timer');
+      if (!timerEl) return;
+      if (evalSecondsLeft8 >= 60) {
+        const m = Math.floor(evalSecondsLeft8 / 60);
+        const s = evalSecondsLeft8 % 60;
+        timerEl.textContent = m + 'm ' + (s < 10 ? '0' : '') + s + 's';
+      } else {
+        timerEl.textContent = evalSecondsLeft8 + 's';
+      }
+
+      if (evalSecondsLeft8 <= 5) {
+        timerEl.className = 'text-rose-600 font-mono font-black animate-pulse';
+      } else {
+        timerEl.className = 'font-mono font-black text-amber-900';
+      }
+    }
+
+    function selectEvalOption8(selectedIdx) {
+      if (evalAnswered8) return;
+      evalAnswered8 = true;
+      clearInterval(evalTimerInterval8);
+
+      const q = examQuestionsG8[currentEvalIdx8];
+      const isTimeout = selectedIdx === -1;
+      const isCorrect = selectedIdx === q.correcta;
+
+      if (isCorrect) {
+        evalScore8++;
+        const scoreEl = document.getElementById('runner8-score');
+        if (scoreEl) scoreEl.textContent = evalScore8;
+      }
+
+      evalAnswersDetail8.push({
+        pregunta: q.pregunta,
+        seleccionada: isTimeout ? 'Tiempo agotado' : q.opciones[selectedIdx],
+        correcta: q.opciones[q.correcta],
+        esCorrecta: isCorrect,
+        tiempoUsado: 30 - evalSecondsLeft8
+      });
+
+      const optionsBox = document.getElementById('eval8-options-container');
+      if (optionsBox) {
+        const buttons = optionsBox.querySelectorAll('button');
+        buttons.forEach((btn, idx) => {
+          btn.disabled = true;
+          btn.classList.remove('cursor-pointer');
+          if (idx === q.correcta) {
+            btn.className = 'w-full p-4 rounded-2xl border-2 border-emerald-500 bg-emerald-50 text-emerald-950 font-bold text-xs sm:text-sm flex items-start gap-3 shadow-xs';
+            const badge = btn.querySelector('span:first-child');
+            if (badge) badge.className = 'w-6 h-6 rounded-lg bg-emerald-600 text-white font-mono font-black text-xs flex items-center justify-center shrink-0';
+          } else if (idx === selectedIdx) {
+            btn.className = 'w-full p-4 rounded-2xl border-2 border-rose-400 bg-rose-50 text-rose-950 font-bold text-xs sm:text-sm flex items-start gap-3 shadow-xs';
+            const badge = btn.querySelector('span:first-child');
+            if (badge) badge.className = 'w-6 h-6 rounded-lg bg-rose-600 text-white font-mono font-black text-xs flex items-center justify-center shrink-0';
+          } else {
+            btn.className = 'w-full p-4 rounded-2xl border border-slate-200 bg-slate-50 text-slate-400 font-normal text-xs sm:text-sm flex items-start gap-3 opacity-60';
+          }
+        });
+      }
+
+      const feedbackBox = document.getElementById('eval8-feedback-box');
+      const feedbackText = document.getElementById('eval8-feedback-text');
+      if (feedbackBox && feedbackText) {
+        feedbackBox.classList.remove('hidden');
+        if (isCorrect) {
+          feedbackBox.className = 'p-4 rounded-2xl border border-emerald-300 bg-emerald-50 text-emerald-900 text-xs sm:text-sm';
+          feedbackText.innerHTML = '<strong>¡Respuesta Correcta! ✓</strong> ' + q.explicacion;
+        } else if (isTimeout) {
+          feedbackBox.className = 'p-4 rounded-2xl border border-amber-300 bg-amber-50 text-amber-900 text-xs sm:text-sm';
+          feedbackText.innerHTML = '<strong>⏱️ ¡Tiempo agotado!</strong> La opción adecuada es: <em>' + q.opciones[q.correcta] + '</em>. ' + q.explicacion;
+        } else {
+          feedbackBox.className = 'p-4 rounded-2xl border border-rose-300 bg-rose-50 text-rose-900 text-xs sm:text-sm';
+          feedbackText.innerHTML = '<strong>Respuesta Incorrecta:</strong> La opción adecuada es: <em>' + q.opciones[q.correcta] + '</em>. ' + q.explicacion;
+        }
+      }
+
+      const nextBtn = document.getElementById('eval8-next-btn');
+      if (nextBtn) {
+        nextBtn.disabled = false;
+        nextBtn.className = 'btn-3d px-6 py-2.5 rounded-xl bg-amber-500 hover:bg-amber-600 text-white font-kids font-black text-xs transition flex items-center gap-2 cursor-pointer shadow';
+      }
+    }
+
+    function nextEvalQuestion8() {
+      if (currentEvalIdx8 < examQuestionsG8.length - 1) {
+        currentEvalIdx8++;
+        renderEvalQuestion8();
+      } else {
+        finishEvaluation8();
+      }
+    }
+
+    async function finishEvaluation8() {
+      clearInterval(evalTimerInterval8);
+
+      const openTextarea = document.getElementById('eval8-open-textarea');
+      evalAutoevalText8 = openTextarea ? openTextarea.value.trim() : '';
+      if (!evalAutoevalText8) {
+        evalAutoevalText8 = 'Sin texto registrado.';
+      }
+
+      evalAnswersDetail8.push({
+        pregunta: "Escribe tu autoevaluación",
+        autoevaluacion: evalAutoevalText8,
+        evaluarConIA: "OFF"
+      });
+
+      document.getElementById('eval8-runner-container').classList.add('hidden');
+      const resultsScreen = document.getElementById('eval8-results-screen');
+      resultsScreen.classList.remove('hidden');
+
+      const badgeEl = document.getElementById('eval8-results-badge');
+      const titleEl = document.getElementById('eval8-results-title');
+      const subEl = document.getElementById('eval8-results-subtitle');
+      const scoreEl = document.getElementById('eval8-final-score');
+      const percEl = document.getElementById('eval8-final-percentage');
+      const cloudStatusEl = document.getElementById('eval8-cloud-status');
+      const autoevalSummary = document.getElementById('eval8-autoeval-summary');
+      const autoevalText = document.getElementById('eval8-autoeval-text');
+
+      const percentage = Math.round((evalScore8 / 10) * 100);
+      if (scoreEl) scoreEl.textContent = evalScore8 + ' / 10';
+      if (percEl) percEl.textContent = percentage + '%';
+
+      if (badgeEl) badgeEl.textContent = "📝 Examen Oficial Finalizado";
+      if (titleEl) titleEl.textContent = '¡Felicitaciones, ' + evalStudentName8 + '!';
+      if (subEl) subEl.textContent = "Tu evaluación y autoevaluación han sido registradas oficialmente.";
+
+      if (autoevalSummary && autoevalText) {
+        autoevalSummary.classList.remove('hidden');
+        autoevalText.textContent = evalAutoevalText8;
+      }
+
+      if (percentage >= 70) {
+        lanzarConfetti();
+      }
+
+      const officialData = {
+        codigo: evalStudentCode8,
+        nombre: evalStudentName8,
+        curso: "Grado 8° - Periodo 3 (Tinkercad 3D)",
+        puntaje: evalScore8,
+        porcentaje: percentage,
+        autoevaluacion: evalAutoevalText8,
+        fecha: new Date().toISOString(),
+        detalles: evalAnswersDetail8
+      };
+
+      localStorage.setItem(STORAGE_KEY_OFFICIAL_RESULT_G8, JSON.stringify(officialData));
+
+      if (cloudStatusEl) {
+        cloudStatusEl.innerHTML = "<span>☁️</span> <span>Guardando nota en la Base de Datos Cloudflare D1...</span>";
+      }
+
+      try {
+        const payload = {
+          estudiante: {
+            codigo: evalStudentCode8,
+            nombre: evalStudentName8,
+            curso: "Grado 8° - Periodo 3"
+          },
+          resultadosCalculados: {
+            codigoHolland: evalScore8 + '/10',
+            puntajes: { R: evalScore8, I: 10, A: 0, S: 0, E: 0, C: 0 },
+            dimensionPrimaria: { nombre: evalScore8 + ' de 10' },
+            dimensionSecundaria: { nombre: percentage + '%' },
+            dimensionTerciaria: { nombre: evalScore8 >= 6 ? "Aprobado" : "Por Mejorar" },
+            autoevaluacion: evalAutoevalText8,
+            detalles: evalAnswersDetail8,
+            evaluarConIA: false
+          }
+        };
+
+        const resp = await fetch(CF_WORKER_URL_G8 + '/api/respuestas', {
+          method: 'POST',
+          headers: { 'Content-Type': 'application/json' },
+          body: JSON.stringify(payload)
+        });
+
+        if (resp.ok) {
+          if (cloudStatusEl) {
+            cloudStatusEl.className = "p-3.5 rounded-2xl bg-emerald-50 border border-emerald-300 text-xs text-emerald-800 font-bold flex items-center justify-center gap-2";
+            cloudStatusEl.innerHTML = "<span>☁️🔒</span> <span>¡Nota guardada y sincronizada exitosamente en la nube!</span>";
+          }
+        } else {
+          throw new Error("HTTP " + resp.status);
+        }
+      } catch (err) {
+        if (cloudStatusEl) {
+          cloudStatusEl.className = "p-3.5 rounded-2xl bg-amber-50 border border-amber-300 text-xs text-amber-900 font-bold flex items-center justify-center gap-2";
+          cloudStatusEl.innerHTML = "<span>💾</span> <span>Guardado localmente en este equipo (sin conexión al servidor).</span>";
+        }
+      }
+
+      window.scrollTo({ top: 0, behavior: 'smooth' });
+    }
+
+    function exitEvaluationRunner8() {
+      clearInterval(evalTimerInterval8);
+      document.getElementById('eval8-runner-container').classList.add('hidden');
+      document.getElementById('eval8-selection-screen').classList.remove('hidden');
+      checkOfficialExamCompletedStatus8();
+      window.scrollTo({ top: 0, behavior: 'smooth' });
+    }
+
+    function checkOfficialExamCompletedStatus8() {
+      const saved = localStorage.getItem(STORAGE_KEY_OFFICIAL_RESULT_G8);
+      const container = document.getElementById('official8-exam-entry-container');
+      if (!container) return;
+
+      if (saved) {
+        try {
+          const data = JSON.parse(saved);
+          container.innerHTML = `
+            <div class="bg-emerald-50 border-2 border-emerald-400 rounded-2xl p-5 text-center space-y-2 animate-in fade-in">
+              <span class="text-3xl block">🏆</span>
+              <strong class="font-kids font-black text-base text-emerald-950 block">¡Examen Presentado con Éxito!</strong>
+              <p class="text-xs text-slate-600 font-medium">Estudiante: <strong>${data.nombre}</strong> (${data.codigo})</p>
+              <div class="inline-block bg-emerald-100 text-emerald-900 font-black text-sm px-4 py-1.5 rounded-full border border-emerald-300 mt-1">
+                Nota: ${data.puntaje} / 10 &bull; ${data.porcentaje}%
+              </div>
+              <p class="text-[11px] text-emerald-700 font-bold mt-2">🔒 Tu calificación ya fue sincronizada y guardada.</p>
+            </div>
+          `;
+        } catch (e) {}
+      }
+    }
+
+    // --- PANEL DOCENTE GRADO 8° ---
+    let isDocenteAuthenticated8 = false;
+    let currentDocenteList8 = [];
+
+    function openDocenteModal8() {
+      const modal = document.getElementById('modal-docente-panel8');
+      const loginView = document.getElementById('docente8-login-view');
+      const contentView = document.getElementById('docente8-content-view');
+      const passInp = document.getElementById('docente8-pass-input');
+      const err = document.getElementById('docente8-pass-error');
+
+      if (err) err.classList.add('hidden');
+      if (modal) { modal.classList.remove('hidden'); modal.classList.add('flex'); }
+
+      if (isDocenteAuthenticated8 || evalStudentRole8 === 'docente') {
+        isDocenteAuthenticated8 = true;
+        if (loginView) loginView.classList.add('hidden');
+        if (contentView) { contentView.classList.remove('hidden'); contentView.classList.add('flex'); }
+        refreshDocenteData8();
+      } else {
+        if (loginView) loginView.classList.remove('hidden');
+        if (contentView) { contentView.classList.add('hidden'); contentView.classList.remove('flex'); }
+        if (passInp) { passInp.value = ''; setTimeout(() => passInp.focus(), 150); }
+      }
+    }
+
+    function closeDocenteModal8() {
+      const modal = document.getElementById('modal-docente-panel8');
+      if (modal) { modal.classList.add('hidden'); modal.classList.remove('flex'); }
+    }
+
+    function authDocente8() {
+      const passInp = document.getElementById('docente8-pass-input');
+      const err = document.getElementById('docente8-pass-error');
+      const val = passInp ? passInp.value.trim() : '';
+
+      if (val !== 'Entrar123*') {
+        if (err) err.classList.remove('hidden');
+        return;
+      }
+
+      isDocenteAuthenticated8 = true;
+      document.getElementById('docente8-login-view').classList.add('hidden');
+      const contentView = document.getElementById('docente8-content-view');
+      contentView.classList.remove('hidden');
+      contentView.classList.add('flex');
+      refreshDocenteData8();
+    }
+
+    async function refreshDocenteData8() {
+      const tbody = document.getElementById('docente8-table-body');
+      const countEl = document.getElementById('docente8-total-count');
+      if (tbody) tbody.innerHTML = '<tr><td colspan="7" class="p-6 text-center text-slate-400">Cargando registros desde la nube...</td></tr>';
+
+      let combinedResults = [];
+
+      try {
+        const resp = await fetch(CF_WORKER_URL_G8 + '/api/resultados', {
+          method: 'GET',
+          headers: { 'Accept': 'application/json' }
+        });
+        if (resp.ok) {
+          const data = await resp.json();
+          if (Array.isArray(data.resultados)) {
+            combinedResults = data.resultados.filter(r => 
+              (r.curso && (r.curso.includes('Grado 8') || r.curso.includes('8°') || r.curso.includes('8'))) || 
+              (r.codigo && r.codigo.startsWith('G8P3'))
+            );
+          }
+        }
+      } catch (e) {
+        console.warn("No se pudo obtener resultados de Cloudflare D1:", e);
+      }
+
+      const localSaved = localStorage.getItem(STORAGE_KEY_OFFICIAL_RESULT_G8);
+      if (localSaved) {
+        try {
+          const localObj = JSON.parse(localSaved);
+          if (!combinedResults.some(r => r.codigo === localObj.codigo)) {
+            combinedResults.unshift({
+              codigo: localObj.codigo,
+              nombre: localObj.nombre,
+              curso: localObj.curso,
+              puntajes: { R: localObj.puntaje },
+              dimensionSecundaria: { nombre: localObj.porcentaje + '%' },
+              autoevaluacion: localObj.autoevaluacion,
+              fecha: localObj.fecha
+            });
+          }
+        } catch (e) {}
+      }
+
+      currentDocenteList8 = combinedResults;
+      if (countEl) countEl.textContent = combinedResults.length;
+
+      if (!tbody) return;
+      if (combinedResults.length === 0) {
+        tbody.innerHTML = '<tr><td colspan="7" class="p-6 text-center text-slate-400">No hay evaluaciones registradas para Grado 8° aún.</td></tr>';
+        return;
+      }
+
+      tbody.innerHTML = combinedResults.map(r => {
+        let scoreNum = 0;
+        if (r.puntajes && typeof r.puntajes.R === 'number') scoreNum = r.puntajes.R;
+        else if (typeof r.puntaje_r === 'number') scoreNum = r.puntaje_r;
+        else if (r.codigoHolland) scoreNum = parseInt(r.codigoHolland.split('/')[0], 10) || 0;
+
+        let perc = (scoreNum * 10) + '%';
+        if (r.dimensionSecundaria && r.dimensionSecundaria.nombre) perc = r.dimensionSecundaria.nombre;
+        else if (typeof r.dimension_secundaria === 'string') perc = r.dimension_secundaria;
+
+        const autoeval = r.autoevaluacion || (r.detalles && r.detalles.find(d => d.autoevaluacion)?.autoevaluacion) || '—';
+        const fechaStr = r.fecha ? new Date(r.fecha).toLocaleString('es-CO') : 'Reciente';
+
+        return `
+          <tr class="hover:bg-slate-50 transition">
+            <td class="p-3 font-bold text-slate-800 font-kids">${r.nombre}</td>
+            <td class="p-3 font-mono text-[11px] text-slate-500">${r.codigo}</td>
+            <td class="p-3 font-bold text-emerald-600">${scoreNum} / 10</td>
+            <td class="p-3 font-bold text-slate-700">${perc}</td>
+            <td class="p-3 text-[11px] text-slate-600 max-w-xs truncate" title="${autoeval}">${autoeval}</td>
+            <td class="p-3 text-[11px] text-slate-400">${fechaStr}</td>
+            <td class="p-3 text-center">
+              <button onclick="eliminarResultadoDocente8('${r.codigo}', '${r.nombre}')" class="text-rose-500 hover:text-rose-700 font-bold text-[11px] p-1 rounded hover:bg-rose-50 transition cursor-pointer" title="Eliminar para reintento">
+                🗑️ Borrar
+              </button>
+            </td>
+          </tr>
+        `;
+      }).join('');
+    }
+
+    async function eliminarResultadoDocente8(codigo, nombre) {
+      if (!confirm('¿Deseas eliminar la evaluación de ' + nombre + ' (' + codigo + ') para permitirle volver a presentar?')) {
+        return;
+      }
+
+      const localSaved = localStorage.getItem(STORAGE_KEY_OFFICIAL_RESULT_G8);
+      if (localSaved) {
+        try {
+          const localObj = JSON.parse(localSaved);
+          if (localObj.codigo === codigo || localObj.nombre === nombre) {
+            localStorage.removeItem(STORAGE_KEY_OFFICIAL_RESULT_G8);
+            const container = document.getElementById('official8-exam-entry-container');
+            if (container) {
+              container.innerHTML = `
+                <button onclick="promptOfficialLogin8()" id="btn-start-official8" class="w-full bg-gradient-to-r from-amber-500 via-orange-500 to-amber-600 hover:from-amber-600 hover:to-orange-700 text-white font-kids font-black text-base sm:text-lg py-4 px-6 rounded-2xl shadow-lg hover:shadow-xl transition transform active:scale-95 flex items-center justify-center gap-3 cursor-pointer">
+                  <span class="text-2xl">📝</span>
+                  <span>PRESENTAR EXAMEN OFICIAL</span>
+                  <span class="text-xl">➔</span>
+                </button>
+                <p class="text-xs text-center text-slate-500 font-medium">
+                  Ingresa con tu <strong>Apellido y Nombre</strong> y la clave proporcionada por el docente.
+                </p>
+              `;
+            }
+          }
+        } catch (e) {}
+      }
+
+      try {
+        await fetch(CF_WORKER_URL_G8 + '/api/estudiantes/' + encodeURIComponent(codigo), { method: 'DELETE' });
+      } catch (err) {}
+
+      refreshDocenteData8();
+    }
+
+    function exportDocenteCSV8() {
+      if (!currentDocenteList8 || currentDocenteList8.length === 0) {
+        alert("No hay datos para exportar.");
+        return;
+      }
+
+      let csv = "Estudiante,Codigo,Curso,Calificacion,Porcentaje,Autoevaluacion,Fecha\n";
+      currentDocenteList8.forEach(r => {
+        let scoreNum = 0;
+        if (r.puntajes && typeof r.puntajes.R === 'number') scoreNum = r.puntajes.R;
+        else if (typeof r.puntaje_r === 'number') scoreNum = r.puntaje_r;
+        else if (r.codigoHolland) scoreNum = parseInt(r.codigoHolland.split('/')[0], 10) || 0;
+
+        let perc = (scoreNum * 10) + '%';
+        if (r.dimensionSecundaria && r.dimensionSecundaria.nombre) perc = r.dimensionSecundaria.nombre;
+        else if (typeof r.dimension_secundaria === 'string') perc = r.dimension_secundaria;
+
+        const autoeval = (r.autoevaluacion || (r.detalles && r.detalles.find(d => d.autoevaluacion)?.autoevaluacion) || '').replace(/"/g, '""');
+        const fecha = r.fecha ? new Date(r.fecha).toLocaleString('es-CO').replace(',', '') : '';
+        csv += `"${r.nombre}","${r.codigo}","${r.curso || 'Grado 8° P3'}","${scoreNum} / 10","${perc}","${autoeval}","${fecha}"\n`;
+      });
+
+      const blob = new Blob([csv], { type: 'text/csv;charset=utf-8;' });
+      const url = URL.createObjectURL(blob);
+      const a = document.createElement('a');
+      a.href = url;
+      a.download = `Calificaciones_Grado8_P3_${new Date().toISOString().slice(0, 10)}.csv`;
+      document.body.appendChild(a);
+      a.click();
+      document.body.removeChild(a);
+      URL.revokeObjectURL(url);
+    }
+
     tailwind.config = {
       theme: {
         extend: {
@@ -100,7 +924,169 @@
         <span class="text-3xl">⚙️</span>
         <span class="font-kids font-bold text-sm text-white">Autodesk</span>
       </div>
+      <!-- ╔══════════════════════════════════════════════════════════════════════════╗ -->
+      <!-- ║   MÓDULO SWITCHER: INICIO / LECCIÓN 3D / EXAMEN OFICIAL               ║ -->
+      <!-- ╚══════════════════════════════════════════════════════════════════════════╝ -->
+      <div class="w-full flex items-center justify-center sm:justify-start gap-2 pt-3 border-t border-white/20 mt-3 relative z-10 overflow-x-auto">
+        <button onclick="cambiarModulo8('inicio')" id="btn-mod-inicio8"
+          class="inline-flex items-center gap-1.5 px-4 py-2 rounded-xl bg-white text-indigo-950 font-kids font-black text-xs sm:text-sm shadow-md transition transform hover:scale-105 cursor-pointer">
+          <span>🏠</span> <span>Selección de Módulos</span>
+        </button>
+        <button onclick="cambiarModulo8('leccion')" id="btn-mod-leccion8"
+          class="inline-flex items-center gap-1.5 px-4 py-2 rounded-xl bg-white/20 hover:bg-white/30 text-white font-kids font-bold text-xs sm:text-sm transition cursor-pointer">
+          <span>⚙️</span> <span>Módulo: Lección Tinkercad</span>
+        </button>
+        <button onclick="cambiarModulo8('examen')" id="btn-mod-examen8"
+          class="inline-flex items-center gap-1.5 px-4 py-2 rounded-xl bg-gradient-to-r from-amber-400 to-orange-400 text-slate-950 font-kids font-black text-xs sm:text-sm shadow-md transition transform hover:scale-105 cursor-pointer">
+          <span>📝</span> <span>Examen Oficial</span>
+        </button>
+      </div>
     </header>
+
+    <!-- ╔══════════════════════════════════════════════════════════════════════════╗ -->
+    <!-- ║   VISTA: PANTALLA PRINCIPAL DE SELECCIÓN DE MÓDULOS (LECCIÓN / EXAMEN)   ║ -->
+    <!-- ╚══════════════════════════════════════════════════════════════════════════╝ -->
+    <div id="view-inicio-modulos8" class="space-y-8 mb-12">
+      
+      <!-- Hero de Bienvenida -->
+      <div class="text-center max-w-3xl mx-auto space-y-2">
+        <span class="inline-flex items-center gap-2 px-3.5 py-1.5 rounded-full bg-indigo-100 text-indigo-900 text-xs font-kids font-black tracking-wider uppercase border border-indigo-200 shadow-xs">
+          ✨ Grado 8° • Periodo 3 • Autodesk Tinkercad
+        </span>
+        <h2 class="text-2xl sm:text-4xl font-kids font-black text-slate-900 tracking-tight">
+          ¿A qué módulo deseas ingresar hoy?
+        </h2>
+        <p class="text-xs sm:text-sm text-slate-600 font-medium leading-relaxed">
+          Explora la lección interactiva de modelado 3D o presenta el examen oficial con calificación en tiempo real y registro en la nube.
+        </p>
+      </div>
+
+      <!-- Grid de 2 Cards: Módulo de Lección y Card de Examen -->
+      <div class="grid grid-cols-1 md:grid-cols-2 gap-6 max-w-5xl mx-auto pt-2">
+        
+        <!-- CARD 1: MÓDULO DE LECCIÓN (TINKERCAD 3D) -->
+        <div onclick="cambiarModulo8('leccion')"
+          class="group relative bg-white rounded-3xl p-7 sm:p-8 border-3 border-indigo-200 hover:border-indigo-500 shadow-xl hover:shadow-2xl hover:shadow-indigo-500/10 transition-all duration-300 cursor-pointer flex flex-col justify-between overflow-hidden">
+          <div class="absolute -right-8 -bottom-8 w-40 h-40 bg-indigo-500/10 rounded-full blur-2xl group-hover:bg-indigo-500/20 transition-all"></div>
+          
+          <div class="space-y-4 relative z-10">
+            <div class="flex items-center justify-between">
+              <div class="w-16 h-16 rounded-2xl bg-indigo-600 text-white text-3xl flex items-center justify-center shadow-lg shadow-indigo-600/30 group-hover:scale-110 transition-transform">
+                ⚙️
+              </div>
+              <span class="text-[11px] font-kids font-black text-indigo-700 bg-indigo-50 px-3 py-1 rounded-full border border-indigo-200 uppercase">
+                Módulo 01
+              </span>
+            </div>
+
+            <div>
+              <h3 class="text-2xl font-kids font-black text-slate-900 group-hover:text-indigo-600 transition-colors">
+                Módulo de Lección: Modelado 3D
+              </h3>
+              <p class="text-xs sm:text-sm text-slate-600 mt-2 font-medium leading-relaxed">
+                Accede al aula virtual de Tinkercad (código TNKWXP9XG), generador de usuario, tutoriales paso a paso, misiones prácticas de diseño y banco formativo.
+              </p>
+            </div>
+
+            <div class="grid grid-cols-3 gap-2 pt-1 text-center">
+              <div class="bg-indigo-50/70 p-2.5 rounded-xl border border-indigo-100">
+                <span class="text-base block">🚀</span>
+                <strong class="text-[11px] text-indigo-950 font-bold block">Aula 3D</strong>
+                <span class="text-[10px] text-slate-500">Tinkercad</span>
+              </div>
+              <div class="bg-indigo-50/70 p-2.5 rounded-xl border border-indigo-100">
+                <span class="text-base block">🏷️</span>
+                <strong class="text-[11px] text-indigo-950 font-bold block">Alias</strong>
+                <span class="text-[10px] text-slate-500">Generador</span>
+              </div>
+              <div class="bg-indigo-50/70 p-2.5 rounded-xl border border-indigo-100">
+                <span class="text-base block">🏆</span>
+                <strong class="text-[11px] text-indigo-950 font-bold block">Misiones</strong>
+                <span class="text-[10px] text-slate-500">Prácticas</span>
+              </div>
+            </div>
+          </div>
+
+          <div class="pt-6 mt-6 border-t border-slate-100 flex items-center justify-between relative z-10">
+            <span class="text-xs sm:text-sm font-kids font-bold text-indigo-600 group-hover:translate-x-1 transition-transform inline-flex items-center gap-1.5">
+              Entrar a la Lección ➔
+            </span>
+            <span class="text-[11px] font-kids font-bold bg-indigo-50 text-indigo-700 px-3 py-1 rounded-xl border border-indigo-200">
+              Contenido Completo
+            </span>
+          </div>
+        </div>
+
+        <!-- CARD 2: MÓDULO EXAMEN OFICIAL TINKERCAD -->
+        <div onclick="cambiarModulo8('examen')"
+          class="group relative bg-white rounded-3xl p-7 sm:p-8 border-3 border-amber-300 hover:border-amber-500 shadow-xl hover:shadow-2xl hover:shadow-amber-500/20 transition-all duration-300 cursor-pointer flex flex-col justify-between overflow-hidden">
+          <div class="absolute -right-8 -bottom-8 w-40 h-40 bg-amber-400/20 rounded-full blur-2xl group-hover:bg-amber-400/30 transition-all"></div>
+          
+          <div class="space-y-4 relative z-10">
+            <div class="flex items-center justify-between">
+              <div class="w-16 h-16 rounded-2xl bg-gradient-to-tr from-amber-500 to-orange-500 text-white text-3xl flex items-center justify-center shadow-lg shadow-amber-500/30 group-hover:scale-110 transition-transform">
+                📝
+              </div>
+              <span class="text-[11px] font-kids font-black text-amber-900 bg-amber-100 px-3 py-1 rounded-full border border-amber-300 uppercase">
+                Evaluación Oficial
+              </span>
+            </div>
+
+            <div>
+              <h3 class="text-2xl font-kids font-black text-slate-900 group-hover:text-amber-700 transition-colors">
+                Examen Oficial: Tinkercad & Modelado 3D
+              </h3>
+              <p class="text-xs sm:text-sm text-slate-600 mt-2 font-medium leading-relaxed">
+                Evaluación con 10 preguntas de opción múltiple (30s c/u), pregunta de autoevaluación reflexiva, retroalimentación inmediata y sincronización oficial en la nube.
+              </p>
+            </div>
+
+            <div class="grid grid-cols-3 gap-2 pt-1 text-center">
+              <div class="bg-amber-50/80 p-2.5 rounded-xl border border-amber-200">
+                <span class="text-base block">⏱️</span>
+                <strong class="text-[11px] text-amber-950 font-bold block">30s / Preg.</strong>
+                <span class="text-[10px] text-slate-500">Temporizador</span>
+              </div>
+              <div class="bg-amber-50/80 p-2.5 rounded-xl border border-amber-200">
+                <span class="text-base block">🎯</span>
+                <strong class="text-[11px] text-amber-950 font-bold block">10 Pts + Auto</strong>
+                <span class="text-[10px] text-slate-500">11 Reactivos</span>
+              </div>
+              <div class="bg-amber-50/80 p-2.5 rounded-xl border border-amber-200">
+                <span class="text-base block">☁️</span>
+                <strong class="text-[11px] text-amber-950 font-bold block">Cloudflare</strong>
+                <span class="text-[10px] text-slate-500">Registro D1</span>
+              </div>
+            </div>
+          </div>
+
+          <div class="pt-6 mt-6 border-t border-amber-100 flex items-center justify-between relative z-10">
+            <span class="text-xs sm:text-sm font-kids font-bold text-amber-700 group-hover:translate-x-1 transition-transform inline-flex items-center gap-1.5">
+              Presentar Examen Oficial ➔
+            </span>
+            <span class="text-[11px] font-kids font-bold bg-amber-500 text-white px-3 py-1 rounded-xl shadow-xs">
+              Activo Ahora
+            </span>
+          </div>
+        </div>
+
+      </div>
+    </div><!-- /view-inicio-modulos8 -->
+
+    <!-- ╔══════════════════════════════════════════════════════════════════════════╗ -->
+    <!-- ║   MÓDULO: LECCIÓN COMPLETA DE TINKERCAD 3D (LO QUE ESTÁ)                 ║ -->
+    <!-- ╚══════════════════════════════════════════════════════════════════════════╝ -->
+    <main id="view-leccion8" class="hidden space-y-10">
+      
+      <!-- Barra superior de lección para volver a selección de módulos -->
+      <div class="bg-white p-4 rounded-2xl border-2 border-indigo-200 shadow-sm flex items-center justify-between">
+        <button onclick="cambiarModulo8('inicio')" class="btn-3d px-4 py-2 bg-slate-100 hover:bg-slate-200 text-slate-700 font-kids font-bold text-xs sm:text-sm rounded-xl transition flex items-center gap-2 cursor-pointer border border-slate-300">
+          <span>←</span> <span>Volver a Selección de Módulos</span>
+        </button>
+        <span class="text-xs font-kids font-bold text-indigo-700 bg-indigo-50 border border-indigo-200 px-3 py-1.5 rounded-xl">
+          ⚙️ Módulo de Lección Activo
+        </span>
+      </div>
 
     <!-- BANNER HERO INGRESO A LA CLASE DE TINKERCAD (8°) -->
     <section class="bg-gradient-to-br from-slate-900 via-indigo-950 to-slate-900 text-white rounded-3xl p-6 sm:p-8 shadow-2xl border-4 border-indigo-500/30 mb-10 relative overflow-hidden">
@@ -804,6 +1790,420 @@
       </div>
     </section>
 
+    </main><!-- /view-leccion8 -->
+
+    <!-- ╔══════════════════════════════════════════════════════════════════════════╗ -->
+    <!-- ║   MÓDULO: EXAMEN OFICIAL GRADO 8° - PERIODO 3                          ║ -->
+    <!-- ╚══════════════════════════════════════════════════════════════════════════╝ -->
+    <main id="view-examen8" class="hidden space-y-6">
+
+      <!-- Barra de Control del Examen -->
+      <div class="bg-white p-4 rounded-2xl border border-amber-200 shadow-sm flex items-center justify-between">
+        <button onclick="cambiarModulo8('inicio')" 
+          class="btn-3d px-4 py-2 rounded-xl bg-slate-100 hover:bg-slate-200 text-slate-700 font-kids font-bold text-xs border border-slate-200 transition flex items-center gap-1.5 cursor-pointer">
+          ← Volver al Inicio
+        </button>
+        <div class="flex items-center gap-2">
+          <span class="text-xs font-kids font-black text-amber-900 bg-amber-50 border border-amber-300 px-3 py-1.5 rounded-xl">
+            📝 Examen Oficial • Grado 8°
+          </span>
+          <button onclick="openDocenteModal8()" class="btn-3d px-3.5 py-1.5 rounded-xl bg-indigo-600 hover:bg-indigo-700 text-white font-kids font-bold text-xs transition shadow-sm flex items-center gap-1.5 cursor-pointer">
+            👨‍🏫 Panel Docente
+          </button>
+        </div>
+      </div>
+
+      <!-- PANTALLA 1: PORTADA Y ENTRADA AL EXAMEN 8° -->
+      <div id="eval8-selection-screen" class="space-y-6">
+        
+        <div class="text-center space-y-2">
+          <div class="inline-flex items-center gap-2 bg-amber-100 text-amber-900 font-kids font-black text-xs uppercase px-4 py-1.5 rounded-full border border-amber-300 shadow-xs">
+            <span>✨ EVALUACIÓN OFICIAL</span> • <span>GRADO 8° • PERIODO 3</span>
+          </div>
+          <h2 class="font-kids font-black text-2xl sm:text-4xl text-slate-900">
+            Examen Oficial: Diseño & Modelado 3D con Tinkercad
+          </h2>
+          <p class="text-slate-600 text-xs sm:text-sm max-w-2xl mx-auto font-medium leading-relaxed">
+            Demuestra tus destrezas sobre primitivas tridimensionales, controles de escala, vistas, agrupación de sólidos y huecos, cortes, duplicación y orientación espacial.
+          </p>
+        </div>
+
+        <!-- Tarjeta Principal del Examen -->
+        <div class="max-w-2xl mx-auto bg-gradient-to-b from-amber-50/60 to-orange-50/60 border-2 border-amber-300 rounded-3xl p-6 sm:p-8 shadow-md space-y-6">
+          
+          <div class="grid grid-cols-2 sm:grid-cols-4 gap-3 text-center text-xs">
+            <div class="bg-white p-3.5 rounded-2xl border border-amber-200 shadow-xs">
+              <span class="text-2xl block mb-1">⏱️</span>
+              <strong class="text-slate-800 block text-xs">30 Segundos</strong>
+              <span class="text-[10px] text-slate-500">Por pregunta</span>
+            </div>
+            <div class="bg-white p-3.5 rounded-2xl border border-amber-200 shadow-xs">
+              <span class="text-2xl block mb-1">🎯</span>
+              <strong class="text-slate-800 block text-xs">10 Pts + Auto</strong>
+              <span class="text-[10px] text-slate-500">11 Reactivos</span>
+            </div>
+            <div class="bg-white p-3.5 rounded-2xl border border-amber-200 shadow-xs">
+              <span class="text-2xl block mb-1">🔒</span>
+              <strong class="text-slate-800 block text-xs">Clave de Acceso</strong>
+              <span class="text-[10px] text-slate-500">Requerida</span>
+            </div>
+            <div class="bg-white p-3.5 rounded-2xl border border-amber-200 shadow-xs">
+              <span class="text-2xl block mb-1">☁️</span>
+              <strong class="text-slate-800 block text-xs">Cloudflare D1</strong>
+              <span class="text-[10px] text-slate-500">Guardado Oficial</span>
+            </div>
+          </div>
+
+          <div class="bg-white rounded-2xl p-4 border border-amber-200 text-xs text-slate-600 space-y-1.5">
+            <div class="font-bold text-slate-800 flex items-center gap-1.5 font-kids">
+              <span>📌</span> Instrucciones para el Examen:
+            </div>
+            <ul class="list-disc list-inside space-y-1 text-slate-600 pl-1 font-medium">
+              <li>Haz clic en el botón naranja, digita tu <strong>Apellido y Nombre</strong> y la clave autorizada.</li>
+              <li>Cada pregunta de opción múltiple tiene un temporizador de <strong>30 segundos</strong> (1 punto c/u).</li>
+              <li>La pregunta 11 es tu <strong>autoevaluación reflexiva</strong> (3 minutos, sin puntaje numérico).</li>
+              <li>Al finalizar, tu nota y tu reflexión se sincronizarán directamente en la nube.</li>
+            </ul>
+          </div>
+
+          <!-- Botón de Entrada al Examen -->
+          <div id="official8-exam-entry-container" class="space-y-4 pt-2">
+            <button onclick="promptOfficialLogin8()" id="btn-start-official8" 
+              class="w-full bg-gradient-to-r from-amber-500 via-orange-500 to-amber-600 hover:from-amber-600 hover:to-orange-700 text-white font-kids font-black text-base sm:text-lg py-4 px-6 rounded-2xl shadow-lg hover:shadow-xl transition transform active:scale-95 flex items-center justify-center gap-3 cursor-pointer">
+              <span class="text-2xl">📝</span>
+              <span>PRESENTAR EXAMEN OFICIAL</span>
+              <span class="text-xl">➔</span>
+            </button>
+            <p class="text-xs text-center text-slate-500 font-medium">
+              Ingresa con tu <strong>Apellido y Nombre</strong> y la clave proporcionada por el docente.
+            </p>
+          </div>
+
+          <!-- Botón Docente -->
+          <div class="pt-4 border-t border-amber-200 flex flex-wrap items-center justify-between gap-3 text-xs">
+            <span class="text-slate-500 flex items-center gap-1.5 font-medium">
+              <span>👨‍🏫</span> <span>¿Eres docente? Consulta o gestiona las calificaciones:</span>
+            </span>
+            <button onclick="openDocenteModal8()" class="bg-indigo-600 hover:bg-indigo-700 text-white font-kids font-bold px-4 py-2 rounded-xl transition shadow flex items-center gap-1.5 cursor-pointer">
+              <span>📋</span> <span>Panel Docente</span>
+            </button>
+          </div>
+
+        </div>
+
+      </div>
+
+      <!-- PANTALLA 2: RUNNER DEL EXAMEN ACTIVO (8°) -->
+      <div id="eval8-runner-container" class="hidden space-y-6 max-w-3xl mx-auto">
+        
+        <!-- Top Bar del Runner -->
+        <div class="bg-white border-2 border-amber-300 rounded-2xl p-4 flex flex-col sm:flex-row items-center justify-between gap-3 shadow-sm">
+          <div class="flex items-center gap-3">
+            <span class="w-10 h-10 rounded-xl bg-amber-500 text-white flex items-center justify-center text-xl font-black shadow-sm shrink-0">
+              🎓
+            </span>
+            <div>
+              <span id="runner8-student-name" class="font-kids font-black text-sm sm:text-base text-slate-900 block">Estudiante</span>
+              <span class="text-[11px] text-amber-700 font-bold uppercase tracking-wider font-mono">Examen Oficial • Grado 8° • Periodo 3</span>
+            </div>
+          </div>
+
+          <div class="flex items-center gap-4">
+            <!-- Temporizador -->
+            <div id="runner8-timer-container" class="flex items-center gap-2 px-3 py-1.5 rounded-xl bg-amber-50 border border-amber-300 text-amber-900 font-mono font-black text-sm">
+              <span>⏱️</span>
+              <span id="runner8-timer">30s</span>
+            </div>
+
+            <div class="text-right">
+              <div class="text-xs font-black text-slate-700 font-kids">
+                Pregunta <span id="runner8-current-num" class="text-amber-600 text-base">1</span> de <span id="runner8-total-num">11</span>
+              </div>
+              <div class="text-[10px] text-slate-500 font-bold">
+                Puntos: <span id="runner8-score" class="text-emerald-600 font-black">0</span> / 10
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <!-- Barra de Progreso Superior -->
+        <div class="w-full bg-slate-200 rounded-full h-2.5 overflow-hidden">
+          <div id="eval8-progress-bar" class="bg-gradient-to-r from-amber-500 to-orange-500 h-2.5 rounded-full transition-all duration-300" style="width: 9%;"></div>
+        </div>
+
+        <!-- TARJETA DE PREGUNTA TIPO OPCIÓN MÚLTIPLE (1 - 10) -->
+        <div id="eval8-question-card" class="bg-white rounded-3xl p-6 sm:p-8 border-2 border-slate-200 shadow-md space-y-6">
+          
+          <div class="flex items-center justify-between gap-2 pb-3 border-b border-slate-100">
+            <span id="eval8-q-badge" class="bg-amber-100 text-amber-800 text-[11px] font-black uppercase px-3 py-1 rounded-lg font-kids">
+              Pregunta #1 • Opción Múltiple
+            </span>
+            <span id="eval8-q-meta" class="text-xs font-bold text-slate-500 font-mono">
+              30 segundos • 1 pt
+            </span>
+          </div>
+
+          <h3 id="eval8-q-title" class="font-kids font-bold text-lg sm:text-xl text-slate-900 leading-snug">
+            Cargando pregunta...
+          </h3>
+
+          <!-- Opciones -->
+          <div id="eval8-options-container" class="space-y-3">
+            <!-- Generadas dinámicamente -->
+          </div>
+
+          <!-- Retroalimentación Inmediata -->
+          <div id="eval8-feedback-box" class="hidden p-4 rounded-2xl border text-xs sm:text-sm transition-all duration-200">
+            <div id="eval8-feedback-text"></div>
+          </div>
+
+          <!-- Barra Inferior de Acción -->
+          <div class="pt-4 border-t border-slate-100 flex items-center justify-between">
+            <button type="button" onclick="exitEvaluationRunner8()" class="text-xs font-bold text-slate-400 hover:text-slate-600 transition cursor-pointer">
+              ✕ Salir del examen
+            </button>
+            <button id="eval8-next-btn" onclick="nextEvalQuestion8()" disabled
+              class="px-6 py-2.5 rounded-xl bg-slate-200 text-slate-400 font-kids font-black text-xs transition flex items-center gap-2 cursor-not-allowed">
+              <span>Siguiente Pregunta</span> ➔
+            </button>
+          </div>
+
+        </div>
+
+        <!-- TARJETA DE PREGUNTA ABIERTA (PREGUNTA 11 - AUTOEVALUACIÓN) -->
+        <div id="eval8-open-question-card" class="hidden bg-white rounded-3xl p-6 sm:p-8 border-2 border-amber-300 shadow-md space-y-6">
+          
+          <div class="flex items-center justify-between gap-2 pb-3 border-b border-slate-100">
+            <span class="bg-purple-100 text-purple-900 text-[11px] font-black uppercase px-3 py-1 rounded-lg font-kids">
+              Pregunta #11 • Respuestas Abiertas
+            </span>
+            <span class="text-xs font-bold text-slate-500 font-mono">
+              3 minutos • Sin puntuar
+            </span>
+          </div>
+
+          <div class="space-y-2">
+            <h3 class="font-kids font-black text-xl text-slate-900">
+              Escribe tu autoevaluación
+            </h3>
+            <p class="text-xs sm:text-sm text-slate-600">
+              Reflexiona sobre tu aprendizaje en diseño y modelado 3D: ¿Qué herramientas de Tinkercad dominas mejor? ¿Qué reto encontraste al alinear o agrupar figuras huecas y cómo piensas aplicar el modelado 3D en tus proyectos?
+            </p>
+          </div>
+
+          <!-- Control de Evaluación con IA -->
+          <div class="p-3.5 rounded-2xl bg-slate-50 border border-slate-200 flex items-center justify-between">
+            <span class="text-xs font-bold text-slate-700">Evaluar respuestas usando IA:</span>
+            <span class="px-2.5 py-1 rounded-lg bg-slate-200 text-slate-700 text-xs font-mono font-black border border-slate-300">
+              OFF
+            </span>
+          </div>
+
+          <!-- Textarea de Autoevaluación -->
+          <div class="space-y-2">
+            <label class="block text-xs font-black text-slate-700 uppercase">Tu reflexión personal:</label>
+            <textarea id="eval8-open-textarea" rows="5" placeholder="Escribe aquí tu autoevaluación reflexiva sobre Tinkercad y modelado 3D..."
+              class="w-full p-4 rounded-2xl border-2 border-slate-200 focus:border-amber-500 focus:outline-none text-xs sm:text-sm text-slate-800 leading-relaxed resize-y"></textarea>
+            <span class="text-[11px] text-slate-400 block text-right font-medium">Mínimo 10 caracteres</span>
+          </div>
+
+          <!-- Barra Inferior -->
+          <div class="pt-4 border-t border-slate-100 flex items-center justify-between">
+            <button type="button" onclick="exitEvaluationRunner8()" class="text-xs font-bold text-slate-400 hover:text-slate-600 transition cursor-pointer">
+              ✕ Cancelar
+            </button>
+            <button id="eval8-finish-btn" onclick="finishEvaluation8()"
+              class="px-8 py-3 rounded-xl bg-gradient-to-r from-emerald-600 to-teal-600 hover:from-emerald-700 hover:to-teal-700 text-white font-kids font-black text-xs sm:text-sm shadow-md hover:shadow-lg transition transform active:scale-95 flex items-center gap-2 cursor-pointer">
+              <span>Finalizar y Enviar Examen</span> ➔
+            </button>
+          </div>
+
+        </div>
+
+      </div>
+
+      <!-- PANTALLA 3: RESULTADOS FINALES (8°) -->
+      <div id="eval8-results-screen" class="hidden space-y-6 max-w-2xl mx-auto animate-in fade-in zoom-in-95">
+        <div class="bg-white rounded-3xl p-6 sm:p-8 border-2 border-slate-200 shadow-xl text-center space-y-6">
+          
+          <div class="w-20 h-20 rounded-3xl bg-gradient-to-tr from-emerald-500 to-teal-400 text-white text-4xl flex items-center justify-center mx-auto shadow-lg shadow-emerald-500/30">
+            🏆
+          </div>
+
+          <div>
+            <span id="eval8-results-badge" class="bg-emerald-100 text-emerald-800 text-xs font-kids font-black uppercase px-3 py-1 rounded-full border border-emerald-300">
+              Examen Oficial Finalizado
+            </span>
+            <h3 id="eval8-results-title" class="font-kids font-black text-2xl sm:text-3xl text-slate-900 mt-2">
+              ¡Felicitaciones!
+            </h3>
+            <p id="eval8-results-subtitle" class="text-xs sm:text-sm text-slate-600 mt-1">
+              Tu evaluación ha sido registrada de manera definitiva e inmutable.
+            </p>
+          </div>
+
+          <!-- Marcador de Calificación -->
+          <div class="grid grid-cols-2 gap-3 max-w-sm mx-auto">
+            <div class="p-4 rounded-2xl bg-slate-50 border border-slate-200">
+              <span class="text-[10px] font-bold text-slate-500 uppercase tracking-wider block">Calificación</span>
+              <span id="eval8-final-score" class="font-kids font-black text-3xl text-emerald-600">0 / 10</span>
+            </div>
+            <div class="p-4 rounded-2xl bg-slate-50 border border-slate-200">
+              <span class="text-[10px] font-bold text-slate-500 uppercase tracking-wider block">Porcentaje</span>
+              <span id="eval8-final-percentage" class="font-kids font-black text-3xl text-slate-800">0%</span>
+            </div>
+          </div>
+
+          <!-- Estado de Sincronización en Cloudflare -->
+          <div id="eval8-cloud-status" class="p-3.5 rounded-2xl bg-emerald-50 border border-emerald-200 text-xs text-emerald-800 font-bold flex items-center justify-center gap-2">
+            <span>☁️</span>
+            <span>Sincronizando nota con la base de datos oficial...</span>
+          </div>
+
+          <!-- Resumen de Autoevaluación -->
+          <div id="eval8-autoeval-summary" class="hidden text-left bg-slate-50 p-4 rounded-2xl border border-slate-200 text-xs space-y-1">
+            <strong class="text-slate-800 block font-kids font-bold">Tu autoevaluación registrada:</strong>
+            <p id="eval8-autoeval-text" class="text-slate-600 italic leading-relaxed"></p>
+          </div>
+
+          <!-- Botones de Acción -->
+          <div class="pt-4 border-t border-slate-100 flex flex-col sm:flex-row gap-3">
+            <button onclick="cambiarModulo8('inicio')" 
+              class="flex-1 bg-slate-900 hover:bg-slate-800 text-white font-kids font-bold text-xs py-3 rounded-xl transition cursor-pointer">
+              Volver a Selección de Módulos
+            </button>
+            <button onclick="openDocenteModal8()" 
+              class="bg-indigo-50 hover:bg-indigo-100 text-indigo-700 font-kids font-bold text-xs py-3 px-4 rounded-xl border border-indigo-200 transition cursor-pointer">
+              Ver Registro en Panel Docente
+            </button>
+          </div>
+
+        </div>
+      </div>
+
+    </main>
+
+    <!-- MODAL: INGRESO A EXAMEN OFICIAL (CLAVE ESTUDIANTE 'entrar123' O DOCENTE 'Entrar123*' + APELLIDO Y NOMBRE) -->
+    <div id="modal-official-login8" class="fixed inset-0 z-50 bg-slate-950/70 hidden items-center justify-center p-4 backdrop-blur-sm">
+      <div class="bg-white rounded-3xl p-6 sm:p-8 max-w-md w-full border-4 border-amber-400 shadow-2xl space-y-5 animate-in fade-in zoom-in-95">
+        
+        <div class="flex items-center justify-between border-b border-slate-100 pb-3">
+          <div class="flex items-center gap-2.5">
+            <div class="w-10 h-10 rounded-xl bg-amber-500 text-white flex items-center justify-center text-xl font-black">
+              📝
+            </div>
+            <div>
+              <h4 class="font-kids font-black text-lg text-slate-800">Ingreso al Examen Oficial</h4>
+              <span class="text-[11px] text-amber-700 font-bold font-mono">Grado 8° • Periodo 3</span>
+            </div>
+          </div>
+          <button onclick="closeOfficialModal8()" class="w-8 h-8 rounded-xl bg-slate-100 hover:bg-slate-200 text-slate-600 font-bold flex items-center justify-center transition cursor-pointer">
+            ✕
+          </button>
+        </div>
+
+        <p class="text-xs text-slate-600 leading-relaxed font-medium">
+          Ingresa tus <strong>Apellidos y Nombres</strong> completos y la clave autorizada para iniciar tu evaluación oficial.
+        </p>
+
+        <div class="space-y-3">
+          <div>
+            <label class="block text-xs font-black text-slate-700 uppercase mb-1 font-kids">Apellidos y Nombres:</label>
+            <input type="text" id="official8-student-name-input" placeholder="Ej: Gómez Pérez Juan Carlos" 
+              class="w-full px-4 py-3 rounded-xl border-2 border-slate-300 focus:border-amber-500 focus:outline-none font-bold text-sm text-slate-800">
+          </div>
+
+          <div>
+            <label class="block text-xs font-black text-slate-700 uppercase mb-1 font-kids">Clave de Acceso:</label>
+            <input type="password" id="official8-code-input" placeholder="Clave de acceso" 
+              class="w-full px-4 py-3 rounded-xl border-2 border-slate-300 focus:border-amber-500 focus:outline-none font-mono font-bold text-base text-center tracking-widest">
+          </div>
+        </div>
+
+        <div id="official8-login-error" class="hidden text-xs text-rose-600 font-bold text-center bg-rose-50 p-2.5 rounded-xl border border-rose-200"></div>
+
+        <div class="flex gap-3 pt-2">
+          <button onclick="closeOfficialModal8()" class="flex-1 bg-slate-100 hover:bg-slate-200 text-slate-700 font-kids font-bold text-xs py-3 rounded-xl transition cursor-pointer">
+            Cancelar
+          </button>
+          <button onclick="confirmOfficialLogin8()" class="flex-1 bg-gradient-to-r from-amber-500 to-orange-500 hover:from-amber-600 hover:to-orange-600 text-white font-kids font-black text-xs py-3 rounded-xl transition shadow-md cursor-pointer">
+            Comenzar Examen ➔
+          </button>
+        </div>
+
+      </div>
+    </div>
+
+    <!-- MODAL: PANEL DOCENTE GRADO 8° (CLAVE 'Entrar123*') -->
+    <div id="modal-docente-panel8" class="fixed inset-0 z-50 bg-slate-950/75 hidden items-center justify-center p-3 sm:p-5 backdrop-blur-sm">
+      <div class="bg-white rounded-3xl p-6 sm:p-8 max-w-4xl w-full border-4 border-indigo-400 shadow-2xl space-y-5 animate-in fade-in zoom-in-95 max-h-[92vh] flex flex-col overflow-hidden">
+        
+        <div class="flex items-center justify-between border-b-2 border-slate-100 pb-3 flex-shrink-0">
+          <div class="flex items-center gap-3">
+            <div class="w-12 h-12 bg-indigo-100 rounded-2xl flex items-center justify-center text-2xl">
+              👨‍🏫
+            </div>
+            <div>
+              <h4 class="font-kids font-black text-xl text-slate-800">Panel Docente • Grado 8° P3</h4>
+              <span class="text-xs text-slate-500 font-medium">Resultados sincronizados con Cloudflare D1</span>
+            </div>
+          </div>
+          <button onclick="closeDocenteModal8()" class="w-9 h-9 rounded-xl bg-slate-100 hover:bg-slate-200 text-slate-600 font-bold flex items-center justify-center transition cursor-pointer">
+            ✕
+          </button>
+        </div>
+
+        <!-- Vista de Login Docente -->
+        <div id="docente8-login-view" class="py-6 max-w-sm mx-auto text-center space-y-4">
+          <p class="text-xs text-slate-600">Ingresa la clave docente para visualizar y descargar las calificaciones.</p>
+          <input type="password" id="docente8-pass-input" placeholder="Clave docente" class="w-full px-4 py-3 rounded-xl border-2 border-slate-300 focus:border-indigo-500 font-mono font-bold text-center">
+          <div id="docente8-pass-error" class="hidden text-xs text-rose-600 font-bold">Clave incorrecta</div>
+          <button onclick="authDocente8()" class="w-full bg-indigo-600 hover:bg-indigo-700 text-white font-kids font-bold py-3 rounded-xl transition shadow cursor-pointer">
+            Acceder al Registro
+          </button>
+        </div>
+
+        <!-- Vista de Contenido Docente -->
+        <div id="docente8-content-view" class="hidden flex-col flex-1 overflow-hidden space-y-4">
+          <div class="flex flex-wrap items-center justify-between gap-2 flex-shrink-0">
+            <div class="flex items-center gap-2">
+              <span class="text-xs font-bold text-slate-600">Total Exámenes Registrados:</span>
+              <span id="docente8-total-count" class="bg-indigo-100 text-indigo-900 font-black text-xs px-2.5 py-0.5 rounded-full">0</span>
+            </div>
+            <div class="flex gap-2">
+              <button onclick="refreshDocenteData8()" class="bg-slate-100 hover:bg-slate-200 text-slate-700 text-xs font-bold px-3 py-1.5 rounded-xl transition flex items-center gap-1 cursor-pointer">
+                🔄 Actualizar
+              </button>
+              <button onclick="exportDocenteCSV8()" class="bg-emerald-600 hover:bg-emerald-700 text-white text-xs font-bold px-3 py-1.5 rounded-xl transition flex items-center gap-1 cursor-pointer shadow">
+                📥 Descargar CSV / Excel
+              </button>
+            </div>
+          </div>
+
+          <div class="flex-1 overflow-y-auto border-2 border-slate-200 rounded-2xl">
+            <table class="w-full text-left text-xs border-collapse">
+              <thead class="bg-slate-100 text-slate-700 font-kids font-black uppercase text-[10px] sticky top-0 border-b border-slate-200">
+                <tr>
+                  <th class="p-3">Estudiante</th>
+                  <th class="p-3">Código</th>
+                  <th class="p-3">Nota</th>
+                  <th class="p-3">%</th>
+                  <th class="p-3">Autoevaluación</th>
+                  <th class="p-3">Fecha</th>
+                  <th class="p-3 text-center">Acción</th>
+                </tr>
+              </thead>
+              <tbody id="docente8-table-body" class="divide-y divide-slate-100 font-medium">
+                <tr>
+                  <td colspan="7" class="p-6 text-center text-slate-400">Cargando registros...</td>
+                </tr>
+              </tbody>
+            </table>
+          </div>
+        </div>
+
+      </div>
+    </div>
     <!-- FOOTER -->
     <footer class="bg-white/80 backdrop-blur-md rounded-2xl py-4 px-6 border border-slate-200 text-center text-slate-500 text-xs flex flex-col sm:flex-row items-center justify-center gap-2 shadow-sm">
       <div class="flex items-center gap-2">
@@ -1435,6 +2835,7 @@
 
     // Inicialización al cargar la página
     document.addEventListener('DOMContentLoaded', () => {
+      cambiarModulo8(leerModuloActivo8());
       renderizarPreguntaQuiz8();
     });
 

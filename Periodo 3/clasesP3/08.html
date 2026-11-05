@@ -841,14 +841,16 @@
       refreshDocenteData8();
     }
 
-    function exportDocenteCSV8() {
+    function exportDocenteExcel8() {
       if (!currentDocenteList8 || currentDocenteList8.length === 0) {
         alert("No hay datos para exportar.");
         return;
       }
 
-      let csv = "Estudiante,Codigo,Curso,Calificacion,Porcentaje,Autoevaluacion,Fecha\n";
-      currentDocenteList8.forEach(r => {
+      const dateStr = new Date().toLocaleDateString('es-CO');
+      let tableRows = '';
+
+      currentDocenteList8.forEach((r, idx) => {
         let scoreNum = 0;
         if (r.puntajes && typeof r.puntajes.R === 'number') scoreNum = r.puntajes.R;
         else if (typeof r.puntaje_r === 'number') scoreNum = r.puntaje_r;
@@ -858,16 +860,74 @@
         if (r.dimensionSecundaria && r.dimensionSecundaria.nombre) perc = r.dimensionSecundaria.nombre;
         else if (typeof r.dimension_secundaria === 'string') perc = r.dimension_secundaria;
 
-        const autoeval = (r.autoevaluacion || (r.detalles && r.detalles.find(d => d.autoevaluacion)?.autoevaluacion) || '').replace(/"/g, '""');
-        const fecha = r.fecha ? new Date(r.fecha).toLocaleString('es-CO').replace(',', '') : '';
-        csv += `"${r.nombre}","${r.codigo}","${r.curso || 'Grado 8° P3'}","${scoreNum} / 10","${perc}","${autoeval}","${fecha}"\n`;
+        const autoeval = (r.autoevaluacion || (r.detalles && r.detalles.find(d => d.autoevaluacion)?.autoevaluacion) || '');
+        const fecha = r.fecha ? new Date(r.fecha).toLocaleString('es-CO') : '';
+        const bgCol = idx % 2 === 0 ? '#ffffff' : '#f8fafc';
+        const scoreCol = scoreNum >= 7 ? '#059669' : (scoreNum >= 6 ? '#d97706' : '#dc2626');
+
+        tableRows += `
+          <tr style="background-color: ${bgCol};">
+            <td style="padding: 10px 12px; border: 1px solid #cbd5e1; text-align: center; font-weight: bold; color: #64748b;">${idx + 1}</td>
+            <td style="padding: 10px 12px; border: 1px solid #cbd5e1; font-weight: bold; color: #0f172a;">${r.nombre || ''}</td>
+            <td style="padding: 10px 12px; border: 1px solid #cbd5e1; color: #475569; font-family: monospace;">${r.codigo || ''}</td>
+            <td style="padding: 10px 12px; border: 1px solid #cbd5e1; text-align: center; color: #475569;">${r.curso || 'Grado 8° P3'}</td>
+            <td style="padding: 10px 12px; border: 1px solid #cbd5e1; text-align: center; font-weight: bold; color: ${scoreCol};">${scoreNum} / 10</td>
+            <td style="padding: 10px 12px; border: 1px solid #cbd5e1; text-align: center; font-weight: bold; color: #334155;">${perc}</td>
+            <td style="padding: 10px 12px; border: 1px solid #cbd5e1; color: #334155; font-style: italic;">${autoeval}</td>
+            <td style="padding: 10px 12px; border: 1px solid #cbd5e1; text-align: center; color: #64748b;">${fecha}</td>
+          </tr>`;
       });
 
-      const blob = new Blob([csv], { type: 'text/csv;charset=utf-8;' });
+      const excelTemplate = `<html xmlns:o="urn:schemas-microsoft-com:office:office" xmlns:x="urn:schemas-microsoft-com:office:excel" xmlns="http://www.w3.org/TR/REC-html40">
+      <head>
+        <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
+        <!--[if gte mso 9]>
+        <xml>
+          <x:ExcelWorkbook>
+            <x:ExcelWorksheets>
+              <x:ExcelWorksheet>
+                <x:Name>Grado 8° Periodo 3</x:Name>
+                <x:WorksheetOptions>
+                  <x:DisplayGridlines/>
+                </x:WorksheetOptions>
+              </x:ExcelWorksheet>
+            </x:ExcelWorksheets>
+          </x:ExcelWorkbook>
+        </xml>
+        <![endif]-->
+        <style>
+          th { font-family: Calibri, Arial, sans-serif; }
+          td { font-family: Calibri, Arial, sans-serif; font-size: 11pt; }
+        </style>
+      </head>
+      <body>
+        <h2 style="font-family: Calibri, Arial, sans-serif; color: #1e293b; margin-bottom: 4px;">REPORTE DE CALIFICACIONES OFICIALES - GRADO 8° (PERIODO 3)</h2>
+        <p style="font-family: Calibri, Arial, sans-serif; color: #64748b; font-size: 10pt; margin-top: 0;">Generado el: ${dateStr} | Total estudiantes registrados: ${currentDocenteList8.length}</p>
+        <table border="1" style="border-collapse: collapse; border: 1px solid #94a3b8; font-family: Calibri, Arial, sans-serif; width: 100%;">
+          <thead>
+            <tr style="background-color: #1e3a8a; color: #ffffff; text-align: center; font-size: 11pt; font-weight: bold;">
+              <th style="padding: 12px 14px; border: 1px solid #94a3b8; width: 45px;">#</th>
+              <th style="padding: 12px 14px; border: 1px solid #94a3b8; min-width: 260px; text-align: left;">Apellidos y Nombres</th>
+              <th style="padding: 12px 14px; border: 1px solid #94a3b8; min-width: 140px;">Código Estudiante</th>
+              <th style="padding: 12px 14px; border: 1px solid #94a3b8; width: 110px;">Curso / Periodo</th>
+              <th style="padding: 12px 14px; border: 1px solid #94a3b8; width: 110px;">Calificación</th>
+              <th style="padding: 12px 14px; border: 1px solid #94a3b8; width: 95px;">Porcentaje</th>
+              <th style="padding: 12px 14px; border: 1px solid #94a3b8; min-width: 320px; text-align: left;">Autoevaluación</th>
+              <th style="padding: 12px 14px; border: 1px solid #94a3b8; min-width: 160px;">Fecha y Hora</th>
+            </tr>
+          </thead>
+          <tbody>
+            ${tableRows}
+          </tbody>
+        </table>
+      </body>
+      </html>`;
+
+      const blob = new Blob(['\ufeff' + excelTemplate], { type: 'application/vnd.ms-excel;charset=utf-8;' });
       const url = URL.createObjectURL(blob);
       const a = document.createElement('a');
       a.href = url;
-      a.download = `Calificaciones_Grado8_P3_${new Date().toISOString().slice(0, 10)}.csv`;
+      a.download = `Calificaciones_Grado8_P3_${new Date().toISOString().slice(0, 10)}.xls`;
       document.body.appendChild(a);
       a.click();
       document.body.removeChild(a);
@@ -2196,7 +2256,7 @@
               <button onclick="refreshDocenteData8()" class="bg-slate-100 hover:bg-slate-200 text-slate-700 text-xs font-bold px-3 py-1.5 rounded-xl transition flex items-center gap-1 cursor-pointer">
                 🔄 Actualizar
               </button>
-              <button onclick="exportDocenteCSV8()" class="bg-emerald-600 hover:bg-emerald-700 text-white text-xs font-bold px-3 py-1.5 rounded-xl transition flex items-center gap-1 cursor-pointer shadow">
+              <button onclick="exportDocenteExcel8()" class="bg-emerald-600 hover:bg-emerald-700 text-white text-xs font-bold px-3 py-1.5 rounded-xl transition flex items-center gap-1 cursor-pointer shadow">
                 📥 Descargar CSV / Excel
               </button>
             </div>

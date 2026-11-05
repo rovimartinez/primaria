@@ -1463,6 +1463,7 @@
                 <th class="p-3">Código</th>
                 <th class="p-3">Nota</th>
                 <th class="p-3">%</th>
+                <th class="p-3">Control Seguridad</th>
                 <th class="p-3">Autoevaluación</th>
                 <th class="p-3">Fecha</th>
                 <th class="p-3 text-center">Acción</th>
@@ -3242,6 +3243,7 @@
       
       // 🛡️ MOTOR ANTITRAMPA & PANTALLA COMPLETA (GRADO 10°)
       let anticheatStrikes10 = 0;
+      let anticheatReasons10 = [];
       const MAX_ANTICHEAT_STRIKES10 = 3;
       let isAnticheatActive10 = false;
       let anticheatModalOpen10 = false;
@@ -3278,6 +3280,7 @@
         }
 
         anticheatStrikes10++;
+        if (!anticheatReasons10.includes(reason)) anticheatReasons10.push(reason);
         clearInterval(evalTimerInterval10); // Pausar temporizador durante la alerta
         anticheatModalOpen10 = true;
 
@@ -3669,12 +3672,23 @@
         const officialData = {
           codigo: evalStudentCode10,
           nombre: evalStudentName10,
-          curso: "Grado 10° - Periodo 3 (Experiencias Interactivas)",
+          curso: "Grado 10° - Periodo 3" + (examBlockedByCheating10 ? ' (Bloqueado por Infracciones)' : ''),
           puntaje: evalScore10,
           porcentaje: percentage,
+          intentos_fraude: anticheatStrikes10,
+          razones_infraccion: anticheatReasons10.join(' | '),
+          estado_seguridad: examBlockedByCheating10 ? 'BLOQUEADO' : (anticheatStrikes10 > 0 ? 'ADVERTENCIAS' : 'LIMPIO'),
           autoevaluacion: evalAutoevalText10,
           fecha: new Date().toISOString(),
-          detalles: evalAnswersDetail10
+          detalles: [
+            ...evalAnswersDetail10,
+            { 
+              tipo: 'auditoria_seguridad',
+              intentos_fraude: anticheatStrikes10, 
+              razones: anticheatReasons10,
+              bloqueado: examBlockedByCheating10 
+            }
+          ]
         };
 
         localStorage.setItem(STORAGE_KEY_OFFICIAL_RESULT_G10, JSON.stringify(officialData));
@@ -3695,9 +3709,19 @@
               puntajes: { R: evalScore10, I: 10, A: 0, S: 0, E: 0, C: 0 },
               dimensionPrimaria: { nombre: evalScore10 + ' de 10' },
               dimensionSecundaria: { nombre: percentage + '%' },
-              dimensionTerciaria: { nombre: evalScore10 >= 6 ? "Aprobado" : "Por Mejorar" },
-              autoevaluacion: evalAutoevalText10,
-              detalles: evalAnswersDetail10,
+              dimensionTerciaria: { nombre: examBlockedByCheating10 ? "Bloqueado (3 Infracciones)" : (evalScore10 >= 6 ? "Aprobado" : "Por Mejorar") },
+              autoevaluacion: (anticheatStrikes10 > 0 ? ('[Alertas: ' + anticheatStrikes10 + ' - ' + anticheatReasons10.join(', ') + '] ') : '') + evalAutoevalText10,
+              intentos_fraude: anticheatStrikes10,
+              razones_infraccion: anticheatReasons10.join(' | '),
+              detalles: [
+                ...evalAnswersDetail10,
+                { 
+                  tipo: 'auditoria_seguridad',
+                  intentos_fraude: anticheatStrikes10, 
+                  razones: anticheatReasons10,
+                  bloqueado: examBlockedByCheating10 
+                }
+              ],
               evaluarConIA: false
             }
           };
@@ -3843,6 +3867,9 @@
                 puntajes: { R: localObj.puntaje },
                 dimensionSecundaria: { nombre: localObj.porcentaje + '%' },
                 autoevaluacion: localObj.autoevaluacion,
+                intentos_fraude: localObj.intentos_fraude || 0,
+                razones_infraccion: localObj.razones_infraccion || '',
+                estado_seguridad: localObj.estado_seguridad || 'LIMPIO',
                 fecha: localObj.fecha
               });
             }
@@ -3870,6 +3897,30 @@
 
           const autoeval = r.autoevaluacion || (r.detalles && r.detalles.find(d => d.autoevaluacion)?.autoevaluacion) || '—';
           const fechaStr = r.fecha ? new Date(r.fecha).toLocaleString('es-CO') : 'Reciente';
+          // Extracción robusta de auditoría antitrampa
+          let strikes = 0;
+          let razonesStr = '';
+          if (typeof r.intentos_fraude === 'number') strikes = r.intentos_fraude;
+          else if (r.detalles && Array.isArray(r.detalles)) {
+            const auditEntry = r.detalles.find(d => d && typeof d.intentos_fraude === 'number');
+            if (auditEntry) {
+              strikes = auditEntry.intentos_fraude;
+              if (Array.isArray(auditEntry.razones)) razonesStr = auditEntry.razones.join(', ');
+            }
+          }
+          if (r.razones_infraccion && !razonesStr) razonesStr = r.razones_infraccion;
+
+          let badgeSeguridad = '';
+          if (strikes >= 3 || r.estado_seguridad === 'BLOQUEADO' || (r.curso && r.curso.includes('Bloqueado'))) {
+            badgeSeguridad = '<span class="px-2.5 py-1 rounded-full bg-rose-100 text-rose-800 border border-rose-300 font-black text-[10px] inline-flex items-center gap-1" title="' + (razonesStr || 'Límite de 3 advertencias alcanzado') + '">🛑 3 Bloqueado</span>' +
+              (razonesStr ? '<span class="block text-[10px] text-rose-600 truncate max-w-[150px]" title="' + razonesStr + '">' + razonesStr + '</span>' : '');
+          } else if (strikes > 0) {
+            badgeSeguridad = '<span class="px-2.5 py-1 rounded-full bg-amber-100 text-amber-900 border border-amber-300 font-bold text-[10px] inline-flex items-center gap-1" title="' + (razonesStr || strikes + ' advertencias') + '">⚠️ ' + strikes + ' ' + (strikes === 1 ? 'Alerta' : 'Alertas') + '</span>' +
+              (razonesStr ? '<span class="block text-[10px] text-amber-800 truncate max-w-[150px]" title="' + razonesStr + '">' + razonesStr + '</span>' : '');
+          } else {
+            badgeSeguridad = '<span class="px-2.5 py-1 rounded-full bg-emerald-100 text-emerald-800 border border-emerald-300 font-bold text-[10px]">✓ Sin Alertas</span>';
+          }
+
 
           return `
             <tr class="hover:bg-slate-50 transition">
@@ -3877,6 +3928,7 @@
               <td class="p-3 font-mono text-[11px] text-slate-500">${r.codigo}</td>
               <td class="p-3 font-bold text-emerald-600">${scoreNum} / 10</td>
               <td class="p-3 font-bold text-slate-700">${perc}</td>
+              <td class="p-3">${badgeSeguridad}</td>
               <td class="p-3 text-[11px] text-slate-600 max-w-xs truncate" title="${autoeval}">${autoeval}</td>
               <td class="p-3 text-[11px] text-slate-400">${fechaStr}</td>
               <td class="p-3 text-center">

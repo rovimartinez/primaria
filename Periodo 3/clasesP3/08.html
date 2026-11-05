@@ -336,6 +336,7 @@
       
     // 🛡️ MOTOR ANTITRAMPA & PANTALLA COMPLETA (GRADO 8°)
     let anticheatStrikes8 = 0;
+    let anticheatReasons8 = [];
     const MAX_ANTICHEAT_STRIKES8 = 3;
     let isAnticheatActive8 = false;
     let anticheatModalOpen8 = false;
@@ -372,6 +373,7 @@
       }
 
       anticheatStrikes8++;
+      if (!anticheatReasons8.includes(reason)) anticheatReasons8.push(reason);
       clearInterval(evalTimerInterval8);
       anticheatModalOpen8 = true;
 
@@ -511,6 +513,7 @@
       evalAnswersDetail8 = [];
       evalAutoevalText8 = '';
       anticheatStrikes8 = 0;
+      anticheatReasons8 = [];
       anticheatModalOpen8 = false;
       examBlockedByCheating8 = false;
       isAnticheatActive8 = (evalStudentRole8 !== 'docente');
@@ -764,12 +767,23 @@
       const officialData = {
         codigo: evalStudentCode8,
         nombre: evalStudentName8,
-        curso: "Grado 8° - Periodo 3 (Tinkercad 3D)",
+        curso: "Grado 8° - Periodo 3" + (examBlockedByCheating8 ? ' (Bloqueado por Infracciones)' : ''),
         puntaje: evalScore8,
         porcentaje: percentage,
+        intentos_fraude: anticheatStrikes8,
+        razones_infraccion: anticheatReasons8.join(' | '),
+        estado_seguridad: examBlockedByCheating8 ? 'BLOQUEADO' : (anticheatStrikes8 > 0 ? 'ADVERTENCIAS' : 'LIMPIO'),
         autoevaluacion: evalAutoevalText8,
         fecha: new Date().toISOString(),
-        detalles: evalAnswersDetail8
+        detalles: [
+          ...evalAnswersDetail8,
+          { 
+            tipo: 'auditoria_seguridad',
+            intentos_fraude: anticheatStrikes8, 
+            razones: anticheatReasons8,
+            bloqueado: examBlockedByCheating8 
+          }
+        ]
       };
 
       localStorage.setItem(STORAGE_KEY_OFFICIAL_RESULT_G8, JSON.stringify(officialData));
@@ -790,7 +804,10 @@
             puntajes: { R: evalScore8, I: 10, A: 0, S: 0, E: 0, C: 0 },
             dimensionPrimaria: { nombre: evalScore8 + ' de 10' },
             dimensionSecundaria: { nombre: percentage + '%' },
-            dimensionTerciaria: { nombre: examBlockedByCheating8 ? "Bloqueado por Infracciones" : (evalScore8 >= 6 ? "Aprobado" : "Por Mejorar") },
+          dimensionTerciaria: { nombre: examBlockedByCheating8 ? "Bloqueado (3 Infracciones)" : (evalScore8 >= 6 ? "Aprobado" : "Por Mejorar") },
+          autoevaluacion: (anticheatStrikes8 > 0 ? ('[Alertas: ' + anticheatStrikes8 + ' - ' + anticheatReasons8.join(', ') + '] ') : '') + evalAutoevalText8,
+          intentos_fraude: anticheatStrikes8,
+          razones_infraccion: anticheatReasons8.join(' | '),
             autoevaluacion: evalAutoevalText8,
             intentos_fraude: anticheatStrikes8,
             detalles: [
@@ -942,6 +959,9 @@
               puntajes: { R: localObj.puntaje },
               dimensionSecundaria: { nombre: localObj.porcentaje + '%' },
               autoevaluacion: localObj.autoevaluacion,
+                intentos_fraude: localObj.intentos_fraude || 0,
+                razones_infraccion: localObj.razones_infraccion || '',
+                estado_seguridad: localObj.estado_seguridad || 'LIMPIO',
               fecha: localObj.fecha
             });
           }
@@ -969,6 +989,29 @@
 
         const autoeval = r.autoevaluacion || (r.detalles && r.detalles.find(d => d.autoevaluacion)?.autoevaluacion) || '—';
         const fechaStr = r.fecha ? new Date(r.fecha).toLocaleString('es-CO') : 'Reciente';
+          let strikes = 0;
+          let razonesStr = '';
+          if (typeof r.intentos_fraude === 'number') strikes = r.intentos_fraude;
+          else if (r.detalles && Array.isArray(r.detalles)) {
+            const auditEntry = r.detalles.find(d => d && typeof d.intentos_fraude === 'number');
+            if (auditEntry) {
+              strikes = auditEntry.intentos_fraude;
+              if (Array.isArray(auditEntry.razones)) razonesStr = auditEntry.razones.join(', ');
+            }
+          }
+          if (r.razones_infraccion && !razonesStr) razonesStr = r.razones_infraccion;
+
+          let badgeSeguridad = '';
+          if (strikes >= 3 || r.estado_seguridad === 'BLOQUEADO' || (r.curso && r.curso.includes('Bloqueado'))) {
+            badgeSeguridad = '<span class="px-2.5 py-1 rounded-full bg-rose-100 text-rose-800 border border-rose-300 font-kids font-black text-[10px] inline-flex items-center gap-1" title="' + (razonesStr || 'Límite de 3 advertencias alcanzado') + '">🛑 3 Bloqueado</span>' +
+              (razonesStr ? '<span class="block text-[10px] text-rose-600 truncate max-w-[150px]" title="' + razonesStr + '">' + razonesStr + '</span>' : '');
+          } else if (strikes > 0) {
+            badgeSeguridad = '<span class="px-2.5 py-1 rounded-full bg-amber-100 text-amber-900 border border-amber-300 font-kids font-bold text-[10px] inline-flex items-center gap-1" title="' + (razonesStr || strikes + ' advertencias') + '">⚠️ ' + strikes + ' ' + (strikes === 1 ? 'Alerta' : 'Alertas') + '</span>' +
+              (razonesStr ? '<span class="block text-[10px] text-amber-800 truncate max-w-[150px]" title="' + razonesStr + '">' + razonesStr + '</span>' : '');
+          } else {
+            badgeSeguridad = '<span class="px-2.5 py-1 rounded-full bg-emerald-100 text-emerald-800 border border-emerald-300 font-kids font-bold text-[10px]">✓ Sin Alertas</span>';
+          }
+
 
         return `
           <tr class="hover:bg-slate-50 transition">
@@ -976,6 +1019,7 @@
             <td class="p-3 font-mono text-[11px] text-slate-500">${r.codigo}</td>
             <td class="p-3 font-bold text-emerald-600">${scoreNum} / 10</td>
             <td class="p-3 font-bold text-slate-700">${perc}</td>
+              <td class="p-3">${badgeSeguridad}</td>
             <td class="p-3 text-[11px] text-slate-600 max-w-xs truncate" title="${autoeval}">${autoeval}</td>
             <td class="p-3 text-[11px] text-slate-400">${fechaStr}</td>
             <td class="p-3 text-center">
@@ -2489,6 +2533,7 @@
                   <th class="p-3">Código</th>
                   <th class="p-3">Nota</th>
                   <th class="p-3">%</th>
+                  <th class="p-3">Control Seguridad</th>
                   <th class="p-3">Autoevaluación</th>
                   <th class="p-3">Fecha</th>
                   <th class="p-3 text-center">Acción</th>
@@ -2496,7 +2541,7 @@
               </thead>
               <tbody id="docente8-table-body" class="divide-y divide-slate-100 font-medium">
                 <tr>
-                  <td colspan="7" class="p-6 text-center text-slate-400">Cargando registros...</td>
+                  <td colspan="8" class="p-6 text-center text-slate-400">Cargando registros...</td>
                 </tr>
               </tbody>
             </table>

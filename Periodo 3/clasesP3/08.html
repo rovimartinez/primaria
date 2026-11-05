@@ -302,7 +302,39 @@
       startEvaluation8(nameVal, studentCode);
     }
 
-    function startEvaluation8(studentName, studentCode) {
+    let activeExamQuestionsG8 = [];
+
+      function prepareExamQuestionsG8() {
+        const mcqs = examQuestionsG8.filter(q => q.tipo === 'multiple').map(q => {
+          const correctText = q.opciones[q.correcta];
+          // Mezclar opciones
+          const shuffledOptions = [...q.opciones];
+          for (let i = shuffledOptions.length - 1; i > 0; i--) {
+            const j = Math.floor(Math.random() * (i + 1));
+            [shuffledOptions[i], shuffledOptions[j]] = [shuffledOptions[j], shuffledOptions[i]];
+          }
+          const newCorrectIdx = shuffledOptions.indexOf(correctText);
+          return {
+            ...q,
+            opciones: shuffledOptions,
+            correcta: newCorrectIdx
+          };
+        });
+
+        // Mezclar orden de preguntas de opción múltiple
+        for (let i = mcqs.length - 1; i > 0; i--) {
+          const j = Math.floor(Math.random() * (i + 1));
+          [mcqs[i], mcqs[j]] = [mcqs[j], mcqs[i]];
+        }
+
+        // Mantener preguntas abiertas (autoevaluación) siempre al final
+        const openQs = examQuestionsG8.filter(q => q.tipo === 'abierta').map(q => ({ ...q }));
+
+        return [...mcqs, ...openQs];
+      }
+
+      function startEvaluation8(studentName, studentCode) {
+        activeExamQuestionsG8 = prepareExamQuestionsG8();
       currentEvalIdx8 = 0;
       evalScore8 = 0;
       evalAnswered8 = false;
@@ -325,8 +357,8 @@
     function renderEvalQuestion8() {
       clearInterval(evalTimerInterval8);
       evalAnswered8 = false;
-      const q = examQuestionsG8[currentEvalIdx8];
-      const total = examQuestionsG8.length;
+      const q = activeExamQuestionsG8[currentEvalIdx8];
+      const total = activeExamQuestionsG8.length;
 
       const curNumEl = document.getElementById('runner8-current-num');
       const totalNumEl = document.getElementById('runner8-total-num');
@@ -436,7 +468,7 @@
       evalAnswered8 = true;
       clearInterval(evalTimerInterval8);
 
-      const q = examQuestionsG8[currentEvalIdx8];
+      const q = activeExamQuestionsG8[currentEvalIdx8];
       const isTimeout = selectedIdx === -1;
       const isCorrect = selectedIdx === q.correcta;
 
@@ -498,7 +530,7 @@
     }
 
     function nextEvalQuestion8() {
-      if (currentEvalIdx8 < examQuestionsG8.length - 1) {
+      if (currentEvalIdx8 < activeExamQuestionsG8.length - 1) {
         currentEvalIdx8++;
         renderEvalQuestion8();
       } else {

@@ -1175,17 +1175,34 @@
         confetti({ particleCount: 80, spread: 70, origin: { y: 0.6 } });
       }
 
-      // Preparar payload para Cloudflare D1
+      // Payload estricto con el esquema completo de Cloudflare D1
       const payload = {
-        codigo: studentCode3,
-        nombre: studentName3,
-        curso: 'Grado 3° Primaria (Periodo 3)',
-        dimensionPrincipal: 'Condicionales y Sprites',
-        dimensionSecundaria: percent + '% (' + grade + '/5.0)',
-        puntajes: { R: evalScore3 },
-        fecha: new Date().toISOString(),
-        autoevaluacion: 'Aciertos: ' + evalScore3 + ' / ' + total + ' (' + grade + '/5.0)',
-        respuestasDetalle: evalAnswersDetail3
+        estudiante: {
+          codigo: studentCode3,
+          nombre: studentName3,
+          curso: 'Grado 3° - Periodo 3'
+        },
+        resultadosCalculados: {
+          codigoHolland: evalScore3 + '/10',
+          puntajes: { R: evalScore3, I: 10, A: 0, S: 0, E: 0, C: 0 },
+          dimensionPrimaria: { nombre: evalScore3 + ' de 10' },
+          dimensionSecundaria: { nombre: percent + '%' },
+          dimensionTerciaria: { nombre: evalScore3 >= 6 ? 'Aprobado' : 'Por Mejorar' },
+          autoevaluacion: 'Aciertos: ' + evalScore3 + ' / ' + total + ' (' + grade + '/5.0)',
+          intentos_fraude: 0,
+          razones_infraccion: '',
+          detalles: evalAnswersDetail3,
+          carrerasRecomendadas: []
+        },
+        respuestas: {
+          puntaje: evalScore3,
+          total: total,
+          porcentaje: percent,
+          autoevaluacion: 'Aciertos: ' + evalScore3 + ' / ' + total + ' (' + grade + '/5.0)',
+          intentos_fraude: 0,
+          razones_infraccion: '',
+          evalAnswersDetail: evalAnswersDetail3
+        }
       };
 
       // Guardar en LocalStorage como respaldo inmutable
@@ -1202,21 +1219,26 @@
 
       // Sincronizar en la Nube
       const syncStatusEl = document.getElementById('results3-sync-status');
+      syncStatusEl.innerHTML = '<span>⏳</span> <span>Guardando en la nube de Aula Plus...</span>';
+
       try {
-        const resp = await fetch(CF_WORKER_URL_G3 + '/api/respuestas', {
+        const resp = await fetch(CF_WORKER_URL_G3 + '/api/resultados', {
           method: 'POST',
           headers: { 'Content-Type': 'application/json' },
           body: JSON.stringify(payload)
         });
 
         if (resp.ok) {
-          syncStatusEl.innerHTML = '<span>✅</span> <span>Calificación guardada y sincronizada en la nube con éxito</span>';
-          syncStatusEl.className = 'inline-flex items-center gap-1.5 text-xs font-bold text-emerald-800 bg-emerald-100 px-3 py-1 rounded-full';
+          syncStatusEl.innerHTML = '<span>✅</span> <span>¡Calificación guardada y sincronizada exitosamente en la nube!</span>';
+          syncStatusEl.className = 'inline-flex items-center gap-1.5 text-xs font-bold text-emerald-800 bg-emerald-100 px-3 py-1 rounded-full border border-emerald-300';
         } else {
-          syncStatusEl.innerHTML = '<span>💾</span> <span>Guardado localmente en este dispositivo</span>';
+          const errData = await resp.text();
+          console.warn('Error nube status:', resp.status, errData);
+          syncStatusEl.innerHTML = '<span>💾</span> <span>Guardado localmente en este equipo</span>';
         }
       } catch(e) {
-        syncStatusEl.innerHTML = '<span>💾</span> <span>Guardado localmente (sin conexión remota inmediata)</span>';
+        console.warn('Error fetch nube:', e);
+        syncStatusEl.innerHTML = '<span>💾</span> <span>Guardado localmente (sin conexión inmediata)</span>';
       }
 
       updateCardStatus3();

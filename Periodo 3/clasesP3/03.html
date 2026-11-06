@@ -1392,13 +1392,19 @@
           '<td class="p-3 font-bold text-emerald-700">' + percent + '</td>' +
           '<td class="p-3 text-slate-500 text-[11px]">' + dateStr + '</td>' +
           '<td class="p-3 text-center">' +
-            '<button onclick="deleteStudentAttempt3('' + r.codigo + '', '' + (r.nombre || '').replace(/'/g, "\'") + '')" ' +
-              'class="bg-rose-50 hover:bg-rose-100 text-rose-700 font-bold px-2.5 py-1 rounded-lg border border-rose-200 transition text-[11px] cursor-pointer">' +
+            '<button data-cod="' + (r.codigo || '') + '" onclick="handleDeleteAttemptBtn(this)" class="bg-rose-50 hover:bg-rose-100 text-rose-700 font-bold px-2.5 py-1 rounded-lg border border-rose-200 transition text-[11px] cursor-pointer">' +
               '🗑️ Habilitar Reintento' +
             '</button>' +
           '</td>' +
         '</tr>';
       }).join('');
+    }
+
+        function handleDeleteAttemptBtn(btn) {
+      const cod = btn.getAttribute('data-cod');
+      const item = docenteList3.find(x => x.codigo === cod);
+      const nom = item ? item.nombre : 'Estudiante';
+      deleteStudentAttempt3(cod, nom);
     }
 
     async function deleteStudentAttempt3(codigo, nombre) {

@@ -10,7 +10,7 @@
   <!-- Google Fonts -->
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-  <link href="https://fonts.googleapis.com/css2?family=Fredoka:wght@400;500;600;700&family=Outfit:wght@400;600;700;800;900&family=Press+Start+2P&family=Fira+Code:wght@500;700&display=swap" rel="stylesheet">
+  <link href="https://fonts.googleapis.com/css2?family=Fredoka:wght@400;500;600;700;800&family=Outfit:wght@400;600;700;800;900&family=Press+Start+2P&family=Fira+Code:wght@500;700&display=swap" rel="stylesheet">
   <!-- Canvas Confetti -->
   <script src="https://cdn.jsdelivr.net/npm/canvas-confetti@1.6.0/dist/confetti.browser.min.js"></script>
 
@@ -63,6 +63,13 @@
       box-shadow: 0 14px 0 0 #ea580c, 0 25px 30px -5px rgba(234, 88, 12, 0.35);
     }
 
+    .card-real-shadow {
+      box-shadow: 0 10px 0 0 #059669, 0 20px 25px -5px rgba(5, 150, 105, 0.25);
+    }
+    .card-real-shadow:hover {
+      box-shadow: 0 14px 0 0 #059669, 0 25px 30px -5px rgba(5, 150, 105, 0.35);
+    }
+
     .btn-3d {
       transition: all 0.15s ease-in-out;
       box-shadow: 0 5px 0 rgba(0, 0, 0, 0.2);
@@ -92,6 +99,14 @@
     .animate-pulse-badge {
       animation: pulseBadge 2s infinite ease-in-out;
     }
+
+    .custom-scroll::-webkit-scrollbar {
+      height: 6px;
+    }
+    .custom-scroll::-webkit-scrollbar-thumb {
+      background: #0284c7;
+      border-radius: 4px;
+    }
   </style>
 </head>
 <body class="min-h-screen text-slate-800 font-sans flex flex-col selection:bg-cyan-200">
@@ -104,6 +119,9 @@
       
       <!-- Grado y Marca -->
       <div class="flex items-center space-x-3">
+        <a href="../periodo3.html" class="bg-white/20 hover:bg-white/30 text-white font-bold text-xs px-2.5 py-1.5 rounded-xl transition flex items-center gap-1">
+          <span>⬅️</span> <span>Grados</span>
+        </a>
         <div class="bg-amber-400 text-slate-900 border-2 border-white px-3 py-1 rounded-xl shadow-inner flex items-center font-black">
           <span class="text-xs uppercase tracking-wider">3° GRADO &bull; P3</span>
         </div>
@@ -115,6 +133,9 @@
 
       <!-- Links rápidos -->
       <div class="flex items-center space-x-2">
+        <button onclick="openDocenteModal3()" class="bg-indigo-600 hover:bg-indigo-700 border border-indigo-400 text-white text-xs font-kids font-black px-3 py-1.5 rounded-xl transition flex items-center gap-1.5 shadow cursor-pointer">
+          <span>👨‍🏫</span> <span>Panel Docente</span>
+        </button>
         <a href="https://code.org/es/tools/sprite-lab" target="_blank" rel="noopener noreferrer" class="bg-white/20 hover:bg-white/30 border border-white/30 text-white text-xs font-bold px-3 py-1.5 rounded-xl transition flex items-center gap-1 shadow">
           <span>🚀</span> <span class="hidden sm:inline">Sprite Lab Code.org</span>
         </a>
@@ -124,12 +145,12 @@
   </header>
 
   <!-- ========================================================================= -->
-  <!-- CONTENIDO PRINCIPAL: PORTADA Y SELECCIÓN DE 2 TARJETAS                     -->
+  <!-- VISTA 1: PORTADA Y SELECCIÓN DE TARJETAS (INICIO)                         -->
   <!-- ========================================================================= -->
-  <main class="flex-1 max-w-5xl w-full mx-auto px-3 sm:px-6 py-3 sm:py-6 flex flex-col justify-center">
+  <main id="view-inicio-modulos" class="flex-1 max-w-6xl w-full mx-auto px-3 sm:px-6 py-4 sm:py-8 flex flex-col justify-center">
 
-    <!-- HERO BANNER (Muy compacto y estilizado en móvil, amplio en PC) -->
-    <div class="relative overflow-hidden bg-gradient-to-r from-sky-500 via-cyan-500 to-teal-500 rounded-2xl sm:rounded-3xl p-3.5 sm:p-6 text-white shadow-lg border-2 sm:border-4 border-white mb-3.5 sm:mb-6">
+    <!-- HERO BANNER -->
+    <div class="relative overflow-hidden bg-gradient-to-r from-sky-500 via-cyan-500 to-teal-500 rounded-2xl sm:rounded-3xl p-3.5 sm:p-6 text-white shadow-lg border-2 sm:border-4 border-white mb-4 sm:mb-8">
       <div class="absolute -right-6 -bottom-6 opacity-15 text-7xl sm:text-[140px] select-none pointer-events-none font-black leading-none">
         🎮
       </div>
@@ -150,39 +171,38 @@
             Misión: Condicionales y Sprites
           </h1>
           <p class="text-[11px] sm:text-xs text-sky-100 font-medium leading-tight sm:leading-relaxed mt-0.5 sm:mt-1">
-            Laboratorio de 3° Grado: repasa los conceptos clave o demuestra tus habilidades en el examen.
+            Laboratorio de 3° Grado: repasa la guía, entrena con el examen de práctica o demuestra tu dominio en el Examen Real Oficial.
           </p>
         </div>
       </div>
     </div>
 
-    <!-- SECCIÓN DE SELECCIÓN: 2 TARJETAS PRINCIPALES (Compactas en móvil, con altura cómoda) -->
-    <div class="grid grid-cols-1 sm:grid-cols-2 gap-3.5 sm:gap-6 mb-4">
+    <!-- SECCIÓN DE SELECCIÓN: 3 TARJETAS PRINCIPALES (Estudio, Examen de Práctica, Examen Real) -->
+    <div class="grid grid-cols-1 md:grid-cols-3 gap-4 sm:gap-6 mb-6">
       
       <!-- TARJETA 1: CONTENIDO Y ESTUDIO -->
-      <div onclick="window.location.href='guia_estudio_03.html'" class="option-card-3d bg-white rounded-2xl sm:rounded-3xl p-4 sm:p-6 border-2 sm:border-4 border-sky-400 card-content-shadow flex flex-col justify-between relative overflow-hidden group">
-        <div class="absolute -right-6 -top-6 w-20 sm:w-28 h-20 sm:h-28 bg-sky-100 rounded-full group-hover:scale-110 transition duration-300 pointer-events-none"></div>
+      <div onclick="window.location.href='guia_estudio_03.html'" class="option-card-3d bg-white rounded-2xl sm:rounded-3xl p-5 border-2 sm:border-4 border-sky-400 card-content-shadow flex flex-col justify-between relative overflow-hidden group">
+        <div class="absolute -right-6 -top-6 w-24 h-24 bg-sky-100 rounded-full group-hover:scale-110 transition duration-300 pointer-events-none"></div>
 
         <div>
-          <div class="flex items-center justify-between mb-2.5 relative z-10">
-            <span class="w-9 h-9 sm:w-12 sm:h-12 rounded-xl sm:rounded-2xl bg-sky-500 text-white text-xl sm:text-2xl flex items-center justify-center shadow group-hover:rotate-6 transition">
+          <div class="flex items-center justify-between mb-3 relative z-10">
+            <span class="w-10 h-10 sm:w-12 sm:h-12 rounded-xl sm:rounded-2xl bg-sky-500 text-white text-xl sm:text-2xl flex items-center justify-center shadow group-hover:rotate-6 transition">
               📚
             </span>
-            <span class="bg-sky-100 text-sky-700 font-kids font-black text-[9px] sm:text-xs px-2 py-0.5 rounded-full uppercase tracking-wider">
+            <span class="bg-sky-100 text-sky-700 font-kids font-black text-[10px] sm:text-xs px-2.5 py-0.5 rounded-full uppercase tracking-wider">
               Guía + Conceptos
             </span>
           </div>
 
-          <h2 class="text-base sm:text-xl font-kids font-black text-sky-900 mb-1 group-hover:text-sky-600 transition">
+          <h2 class="text-lg sm:text-xl font-kids font-black text-sky-900 mb-1 group-hover:text-sky-600 transition">
             1. Contenido de Estudio
           </h2>
 
-          <p class="text-slate-600 text-[11px] sm:text-xs leading-relaxed mb-2.5 sm:mb-3 font-medium">
+          <p class="text-slate-600 text-xs leading-relaxed mb-3 font-medium">
             Aprende sobre <strong>condicionales (SI / ENTONCES)</strong>, cambios de disfraz y eventos del <strong>juego del virus</strong>.
           </p>
 
-          <!-- Puntos destacados -->
-          <ul class="space-y-1 text-[11px] sm:text-xs text-slate-700 font-bold mb-3.5 sm:mb-4">
+          <ul class="space-y-1.5 text-xs text-slate-700 font-bold mb-4">
             <li class="flex items-center gap-1.5">
               <span class="text-emerald-500 font-black">✔</span> Explicación paso a paso
             </li>
@@ -195,50 +215,91 @@
           </ul>
         </div>
 
-        <a href="guia_estudio_03.html" class="btn-3d w-full py-2.5 sm:py-3 bg-sky-500 hover:bg-sky-600 text-white font-kids font-black text-sm sm:text-base rounded-xl sm:rounded-2xl text-center uppercase tracking-wider flex items-center justify-center gap-2 shadow">
+        <a href="guia_estudio_03.html" class="btn-3d w-full py-3 bg-sky-500 hover:bg-sky-600 text-white font-kids font-black text-sm rounded-xl uppercase tracking-wider flex items-center justify-center gap-2 shadow">
           <span>📖</span> Entrar a Estudiar
         </a>
       </div>
 
       <!-- TARJETA 2: EXAMEN DE PRÁCTICA -->
-      <div onclick="window.location.href='examen_practica_03.html'" class="option-card-3d bg-white rounded-2xl sm:rounded-3xl p-4 sm:p-6 border-2 sm:border-4 border-orange-400 card-exam-shadow flex flex-col justify-between relative overflow-hidden group">
-        <div class="absolute -right-6 -top-6 w-20 sm:w-28 h-20 sm:h-28 bg-orange-100 rounded-full group-hover:scale-110 transition duration-300 pointer-events-none"></div>
+      <div onclick="window.location.href='examen_practica_03.html'" class="option-card-3d bg-white rounded-2xl sm:rounded-3xl p-5 border-2 sm:border-4 border-orange-400 card-exam-shadow flex flex-col justify-between relative overflow-hidden group">
+        <div class="absolute -right-6 -top-6 w-24 h-24 bg-orange-100 rounded-full group-hover:scale-110 transition duration-300 pointer-events-none"></div>
 
         <div>
-          <div class="flex items-center justify-between mb-2.5 relative z-10">
-            <span class="w-9 h-9 sm:w-12 sm:h-12 rounded-xl sm:rounded-2xl bg-orange-500 text-white text-xl sm:text-2xl flex items-center justify-center shadow group-hover:-rotate-6 transition">
+          <div class="flex items-center justify-between mb-3 relative z-10">
+            <span class="w-10 h-10 sm:w-12 sm:h-12 rounded-xl sm:rounded-2xl bg-orange-500 text-white text-xl sm:text-2xl flex items-center justify-center shadow group-hover:-rotate-6 transition">
               🎮
             </span>
-            <span class="bg-orange-100 text-orange-700 font-kids font-black text-[9px] sm:text-xs px-2 py-0.5 rounded-full uppercase tracking-wider animate-pulse-badge">
+            <span class="bg-orange-100 text-orange-700 font-kids font-black text-[10px] sm:text-xs px-2.5 py-0.5 rounded-full uppercase tracking-wider animate-pulse-badge">
               ⭐ 10 Preguntas
             </span>
           </div>
 
-          <h2 class="text-base sm:text-xl font-kids font-black text-orange-600 mb-1 group-hover:text-orange-500 transition">
+          <h2 class="text-lg sm:text-xl font-kids font-black text-orange-600 mb-1 group-hover:text-orange-500 transition">
             2. Examen de Práctica
           </h2>
 
-          <p class="text-slate-600 text-[11px] sm:text-xs leading-relaxed mb-2.5 sm:mb-3 font-medium">
-            ¡Demuestra tus poderes de programador! 10 preguntas interactivas con sonido, efectos visuales y explicación.
+          <p class="text-slate-600 text-xs leading-relaxed mb-3 font-medium">
+            ¡Entrena sin presión! Preguntas interactivas con sonido, feedback inmediato para aprender y reintentos libres.
           </p>
 
-          <!-- Puntos destacados -->
-          <ul class="space-y-1 text-[11px] sm:text-xs text-slate-700 font-bold mb-3.5 sm:mb-4">
+          <ul class="space-y-1.5 text-xs text-slate-700 font-bold mb-4">
             <li class="flex items-center gap-1.5">
               <span class="text-orange-500 font-black">⭐</span> 10 preguntas interactivas
             </li>
             <li class="flex items-center gap-1.5">
-              <span class="text-orange-500 font-black">⭐</span> Sonidos y feedback al instante
+              <span class="text-orange-500 font-black">⭐</span> Sonidos y explicaciones
             </li>
             <li class="flex items-center gap-1.5">
-              <span class="text-orange-500 font-black">⭐</span> Calificación y medallas finales
+              <span class="text-orange-500 font-black">⭐</span> Práctica sin límite
             </li>
           </ul>
         </div>
 
-        <a href="examen_practica_03.html" class="btn-3d w-full py-2.5 sm:py-3 bg-orange-500 hover:bg-orange-600 text-white font-kids font-black text-sm sm:text-base rounded-xl sm:rounded-2xl text-center uppercase tracking-wider flex items-center justify-center gap-2 shadow">
-          <span>🚀</span> Iniciar Examen
+        <a href="examen_practica_03.html" class="btn-3d w-full py-3 bg-orange-500 hover:bg-orange-600 text-white font-kids font-black text-sm rounded-xl uppercase tracking-wider flex items-center justify-center gap-2 shadow">
+          <span>🎮</span> Practicar Ahora
         </a>
+      </div>
+
+      <!-- TARJETA 3: EXAMEN REAL (OFICIAL) -->
+      <div onclick="openOfficialLoginModal3()" class="option-card-3d bg-white rounded-2xl sm:rounded-3xl p-5 border-2 sm:border-4 border-emerald-500 card-real-shadow flex flex-col justify-between relative overflow-hidden group">
+        <div class="absolute -right-6 -top-6 w-24 h-24 bg-emerald-100 rounded-full group-hover:scale-110 transition duration-300 pointer-events-none"></div>
+
+        <div>
+          <div class="flex items-center justify-between mb-3 relative z-10">
+            <span class="w-10 h-10 sm:w-12 sm:h-12 rounded-xl sm:rounded-2xl bg-emerald-600 text-white text-xl sm:text-2xl flex items-center justify-center shadow group-hover:scale-110 transition">
+              📝
+            </span>
+            <span class="bg-emerald-100 text-emerald-800 font-kids font-black text-[10px] sm:text-xs px-2.5 py-0.5 rounded-full uppercase tracking-wider animate-pulse">
+              🏆 OFICIAL CALIFICADO
+            </span>
+          </div>
+
+          <h2 class="text-lg sm:text-xl font-kids font-black text-emerald-700 mb-1 group-hover:text-emerald-600 transition">
+            3. Examen Real (Oficial)
+          </h2>
+
+          <p class="text-slate-600 text-xs leading-relaxed mb-3 font-medium">
+            Evaluación oficial individual. Ingresa con tu <strong>Apellido y Nombre</strong>. Las preguntas se ordenan aleatoriamente para cada estudiante.
+          </p>
+
+          <ul class="space-y-1.5 text-xs text-slate-700 font-bold mb-4">
+            <li class="flex items-center gap-1.5">
+              <span class="text-emerald-600 font-black">🔒</span> Ingreso con clave autorizada
+            </li>
+            <li class="flex items-center gap-1.5">
+              <span class="text-emerald-600 font-black">🔀</span> Preguntas y opciones revueltas
+            </li>
+            <li class="flex items-center gap-1.5">
+              <span class="text-emerald-600 font-black">☁️</span> Sincronizado en la Nube
+            </li>
+          </ul>
+        </div>
+
+        <div id="official3-card-status">
+          <button onclick="openOfficialLoginModal3()" class="btn-3d w-full py-3 bg-gradient-to-r from-emerald-500 via-teal-500 to-emerald-600 hover:from-emerald-600 hover:to-teal-600 text-white font-kids font-black text-sm rounded-xl uppercase tracking-wider flex items-center justify-center gap-2 shadow cursor-pointer">
+            <span>🚀</span> Entrar al Examen Real
+          </button>
+        </div>
       </div>
 
     </div>
@@ -246,12 +307,1153 @@
   </main>
 
   <!-- ========================================================================= -->
+  <!-- VISTA 2: CONTENEDOR PRINCIPAL DEL EXAMEN OFICIAL                          -->
+  <!-- ========================================================================= -->
+  <main id="main-examen-view" class="hidden flex-1 max-w-4xl w-full mx-auto px-3 sm:px-6 py-4 flex flex-col justify-center">
+    
+    <!-- HEADER STATS EN VIVO -->
+    <div class="bg-white rounded-2xl sm:rounded-3xl p-3 sm:p-4 shadow-md border-2 border-emerald-300 mb-4 flex items-center justify-between gap-2 sm:gap-4">
+      <div class="flex items-center gap-2.5 min-w-0">
+        <div class="w-10 h-10 rounded-xl bg-emerald-500 text-white font-black flex items-center justify-center text-xl shrink-0 shadow">
+          📝
+        </div>
+        <div class="min-w-0">
+          <span class="text-[10px] font-bold uppercase tracking-wider text-emerald-700 bg-emerald-50 px-2 py-0.5 rounded-full border border-emerald-200">
+            Examen Real &bull; 3° Grado
+          </span>
+          <h2 id="runner3-student-name" class="text-sm sm:text-base font-kids font-black text-slate-800 truncate">
+            Estudiante
+          </h2>
+        </div>
+      </div>
+
+      <div class="flex items-center gap-2 sm:gap-3 shrink-0">
+        <div class="bg-emerald-50 border-2 border-emerald-300 px-3 py-1 rounded-xl text-center">
+          <div class="text-[9px] font-bold text-emerald-700 uppercase">Puntos</div>
+          <div id="runner3-score" class="text-sm sm:text-base font-kids font-black text-emerald-900">0 / 10</div>
+        </div>
+        <div class="bg-sky-50 border-2 border-sky-300 px-3 py-1 rounded-xl text-center min-w-[70px]">
+          <div class="text-[9px] font-bold text-sky-700 uppercase">Pregunta</div>
+          <div id="runner3-question-idx" class="text-sm sm:text-base font-kids font-black text-sky-900">1 de 10</div>
+        </div>
+      </div>
+    </div>
+
+    <!-- TARJETA ACTIVA DE PREGUNTA -->
+    <div class="bg-white rounded-2xl sm:rounded-3xl shadow-2xl border-2 sm:border-4 border-white overflow-hidden flex flex-col">
+      
+      <!-- Slide header strip -->
+      <div class="bg-gradient-to-r from-emerald-600 via-teal-600 to-sky-600 px-4 sm:px-6 py-2.5 sm:py-3.5 text-center border-b-2 sm:border-b-4 border-emerald-700 flex items-center justify-between text-white">
+        <span class="font-kids text-xs font-bold tracking-wider opacity-90 hidden sm:inline-block">EVALUACIÓN REAL</span>
+        <h3 id="runner3-question-header" class="text-sm sm:text-2xl font-kids font-black uppercase tracking-wider mx-auto drop-shadow-sm">
+          ELIGE LA OPCIÓN CORRECTA
+        </h3>
+        <span id="runner3-pill-num" class="font-kids font-bold text-xs sm:text-sm bg-emerald-900/40 px-2.5 sm:px-3 py-0.5 sm:py-1 rounded-full">
+          P1
+        </span>
+      </div>
+
+      <div class="p-4 sm:p-8 flex-grow flex flex-col">
+        
+        <!-- Prompt text -->
+        <div class="text-center mb-3 sm:mb-5">
+          <h4 id="runner3-question-prompt" class="text-base sm:text-2xl font-kids font-extrabold text-[#f58220] leading-snug">
+            ¿Un condicional es...?
+          </h4>
+          <p id="runner3-question-context" class="text-slate-600 font-semibold text-xs sm:text-sm mt-1.5 hidden"></p>
+        </div>
+
+        <!-- Graphic container for SVGs -->
+        <div id="runner3-graphic-container" class="mb-4 flex justify-center items-center overflow-x-auto p-1 custom-scroll">
+        </div>
+
+        <!-- Options Container -->
+        <div id="runner3-options-container" class="w-full max-w-2xl mx-auto flex flex-col gap-2.5 mb-4">
+        </div>
+
+        <!-- Feedback & Next Button -->
+        <div id="runner3-feedback-card" class="hidden max-w-2xl mx-auto w-full p-4 rounded-2xl border-2 transition-all transform duration-300">
+          <div class="flex items-start gap-3">
+            <div id="runner3-feedback-icon" class="text-2xl sm:text-3xl shrink-0">🌟</div>
+            <div class="flex-grow min-w-0">
+              <h5 id="runner3-feedback-title" class="text-sm sm:text-lg font-kids font-black mb-0.5">¡Respuesta Registrada!</h5>
+              <p id="runner3-feedback-text" class="text-slate-700 font-medium text-xs sm:text-sm leading-relaxed"></p>
+            </div>
+          </div>
+          <div class="mt-3 pt-2.5 border-t border-slate-200/60 flex justify-end">
+            <button id="runner3-btn-next" onclick="nextQuestion3()" class="btn-3d w-full sm:w-auto px-6 py-2.5 bg-emerald-600 hover:bg-emerald-700 text-white font-kids font-black text-sm sm:text-base rounded-xl cursor-pointer shadow">
+              Siguiente Pregunta ➔
+            </button>
+          </div>
+        </div>
+
+      </div>
+
+      <!-- Barra de progreso -->
+      <div class="w-full bg-slate-100 h-2.5 border-t border-slate-200 overflow-hidden">
+        <div id="runner3-progress-bar" class="h-full bg-emerald-500 transition-all duration-300 w-0"></div>
+      </div>
+    </div>
+
+  </main>
+
+  <!-- ========================================================================= -->
+  <!-- VISTA 3: PANTALLA FINAL DE RESULTADOS                                     -->
+  <!-- ========================================================================= -->
+  <main id="view-results-screen" class="hidden flex-1 max-w-3xl w-full mx-auto px-4 py-8 text-center flex flex-col justify-center">
+    <div class="bg-white rounded-3xl p-6 sm:p-10 shadow-2xl border-4 border-emerald-400">
+      
+      <!-- Trophy Icon -->
+      <div class="inline-block p-4 bg-emerald-50 rounded-full border-4 border-emerald-300 mb-3 badge-pulse">
+        <span class="text-6xl">🏆</span>
+      </div>
+
+      <h2 class="text-2xl sm:text-4xl font-kids font-black text-slate-800 mb-1">
+        ¡Examen Real Completado!
+      </h2>
+      <p id="results3-student-subtitle" class="text-slate-600 text-sm sm:text-base mb-6 font-semibold">
+        Calificación registrada oficialmente para Estudiante
+      </p>
+
+      <!-- Results Card -->
+      <div class="bg-gradient-to-b from-emerald-50 to-teal-50/50 p-6 rounded-3xl border-2 border-emerald-300 shadow-sm mb-6">
+        <div class="text-center mb-4">
+          <span class="text-[10px] font-black tracking-widest text-emerald-700 uppercase bg-emerald-100 px-3 py-1 rounded-full">
+            REGISTRO OFICIAL • PERIODO 3
+          </span>
+          <h3 class="text-xl sm:text-2xl font-kids font-extrabold text-emerald-900 mt-2">
+            Misión: Condicionales y Sprites (SpriteLab)
+          </h3>
+          <p class="text-slate-500 text-xs font-semibold">Grado 3° Primaria &bull; Tecnología e Informática</p>
+        </div>
+
+        <div class="grid grid-cols-2 sm:grid-cols-3 gap-3 text-center border-t border-b border-emerald-200 py-4 mb-3">
+          <div class="p-3 bg-white rounded-2xl border border-emerald-200 shadow-xs">
+            <div class="text-xs text-slate-500 font-bold uppercase">Aciertos</div>
+            <div id="results3-score-correct" class="text-2xl sm:text-3xl font-kids font-black text-emerald-700 mt-1">
+              10 / 10
+            </div>
+          </div>
+          <div class="p-3 bg-white rounded-2xl border border-amber-200 shadow-xs">
+            <div class="text-xs text-slate-500 font-bold uppercase">Calificación</div>
+            <div id="results3-score-grade" class="text-2xl sm:text-3xl font-kids font-black text-amber-600 mt-1">
+              5.0 / 5.0
+            </div>
+          </div>
+          <div class="col-span-2 sm:col-span-1 p-3 bg-white rounded-2xl border border-sky-200 shadow-xs">
+            <div class="text-xs text-slate-500 font-bold uppercase">Porcentaje</div>
+            <div id="results3-score-percent" class="text-2xl sm:text-3xl font-kids font-black text-sky-700 mt-1">
+              100%
+            </div>
+          </div>
+        </div>
+
+        <div id="results3-sync-status" class="inline-flex items-center gap-1.5 text-xs font-bold text-emerald-800 bg-emerald-100 px-3 py-1 rounded-full">
+          <span>☁️</span> <span>Sincronizado con la base de datos oficial</span>
+        </div>
+      </div>
+
+      <div class="flex justify-center gap-3">
+        <button onclick="returnToModulesView()" class="btn-3d px-6 py-3 bg-emerald-600 hover:bg-emerald-700 text-white font-kids font-bold text-sm sm:text-base rounded-2xl flex items-center gap-2 cursor-pointer shadow">
+          <span>🏠</span> Volver al Menú Principal
+        </button>
+      </div>
+
+    </div>
+  </main>
+
+  <!-- ========================================================================= -->
+  <!-- MODAL: LOGIN EXAMEN OFICIAL (Apellido y Nombre + Claves)                   -->
+  <!-- ========================================================================= -->
+  <div id="modal-official-login3" class="fixed inset-0 z-50 bg-slate-950/70 hidden items-center justify-center p-4 backdrop-blur-sm">
+    <div class="bg-white rounded-3xl p-6 sm:p-8 max-w-md w-full border-4 border-emerald-500 shadow-2xl space-y-4 animate-in fade-in zoom-in-95">
+      
+      <div class="flex items-center justify-between border-b border-slate-100 pb-3">
+        <div class="flex items-center gap-2.5">
+          <div class="w-10 h-10 rounded-xl bg-emerald-600 text-white flex items-center justify-center text-xl font-black">
+            📝
+          </div>
+          <div>
+            <h4 class="font-kids font-black text-lg text-slate-800">Ingreso al Examen Real</h4>
+            <span class="text-[11px] text-emerald-700 font-bold font-mono">3° Grado &bull; Periodo 3</span>
+          </div>
+        </div>
+        <button onclick="closeOfficialLoginModal3()" class="w-8 h-8 rounded-xl bg-slate-100 hover:bg-slate-200 text-slate-600 font-bold flex items-center justify-center transition cursor-pointer">
+          ✕
+        </button>
+      </div>
+
+      <p class="text-xs text-slate-600 leading-relaxed font-medium">
+        Ingresa tus <strong>Apellidos y Nombres</strong> completos y la clave de acceso autorizada.
+      </p>
+
+      <div class="p-3 rounded-2xl bg-amber-50 border border-amber-200 text-xs text-amber-900 font-medium space-y-1">
+        <div class="font-bold flex items-center gap-1 text-amber-950">
+          <span>ℹ️</span> Instrucciones de Entrada:
+        </div>
+        <p class="text-[11px] leading-tight">
+          • Estudiante: Escribe tus apellidos y nombres, y la clave de examen asignada.<br>
+          • Docente: Ingresa con la clave de administración para supervisar o evaluar.
+        </p>
+      </div>
+
+      <div class="space-y-3">
+        <div>
+          <label class="block text-xs font-black text-slate-700 uppercase mb-1 font-kids">Apellidos y Nombres:</label>
+          <input type="text" id="official3-student-name-input" placeholder="Ej: Gomez Perez Juan Carlos" 
+            class="w-full px-4 py-3 rounded-xl border-2 border-slate-300 focus:border-emerald-500 focus:outline-none font-bold text-sm text-slate-800">
+        </div>
+
+        <div>
+          <label class="block text-xs font-black text-slate-700 uppercase mb-1 font-kids">Clave de Acceso:</label>
+          <input type="password" id="official3-code-input" placeholder="Clave de acceso" 
+            class="w-full px-4 py-3 rounded-xl border-2 border-slate-300 focus:border-emerald-500 focus:outline-none font-mono font-bold text-base text-center tracking-widest">
+        </div>
+      </div>
+
+      <div id="official3-login-error" class="hidden text-xs text-rose-600 font-bold text-center bg-rose-50 p-2.5 rounded-xl border border-rose-200"></div>
+
+      <div class="flex gap-3 pt-2">
+        <button onclick="closeOfficialLoginModal3()" class="flex-1 bg-slate-100 hover:bg-slate-200 text-slate-700 font-kids font-bold text-xs py-3 rounded-xl transition cursor-pointer">
+          Cancelar
+        </button>
+        <button onclick="confirmOfficialLogin3()" class="flex-1 bg-gradient-to-r from-emerald-500 to-teal-600 hover:from-emerald-600 hover:to-teal-700 text-white font-kids font-black text-xs py-3 rounded-xl transition shadow-md cursor-pointer">
+          Comenzar Examen ➔
+        </button>
+      </div>
+
+    </div>
+  </div>
+
+  <!-- ========================================================================= -->
+  <!-- MODAL: PANEL DOCENTE GRADO 3° (CLAVE 'Entrar123*')                         -->
+  <!-- ========================================================================= -->
+  <div id="modal-docente-panel3" class="fixed inset-0 z-50 bg-slate-950/75 hidden items-center justify-center p-3 sm:p-5 backdrop-blur-sm">
+    <div class="bg-white rounded-3xl p-6 sm:p-8 max-w-4xl w-full border-4 border-indigo-400 shadow-2xl space-y-4 max-h-[92vh] flex flex-col overflow-hidden animate-in fade-in zoom-in-95">
+      
+      <div class="flex items-center justify-between border-b-2 border-slate-100 pb-3 shrink-0">
+        <div class="flex items-center gap-3">
+          <div class="w-11 h-11 bg-indigo-100 text-indigo-700 rounded-2xl flex items-center justify-center text-2xl font-bold">
+            👨‍🏫
+          </div>
+          <div>
+            <h4 class="font-kids font-black text-xl text-slate-800">Panel Docente • Grado 3° P3</h4>
+            <span class="text-xs text-slate-500 font-medium">Resultados en vivo sincronizados con Cloudflare D1</span>
+          </div>
+        </div>
+        <button onclick="closeDocenteModal3()" class="w-9 h-9 rounded-xl bg-slate-100 hover:bg-slate-200 text-slate-600 font-bold flex items-center justify-center transition cursor-pointer">
+          ✕
+        </button>
+      </div>
+
+      <!-- Vista de Login Docente -->
+      <div id="docente3-login-view" class="py-6 max-w-sm mx-auto text-center space-y-4">
+        <p class="text-xs text-slate-600 font-medium">Ingresa la clave docente para visualizar las calificaciones, descargar el registro o habilitar reintentos.</p>
+        <input type="password" id="docente3-pass-input" placeholder="Clave docente" class="w-full px-4 py-3 rounded-xl border-2 border-slate-300 focus:border-indigo-500 font-mono font-bold text-center">
+        <div id="docente3-pass-error" class="hidden text-xs text-rose-600 font-bold">Clave incorrecta. Verifica tu contraseña docente.</div>
+        <button onclick="authDocente3()" class="w-full bg-indigo-600 hover:bg-indigo-700 text-white font-kids font-bold py-3 rounded-xl transition shadow cursor-pointer">
+          Acceder al Panel Docente
+        </button>
+      </div>
+
+      <!-- Vista de Contenido Docente -->
+      <div id="docente3-content-view" class="hidden flex-col flex-1 overflow-hidden space-y-3">
+        <div class="flex flex-wrap items-center justify-between gap-2 shrink-0">
+          <div class="flex items-center gap-2">
+            <span class="text-xs font-bold text-slate-600">Exámenes Registrados (3° Grado):</span>
+            <span id="docente3-total-count" class="bg-indigo-100 text-indigo-900 font-black text-xs px-2.5 py-0.5 rounded-full">0</span>
+          </div>
+          <div class="flex gap-2">
+            <button onclick="refreshDocenteData3()" class="bg-slate-100 hover:bg-slate-200 text-slate-700 text-xs font-bold px-3 py-1.5 rounded-xl transition flex items-center gap-1 cursor-pointer">
+              🔄 Actualizar
+            </button>
+            <button onclick="exportDocenteExcel3()" class="bg-emerald-600 hover:bg-emerald-700 text-white text-xs font-bold px-3 py-1.5 rounded-xl transition flex items-center gap-1 cursor-pointer shadow">
+              📥 Descargar CSV / Excel
+            </button>
+          </div>
+        </div>
+
+        <div class="flex-1 overflow-y-auto border-2 border-slate-200 rounded-2xl">
+          <table class="w-full text-left text-xs border-collapse">
+            <thead class="bg-slate-100 text-slate-700 font-kids font-black uppercase text-[10px] sticky top-0 border-b border-slate-200">
+              <tr>
+                <th class="p-3">Estudiante</th>
+                <th class="p-3">Código</th>
+                <th class="p-3">Aciertos</th>
+                <th class="p-3">Nota / 5.0</th>
+                <th class="p-3">%</th>
+                <th class="p-3">Fecha</th>
+                <th class="p-3 text-center">Acción</th>
+              </tr>
+            </thead>
+            <tbody id="docente3-table-body" class="divide-y divide-slate-100 font-medium">
+              <tr>
+                <td colspan="7" class="p-6 text-center text-slate-400 font-medium">Cargando registros...</td>
+              </tr>
+            </tbody>
+          </table>
+        </div>
+      </div>
+
+    </div>
+  </div>
+
+  <!-- ========================================================================= -->
   <!-- PIE DE PÁGINA                                                             -->
   <!-- ========================================================================= -->
-  <footer class="bg-white border-t border-slate-200 py-6 text-center text-slate-500 text-xs">
+  <footer class="bg-white border-t border-slate-200 py-6 text-center text-slate-500 text-xs mt-auto">
     <p class="font-bold text-slate-700">&copy; 2026 Mundo Jandra &bull; Profesor: Ronny Martinez</p>
     <p class="text-slate-400 mt-1">Tecnología e Informática &bull; Primaria 3° Grado</p>
   </footer>
+
+  <!-- ========================================================================= -->
+  <!-- JAVASCRIPT: LÓGICA DEL EXAMEN REAL, REVUELTO Y SINCRONIZACIÓN             -->
+  <!-- ========================================================================= -->
+  <script>
+    // 1. CONFIGURACIÓN Y CONSTANTES
+    const CF_WORKER_URL_G3 = 'https://orientacion-vocacional-milagrosa.rovimartinez.workers.dev';
+    const STORAGE_KEY_OFFICIAL_RESULT_G3 = 'ilm_p3_grado3_official_result';
+
+    // Banco de preguntas original de 3° Grado
+    const examQuestionsG3 = [
+  {
+    "id": 1,
+    "tipo": "multiple",
+    "tiempoSegundos": 60,
+    "puntos": 1,
+    "headerType": "ELIGE LA OPCIÓN CORRECTA",
+    "pregunta": "Un condicional es...",
+    "contextText": null,
+    "graphicHtml": null,
+    "opciones": [
+      "Un bloque de código que permite que nuestro personaje salte más alto.",
+      "Un personaje que debemos destruir para pasar de nivel.",
+      "Una condición o regla que debe ser cumplida para que una acción se realice."
+    ],
+    "correcta": 2,
+    "explicacion": "¡Exacto! Un condicional es una regla que dice: SI pasa esto, ENTONCES haz aquello."
+  },
+  {
+    "id": 2,
+    "tipo": "tf",
+    "tiempoSegundos": 60,
+    "puntos": 1,
+    "headerType": "¿VERDADERO O FALSO?",
+    "pregunta": "¿Verdadero o Falso?",
+    "contextText": "«Los condicionales son útiles para programar CUÁNDO tiene que suceder algo. Ejemplo: Si el puntaje llega a 100, termina el juego.»",
+    "graphicHtml": "\n          <div class=\"bg-amber-50 border-2 border-amber-300 rounded-2xl p-4 text-center max-w-md shadow-sm\">\n            <span class=\"bg-amber-500 text-white font-kids font-black text-sm px-3 py-1 rounded-full uppercase\">Ejemplo en juego</span>\n            <p class=\"text-lg font-kids font-bold text-amber-900 mt-2\">\n              <span class=\"text-orange-600 font-black\">SI</span> el puntaje llega a 100 ➔ <span class=\"text-sky-700 font-black\">termina el juego</span>\n            </p>\n          </div>\n        ",
+    "opciones": [
+      "VERDADERO",
+      "FALSO"
+    ],
+    "correcta": 0,
+    "explicacion": "¡Muy bien! Los condicionales le dicen al juego en qué momento exacto debe ocurrir algo importante."
+  },
+  {
+    "id": 3,
+    "tipo": "multiple",
+    "tiempoSegundos": 60,
+    "puntos": 1,
+    "headerType": "ELIGE LA OPCIÓN CORRECTA",
+    "pregunta": "¿Cuál de las siguientes opciones es un condicional?",
+    "contextText": null,
+    "graphicHtml": null,
+    "opciones": [
+      "Si mi sprite toca el enemigo, entonces poner la pantalla de \"GAME OVER\".",
+      "Mi personaje es de color violeta.",
+      "El fondo es una pradera."
+    ],
+    "correcta": 0,
+    "explicacion": "¡Correcto! Solo la opción 1 tiene la estructura: «SI ocurre esto, ENTONCES haz esta acción»."
+  },
+  {
+    "id": 4,
+    "tipo": "tf",
+    "tiempoSegundos": 60,
+    "puntos": 1,
+    "headerType": "¿VERDADERO O FALSO?",
+    "pregunta": "¿El siguiente bloque es el que nos permite crear condicionales?",
+    "contextText": null,
+    "graphicHtml": "\n          <div class=\"w-full flex justify-center py-2 select-none overflow-x-auto\">\n            <svg viewBox=\"0 0 520 180\" class=\"w-full max-w-[480px] drop-shadow-xl\">\n              <!-- BLOQUE CONDICIONAL AZUL C-SHAPE (+ si ... hacer) con forma en C idéntica -->\n              <path d=\"M 20 8 \n                       H 496 Q 508 8 508 20 \n                       V 38 Q 508 48 498 48 \n                       H 92 Q 84 48 84 56 \n                       V 130 Q 84 138 92 138 \n                       H 496 Q 508 138 508 148 \n                       V 160 Q 508 172 496 172 \n                       H 20 Q 8 172 8 160 \n                       V 20 Q 8 8 20 8 \n                       Z\" \n                    fill=\"#0094c6\"/>\n\n              <!-- Texto '+ si' centrado verticalmente -->\n              <text x=\"22\" y=\"34\" fill=\"#ffffff\" font-family=\"'Fredoka', sans-serif\" font-weight=\"900\" font-size=\"20\">+</text>\n              <text x=\"46\" y=\"34\" fill=\"#ffffff\" font-family=\"'Fredoka', sans-serif\" font-weight=\"700\" font-size=\"18\">si</text>\n\n              <!-- Ranura / Slot de condición lógica [ = ▼ ] -->\n              <g transform=\"translate(100, 12)\">\n                <rect x=\"0\" y=\"0\" width=\"60\" height=\"28\" rx=\"8\" fill=\"#38bdf8\" stroke=\"#7dd3fc\" stroke-width=\"2\"/>\n                <rect x=\"12\" y=\"4\" width=\"36\" height=\"20\" rx=\"5\" fill=\"#f0f9ff\"/>\n                <text x=\"24\" y=\"19\" fill=\"#0369a1\" font-family=\"'Fredoka', sans-serif\" font-weight=\"900\" font-size=\"16\">=</text>\n              </g>\n\n              <!-- Texto 'hacer' en el lateral interior de la C -->\n              <text x=\"20\" y=\"76\" fill=\"#ffffff\" font-family=\"'Fredoka', sans-serif\" font-weight=\"700\" font-size=\"16\">hacer</text>\n\n              <!-- Texto explicativo dentro del hueco de la C -->\n              <text x=\"106\" y=\"94\" fill=\"#7dd3fc\" font-family=\"'Fredoka', sans-serif\" font-style=\"italic\" font-weight=\"600\" font-size=\"15\">\n                (coloca aquí la acción a ejecutar...)\n              </text>\n            </svg>\n          </div>\n        ",
+    "opciones": [
+      "VERDADERO",
+      "FALSO"
+    ],
+    "correcta": 0,
+    "explicacion": "¡Exacto! El bloque azul «+ si [condición] hacer» es el bloque condicional por excelencia en Code.org Sprite Lab."
+  },
+  {
+    "id": 5,
+    "tipo": "multiple",
+    "tiempoSegundos": 60,
+    "puntos": 1,
+    "headerType": "ELIGE LA OPCIÓN CORRECTA",
+    "pregunta": "¿Qué va a suceder cuando el puntaje sea 20?",
+    "contextText": null,
+    "graphicHtml": "\n          <div class=\"w-full flex justify-center py-2 select-none overflow-x-auto\">\n            <svg viewBox=\"0 0 540 250\" class=\"w-full max-w-[520px] drop-shadow-xl\">\n              <!-- 1. BLOQUE PRINCIPAL AZUL CELESTE (+ si ... hacer) con Puntas Redondas -->\n              <path d=\"M 20 8 \n                       H 516 Q 528 8 528 20 \n                       V 38 Q 528 48 518 48 \n                       H 92 Q 84 48 84 56 \n                       V 200 Q 84 208 92 208 \n                       H 516 Q 528 208 528 218 \n                       V 230 Q 528 242 516 242 \n                       H 20 Q 8 242 8 230 \n                       V 20 Q 8 8 20 8 \n                       Z\" \n                    fill=\"#0094c6\"/>\n\n              <!-- Texto '+ si' centrado verticalmente -->\n              <text x=\"22\" y=\"34\" fill=\"#ffffff\" font-family=\"'Fredoka', sans-serif\" font-weight=\"900\" font-size=\"20\">+</text>\n              <text x=\"46\" y=\"34\" fill=\"#ffffff\" font-family=\"'Fredoka', sans-serif\" font-weight=\"700\" font-size=\"18\">si</text>\n              \n              <!-- Texto 'hacer' en el lateral -->\n              <text x=\"20\" y=\"74\" fill=\"#ffffff\" font-family=\"'Fredoka', sans-serif\" font-weight=\"700\" font-size=\"16\">hacer</text>\n\n              <!-- INPUT 1: Magenta [Puntaje ▼] -->\n              <g transform=\"translate(110, 15)\">\n                <rect x=\"0\" y=\"0\" width=\"96\" height=\"26\" rx=\"6\" fill=\"#a8497d\" stroke=\"#bf5890\" stroke-width=\"1.5\"/>\n                <text x=\"10\" y=\"18\" fill=\"#ffffff\" font-family=\"'Fredoka', sans-serif\" font-weight=\"700\" font-size=\"13\">Puntaje</text>\n                <text x=\"62\" y=\"18\" fill=\"#fef08a\" font-family=\"'Fredoka', sans-serif\" font-weight=\"900\" font-size=\"14\">0</text>\n                <text x=\"78\" y=\"17\" fill=\"#fbcfe8\" font-size=\"11\">▼</text>\n              </g>\n\n              <!-- INPUT 2: Celeste [= ▼] -->\n              <g transform=\"translate(216, 15)\">\n                <rect x=\"0\" y=\"0\" width=\"38\" height=\"26\" rx=\"6\" fill=\"#5eead4\" stroke=\"#2dd4bf\" stroke-width=\"1.5\"/>\n                <text x=\"10\" y=\"19\" fill=\"#0f172a\" font-family=\"'Fredoka', sans-serif\" font-weight=\"900\" font-size=\"16\">=</text>\n                <text x=\"24\" y=\"18\" fill=\"#0f766e\" font-size=\"10\">▼</text>\n              </g>\n\n              <!-- INPUT 3: Azul Oscuro [20] -->\n              <g transform=\"translate(262, 15)\">\n                <rect x=\"0\" y=\"0\" width=\"42\" height=\"26\" rx=\"6\" fill=\"#e2e8f0\" stroke=\"#94a3b8\" stroke-width=\"1.5\"/>\n                <text x=\"11\" y=\"19\" fill=\"#0f172a\" font-family=\"'Fredoka', sans-serif\" font-weight=\"900\" font-size=\"15\">20</text>\n              </g>\n\n              <!-- BLOQUE 2: MORADO (mostrar pantalla de título) -->\n              <g transform=\"translate(84, 48)\">\n                <path d=\"M 0 0 H 434 Q 444 0 444 10 V 78 Q 444 86 434 86 H 0 Z\" fill=\"#4f4284\"/>\n\n                <text x=\"16\" y=\"22\" fill=\"#ffffff\" font-family=\"'Fredoka', sans-serif\" font-weight=\"700\" font-size=\"16\">mostrar pantalla de título</text>\n\n                <!-- Fila título -->\n                <text x=\"146\" y=\"48\" fill=\"#ffffff\" font-family=\"'Fredoka', sans-serif\" font-weight=\"700\" font-size=\"14\">título</text>\n                <g transform=\"translate(195, 30)\">\n                  <rect x=\"0\" y=\"0\" width=\"225\" height=\"26\" rx=\"6\" fill=\"#4d9b81\"/>\n                  <rect x=\"22\" y=\"3\" width=\"180\" height=\"20\" rx=\"4\" fill=\"#d1fae5\"/>\n                  <text x=\"6\" y=\"18\" fill=\"#ffffff\" font-family=\"'Fredoka', sans-serif\" font-weight=\"900\" font-size=\"16\">“</text>\n                  <text x=\"28\" y=\"17\" fill=\"#065f46\" font-family=\"'Fredoka', sans-serif\" font-weight=\"700\" font-size=\"12\">Felicitaciones, ganaste</text>\n                  <text x=\"210\" y=\"18\" fill=\"#ffffff\" font-family=\"'Fredoka', sans-serif\" font-weight=\"900\" font-size=\"16\">”</text>\n                </g>\n\n                <!-- Fila texto -->\n                <text x=\"150\" y=\"74\" fill=\"#ffffff\" font-family=\"'Fredoka', sans-serif\" font-weight=\"700\" font-size=\"14\">texto</text>\n                <g transform=\"translate(195, 58)\">\n                  <rect x=\"0\" y=\"0\" width=\"170\" height=\"24\" rx=\"6\" fill=\"#4d9b81\"/>\n                  <rect x=\"22\" y=\"2\" width=\"125\" height=\"20\" rx=\"4\" fill=\"#d1fae5\"/>\n                  <text x=\"6\" y=\"17\" fill=\"#ffffff\" font-family=\"'Fredoka', sans-serif\" font-weight=\"900\" font-size=\"16\">“</text>\n                  <text x=\"28\" y=\"16\" fill=\"#065f46\" font-family=\"'Fredoka', sans-serif\" font-weight=\"700\" font-size=\"12\">Buen trabajo</text>\n                  <text x=\"154\" y=\"17\" fill=\"#ffffff\" font-family=\"'Fredoka', sans-serif\" font-weight=\"900\" font-size=\"16\">”</text>\n                </g>\n              </g>\n\n              <!-- BLOQUE 3: TURQUESA ( [🍎 ▼] detiene todo ) -->\n              <g transform=\"translate(84, 134)\">\n                <path d=\"M 0 0 H 434 Q 444 0 444 10 V 66 Q 444 76 434 76 H 0 Z\" fill=\"#0098a6\"/>\n\n                <!-- Caja Rosada Selector de Sprite con Manzana -->\n                <g transform=\"translate(14, 11)\">\n                  <rect x=\"0\" y=\"0\" width=\"72\" height=\"54\" rx=\"8\" fill=\"#fbcfe8\" stroke=\"#f472b6\" stroke-width=\"2\"/>\n                  <rect x=\"5\" y=\"5\" width=\"62\" height=\"44\" rx=\"6\" fill=\"#fdf2f8\"/>\n                  \n                  <!-- Manzana dentro del selector -->\n                  <g transform=\"translate(18, 9) scale(0.52)\">\n                    <path d=\"M32 14 C30 8 36 4 36 4 C36 4 38 10 34 14\" stroke=\"#78350f\" stroke-width=\"4\" stroke-linecap=\"round\" fill=\"none\"/>\n                    <path d=\"M34 8 C40 6 44 10 42 14 C38 14 36 10 34 8 Z\" fill=\"#16a34a\"/>\n                    <path d=\"M32 18 C20 18 14 26 14 38 C14 52 24 60 32 60 C40 60 50 52 50 38 C50 26 44 18 32 18 Z\" fill=\"#ea580c\"/>\n                    <path d=\"M22 28 Q26 24 30 26\" stroke=\"#fed7aa\" stroke-width=\"3\" stroke-linecap=\"round\" fill=\"none\"/>\n                  </g>\n\n                  <!-- Triángulo dropdown rosado -->\n                  <polygon points=\"56,26 62,26 59,32\" fill=\"#ec4899\"/>\n                </g>\n\n                <!-- Texto 'detiene todo' -->\n                <text x=\"96\" y=\"44\" fill=\"#ffffff\" font-family=\"'Fredoka', sans-serif\" font-weight=\"700\" font-size=\"18\">detiene todo</text>\n              </g>\n            </svg>\n          </div>\n        ",
+    "opciones": [
+      "Comenzarán fuegos artificiales en la pantalla.",
+      "Se mostrará una pantalla de felicitaciones y terminará el juego.",
+      "El juego comenzará desde el inicio."
+    ],
+    "correcta": 1,
+    "explicacion": "¡Increíble lectura de código! El bloque muestra el título «Felicitaciones, ganaste» y luego «detiene todo»."
+  },
+  {
+    "id": 6,
+    "tipo": "tf",
+    "tiempoSegundos": 60,
+    "puntos": 1,
+    "headerType": "¿VERDADERO O FALSO?",
+    "pregunta": "¿Verdadero o Falso?",
+    "contextText": "«Un sprite NO puede cambiar de disfraz.»",
+    "graphicHtml": "\n          <div class=\"flex items-center justify-center gap-4 py-2\">\n            <div class=\"text-center\">\n              <svg viewBox=\"0 0 80 80\" class=\"w-20 h-20 drop-shadow\">\n                <path d=\"M20 70 L20 40 Q20 20 40 20 Q60 20 60 40 L60 70 Z\" fill=\"#a855f7\"/>\n                <polygon points=\"20,28 24,14 32,22\" fill=\"#a855f7\"/>\n                <polygon points=\"60,28 56,14 48,22\" fill=\"#a855f7\"/>\n                <ellipse cx=\"40\" cy=\"52\" rx=\"14\" ry=\"12\" fill=\"#c084fc\"/>\n                <circle cx=\"32\" cy=\"35\" r=\"4\" fill=\"#1e293b\"/>\n                <circle cx=\"33\" cy=\"34\" r=\"1.2\" fill=\"#ffffff\"/>\n                <circle cx=\"48\" cy=\"35\" r=\"4\" fill=\"#1e293b\"/>\n                <circle cx=\"49\" cy=\"34\" r=\"1.2\" fill=\"#ffffff\"/>\n                <ellipse cx=\"40\" cy=\"42\" rx=\"5\" ry=\"3\" fill=\"#e11d48\"/>\n                <path d=\"M18 45 Q8 40 12 34\" stroke=\"#a855f7\" stroke-width=\"5\" stroke-linecap=\"round\" fill=\"none\"/>\n                <path d=\"M62 45 Q72 40 68 34\" stroke=\"#a855f7\" stroke-width=\"5\" stroke-linecap=\"round\" fill=\"none\"/>\n              </svg>\n              <span class=\"text-xs font-bold text-purple-700\">Disfraz 1 (Sano)</span>\n            </div>\n\n            <div class=\"text-orange-500 font-black text-2xl\">➔</div>\n\n            <div class=\"text-center\">\n              <svg viewBox=\"0 0 80 80\" class=\"w-20 h-20 drop-shadow\">\n                <path d=\"M20 70 L20 40 Q20 20 40 20 Q60 20 60 40 L60 70 Z\" fill=\"#ec4899\"/>\n                <polygon points=\"20,28 24,14 32,22\" fill=\"#ec4899\"/>\n                <polygon points=\"60,28 56,14 48,22\" fill=\"#ec4899\"/>\n                <circle cx=\"28\" cy=\"24\" r=\"2.5\" fill=\"#84cc16\"/>\n                <circle cx=\"50\" cy=\"24\" r=\"2.5\" fill=\"#84cc16\"/>\n                <circle cx=\"23\" cy=\"46\" r=\"2.5\" fill=\"#84cc16\"/>\n                <circle cx=\"58\" cy=\"46\" r=\"2.5\" fill=\"#84cc16\"/>\n                <circle cx=\"38\" cy=\"64\" r=\"2.5\" fill=\"#84cc16\"/>\n                <ellipse cx=\"40\" cy=\"52\" rx=\"14\" ry=\"12\" fill=\"#fbcfe8\"/>\n                <circle cx=\"32\" cy=\"35\" r=\"4\" fill=\"#1e293b\"/>\n                <circle cx=\"48\" cy=\"35\" r=\"4\" fill=\"#1e293b\"/>\n                <ellipse cx=\"40\" cy=\"42\" rx=\"6\" ry=\"4\" fill=\"#9d174d\"/>\n                <path d=\"M18 45 Q8 40 12 34\" stroke=\"#ec4899\" stroke-width=\"5\" stroke-linecap=\"round\" fill=\"none\"/>\n                <path d=\"M62 45 Q72 40 68 34\" stroke=\"#ec4899\" stroke-width=\"5\" stroke-linecap=\"round\" fill=\"none\"/>\n              </svg>\n              <span class=\"text-xs font-bold text-pink-600\">Disfraz 2 (Enfermo)</span>\n            </div>\n          </div>\n        ",
+    "opciones": [
+      "VERDADERO",
+      "FALSO"
+    ],
+    "correcta": 1,
+    "explicacion": "¡Es FALSO! ¡Claro que PUEDE cambiar de disfraz! En nuestro proyecto cambiamos el monstruito morado al rosa con manchitas verdes."
+  },
+  {
+    "id": 7,
+    "tipo": "multiple",
+    "tiempoSegundos": 60,
+    "puntos": 1,
+    "headerType": "ELIGE LA OPCIÓN CORRECTA",
+    "pregunta": "¿Qué programación hacía que los sprites se contagien al tocar el virus?",
+    "contextText": null,
+    "graphicHtml": "\n          <div class=\"grid grid-cols-1 md:grid-cols-3 gap-3 w-full text-xs\">\n            <div class=\"bg-slate-50 border-2 border-slate-300 rounded-xl p-2.5\">\n              <div class=\"font-kids font-black text-sky-600 text-lg mb-1\">A.</div>\n              <div class=\"bg-amber-500 text-white font-bold p-1 rounded mb-1\">cuando se ejecuta</div>\n              <div class=\"bg-indigo-600 text-white p-1 rounded mb-1\">establecer fondo a [pradera]</div>\n              <div class=\"bg-red-500 text-white p-1 rounded\">crear un nuevo sprite</div>\n            </div>\n\n            <div class=\"bg-slate-50 border-2 border-slate-300 rounded-xl p-2.5\">\n              <div class=\"font-kids font-black text-sky-600 text-lg mb-1\">B.</div>\n              <div class=\"bg-green-600 text-white font-bold p-1 rounded mb-1\">en 25 segundos</div>\n              <div class=\"bg-red-500 text-white p-1 rounded mb-1\">crear un nuevo sprite [inyección]</div>\n              <div class=\"bg-teal-600 text-white p-1 rounded\">comienza ser arrastrable</div>\n            </div>\n\n            <div class=\"bg-emerald-50 border-2 border-emerald-400 rounded-xl p-2.5 shadow-sm\">\n              <div class=\"font-kids font-black text-emerald-600 text-lg mb-1\">C.</div>\n              <div class=\"bg-green-600 text-white font-bold p-1 rounded mb-1\">\n                cuando [🦠 virus] toca [👾 monstruo]\n              </div>\n              <div class=\"bg-teal-500 text-white font-bold p-1 rounded\">\n                cambiar [objeto] disfraz a [👾 rosa enfermo]\n              </div>\n            </div>\n          </div>\n        ",
+    "opciones": [
+      "Opción A: Inicializar juego y crear el fondo.",
+      "Opción B: En 25 segundos crear la inyección arrastrable.",
+      "Opción C: Cuando virus toca monstruo ➔ cambiar disfraz a monstruo enfermo."
+    ],
+    "correcta": 2,
+    "explicacion": "¡Excelente! La opción C usa el evento de colisión: «cuando el virus toca al monstruo» para contagiarlo."
+  },
+  {
+    "id": 8,
+    "tipo": "tf",
+    "tiempoSegundos": 60,
+    "puntos": 1,
+    "headerType": "¿VERDADERO O FALSO?",
+    "pregunta": "¿Verdadero o Falso?",
+    "contextText": "«En nuestro juego del virus, si los monstruos se infectaban, NO podíamos curarlos.»",
+    "graphicHtml": "\n          <div class=\"flex items-center justify-center gap-3 p-3 bg-rose-50 rounded-2xl border-2 border-rose-200\">\n            <span class=\"text-3xl\">💉</span>\n            <span class=\"text-3xl\">➔</span>\n            <span class=\"text-3xl\">👾🩹</span>\n            <div class=\"text-left ml-2\">\n              <div class=\"font-kids font-bold text-rose-800 text-sm\">¿Había medicina en el juego?</div>\n              <div class=\"text-xs text-slate-500\">Recuerda el bloque de la inyección arrastrable.</div>\n            </div>\n          </div>\n        ",
+    "opciones": [
+      "VERDADERO",
+      "FALSO"
+    ],
+    "correcta": 1,
+    "explicacion": "¡Es FALSO! ¡Sí podíamos curarlos! Teníamos una inyección (vacuna) que arrastrábamos para que volvieran a estar sanos."
+  },
+  {
+    "id": 9,
+    "tipo": "multiple",
+    "tiempoSegundos": 60,
+    "puntos": 1,
+    "headerType": "ELIGE LA OPCIÓN CORRECTA",
+    "pregunta": "Según la siguiente programación, ¿Cómo le coloco la mascarilla al monstruo?",
+    "contextText": null,
+    "graphicHtml": "\n          <div class=\"w-full flex justify-center py-1 select-none overflow-x-auto\">\n            <svg viewBox=\"0 0 540 160\" class=\"w-full max-w-[500px] drop-shadow-lg\">\n              <!-- Bloque Verde C-Shape -->\n              <path d=\"M 20 8 H 516 Q 528 8 528 20 V 38 Q 528 48 518 48 H 42 Q 36 48 36 56 V 112 Q 36 120 42 120 H 516 Q 528 120 528 130 V 140 Q 528 152 516 152 H 20 Q 8 152 8 140 V 20 Q 8 8 20 8 Z\" fill=\"#059669\"/>\n              <g transform=\"translate(18, 14)\">\n                <rect x=\"0\" y=\"0\" width=\"102\" height=\"28\" rx=\"7\" fill=\"#047857\"/>\n                <text x=\"8\" y=\"19\" fill=\"#ffffff\" font-family=\"'Fredoka', sans-serif\" font-weight=\"700\" font-size=\"14\">— cuando</text>\n                <text x=\"84\" y=\"19\" fill=\"#a7f3d0\" font-size=\"11\">▼</text>\n              </g>\n              <g transform=\"translate(128, 14)\">\n                <rect x=\"0\" y=\"0\" width=\"124\" height=\"28\" rx=\"7\" fill=\"#fce7f3\" stroke=\"#fbcfe8\" stroke-width=\"1.5\"/>\n                <text x=\"10\" y=\"19\" font-size=\"14\">👾</text>\n                <text x=\"32\" y=\"19\" fill=\"#831843\" font-family=\"'Fredoka', sans-serif\" font-weight=\"800\" font-size=\"14\">Monstruo</text>\n              </g>\n              <text x=\"264\" y=\"33\" fill=\"#ffffff\" font-family=\"'Fredoka', sans-serif\" font-weight=\"800\" font-size=\"15\" letter-spacing=\"0.5\">PULSADO</text>\n\n              <!-- Bloque Anidado Turquesa -->\n              <g transform=\"translate(36, 48)\">\n                <path d=\"M 0 0 H 472 Q 482 0 482 10 V 62 Q 482 72 472 72 H 0 Z\" fill=\"#0098a6\"/>\n                <text x=\"14\" y=\"42\" fill=\"#ffffff\" font-family=\"'Fredoka', sans-serif\" font-weight=\"700\" font-size=\"16\">cambiar</text>\n                <g transform=\"translate(86, 22)\">\n                  <rect x=\"0\" y=\"0\" width=\"104\" height=\"28\" rx=\"6\" fill=\"#f43f5e\"/>\n                  <text x=\"8\" y=\"19\" fill=\"#ffffff\" font-family=\"'Fredoka', sans-serif\" font-weight=\"800\" font-size=\"14\">pulsado</text>\n                  <text x=\"78\" y=\"19\" font-size=\"13\">👾</text>\n                </g>\n                <text x=\"198\" y=\"42\" fill=\"#ffffff\" font-family=\"'Fredoka', sans-serif\" font-weight=\"700\" font-size=\"16\">disfraz a</text>\n                <g transform=\"translate(272, 22)\">\n                  <rect x=\"0\" y=\"0\" width=\"195\" height=\"28\" rx=\"7\" fill=\"#e0f2fe\" stroke=\"#bae6fd\" stroke-width=\"1.5\"/>\n                  <text x=\"8\" y=\"19\" font-size=\"13\">👾</text>\n                  <text x=\"28\" y=\"19\" fill=\"#075985\" font-family=\"'Fredoka', sans-serif\" font-weight=\"800\" font-size=\"13\">con Mascarilla</text>\n                  <text x=\"166\" y=\"19\" font-size=\"13\">😷</text>\n                </g>\n              </g>\n            </svg>\n          </div>\n        ",
+    "opciones": [
+      "Al hacerle clic.",
+      "Al presionar la barra espaciadora.",
+      "Cuando entre en contacto con otro sprite."
+    ],
+    "correcta": 0,
+    "explicacion": "¡Brillante! El evento «cuando pulsado» se activa haciendo clic o tocando con el dedo sobre el sprite."
+  },
+  {
+    "id": 10,
+    "tipo": "tf",
+    "tiempoSegundos": 60,
+    "puntos": 1,
+    "headerType": "¿VERDADERO O FALSO?",
+    "pregunta": "¿Verdadero o Falso?",
+    "contextText": "«Si le coloco una inyección a los monstruos, éstos quedan inmunes al virus.»",
+    "graphicHtml": "\n          <div class=\"w-full flex justify-center py-1 select-none overflow-x-auto\">\n            <svg viewBox=\"0 0 540 160\" class=\"w-full max-w-[500px] drop-shadow-lg\">\n              <!-- Bloque Verde C-Shape -->\n              <path d=\"M 20 8 H 516 Q 528 8 528 20 V 38 Q 528 48 518 48 H 42 Q 36 48 36 56 V 112 Q 36 120 42 120 H 516 Q 528 120 528 130 V 140 Q 528 152 516 152 H 20 Q 8 152 8 140 V 20 Q 8 8 20 8 Z\" fill=\"#059669\"/>\n              <g transform=\"translate(18, 14)\">\n                <rect x=\"0\" y=\"0\" width=\"102\" height=\"28\" rx=\"7\" fill=\"#047857\"/>\n                <text x=\"8\" y=\"19\" fill=\"#ffffff\" font-family=\"'Fredoka', sans-serif\" font-weight=\"700\" font-size=\"14\">— cuando</text>\n                <text x=\"84\" y=\"19\" fill=\"#a7f3d0\" font-size=\"11\">▼</text>\n              </g>\n              <g transform=\"translate(128, 14)\">\n                <rect x=\"0\" y=\"0\" width=\"108\" height=\"28\" rx=\"7\" fill=\"#ccfbf1\" stroke=\"#99f6e4\" stroke-width=\"1.5\"/>\n                <text x=\"8\" y=\"19\" font-size=\"13\">💉</text>\n                <text x=\"28\" y=\"19\" fill=\"#115e59\" font-family=\"'Fredoka', sans-serif\" font-weight=\"800\" font-size=\"14\">Inyección</text>\n              </g>\n              <text x=\"246\" y=\"33\" fill=\"#ffffff\" font-family=\"'Fredoka', sans-serif\" font-weight=\"800\" font-size=\"15\">toca</text>\n              <g transform=\"translate(290, 14)\">\n                <rect x=\"0\" y=\"0\" width=\"118\" height=\"28\" rx=\"7\" fill=\"#fce7f3\" stroke=\"#fbcfe8\" stroke-width=\"1.5\"/>\n                <text x=\"8\" y=\"19\" font-size=\"13\">👾</text>\n                <text x=\"28\" y=\"19\" fill=\"#831843\" font-family=\"'Fredoka', sans-serif\" font-weight=\"800\" font-size=\"14\">Monstruo</text>\n              </g>\n\n              <!-- Bloque Anidado Turquesa -->\n              <g transform=\"translate(36, 48)\">\n                <path d=\"M 0 0 H 472 Q 482 0 482 10 V 62 Q 482 72 472 72 H 0 Z\" fill=\"#0098a6\"/>\n                <text x=\"14\" y=\"42\" fill=\"#ffffff\" font-family=\"'Fredoka', sans-serif\" font-weight=\"700\" font-size=\"16\">cambiar</text>\n                <g transform=\"translate(86, 22)\">\n                  <rect x=\"0\" y=\"0\" width=\"96\" height=\"28\" rx=\"6\" fill=\"#f43f5e\"/>\n                  <text x=\"8\" y=\"19\" fill=\"#ffffff\" font-family=\"'Fredoka', sans-serif\" font-weight=\"800\" font-size=\"14\">objeto</text>\n                  <text x=\"70\" y=\"19\" font-size=\"13\">👾</text>\n                </g>\n                <text x=\"190\" y=\"42\" fill=\"#ffffff\" font-family=\"'Fredoka', sans-serif\" font-weight=\"700\" font-size=\"16\">disfraz a</text>\n                <g transform=\"translate(264, 22)\">\n                  <rect x=\"0\" y=\"0\" width=\"205\" height=\"28\" rx=\"7\" fill=\"#e0f2fe\" stroke=\"#bae6fd\" stroke-width=\"1.5\"/>\n                  <text x=\"8\" y=\"19\" font-size=\"13\">🛡️</text>\n                  <text x=\"28\" y=\"19\" fill=\"#075985\" font-family=\"'Fredoka', sans-serif\" font-weight=\"800\" font-size=\"13\">Inmune (Celeste)</text>\n                  <text x=\"175\" y=\"19\" font-size=\"13\">✨</text>\n                </g>\n              </g>\n            </svg>\n          </div>\n        ",
+    "opciones": [
+      "VERDADERO",
+      "FALSO"
+    ],
+    "correcta": 0,
+    "explicacion": "¡VERDADERO! Al recibir la inyección, su disfraz cambia al monstruito celeste protegido y queda protegido contra el virus."
+  }
+];
+
+    // Sonidos con Web Audio API
+    let audioCtx = null;
+    function getAudioContext() {
+      if (!audioCtx) {
+        audioCtx = new (window.AudioContext || window.webkitAudioContext)();
+      }
+      return audioCtx;
+    }
+
+    const Sound = {
+      correct() {
+        try {
+          const ctx = getAudioContext();
+          const now = ctx.currentTime;
+          [523.25, 659.25, 783.99, 1046.50].forEach((freq, idx) => {
+            const osc = ctx.createOscillator();
+            const gain = ctx.createGain();
+            osc.type = 'triangle';
+            osc.frequency.setValueAtTime(freq, now + idx * 0.08);
+            gain.gain.setValueAtTime(0.2, now + idx * 0.08);
+            gain.gain.exponentialRampToValueAtTime(0.001, now + idx * 0.08 + 0.3);
+            osc.connect(gain);
+            gain.connect(ctx.destination);
+            osc.start(now + idx * 0.08);
+            osc.stop(now + idx * 0.08 + 0.3);
+          });
+        } catch(e) {}
+      },
+      wrong() {
+        try {
+          const ctx = getAudioContext();
+          const now = ctx.currentTime;
+          const osc = ctx.createOscillator();
+          const gain = ctx.createGain();
+          osc.type = 'sine';
+          osc.frequency.setValueAtTime(260, now);
+          osc.frequency.exponentialRampToValueAtTime(140, now + 0.3);
+          gain.gain.setValueAtTime(0.25, now);
+          gain.gain.exponentialRampToValueAtTime(0.01, now + 0.35);
+          osc.connect(gain);
+          gain.connect(ctx.destination);
+          osc.start(now);
+          osc.stop(now + 0.35);
+        } catch(e) {}
+      },
+      fanfare() {
+        try {
+          const ctx = getAudioContext();
+          const now = ctx.currentTime;
+          const melody = [
+            { f: 523.25, t: 0, d: 0.15 },
+            { f: 523.25, t: 0.15, d: 0.15 },
+            { f: 523.25, t: 0.30, d: 0.15 },
+            { f: 659.25, t: 0.45, d: 0.3 },
+            { f: 783.99, t: 0.75, d: 0.3 },
+            { f: 1046.50, t: 1.05, d: 0.8 }
+          ];
+          melody.forEach(n => {
+            const osc = ctx.createOscillator();
+            const gain = ctx.createGain();
+            osc.type = 'triangle';
+            osc.frequency.setValueAtTime(n.f, now + n.t);
+            gain.gain.setValueAtTime(0.2, now + n.t);
+            gain.gain.exponentialRampToValueAtTime(0.001, now + n.t + n.d);
+            osc.connect(gain);
+            gain.connect(ctx.destination);
+            osc.start(now + n.t);
+            osc.stop(now + n.t + n.d);
+          });
+        } catch(e) {}
+      }
+    };
+
+    // Variables de estado del Examen
+    let activeQuestions3 = [];
+    let currentIdx3 = 0;
+    let evalScore3 = 0;
+    let studentName3 = '';
+    let studentCode3 = '';
+    let studentRole3 = 'estudiante';
+    let evalAnswersDetail3 = [];
+    let isQuestionAnswered3 = false;
+
+    // Función para revolver preguntas y opciones aleatoriamente
+    function prepareQuestionsG3() {
+      // Clona y baraja opciones de cada pregunta (conservando el nuevo índice de la correcta)
+      const shuffledQuestions = examQuestionsG3.map(q => {
+        const correctText = q.opciones[q.correcta];
+        
+        let shuffledOptions = [...q.opciones];
+        // Si no es verdadero/falso estricto, barajar opciones
+        if (q.tipo !== 'tf') {
+          for (let i = shuffledOptions.length - 1; i > 0; i--) {
+            const j = Math.floor(Math.random() * (i + 1));
+            [shuffledOptions[i], shuffledOptions[j]] = [shuffledOptions[j], shuffledOptions[i]];
+          }
+        }
+        
+        const newCorrectIdx = shuffledOptions.indexOf(correctText);
+        return {
+          ...q,
+          opciones: shuffledOptions,
+          correcta: newCorrectIdx
+        };
+      });
+
+      // Barajar el orden completo de preguntas (Fisher-Yates)
+      for (let i = shuffledQuestions.length - 1; i > 0; i--) {
+        const j = Math.floor(Math.random() * (i + 1));
+        [shuffledQuestions[i], shuffledQuestions[j]] = [shuffledQuestions[j], shuffledQuestions[i]];
+      }
+
+      return shuffledQuestions;
+    }
+
+    // Modal de Login
+    function openOfficialLoginModal3() {
+      // Verificar si ya completó el examen antes (a menos que sea docente)
+      const saved = localStorage.getItem(STORAGE_KEY_OFFICIAL_RESULT_G3);
+      if (saved && studentRole3 !== 'docente') {
+        try {
+          const parsed = JSON.parse(saved);
+          showCompletedScreen3(parsed);
+          return;
+        } catch(e) {}
+      }
+
+      const modal = document.getElementById('modal-official-login3');
+      const err = document.getElementById('official3-login-error');
+      const nameInp = document.getElementById('official3-student-name-input');
+      const codeInp = document.getElementById('official3-code-input');
+
+      if (err) err.classList.add('hidden');
+      if (nameInp) nameInp.value = '';
+      if (codeInp) codeInp.value = '';
+      if (modal) {
+        modal.classList.remove('hidden');
+        modal.classList.add('flex');
+        setTimeout(() => { if (nameInp) nameInp.focus(); }, 150);
+      }
+    }
+
+    function closeOfficialLoginModal3() {
+      const modal = document.getElementById('modal-official-login3');
+      if (modal) {
+        modal.classList.add('hidden');
+        modal.classList.remove('flex');
+      }
+    }
+
+    function confirmOfficialLogin3() {
+      const nameInp = document.getElementById('official3-student-name-input');
+      const codeInp = document.getElementById('official3-code-input');
+      const err = document.getElementById('official3-login-error');
+
+      const nameVal = nameInp ? nameInp.value.trim() : '';
+      const codeVal = codeInp ? codeInp.value.trim() : '';
+
+      if (nameVal.length < 4 || !nameVal.includes(' ')) {
+        if (err) {
+          err.textContent = 'Por favor ingresa tu Apellido y Nombre completos (mínimo 4 caracteres y con espacio).';
+          err.classList.remove('hidden');
+        }
+        return;
+      }
+
+      let role = '';
+      if (codeVal === 'Entrar123*') {
+        role = 'docente';
+      } else if (codeVal === 'entrar123') {
+        role = 'estudiante';
+      } else {
+        if (err) {
+          err.textContent = 'Clave de acceso incorrecta. Para estudiantes es entrar123 y docentes Entrar123*.';
+          err.classList.remove('hidden');
+        }
+        return;
+      }
+
+      studentRole3 = role;
+      studentName3 = nameVal;
+      studentCode3 = 'G3P3-' + nameVal.replace(/[^a-zA-Z0-9]/g, '').slice(0, 10).toUpperCase() + '-' + Math.floor(100 + Math.random() * 900);
+
+      closeOfficialLoginModal3();
+      startOfficialExam3();
+    }
+
+    // Iniciar el Examen Real
+    function startOfficialExam3() {
+      activeQuestions3 = prepareQuestionsG3();
+      currentIdx3 = 0;
+      evalScore3 = 0;
+      evalAnswersDetail3 = [];
+      isQuestionAnswered3 = false;
+
+      document.getElementById('view-inicio-modulos').classList.add('hidden');
+      document.getElementById('view-results-screen').classList.add('hidden');
+      document.getElementById('main-examen-view').classList.remove('hidden');
+
+      const runnerName = document.getElementById('runner3-student-name');
+      if (runnerName) {
+        runnerName.textContent = studentName3 + (studentRole3 === 'docente' ? ' (Modo Docente)' : '');
+      }
+
+      renderQuestion3();
+      window.scrollTo({ top: 0, behavior: 'smooth' });
+    }
+
+    function renderQuestion3() {
+      isQuestionAnswered3 = false;
+      const q = activeQuestions3[currentIdx3];
+      const total = activeQuestions3.length;
+
+      // Stats
+      document.getElementById('runner3-score').textContent = evalScore3 + ' / ' + total;
+      document.getElementById('runner3-question-idx').textContent = (currentIdx3 + 1) + ' de ' + total;
+      document.getElementById('runner3-pill-num').textContent = 'P' + (currentIdx3 + 1);
+
+      // Barra de progreso
+      const progressPercent = (currentIdx3 / total) * 100;
+      document.getElementById('runner3-progress-bar').style.width = progressPercent + '%';
+
+      // Header y Enunciado
+      document.getElementById('runner3-question-header').textContent = q.headerType;
+      document.getElementById('runner3-question-prompt').textContent = (currentIdx3 + 1) + '. ' + q.pregunta;
+
+      const contextEl = document.getElementById('runner3-question-context');
+      if (q.contextText) {
+        contextEl.textContent = q.contextText;
+        contextEl.classList.remove('hidden');
+      } else {
+        contextEl.classList.add('hidden');
+      }
+
+      // Graphic / SVG
+      const graphicBox = document.getElementById('runner3-graphic-container');
+      if (q.graphicHtml) {
+        graphicBox.innerHTML = q.graphicHtml;
+        graphicBox.classList.remove('hidden');
+      } else {
+        graphicBox.innerHTML = '';
+        graphicBox.classList.add('hidden');
+      }
+
+      // Ocultar feedback
+      const fbCard = document.getElementById('runner3-feedback-card');
+      fbCard.classList.add('hidden');
+      fbCard.className = 'hidden max-w-2xl mx-auto w-full p-4 rounded-2xl border-2 transition-all transform duration-300';
+
+      // Renderizar Opciones
+      const optionsBox = document.getElementById('runner3-options-container');
+      optionsBox.innerHTML = '';
+
+      if (q.tipo === 'tf') {
+        const tfGrid = document.createElement('div');
+        tfGrid.className = 'grid grid-cols-2 gap-3.5 w-full';
+
+        q.opciones.forEach((optText, optIdx) => {
+          const btn = document.createElement('button');
+          const isVerdadero = optText.toUpperCase() === 'VERDADERO';
+
+          btn.className = 'btn-3d py-4 px-4 rounded-2xl font-kids font-black text-lg sm:text-xl border-3 flex items-center justify-center gap-2 transition-colors cursor-pointer ' +
+            (isVerdadero 
+              ? 'bg-emerald-500 hover:bg-emerald-600 text-white border-emerald-600' 
+              : 'bg-rose-500 hover:bg-rose-600 text-white border-rose-600');
+
+          btn.innerHTML = '<span class="text-2xl">' + (isVerdadero ? '👍' : '👎') + '</span><span>' + optText + '</span>';
+          btn.onclick = () => selectOption3(optIdx, btn);
+          tfGrid.appendChild(btn);
+        });
+
+        optionsBox.appendChild(tfGrid);
+      } else {
+        q.opciones.forEach((optText, optIdx) => {
+          const btn = document.createElement('button');
+          btn.className = 'btn-3d w-full text-left p-3.5 sm:p-4 rounded-xl sm:rounded-2xl border-2 border-slate-200 bg-white hover:border-emerald-400 hover:bg-emerald-50 flex items-start gap-3 transition-all group cursor-pointer';
+
+          btn.innerHTML = 
+            '<div class="shrink-0 w-8 h-8 sm:w-10 sm:h-10 rounded-xl bg-emerald-600 text-white font-kids font-black text-base sm:text-xl flex items-center justify-center shadow-sm">' +
+              String.fromCharCode(65 + optIdx) +
+            '</div>' +
+            '<div class="flex-grow text-slate-700 font-bold text-xs sm:text-sm leading-snug group-hover:text-emerald-950 pt-1">' +
+              optText +
+            '</div>';
+
+          btn.onclick = () => selectOption3(optIdx, btn);
+          optionsBox.appendChild(btn);
+        });
+      }
+    }
+
+    function selectOption3(selectedIdx, clickedBtn) {
+      if (isQuestionAnswered3) return;
+      isQuestionAnswered3 = true;
+
+      const q = activeQuestions3[currentIdx3];
+      const isCorrect = selectedIdx === q.correcta;
+
+      // Desactivar todos los botones de opciones
+      const optionsBox = document.getElementById('runner3-options-container');
+      const allButtons = optionsBox.querySelectorAll('button');
+      allButtons.forEach(b => {
+        b.disabled = true;
+        b.classList.remove('btn-3d', 'hover:bg-emerald-50', 'hover:border-emerald-400', 'cursor-pointer');
+        b.classList.add('cursor-default');
+      });
+
+      if (isCorrect) {
+        Sound.correct();
+        evalScore3++;
+        document.getElementById('runner3-score').textContent = evalScore3 + ' / ' + activeQuestions3.length;
+
+        clickedBtn.classList.remove('bg-white', 'border-slate-200');
+        clickedBtn.classList.add('bg-emerald-100', 'border-emerald-500', 'ring-4', 'ring-emerald-200');
+
+        const fbCard = document.getElementById('runner3-feedback-card');
+        fbCard.className = 'max-w-2xl mx-auto w-full p-4 rounded-2xl border-2 border-emerald-300 bg-emerald-50 transition-all block';
+        document.getElementById('runner3-feedback-icon').innerText = '🌟';
+        document.getElementById('runner3-feedback-title').innerText = '¡Excelente Respuesta!';
+        document.getElementById('runner3-feedback-title').className = 'text-sm sm:text-base font-kids font-black text-emerald-800';
+        document.getElementById('runner3-feedback-text').innerHTML = q.explicacion;
+        fbCard.classList.remove('hidden');
+      } else {
+        Sound.wrong();
+
+        clickedBtn.classList.remove('bg-white', 'border-slate-200');
+        clickedBtn.classList.add('bg-rose-100', 'border-rose-500', 'ring-4', 'ring-rose-200');
+
+        // Resaltar la respuesta correcta pedagógicamente
+        if (q.tipo !== 'tf' && allButtons[q.correcta]) {
+          allButtons[q.correcta].classList.add('bg-emerald-50', 'border-emerald-500', 'border-2');
+        }
+
+        const fbCard = document.getElementById('runner3-feedback-card');
+        fbCard.className = 'max-w-2xl mx-auto w-full p-4 rounded-2xl border-2 border-amber-300 bg-amber-50 transition-all block';
+        document.getElementById('runner3-feedback-icon').innerText = '💡';
+        document.getElementById('runner3-feedback-title').innerText = 'Respuesta Incorrecta:';
+        document.getElementById('runner3-feedback-title').className = 'text-sm sm:text-base font-kids font-black text-amber-900';
+        document.getElementById('runner3-feedback-text').innerHTML = 'La opción correcta era: <strong>' + q.opciones[q.correcta] + '</strong>.<br>' + q.explicacion;
+        fbCard.classList.remove('hidden');
+      }
+
+      evalAnswersDetail3.push({
+        pregunta: q.pregunta,
+        seleccionada: q.opciones[selectedIdx],
+        correcta: q.opciones[q.correcta],
+        esCorrecta: isCorrect
+      });
+
+      // Texto de botón siguiente
+      const nextBtn = document.getElementById('runner3-btn-next');
+      if (currentIdx3 === activeQuestions3.length - 1) {
+        nextBtn.innerHTML = '<span>Finalizar y Enviar Examen</span> ➔';
+      } else {
+        nextBtn.innerHTML = '<span>Siguiente Pregunta</span> ➔';
+      }
+
+      if (window.innerWidth < 640) {
+        fbCard.scrollIntoView({ behavior: 'smooth', block: 'center' });
+      }
+    }
+
+    function nextQuestion3() {
+      if (currentIdx3 < activeQuestions3.length - 1) {
+        currentIdx3++;
+        renderQuestion3();
+      } else {
+        finishOfficialExam3();
+      }
+    }
+
+    // Finalizar y Enviar Examen Real
+    async function finishOfficialExam3() {
+      document.getElementById('main-examen-view').classList.add('hidden');
+      const resultsView = document.getElementById('view-results-screen');
+      resultsView.classList.remove('hidden');
+
+      const total = activeQuestions3.length;
+      const percent = Math.round((evalScore3 / total) * 100);
+      const grade = (1.0 + (evalScore3 / total) * 4.0).toFixed(1);
+
+      document.getElementById('results3-student-subtitle').textContent = 
+        'Calificación registrada oficialmente para: ' + studentName3;
+      document.getElementById('results3-score-correct').textContent = evalScore3 + ' / ' + total;
+      document.getElementById('results3-score-grade').textContent = grade + ' / 5.0';
+      document.getElementById('results3-score-percent').textContent = percent + '%';
+
+      Sound.fanfare();
+      if (typeof confetti === 'function' && evalScore3 >= 6) {
+        confetti({ particleCount: 80, spread: 70, origin: { y: 0.6 } });
+      }
+
+      // Preparar payload para Cloudflare D1
+      const payload = {
+        codigo: studentCode3,
+        nombre: studentName3,
+        curso: 'Grado 3° Primaria (Periodo 3)',
+        dimensionPrincipal: 'Condicionales y Sprites',
+        dimensionSecundaria: percent + '% (' + grade + '/5.0)',
+        puntajes: { R: evalScore3 },
+        fecha: new Date().toISOString(),
+        autoevaluacion: 'Aciertos: ' + evalScore3 + ' / ' + total + ' (' + grade + '/5.0)',
+        respuestasDetalle: evalAnswersDetail3
+      };
+
+      // Guardar en LocalStorage como respaldo inmutable
+      try {
+        localStorage.setItem(STORAGE_KEY_OFFICIAL_RESULT_G3, JSON.stringify({
+          codigo: studentCode3,
+          nombre: studentName3,
+          puntaje: evalScore3,
+          porcentaje: percent,
+          nota: grade,
+          fecha: new Date().toLocaleDateString('es-CO')
+        }));
+      } catch(e) {}
+
+      // Sincronizar en la Nube
+      const syncStatusEl = document.getElementById('results3-sync-status');
+      try {
+        const resp = await fetch(CF_WORKER_URL_G3 + '/api/respuestas', {
+          method: 'POST',
+          headers: { 'Content-Type': 'application/json' },
+          body: JSON.stringify(payload)
+        });
+
+        if (resp.ok) {
+          syncStatusEl.innerHTML = '<span>✅</span> <span>Calificación guardada y sincronizada en la nube con éxito</span>';
+          syncStatusEl.className = 'inline-flex items-center gap-1.5 text-xs font-bold text-emerald-800 bg-emerald-100 px-3 py-1 rounded-full';
+        } else {
+          syncStatusEl.innerHTML = '<span>💾</span> <span>Guardado localmente en este dispositivo</span>';
+        }
+      } catch(e) {
+        syncStatusEl.innerHTML = '<span>💾</span> <span>Guardado localmente (sin conexión remota inmediata)</span>';
+      }
+
+      updateCardStatus3();
+    }
+
+    function showCompletedScreen3(data) {
+      document.getElementById('view-inicio-modulos').classList.add('hidden');
+      document.getElementById('main-examen-view').classList.add('hidden');
+      document.getElementById('view-results-screen').classList.remove('hidden');
+
+      document.getElementById('results3-student-subtitle').textContent = 
+        'Examen ya presentado por: ' + data.nombre + ' (' + data.codigo + ')';
+      document.getElementById('results3-score-correct').textContent = data.puntaje + ' / 10';
+      document.getElementById('results3-score-grade').textContent = (data.nota || '5.0') + ' / 5.0';
+      document.getElementById('results3-score-percent').textContent = (data.porcentaje || 100) + '%';
+      
+      const syncStatusEl = document.getElementById('results3-sync-status');
+      syncStatusEl.innerHTML = '<span>🔒</span> <span>Tu evaluación ya fue entregada y guardada.</span>';
+    }
+
+    function returnToModulesView() {
+      document.getElementById('view-results-screen').classList.add('hidden');
+      document.getElementById('main-examen-view').classList.add('hidden');
+      document.getElementById('view-inicio-modulos').classList.remove('hidden');
+      updateCardStatus3();
+    }
+
+    function updateCardStatus3() {
+      const saved = localStorage.getItem(STORAGE_KEY_OFFICIAL_RESULT_G3);
+      const container = document.getElementById('official3-card-status');
+      if (!container) return;
+
+      if (saved) {
+        try {
+          const data = JSON.parse(saved);
+          container.innerHTML = 
+            '<div class="bg-emerald-50 border border-emerald-300 rounded-xl p-2.5 text-center text-xs">' +
+              '<p class="text-emerald-900 font-bold font-kids">✅ Examen Real Presentado</p>' +
+              '<p class="text-[11px] text-slate-600 font-semibold">' + data.nombre + ' &bull; ' + data.puntaje + '/10</p>' +
+            '</div>';
+        } catch(e) {}
+      }
+    }
+
+    // --- PANEL DOCENTE ---
+    let isDocenteAuth3 = false;
+    let docenteList3 = [];
+
+    function openDocenteModal3() {
+      const modal = document.getElementById('modal-docente-panel3');
+      const loginView = document.getElementById('docente3-login-view');
+      const contentView = document.getElementById('docente3-content-view');
+      const passInp = document.getElementById('docente3-pass-input');
+      const err = document.getElementById('docente3-pass-error');
+
+      if (err) err.classList.add('hidden');
+      if (modal) {
+        modal.classList.remove('hidden');
+        modal.classList.add('flex');
+      }
+
+      if (isDocenteAuth3 || studentRole3 === 'docente') {
+        isDocenteAuth3 = true;
+        if (loginView) loginView.classList.add('hidden');
+        if (contentView) {
+          contentView.classList.remove('hidden');
+          contentView.classList.add('flex');
+        }
+        refreshDocenteData3();
+      } else {
+        if (loginView) loginView.classList.remove('hidden');
+        if (contentView) {
+          contentView.classList.add('hidden');
+          contentView.classList.remove('flex');
+        }
+        if (passInp) {
+          passInp.value = '';
+          setTimeout(() => passInp.focus(), 150);
+        }
+      }
+    }
+
+    function closeDocenteModal3() {
+      const modal = document.getElementById('modal-docente-panel3');
+      if (modal) {
+        modal.classList.add('hidden');
+        modal.classList.remove('flex');
+      }
+    }
+
+    function authDocente3() {
+      const passInp = document.getElementById('docente3-pass-input');
+      const err = document.getElementById('docente3-pass-error');
+      const val = passInp ? passInp.value.trim() : '';
+
+      if (val !== 'Entrar123*') {
+        if (err) err.classList.remove('hidden');
+        return;
+      }
+
+      isDocenteAuth3 = true;
+      document.getElementById('docente3-login-view').classList.add('hidden');
+      const contentView = document.getElementById('docente3-content-view');
+      contentView.classList.remove('hidden');
+      contentView.classList.add('flex');
+      refreshDocenteData3();
+    }
+
+    async function refreshDocenteData3() {
+      const tbody = document.getElementById('docente3-table-body');
+      const countEl = document.getElementById('docente3-total-count');
+      if (tbody) tbody.innerHTML = '<tr><td colspan="7" class="p-6 text-center text-slate-400 font-medium">Cargando registros desde la nube...</td></tr>';
+
+      let combinedResults = [];
+
+      try {
+        const resp = await fetch(CF_WORKER_URL_G3 + '/api/resultados', {
+          method: 'GET',
+          headers: { 'Accept': 'application/json' }
+        });
+        if (resp.ok) {
+          const data = await resp.json();
+          if (Array.isArray(data.resultados)) {
+            combinedResults = data.resultados.filter(r => 
+              (r.curso && (r.curso.includes('Grado 3') || r.curso.includes('3°') || r.curso.includes('Tercero'))) || 
+              (r.codigo && r.codigo.startsWith('G3P3'))
+            );
+          }
+        }
+      } catch (e) {
+        console.warn('Error conectando a Cloudflare D1:', e);
+      }
+
+      // Integrar almacenamiento local
+      const localSaved = localStorage.getItem(STORAGE_KEY_OFFICIAL_RESULT_G3);
+      if (localSaved) {
+        try {
+          const localObj = JSON.parse(localSaved);
+          if (!combinedResults.some(r => r.codigo === localObj.codigo)) {
+            combinedResults.unshift({
+              codigo: localObj.codigo,
+              nombre: localObj.nombre,
+              curso: 'Grado 3° Primaria (Periodo 3)',
+              puntajes: { R: localObj.puntaje },
+              dimensionSecundaria: (localObj.porcentaje || 100) + '%',
+              fecha: localObj.fecha
+            });
+          }
+        } catch(e) {}
+      }
+
+      docenteList3 = combinedResults;
+      if (countEl) countEl.textContent = combinedResults.length;
+
+      if (!tbody) return;
+      if (combinedResults.length === 0) {
+        tbody.innerHTML = '<tr><td colspan="7" class="p-6 text-center text-slate-400 font-medium">No hay evaluaciones registradas para Grado 3° aún.</td></tr>';
+        return;
+      }
+
+      tbody.innerHTML = combinedResults.map(r => {
+        let scoreNum = 0;
+        if (r.puntajes && typeof r.puntajes.R === 'number') scoreNum = r.puntajes.R;
+        const nota = (1.0 + (scoreNum / 10) * 4.0).toFixed(1);
+        const percent = Math.round((scoreNum / 10) * 100) + '%';
+        const dateStr = r.fecha ? new Date(r.fecha).toLocaleDateString('es-CO') : 'Reciente';
+
+        return '<tr class="hover:bg-slate-50 transition">' +
+          '<td class="p-3 font-bold text-slate-800">' + (r.nombre || 'Anónimo') + '</td>' +
+          '<td class="p-3 font-mono text-[11px] text-slate-500">' + (r.codigo || '-') + '</td>' +
+          '<td class="p-3 font-kids font-black text-slate-800">' + scoreNum + ' / 10</td>' +
+          '<td class="p-3 font-black text-amber-700">' + nota + '</td>' +
+          '<td class="p-3 font-bold text-emerald-700">' + percent + '</td>' +
+          '<td class="p-3 text-slate-500 text-[11px]">' + dateStr + '</td>' +
+          '<td class="p-3 text-center">' +
+            '<button onclick="deleteStudentAttempt3('' + r.codigo + '', '' + (r.nombre || '').replace(/'/g, "\'") + '')" ' +
+              'class="bg-rose-50 hover:bg-rose-100 text-rose-700 font-bold px-2.5 py-1 rounded-lg border border-rose-200 transition text-[11px] cursor-pointer">' +
+              '🗑️ Habilitar Reintento' +
+            '</button>' +
+          '</td>' +
+        '</tr>';
+      }).join('');
+    }
+
+    async function deleteStudentAttempt3(codigo, nombre) {
+      if (!confirm('¿Habilitar reintento a ' + nombre + ' (' + codigo + ')?\nSe eliminará este intento para que pueda presentar nuevamente.')) return;
+
+      const localSaved = localStorage.getItem(STORAGE_KEY_OFFICIAL_RESULT_G3);
+      if (localSaved) {
+        try {
+          const parsed = JSON.parse(localSaved);
+          if (parsed.codigo === codigo) {
+            localStorage.removeItem(STORAGE_KEY_OFFICIAL_RESULT_G3);
+            updateCardStatus3();
+          }
+        } catch(e) {}
+      }
+
+      try {
+        await fetch(CF_WORKER_URL_G3 + '/api/estudiantes/' + encodeURIComponent(codigo), {
+          method: 'DELETE'
+        });
+      } catch(err) {}
+
+      refreshDocenteData3();
+    }
+
+    function exportDocenteExcel3() {
+      if (docenteList3.length === 0) {
+        alert('No hay calificaciones para exportar.');
+        return;
+      }
+
+      let csv = 'ESTUDIANTE,CODIGO,ACIERTOS_10,NOTA_5_0,PORCENTAJE,FECHA\n';
+      docenteList3.forEach(r => {
+        let sc = 0;
+        if (r.puntajes && typeof r.puntajes.R === 'number') sc = r.puntajes.R;
+        const nota = (1.0 + (sc / 10) * 4.0).toFixed(1);
+        const pct = Math.round((sc / 10) * 100) + '%';
+        const f = r.fecha ? new Date(r.fecha).toLocaleDateString('es-CO') : '';
+        const nom = (r.nombre || '').replace(/,/g, ' ');
+        csv += nom + ',' + (r.codigo || '') + ',' + sc + ',' + nota + ',' + pct + ',' + f + '\n';
+      });
+
+      const blob = new Blob([csv], { type: 'text/csv;charset=utf-8;' });
+      const url = URL.createObjectURL(blob);
+      const a = document.createElement('a');
+      a.href = url;
+      a.download = 'Calificaciones_Oficiales_Grado3_Periodo3.csv';
+      a.click();
+    }
+
+    // Inicialización al cargar la página
+    document.addEventListener('DOMContentLoaded', () => {
+      updateCardStatus3();
+    });
+  </script>
 
 </body>
 </html>

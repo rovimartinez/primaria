@@ -243,32 +243,59 @@
                     </div>
                 </div>
 
-                <!-- Periodo 3 Card (ACTIVO & DESTACADO) -->
-                <div onclick="playChime(750); window.location.href='Periodo 3/periodo3.html'" 
-                     class="btn-3d bg-gradient-to-b from-white to-emerald-50/70 rounded-3xl p-6 sm:p-7 border-3 border-emerald-400 flex flex-col justify-between items-center text-center relative overflow-hidden group cursor-pointer active-period-glow">
-                    
-                    <div class="absolute top-4 right-4 bg-emerald-500 text-white w-8 h-8 rounded-full flex items-center justify-center text-sm shadow-md animate-bounce">
-                        ⭐
+                <!-- Periodo 3 Card (Bloqueado) -->
+                <div onclick="playChime(250, 'sawtooth'); customAlert('El Periodo 3 se encuentra cerrado actualmente.')" 
+                     class="btn-3d bg-white/90 backdrop-blur-sm rounded-3xl p-6 sm:p-7 border-2 border-slate-200 flex flex-col justify-between items-center text-center relative overflow-hidden group cursor-pointer hover:border-slate-300">
+                    <div class="absolute top-4 right-4 bg-slate-100 text-slate-400 w-8 h-8 rounded-full flex items-center justify-center text-sm border border-slate-200">
+                        🔒
                     </div>
                     
-                    <span class="text-xs font-kids font-black uppercase tracking-wider text-emerald-800 bg-emerald-200/80 px-3 py-1 rounded-full mb-3 flex items-center gap-1">
-                        <span>✨</span> Periodo en Curso
+                    <span class="text-xs font-kids font-bold uppercase tracking-wider text-slate-400 bg-slate-100 px-3 py-1 rounded-full mb-3">
+                        Bloqueado
                     </span>
 
-                    <div class="w-24 h-24 rounded-3xl bg-gradient-to-tr from-emerald-500 to-teal-400 text-white flex items-center justify-center font-title font-black text-5xl shadow-lg mb-4 transform group-hover:scale-110 group-hover:rotate-3 transition duration-300">
+                    <div class="w-24 h-24 rounded-3xl bg-emerald-50 flex items-center justify-center font-title font-black text-5xl text-emerald-300 mb-4 group-hover:scale-105 transition">
                         3
                     </div>
 
-                    <h4 class="text-2xl font-kids font-black text-emerald-950 mb-1">Periodo 3</h4>
-                    <p class="text-xs text-slate-600 font-medium leading-relaxed mb-6">
+                    <h4 class="text-xl font-kids font-black text-slate-700 mb-1">Periodo 3</h4>
+                    <p class="text-xs text-slate-400 font-medium leading-relaxed mb-6">
                         Patrones, secuencias, condicionales, disfraces, eventos y proyectos interactivos.
                     </p>
 
-                    <button class="btn-3d w-full py-3 bg-emerald-500 hover:bg-emerald-600 text-white font-kids font-black text-sm rounded-xl shadow-md flex items-center justify-center gap-2">
-                        <span>🚀</span> Ingresar al Periodo ➔
-                    </button>
+                    <div class="w-full py-2.5 bg-slate-100 text-slate-400 font-kids font-bold text-xs rounded-xl border border-slate-200 flex items-center justify-center gap-1">
+                        <span>🔒</span> Finalizado
+                    </div>
                 </div>
 
+            </div>
+
+            <!-- BANNER / ACCESO A ENCUESTA INSTITUCIONAL -->
+            <div class="mt-8 bg-gradient-to-r from-teal-500 via-emerald-600 to-cyan-600 rounded-3xl p-6 sm:p-7 text-white shadow-xl border-4 border-white relative overflow-hidden group">
+                <div class="absolute -right-8 -bottom-8 w-48 h-48 bg-white/10 rounded-full blur-xl pointer-events-none"></div>
+                <div class="flex flex-col md:flex-row items-center justify-between gap-6 relative z-10">
+                    <div class="flex items-center gap-5 text-center md:text-left flex-col md:flex-row">
+                        <div class="w-20 h-20 sm:w-24 sm:h-24 rounded-2xl bg-white/20 backdrop-blur-md border-2 border-white/40 flex items-center justify-center text-4xl sm:text-5xl shadow-lg flex-shrink-0 transform group-hover:scale-110 transition duration-300">
+                            📋
+                        </div>
+                        <div>
+                            <span class="inline-flex items-center gap-1.5 bg-white/20 backdrop-blur-md px-3.5 py-1 rounded-full text-[11px] font-kids font-black text-teal-100 uppercase tracking-wider mb-2 border border-white/25 shadow-sm">
+                                <span class="animate-pulse">✨</span> ENCUESTA INSTITUCIONAL
+                            </span>
+                            <h4 class="text-2xl sm:text-3xl font-kids font-black drop-shadow-md">
+                                Realizar Encuesta con el Código de Estudiante
+                            </h4>
+                            <p class="text-teal-100 text-xs sm:text-sm font-medium mt-1 max-w-xl leading-relaxed">
+                                Ingresa con tu código de estudiante para completar la encuesta de satisfacción y evaluación institucional.
+                            </p>
+                        </div>
+                    </div>
+                    <a href="https://ziruma.institutolamilagrosa.com/forms-public/27/access" target="_blank" rel="noopener noreferrer" onclick="playChime(600)"
+                       class="btn-3d w-full md:w-auto px-8 py-4 bg-white hover:bg-teal-50 text-emerald-700 font-kids font-black text-base rounded-2xl shadow-lg flex items-center justify-center gap-3 whitespace-nowrap transform hover:-translate-y-0.5 transition active:translate-y-0">
+                        <span>📝</span>
+                        <span>Ir a la Encuesta ➔</span>
+                    </a>
+                </div>
             </div>
 
             <!-- CARD JUEGO DEL DINOSAURIO -->
